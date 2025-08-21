@@ -1,0 +1,22 @@
+// Light blue background
+fill_color_hex("#ADD8E6") 
+rectangle(0, 0, 100, 100)
+
+// Sun
+fill_color_hex("#ffed06")
+circle(75, 30, 15)
+
+// Cloud
+fill_color_hex("#FFFFFF")
+rectangle(25, 50, 50, 10)
+circle(25, 50, 10) 
+circle(40, 40, 15) 
+circle(55, 40, 20)
+circle(75, 50, 10) 
+
+fill_color_hex("#56AEFF")
+ellipse(30, 70, 3, 5) 
+ellipse(50, 70, 3, 5)
+ellipse(70, 70, 3, 5) 
+ellipse(40, 80, 3, 5) 
+ellipse(60, 80, 3, 5)

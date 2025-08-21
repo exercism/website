@@ -1,0 +1,134 @@
+function push_unless_blank with list, word do
+  if word != "" do
+    change list to push(list, word)
+  end
+  return list
+end
+
+function index_of with list, item do
+  for each elem in list indexed by idx do
+    if item == elem do
+      return idx
+    end
+  end
+  return -1
+end
+
+function split with string, seperator do
+  set list to []
+  set word to ""
+  for each char in string do
+    if char == seperator do
+      change list to push_unless_blank(list, word)
+      change word to ""
+    else do
+      change word to concatenate(word, char)
+    end
+  end
+  
+  return push_unless_blank(list, word)
+end
+
+function to_uppercase with sentence do
+  set output to ""
+  set lower to "abcdefghijklmnopqrstuvwxyz"
+  set upper to "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  set lower_idx to 0
+  for each letter in sentence do
+    if contains(upper, letter) do
+      change output to concatenate(output, letter)
+    else do
+      change lower_idx to index_of(lower, letter)
+      if lower_idx != -1 do
+        change output to concatenate(output, upper[lower_idx])
+      end
+    end
+  end
+  return output
+end
+
+function capitalize with string do 
+  set res to ""
+  for each char in string indexed by idx do
+    if idx == 1 do
+      change char to to_uppercase(char)
+    end
+    change res to concatenate(res, char)
+  end
+  return res
+end 
+
+function number_to_letter with num do
+  for each k, v in {"3": 3, "4": 4} do
+    if v == num do
+      return k
+    end
+  end
+end
+
+function build_url with description do
+  set parts to split(description, " ")
+  set klass to parts[2]
+  set year to parts[4]
+
+  set api_version to "v3"
+  if year == "2025" do
+    change api_version to "v4"
+  end
+  return concatenate("https://api.school.com/", api_version, "/grades/", year, "/class-", klass)
+end
+
+function flatten with thing do
+  set res to ""
+  for each elem in thing do
+    change res to concatenate(res, elem)
+  end
+  return res
+end
+
+function length with measurable do
+  set counter to 0
+  for each thing in measurable do
+    change counter to counter + 1
+  end
+  return counter
+end
+
+function contains with haystack, needle do
+  for each element in haystack do
+    if element == needle do
+      return true
+    end
+  end
+  return false
+end
+
+function join with list, joiner do
+  set res to ""
+  set len to length(list)
+  for each elem in list indexed by idx do
+    change res to concatenate(res, elem)
+    if(idx < len) do
+      change res to concatenate(res, joiner)
+    end
+  end
+  return res
+end
+
+function extract_teacher_name with name do
+  set res to []
+  for each part in split(name, " ") indexed by idx do
+    if idx == 1 do
+      next
+    end
+    change res to push(res, capitalize(part))
+  end
+  return join(res, " ")
+end
+
+function grades_to_pattern with description do
+  set data to fetch(build_url(description), {})
+  set teacher to extract_teacher_name(data["data"]["teacher"])
+  set grades to sort_string(data["data"]["grades"])
+  return {"teacher": teacher,"grades": grades}
+end

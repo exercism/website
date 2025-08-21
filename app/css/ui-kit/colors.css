@@ -68,7 +68,7 @@
     --track-color-julia: 64, 99, 216;
     --track-color-lua: 0, 0, 125;
     --track-color-ocaml: 237, 110, 13;
-    --track-color-perl5: 58, 60, 91;
+    --track-color-perl5: 0, 115, 161;
     --track-color-python: 55, 112, 160;
     --track-color-elixir: 125, 65, 164;
     --track-color-fsharp: 48, 185, 219;
@@ -147,6 +147,7 @@
     --backgroundColorH: var(--c-130B43);
     /* veryLightBlue */
     --backgroundColorI: #e1ebff;
+    --backgroundColorITransparent: rgba(225, 235, 255, 0);
     --backgroundColorBorderGradientLightPurple: theme(colors.lightPurple);
     --backgroundColorNotifications: linear-gradient(
             180deg,
@@ -179,7 +180,7 @@
     --backgroundColorConceptLocked: theme(colors.lightGray);
     --backgroundColorCompletedHeading: theme(colors.mediumGreen);
     --backgroundColorCReputation: var(--backgroundColorA);
-    --backgroundColorEditorActiveLine: theme(colors.veryLightBlue);
+    --backgroundColorEditorActiveLine: #e1ebff88;
     --backgroundColorTeamHeader: linear-gradient(
         180deg,
         var(--backgroundColorE) 0%,
@@ -205,6 +206,8 @@
     --backgroundColorNavDropdown: theme(colors.aliceBlue);
     --backgroundColorDonationFormCover: rgba(255, 255, 255, 0.6);
     --backgroundColorHoverMenuTrack: #fafaff;
+    --backgroundColorPerkContainer: #f8f5ff;
+    --backgroundColorStarButtonStarred: #fbf6e9;
 
     --backgroundImpactPageHeader: linear-gradient(
             180deg,
@@ -274,6 +277,10 @@
     --textColorMentorTrackSelectorSelected: theme(colors.smokeGray);
     --textColorProgressTextCompleted: theme(colors.darkSuccessGreen);
     --c-prominent-link-color: theme(colors.lightBlue);
+    --textGradientStart: #2200ff;
+    --textGradientEnd: #9e00ff;
+    --textColorSoftEmphasis: #333;
+    --textColorPerkCTA: theme(colors.purple);
 
     --shadowColorED: 0, 80, 255;
     --shadowColorMain: 79, 114, 205;
@@ -358,6 +365,7 @@
     --white-filter: var(--filter-FFFFFF);
     --purple-filter: invert(23%) sepia(90%) saturate(1818%) hue-rotate(236deg)
         brightness(97%) contrast(80%);
+    --purple-light-white-dark-filter: var(--purple-filter);
     --dark-purple-filter: invert(20%) sepia(60%) saturate(1812%)
         hue-rotate(229deg) brightness(92%) contrast(89%);
     --selected-tab-icon-filter: var(--purple-filter);
@@ -435,6 +443,7 @@ body.namespace-.controller-insiders.theme-light,
     --backgroundColorG: var(--c-2F2943);
     --backgroundColorH: var(--c-F0F3F9);
     --backgroundColorI: var(--c-191525);
+    --backgroundColorITransparent: rgba(25, 21, 37, 0);
     --backgroundColorJ: var(--backgroundColorB);
     --backgroundColorBorderGradientLightPurple: theme(colors.darkBlueGray);
     --backgroundColorNotifications: theme(colors.eerieBlack);
@@ -463,7 +472,7 @@ body.namespace-.controller-insiders.theme-light,
     --backgroundColorConceptLocked: var(--backgroundColorA);
     --backgroundColorCompletedHeading: none;
     --backgroundColorCReputation: theme(colors.eerieBlack);
-    --backgroundColorEditorActiveLine: theme(colors.russianViolet);
+    --backgroundColorEditorActiveLine: #302b4288;
     --backgroundColorTeamHeader: theme(colors.darkBlueGray);
     --backgroundColorTeamInfoBox: theme(colors.eerieBlack);
     --backgroundColorImpactPage: theme(colors.eerieBlack);
@@ -485,6 +494,8 @@ body.namespace-.controller-insiders.theme-light,
     --backgroundColorNavDropdown: theme(colors.eerieBlack);
     --backgroundColorDonationFormCover: rgba(0, 0, 0, 0.4);
     --backgroundColorHoverMenuTrack: #3a3557;
+    --backgroundColorPerkContainer: #103;
+    --backgroundColorStarButtonStarred: #564210;
 
     --backgroundImpactPageHeader: theme(colors.eerieBlack);
 
@@ -540,6 +551,10 @@ body.namespace-.controller-insiders.theme-light,
     --textColorMentoringRequestedStatusInfo: theme(colors.aliceBlue);
     --textColorMentorTrackSelectorSelected: theme(colors.aliceBlue);
     --textColorProgressTextCompleted: theme(colors.greenPrompt);
+    --textGradientStart: #8370ff;
+    --textGradientEnd: #b947ff;
+    --textColorSoftEmphasis: #f5f5f5;
+    --textColorPerkCTA: theme(colors.white);
 
     --c-prominent-link-color: theme(colors.lightGold);
     --color22: var(--c-533F56);
@@ -671,6 +686,8 @@ body.namespace-.controller-insiders.theme-light,
     --purple-filter: invert(23%) sepia(90%) saturate(1818%) hue-rotate(236deg)
         brightness(97%) contrast(80%);
 
+    --purple-light-white-dark-filter: var(--white-filter);
+
     /* aliceBlue */
     --selected-tab-icon-filter: invert(94%) sepia(7%) saturate(129%)
         hue-rotate(182deg) brightness(102%) contrast(96%);
@@ -731,6 +748,10 @@ html {
         background: #222;
         filter: invert(100%) hue-rotate(180deg);
     }
+
+    body.namespace-bootcamp {
+        @inline .theme-light;
+    }
 }
 .theme-accessibility-dark {
     @inline .theme-light;
@@ -758,16 +779,14 @@ html {
     img:not(.c-icon):not(.logo):not(.c-icon.graphic):not(.c-icon.--hex img):not(#page-journey .c-track-icon),
     /* .c-icon.graphic, */
     img[src*="/assets/graphics"],
-    video,
-    iframe,
     .img,
+    iframe, 
     .c-avatar,
     .c-notification,
     .c-icon.c-exercise-icon:not(#page-journey .c-exercise-icon),
     .c-icon.filter-none,
     .c-track-icon:not(#page-journey .c-track-icon),
     .c-primary-reputation:not(#page-journey .c-primary-reputation),
-    .andre-swag,
     .impact-chart-container,
     .theme-preference-form-button,
     .c-badge-medallion,

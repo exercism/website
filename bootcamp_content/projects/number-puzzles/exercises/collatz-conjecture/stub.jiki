@@ -1,0 +1,5 @@
+// Receives a number as its input
+// Should return the number of steps to reach 1
+function collatz_steps with number do
+
+end

@@ -14,6 +14,8 @@ import type {
 } from '@/components/types'
 import type { Scratchpad as ScratchpadProps } from '../Session'
 import { ScreenSizeContext } from './ScreenSizeContext'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 type ScratchpadPage = {
   contentMarkdown: string
@@ -28,6 +30,7 @@ export const Scratchpad = ({
   track: Track | RepresentationTrack
   exercise: Exercise | RepresentationExercise
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/mentoring/session/Scratchpad.tsx')
   const [content, setContent] = useState('')
   const [error, setError] = useState('')
   const [page, setPage] = useState<ScratchpadPage | null>(null)
@@ -38,8 +41,8 @@ export const Scratchpad = ({
     setContent(content)
   }, [])
 
-  const { mutate: mutation } = useMutation<ScratchpadPage>(
-    async () => {
+  const { mutate: mutation } = useMutation<ScratchpadPage>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: scratchpad.links.self,
         method: 'PATCH',
@@ -52,15 +55,13 @@ export const Scratchpad = ({
         typecheck<ScratchpadPage>(camelizeKeys(json), 'scratchpadPage')
       )
     },
-    {
-      onSuccess: (page) => setPage(page),
-      onError: (err) => {
-        if (err instanceof Response) {
-          err.json().then((res: any) => setError(res.error.message))
-        }
-      },
-    }
-  )
+    onSuccess: (page) => setPage(page),
+    onError: (err) => {
+      if (err instanceof Response) {
+        err.json().then((res: any) => setError(res.error.message))
+      }
+    },
+  })
 
   const handleSubmit = useCallback(
     (e) => {
@@ -127,26 +128,36 @@ export const Scratchpad = ({
           endpoint={scratchpad.links.hideIntroducer}
           size="small"
         >
-          <h2>Introducing your scratchpad</h2>
+          <h2>{t('scratchpad.introducingYourScratchpad')}</h2>
           <p>
-            A{' '}
-            <a
-              target="_blank"
-              rel="noreferrer"
-              href={scratchpad.links.markdown}
-            >
-              Markdown-supported
-            </a>{' '}
-            place for you to write notes and add code snippets you’d like to
-            refer to during mentoring.
+            <Trans
+              ns="components/mentoring/session/Scratchpad.tsx"
+              i18nKey="scratchpad.markdownSupportedPlace"
+              components={[
+                <a
+                  target="_blank"
+                  rel="noreferrer"
+                  href={scratchpad.links.markdown}
+                />,
+              ]}
+            />
           </p>
         </Introducer>
       )}
       <div className="flex flex-row justify-between mb-12 items-center">
         <div className="title">
-          Your notes for <strong>{exercise.title}</strong> in
-          <TrackIcon iconUrl={track.iconUrl} title={track.title} />
-          <strong>{track.title}</strong>
+          <Trans
+            ns="components/mentoring/session/Scratchpad.tsx"
+            i18nKey="scratchpad.yourNotesForExerciseInTrack"
+            values={{
+              exerciseTitle: exercise.title,
+              trackTitle: track.title,
+            }}
+            components={[
+              <strong />,
+              <TrackIcon iconUrl={track.iconUrl} title={track.title} />,
+            ]}
+          />
         </div>
 
         <UnsavedWidget
@@ -173,12 +184,12 @@ export const Scratchpad = ({
               type="button"
               onClick={revert}
             >
-              Revert to saved
+              {t('scratchpad.revertToSaved')}
             </button>
           )}
 
           <button type="submit" className="btn-primary btn-s">
-            Save
+            {t('scratchpad.save')}
           </button>
         </footer>
       </form>
@@ -191,10 +202,11 @@ function UnsavedWidget({
   isUnchanged,
   isBelowLgWidth,
 }: Record<'isUnchanged' | 'isBelowLgWidth', boolean>): JSX.Element | null {
+  const { t } = useAppTranslation('components/mentoring/session/Scratchpad.tsx')
   if (isUnchanged) return null
   if (isBelowLgWidth)
     return (
       <div className="bg-red animate-fadeIn w-[8px] h-[8px] rounded-circle" />
     )
-  return <AlertTag>Unsaved</AlertTag>
+  return <AlertTag>{t('scratchpad.unsaved')}</AlertTag>
 }

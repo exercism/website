@@ -1,5 +1,8 @@
+// i18n-key-prefix: platformButton.devToButton
+// i18n-namespace: components/common/share-panel
 import React from 'react'
 import { GraphicalIcon } from '../../GraphicalIcon'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const shareLink = ({ url, title }: { url: string; title: string }) => {
   const markdown = `
@@ -19,6 +22,7 @@ export const DevToButton = ({
   url: string
   title: string
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/common/share-panel')
   return (
     <a
       href={shareLink({ url, title })}
@@ -27,7 +31,7 @@ export const DevToButton = ({
       rel="noreferrer"
     >
       <GraphicalIcon icon="external-site-devto" />
-      DEV.to
+      {t('platformButton.devToButton.devTo')}
     </a>
   )
 }

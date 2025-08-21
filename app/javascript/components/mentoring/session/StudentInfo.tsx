@@ -1,3 +1,5 @@
+// i18n-key-prefix: studentInfo
+// i18n-namespace: components/mentoring/session/StudentInfo.tsx
 import React, { useContext, useState } from 'react'
 import { Avatar, Reputation } from '@/components/common'
 import type { Student } from '@/components/types'
@@ -9,6 +11,7 @@ import { ToggleMoreInformationButton } from './student-info/ToggleMoreInformatio
 import { StudentInfoActions } from './student-info/StudentInfoActions'
 import { StudentTrackObjectives } from './student-info/StudentTrackObjectives'
 import { ReducedStudentInfo } from './student-info/ReducedStudentInfo'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const StudentInfo = ({
   student,
@@ -17,6 +20,9 @@ export const StudentInfo = ({
   student: Student
   setStudent: (student: Student) => void
 }): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/mentoring/session/StudentInfo.tsx'
+  )
   const { isBelowLgWidth = false } = useContext(ScreenSizeContext) || {}
   const [showMoreInformation, setShowMoreInformation] = useState(false)
 
@@ -32,7 +38,7 @@ export const StudentInfo = ({
       <div className="student-info">
         <div className="flex mb-8">
           <div className="flex-grow">
-            <div className="subtitle">Who you&apos;re mentoring</div>
+            <div className="subtitle">{t('studentInfo.whoYoureMentoring')}</div>
             <div className="handle-block">
               <div className="handle">
                 <HandleWithFlair

@@ -1,0 +1,52 @@
+<link
+  href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+  rel="stylesheet"
+/>
+
+<main>
+  <header>
+    <img
+      src="https://assets.exercism.org/assets/graphics/laptop-man-1-18c1946cd8269f24a33c3db759e9f7db89eb0178.svg"
+    />
+    <div class="text">
+      <h1>Explore the Ruby exercises on Exercism</h1>
+      <p>
+        Unlock more exercises as you progress. They’re great practice and fun to
+        do!
+      </p>
+    </div>
+  </header>
+
+  <form>
+    <input placeholder="Search by title" />
+  </form>
+
+  <section id="filters">
+    <button class="filter selected" id="all-filter" data-status="all">
+      <div class="description">All Exercises</div>
+      <div class="count">121</div>
+    </button>
+    <button class="filter" id="completed-filter" data-status="completed">
+      <div class="icon"></div>
+      <div class="description">Completed</div>
+      <div class="count">37</div>
+    </button>
+    <button class="filter" id="in-progress-filter" data-status="in-progress">
+      <div class="icon"></div>
+      <div class="description">In Progress</div>
+      <div class="count">22</div>
+    </button>
+    <button class="filter" id="available-filter" data-status="available">
+      <div class="icon"></div>
+      <div class="description">Available</div>
+      <div class="count">64</div>
+    </button>
+    <button class="filter" id="locked-filter" data-status="locked">
+      <div class="icon"></div>
+      <div class="description">Locked</div>
+      <div class="count">5</div>
+    </button>
+  </section>
+
+  <section id="exercises"></section>
+</main>

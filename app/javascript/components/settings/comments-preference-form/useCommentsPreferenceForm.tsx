@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { QueryStatus } from '@tanstack/react-query'
 import { useSettingsMutation } from '../useSettingsMutation'
 import { CommentsPreferenceFormProps } from './CommentsPreferenceForm'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type ExtendedQueryStatus = QueryStatus | 'idle'
 type useCommentPreferencesFormReturns = {
@@ -27,6 +28,9 @@ export function useCommentsPreferenceForm({
   CommentsPreferenceFormProps,
   'label'
 >): useCommentPreferencesFormReturns {
+  const { t } = useAppTranslation(
+    'components/settings/comments-preference-form'
+  )
   const [allowCommentsByDefault, setAllowCommentsByDefault] =
     useState(currentPreference)
   const [numPublished, setNumPublished] = useState(numPublishedSolutions)
@@ -89,12 +93,15 @@ export function useCommentsPreferenceForm({
   useEffect(() => {
     setCommentStatusPhrase(
       numCommentsEnabled === 0
-        ? 'none'
+        ? t('useCommentsPreferenceForm.none')
         : numCommentsEnabled === numPublished
-        ? 'all'
-        : `${numCommentsEnabled} / ${numPublished}`
+        ? t('useCommentsPreferenceForm.all')
+        : t('useCommentsPreferenceForm.xOutOfY', {
+            numCommentsEnabled,
+            numPublished,
+          })
     )
-  }, [numPublished, numCommentsEnabled])
+  }, [numPublished, numCommentsEnabled, t])
 
   const handleSubmit = useCallback(
     (e) => {

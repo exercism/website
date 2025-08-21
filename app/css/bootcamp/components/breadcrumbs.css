@@ -1,0 +1,40 @@
+.c-breadcrumbs {
+    @apply border-b-1 border-[#c8d5ef] mb-20;
+
+    .container {
+        @apply flex items-center;
+        @apply py-12;
+        @apply text-14 text-gray-800 leading-150;
+        @apply overflow-x-auto;
+    }
+
+    a {
+        @apply text-lightBlue;
+        @apply font-medium;
+        @apply mr-16;
+        @apply flex items-center;
+        @apply whitespace-nowrap;
+    }
+    a,
+    .title {
+        .c-icon {
+            height: 20px;
+            width: 20px;
+            @apply mr-8;
+            filter: var(--primary-blue-filter);
+        }
+    }
+    .seperator {
+        @apply text-15 text-[#6E82AA];
+        @apply mr-16;
+    }
+    .title {
+        @apply mr-16;
+        @apply whitespace-nowrap;
+        @apply flex items-center;
+        @apply font-medium;
+    }
+    .seperator {
+        @apply mr-16;
+    }
+}

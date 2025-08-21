@@ -1,0 +1,24 @@
+{
+  "title": "Fancy Borders",
+  "description": "Let's use some fancy borders.",
+  "language": "css",
+  "level": 11,
+  "idx": 8,
+  "readonly_ranges": {
+    "css": [
+      { "from": 1, "to": 2 },
+      { "from": 4, "to": 7 },
+      { "from": 9, "to": 12 },
+      { "from": 14, "to": 17 },
+      { "from": 19, "to": 21 },
+      { "from": 23, "to": 24 }
+    ]
+  },
+  "checks": [
+    {
+      "function": "onlyPropertyGroupsUsed(['background', 'border', 'border-radius'])",
+      "matcher": "toBeTrue",
+      "error_html": "You should only use the background, border and border-radius properties."
+    }
+  ]
+}

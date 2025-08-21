@@ -35,6 +35,18 @@ class API::UsersControllerTest < API::BaseTestCase
     assert_response :ok
   end
 
+  test "update seniority" do
+    setup_user
+    @current_user.update(seniority: nil)
+    assert_nil @current_user.seniority
+
+    params = { user: { seniority: 2 } }
+    patch api_user_path, params:, headers: @headers, as: :json
+
+    assert_equal :junior, @current_user.reload.seniority
+    assert_response :ok
+  end
+
   #####################
   # Activate insiders #
   #####################

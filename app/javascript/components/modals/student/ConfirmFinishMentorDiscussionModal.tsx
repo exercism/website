@@ -1,5 +1,8 @@
+// i18n-key-prefix: confirmFinishMentorDiscussionModal
+// i18n-namespace: components/modals/student
 import React from 'react'
 import { Modal } from '../Modal'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const ConfirmFinishMentorDiscussionModal = ({
   open,
@@ -10,17 +13,19 @@ export const ConfirmFinishMentorDiscussionModal = ({
   onCancel: () => void
   onConfirm: () => void
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/modals/student')
+
   return (
     <Modal
       open={open}
       onClose={onCancel}
       className="m-confirm-finish-student-mentor-discussion"
     >
-      <h3>Are you sure you want to end this discussion?</h3>
+      <h3>{t('confirmFinishMentorDiscussionModal.areYouSure')}</h3>
       <p>
-        When you feel like the mentoring has reached its natural conclusion, or
-        you simply don&apos;t wish to proceed further, it&apos;s time to end the
-        discussion.
+        {t(
+          'confirmFinishMentorDiscussionModal.feelLikeMentoringReachedConclusion'
+        )}
       </p>
       <div className="buttons">
         <button
@@ -28,14 +33,14 @@ export const ConfirmFinishMentorDiscussionModal = ({
           className="btn-small-discourage"
           onClick={() => onCancel()}
         >
-          Cancel
+          {t('confirmFinishMentorDiscussionModal.cancel')}
         </button>
         <button
           type="button"
           className="btn-primary btn-s"
           onClick={() => onConfirm()}
         >
-          Review and end discussion…
+          {t('confirmFinishMentorDiscussionModal.reviewAndEndDiscussion')}
         </button>
       </div>
     </Modal>

@@ -1,0 +1,54 @@
+{
+  "title": "Fix the Wall",
+  "description": "Add some rectangles to fix the wall",
+  "project_type": "draw",
+  "level": 1,
+  "idx": 3,
+  "concepts": [],
+  "tests_type": "state",
+  "readonly_ranges": [],
+  "exercise_functions": ["rectangle", "fill_color_hex"],
+  "tasks": [
+    {
+      "name": "Draw the scene",
+      "tests": [
+        {
+          "slug": "fill-holes",
+          "name": "Fill the holes",
+          "description_html": "Cover each hole with a brick-coloured rectangle.",
+          "setup_functions": [
+            ["changeStrokeWidth", [0.4]],
+            ["strokeColorHex", ["#7f3732"]],
+            ["fillColorHex", ["red"]],
+            [
+              "setBackgroundImage",
+              ["https://assets.exercism.org/bootcamp/graphics/wall-to-fix.png"]
+            ]
+          ],
+          "checks": [
+            {
+              "function": "wasFunctionCalled('fill_color_hex', null)",
+              "matcher": "toBeTrue",
+              "error_html": "You didn't use fill_color_hex to choose a natural color for your bricks."
+            },
+            {
+              "function": "getRectangleAt(10, 10, 20, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The top hole isn't filled correctly."
+            },
+            {
+              "function": "getRectangleAt(70, 30, 20, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The middle hole isn't filled correctly."
+            },
+            {
+              "function": "getRectangleAt(20, 60, 20, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom hole isn't filled correctly."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

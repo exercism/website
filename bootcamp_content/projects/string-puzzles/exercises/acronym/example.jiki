@@ -1,0 +1,24 @@
+function is_letter with letter do
+  for each alpha_letter in to_upper_case("abcdefghijklmnopqrstuvwxyz") do
+    if to_upper_case(letter) == to_upper_case(alpha_letter) do
+      return true
+    end
+  end
+  return false
+end
+
+function acronym with sentence do
+  set output to ""
+  set was_space to true
+
+  for each letter in sentence do
+    if letter == " " or letter == "-" do
+      change was_space to true
+    else if was_space and is_letter(letter) do
+      change output to concatenate(output, letter)
+      change was_space to false
+    end
+  end
+
+  return to_upper_case(output)
+end

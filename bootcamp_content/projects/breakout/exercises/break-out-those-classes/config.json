@@ -1,0 +1,64 @@
+{
+  "title": "Break Out Those Classes",
+  "description": "Write your own Breakout classes",
+  "project_type": "breakout",
+  "level": 10,
+  "idx": 4,
+  "tests_type": "state",
+  "exercise_classes": ["Circle", "RoundedRectangle"],
+  "exercise_functions": ["game_over"],
+  "interpreter_options": {
+    "timePerFrame": 0.01,
+    "repeat_delay": 10,
+    "max_total_loop_iterations": 5000,
+    "max_repeat_until_game_over_iterations": 600,
+    "max_total_execution_time": 30000
+  },
+  "readonly_ranges": [{ "from": 14, "to": 34 }],
+  "stdlib_functions": ["push"],
+  "tasks": [
+    {
+      "name": "Smash the blocks",
+      "tests": [
+        {
+          "slug": "standard",
+          "name": "Smash the blocks",
+          "description_html": "Don't let the ball hit the ground!",
+          "checks": [
+            {
+              "function": "didCircleAppearAt(null, 97)",
+              "value": false,
+              "error_html": "The ball hit the ground!"
+            },
+            {
+              "function": "didCircleAppearAt(null, 95)",
+              "value": false,
+              "error_html": "The ball dropped too low!"
+            },
+            {
+              "function": "didCircleAppearAt(null, 96)",
+              "value": false,
+              "error_html": "The ball dropped too low!"
+            },
+            {
+              "property": "numRoundedRectangles",
+              "value": 6,
+              "error_html": "You didn't create exactly 5 blocks and 1 paddle."
+            },
+            {
+              "property": "numOpaqueRoundedRectangles",
+              "value": 1,
+              "error_html": "You didn't smash all the blocks"
+            },
+            {
+              "property": "numCirclePositions",
+              "value": 1026,
+              "matcher": "toBeLessThanOrEqual",
+              "error_html": "You moved the ball more times than you needed to!"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,3 +1,5 @@
+// i18n-key-prefix: profileForm
+// i18n-namespace: components/settings/ProfileForm.tsx
 import React, { useState, useCallback } from 'react'
 import { Icon } from '@/components/common'
 import { FormButton } from '@/components/common/FormButton'
@@ -6,11 +8,15 @@ import { FormMessage } from './FormMessage'
 import { FauxInputWithValidation } from './inputs/FauxInputWithValidation'
 import { InputWithValidation } from './inputs/InputWithValidation'
 import { createMaxLengthAttributes } from './useInvalidField'
+import { SeniorityLevel } from '../modals/welcome-modal/WelcomeModal'
+import { SingleSelect } from '../common/SingleSelect'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type User = {
   name: string
   location: string
   bio: string
+  seniority: SeniorityLevel
 }
 
 type Profile = {
@@ -36,6 +42,7 @@ export default function ProfileForm({
 }): JSX.Element {
   const [user, setUser] = useState<User>(defaultUser)
   const [profile, setProfile] = useState<Profile | null>(defaultProfile)
+  const { t } = useAppTranslation('components/settings/ProfileForm.tsx')
 
   const { mutation, status, error } = useSettingsMutation<{
     user: User
@@ -57,36 +64,36 @@ export default function ProfileForm({
 
   return (
     <form data-turbo="false" onSubmit={handleSubmit}>
-      <h2>Profile</h2>
+      <h2>{t('profileForm.profile')}</h2>
       <div className="details">
         <div className="name field">
           <label htmlFor="user_name" className="label">
-            Name
+            {t('profileForm.name')}
           </label>
           <InputWithValidation
             id="user_name"
             value={user.name || ''}
             onChange={(e) => setUser({ ...user, name: e.target.value })}
             required
-            {...createMaxLengthAttributes('Name', 255)}
+            {...createMaxLengthAttributes('Name', 255, t)}
           />
         </div>
         <div className="location field">
           <label htmlFor="user_location" className="label">
-            Location
+            {t('profileForm.location')}
           </label>
           <FauxInputWithValidation
             id="user_location"
             value={user.location || ''}
             onChange={(e) => setUser({ ...user, location: e.target.value })}
             icon="location"
-            {...createMaxLengthAttributes('Location', 255)}
+            {...createMaxLengthAttributes('Location', 255, t)}
           />
         </div>
       </div>
       <div className="bio field">
         <label htmlFor="user_bio" className="label">
-          Bio
+          {t('profileForm.bio')}
         </label>
         <textarea
           id="user_bio"
@@ -94,49 +101,60 @@ export default function ProfileForm({
           onChange={(e) => setUser({ ...user, bio: e.target.value })}
         />
         <div className="instructions">
-          Tell the world about you 🌎. Emojis encouraged!
+          {t('profileForm.tellTheWorldAboutYouEmojisEncouraged')}
         </div>
       </div>
+
+      <div className="seniority field">
+        <label htmlFor="user_seniority" className="label">
+          {t('profileForm.seniority')}
+        </label>
+        <SenioritySelect
+          value={user.seniority}
+          setValue={(value) => setUser({ ...user, seniority: value })}
+        />
+      </div>
+
       {profile ? (
         <div className="pt-20 mt-24 border-t-1 border-borderColor6">
-          <h2>Your social accounts</h2>
+          <h2>{t('profileForm.yourSocialAccounts')}</h2>
           <div className="field">
             <label htmlFor="profile_github" className="label">
-              Github (Handle)
+              {t('profileForm.githubHandle')}
             </label>
             <InputWithValidation
               id="profile_github"
-              placeholder="Your GitHub handle"
+              placeholder={t('profileForm.yourGitHubHandle')}
               value={profile.github || ''}
               onChange={(e) =>
                 setProfile({ ...profile, github: e.target.value })
               }
-              {...createMaxLengthAttributes('GitHub handle', 190)}
+              {...createMaxLengthAttributes('GitHub handle', 190, t)}
             />
           </div>
           <div className="field">
             <label htmlFor="profile_twitter" className="label">
-              Twitter (Handle)
+              {t('profileForm.twitterHandle')}
             </label>
 
             <InputWithValidation
               id="profile_twitter"
-              placeholder="Your Twitter handle"
+              placeholder={t('profileForm.yourTwitterHandle')}
               value={profile.twitter || ''}
               onChange={(e) =>
                 setProfile({ ...profile, twitter: e.target.value })
               }
-              {...createMaxLengthAttributes('Twitter handle', 190)}
+              {...createMaxLengthAttributes('Twitter handle', 190, t)}
             />
           </div>
           <div className="field">
             <label htmlFor="profile_linkedin" className="label">
-              LinkedIn (Full URL)
+              {t('profileForm.linkedInFullURL')}
             </label>
             <input
               type="text"
               id="profile_linkedin"
-              placeholder="Your LinkedIn profile url"
+              placeholder={t('profileForm.yourLinkedInProfileUrl')}
               value={profile.linkedin || ''}
               onChange={(e) =>
                 setProfile({ ...profile, linkedin: e.target.value })
@@ -147,7 +165,7 @@ export default function ProfileForm({
       ) : null}
       <div className="form-footer">
         <FormButton status={status} className="btn-primary btn-m">
-          Save profile data
+          {t('profileForm.saveProfileData')}
         </FormButton>
         <FormMessage
           status={status}
@@ -161,10 +179,46 @@ export default function ProfileForm({
 }
 
 const SuccessMessage = () => {
+  const { t } = useAppTranslation('components/settings/ProfileForm.tsx')
   return (
     <div className="status success">
       <Icon icon="completed-check-circle" alt="Success" />
-      Your profile has been saved
+      {t('profileForm.yourProfileHasBeenSaved')}
     </div>
+  )
+}
+
+function OptionComponent({ option }: { option: SeniorityLevel }): JSX.Element {
+  const { t } = useAppTranslation('components/settings/ProfileForm.tsx')
+  switch (option) {
+    case 'absolute_beginner':
+      return <div>{t('profileForm.absoluteBeginner')}</div>
+    case 'beginner':
+      return <div>{t('profileForm.beginner')}</div>
+    case 'junior':
+      return <div>{t('profileForm.juniorDeveloper')}</div>
+    case 'mid':
+      return <div>{t('profileForm.midLevelDeveloper')}</div>
+    case 'senior':
+      return <div>{t('profileForm.seniorDeveloper')}</div>
+  }
+}
+
+function SenioritySelect({
+  value,
+  setValue,
+}: {
+  value: SeniorityLevel
+  setValue: (value: SeniorityLevel) => void
+}): JSX.Element {
+  return (
+    <SingleSelect<SeniorityLevel>
+      className="w-[250px]"
+      options={['absolute_beginner', 'beginner', 'junior', 'mid', 'senior']}
+      value={value}
+      setValue={setValue}
+      SelectedComponent={OptionComponent}
+      OptionComponent={OptionComponent}
+    />
   )
 }

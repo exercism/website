@@ -1,0 +1,12 @@
+{
+  "slug": "coffee-thoughts",
+  "title": "Coffee Thoughts",
+  "description": "An assortment of HTML/CSS puzzles to do with coffee!",
+  "exercises": [
+    "coffee-text",
+    "coffee-links",
+    "coffee-lists",
+    "coffee-styles",
+    "coffee-background"
+  ]
+}

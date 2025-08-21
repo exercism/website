@@ -1,0 +1,56 @@
+#bootcamp-frontend-training-page,
+#bootcamp-frontend-exercise-page {
+    .page-body-rhs {
+        @apply bg-white;
+        @apply flex-grow;
+
+        @apply flex flex-col;
+        @apply overflow-hidden;
+        & > button {
+            @apply h-[12px];
+            &:active {
+                @apply relative;
+                &:after {
+                    @apply absolute left-0 right-0 top-[5px];
+                    @apply h-[3px];
+                    content: "";
+                    @apply bg-bootcamp-purple;
+                }
+            }
+        }
+    }
+    .page-body-lhs {
+        & > button {
+            @apply h-[12px];
+            &:active {
+                @apply relative;
+                &:after {
+                    @apply absolute left-0 right-0 top-[5px];
+                    @apply h-[3px];
+                    content: "";
+                    @apply bg-bootcamp-purple;
+                }
+            }
+        }
+    }
+    .css-render-expected,
+    .css-render-actual {
+        @apply border-textColor1 border-1;
+        @apply shadow-base;
+
+        @apply w-auto h-[350px] relative overflow-hidden;
+        aspect-ratio: 1;
+        max-height: calc(50vh - 80px);
+    }
+    .css-render-expected {
+        pointer-events: none;
+    }
+    .fe-render-expected,
+    .fe-render-actual {
+        @apply border-textColor1 border-1;
+        @apply shadow-base;
+
+        @apply w-full h-full relative overflow-hidden;
+        /* max-height: calc(90vh - 80px); */
+    }
+}

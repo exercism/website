@@ -1,0 +1,1 @@
+{{EXERCISE:snake/slithery-snake}}

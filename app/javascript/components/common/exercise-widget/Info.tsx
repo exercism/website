@@ -1,3 +1,5 @@
+// i18n-key-prefix: info
+// i18n-namespace: components/common/exercise-widget
 import React from 'react'
 import pluralize from 'pluralize'
 import { TrackIcon } from '../TrackIcon'
@@ -8,6 +10,8 @@ import { ExerciseStatusTag } from './ExerciseStatusTag'
 import { ExerciseTypeTag } from './ExerciseTypeTag'
 import { Difficulty } from './Difficulty'
 import { Outdated } from './info/Outdated'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 export const Info = ({
   exercise,
@@ -22,19 +26,27 @@ export const Info = ({
   renderBlurb: boolean
   isSkinny: boolean
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/common/exercise-widget')
   return (
     <div className="--info">
       <div className="--title">
         {exercise.title}
         {track && !isSkinny ? (
           <div className="--track">
-            in <TrackIcon iconUrl={track.iconUrl} title={track.title} />
-            <div className="--track-title">{track.title}</div>
+            <Trans
+              ns="components/common/exercise-widget"
+              i18nKey="info.titleInTrack"
+              values={{ trackTitle: track.title }}
+              components={[
+                <TrackIcon iconUrl={track.iconUrl} title={track.title} />,
+                <div className="--track-title">{track.title}</div>,
+              ]}
+            />
           </div>
         ) : null}
         {solution && solution.hasNotifications ? (
           <div className="c-notification-dot">
-            <span className="sr-only">has notifications</span>
+            <span className="sr-only">{t('info.hasNotifications')}</span>
           </div>
         ) : null}
 
@@ -76,8 +88,7 @@ export const Info = ({
           {solution && solution.numIterations > 0 ? (
             <div className="--iterations-count">
               <GraphicalIcon icon="iteration" />
-              {solution.numIterations}{' '}
-              {pluralize('iteration', solution.numIterations)}
+              {t('info.iterationsCount', { count: solution.numIterations })}
             </div>
           ) : null}
         </div>

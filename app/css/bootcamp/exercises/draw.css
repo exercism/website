@@ -1,0 +1,142 @@
+#bootcamp-solve-exercise-page {
+    .exercise-draw,
+    .exercise-golf,
+    .exercise-weather,
+    .exercise-house,
+    .exercise-tic-tac-toe {
+        @apply border-1 border-[#efefef] rounded-5;
+        @apply bg-white;
+        .bg-grid {
+            @apply absolute inset-0;
+        }
+        .canvas {
+            @apply absolute inset-0 overflow-hidden;
+            width: 100%;
+            height: 100%;
+            svg {
+                @apply absolute inset-0 bg-transparent;
+            }
+        }
+    }
+}
+
+#bootcamp-solve-exercise-page {
+    .exercise-container {
+        overflow: hidden;
+        .fireworks {
+            position: absolute;
+            top: -20%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .fireworks > .before,
+        .fireworks > .after {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            box-shadow: 0 0 #fff;
+            animation: bang 0.5s ease-out infinite backwards,
+                gravity 0.5s ease-in infinite backwards,
+                position 2.5s linear infinite backwards;
+        }
+
+        .fireworks > .after {
+            animation-delay: 1.25s, 1.25s, 1.25s;
+            animation-duration: 1.25s, 1.25s, 6.25s;
+        }
+
+        @keyframes bang {
+            to {
+                box-shadow: -22.8px -0.21px hsl(205, 100%, 50%),
+                    63.07px -245.43px hsl(192, 100%, 50%),
+                    65.32px -185.75px hsl(179, 100%, 50%),
+                    102.49px -2.39px hsl(329, 100%, 50%),
+                    31.87px -27.35px hsl(45, 100%, 50%),
+                    -118.2px -96.67px hsl(161, 100%, 50%),
+                    133.1px -241.29px hsl(335, 100%, 50%),
+                    -119.48px -116.08px hsl(307, 100%, 50%),
+                    19.64px -78.75px hsl(208, 100%, 50%),
+                    -89.42px -210.48px hsl(1, 100%, 50%),
+                    18.92px 15.69px hsl(258, 100%, 50%),
+                    95.55px -41.73px hsl(110, 100%, 50%),
+                    69.81px -137.35px hsl(33, 100%, 50%),
+                    -135.49px -245.52px hsl(280, 100%, 50%),
+                    -134.59px -154.29px hsl(101, 100%, 50%),
+                    104.7px -123.09px hsl(233, 100%, 50%),
+                    -57.68px -155.87px hsl(150, 100%, 50%),
+                    -76.97px -114.88px hsl(268, 100%, 50%),
+                    -92.16px -217.84px hsl(132, 100%, 50%),
+                    -58.75px -150.84px hsl(184, 100%, 50%),
+                    -149.62px -99.51px hsl(111, 100%, 50%),
+                    58.01px 27.91px hsl(40, 100%, 50%),
+                    -132.26px -12.65px hsl(218, 100%, 50%),
+                    -90.31px -182.81px hsl(92, 100%, 50%),
+                    68.37px -236.77px hsl(119, 100%, 50%),
+                    -70.38px -231.64px hsl(214, 100%, 50%),
+                    67.73px -22.6px hsl(191, 100%, 50%),
+                    -51.2px -193.87px hsl(318, 100%, 50%),
+                    107.13px 21.89px hsl(300, 100%, 50%),
+                    83.84px -180.51px hsl(73, 100%, 50%),
+                    122.64px -23.57px hsl(354, 100%, 50%),
+                    88.04px -149.07px hsl(316, 100%, 50%),
+                    94.75px 8.9px hsl(296, 100%, 50%),
+                    104.12px 37.5px hsl(86, 100%, 50%),
+                    -22.38px -211.89px hsl(209, 100%, 50%),
+                    95.01px -140.74px hsl(164, 100%, 50%),
+                    65.33px -155.1px hsl(123, 100%, 50%),
+                    -93.98px -243.33px hsl(315, 100%, 50%),
+                    109.75px -140.47px hsl(308, 100%, 50%),
+                    -0.31px -131.13px hsl(37, 100%, 50%),
+                    16.14px -239.49px hsl(85, 100%, 50%),
+                    -16.31px 30.98px hsl(141, 100%, 50%),
+                    -12.49px -110.72px hsl(200, 100%, 50%),
+                    149.21px -93.92px hsl(200, 100%, 50%),
+                    -75.92px 47.33px hsl(129, 100%, 50%),
+                    20.02px -28.57px hsl(134, 100%, 50%),
+                    147.71px -167.23px hsl(244, 100%, 50%),
+                    -129.99px -178.95px hsl(206, 100%, 50%),
+                    -16.7px -63.95px hsl(304, 100%, 50%),
+                    -134.97px -115.69px hsl(211, 100%, 50%);
+            }
+        }
+
+        @keyframes gravity {
+            to {
+                transform: translateY(200px);
+                opacity: 0;
+            }
+        }
+
+        @keyframes position {
+            0%,
+            19.9% {
+                margin-top: 10%;
+                margin-left: 40%;
+            }
+            20%,
+            39.9% {
+                margin-top: 40%;
+                margin-left: 30%;
+            }
+            40%,
+            59.9% {
+                margin-top: 20%;
+                margin-left: 70%;
+            }
+            60%,
+            79.9% {
+                margin-top: 30%;
+                margin-left: 20%;
+            }
+            80%,
+            99.9% {
+                margin-top: 30%;
+                margin-left: 80%;
+            }
+        }
+    }
+}

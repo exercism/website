@@ -3,6 +3,8 @@ import { fromNow } from '../../utils/time'
 import { GraphicalIcon, TrackIcon, ExerciseIcon, Icon } from '../common'
 import { GenericTooltip } from '../misc/ExercismTippy'
 import pluralize from 'pluralize'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 export type SolutionProps = {
   uuid: string
@@ -40,6 +42,7 @@ export const Solution = ({
   track,
   isOutOfDate,
 }: SolutionProps): JSX.Element => {
+  const { t } = useAppTranslation('components/journey')
   return (
     <a href={privateUrl} className="solution">
       <div className="main">
@@ -50,11 +53,17 @@ export const Solution = ({
               <div className="exercise-title">{exercise.title}</div>
 
               {isOutOfDate ? (
-                <GenericTooltip content="There is a newer version of this exercise. Visit the exercise page to upgrade to the latest version.">
+                <GenericTooltip
+                  content={t(
+                    'solution.thereIsANewerVersionOfTheExerciseVisitTheExercisePageToUpgrade'
+                  )}
+                >
                   <div>
                     <Icon
                       icon="warning"
-                      alt="There is a newer version of this exercise. Visit the exercise page to upgrade."
+                      alt={t(
+                        'solution.thereIsANewerVersionOfTheExerciseVisitTheExercisePageToUpgrade'
+                      )}
                       className="--out-of-date"
                     />
                   </div>
@@ -64,16 +73,22 @@ export const Solution = ({
               {publishedIterationHeadTestsStatus === 'passed' ? (
                 <Icon
                   icon="golden-check"
-                  alt="Passes tests of the latest version of the exercise"
+                  alt={t('solution.passesTestsOfTheLatestVersionOfTheExercise')}
                   className="head-tests-status --passed"
                 />
               ) : publishedIterationHeadTestsStatus === 'failed' ||
                 publishedIterationHeadTestsStatus === 'errored' ? (
-                <GenericTooltip content="This solution fails the tests of the latest version of this exercise. Try updating the exercise and checking it locally or in the online editor.">
+                <GenericTooltip
+                  content={t(
+                    'solution.thisSolutionFailsTheTestsOfTheLatestVersionOfTheExerciseTryUpdatingTheExerciseAndCheckingItLocallyOrInTheOnlineEditor'
+                  )}
+                >
                   <div>
                     <Icon
                       icon="cross-circle"
-                      alt="Failed tests of the latest version of the exercise"
+                      alt={t(
+                        'solution.failedTestsOfTheLatestVersionOfTheExercise'
+                      )}
                       className="head-tests-status --failed"
                     />
                   </div>
@@ -82,19 +97,25 @@ export const Solution = ({
             </div>
             <div className="extra">
               <div className="track">
-                in
-                <TrackIcon iconUrl={track.iconUrl} title={track.title} />
-                <div className="track-title">{track.title}</div>
+                <Trans
+                  ns="components/journey"
+                  i18nKey="solution.inTrack"
+                  values={{ track: track.title }}
+                  components={[
+                    <TrackIcon iconUrl={track.iconUrl} title={track.title} />,
+                    <div className="track-title" />,
+                  ]}
+                />
               </div>
               {status === 'completed' ? (
                 <div className="status">
                   <GraphicalIcon icon="completed-check-circle" />
-                  Completed
+                  {t('solution.completed')}
                 </div>
               ) : status === 'published' ? (
                 <div className="status">
                   <GraphicalIcon icon="completed-check-circle" />
-                  Published
+                  {t('solution.published')}
                 </div>
               ) : (
                 <></>
@@ -105,24 +126,30 @@ export const Solution = ({
         <div className="stats">
           <div className="stat">
             <GraphicalIcon icon="iteration" />
-            {numIterations} {pluralize('iteration', numIterations)}
+            {t('solution.iterations', { count: numIterations })}
           </div>
           {numLoc ? (
             <div className="stat">
               <GraphicalIcon icon="loc" />
-              {numLoc} lines
+              {t('solution.lines', { numLoc: numLoc })}
             </div>
           ) : null}
           {numViews ? (
             <div className="stat">
               <GraphicalIcon icon="views" />
-              {numViews} {pluralize('view', numViews)}
+              {numViews}{' '}
+              {t('solution.views', {
+                numViews: numViews,
+                viewLabel: pluralize('view', numViews),
+              })}
             </div>
           ) : null}
         </div>
         {lastIteratedAt ? (
           <time className="iterated-at" dateTime={lastIteratedAt}>
-            Last submitted {fromNow(lastIteratedAt)}
+            {t('solution.lastSubmitted', {
+              lastIteratedAt: fromNow(lastIteratedAt),
+            })}
           </time>
         ) : null}
       </div>

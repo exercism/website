@@ -1,0 +1,8 @@
+en:
+  tracks:
+    index:
+      header:
+        title: "%{num_tracks} languages for you to master"
+        description_html: Become fluent in your chosen programming languages by
+          completing these tracks created by our %{contributors_link}
+        contributors_link_text: awesome team of contributors

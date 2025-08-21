@@ -45,7 +45,6 @@ class SerializeTrack
       is_joined: true,
       num_learnt_concepts: user_track.num_concepts_learnt,
       num_completed_exercises: user_track.num_completed_exercises,
-      num_solutions: 2, # TODO
       has_notifications: has_notifications?
     }
   end

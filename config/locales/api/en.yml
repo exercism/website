@@ -60,3 +60,4 @@ en:
       invalid_community_video_url: "We could not find a YouTube or Vimeo video matching this URL"
       invalid_discussion_status: "The discussion status is invalid"
       training_data_code_tags_sample_locked: "This training data code tags sample is locked by someone else."
+      could_not_generate_coupon_code: "Could not generate a coupon code"

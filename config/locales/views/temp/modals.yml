@@ -1,0 +1,23 @@
+en:
+  temp:
+    modals:
+      badge:
+        new_badge_earned: New Badge Earned
+        badge_name: 2020 Winter Markathon
+        badge_rarity: Ultimate
+        badge_reason: For participation in the 2020 Winter Markathon
+        badge_earned_at: Earned on %{date}
+      donation_confirmation:
+        thank_you_title_html: You’ve donated %{amount} successfully - thank you 💙
+        thank_you_message:
+          We truly appreciate your support. Exercism would not be
+          possible without awesome contributors like yourself. You’ll be sent an
+          email shortly with your donation confirmation and receipt.
+        badge_earned_html: You’ve earned the <strong>Supporter</strong> badge!
+        done_button: Happy to help! I'm done here 👍
+      completed_mentoring_1:
+        thank_you_title_html: Thank you for leaving a testimonial 💙
+        testimonial_message_html: <strong>You've helped make iHiD's
+          day.</strong> Be sure to share your experiences on Exercism with
+          others.
+        back_to_discussion_button: Back to the discussion

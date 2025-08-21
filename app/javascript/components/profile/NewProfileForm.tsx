@@ -6,6 +6,10 @@ import { FormButton } from '@/components/common/FormButton'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 import { User } from '@/components/types'
 import { default as AvatarSelector } from './AvatarSelector'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+// i18n-key-prefix: newProfileForm
+// i18n-namespace: components/profile
 
 type Links = {
   create: string
@@ -36,13 +40,14 @@ export default function NewProfileForm({
   defaultFields: Fields
   links: Links
 }): JSX.Element {
+  const { t } = useAppTranslation('components/profile')
   const [fields, setFields] = useState<Fields>(defaultFields)
   const {
     mutate: mutation,
     status,
     error,
-  } = useMutation<APIResponse>(
-    async () => {
+  } = useMutation<APIResponse>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: links.create,
         method: 'POST',
@@ -51,12 +56,10 @@ export default function NewProfileForm({
 
       return fetch
     },
-    {
-      onSuccess: (response) => {
-        redirectTo(response.links.profile)
-      },
-    }
-  )
+    onSuccess: (response) => {
+      redirectTo(response.links.profile)
+    },
+  })
 
   const handleSubmit = useCallback(
     (e) => {
@@ -71,46 +74,48 @@ export default function NewProfileForm({
       <section className="form-section">
         <form onSubmit={handleSubmit} data-turbo="false">
           <div className="field">
-            <label htmlFor="name">Full Name</label>
+            <label htmlFor="name">{t('newProfileForm.fullName')}</label>
             <input
               id="name"
               type="text"
-              placeholder="How do you want to be known?"
+              placeholder={t('newProfileForm.howDoYouWantToBeKnown')}
               required
               onChange={(e) => setFields({ ...fields, name: e.target.value })}
               value={fields.name}
             />
           </div>
           <div className="field">
-            <label htmlFor="location">Location (optional)</label>
+            <label htmlFor="location">
+              {t('newProfileForm.locationOptional')}
+            </label>
             <input
               id="location"
               type="text"
-              placeholder="Where do you currently live?"
+              placeholder={t('newProfileForm.whereDoYouCurrentlyLive')}
               onChange={(e) =>
                 setFields({ ...fields, location: e.target.value })
               }
               value={fields.location}
             />
             <div className="note">
-              Exercism is made up of people from all over the world 🌎
+              {t('newProfileForm.exercismIsMadeUpOfPeople')}
             </div>
           </div>
           <div className="field">
-            <label htmlFor="bio">Bio (optional)</label>
+            <label htmlFor="bio">{t('newProfileForm.bioOptional')}</label>
             <textarea
               id="bio"
-              placeholder="Tell everyone a bit more about who you are, and what you're in to. e.g. I'm a Rails dev who loves bouldering and coffee"
+              placeholder={t('newProfileForm.tellEveryoneABitMore')}
               onChange={(e) => setFields({ ...fields, bio: e.target.value })}
               value={fields.bio}
               maxLength={160}
             />
             <div className="character-count">
-              {fields.bio.length} / 160 characters
+              {t('newProfileForm.characters', { length: fields.bio.length })}
             </div>
           </div>
           <FormButton className="btn-primary btn-m" status={status}>
-            Create profile
+            {t('newProfileForm.createProfile')}
           </FormButton>
           <ErrorBoundary resetKeys={[status]}>
             <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />

@@ -1,0 +1,58 @@
+.c-project-widget {
+    @apply py-12 px-16 rounded-8 border-1 border-borderColor5 block;
+    @apply flex flex-col items-stretch;
+    @apply bg-white;
+    @apply relative;
+
+    img {
+        @apply w-[80px] h-[80px] mr-16;
+    }
+
+    .title {
+        @apply text-17 leading-140;
+        @apply font-semibold;
+        @apply mb-2;
+    }
+    .description {
+        @apply text-15 leading-140;
+    }
+    .tag {
+        width: 20px;
+        height: 20px;
+        flex-shrink: 0;
+        background-position: center center;
+        background-size: 12px;
+        background-repeat: no-repeat;
+
+        @apply ml-auto;
+        @apply border-1 rounded-circle;
+    }
+
+    &.available {
+        @apply shadow-base;
+
+        .tag {
+            @apply border-gray-300;
+            background-image: url("icons/bootcamp-available.svg");
+        }
+    }
+    &.completed {
+        .tag {
+            background: #e7fdf6;
+            border-color: #43b593;
+            color: #43b593;
+            background-image: url("icons/bootcamp-completed-check-circle.svg");
+            background-repeat: no-repeat;
+        }
+    }
+
+    &.locked {
+        @apply bg-gray-200;
+        @apply opacity-[0.5] cursor-not-allowed;
+
+        .tag {
+            @apply border-gray-400;
+            background-image: url("icons/lock.svg");
+        }
+    }
+}

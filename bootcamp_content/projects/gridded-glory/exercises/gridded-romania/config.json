@@ -1,0 +1,17 @@
+{
+  "title": "Gridded Romania",
+  "description": "Reproduce Romania's flag using CSS Grid",
+  "language": "css",
+  "level": 14,
+  "idx": 1,
+  "editor_config": {
+    "aspect_ratio": 1.5
+  },
+  "checks": [
+    {
+      "function": "illegalPropertiesUsed(['background','display','grid-template-columns'])",
+      "matcher": "toBeUndefined",
+      "errorHtml": "You used a CSS property that is not allowed for this exercise (%result%)."
+    }
+  ]
+}

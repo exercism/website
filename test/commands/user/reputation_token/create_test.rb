@@ -42,6 +42,19 @@ class User::ReputationToken::CreateTest < ActiveSupport::TestCase
     refute User::ReputationToken.exists?
   end
 
+  test "does not create reputation token when earned_on is nil" do
+    solution = create(:practice_solution, published_at: nil)
+
+    User::ReputationToken::Create.(
+      solution.user,
+      :published_solution,
+      solution:,
+      level: solution.exercise.difficulty_category
+    )
+
+    refute User::ReputationToken.exists?
+  end
+
   test "idempotent" do
     user = create :user, handle: "User22", github_username: "user22"
     contributorship = create :exercise_contributorship, contributor: user
@@ -213,27 +226,5 @@ class User::ReputationToken::CreateTest < ActiveSupport::TestCase
       arbitrary_reason: 'Cool cool',
       track: other_track
     )
-  end
-
-  test "invalidates image in cloudfront when user has profile" do
-    user = create :user
-    create(:user_profile, user:)
-    contributorship = create :exercise_contributorship, contributor: user
-
-    Infrastructure::InvalidateCloudfrontItems.expects(:defer).with(
-      :website,
-      ["/profiles/#{user.handle}.jpg"]
-    )
-
-    User::ReputationToken::Create.(user, :exercise_contribution, contributorship:)
-  end
-
-  test "don't invalidate image in cloudfront when user does not have profile" do
-    user = create :user
-    contributorship = create :exercise_contributorship, contributor: user
-
-    Infrastructure::InvalidateCloudfrontItems.expects(:defer).never
-
-    User::ReputationToken::Create.(user, :exercise_contribution, contributorship:)
   end
 end

@@ -1,0 +1,22 @@
+#page-bootcamp-concepts
+  %header
+    .c-breadcrumbs
+      .lg-container.container
+        .title
+          = graphical_icon 'concepts'
+          .span= t('.breadcrumbs.all_concepts')
+
+    .lg-container.details
+      %h1.font-semibold= t('.header.concepts_title')
+      %p.mb-6
+        = t('.header.concepts_description_p1')
+      %p
+        = t('.header.concepts_description_p2')
+
+  .lg-container
+    %ul.concepts.ml-10
+      - @concepts.each do |concept|
+        %li
+          = link_to concept do
+            .font-semibold.text-primary-blue.text-20.mb-2= concept.title
+            .text-18.leading-150= concept.description

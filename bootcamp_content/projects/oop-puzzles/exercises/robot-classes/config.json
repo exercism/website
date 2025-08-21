@@ -1,0 +1,172 @@
+{
+  "title": "Robot Classes",
+  "description": "Write out your own formal Robot classes",
+  "level": 10,
+  "idx": 4,
+  "tests_type": "state",
+  "project_type": "formal-robots",
+  "stdlib_functions": ["concatenate", "number_to_string"],
+  "exercise_classes": [],
+  "exercise_functions": ["vibrate_air"],
+  "readonly_ranges": [{ "from": 3, "to": 20 }],
+  "tasks": [
+    {
+      "name": "Robots Classes",
+      "tests": [
+        {
+          "slug": "simple",
+          "name": "A conversation",
+          "description_html": "Write out a simple conversation between two robots.",
+          "function": "hold_conversation",
+          "args": ["Jeremy", 10, "Nicole", 13, "Sam", 10],
+          "checks": [
+            {
+              "function": "getInteraction(0)",
+              "value": "Jeremy: Hello ⚡☂♞✿☯.",
+              "error_html": "We expected first line of the first conversation to be: \"Jeremy: Hello ⚡☂♞✿☯.\" but it was \"%actual%\"."
+            },
+            {
+              "function": "getInteraction(1)",
+              "value": "Nicole: Hello ✦☀♻❄☘.",
+              "error_html": "We expected second line of the first conversation to be: \"Nicole: Hello ✦☀♻❄☘.\" but it was \"%actual%\"."
+            },
+            {
+              "function": "getInteraction(2)",
+              "value": "Jeremy: I am 10 years old. How old are you?",
+              "error_html": "We expected third line of the first conversation to be: \"Jeremy: I am 10 years old. How old are you?\" but it was \"%actual%\"."
+            },
+            {
+              "function": "getInteraction(3)",
+              "value": "Nicole: I am 13. Together we are 23 years old. Wow.",
+              "error_html": "We expected fourth line of the first conversation to be: \"Nicole: I am 13. Together we are 23 years old. Wow.\" but it was \"%actual%\"."
+            },
+            {
+              "function": "getInteraction(4)",
+              "value": "Jeremy: Wow.",
+              "error_html": "We expected fifth line of the first conversation to be: \"Jeremy: Wow.\" but it was \"%actual%\"."
+            },
+            {
+              "function": "getInteraction(5)",
+              "value": "Jeremy: Goodbye ★⚔♠✧❀.",
+              "error_html": "We expected sixth line of the first conversation to be: \"Jeremy: ★⚔♠✧❀.\" but it was \"%actual%\"."
+            },
+            {
+              "function": "getInteraction(6)",
+              "value": "Nicole: Goodbye ♜⚙❖☾✺.",
+              "error_html": "We expected seventh line of the first conversation to be: \"Nicole: Goodbye ♜⚙❖☾✺.\" but it was \"%actual%\"."
+            },
+            {
+              "function": "getInteraction(7)",
+              "value": "Sam: Hello ⚡☂♞✿☯.",
+              "error_html": "We expected first line of the second conversation to be: \"Sam: Hello ⚡☂♞✿☯.\" but it was \"%actual%\"."
+            },
+            {
+              "function": "getInteraction(8)",
+              "value": "Jeremy: Hello ✦☀♻❄☘.",
+              "error_html": "We expected second line of the second conversation to be: \"Jeremy: Hello ✦☀♻❄☘.\" but it was \"%actual%\"."
+            },
+            {
+              "function": "getInteraction(9)",
+              "value": "Sam: Who was that?",
+              "error_html": "We expected third line of the second conversation to be: \"Sam: Who was that?\" but it was \"%actual%\"."
+            },
+            {
+              "function": "getInteraction(10)",
+              "value": "Jeremy: That was Nicole.",
+              "error_html": "We expected fourth line of the second conversation to be: \"Jeremy: That was Nicole.\" but it was \"%actual%\"."
+            },
+            {
+              "function": "getInteraction(11)",
+              "value": "Sam: Goodbye ★⚔♠✧❀.",
+              "error_html": "We expected fifth line of the first conversation to be: \"Sam: ★⚔♠✧❀.\" but it was \"%actual%\"."
+            },
+            {
+              "function": "getInteraction(12)",
+              "value": "Jeremy: Goodbye ♜⚙❖☾✺.",
+              "error_html": "We expected sixth line of the first conversation to be: \"Jeremy: Goodbye ♜⚙❖☾✺.\" but it was \"%actual%\"."
+            }
+          ]
+        },
+        {
+          "slug": "adults",
+          "name": "Adult Robots",
+          "description_html": "Write out the same conversation with adults",
+          "function": "hold_conversation",
+          "args": ["Sam", 40, "Jeremy", 41, "Nicole", 36],
+          "checks": [
+            {
+              "function": "getInteraction(0)",
+              "value": "Sam: Hello ⚡☂♞✿☯.",
+              "error_html": "We expected first line of the first conversation to be: \"Sam: Hello ⚡☂♞✿☯.\" but it was \"%actual%\"."
+            },
+            {
+              "function": "getInteraction(1)",
+              "value": "Jeremy: Hello ✦☀♻❄☘.",
+              "error_html": "We expected second line of the first conversation to be: \"Jeremy: Hello ✦☀♻❄☘.\" but it was \"%actual%\"."
+            },
+            {
+              "function": "getInteraction(2)",
+              "value": "Sam: I am 40 years old. How old are you?",
+              "error_html": "We expected third line of the first conversation to be: \"Sam: I am 40 years old. How old are you?\" but it was \"%actual%\"."
+            },
+            {
+              "function": "getInteraction(3)",
+              "value": "Jeremy: I am 41. Together we are 81 years old. Wow.",
+              "error_html": "We expected fourth line of the first conversation to be: \"Jeremy: I am 41. Together we are 81 years old. Wow.\" but it was \"%actual%\"."
+            },
+            {
+              "function": "getInteraction(4)",
+              "value": "Sam: Wow.",
+              "error_html": "We expected fifth line of the first conversation to be: \"Sam: Wow.\" but it was \"%actual%\"."
+            },
+            {
+              "function": "getInteraction(5)",
+              "value": "Sam: Goodbye ★⚔♠✧❀.",
+              "error_html": "We expected sixth line of the first conversation to be: \"Sam: Goodbye ★⚔♠✧❀.\" but it was \"%actual%\"."
+            },
+            {
+              "function": "getInteraction(6)",
+              "value": "Jeremy: Goodbye ♜⚙❖☾✺.",
+              "error_html": "We expected seventh line of the first conversation to be: \"Jeremy: Goodbye ♜⚙❖☾✺.\" but it was \"%actual%\"."
+            },
+            {
+              "function": "getInteraction(7)",
+              "value": "Nicole: Hello ⚡☂♞✿☯.",
+              "error_html": "We expected first line of the second conversation to be: \"Nicole: Hello ⚡☂♞✿☯.\" but it was \"%actual%\"."
+            },
+            {
+              "function": "getInteraction(8)",
+              "value": "Sam: Hello ✦☀♻❄☘.",
+              "error_html": "We expected second line of the second conversation to be: \"Sam: Hello ✦☀♻❄☘.\" but it was \"%actual%\"."
+            },
+            {
+              "function": "getInteraction(9)",
+              "value": "Nicole: Who was that?",
+              "error_html": "We expected third line of the second conversation to be: \"Nicole: Who was that?\" but it was \"%actual%\"."
+            },
+            {
+              "function": "getInteraction(10)",
+              "value": "Sam: That was Jeremy.",
+              "error_html": "We expected fourth line of the second conversation to be: \"Sam: That was Jeremy.\" but it was \"%actual%\"."
+            },
+            {
+              "function": "getInteraction(11)",
+              "value": "Nicole: Goodbye ★⚔♠✧❀.",
+              "error_html": "We expected fifth line of the first conversation to be: \"Nicole: Goodbye ★⚔♠✧❀.\" but it was \"%actual%\"."
+            },
+            {
+              "function": "getInteraction(12)",
+              "value": "Sam: Goodbye ♜⚙❖☾✺.",
+              "error_html": "We expected sixth line of the first conversation to be: \"Sam: Goodbye ♜⚙❖☾✺.\" but it was \"%actual%\"."
+            },
+            {
+              "function": "numFunctionCallsInCode('vibrate_air')",
+              "value": 1,
+              "error_html": "We expected the <code>vibrate_air</code> function to once appear once on your code."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

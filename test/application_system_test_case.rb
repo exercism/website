@@ -8,7 +8,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   include Devise::Test::IntegrationHelpers
 
   # Temporary fix: https://github.com/titusfortner/webdrivers/issues/247
-  # Webdrivers::Chromedriver.required_version = "116.0.5845.96"
+  # Webdrivers::Chromedriver.required_version = "134.0.6998.166"
   Capybara.default_max_wait_time = 7
   Capybara.enable_aria_label = true
   Capybara.reuse_server = false
@@ -45,7 +45,6 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     errors.to_a.each do |error|
       next if error.level == "WARNING"
       next if error.to_s.include?("403 (Forbidden)")
-      next if error.to_s.include?("hcaptcha")
       next if error.to_s.include?("js.stripe.com")
       next if error.to_s.include?("https://test.exercism.org/rails/active_storage/representations/redirect")
 
@@ -127,6 +126,24 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
 
     # Run the assertion
     assert_includes formatted_context, formatted_html, error_msg
+  end
+
+  # refute_text proxies to this, so it's better to override
+  # this than it is to override refute_text directly.
+  def assert_no_text(text, **options)
+    # If React's not fully loaded then things incorectly not
+    # be there. This isn't an issue with assert_text as that
+    # has the waiting built in. But for this, where it will
+    # immediately succeed if the text doesn't exist, we end
+    # in scenarios where it refutes the text simply because
+    # React hasn't loaded yet. We have the instance variable
+    # so that we only do this once per test.
+    unless @give_react_time_to_load
+      sleep(1)
+      @give_react_time_to_load = true
+    end
+
+    super(:visible, text, **options)
   end
 
   def assert_text(text, **options)

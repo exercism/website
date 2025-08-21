@@ -1,0 +1,85 @@
+{
+  "title": "Build the Wall",
+  "description": "Use rectangles to build a wall",
+  "project_type": "draw",
+  "level": 4,
+  "idx": 9,
+  "blocks_level_progression": false,
+  "blocks_project_progression": false,
+  "tests_type": "state",
+  "readonly_ranges": [],
+  "exercise_functions": ["rectangle", "fill_color_hex"],
+  "interpreter_options": {
+    "repeat_delay": 30
+  },
+  "tasks": [
+    {
+      "name": "Draw the scene",
+      "tests": [
+        {
+          "slug": "fill-holes",
+          "name": "Fill the holes",
+          "description_html": "Build a wall of 55 bricks",
+          "setup_functions": [
+            ["changeStrokeWidth", [0.4]],
+            ["strokeColorHex", ["#7f3732"]],
+            ["fillColorHex", ["red"]]
+          ],
+          "checks": [
+            {
+              "function": "getRectangleAt(0, 0, 20, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The top left rectangle isn't correct."
+            },
+            {
+              "function": "getRectangleAt(80, 0, 20, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The top right rectangle isn't correct."
+            },
+            {
+              "function": "getRectangleAt(-10, 10, 20, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The first rectangle on the second row isn't correct."
+            },
+            {
+              "function": "getRectangleAt(90, 10, 20, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The last rectangle on the second row isn't correct."
+            },
+            {
+              "function": "getRectangleAt(40, 20, 20, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The middle rectangles on the third row isn't correct."
+            },
+            {
+              "function": "getRectangleAt(30, 30, 20, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "One of the middle rectangles on the fourth row isn't correct."
+            },
+            {
+              "function": "getRectangleAt(-10, 90, 20, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom left rectangle isn't correct."
+            },
+            {
+              "function": "getRectangleAt(90, 90, 20, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom right rectangle isn't correct."
+            },
+            {
+              "function": "wasFunctionCalled('rectangle', null, 55)",
+              "matcher": "toBeTrue",
+              "error_html": "You didn't add exactly 55 bricks."
+            },
+            {
+              "function": "numFunctionCallsInCode('rectangle')",
+              "matcher": "toEqual",
+              "value": 1,
+              "error_html": "You are using the `rectangle` function in multiple places in your code."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

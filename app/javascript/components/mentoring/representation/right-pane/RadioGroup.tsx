@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react'
 import { HowImportantProps } from './HowImportant'
 import RadioButton from './RadioButton'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const RADIO_DATA = [
   {
@@ -32,7 +33,7 @@ const RADIO_DATA = [
     value: 'celebratory',
     tooltip: {
       title: 'If you mark this as Celebratory',
-      body: 'Student is not prompted to action this before proceeding, congratules the student on their solution.',
+      body: 'Student is not prompted to action this before proceeding, congratulates the student on their solution.',
     },
   },
 ]
@@ -40,6 +41,9 @@ export default function RadioGroup({
   feedbackType,
   setFeedbackType,
 }: HowImportantProps): JSX.Element {
+  const { t } = useAppTranslation(
+    'components/mentoring/representation/right-pane/RadioGroup.tsx'
+  )
   const handleRadioCheck = useCallback(
     (e) => {
       setFeedbackType(e.target.value)
@@ -55,8 +59,11 @@ export default function RadioGroup({
           value={i.value}
           checked={feedbackType == i.value}
           onChange={handleRadioCheck}
-          label={i.label}
-          tooltip={i.tooltip}
+          label={t(`radioGroup.${i.value}`)}
+          tooltip={{
+            title: t(`radioGroup.${i.value}TooltipTitle`),
+            body: t(`radioGroup.${i.value}TooltipBody`),
+          }}
         />
       ))}
     </div>

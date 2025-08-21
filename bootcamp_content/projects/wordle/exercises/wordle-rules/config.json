@@ -1,0 +1,193 @@
+{
+  "title": "Wordle Rules",
+  "description": "Use a WordleGame object and add a more complex rule.",
+  "project_type": "wordle",
+  "level": 9,
+  "idx": 1,
+  "tests_type": "state",
+  "stdlib_functions": ["push"],
+  "exercise_functions": [],
+  "tasks": [
+    {
+      "name": "Process Games",
+      "tests": [
+        {
+          "slug": "hole-in-one",
+          "name": "All correct",
+          "description_html": "Deal with a first correct guess.",
+          "function": "process_game",
+          "args": ["which", ["which"]],
+          "checks": [
+            {
+              "function": "statesForRow(0)",
+              "value": ["correct", "correct", "correct", "correct", "correct"],
+              "error_html": "We expected all the letters to be green"
+            }
+          ]
+        },
+        {
+          "slug": "two-guesses",
+          "name": "Nailed it in two",
+          "description_html": "Deal with two guesses.",
+          "function": "process_game",
+          "args": ["hello", ["hallo", "hello"]],
+          "checks": [
+            {
+              "function": "statesForRow(0)",
+              "value": ["correct", "absent", "correct", "correct", "correct"],
+              "error_html": "We expected the second letter to be absent"
+            },
+            {
+              "function": "statesForRow(1)",
+              "value": ["correct", "correct", "correct", "correct", "correct"],
+              "error_html": "We expected all the letters to be green"
+            }
+          ]
+        },
+        {
+          "slug": "three-guesses",
+          "name": "Got there in three",
+          "description_html": "Deal with three guesses.",
+          "function": "process_game",
+          "args": ["hello", ["hulal", "hallo", "hello"]],
+          "checks": [
+            {
+              "function": "statesForRow(0)",
+              "value": ["correct", "absent", "correct", "absent", "present"],
+              "error_html": "We expected the second and fourth letters to be absent"
+            },
+            {
+              "function": "statesForRow(1)",
+              "value": ["correct", "absent", "correct", "correct", "correct"],
+              "error_html": "We expected the second letter to be absent"
+            },
+            {
+              "function": "statesForRow(2)",
+              "value": ["correct", "correct", "correct", "correct", "correct"],
+              "error_html": "We expected all the letters to be green"
+            }
+          ]
+        },
+        {
+          "slug": "phew",
+          "name": "Phew!",
+          "description_html": "Phew! That was close!",
+          "function": "process_game",
+          "args": [
+            "block",
+            ["jumpy", "trend", "jumbo", "crisp", "gowfy", "block"]
+          ],
+          "checks": [
+            {
+              "function": "statesForRow(0)",
+              "value": ["absent", "absent", "absent", "absent", "absent"],
+              "error_html": "We expected everything to be absent."
+            },
+            {
+              "function": "statesForRow(1)",
+              "value": ["absent", "absent", "absent", "absent", "absent"],
+              "error_html": "We expected everything to be absent."
+            },
+            {
+              "function": "statesForRow(2)",
+              "value": ["absent", "absent", "absent", "present", "present"],
+              "error_html": "We expected the last two to be present and the rest absent."
+            },
+            {
+              "function": "statesForRow(3)",
+              "value": ["present", "absent", "absent", "absent", "absent"],
+              "error_html": "We expected the first to be present and the rest absent."
+            },
+            {
+              "function": "statesForRow(4)",
+              "value": ["absent", "present", "absent", "absent", "absent"],
+              "error_html": "We expected the second to be present and the rest absent"
+            },
+            {
+              "function": "statesForRow(5)",
+              "value": ["correct", "correct", "correct", "correct", "correct"],
+              "error_html": "We expected all the letters to be green"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Bonus Tasks",
+      "bonus": true,
+      "tests": [
+        {
+          "slug": "bonus-1",
+          "name": "Only one yellow",
+          "description_html": "If there are multiple present letters for only one actual letter, only one should be yellow.",
+          "function": "process_game",
+          "args": ["clamp", ["which", "colly", "class", "clamp"]],
+          "checks": [
+            {
+              "function": "statesForRow(0)",
+              "value": ["absent", "absent", "absent", "present", "absent"],
+              "error_html": "We expected only the fourth letter of the first row to be present."
+            },
+            {
+              "function": "statesForRow(1)",
+              "value": ["correct", "absent", "present", "absent", "absent"],
+              "error_html": "We expected the second row to be correct, absent, present, absent, absent (This is the tricky one!)"
+            },
+            {
+              "function": "statesForRow(2)",
+              "value": ["correct", "correct", "correct", "absent", "absent"],
+              "error_html": "We expected the third row to be correct, correct, correct, absent, absent"
+            },
+            {
+              "function": "statesForRow(3)",
+              "value": ["correct", "correct", "correct", "correct", "correct"],
+              "error_html": "We expected the fourth row to be correct"
+            }
+          ]
+        },
+        {
+          "slug": "bonus-2",
+          "name": "Swiss Cheese",
+          "description_html": "The swiss in this shows why it's important!",
+          "function": "process_game",
+          "args": [
+            "swims",
+            ["which", "swift", "swine", "swiss", "swigs", "swims"]
+          ],
+          "checks": [
+            {
+              "function": "statesForRow(0)",
+              "value": ["present", "absent", "correct", "absent", "absent"],
+              "error_html": "We expected only the first row to be present, absent, correct, absent, absent."
+            },
+            {
+              "function": "statesForRow(1)",
+              "value": ["correct", "correct", "correct", "absent", "absent"],
+              "error_html": "We expected the second row to be correct, correct, correct, absent, absent"
+            },
+            {
+              "function": "statesForRow(2)",
+              "value": ["correct", "correct", "correct", "absent", "absent"],
+              "error_html": "We expected the third row to be correct, correct, correct, absent, absent."
+            },
+            {
+              "function": "statesForRow(3)",
+              "value": ["correct", "correct", "correct", "absent", "correct"],
+              "error_html": "We expected the fourth row to be correct, correct, correct, absent, correct (this is the tricky one!)"
+            },
+            {
+              "function": "statesForRow(4)",
+              "value": ["correct", "correct", "correct", "absent", "correct"],
+              "error_html": "We expected the fifth row to be correct, correct, correct, absent, correct."
+            },
+            {
+              "function": "statesForRow(5)",
+              "value": ["correct", "correct", "correct", "correct", "correct"],
+              "error_html": "We expected the six row to be correct."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

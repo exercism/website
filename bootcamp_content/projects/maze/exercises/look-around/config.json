@@ -1,0 +1,358 @@
+{
+  "title": "Look Around",
+  "description": "Implement the can_turn_...() and can_move() functions.",
+  "level": 4,
+  "idx": 4,
+  "project_type": "maze",
+  "tests_type": "state",
+  "exercise_functions": ["move", "turn_left", "turn_right", "look"],
+  "interpreter_options": {
+    "max_repeat_until_game_over_iterations": 50,
+    "max_total_execution_time": 30000,
+    "time_per_frame": 0.01
+  },
+  "readonly_ranges": [{ "from": 3, "to": 21 }],
+  "tasks": [
+    {
+      "name": "A straight path",
+      "tests": [
+        {
+          "slug": "maze-1",
+          "name": "Guide person to the end of the maze",
+          "setup_functions": [
+            [
+              "setupGrid",
+              [
+                [
+                  [1, 1, 1, 1, 2, 1, 1],
+                  [1, 1, 1, 1, 0, 1, 1],
+                  [1, 1, 1, 1, 0, 1, 1],
+                  [1, 1, 1, 1, 0, 1, 1],
+                  [1, 1, 1, 1, 0, 1, 1],
+                  [1, 1, 1, 1, 0, 1, 1],
+                  [1, 1, 1, 1, 3, 1, 1]
+                ]
+              ]
+            ],
+            ["setupDirection", ["down"]],
+            ["setupPosition", [4, 0]]
+          ],
+          "checks": [
+            {
+              "property": "position",
+              "value": [4, 6],
+              "error_html": "You didn't reach the end of the maze."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Turn left if you can",
+      "tests": [
+        {
+          "slug": "left-turn",
+          "name": "A single left turn",
+          "setup_functions": [
+            [
+              "setupGrid",
+              [
+                [
+                  [2, 1, 1, 1, 1, 1, 1, 1, 1],
+                  [0, 1, 1, 1, 1, 1, 1, 1, 1],
+                  [0, 1, 1, 1, 1, 1, 1, 1, 1],
+                  [0, 1, 1, 1, 1, 1, 1, 1, 1],
+                  [0, 1, 1, 1, 1, 1, 1, 1, 1],
+                  [0, 0, 0, 0, 0, 0, 0, 0, 3],
+                  [1, 1, 1, 1, 1, 1, 1, 1, 1],
+                  [1, 1, 1, 1, 1, 1, 1, 1, 1],
+                  [1, 1, 1, 1, 1, 1, 1, 1, 1]
+                ]
+              ]
+            ],
+            ["setupDirection", ["down"]],
+            ["setupPosition", [0, 1]]
+          ],
+          "checks": [
+            {
+              "property": "position",
+              "value": [8, 5],
+              "error_html": "You didn't reach the end of the maze."
+            },
+            {
+              "property": "direction",
+              "value": "right",
+              "error_html": "You seem to have done an extra unnecessary turn at the end."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Turn right if you can't move straight or left",
+      "tests": [
+        {
+          "slug": "right-turn",
+          "name": "A single right turn",
+          "setup_functions": [
+            [
+              "setupGrid",
+              [
+                [
+                  [1, 1, 1, 1, 1, 1, 1, 1, 2],
+                  [1, 1, 1, 1, 1, 1, 1, 1, 0],
+                  [1, 1, 1, 1, 1, 1, 1, 1, 0],
+                  [1, 1, 1, 1, 1, 1, 1, 1, 0],
+                  [1, 1, 1, 1, 1, 1, 1, 1, 0],
+                  [3, 0, 0, 0, 0, 0, 0, 0, 0],
+                  [1, 1, 1, 1, 1, 1, 1, 1, 1],
+                  [1, 1, 1, 1, 1, 1, 1, 1, 1],
+                  [1, 1, 1, 1, 1, 1, 1, 1, 1]
+                ]
+              ]
+            ],
+            ["setupDirection", ["down"]],
+            ["setupPosition", [8, 0]]
+          ],
+          "checks": [
+            {
+              "property": "position",
+              "value": [0, 5],
+              "error_html": "You didn't reach the end of the maze."
+            }
+          ]
+        },
+        {
+          "slug": "forks",
+          "name": "Choose left if you can, otherwise choose right",
+          "setup_functions": [
+            [
+              "setupGrid",
+              [
+                [
+                  [2, 1, 1, 1, 1, 1, 1, 1, 1],
+                  [0, 1, 1, 1, 1, 1, 1, 1, 1],
+                  [0, 1, 1, 1, 0, 0, 0, 0, 3],
+                  [0, 1, 1, 1, 0, 1, 1, 1, 1],
+                  [0, 1, 1, 1, 0, 1, 1, 1, 1],
+                  [0, 0, 0, 0, 0, 1, 1, 1, 1],
+                  [1, 4, 1, 1, 4, 1, 1, 1, 1],
+                  [1, 4, 4, 4, 4, 1, 1, 1, 1],
+                  [1, 1, 1, 1, 4, 1, 1, 1, 1]
+                ]
+              ]
+            ],
+            ["setupDirection", ["down"]],
+            ["setupPosition", [0, 0]]
+          ],
+          "checks": [
+            {
+              "property": "position",
+              "value": [8, 2],
+              "error_html": "You didn't reach the end of the maze."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Turn around if needed",
+      "tests": [
+        {
+          "slug": "turn-around",
+          "name": "Turn around if you can't move straight, left, or right",
+          "setup_functions": [
+            [
+              "setupGrid",
+              [
+                [
+                  [1, 1, 1, 2, 1, 1, 1, 1, 1],
+                  [1, 1, 1, 0, 1, 1, 1, 1, 1],
+                  [1, 1, 1, 0, 1, 1, 1, 1, 1],
+                  [1, 4, 4, 0, 1, 1, 0, 1, 1],
+                  [1, 4, 1, 0, 1, 1, 0, 1, 1],
+                  [1, 4, 4, 0, 0, 0, 0, 0, 1],
+                  [1, 1, 1, 0, 1, 1, 1, 1, 1],
+                  [3, 0, 0, 0, 1, 1, 1, 1, 1],
+                  [1, 1, 1, 0, 1, 1, 1, 1, 1]
+                ]
+              ]
+            ],
+            ["setupDirection", ["down"]],
+            ["setupPosition", [3, 0]]
+          ],
+          "checks": [
+            {
+              "property": "position",
+              "value": [0, 7],
+              "error_html": "You didn't reach the end of the maze."
+            }
+          ]
+        },
+        {
+          "slug": "forks-2",
+          "name": "Choose right if you can, otherwise choose left",
+          "setup_functions": [
+            [
+              "setupGrid",
+              [
+                [
+                  [2, 1, 1, 1, 1, 1, 1, 1, 1],
+                  [0, 1, 1, 0, 0, 1, 1, 1, 1],
+                  [0, 1, 1, 1, 0, 0, 0, 0, 1],
+                  [0, 1, 1, 0, 0, 1, 0, 1, 1],
+                  [0, 1, 1, 1, 0, 1, 0, 1, 1],
+                  [0, 0, 0, 0, 0, 1, 0, 0, 1],
+                  [1, 4, 1, 1, 0, 1, 1, 5, 1],
+                  [1, 4, 4, 4, 0, 1, 0, 0, 1],
+                  [1, 1, 1, 1, 3, 1, 1, 1, 1]
+                ]
+              ]
+            ],
+            ["setupDirection", ["down"]],
+            ["setupPosition", [0, 0]]
+          ],
+          "checks": [
+            {
+              "property": "position",
+              "value": [4, 8],
+              "error_html": "You didn't reach the end of the maze."
+            },
+            {
+              "function": "wasFunctionCalled('turn_around')",
+              "matcher": "toBeTrue",
+              "error_html": "Your custom turn_around() function wasn't used."
+            },
+            {
+              "function": "wasFunctionCalled('can_turn_left')",
+              "matcher": "toBeTrue",
+              "error_html": "Your custom can_turn_left() function wasn't used."
+            },
+            {
+              "function": "wasFunctionCalled('can_turn_right')",
+              "matcher": "toBeTrue",
+              "error_html": "Your custom can_turn_right() function wasn't used."
+            },
+            {
+              "function": "wasFunctionCalled('can_move')",
+              "matcher": "toBeTrue",
+              "error_html": "Your custom can_move() function wasn't used."
+            },
+            {
+              "function": "wasFunctionCalled('turn_right')",
+              "matcher": "toBeTrue",
+              "error_html": "The turn_right() function was never used."
+            },
+            {
+              "function": "wasFunctionCalled('turn_left')",
+              "matcher": "toBeTrue",
+              "error_html": "The turn_left() function was never used."
+            }
+          ]
+        },
+        {
+          "slug": "cover-old-ground",
+          "name": "Cover old ground if you need to",
+          "setup_functions": [
+            [
+              "setupGrid",
+              [
+                [
+                  [3, 1, 0, 0, 2, 1, 1, 1, 1],
+                  [0, 1, 0, 1, 0, 1, 1, 1, 1],
+                  [0, 1, 0, 1, 0, 0, 0, 0, 1],
+                  [0, 0, 0, 1, 0, 1, 4, 1, 1],
+                  [0, 1, 4, 1, 0, 1, 4, 1, 1],
+                  [5, 0, 0, 1, 0, 1, 4, 1, 1],
+                  [1, 4, 1, 1, 0, 4, 4, 1, 1],
+                  [1, 4, 4, 4, 0, 1, 1, 1, 1],
+                  [1, 1, 1, 1, 1, 1, 1, 1, 1]
+                ]
+              ]
+            ],
+            ["setupDirection", ["down"]],
+            ["setupPosition", [4, 0]]
+          ],
+          "checks": [
+            {
+              "property": "position",
+              "value": [0, 0],
+              "error_html": "You didn't reach the end of the maze."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Bonus challenges",
+      "bonus": true,
+      "tests": [
+        {
+          "slug": "bonus-1",
+          "name": "Only write look() once.",
+          "description_html": "Can you have the <code>look</code> function appear only once in your code?",
+          "setup_functions": [
+            [
+              "setupGrid",
+              [
+                [
+                  [4, 1, 1, 1, 1, 1, 1, 1, 1],
+                  [0, 0, 0, 0, 0, 0, 0, 0, 1],
+                  [0, 1, 1, 1, 1, 1, 1, 0, 1],
+                  [0, 1, 0, 0, 0, 0, 1, 0, 1],
+                  [0, 1, 0, 1, 1, 3, 1, 0, 1],
+                  [0, 5, 0, 1, 1, 1, 1, 0, 1],
+                  [0, 1, 0, 0, 0, 0, 0, 0, 1],
+                  [0, 1, 1, 1, 1, 1, 1, 5, 1],
+                  [0, 0, 0, 0, 0, 0, 0, 0, 2]
+                ]
+              ]
+            ],
+            ["setupDirection", ["left"]],
+            ["setupPosition", [8, 8]]
+          ],
+          "checks": [
+            {
+              "function": "numFunctionCallsInCode('look')",
+              "value": 1,
+              "error_html": "You used look more than once (%actual% times)."
+            }
+          ]
+        },
+        {
+          "slug": "bonus-2",
+          "name": "Add only 13 lines.",
+          "description_html": "Can you solve this by adding only 13 new lines of code?",
+          "setup_functions": [
+            [
+              "setupGrid",
+              [
+                [
+                  [3, 0, 0, 0, 0, 0, 0, 0, 0],
+                  [1, 1, 1, 1, 0, 1, 1, 1, 1],
+                  [1, 1, 1, 1, 0, 1, 1, 1, 1],
+                  [4, 0, 0, 0, 0, 0, 0, 0, 4],
+                  [1, 1, 1, 1, 0, 1, 1, 1, 1],
+                  [1, 5, 0, 0, 0, 0, 0, 5, 1],
+                  [1, 1, 1, 1, 0, 1, 1, 1, 1],
+                  [1, 1, 1, 0, 0, 0, 1, 1, 1],
+                  [1, 1, 1, 1, 2, 1, 1, 1, 1]
+                ]
+              ]
+            ],
+            ["setupDirection", ["down"]],
+            ["setupPosition", [4, 8]]
+          ],
+          "checks": [
+            {
+              "function": "numLinesOfCode(18)",
+              "matcher": "toBeLessThanOrEqual",
+              "value": 13,
+              "error_html": "You added more than %actual% lines of code."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

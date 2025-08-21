@@ -1,0 +1,56 @@
+{
+  "title": "Rolling Ball",
+  "description": "Make the ball roll to the hole",
+  "project_type": "draw",
+  "level": 2,
+  "idx": 3,
+  "concepts": [],
+  "tests_type": "state",
+  "interpreter_options": {
+    "repeat_delay": 20,
+    "time_per_frame": 0.01
+  },
+  "readonly_ranges": [],
+  "tasks": [
+    {
+      "name": "Draw the scene",
+      "tests": [
+        {
+          "slug": "draw-scene",
+          "name": "Make the ball roll to the hole",
+          "description_html": "Animate the ball's x coordinate to make it roll to the hole",
+          "setup_functions": [
+            [
+              "setBackgroundImage",
+              [
+                "https://assets.exercism.org/bootcamp/graphics/golf-rolling-ball.png"
+              ]
+            ]
+          ],
+          "checks": [
+            {
+              "function": "getCircleAt(27, 75, 3)",
+              "matcher": "toBeUndefined",
+              "error_html": "The ball seems to go too far to the left."
+            },
+            {
+              "function": "getCircleAt(29, 75, 3)",
+              "matcher": "toBeDefined",
+              "error_html": "The ball doesn't seem to start in the right place."
+            },
+            {
+              "function": "getCircleAt(88, 75, 3)",
+              "matcher": "toBeDefined",
+              "error_html": "The ball doesn't seem to reach the hole."
+            },
+            {
+              "function": "getCircleAt(89, 75, 3)",
+              "matcher": "toBeUndefined",
+              "error_html": "The ball seems to go too far to the right."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

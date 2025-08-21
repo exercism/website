@@ -1,0 +1,105 @@
+!!!
+%html
+  %head
+    -# Fallback fonts first
+    %link{ rel: "preload", href: asset_path('poppins-v20-latin-regular.woff2'), as: "font", type: "font/woff2", crossorigin: :anonymous }
+    %link{ rel: "preload", href: asset_path('poppins-v20-latin-600.woff2'), as: "font", type: "font/woff2", crossorigin: :anonymous }
+
+    -# Then the main stylesheet
+    = stylesheet_link_tag "bootcamp-js", "data-turbo-track": "reload"
+    = stylesheet_link_tag "bootcamp", "data-turbo-track": "reload"
+
+    -# Then other critical fonts
+    %link{ rel: "preload", href: asset_path('poppins-v20-latin-500.woff2'), as: "font", type: "font/woff2", crossorigin: :anonymous }
+    %link{ rel: "preload", href: asset_path('poppins-v20-latin-700.woff2'), as: "font", type: "font/woff2", crossorigin: :anonymous }
+    %link{ rel: "preload", href: asset_path('source-code-pro-v22-latin_latin-ext-regular.woff2'), as: "font", type: "font/woff2", crossorigin: :anonymous }
+
+    -# Next, setup the fallback font
+    :css
+      @font-face {
+        font-display: fallback;
+        font-family: PoppinsInitial;
+        font-weight: 400;
+        src: url(#{asset_path('poppins-v20-latin-regular.woff2')}) format('woff2');
+      }
+
+    -# Use the 600 font-weight for 500/600/700
+    - [500, 600, 700].each do |weight|
+      :css
+        @font-face {
+          font-display: fallback;
+          font-family: PoppinsInitial;
+          font-weight: #{weight};
+          src: url(#{asset_path('poppins-v20-latin-600.woff2')}) format('woff2');
+        }
+
+    :css
+      body {
+        --body-font: Poppins, PoppinsInitial, sans-serif;
+        font-family: var(--body-font);
+        -webkit-font-smoothing: antialiased;
+      }
+
+    // Load other fonts used by the editor
+
+    :css
+      @font-face {
+        font-display: fallback;
+        font-family: DSDigital;
+        font-weight: 400;
+        src: url(#{asset_path('ds-digi.woff2')}) format('woff2');
+      }
+
+    %meta{ content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type" }
+    %title= content_for(:title) || "Bootcamp"
+    %meta{ content: "width=device-width,initial-scale=1", name: "viewport" }
+    %meta{ content: "yes", name: "apple-mobile-web-app-capable" }
+
+    -# Favicon
+    %link{ rel: "apple-touch-icon", sizes: "180x180", href: "#{Exercism.config.website_icons_host}/meta/apple-touch-icon.png" }
+    %link{ rel: "icon", type: "image/png", sizes: "32x32", href: "#{Exercism.config.website_icons_host}/meta/favicon-32x32.png" }
+    %link{ rel: "icon", type: "image/png", sizes: "16x16", href: "#{Exercism.config.website_icons_host}/meta/favicon-16x16.png" }
+    - if Rails.env.production?
+      %link{ rel: "manifest", href: "/site.webmanifest" }
+
+    = csrf_meta_tags
+    = csp_meta_tag
+    = yield :head
+
+    %meta{ name: "turbo-cache-control", content: "no-cache" }
+    %meta{ name: "turbo-prefetch", content: "false" }
+    %meta{ name: "user-id", content: current_user&.id }
+
+    = javascript_include_tag "bootcamp-js", "data-turbo-track": "reload", type: "module", crossorigin: :anonymous
+
+  %body{ class: body_class }
+    %header.c-site-header
+      %div{ class: Bootcamp::Settings.level_idx.zero? ? "sm-container" : "lg-container" }
+        .container
+          %img{ src: "https://assets.exercism.org/assets/bootcamp/exercism-face-light-2fc4ffad44f295d2e900ab2d2198d2280128dfcd.svg" }
+          = link_to bootcamp_dashboard_path, class: 'content' do
+            %strong.font-semibold Exercism
+            Bootcamp
+
+          .ml-auto.flex.gap-32.text-16
+            = link_to bootcamp_levels_path, class: 'text-textColor2 font-medium flex items-center gap-6' do
+              = graphical_icon "bootcamp-levels", css_class: '!filter-none h-[16px] w-[16px]'
+              Levels
+            = link_to bootcamp_exercises_path, class: 'text-textColor2 font-medium flex items-center gap-6' do
+              = graphical_icon "bootcamp-projects", css_class: '!filter-none h-[16px] w-[16px]'
+              Exercises
+            = link_to bootcamp_concepts_path, class: 'text-textColor2 font-medium flex items-center gap-6' do
+              = graphical_icon "bootcamp-concepts", css_class: '!filter-none h-[16px] w-[16px]'
+              Concepts
+            - if current_user.bootcamp_data.part_1_level_idx >= 5 && current_user.bootcamp_data.enrolled_on_part_1?
+              = link_to bootcamp_custom_functions_path, class: 'text-textColor2 font-medium flex items-center gap-6' do
+                = graphical_icon "bootcamp-custom-functions", css_class: '!filter-none h-[16px] w-[16px]'
+                Library
+            = link_to bootcamp_faqs_path, class: 'text-textColor2 font-medium flex items-center gap-6' do
+              = graphical_icon "bootcamp-faqs", css_class: '!filter-none h-[16px] w-[16px]'
+              FAQs
+            = link_to "Back to Exercism →", Exercism::Routes.dashboard_url, class: 'text-textColor2 font-medium'
+
+    .c-loading-overlay
+
+    = yield

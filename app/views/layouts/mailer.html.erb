@@ -109,13 +109,25 @@
                 <![endif]-->
 
                 <!-- Body copy -->
-                <%= yield %>
+                <% if @user %>
+                  <%= raw yield.gsub("UNSUBSCRIBE_ALL_URL", easy_all_unsubscribe_url(token: @user.communication_preferences&.token)) %>
+                <% else %>
+                  <%= yield %>
+                <% end %>
 
                 <!--[if (gte mso 9)|(IE)]>
                 </td></tr></table>
                 <![endif]-->
             </div>
         </main>
+        
+        <% if @advert %>
+          <div style="margin-top:32px; text-align:left;background-color: ghostwhite; border-radius: 5px; padding: 24px 32px;">
+            <%= image_tag @advert.partner.light_logo, style: "height: 34px;display: block;margin-bottom: 10px;" %>
+            <p>This email is kindly sponsored by <%= @advert.partner.name %>. <%= @advert.mailer_text %></p>
+            <p style="margin-bottom:0"><%= link_to "Click here", partner_url(@advert.partner) %> to learn more.</p>
+          </div>
+        <% end %>
 
         <!-- Footer information. Footer is a useful landmark element. -->
         <footer style="text-align:center">

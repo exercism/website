@@ -1,0 +1,106 @@
+function length with measurable do
+  set counter to 0
+  for each thing in measurable do
+    change counter to counter + 1
+  end
+  return counter
+end
+
+function contains with haystack, needle do
+  for each element in haystack do
+    if element == needle do
+      return true
+    end
+  end
+  return false
+end
+
+function to_lowercase with string do
+
+  set output to ""
+  set lower to "abcdefghijklmnopqrstuvwxyz"
+  set upper to "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  set upper_idx to 0
+  for each letter in string do
+    if contains(lower, letter) do
+      change output to concatenate(output, letter)
+    else do
+      change upper_idx to index_of(upper, letter)
+      if upper_idx == -1 do
+        change output to concatenate(output, letter)
+      else do
+        change output to concatenate(output, lower[upper_idx])
+      end
+    end
+  end
+  return output
+
+end
+
+function insert_at with list, to_insert, idx do
+  set len to length(list)
+  if len == 0 do
+    return [to_insert]
+  end
+  
+  if idx > len do
+    return push(list, to_insert)
+  end
+  
+  set res_list to []
+  for each item in list indexed by current_idx  do
+    if current_idx == idx do
+      change res_list to push(res_list, to_insert)
+    end
+    change res_list to push(res_list, item)
+  end
+  return res_list
+end
+
+function index_of with list, item do
+  for each elem in list indexed by idx do
+    if item == elem do
+      return idx
+    end
+  end
+  return -1
+end
+
+function char_code with letter do
+  return 97 + index_of("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", letter)
+end
+
+function insert_in_order with list, to_insert do
+  for each elem in list indexed by idx do
+    if char_code(to_insert[1]) >= char_code(elem[1]) do
+      return insert_at(list, to_insert, idx + 1)
+    end
+  end
+  return insert_at(list, to_insert, 1)
+end
+
+function sort with list do
+  set res_list to []
+  for each item in list do
+    change res_list to insert_in_order(res_list, item)
+  end
+  return res_list
+end
+
+function find_anagrams with target, possibilties do
+  set lc_target to to_lowercase(target)
+  set sorted_target to sort_string(lc_target)
+  set results to []
+  set lc_pos to ""
+  for each pos in possibilties do
+  change lc_pos to to_lowercase(pos)
+    if(lc_target == lc_pos) do
+      next
+    end
+  
+    if sorted_target == sort_string(lc_pos) do
+      change results to push(results, pos)
+    end
+  end
+  return sort(results)
+end

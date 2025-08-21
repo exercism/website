@@ -1,0 +1,28 @@
+class TameOrGame do
+  private property number
+
+  constructor with num do
+    set this.number to num
+  end
+
+  public method is_tame do
+    return this.is_even()
+  end
+
+  public method is_game do
+    return !this.is_even()
+  end
+
+  public method tame_or_game with thing do
+    if this.is_tame() do
+      set word to "tame"
+    else do
+      set word to "game"
+    end
+    return concatenate(thing, " is ", word, ".")
+  end
+
+  private method is_even do
+    return this.number % 2 == 0
+  end
+end

@@ -80,9 +80,9 @@ class AssembleContributionsSummary
   def authoring_metrics(track_id = 0)
     c = num_reputation_occurrences(:authoring, track_id).to_i
 
-    return ["No exercises contributed", "No exercises"] if c.to_i.zero?
+    return ["No exercises/articles contributed", "No exercises/articles"] if c.to_i.zero?
 
-    short = "#{number_with_delimiter(c)} #{'exercise'.pluralize(c)}"
+    short = "#{number_with_delimiter(c)} #{'exercise'.pluralize(c)}/#{'article'.pluralize(c)}"
     ["#{short} contributed", short]
   end
 

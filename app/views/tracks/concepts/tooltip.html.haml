@@ -3,18 +3,18 @@
   .summary
     .title
       .name= @concept.name
-      .in in
+      .in= t('.header.summary.title.in_text')
       = track_icon(@track)
     .num-exercises
       - if @locked
-        = pluralize(@exercises.length, "exercise")
+        = t('.header.summary.num_exercises.locked', count: @exercises.length)
       - else
-        #{@num_completed_exercises}/#{pluralize @exercises.size, 'exercise'} completed
+        = t('.header.summary.num_exercises.completed', num_completed: @num_completed_exercises, count: @exercises.size)
   - unless @user_track.external?
     - if @locked
-      .c-exercise-status-tag.--locked Locked
+      .c-exercise-status-tag.--locked= t('.header.status_tag.locked')
     - elsif @mastered
-      .c-exercise-status-tag.--completed Mastered
+      .c-exercise-status-tag.--completed= t('.header.status_tag.mastered')
 
 .blurb= @concept.blurb
 
@@ -23,22 +23,21 @@
     .info.locked
       .icon= graphical_icon :lock
       - if @user_track.tutorial_exercise_completed?
-        Learn #{@prerequisite_names.to_sentence} to unlock this concept.
+        = t('.info.locked.prerequisite', prerequisite_names: @prerequisite_names.to_sentence)
       - else
-        Complete "Hello, World!" to unlock concepts.
+        = t('.info.locked.hello_world')
   - elsif @mastered
     .info.mastered
       = graphical_icon 'completed-check-circle'
-      You’ve mastered #{@concept.name}!
+      = t('.info.mastered_message', concept_name: @concept.name)
   - elsif @learnt
     .info.learnt
       .icon= graphical_icon 'learn-concept'
-      You’ve learnt #{@concept.name}.
+      = t('.info.learnt_message', concept_name: @concept.name)
   - else
     .info.available
-      .icon.c-ed.--available.--concept.disabled
-      #{@concept.name} is available for you to learn.
-
+      .icon.c-ed.--available.--concept.disabled.shrink-0
+      = t('.info.available_message', concept_name: @concept.name)
 
 = link_to Exercism::Routes.track_concept_path(@track, @concept), class: 'explore-concept-button btn-xs btn-secondary mt-16' do
-  Explore concept
+  = t('.explore_concept_button')

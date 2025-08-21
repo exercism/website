@@ -1,6 +1,6 @@
 .c-search-bar {
     @apply relative;
-    @apply flex items-center;
+    @apply flex lg:items-center items-stretch;
 
     & > .container {
         @apply flex items-center;
@@ -9,6 +9,11 @@
     & input.--search {
         &:not(:last-child) {
             @apply mr-24;
+        }
+
+        &:disabled {
+            @apply cursor-not-allowed;
+            filter: blur(1px);
         }
 
         @apply w-arbitary flex-grow;

@@ -1,0 +1,121 @@
+{
+  "title": "Sleepy House",
+  "description": "Use objects to draw and animate the house as night arrives",
+  "project_type": "house",
+  "level": 8,
+  "idx": 3,
+  "concepts": [],
+  "tests_type": "state",
+  "interpreter_options": {
+    "time_per_frame": 0.01,
+    "repeat_delay": 30,
+    "max_total_loop_iterations": 3000
+  },
+  "stdlib_functions": ["min"],
+  "tasks": [
+    {
+      "name": "Correctly arrange the house",
+      "tests": [
+        {
+          "slug": "draw-the-house",
+          "name": "Draw the house.",
+          "checks": [
+            {
+              "function": "getRectangleAt(20,50,60,40)",
+              "matcher": "toBeDefined",
+              "error_html": "The frame of the house is not correct."
+            },
+            {
+              "function": "getTriangleAt(16,50, 50,30, 84,50)",
+              "matcher": "toBeDefined",
+              "error_html": "The roof of the house is not at the correct position."
+            },
+            {
+              "function": "getRectangleAt(30,55,12,13)",
+              "matcher": "toBeDefined",
+              "error_html": "The left window frame isn't positioned correctly"
+            },
+            {
+              "function": "getRectangleAt(58,55,12,13)",
+              "matcher": "toBeDefined",
+              "error_html": "The right window frame isn't positioned correctly"
+            },
+            {
+              "function": "getRectangleAt(43,72,14,18)",
+              "matcher": "toBeDefined",
+              "error_html": "The door frame isn't positioned correctly"
+            },
+            {
+              "function": "getCircleAt(55,81,1)",
+              "matcher": "toBeDefined",
+              "error_html": "The door knob isn't positiioned correctly"
+            },
+            {
+              "function": "checkSunSet()",
+              "matcher": "toBeTrue",
+              "error_html": "The sun didn't seem to reach -4,90."
+            },
+            {
+              "function": "checkLightsOn()",
+              "matcher": "toBeTrue",
+              "error_html": "The window lights didn't seem to come on."
+            },
+            {
+              "function": "checkSunBeforeLights()",
+              "matcher": "toBeTrue",
+              "error_html": "The window lights came on before the sun set."
+            },
+            {
+              "function": "checkLightsBeforeBrightness()",
+              "matcher": "toBeTrue",
+              "error_html": "The window lights came on after the brightness was reduced."
+            },
+            {
+              "function": "skyReachedHue192()",
+              "matcher": "toBeTrue",
+              "error_html": "The sky didn't seem to change hue correctly."
+            },
+            {
+              "function": "skyReachedHue310()",
+              "matcher": "toBeTrue",
+              "error_html": "The sky didn't seem to reach hue 310."
+            },
+            {
+              "function": "elementsReachedBrightness80()",
+              "matcher": "toBeTrue",
+              "error_html": "The house, sky and ground, didn't all seem to reduce in brightness correctly."
+            },
+            {
+              "function": "elementsReachedBrightness20()",
+              "matcher": "toBeTrue",
+              "error_html": "The house, sky and ground, didn't all seem to reduce to brightness 20."
+            },
+            {
+              "function": "elementsReachedBrightness19()",
+              "matcher": "toBeTrue",
+              "error_html": "At least one of the house, sky and ground reduced brightness by too much!"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Bonus Tasks",
+      "bonus": true,
+      "tests": [
+        {
+          "slug": "bonus-task",
+          "name": "Use 20 lines or fewer",
+          "checks": [
+            {
+              "function": "numLinesOfCode(0)",
+              "matcher": "toBeLessThanOrEqual",
+              "value": 20,
+              "error_html": "There are more than 20 lines of code."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

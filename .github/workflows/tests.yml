@@ -16,6 +16,9 @@ jobs:
             .dockerimages.json
           sparse-checkout-cone-mode: false
 
+      - name: Authenticate with private NPM package
+        run: echo -e "//npm.pkg.github.com/:_authToken=${{ secrets.NPM_TOKEN }}\n@juliangarnierorg:registry=https://npm.pkg.github.com" > ~/.npmrc
+
       - name: Define Docker images
         run: |
           echo "localstack_image=$(jq -r '.localstack' .dockerimages.json)" >> "$GITHUB_ENV"
@@ -36,8 +39,11 @@ jobs:
     steps:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
 
+      - name: Authenticate with private NPM package
+        run: echo -e "//npm.pkg.github.com/:_authToken=${{ secrets.NPM_TOKEN }}\n@juliangarnierorg:registry=https://npm.pkg.github.com" > ~/.npmrc
+
       - name: Set up Ruby
-        uses: ruby/setup-ruby@ec02537da5712d66d4d50a0f33b7eb52773b5ed1
+        uses: ruby/setup-ruby@13e7a03dc3ac6c3798f4570bfead2aed4d96abfb
         with:
           ruby-version: .ruby-version
 
@@ -73,6 +79,9 @@ jobs:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
       ###
 
+      - name: Authenticate with private NPM package
+        run: echo -e "//npm.pkg.github.com/:_authToken=${{ secrets.NPM_TOKEN }}\n@juliangarnierorg:registry=https://npm.pkg.github.com" > ~/.npmrc
+
       # Caching using GitHub's caching action
       # https://github.com/actions/cache/blob/main/examples.md#node---yarn
       - name: Get yarn cache directory path
@@ -80,7 +89,7 @@ jobs:
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
 
       - name: Cache yarn
-        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
+        uses: actions/cache@0c907a75c2c80ebcb7f088228285e798b750cf8f
         id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -169,8 +178,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
 
+      - name: Authenticate with private NPM package
+        run: echo -e "//npm.pkg.github.com/:_authToken=${{ secrets.NPM_TOKEN }}\n@juliangarnierorg:registry=https://npm.pkg.github.com" > ~/.npmrc
+
       - name: Set up Ruby
-        uses: ruby/setup-ruby@ec02537da5712d66d4d50a0f33b7eb52773b5ed1
+        uses: ruby/setup-ruby@13e7a03dc3ac6c3798f4570bfead2aed4d96abfb
         with:
           ruby-version: .ruby-version
           bundler-cache: true
@@ -189,7 +201,7 @@ jobs:
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
 
       - name: Cache yarn
-        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
+        uses: actions/cache@0c907a75c2c80ebcb7f088228285e798b750cf8f
         id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -325,10 +337,13 @@ jobs:
       # Checkout using GitHub's checkout action
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
 
+      - name: Authenticate with private NPM package
+        run: echo -e "//npm.pkg.github.com/:_authToken=${{ secrets.NPM_TOKEN }}\n@juliangarnierorg:registry=https://npm.pkg.github.com" > ~/.npmrc
+
       ###
       # Setup Ruby - this needs to match the version in the Gemfile
       - name: Set up Ruby
-        uses: ruby/setup-ruby@ec02537da5712d66d4d50a0f33b7eb52773b5ed1
+        uses: ruby/setup-ruby@13e7a03dc3ac6c3798f4570bfead2aed4d96abfb
         with:
           ruby-version: .ruby-version
           bundler-cache: true
@@ -347,7 +362,7 @@ jobs:
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
 
       - name: Cache yarn
-        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
+        uses: actions/cache@0c907a75c2c80ebcb7f088228285e798b750cf8f
         id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -367,6 +382,22 @@ jobs:
         run: |
           bundle exec setup_exercism_config
           bundle exec setup_exercism_local_aws
+
+      - name: Install Chrome
+        env:
+          CHROME_VERSION: "127.0.6533.119"
+        run: |
+          # Download specific Chrome version
+          wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${CHROME_VERSION}-1_amd64.deb
+          # Install Chrome
+          sudo apt-get install -y --allow-downgrades ./google-chrome-stable_${CHROME_VERSION}-1_amd64.deb
+
+      - uses: nanasess/setup-chromedriver@v2
+      - name: Start chromedriver
+        run: |
+          set -x
+          chromedriver --url-base=/wd/hub &
+          # sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
 
       ###
       # Precompile JS
@@ -420,10 +451,13 @@ jobs:
       # Checkout using GitHub's checkout action
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
 
+      - name: Authenticate with private NPM package
+        run: echo -e "//npm.pkg.github.com/:_authToken=${{ secrets.NPM_TOKEN }}\n@juliangarnierorg:registry=https://npm.pkg.github.com" > ~/.npmrc
+
       ###
       # Setup Ruby - this needs to match the version in the Gemfile
       - name: Set up Ruby
-        uses: ruby/setup-ruby@ec02537da5712d66d4d50a0f33b7eb52773b5ed1
+        uses: ruby/setup-ruby@13e7a03dc3ac6c3798f4570bfead2aed4d96abfb
         with:
           ruby-version: .ruby-version
           bundler-cache: true
@@ -437,7 +471,7 @@ jobs:
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
 
       - name: Cache yarn
-        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
+        uses: actions/cache@0c907a75c2c80ebcb7f088228285e798b750cf8f
         id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -461,5 +495,6 @@ jobs:
         env:
           RAILS_ENV: test
           EXERCISM_CI: true
-        run: bundle exec rails r bin/monitor-manifest
+        run: |
+          bundle exec rails r bin/monitor-manifest
           bundle exec rails test:prepare

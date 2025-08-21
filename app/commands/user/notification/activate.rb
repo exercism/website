@@ -5,11 +5,12 @@ class User::Notification::Activate
 
   def call
     notification.with_lock do
-      if notification.pending?
-        notification.update_column(:status, :unread)
-        NotificationsChannel.broadcast_changed!(notification.user)
-        User::Notification::SendEmail.(notification)
-      end
+      return unless notification.pending?
+
+      notification.update_column(:status, :unread)
     end
+
+    NotificationsChannel.broadcast_changed!(notification.user)
+    User::Notification::SendEmail.(notification)
   end
 end

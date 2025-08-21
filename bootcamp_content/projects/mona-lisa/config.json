@@ -1,0 +1,6 @@
+{
+  "slug": "mona-lisa",
+  "title": "Create the Mona Lisa",
+  "description": "An assortment of puzzles around styling the Mona Lisa.",
+  "exercises": ["frame-mona", "spaced-out-lisa", "fancy-borders"]
+}

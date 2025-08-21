@@ -6,6 +6,7 @@ import { NoAutomatedFeedbackLHS } from './NoAutomatedFeedbackLHS'
 import { NoImmediateFeedback } from './NoImmediateFeedback'
 import { PendingMentoringRequest } from './PendingMentoringRequest'
 import { InProgressMentoring } from './InProgressMentoring'
+import { NoImmediateFeedbackNoAvailableMentoringSlot } from './NoImmediateFeedbackNoAvailableMentoringSlot'
 
 export type NoFeedbackState =
   | 'initial'
@@ -17,9 +18,14 @@ export function NoAutomatedFeedback({
   onContinue,
   trackObjectives,
   mentoringStatus,
+  hasAvailableMentoringSlot,
 }: { onContinue: () => void } & Pick<
   RealtimeFeedbackModalProps,
-  'track' | 'trackObjectives' | 'links' | 'mentoringStatus'
+  | 'track'
+  | 'trackObjectives'
+  | 'links'
+  | 'mentoringStatus'
+  | 'hasAvailableMentoringSlot'
 >): JSX.Element {
   const [noFeedbackState, setNoFeedbackState] = useState<NoFeedbackState>(
     mentoringStatus === 'none' ? 'initial' : mentoringStatus
@@ -34,13 +40,19 @@ export function NoAutomatedFeedback({
       <NoAutomatedFeedbackLHS
         state={noFeedbackState}
         initialComponent={
-          <NoImmediateFeedback
-            track={track}
-            onContinue={onContinue}
-            onSendMentoringRequest={() =>
-              setNoFeedbackState('sendingMentoringRequest')
-            }
-          />
+          hasAvailableMentoringSlot ? (
+            <NoImmediateFeedback
+              track={track}
+              onContinue={onContinue}
+              onSendMentoringRequest={() =>
+                setNoFeedbackState('sendingMentoringRequest')
+              }
+            />
+          ) : (
+            <NoImmediateFeedbackNoAvailableMentoringSlot
+              onContinue={onContinue}
+            />
+          )
         }
         pendingComponent={
           <PendingMentoringRequest

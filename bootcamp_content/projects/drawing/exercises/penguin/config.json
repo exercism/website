@@ -1,0 +1,109 @@
+{
+  "idx": 4,
+  "title": "Penguin",
+  "description": "Make the penguin symmetrical",
+  "project_type": "draw",
+  "level": 1,
+  "concepts": [],
+  "tests_type": "state",
+  "readonly_ranges": [],
+  "tasks": [
+    {
+      "name": "Draw the scene",
+      "tests": [
+        {
+          "slug": "draw-scence",
+          "name": "Make the penguin symmetrical.",
+          "description_html": "Fix all the TODO comments to make the penguin symmetrical.",
+          "checks": [
+            {
+              "function": "getRectangleAt(0, 0, 100, 100)",
+              "matcher": "toBeDefined",
+              "error_html": "The sky has gone wrong."
+            },
+            {
+              "function": "getRectangleAt(0, 70, 100, 30)",
+              "matcher": "toBeDefined",
+              "error_html": "The ground has gone wrong."
+            },
+            {
+              "function": "getEllipseAt(28, 55, 10, 25)",
+              "matcher": "toBeDefined",
+              "error_html": "The left wing doesn't seem right."
+            },
+            {
+              "function": "getEllipseAt(72, 55, 10, 25)",
+              "matcher": "toBeDefined",
+              "error_html": "The right wing doesn't seem right."
+            },
+            {
+              "function": "getEllipseAt(50, 53, 25, 40)",
+              "matcher": "toBeDefined",
+              "error_html": "The outer body has gone wrong."
+            },
+            {
+              "function": "getEllipseAt(50, 50, 21, 39)",
+              "matcher": "toBeDefined",
+              "error_html": "The inner body has gone wrong."
+            },
+            {
+              "function": "getCircleAt(50, 31, 23)",
+              "matcher": "toBeDefined",
+              "error_html": "The head has gone wrong."
+            },
+            {
+              "function": "getEllipseAt(41, 32, 11, 14)",
+              "matcher": "toBeDefined",
+              "error_html": "The left side of the face doesn't look right."
+            },
+            {
+              "function": "getEllipseAt(59, 32, 11, 14)",
+              "matcher": "toBeDefined",
+              "error_html": "The right side of the face doesn't look right."
+            },
+            {
+              "function": "getEllipseAt(50, 40, 16, 11)",
+              "matcher": "toBeDefined",
+              "error_html": "The lower part of the face doesn't look right."
+            },
+            {
+              "function": "getCircleAt(42, 33, 3)",
+              "matcher": "toBeDefined",
+              "error_html": "The left eye seems off."
+            },
+            {
+              "function": "getCircleAt(43, 34, 1)",
+              "matcher": "toBeDefined",
+              "error_html": "The left iris seems off."
+            },
+            {
+              "function": "getCircleAt(58, 33, 3)",
+              "matcher": "toBeDefined",
+              "error_html": "The right eye seems off."
+            },
+            {
+              "function": "getCircleAt(57, 34, 1)",
+              "matcher": "toBeDefined",
+              "error_html": "The right iris seems off."
+            },
+            {
+              "function": "getEllipseAt(40, 93, 7, 4)",
+              "matcher": "toBeDefined",
+              "error_html": "The left foot's gone astray."
+            },
+            {
+              "function": "getEllipseAt(60, 93, 7, 4)",
+              "matcher": "toBeDefined",
+              "error_html": "The right foot's not right."
+            },
+            {
+              "function": "getTriangleAt(46, 38, 54, 38, 50, 47)",
+              "matcher": "toBeDefined",
+              "error_html": "The nose isn't right."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

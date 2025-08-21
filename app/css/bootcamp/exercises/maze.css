@@ -1,0 +1,195 @@
+#view-container {
+    position: relative;
+    padding: 10px;
+    background: white;
+    container-type: size;
+    min-width: 300px;
+
+    aspect-ratio: 1;
+    /* min-width: 50%;
+  max-width: 70%; */
+    flex-shrink: 1;
+    /* flex-grow: 1; */
+    /* 
+  & > *:first-child {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    &:before {
+      content: "";
+      padding-top: 100%;
+    }
+  }
+ */
+    .exercise-container {
+        aspect-ratio: 1;
+        max-height: 100cqh;
+        max-width: 100cqw;
+        background: white;
+        position: relative;
+    }
+
+    .io-image {
+        @apply absolute inset-[10px];
+        @apply bg-center bg-contain bg-no-repeat;
+        @apply rounded-5 border-1 border-borderColor8;
+    }
+}
+
+.exercise-maze {
+    --cellWidth: calc(100% / var(--gridSize));
+
+    .cells {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        border: 0;
+
+        display: grid;
+        grid-template-columns: repeat(var(--gridSize), var(--cellWidth));
+        grid-template-rows: repeat(var(--gridSize), var(--cellWidth));
+        gap: 0px;
+
+        .cell {
+            width: 100%;
+            height: 100%;
+            /* width: var(--cellWidth);
+        height: var(--cellWidth); */
+            background-color: white;
+            border: 0.5px solid #000;
+            @apply relative;
+            & .emoji {
+                @apply absolute inset-0;
+                @apply grid place-items-center;
+                font-size: 7cqh;
+            }
+
+            &.blocked {
+                background: radial-gradient(
+                        circle,
+                        transparent 20%,
+                        #f9dcdc 20%,
+                        #f9dcdc 80%,
+                        transparent 80%,
+                        transparent
+                    ),
+                    radial-gradient(
+                            circle,
+                            transparent 20%,
+                            #f9dcdc 20%,
+                            #f9dcdc 80%,
+                            transparent 80%,
+                            transparent
+                        )
+                        10px 10px,
+                    linear-gradient(#f74545 0.8px, transparent 0.8px) 0 -0.4px,
+                    linear-gradient(90deg, #f74545 0.8px, #f9dcdc 0.8px) -0.4px 0;
+                background-size: 10px 10px, 10px 10px, 5px 5px, 5px 5px;
+            }
+            &.start {
+                background-color: #e4e6ff;
+            }
+            &.target {
+                background-color: #8effb3;
+                opacity: 1;
+                background-image: radial-gradient(
+                        circle at center center,
+                        #08b600,
+                        #8effb3
+                    ),
+                    repeating-radial-gradient(
+                        circle at center center,
+                        #08b600,
+                        #08b600,
+                        11px,
+                        transparent 22px,
+                        transparent 11px
+                    );
+                background-blend-mode: multiply;
+            }
+            &.fire {
+                @apply grid place-items-center;
+                &:before {
+                    content: "🔥";
+                    font-size: 7cqh;
+                }
+            }
+            &.poop {
+                @apply grid place-items-center;
+                &:before {
+                    content: "💩";
+                    font-size: 7cqh;
+                }
+            }
+        }
+
+        .character {
+            width: calc(var(--cellWidth) * 0.7);
+            height: calc(var(--cellWidth) * 0.7);
+            background-color: lightblue;
+            border: 1px solid green;
+            border-radius: 50%;
+            position: absolute;
+            margin-left: 5px;
+            margin-top: 4px;
+            top: 0;
+            left: 0;
+
+            &::before,
+            &::after {
+                content: "";
+                position: absolute;
+                width: 7px;
+                height: 7px;
+                background-color: green;
+                border-radius: 50%;
+                bottom: 80%;
+            }
+
+            &::before {
+                left: 55%;
+            }
+
+            &::after {
+                right: 55%;
+            }
+        }
+    }
+
+    .character {
+        width: calc(var(--cellWidth) * 0.7);
+        height: calc(var(--cellWidth) * 0.7);
+        background-color: lightblue;
+        border: 1px solid green;
+        border-radius: 50%;
+        position: absolute;
+        margin-left: 5px;
+        margin-top: 4px;
+        top: 0;
+        left: 0;
+
+        &::before,
+        &::after {
+            content: "";
+            position: absolute;
+            width: 7px;
+            height: 7px;
+            background-color: green;
+            border-radius: 50%;
+            bottom: 70%;
+        }
+
+        &::before {
+            left: 55%;
+        }
+
+        &::after {
+            right: 55%;
+        }
+    }
+    .canvas {
+    }
+}

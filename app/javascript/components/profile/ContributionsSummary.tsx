@@ -11,6 +11,10 @@ import { TotalReputation } from './contributions-summary/TotalReputation'
 import { CategorySummary } from './contributions-summary/CategorySummary'
 import { TrackSelect } from './contributions-summary/TrackSelect'
 import { TrackContribution, ContributionCategory } from '../types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+// i18n-key-prefix: contributionsSummary
+// i18n-namespace: components/profile
 
 const leftMargin = 100
 const topMargin = 150
@@ -49,6 +53,7 @@ export default function ContributionsSummary({
   links: Links
   showHeader?: boolean
 }): JSX.Element | null {
+  const { t } = useAppTranslation('components/profile')
   const allTrack = tracks.find((track) => track.slug === null)
 
   if (!allTrack) {
@@ -161,7 +166,7 @@ export default function ContributionsSummary({
           {showHeader ? (
             <header className="section-header">
               <GraphicalIcon icon="contribute" hex={true} />
-              <h2>Contributions</h2>
+              <h2>{t('contributionsSummary.contributions')}</h2>
             </header>
           ) : null}
           <TotalReputation
@@ -182,8 +187,8 @@ export default function ContributionsSummary({
             link={links.contributions}
             text={
               handle
-                ? `See ${handle}'s contributions`
-                : 'See your contributions'
+                ? t('contributionsSummary.seeHandleContributions', { handle })
+                : t('contributionsSummary.seeYourContributions')
             }
             withBg
           />

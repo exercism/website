@@ -1,11 +1,12 @@
 import React, { useCallback, useState } from 'react'
 import { MutationStatus, useMutation } from '@tanstack/react-query'
 import { sendRequest } from '../../../utils/send-request'
-import { Loading } from '../../common'
+import { Icon, Loading } from '../../common'
 import { ExerciseCompletion } from '../CompleteExerciseModal'
 import { ErrorBoundary, useErrorHandler } from '../../ErrorBoundary'
 import { IterationSelector } from '../student/IterationSelector'
 import { Iteration } from '../../types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to complete exercise')
 
@@ -18,13 +19,28 @@ const ConfirmButton = ({
 }) => {
   useErrorHandler(error, { defaultError: DEFAULT_ERROR })
 
+  const { t } = useAppTranslation('components/modals/complete-exercise-modal')
+
   switch (status) {
     case 'idle':
       return (
-        <button className="confirm-button btn-primary btn-l">Confirm</button>
+        <button className="confirm-button btn-primary btn-l">
+          {t('publishSolutionForm.confirm')}
+        </button>
       )
-    case 'loading':
-      return <Loading />
+    case 'pending':
+      return (
+        <>
+          <div className="confirm-button btn-primary btn-l w-[125px]">
+            <Icon
+              icon="spinner"
+              className="animate-spin-slow filter-textColor6"
+              alt="loading"
+            />
+          </div>
+          <Loading />
+        </>
+      )
     default:
       return null
   }
@@ -39,6 +55,7 @@ export const PublishSolutionForm = ({
   iterations: readonly Iteration[]
   onSuccess: (data: ExerciseCompletion) => void
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/modals/complete-exercise-modal')
   const [toPublish, setToPublish] = useState(true)
   const [iterationIdxToPublish, setIterationIdxToPublish] = useState<
     number | null
@@ -47,8 +64,8 @@ export const PublishSolutionForm = ({
     mutate: mutation,
     status,
     error,
-  } = useMutation<ExerciseCompletion>(
-    async () => {
+  } = useMutation<ExerciseCompletion>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',
@@ -60,10 +77,8 @@ export const PublishSolutionForm = ({
 
       return fetch
     },
-    {
-      onSuccess: onSuccess,
-    }
-  )
+    onSuccess: onSuccess,
+  })
 
   const handleSubmit = useCallback(
     (e) => {
@@ -86,7 +101,7 @@ export const PublishSolutionForm = ({
         <div className="row">
           <div className="c-radio" />
           <div className="label">
-            Yes, I'd like to share my solution with the community.
+            {t('publishSolutionForm.yesShareSolution')}
           </div>
         </div>
       </label>
@@ -106,12 +121,14 @@ export const PublishSolutionForm = ({
         />
         <div className="row">
           <div className="c-radio" />
-          <div className="label">
-            No, I just want to mark the exercise as complete.
-          </div>
+          <div className="label">{t('publishSolutionForm.noMarkComplete')}</div>
         </div>
       </label>
-      <ErrorBoundary>
+      <ErrorBoundary
+        FallbackComponent={({ error }: { error: Error }) => {
+          return <div className="c-donation-card-error">{error.message}</div>
+        }}
+      >
         <ConfirmButton status={status} error={error} />
       </ErrorBoundary>
     </form>

@@ -1,0 +1,95 @@
+body.namespace-bootcamp.controller-dashboard.action-index {
+    @apply bg-grad-basic;
+}
+
+#page-bootcamp-dashboard {
+    @apply pt-24;
+    .exercise {
+        @paply w-full;
+        @apply py-12 px-16 rounded-8 border-1 border-borderColor5 block;
+        @apply shadow-base flex flex-col items-stretch;
+        @apply bg-white;
+    }
+    h1 {
+        @apply text-[36px] leading-140;
+        @apply font-bold text-textColor1;
+        @apply mb-4;
+    }
+    .level-content {
+        p,
+        ul,
+        ol {
+            @apply text-20 leading-150;
+            @apply mb-8;
+        }
+    }
+    h2 {
+        @apply text-23 leading-150;
+        @apply font-semibold text-textColor1;
+    }
+    h3 {
+        @apply text-22 leading-150;
+        @apply !mt-12;
+        @apply mb-4;
+        @apply font-semibold;
+    }
+    h4 {
+        @apply text-16 leading-150;
+        @apply mb-4;
+        @apply font-semibold;
+    }
+    ul {
+        @apply list-disc;
+        @apply ml-24;
+    }
+    ol {
+        @apply list-decimal;
+        @apply ml-24;
+    }
+    .tag {
+        @apply flex items-center;
+        @apply border-1 rounded-100;
+        @apply font-semibold leading-170;
+        @apply px-12 py-4 ml-auto;
+        @apply whitespace-nowrap;
+
+        &.completed {
+            background: #e7fdf6;
+            border-color: #43b593;
+            color: #43b593;
+        }
+    }
+    p {
+        @apply text-16 leading-140;
+    }
+
+    .c-youtube-container {
+        @apply mt-20;
+        iframe {
+            @apply w-full;
+        }
+    }
+}
+.rhs {
+    .section-link {
+        @apply border-1 border-borderColor5 block rounded-5 px-20 py-12 bg-white shadow-sm;
+        @apply flex gap-16;
+        img {
+            @apply w-[40px] h-[40px];
+        }
+        h4 {
+            @apply text-18 font-semibold mb-2;
+        }
+        p {
+            @apply text-15 leading-140;
+        }
+    }
+
+    .level-number {
+        @apply rounded-circle text-[24px] leading-140;
+        @apply grid place-items-center flex-shrink-0;
+        @apply border-3 border-purple;
+        @apply text-purple font-bold;
+        @apply w-[48px] h-[48px];
+    }
+}

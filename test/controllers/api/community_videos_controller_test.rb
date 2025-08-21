@@ -53,7 +53,7 @@ class API::CommunitySolutionVideosControllerTest < API::BaseTestCase
 
     get lookup_api_community_videos_path(video_url: "https://example.com/..."), headers: @headers, as: :json
 
-    assert_response 400
+    assert_response :bad_request
     expected = { error: {
       type: "invalid_community_video_url",
       message: I18n.t('api.errors.invalid_community_video_url')
@@ -102,7 +102,7 @@ class API::CommunitySolutionVideosControllerTest < API::BaseTestCase
       params: { video_url: "https://example.com/..." },
       headers: @headers, as: :json
 
-    assert_response 400
+    assert_response :bad_request
     expected = { error: {
       type: "invalid_community_video_url",
       message: I18n.t('api.errors.invalid_community_video_url')

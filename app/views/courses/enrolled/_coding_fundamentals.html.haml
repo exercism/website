@@ -1,0 +1,24 @@
+%p.info
+  = t('.welcome_message')
+- if enrollment.user
+  %p.info
+    %strong= t('.access_granted_strong')
+    = t('.access_granted_text')
+  %p.info
+    = t('.email_welcome_html', email: t('.support_email_html', email: "bootcamp@exercism.org").html_safe).html_safe
+  %p.info.mb-10
+    = t('.questions_email_html', email: "bootcamp@exercism.org").html_safe
+  = link_to t('.go_to_bootcamp_button'), bootcamp_dashboard_path, class: 'button'
+- else
+  %p.info
+    %strong= t('.not_logged_in_strong')
+    = t('.not_logged_in_text')
+  %ul.mt-8.mb-12.list-disc.ml-20.font-light
+    %li.text-18= t('.login_suggestion')
+    %li.text-18
+      = t('.create_account_suggestion_html', link_to_create: (link_to t('.create_account_link_text'), 'https://exercism.org/users/sign_up', class: 'text-primary-blue font-semibold'), email_address: enrollment.email, support_email: t('.support_email_html', email: "bootcamp@exercism.org").html_safe, enrolled_email: enrollment.email).html_safe
+
+  %p.info
+    = t('.email_welcome_html', email: t('.support_email_html', email: "bootcamp@exercism.org").html_safe).html_safe
+  %p.info
+    = t('.thanks_for_trusting_html').html_safe

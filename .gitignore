@@ -51,3 +51,10 @@ dump.rdb
 
 # Ignore vendored local databases
 /vendor/*mmdb
+
+.npmrc
+
+config/settings.local.yml
+
+app/javascript/i18n/.env
+vendor/bundle/

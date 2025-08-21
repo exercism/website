@@ -1,0 +1,188 @@
+{
+  "title": "Tournament",
+  "description": "Tally the results of a small football competition.",
+  "language": "javascript",
+  "level": 12,
+  "idx": 9,
+  "tests_type": "io",
+  "tasks": [
+    {
+      "name": "Tally Basics",
+      "tests": [
+        {
+          "name": "Only header when no matches",
+          "slug": "header-no-matches",
+          "description_html": "Return just the header when no matches are played.",
+          "function": "tournamentTally",
+          "args": [""],
+          "checks": [
+            {
+              "value": "Team                           | MP |  W |  D |  L |  P"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Simple Match Outcomes",
+      "tests": [
+        {
+          "name": "Win and loss recorded",
+          "slug": "win-loss-recorded",
+          "description_html": "A win is three points, a loss is zero points.",
+          "function": "tournamentTally",
+          "args": ["Allegoric Alaskans;Blithering Badgers;win"],
+          "checks": [
+            {
+              "value": "Team                           | MP |  W |  D |  L |  P\nAllegoric Alaskans             |  1 |  1 |  0 |  0 |  3\nBlithering Badgers             |  1 |  0 |  0 |  1 |  0"
+            }
+          ]
+        },
+        {
+          "name": "Win recorded as opponent's loss",
+          "slug": "win-opponent-loss",
+          "description_html": "A win can also be expressed from the loser's point of view.",
+          "function": "tournamentTally",
+          "args": ["Blithering Badgers;Allegoric Alaskans;loss"],
+          "checks": [
+            {
+              "value": "Team                           | MP |  W |  D |  L |  P\nAllegoric Alaskans             |  1 |  1 |  0 |  0 |  3\nBlithering Badgers             |  1 |  0 |  0 |  1 |  0"
+            }
+          ]
+        },
+        {
+          "name": "Different team wins",
+          "slug": "different-team-wins",
+          "description_html": "Another team can win instead.",
+          "function": "tournamentTally",
+          "args": ["Blithering Badgers;Allegoric Alaskans;win"],
+          "checks": [
+            {
+              "value": "Team                           | MP |  W |  D |  L |  P\nBlithering Badgers             |  1 |  1 |  0 |  0 |  3\nAllegoric Alaskans             |  1 |  0 |  0 |  1 |  0"
+            }
+          ]
+        },
+        {
+          "name": "Draw recorded",
+          "slug": "draw-recorded",
+          "description_html": "A draw is one point each for both teams.",
+          "function": "tournamentTally",
+          "args": ["Allegoric Alaskans;Blithering Badgers;draw"],
+          "checks": [
+            {
+              "value": "Team                           | MP |  W |  D |  L |  P\nAllegoric Alaskans             |  1 |  0 |  1 |  0 |  1\nBlithering Badgers             |  1 |  0 |  1 |  0 |  1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Multiple Matches",
+      "tests": [
+        {
+          "name": "Multiple matches same teams",
+          "slug": "multiple-matches-same-teams",
+          "description_html": "Support multiple matches between the same teams.",
+          "function": "tournamentTally",
+          "args": [
+            "Allegoric Alaskans;Blithering Badgers;win\nAllegoric Alaskans;Blithering Badgers;win"
+          ],
+          "checks": [
+            {
+              "value": "Team                           | MP |  W |  D |  L |  P\nAllegoric Alaskans             |  2 |  2 |  0 |  0 |  6\nBlithering Badgers             |  2 |  0 |  0 |  2 |  0"
+            }
+          ]
+        },
+        {
+          "name": "Multiple winners",
+          "slug": "multiple-winners",
+          "description_html": "Multiple teams can have the same number of wins.",
+          "function": "tournamentTally",
+          "args": [
+            "Allegoric Alaskans;Blithering Badgers;loss\nAllegoric Alaskans;Blithering Badgers;win"
+          ],
+          "checks": [
+            {
+              "value": "Team                           | MP |  W |  D |  L |  P\nAllegoric Alaskans             |  2 |  1 |  0 |  1 |  3\nBlithering Badgers             |  2 |  1 |  0 |  1 |  3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "More Complex Scenarios",
+      "tests": [
+        {
+          "name": "More than two teams",
+          "slug": "more-than-two-teams",
+          "description_html": "Handle tournaments with more than two teams.",
+          "function": "tournamentTally",
+          "args": [
+            "Allegoric Alaskans;Blithering Badgers;win\nBlithering Badgers;Courageous Californians;win\nCourageous Californians;Allegoric Alaskans;loss"
+          ],
+          "checks": [
+            {
+              "value": "Team                           | MP |  W |  D |  L |  P\nAllegoric Alaskans             |  2 |  2 |  0 |  0 |  6\nBlithering Badgers             |  2 |  1 |  0 |  1 |  3\nCourageous Californians        |  2 |  0 |  0 |  2 |  0"
+            }
+          ]
+        },
+        {
+          "name": "Typical tournament",
+          "slug": "typical-tournament",
+          "description_html": "A typical full tournament input.",
+          "function": "tournamentTally",
+          "args": [
+            "Allegoric Alaskans;Blithering Badgers;win\nDevastating Donkeys;Courageous Californians;draw\nDevastating Donkeys;Allegoric Alaskans;win\nCourageous Californians;Blithering Badgers;loss\nBlithering Badgers;Devastating Donkeys;loss\nAllegoric Alaskans;Courageous Californians;win"
+          ],
+          "checks": [
+            {
+              "value": "Team                           | MP |  W |  D |  L |  P\nDevastating Donkeys            |  3 |  2 |  1 |  0 |  7\nAllegoric Alaskans             |  3 |  2 |  0 |  1 |  6\nBlithering Badgers             |  3 |  1 |  0 |  2 |  3\nCourageous Californians        |  3 |  0 |  1 |  2 |  1"
+            }
+          ]
+        },
+        {
+          "name": "Incomplete competition",
+          "slug": "incomplete-competition",
+          "description_html": "Handle tournaments where not all pairs have played.",
+          "function": "tournamentTally",
+          "args": [
+            "Allegoric Alaskans;Blithering Badgers;loss\nDevastating Donkeys;Allegoric Alaskans;loss\nCourageous Californians;Blithering Badgers;draw\nAllegoric Alaskans;Courageous Californians;win"
+          ],
+          "checks": [
+            {
+              "value": "Team                           | MP |  W |  D |  L |  P\nAllegoric Alaskans             |  3 |  2 |  0 |  1 |  6\nBlithering Badgers             |  2 |  1 |  1 |  0 |  4\nCourageous Californians        |  2 |  0 |  1 |  1 |  1\nDevastating Donkeys            |  1 |  0 |  0 |  1 |  0"
+            }
+          ]
+        },
+        {
+          "name": "Alphabetical tie-breaker",
+          "slug": "alphabetical-tiebreak",
+          "description_html": "Teams with same points sorted alphabetically.",
+          "function": "tournamentTally",
+          "args": [
+            "Courageous Californians;Devastating Donkeys;win\nAllegoric Alaskans;Blithering Badgers;win\nDevastating Donkeys;Allegoric Alaskans;loss\nCourageous Californians;Blithering Badgers;win\nBlithering Badgers;Devastating Donkeys;draw\nAllegoric Alaskans;Courageous Californians;draw"
+          ],
+          "checks": [
+            {
+              "value": "Team                           | MP |  W |  D |  L |  P\nAllegoric Alaskans             |  3 |  2 |  1 |  0 |  7\nCourageous Californians        |  3 |  2 |  1 |  0 |  7\nBlithering Badgers             |  3 |  0 |  1 |  2 |  1\nDevastating Donkeys            |  3 |  0 |  1 |  2 |  1"
+            }
+          ]
+        },
+        {
+          "name": "Ensure numeric point sorting",
+          "slug": "numeric-sorting",
+          "description_html": "Teams should be sorted by points, not name.",
+          "function": "tournamentTally",
+          "args": [
+            "Devastating Donkeys;Blithering Badgers;win\nDevastating Donkeys;Blithering Badgers;win\nDevastating Donkeys;Blithering Badgers;win\nDevastating Donkeys;Blithering Badgers;win\nBlithering Badgers;Devastating Donkeys;win"
+          ],
+          "checks": [
+            {
+              "value": "Team                           | MP |  W |  D |  L |  P\nDevastating Donkeys            |  5 |  4 |  0 |  1 | 12\nBlithering Badgers             |  5 |  1 |  0 |  4 |  3"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

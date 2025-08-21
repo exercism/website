@@ -1,0 +1,16 @@
+function name_to_time with name do
+  set cuts to [["Mohawk", 20], ["Slicked-Back Pixie", 15], ["Bob", 25], ["Shave and Polish", 15], ["Afro Trim", 45], ["Up-do", 30]]
+  for each cut in cuts do
+    if cut[1] == name do
+      return cut[2]
+    end
+  end
+end
+
+function can_fit_in with queue, next_cut, time do
+  for each cut in queue do
+    change time to time - name_to_time(cut)
+  end
+
+  return time >= name_to_time(next_cut)
+end

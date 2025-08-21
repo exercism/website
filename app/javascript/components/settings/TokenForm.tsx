@@ -1,9 +1,12 @@
+// i18n-key-prefix:
+// i18n-namespace: components/settings/TokenForm.tsx
 import React, { useState, useCallback } from 'react'
 import { FormButton } from '@/components/common/FormButton'
 import { ProminentLink, Icon } from '@/components/common'
 import CopyToClipboardButton from '@/components/common/CopyToClipboardButton'
 import { useSettingsMutation } from './useSettingsMutation'
 import { FormMessage } from './FormMessage'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type Links = {
   reset: string
@@ -20,6 +23,7 @@ export default function TokenForm({
   links: Links
 }): JSX.Element {
   const [token, setToken] = useState(defaultToken)
+  const { t } = useAppTranslation('components/settings/TokenForm.tsx')
 
   const { mutation, status, error } = useSettingsMutation<
     { token: string },
@@ -44,14 +48,14 @@ export default function TokenForm({
 
   return (
     <form data-turbo="false" onSubmit={handleSubmit}>
-      <h2>API / CLI Token</h2>
-      <div className="label">Your authentication token is:</div>
+      <h2>{t('tokenForm.apiCliToken')}</h2>
+      <div className="label">{t('tokenForm.yourAuthenticationTokenIs')}</div>
       <CopyToClipboardButton textToCopy={token} />
-      <ProminentLink link={links.info} text="Where do I use this?" />
+      <ProminentLink link={links.info} text={t('tokenForm.whereDoIUseThis')} />
 
       <div className="form-footer">
         <FormButton status={status} className="btn-warning btn-m">
-          Reset token
+          {t('tokenForm.resetToken')}
         </FormButton>
         <FormMessage
           status={status}
@@ -65,10 +69,11 @@ export default function TokenForm({
 }
 
 const SuccessMessage = () => {
+  const { t } = useAppTranslation('components/settings/TokenForm.tsx')
   return (
     <div className="status success">
       <Icon icon="completed-check-circle" alt="Success" />
-      Your token has been reset
+      {t('tokenForm.yourTokenHasBeenReset')}
     </div>
   )
 }

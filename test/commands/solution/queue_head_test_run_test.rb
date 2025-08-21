@@ -91,34 +91,6 @@ class Solution::QueueHeadTestRunTest < ActiveSupport::TestCase
     Solution::QueueHeadTestRun.(solution)
   end
 
-  test "published: writes to efs if not already written" do
-    solution = create :practice_solution, :published
-    submission = create(:submission, solution:)
-    create(:submission_file, submission:)
-    create(:iteration, submission:, solution:)
-
-    dir = [Exercism.config.efs_submissions_mount_point, submission.uuid].join('/')
-    FileUtils.rm_rf(dir) if Dir.exist?(dir)
-
-    Submission::File.any_instance.expects(:write_to_efs!)
-
-    Solution::QueueHeadTestRun.(solution)
-  end
-
-  test "published: does not write to efs if dir exists" do
-    solution = create :practice_solution, :published
-    submission = create(:submission, solution:)
-    create(:submission_file, submission:)
-    create(:iteration, submission:, solution:)
-
-    dir = [Exercism.config.efs_submissions_mount_point, submission.uuid].join('/')
-    FileUtils.mkdir(dir) unless Dir.exist?(dir)
-
-    Submission::File.any_instance.expects(:write_to_efs!).never
-
-    Solution::QueueHeadTestRun.(solution)
-  end
-
   test "published: set status to exceptioned when exercise files are not found" do
     exercise = create :practice_exercise, slug: 'unknown'
     solution = create(:practice_solution, :published, exercise:)
@@ -208,34 +180,6 @@ class Solution::QueueHeadTestRunTest < ActiveSupport::TestCase
     Submission::TestRun::Init.expects(:call).with(
       submission, git_sha: submission.exercise.git_sha, run_in_background: true
     )
-
-    Solution::QueueHeadTestRun.(solution)
-  end
-
-  test "latest: writes to efs if not already written" do
-    solution = create :practice_solution
-    submission = create(:submission, solution:)
-    create(:submission_file, submission:)
-    create(:iteration, submission:, solution:)
-
-    dir = [Exercism.config.efs_submissions_mount_point, submission.uuid].join('/')
-    FileUtils.rm_rf(dir) if Dir.exist?(dir)
-
-    Submission::File.any_instance.expects(:write_to_efs!)
-
-    Solution::QueueHeadTestRun.(solution)
-  end
-
-  test "latest: does not write to efs if dir exists" do
-    solution = create :practice_solution
-    submission = create(:submission, solution:)
-    create(:submission_file, submission:)
-    create(:iteration, submission:, solution:)
-
-    dir = [Exercism.config.efs_submissions_mount_point, submission.uuid].join('/')
-    FileUtils.mkdir(dir) unless Dir.exist?(dir)
-
-    Submission::File.any_instance.expects(:write_to_efs!).never
 
     Solution::QueueHeadTestRun.(solution)
   end

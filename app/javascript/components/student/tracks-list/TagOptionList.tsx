@@ -1,6 +1,9 @@
+// i18n-key-prefix: tagOptionList
+// i18n-namespace: components/student/tracks-list
 import React, { useCallback } from 'react'
 import { TagOption as TagOptionProps } from '../TracksList'
 import { TagOption } from './TagOption'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const TagOptionList = ({
   options,
@@ -15,6 +18,8 @@ export const TagOptionList = ({
   selectedTags: string[]
   setSelectedTags: (tags: string[]) => void
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/student/tracks-list')
+
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement>,
     optionValue: string
@@ -64,9 +69,9 @@ export const TagOptionList = ({
         })}
       </div>
       <footer className="--buttons">
-        <button className="--apply-btn">Apply</button>
+        <button className="--apply-btn">{t('tagOptionList.apply')}</button>
         <button className="--close-btn" onClick={handleClose}>
-          Close
+          {t('tagOptionList.close')}
         </button>
       </footer>
     </form>

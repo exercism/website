@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_01_170724) do
+ActiveRecord::Schema[7.1].define(version: 2025_08_19_141635) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -68,6 +68,146 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_01_170724) do
     t.index ["author_id"], name: "fk_rails_b88cda424b"
     t.index ["published_at"], name: "index_blog_posts_on_published_at"
     t.index ["slug"], name: "index_blog_posts_on_slug", unique: true
+  end
+
+  create_table "bootcamp_concepts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "slug", null: false
+    t.bigint "parent_id"
+    t.integer "level_idx", null: false
+    t.boolean "apex", default: false, null: false
+    t.string "title", null: false
+    t.text "description", null: false
+    t.text "content_markdown", null: false
+    t.text "content_html", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "uuid"
+    t.index ["parent_id"], name: "fk_rails_a7c513f5e1"
+  end
+
+  create_table "bootcamp_custom_functions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "uuid", null: false
+    t.bigint "user_id", null: false
+    t.boolean "active", default: false, null: false
+    t.text "code", null: false
+    t.text "description", null: false
+    t.text "tests", size: :long, null: false
+    t.string "name", null: false
+    t.integer "arity", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "depends_on", null: false
+    t.boolean "predefined", default: false, null: false
+    t.index ["user_id", "name"], name: "index_bootcamp_custom_functions_on_user_id_and_name", unique: true
+    t.index ["user_id"], name: "index_bootcamp_custom_functions_on_user_id"
+    t.index ["uuid"], name: "index_bootcamp_custom_functions_on_uuid", unique: true
+  end
+
+  create_table "bootcamp_drawings", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "uuid", null: false
+    t.text "code", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "title", null: false
+    t.string "background_slug", default: "none", null: false
+    t.index ["user_id"], name: "index_bootcamp_drawings_on_user_id"
+  end
+
+  create_table "bootcamp_exercise_concepts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "exercise_id", null: false
+    t.bigint "concept_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["concept_id"], name: "index_bootcamp_exercise_concepts_on_concept_id"
+    t.index ["exercise_id", "concept_id"], name: "index_bootcamp_exercise_concepts_on_exercise_id_and_concept_id", unique: true
+    t.index ["exercise_id"], name: "index_bootcamp_exercise_concepts_on_exercise_id"
+  end
+
+  create_table "bootcamp_exercises", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "project_id"
+    t.string "slug", null: false
+    t.integer "idx", null: false
+    t.string "title", null: false
+    t.text "description", null: false
+    t.integer "level_idx", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "has_bonus_tasks", default: false, null: false
+    t.boolean "blocks_project_progression", default: true, null: false
+    t.boolean "blocks_level_progression", default: true, null: false
+    t.index ["level_idx"], name: "index_bootcamp_exercises_on_level_idx"
+    t.index ["project_id", "slug"], name: "index_bootcamp_exercises_on_project_id_and_slug", unique: true
+    t.index ["project_id"], name: "index_bootcamp_exercises_on_project_id"
+  end
+
+  create_table "bootcamp_levels", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.integer "idx", null: false
+    t.string "title", null: false
+    t.text "description", null: false
+    t.text "content_markdown", null: false
+    t.text "content_html", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "youtube_id"
+    t.string "labs_youtube_id"
+  end
+
+  create_table "bootcamp_projects", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "slug", null: false
+    t.string "title", null: false
+    t.text "description", null: false
+    t.text "introduction_markdown", null: false
+    t.text "introduction_html", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "bootcamp_settings", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "level_idx", default: 1, null: false
+  end
+
+  create_table "bootcamp_solutions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "exercise_id"
+    t.string "uuid", null: false
+    t.text "code", null: false
+    t.datetime "completed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "passed_basic_tests", default: false
+    t.boolean "passed_bonus_tests", default: false
+    t.index ["exercise_id"], name: "index_bootcamp_solutions_on_exercise_id"
+    t.index ["passed_basic_tests"], name: "index_bootcamp_solutions_on_passed_basic_tests"
+    t.index ["passed_bonus_tests"], name: "index_bootcamp_solutions_on_passed_bonus_tests"
+    t.index ["user_id", "exercise_id"], name: "index_bootcamp_solutions_on_user_id_and_exercise_id", unique: true
+    t.index ["user_id"], name: "index_bootcamp_solutions_on_user_id"
+  end
+
+  create_table "bootcamp_submissions", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "uuid", null: false
+    t.bigint "solution_id"
+    t.integer "status", limit: 2, null: false
+    t.text "code", null: false
+    t.text "readonly_ranges", null: false
+    t.text "test_results", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "custom_functions", null: false
+    t.index ["solution_id"], name: "index_bootcamp_submissions_on_solution_id"
+  end
+
+  create_table "bootcamp_user_projects", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "project_id"
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_bootcamp_user_projects_on_project_id"
+    t.index ["user_id", "project_id"], name: "index_bootcamp_user_projects_on_user_id_and_project_id", unique: true
+    t.index ["user_id"], name: "index_bootcamp_user_projects_on_user_id"
   end
 
   create_table "cohort_memberships", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -152,9 +292,28 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_01_170724) do
     t.string "blurb"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "position", limit: 2, default: 0, null: false
+    t.index ["section", "position"], name: "index_documents_on_section_and_position"
     t.index ["slug"], name: "index_documents_on_slug"
+    t.index ["track_id", "position"], name: "index_documents_on_track_id_and_position"
     t.index ["track_id"], name: "index_documents_on_track_id"
     t.index ["uuid"], name: "index_documents_on_uuid", unique: true
+  end
+
+  create_table "course_enrollments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "name", null: false
+    t.string "email", null: false
+    t.string "course_slug", null: false
+    t.string "country_code_2"
+    t.datetime "paid_at"
+    t.string "checkout_session_id"
+    t.string "access_code"
+    t.integer "email_status", limit: 1, default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "uuid", null: false
+    t.index ["uuid"], name: "index_course_enrollments_on_uuid", unique: true
   end
 
   create_table "donations_payments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -523,11 +682,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_01_170724) do
   end
 
   create_table "github_team_members", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "user_id", null: false
     t.string "team_name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.bigint "track_id"
+    t.index ["track_id"], name: "index_github_team_members_on_track_id"
     t.index ["user_id", "team_name"], name: "index_github_team_members_on_user_id_and_team_name", unique: true
+    t.index ["user_id", "track_id"], name: "index_github_team_members_on_user_id_and_track_id", unique: true
+    t.index ["user_id"], name: "index_github_team_members_on_user_id"
   end
 
   create_table "iterations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -727,10 +890,14 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_01_170724) do
     t.integer "num_impressions", default: 0, null: false
     t.integer "num_clicks", default: 0, null: false
     t.string "url", null: false
-    t.string "base_text", null: false
-    t.string "emphasised_text", null: false
+    t.string "base_text"
+    t.string "emphasised_text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "track_slugs"
+    t.text "markdown"
+    t.text "html"
+    t.text "mailer_text"
     t.index ["partner_id"], name: "index_partner_adverts_on_partner_id"
   end
 
@@ -1291,6 +1458,31 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_01_170724) do
     t.index ["domain"], name: "index_user_block_domains_on_domain", unique: true
   end
 
+  create_table "user_bootcamp_data", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id"
+    t.integer "num_views", default: 0, null: false
+    t.datetime "last_viewed_at"
+    t.datetime "started_enrolling_at"
+    t.datetime "enrolled_at"
+    t.string "package"
+    t.datetime "paid_at"
+    t.string "payment_intent_id"
+    t.string "name"
+    t.string "email"
+    t.string "ppp_country"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "checkout_session_id"
+    t.text "utm"
+    t.integer "part_1_level_idx", default: 0, null: false
+    t.string "access_code"
+    t.integer "part_2_level_idx", default: 0, null: false
+    t.boolean "enrolled_on_part_1", default: false, null: false
+    t.boolean "enrolled_on_part_2", default: false, null: false
+    t.integer "active_part", default: 1, null: false
+    t.index ["user_id"], name: "index_user_bootcamp_data_on_user_id", unique: true
+  end
+
   create_table "user_challenges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "challenge_id", null: false
@@ -1360,6 +1552,13 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_01_170724) do
     t.integer "email_status", limit: 1, default: 0, null: false
     t.datetime "premium_until"
     t.boolean "trainer", default: false, null: false
+    t.integer "seniority", limit: 1
+    t.string "bootcamp_affiliate_coupon_code"
+    t.string "bootcamp_free_coupon_code"
+    t.boolean "bootcamp_attendee", default: false, null: false
+    t.boolean "bootcamp_mentor", default: false, null: false
+    t.string "locale"
+    t.text "translator_locales"
     t.index ["discord_uid"], name: "index_user_data_on_discord_uid", unique: true
     t.index ["first_donated_at", "show_on_supporters_page", "user_id"], name: "index_user_data__supporters-page"
     t.index ["first_donated_at"], name: "index_user_data_on_first_donated_at"
@@ -1380,6 +1579,22 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_01_170724) do
     t.datetime "updated_at", null: false
     t.index ["user_id", "slug"], name: "index_user_dismissed_introducers_on_user_id_and_slug", unique: true
     t.index ["user_id"], name: "index_user_dismissed_introducers_on_user_id"
+  end
+
+  create_table "user_github_solution_syncers", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "installation_id", null: false
+    t.string "repo_full_name", null: false
+    t.boolean "enabled", null: false, default: true
+    t.boolean "sync_on_iteration_creation", null: false, default: true
+    t.boolean "sync_exercise_files", null: false
+    t.integer "processing_method", null: false, default: 1
+    t.string "main_branch_name", null: false, default: "main"
+    t.string "commit_message_template", null: false
+    t.string "path_template", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_github_solution_syncers_on_user_id", unique: true
   end
 
   create_table "user_mailshots", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -1427,6 +1642,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_01_170724) do
     t.datetime "updated_at", null: false
     t.string "theme"
     t.boolean "allow_comments_on_published_solutions", default: false, null: false
+    t.boolean "hide_website_adverts", default: false, null: false
     t.index ["user_id"], name: "index_user_preferences_on_user_id", unique: true
   end
 
@@ -1621,6 +1837,12 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_01_170724) do
 
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "blog_posts", "users", column: "author_id"
+  add_foreign_key "bootcamp_concepts", "bootcamp_concepts", column: "parent_id"
+  add_foreign_key "bootcamp_custom_functions", "users"
+  add_foreign_key "bootcamp_drawings", "users"
+  add_foreign_key "bootcamp_exercise_concepts", "bootcamp_concepts", column: "concept_id"
+  add_foreign_key "bootcamp_exercise_concepts", "bootcamp_exercises", column: "exercise_id"
+  add_foreign_key "bootcamp_submissions", "bootcamp_solutions", column: "solution_id"
   add_foreign_key "cohort_memberships", "cohorts"
   add_foreign_key "cohort_memberships", "users"
   add_foreign_key "cohorts", "tracks"
@@ -1668,6 +1890,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_01_170724) do
   add_foreign_key "github_issue_labels", "github_issues"
   add_foreign_key "github_pull_request_reviews", "github_pull_requests"
   add_foreign_key "github_tasks", "tracks"
+  add_foreign_key "github_team_members", "tracks"
+  add_foreign_key "github_team_members", "users"
   add_foreign_key "mentor_discussion_posts", "iterations"
   add_foreign_key "mentor_discussion_posts", "mentor_discussions", column: "discussion_id"
   add_foreign_key "mentor_discussion_posts", "users"
@@ -1730,6 +1954,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_01_170724) do
   add_foreign_key "user_activities", "tracks"
   add_foreign_key "user_activities", "users"
   add_foreign_key "user_auth_tokens", "users"
+  add_foreign_key "user_bootcamp_data", "users"
   add_foreign_key "user_communication_preferences", "users"
   add_foreign_key "user_dismissed_introducers", "users"
   add_foreign_key "user_mailshots", "mailshots"

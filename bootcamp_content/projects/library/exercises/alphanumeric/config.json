@@ -1,0 +1,78 @@
+{
+  "title": "Alphanumeric",
+  "description": "Build library functions to determine if a string is alphanumeric",
+  "level": 5,
+  "idx": 11,
+  "tests_type": "io",
+  "readonly_ranges": [
+    { "from": 1, "to": 4 },
+    { "from": 8, "to": 8 }
+  ],
+  "tasks": [
+    {
+      "name": "Alphanumeric",
+      "tests": [
+        {
+          "slug": "duck",
+          "name": "Duck",
+          "description_html": "What's a duck?",
+          "function": "what_am_i",
+          "args": ["Duck"],
+          "checks": [
+            {
+              "value": "Alpha"
+            }
+          ]
+        },
+        {
+          "slug": "number",
+          "name": "42",
+          "description_html": "Is the answer to life alpha or numeric?",
+          "function": "what_am_i",
+          "args": ["42"],
+          "checks": [
+            {
+              "value": "Numeric"
+            }
+          ]
+        },
+        {
+          "slug": "alphanumeric",
+          "name": "42 Rubber Duck",
+          "description_html": "The most meaningful of ducks",
+          "function": "what_am_i",
+          "args": ["Duck42"],
+          "checks": [
+            {
+              "value": "Alphanumeric"
+            }
+          ]
+        },
+        {
+          "slug": "not-alphanumeric-1",
+          "name": "It's not 42!",
+          "description_html": "Then what is it?",
+          "function": "what_am_i",
+          "args": ["It's not 42!"],
+          "checks": [
+            {
+              "value": "Unknown"
+            }
+          ]
+        },
+        {
+          "slug": "not-alphanumeric-2",
+          "name": "42 Rubber Duck!",
+          "description_html": "Is the answer to life a rubber duck?",
+          "function": "what_am_i",
+          "args": ["42 Rubber Duck!"],
+          "checks": [
+            {
+              "value": "Unknown"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

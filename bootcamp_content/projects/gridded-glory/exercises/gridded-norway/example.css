@@ -1,0 +1,24 @@
+#flag {
+    background: white;
+    display: grid;
+    grid-template-columns: 25% 4% 10% 4% 1fr;
+    grid-template-rows: 1fr 6% 15% 6% 1fr;
+
+    div:nth-child(1),
+    div:nth-child(5),
+    div:nth-child(16),
+    div:nth-child(20) {
+        background: #ba0c2f;
+    }
+    #h-blue-bar,
+    div:nth-child(3),
+    div:nth-child(8),
+    div:nth-child(13),
+    div:nth-child(18) {
+        background: #00205b;
+    }
+    #h-blue-bar {
+        grid-column: 1/6;
+        grid-row: 3/4;
+    }
+}

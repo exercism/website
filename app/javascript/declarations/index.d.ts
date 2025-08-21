@@ -46,6 +46,14 @@ declare module 'nim-codemirror-mode' {
   import { StreamParser } from '@codemirror/stream-parser'
   export const nim: StreamParser<unknown>
 }
+declare module 'codemirror6-abap' {
+  import { StreamParser } from '@codemirror/stream-parser'
+  export const abapMode: StreamParser<unknown>
+}
+declare module 'codemirror-lang-jq' {
+  import { LanguageSupport } from '@codemirror/language'
+  export const jq: () => LanguageSupport
+}
 
 declare module '@exercism/twine2-story-format/src/story' {
   export default class Story {
@@ -90,6 +98,34 @@ declare module '@gleam-lang/highlight.js-gleam' {
 }
 
 declare module '@ballerina/highlightjs-ballerina' {
+  import { LanguageFn } from 'highlight.js'
+  const setup: LanguageFn
+
+  export default setup
+}
+
+declare module 'highlightjs-redbol' {
+  import { LanguageFn } from 'highlight.js'
+  const setup: LanguageFn
+
+  export default setup
+}
+
+declare module 'highlightjs-chapel' {
+  import { LanguageFn } from 'highlight.js'
+  const setup: LanguageFn
+
+  export default setup
+}
+
+declare module '@exercism/highlightjs-gdscript' {
+  import { LanguageFn } from 'highlight.js'
+  const setup: LanguageFn
+
+  export default setup
+}
+
+declare module 'highlightjs-jq' {
   import { LanguageFn } from 'highlight.js'
   const setup: LanguageFn
 

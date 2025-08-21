@@ -1,0 +1,497 @@
+{
+  "title": "Symbols (Part 2)",
+  "description": "Turn descriptions into drawing elements",
+  "level": 6,
+  "idx": 2,
+  "project_type": "weather",
+  "tests_type": "state",
+  "tasks": [
+    {
+      "name": "Draw the scene",
+      "tests": [
+        {
+          "slug": "sunny-day",
+          "name": "Sunny",
+          "description_html": "Draw a sunny day.",
+          "function": "draw_weather",
+          "args": ["sunny"],
+          "checks": [
+            {
+              "function": "getCircleAt(50, 50, 25)",
+              "matcher": "toBeDefined",
+              "error_html": "The sun isn't correct."
+            },
+            {
+              "function": "getCircleAt(75, 30, 15)",
+              "matcher": "toBeUndefined",
+              "error_html": "You have two suns!"
+            },
+            {
+              "function": "getEllipseAt(30, 70, 3, 5)",
+              "matcher": "toBeUndefined",
+              "error_html": "There shouldn't be rain."
+            },
+            {
+              "function": "getCircleAt(30, 70, 5)",
+              "matcher": "toBeUndefined",
+              "error_html": "There shouldn't be snow."
+            }
+          ]
+        },
+        {
+          "slug": "dully-day",
+          "name": "Dull",
+          "description_html": "Draw a dull day.",
+          "setup_functions": [
+            [
+              "setBackgroundImage",
+              [
+                "https://assets.exercism.org/bootcamp/graphics/cloud-rain-sun-template.png"
+              ]
+            ]
+          ],
+          "function": "draw_weather",
+          "args": ["dull"],
+          "checks": [
+            {
+              "function": "getRectangleAt(25, undefined, 50, undefined)",
+              "matcher": "toBeDefined",
+              "error_html": "The base of the cloud isn't correct."
+            },
+            {
+              "function": "getCircleAt(25, 50, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The fluffy bits of the cloud aren't correct."
+            },
+            {
+              "function": "getCircleAt(40, 40, 15)",
+              "matcher": "toBeDefined",
+              "error_html": "The fluffy bits of the cloud aren't correct."
+            },
+            {
+              "function": "getCircleAt(55, 40, 20)",
+              "matcher": "toBeDefined",
+              "error_html": "The fluffy bits of the cloud aren't correct."
+            },
+            {
+              "function": "getCircleAt(75, 50, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The fluffy bits of the cloud aren't correct."
+            },
+            {
+              "function": "getCircleAt(75, 50, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The fluffy bits of the cloud aren't correct."
+            },
+            {
+              "function": "getCircleAt(75, 30, 15)",
+              "matcher": "toBeUndefined",
+              "error_html": "You have two suns!"
+            },
+            {
+              "function": "getEllipseAt(30, 70, 3, 5)",
+              "matcher": "toBeUndefined",
+              "error_html": "There shouldn't be rain"
+            },
+            {
+              "function": "getCircleAt(30, 70, 5)",
+              "matcher": "toBeUndefined",
+              "error_html": "There shouldn't be snow."
+            }
+          ]
+        },
+        {
+          "slug": "hopeful",
+          "name": "Hopeful",
+          "description_html": "Draw a hopeful day.",
+          "setup_functions": [
+            [
+              "setBackgroundImage",
+              [
+                "https://assets.exercism.org/bootcamp/graphics/cloud-rain-sun-template.png"
+              ]
+            ]
+          ],
+          "function": "draw_weather",
+          "args": ["hopeful"],
+          "checks": [
+            {
+              "function": "getCircleAt(75, 30, 15)",
+              "matcher": "toBeDefined",
+              "error_html": "The sun isn't correct."
+            },
+            {
+              "function": "getRectangleAt(25, undefined, 50, undefined)",
+              "matcher": "toBeDefined",
+              "error_html": "The base of the cloud isn't correct."
+            },
+            {
+              "function": "getCircleAt(25, 50, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The fluffy bits of the cloud aren't correct."
+            },
+            {
+              "function": "getCircleAt(40, 40, 15)",
+              "matcher": "toBeDefined",
+              "error_html": "The fluffy bits of the cloud aren't correct."
+            },
+            {
+              "function": "getCircleAt(55, 40, 20)",
+              "matcher": "toBeDefined",
+              "error_html": "The fluffy bits of the cloud aren't correct."
+            },
+            {
+              "function": "getCircleAt(75, 50, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The fluffy bits of the cloud aren't correct."
+            },
+            {
+              "function": "getCircleAt(75, 50, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The fluffy bits of the cloud aren't correct."
+            },
+            {
+              "function": "getEllipseAt(30, 70, 3, 5)",
+              "matcher": "toBeUndefined",
+              "error_html": "There shouldn't be rain."
+            },
+            {
+              "function": "getCircleAt(30, 70, 5)",
+              "matcher": "toBeUndefined",
+              "error_html": "There shouldn't be snow."
+            }
+          ]
+        },
+
+        {
+          "slug": "miserable",
+          "name": "Miserable",
+          "description_html": "Draw a miserable day.",
+          "setup_functions": [
+            [
+              "setBackgroundImage",
+              [
+                "https://assets.exercism.org/bootcamp/graphics/cloud-rain-sun-template.png"
+              ]
+            ]
+          ],
+          "function": "draw_weather",
+          "args": ["miserable"],
+          "checks": [
+            {
+              "function": "getRectangleAt(25, undefined, 50, undefined)",
+              "matcher": "toBeDefined",
+              "error_html": "The base of the cloud isn't correct."
+            },
+            {
+              "function": "getCircleAt(25, 50, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The fluffy bits of the cloud aren't correct."
+            },
+            {
+              "function": "getCircleAt(40, 40, 15)",
+              "matcher": "toBeDefined",
+              "error_html": "The fluffy bits of the cloud aren't correct."
+            },
+            {
+              "function": "getCircleAt(55, 40, 20)",
+              "matcher": "toBeDefined",
+              "error_html": "The fluffy bits of the cloud aren't correct."
+            },
+            {
+              "function": "getCircleAt(75, 50, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The fluffy bits of the cloud aren't correct."
+            },
+            {
+              "function": "getCircleAt(75, 50, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The fluffy bits of the cloud aren't correct."
+            },
+            {
+              "function": "getEllipseAt(30, 70, 3, 5)",
+              "matcher": "toBeDefined",
+              "error_html": "The first rain drop isn't correct."
+            },
+            {
+              "function": "getEllipseAt(50, 70, 3, 5)",
+              "matcher": "toBeDefined",
+              "error_html": "The second rain drop isn't correct."
+            },
+            {
+              "function": "getEllipseAt(70, 70, 3, 5)",
+              "matcher": "toBeDefined",
+              "error_html": "The third rain drop isn't correct."
+            },
+            {
+              "function": "getEllipseAt(40, 80, 3, 5)",
+              "matcher": "toBeDefined",
+              "error_html": "The fourth rain drop isn't correct."
+            },
+            {
+              "function": "getEllipseAt(60, 80, 3, 5)",
+              "matcher": "toBeDefined",
+              "error_html": "The fifth rain drop isn't correct."
+            },
+            {
+              "function": "getCircleAt(75, 30, 15)",
+              "matcher": "toBeUndefined",
+              "error_html": "The sun shouldn't be peaking out."
+            },
+            {
+              "function": "getCircleAt(30, 70, 5)",
+              "matcher": "toBeUndefined",
+              "error_html": "There shouldn't be snow."
+            }
+          ]
+        },
+        {
+          "slug": "rainbow-territory",
+          "name": "Rainbow Territory",
+          "description_html": "Draw rainbow territory.",
+          "setup_functions": [
+            [
+              "setBackgroundImage",
+              [
+                "https://assets.exercism.org/bootcamp/graphics/cloud-rain-sun-template.png"
+              ]
+            ]
+          ],
+          "function": "draw_weather",
+          "args": ["rainbow-territory"],
+          "checks": [
+            {
+              "function": "getCircleAt(75, 30, 15)",
+              "matcher": "toBeDefined",
+              "error_html": "The sun isn't correct."
+            },
+            {
+              "function": "getRectangleAt(25, undefined, 50, undefined)",
+              "matcher": "toBeDefined",
+              "error_html": "The base of the cloud isn't correct."
+            },
+            {
+              "function": "getCircleAt(25, 50, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The fluffy bits of the cloud aren't correct."
+            },
+            {
+              "function": "getCircleAt(40, 40, 15)",
+              "matcher": "toBeDefined",
+              "error_html": "The fluffy bits of the cloud aren't correct."
+            },
+            {
+              "function": "getCircleAt(55, 40, 20)",
+              "matcher": "toBeDefined",
+              "error_html": "The fluffy bits of the cloud aren't correct."
+            },
+            {
+              "function": "getCircleAt(75, 50, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The fluffy bits of the cloud aren't correct."
+            },
+            {
+              "function": "getCircleAt(75, 50, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The fluffy bits of the cloud aren't correct."
+            },
+            {
+              "function": "getEllipseAt(30, 70, 3, 5)",
+              "matcher": "toBeDefined",
+              "error_html": "The first rain drop isn't correct."
+            },
+            {
+              "function": "getEllipseAt(50, 70, 3, 5)",
+              "matcher": "toBeDefined",
+              "error_html": "The second rain drop isn't correct."
+            },
+            {
+              "function": "getEllipseAt(70, 70, 3, 5)",
+              "matcher": "toBeDefined",
+              "error_html": "The third rain drop isn't correct."
+            },
+            {
+              "function": "getEllipseAt(40, 80, 3, 5)",
+              "matcher": "toBeDefined",
+              "error_html": "The fourth rain drop isn't correct."
+            },
+            {
+              "function": "getEllipseAt(60, 80, 3, 5)",
+              "matcher": "toBeDefined",
+              "error_html": "The fifth rain drop isn't correct."
+            }
+          ]
+        },
+        {
+          "slug": "exciting",
+          "name": "Exciting",
+          "description_html": "Draw a day to get excited about.",
+          "setup_functions": [
+            [
+              "setBackgroundImage",
+              [
+                "https://assets.exercism.org/bootcamp/graphics/cloud-rain-sun-template.png"
+              ]
+            ]
+          ],
+          "function": "draw_weather",
+          "args": ["exciting"],
+          "checks": [
+            {
+              "function": "getRectangleAt(25, undefined, 50, undefined)",
+              "matcher": "toBeDefined",
+              "error_html": "The base of the cloud isn't correct."
+            },
+            {
+              "function": "getCircleAt(25, 50, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The fluffy bits of the cloud aren't correct."
+            },
+            {
+              "function": "getCircleAt(40, 40, 15)",
+              "matcher": "toBeDefined",
+              "error_html": "The fluffy bits of the cloud aren't correct."
+            },
+            {
+              "function": "getCircleAt(55, 40, 20)",
+              "matcher": "toBeDefined",
+              "error_html": "The fluffy bits of the cloud aren't correct."
+            },
+            {
+              "function": "getCircleAt(75, 50, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The fluffy bits of the cloud aren't correct."
+            },
+            {
+              "function": "getCircleAt(75, 50, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The fluffy bits of the cloud aren't correct."
+            },
+            {
+              "function": "getCircleAt(30, 70, 5)",
+              "matcher": "toBeDefined",
+              "error_html": "The first snow flake isn't correct."
+            },
+            {
+              "function": "getCircleAt(50, 70, 5)",
+              "matcher": "toBeDefined",
+              "error_html": "The second snow flake isn't correct."
+            },
+            {
+              "function": "getCircleAt(70, 70, 5)",
+              "matcher": "toBeDefined",
+              "error_html": "The third snow flake isn't correct."
+            },
+            {
+              "function": "getCircleAt(40, 80, 5)",
+              "matcher": "toBeDefined",
+              "error_html": "The fourth snow flake isn't correct."
+            },
+            {
+              "function": "getCircleAt(60, 80, 5)",
+              "matcher": "toBeDefined",
+              "error_html": "The fifth snow flake isn't correct."
+            },
+            {
+              "function": "getCircleAt(75, 30, 15)",
+              "matcher": "toBeUndefined",
+              "error_html": "The sun shouldn't be peaking out."
+            },
+            {
+              "function": "getEllipseAt(30, 70, 3, 5)",
+              "matcher": "toBeUndefined",
+              "error_html": "There shouldn't be rain."
+            }
+          ]
+        },
+        {
+          "slug": "snowboarding-time",
+          "name": "Snowboarding Time",
+          "description_html": "Draw a perfect day for snowboarding!",
+          "setup_functions": [
+            [
+              "setBackgroundImage",
+              [
+                "https://assets.exercism.org/bootcamp/graphics/cloud-rain-sun-template.png"
+              ]
+            ]
+          ],
+          "function": "draw_weather",
+          "args": ["snowboarding-time"],
+          "checks": [
+            {
+              "function": "getCircleAt(75, 30, 15)",
+              "matcher": "toBeDefined",
+              "error_html": "The sun isn't correct."
+            },
+            {
+              "function": "getRectangleAt(25, undefined, 50, undefined)",
+              "matcher": "toBeDefined",
+              "error_html": "The base of the cloud isn't correct."
+            },
+            {
+              "function": "getCircleAt(25, 50, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The fluffy bits of the cloud aren't correct."
+            },
+            {
+              "function": "getCircleAt(40, 40, 15)",
+              "matcher": "toBeDefined",
+              "error_html": "The fluffy bits of the cloud aren't correct."
+            },
+            {
+              "function": "getCircleAt(55, 40, 20)",
+              "matcher": "toBeDefined",
+              "error_html": "The fluffy bits of the cloud aren't correct."
+            },
+            {
+              "function": "getCircleAt(75, 50, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The fluffy bits of the cloud aren't correct."
+            },
+            {
+              "function": "getCircleAt(75, 50, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The fluffy bits of the cloud aren't correct."
+            },
+            {
+              "function": "getCircleAt(30, 70, 5)",
+              "matcher": "toBeDefined",
+              "error_html": "The first snow flake isn't correct."
+            },
+            {
+              "function": "getCircleAt(50, 70, 5)",
+              "matcher": "toBeDefined",
+              "error_html": "The second snow flake isn't correct."
+            },
+            {
+              "function": "getCircleAt(70, 70, 5)",
+              "matcher": "toBeDefined",
+              "error_html": "The third snow flake isn't correct."
+            },
+            {
+              "function": "getCircleAt(40, 80, 5)",
+              "matcher": "toBeDefined",
+              "error_html": "The fourth snow flake isn't correct."
+            },
+            {
+              "function": "getCircleAt(60, 80, 5)",
+              "matcher": "toBeDefined",
+              "error_html": "The fifth snow flake isn't correct."
+            },
+            {
+              "function": "getEllipseAt(30, 70, 3, 5)",
+              "matcher": "toBeUndefined",
+              "error_html": "There shouldn't be rain."
+            },
+            {
+              "function": "getCircleAt(50, 50, 25)",
+              "matcher": "toBeUndefined",
+              "error_html": "There are two suns."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

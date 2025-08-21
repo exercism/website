@@ -1,0 +1,284 @@
+class Ball do
+  private property horizontal_velocity
+  private property vertical_velocity
+  private property circle
+
+  constructor with cx, cy, radius do
+    set this.horizontal_velocity to -1
+    set this.vertical_velocity to -1
+    set this.circle to new Circle(cx, cy, radius, "#ffffff")
+  end
+  
+  public method move do
+    change this.circle.cx to this.circle.cx + this.horizontal_velocity
+    change this.circle.cy to this.circle.cy + this.vertical_velocity
+  end
+
+  public method left do
+    return this.circle.cx - this.circle.radius
+  end
+
+  public method right do
+    return this.circle.cx + this.circle.radius
+  end
+
+  public method top do
+    return this.circle.cy - this.circle.radius
+  end
+
+  public method bottom do
+    return this.circle.cy + this.circle.radius
+  end
+
+  public method center_x do
+    return this.circle.cx
+  end
+
+  public method change_direction with game_width, game_height do
+    if this.left() <= 0 or this.right() >= game_width do
+      this.change_horizontal_direction()
+    end
+    if this.top() <= 0 or this.bottom() >= game_height do
+      this.change_vertical_direction()
+    end
+  end
+
+  public method change_vertical_direction do
+    change this.vertical_velocity to -this.vertical_velocity
+  end
+
+  public method change_horizontal_direction do
+    change this.horizontal_velocity to -this.horizontal_velocity
+  end
+
+  public method is_moving_up do
+    return this.vertical_velocity == -1
+  end
+
+  public method is_touching_block with block do
+    if this.circle.cx < block.left() or this.circle.cx > block.right() do
+      return false
+    end
+
+    if this.top() == block.bottom() do
+      return true
+    end
+    if this.bottom() == block.top() do
+      return true
+    end
+    return false
+  end
+end
+
+class Block do
+  private property smashed
+  private property rectangle
+
+  constructor with left, top, width, height do
+    set this.smashed to false
+    set this.rectangle to new RoundedRectangle(left, top, width, height, 5, "#00ff00")
+  end
+
+  public method left do
+    return this.rectangle.left
+  end
+
+  public method right do
+    return this.rectangle.left + this.rectangle.width
+  end
+
+public method top do
+return this.rectangle.top
+end
+
+public method bottom do
+return this.rectangle.top + this.rectangle.height
+end
+
+  public method smash do
+    change this.smashed to true
+    change this.rectangle.opacity to 0
+  end
+
+  public method is_smashed do
+    return this.smashed
+  end
+end
+
+class Paddle do
+  private property rectangle
+
+  constructor with game_width do
+    set width to 20
+    set height to 4
+    set left to game_width / 2 - width / 2
+    set top to game_width - height -1
+    set this.rectangle to new RoundedRectangle(left, top, width, height, 5, "#ff0000")
+  end
+
+  private method center_x do
+    return this.rectangle.left + this.rectangle.width / 2
+  end
+
+  public method left do
+    return this.rectangle.left
+  end
+
+  public method right do
+    return this.rectangle.left + this.rectangle.width
+  end
+
+  public method top do
+    return this.rectangle.top
+  end
+
+  public method bottom do
+    return this.rectangle.top + this.rectangle.height
+  end
+
+  public method follow_ball with ball do
+    if ball.is_moving_up() do
+      if this.left() < 50 do
+        this.move_right()
+      else do
+        this.move_left()
+      end
+    else if this.center_x() < ball.center_x() do
+      this.move_right()
+    else if this.center_x() > ball.center_x() do
+      this.move_left()
+    end
+  end
+  
+  private method move_left do
+    if this.left() <= 1 do
+      return
+    end
+    change this.rectangle.left to this.rectangle.left - 1
+  end
+  
+  private method move_right do
+    if this.right() >= 99 do
+      return
+    end
+    change this.rectangle.left to this.rectangle.left + 1
+  end
+end
+
+class Game do
+  private property width
+  private property height
+  private property blocks
+  private property ball
+  private property paddle
+
+  constructor do
+    set this.width to 100
+    set this.height to 100
+    set this.blocks to []
+    set this.ball to new Ball(50, 93, 2)
+    set this.paddle to new Paddle(100)
+  end
+
+  public method add_block_row with num_blocks, width, height, y do
+    set gap to 1
+    set total_width to num_blocks * width + ((num_blocks - 1) * 1)
+    set x to (this.width - total_width) / 2
+    repeat num_blocks times indexed by i do
+      change this.blocks to push(this.blocks, new Block(x, y, width, height))
+      change x to x + width + gap
+    end
+  end
+
+  public method move_ball do
+    this.ball.move()
+  end
+
+  public method move_paddle do
+    this.paddle.follow_ball(this.ball)
+  end
+
+  public method handle_wall_collision do
+    if this.ball.left() <= 0 or this.ball.right() >= this.width do
+      this.ball.change_horizontal_direction()
+    end
+    if this.ball.top() <= 0 or this.ball.bottom() >= this.width do
+      this.ball.change_vertical_direction()
+    end
+  end
+  
+  public method handle_block_collision do
+    for each block in this.blocks do
+      if block.is_smashed() do
+        next
+      end
+
+      if this.ball.is_touching_block(block) do
+        this.ball.change_vertical_direction()
+        block.smash()
+        return
+      end
+    end
+  end
+
+  public method handle_paddle_collision do
+    if this.ball.right() < this.paddle.left() do
+      return
+    end
+
+    if this.ball.right() > this.paddle.right() do
+      return
+    end
+
+    if this.ball.bottom() >= this.paddle.top() do
+      this.ball.change_vertical_direction()
+    end 
+  end
+
+  public method all_blocks_are_smashed do
+    for each block in this.blocks do
+      if not block.is_smashed() do
+        return false
+      end
+    end
+    return true
+  end
+
+  public method is_ball_touching_floor do
+    return this.ball.bottom() == this.height
+  end
+  
+  public method check_finished do
+  
+    // Finally check for a win/lose states
+    if this.is_ball_touching_floor() do
+      game_over("lose")
+    end
+    
+    if this.all_blocks_are_smashed() do
+      game_over("win")
+    end
+  end
+end
+
+// Create a new game with the width and height
+// This should create a ball and paddle
+set game to new Game()
+
+// Add 5 blocks with a width of 8 and a height of 6 starting at a y of 28
+game.add_block_row(5, 17, 6, 28)
+
+// Play the game
+repeat_until_game_over do
+  // Firstly, we move things
+  game.move_ball()
+  game.move_paddle()
+
+  // Now check for collisions
+  game.handle_wall_collision()
+  game.handle_block_collision()
+  game.handle_paddle_collision()
+
+  // Finally check for any game over scenarios
+  game.check_finished()
+end

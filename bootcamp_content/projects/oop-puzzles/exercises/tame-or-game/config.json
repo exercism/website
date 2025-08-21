@@ -1,0 +1,111 @@
+{
+  "title": "Tame or Game",
+  "description": "Determine if something is tame or game based on a number.",
+  "level": 10,
+  "idx": 1,
+  "tests_type": "io",
+  "stdlib_functions": ["concatenate"],
+  "tasks": [
+    {
+      "name": "Correctly identify even numbers",
+      "tests": [
+        {
+          "slug": "number-14",
+          "type": "io",
+          "name": "Number 14",
+          "description_html": "Is 14 tame?",
+          "expression": "(new TameOrGame(14)).is_tame()",
+          "code_run": "(new TameOrGame(14)).is_tame()",
+          "checks": [
+            {
+              "value": true
+            }
+          ]
+        },
+        {
+          "slug": "number-16",
+          "type": "io",
+          "name": "Number 16",
+          "description_html": "Is 16 game?",
+          "expression": "(new TameOrGame(14)).is_game()",
+          "code_run": "(new TameOrGame(14)).is_game()",
+          "checks": [
+            {
+              "value": false
+            }
+          ]
+        },
+        {
+          "slug": "number-365",
+          "type": "io",
+          "name": "Number 365",
+          "description_html": "Is 355 game?",
+          "expression": "(new TameOrGame(365)).is_game()",
+          "code_run": "(new TameOrGame(365)).is_game()",
+          "checks": [
+            {
+              "value": true
+            }
+          ]
+        },
+        {
+          "slug": "number-21",
+          "type": "io",
+          "name": "Number 21",
+          "description_html": "Is 21 tame?",
+          "expression": "(new TameOrGame(365)).is_tame()",
+          "code_run": "(new TameOrGame(365)).is_tame()",
+          "checks": [
+            {
+              "value": false
+            }
+          ]
+        },
+        {
+          "slug": "number-19",
+          "type": "io",
+          "name": "Number 19",
+          "description_html": "Is Ducky Game?",
+          "expression": "(new TameOrGame(19)).tame_or_game(\"Ducky\")",
+          "code_run": "(new TameOrGame(19)).tame_or_game(\"Ducky\")",
+          "checks": [
+            {
+              "value": "Ducky is game."
+            }
+          ]
+        },
+        {
+          "slug": "number-100",
+          "type": "io",
+          "name": "Number 100",
+          "description_html": "Is Ducky Game now?",
+          "expression": "(new TameOrGame(100)).tame_or_game(\"Ducky\")",
+          "code_run": "(new TameOrGame(100)).tame_or_game(\"Ducky\")",
+          "checks": [
+            {
+              "value": "Ducky is tame."
+            }
+          ]
+        },
+        {
+          "slug": "number-1235",
+          "type": "io",
+          "name": "Number 1235",
+          "description_html": "Is Rubber Game now?",
+          "expression": "(new TameOrGame(1235)).tame_or_game(\"Rubber\")",
+          "code_run": "(new TameOrGame(1235)).tame_or_game(\"Rubber\")",
+          "checks": [
+            {
+              "value": "Rubber is game."
+            },
+            {
+              "function": "numStatements()",
+              "code_run": "We checked how many instructions your code gives to Jiki. We just expected 1 (\"make a class\"), but found other instructions outside the class too.",
+              "value": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

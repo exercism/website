@@ -14,6 +14,9 @@ class User::SetDiscourseGroupsTest < ActiveSupport::TestCase
 
     stub_user_requests(user)
     stub_insider_group_requests
+    stub_bootcamp_attendee_group_requests
+    stub_bootcamp_mentor_group_requests
+
     stub_request(:put, "https://forum.exercism.org/admin/users/#{DISCOURSE_USER_ID}/trust_level")
 
     User::SetDiscourseGroups.(user)
@@ -23,6 +26,8 @@ class User::SetDiscourseGroupsTest < ActiveSupport::TestCase
     user = create :user, reputation: User::SetDiscourseGroups::MIN_REP_FOR_TRUST_LEVEL - 1
     stub_user_requests(user)
     stub_insider_group_requests
+    stub_bootcamp_attendee_group_requests
+    stub_bootcamp_mentor_group_requests
 
     User::SetDiscourseGroups.(user)
   end
@@ -32,6 +37,9 @@ class User::SetDiscourseGroupsTest < ActiveSupport::TestCase
 
     stub_user_requests(user)
     stub_insider_group_requests
+    stub_bootcamp_attendee_group_requests
+    stub_bootcamp_mentor_group_requests
+
     group_json = { group: { id: PM_ENABLED_GROUP_ID } }.to_json
     stub_request(:get, "https://forum.exercism.org/groups/#{PM_ENABLED_GROUP_NAME}.json").to_return(status: 200, body: group_json, headers: { "content-type": "application/json; charset=utf-8" }) # rubocop:disable Layout/LineLength
     stub_request(:put, "https://forum.exercism.org/admin/groups/#{PM_ENABLED_GROUP_ID}/members.json")
@@ -46,6 +54,9 @@ class User::SetDiscourseGroupsTest < ActiveSupport::TestCase
     user = create :user, reputation: User::SetDiscourseGroups::MIN_REP_FOR_PM_ENABLED
 
     stub_insider_group_requests
+    stub_bootcamp_attendee_group_requests
+    stub_bootcamp_mentor_group_requests
+
     user_json = { user: { id: DISCOURSE_USER_ID, groups: { id: PM_ENABLED_GROUP_ID } } }.to_json
     group_json = { group: { id: PM_ENABLED_GROUP_ID } }.to_json
     stub_request(:get, "https://forum.exercism.org/users/by-external/#{user.id}").to_return(status: 200, body: user_json, headers: { "content-type": "application/json; charset=utf-8" }) # rubocop:disable Layout/LineLength
@@ -63,6 +74,9 @@ class User::SetDiscourseGroupsTest < ActiveSupport::TestCase
 
     # Need this for the trust level
     stub_insider_group_requests
+    stub_bootcamp_attendee_group_requests
+    stub_bootcamp_mentor_group_requests
+
     user_json = { user: { id: DISCOURSE_USER_ID } }.to_json
     stub_request(:get, "https://forum.exercism.org/users/by-external/#{user.id}").to_return(status: 200, body: user_json, headers: { "content-type": "application/json; charset=utf-8" }) # rubocop:disable Layout/LineLength
     stub_request(:put, "https://forum.exercism.org/admin/users/#{DISCOURSE_USER_ID}/trust_level")
@@ -74,6 +88,9 @@ class User::SetDiscourseGroupsTest < ActiveSupport::TestCase
     user = create :user, :insider
 
     stub_insider_group_requests
+    stub_bootcamp_attendee_group_requests
+    stub_bootcamp_mentor_group_requests
+
     user_json = { user: { id: DISCOURSE_USER_ID } }.to_json
     group_json = { group: { id: INSIDERS_GROUP_ID } }.to_json
     stub_request(:get, "https://forum.exercism.org/users/by-external/#{user.id}").to_return(status: 200, body: user_json, headers: { "content-type": "application/json; charset=utf-8" }) # rubocop:disable Layout/LineLength
@@ -87,6 +104,9 @@ class User::SetDiscourseGroupsTest < ActiveSupport::TestCase
     user = create :user, :insider
 
     stub_insider_group_requests
+    stub_bootcamp_attendee_group_requests
+    stub_bootcamp_mentor_group_requests
+
     user_json = { user: { id: DISCOURSE_USER_ID, groups: { id: INSIDERS_GROUP_ID } } }.to_json
     group_json = { group: { id: INSIDERS_GROUP_ID } }.to_json
     stub_request(:get, "https://forum.exercism.org/users/by-external/#{user.id}").to_return(status: 200, body: user_json, headers: { "content-type": "application/json; charset=utf-8" }) # rubocop:disable Layout/LineLength
@@ -103,6 +123,9 @@ class User::SetDiscourseGroupsTest < ActiveSupport::TestCase
     user = create :user, insiders_status: :ineligible
 
     stub_insider_group_requests
+    stub_bootcamp_attendee_group_requests
+    stub_bootcamp_mentor_group_requests
+
     user_json = { user: { id: DISCOURSE_USER_ID } }.to_json
     group_json = { group: { id: INSIDERS_GROUP_ID } }.to_json
     stub_request(:get, "https://forum.exercism.org/users/by-external/#{user.id}").to_return(status: 200, body: user_json, headers: { "content-type": "application/json; charset=utf-8" }) # rubocop:disable Layout/LineLength
@@ -119,6 +142,9 @@ class User::SetDiscourseGroupsTest < ActiveSupport::TestCase
     user = create :user, insiders_status: :ineligible
 
     stub_insider_group_requests
+    stub_bootcamp_attendee_group_requests
+    stub_bootcamp_mentor_group_requests
+
     user_json = { user: { id: DISCOURSE_USER_ID, groups: { id: INSIDERS_GROUP_ID } } }.to_json
     group_json = { group: { id: INSIDERS_GROUP_ID } }.to_json
     stub_request(:get, "https://forum.exercism.org/users/by-external/#{user.id}").to_return(status: 200, body: user_json, headers: { "content-type": "application/json; charset=utf-8" }) # rubocop:disable Layout/LineLength
@@ -127,6 +153,69 @@ class User::SetDiscourseGroupsTest < ActiveSupport::TestCase
 
     # Need this for the trust level
     stub_request(:put, "https://forum.exercism.org/admin/users/#{DISCOURSE_USER_ID}/trust_level")
+
+    User::SetDiscourseGroups.(user)
+  end
+
+  test "bootcamp attendee user is added to attendees group" do
+    user = create :user
+    user.update(bootcamp_attendee: true)
+
+    stub_insider_group_requests
+    stub_bootcamp_mentor_group_requests
+
+    user_json = { user: { id: DISCOURSE_USER_ID } }.to_json
+    group_json = { group: { id: BOOTCAMP_ATTENDEES_GROUP_ID } }.to_json
+    stub_request(:get, "https://forum.exercism.org/users/by-external/#{user.id}").to_return(status: 200, body: user_json, headers: { "content-type": "application/json; charset=utf-8" }) # rubocop:disable Layout/LineLength
+    stub_request(:get, "https://forum.exercism.org/groups/#{BOOTCAMP_ATTENDEES_GROUP_NAME}.json").to_return(status: 200, body: group_json, headers: { "content-type": "application/json; charset=utf-8" }) # rubocop:disable Layout/LineLength
+    req = stub_request(:put, "https://forum.exercism.org/admin/groups/#{BOOTCAMP_ATTENDEES_GROUP_ID}/members.json")
+
+    User::SetDiscourseGroups.(user)
+    assert_requested(req)
+  end
+
+  test "non-bootcamp attendee user is removed from bootcamp attendees group" do
+    user = create :user
+
+    stub_insider_group_requests
+    stub_bootcamp_mentor_group_requests
+
+    user_json = { user: { id: DISCOURSE_USER_ID } }.to_json
+    group_json = { group: { id: BOOTCAMP_ATTENDEES_GROUP_ID } }.to_json
+    stub_request(:get, "https://forum.exercism.org/users/by-external/#{user.id}").to_return(status: 200, body: user_json, headers: { "content-type": "application/json; charset=utf-8" }) # rubocop:disable Layout/LineLength
+    stub_request(:get, "https://forum.exercism.org/groups/#{BOOTCAMP_ATTENDEES_GROUP_NAME}.json").to_return(status: 200, body: group_json, headers: { "content-type": "application/json; charset=utf-8" }) # rubocop:disable Layout/LineLength
+    stub_request(:delete, "https://forum.exercism.org/admin/groups/#{BOOTCAMP_ATTENDEES_GROUP_ID}/members.json?user_ids=#{DISCOURSE_USER_ID}")
+
+    User::SetDiscourseGroups.(user)
+  end
+
+  test "bootcamp mentor user is added to mentor group" do
+    user = create :user
+    user.update!(bootcamp_mentor: true)
+
+    stub_insider_group_requests
+    stub_bootcamp_attendee_group_requests
+
+    user_json = { user: { id: DISCOURSE_USER_ID } }.to_json
+    group_json = { group: { id: BOOTCAMP_MENTORS_GROUP_ID } }.to_json
+    stub_request(:get, "https://forum.exercism.org/users/by-external/#{user.id}").to_return(status: 200, body: user_json, headers: { "content-type": "application/json; charset=utf-8" }) # rubocop:disable Layout/LineLength
+    stub_request(:get, "https://forum.exercism.org/groups/#{BOOTCAMP_MENTORS_GROUP_NAME}.json").to_return(status: 200, body: group_json, headers: { "content-type": "application/json; charset=utf-8" }) # rubocop:disable Layout/LineLength
+    stub_request(:put, "https://forum.exercism.org/admin/groups/#{BOOTCAMP_MENTORS_GROUP_ID}/members.json")
+
+    User::SetDiscourseGroups.(user)
+  end
+
+  test "non-bootcamp mentor user is removed from bootcamp mentor group" do
+    user = create :user
+
+    stub_insider_group_requests
+    stub_bootcamp_attendee_group_requests
+
+    user_json = { user: { id: DISCOURSE_USER_ID } }.to_json
+    group_json = { group: { id: BOOTCAMP_MENTORS_GROUP_ID } }.to_json
+    stub_request(:get, "https://forum.exercism.org/users/by-external/#{user.id}").to_return(status: 200, body: user_json, headers: { "content-type": "application/json; charset=utf-8" }) # rubocop:disable Layout/LineLength
+    stub_request(:get, "https://forum.exercism.org/groups/#{BOOTCAMP_MENTORS_GROUP_NAME}.json").to_return(status: 200, body: group_json, headers: { "content-type": "application/json; charset=utf-8" }) # rubocop:disable Layout/LineLength
+    stub_request(:delete, "https://forum.exercism.org/admin/groups/#{BOOTCAMP_MENTORS_GROUP_ID}/members.json?user_ids=#{DISCOURSE_USER_ID}")
 
     User::SetDiscourseGroups.(user)
   end
@@ -143,6 +232,20 @@ class User::SetDiscourseGroupsTest < ActiveSupport::TestCase
     stub_request(:delete, "https://forum.exercism.org/admin/groups/#{INSIDERS_GROUP_ID}/members.json?user_ids=#{DISCOURSE_USER_ID}")
   end
 
+  def stub_bootcamp_attendee_group_requests
+    group_json = { group: { id: BOOTCAMP_ATTENDEES_GROUP_ID } }.to_json
+    stub_request(:get, "https://forum.exercism.org/groups/#{BOOTCAMP_ATTENDEES_GROUP_NAME}.json").to_return(status: 200, body: group_json, headers: { "content-type": "application/json; charset=utf-8" }) # rubocop:disable Layout/LineLength
+    stub_request(:put, "https://forum.exercism.org/admin/groups/#{BOOTCAMP_ATTENDEES_GROUP_ID}/members.json")
+    stub_request(:delete, "https://forum.exercism.org/admin/groups/#{BOOTCAMP_ATTENDEES_GROUP_ID}/members.json?user_ids=#{DISCOURSE_USER_ID}")
+  end
+
+  def stub_bootcamp_mentor_group_requests
+    group_json = { group: { id: BOOTCAMP_MENTORS_GROUP_ID } }.to_json
+    stub_request(:get, "https://forum.exercism.org/groups/#{BOOTCAMP_MENTORS_GROUP_NAME}.json").to_return(status: 200, body: group_json, headers: { "content-type": "application/json; charset=utf-8" }) # rubocop:disable Layout/LineLength
+    stub_request(:put, "https://forum.exercism.org/admin/groups/#{BOOTCAMP_MENTORS_GROUP_ID}/members.json")
+    stub_request(:delete, "https://forum.exercism.org/admin/groups/#{BOOTCAMP_MENTORS_GROUP_ID}/members.json?user_ids=#{DISCOURSE_USER_ID}")
+  end
+
   DISCOURSE_USER_ID = 123
 
   PM_ENABLED_GROUP_ID = 456
@@ -150,4 +253,10 @@ class User::SetDiscourseGroupsTest < ActiveSupport::TestCase
 
   INSIDERS_GROUP_ID = 789
   INSIDERS_GROUP_NAME = "insiders".freeze
+
+  BOOTCAMP_ATTENDEES_GROUP_ID = 140
+  BOOTCAMP_ATTENDEES_GROUP_NAME = "bootcamp_attendees".freeze
+
+  BOOTCAMP_MENTORS_GROUP_ID = 141
+  BOOTCAMP_MENTORS_GROUP_NAME = "bootcamp_mentors".freeze
 end

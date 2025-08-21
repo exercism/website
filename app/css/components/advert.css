@@ -1,12 +1,60 @@
+.c-perk-a {
+    @apply bg-backgroundColorA;
+    @apply border-1 border-borderColor5 rounded-8;
+    @apply pt-10 pb-12 px-16;
+    @apply text-left leading-140 text-14;
+    @apply hover:shadow-sm;
+    @apply flex flex-col items-start;
+    @apply relative;
+
+    background: var(--backgroundColorPerkContainer);
+    @apply border-1 border-vividPurple;
+
+    .logo {
+        max-width: 50%;
+        height: auto;
+        max-height: 35px;
+    }
+
+    .tag {
+        @apply ml-auto mr-[-16px];
+        @apply py-2 pl-16 pr-12;
+        background: #eee;
+        @apply rounded-l-[16px];
+        @apply font-medium;
+        @apply bg-vividPurple text-white;
+    }
+
+    .offer {
+        @apply text-14;
+        @apply mb-6;
+
+        strong {
+            @apply font-semibold;
+        }
+    }
+    .cta {
+        @apply flex flex-row items-center gap-4;
+        @apply text-14 font-medium;
+        color: var(--textColorPerkCTA);
+        img {
+            @apply h-[10px];
+            filter: var(--purple-light-white-dark-filter);
+            &:last-child {
+                opacity: 0.5;
+            }
+        }
+    }
+}
 .theme-light {
-    .c-advert {
+    .c-perk-a {
         .logo-dark {
             @apply hidden;
         }
     }
 }
 .theme-dark {
-    .c-advert {
+    .c-perk-a {
         .logo-light {
             @apply hidden;
         }

@@ -2,13 +2,15 @@ import React from 'react'
 import { Avatar, HandleWithFlair, Reputation } from '@/components/common'
 import { Mentor } from '../MentoringSession'
 import { Pronouns } from '@/components/common/Pronouns'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const MentorInfo = ({ mentor }: { mentor: Mentor }): JSX.Element => {
+  const { t } = useAppTranslation('components/student/mentoring-session')
   return (
     <div className="mentor-info">
       <div className="flex mb-8">
         <div className="flex-grow">
-          <div className="subtitle">Meet your mentor</div>
+          <div className="subtitle">{t('mentorInfo.meetYourMentor')}</div>
           <div className="handle-block">
             <div className="handle">
               <HandleWithFlair

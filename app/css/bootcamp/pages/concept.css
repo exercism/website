@@ -1,0 +1,81 @@
+body.namespace-bootcamp.controller-concepts.action-show {
+    @apply bg-grad-basic;
+}
+#page-bootcamp-concept {
+    header {
+        @apply pb-16;
+        .details {
+            @apply flex items-center gap-20;
+        }
+        /* img {
+      @apply w-[128px] h-[128px];
+    } */
+        h1 {
+            @apply text-[39px] leading-140;
+            @apply font-bold;
+        }
+    }
+    .nav {
+        @apply flex flex-row items-center gap-10;
+        @apply mb-12;
+        a {
+            @apply font-semibold text-16 text-[blue];
+        }
+    }
+
+    .lhs {
+        @apply max-w-[800px];
+        .c-prose {
+            @apply mb-20;
+            img.diagram {
+                display: block;
+                width: 100%;
+                @apply border-2 border-borderColor5;
+                @apply rounded-8;
+                @apply my-20;
+                @apply p-20;
+                background-repeat: repeat;
+                background-image: radial-gradient(
+                    rgba(255, 188, 71, 0.46) 2px,
+                    transparent 2px
+                );
+                background-size: 43px 43px;
+                background-color: #fffff6;
+
+                background-image: linear-gradient(
+                        rgba(255, 188, 71, 0.12) 2px,
+                        transparent 2px
+                    ),
+                    linear-gradient(
+                        to right,
+                        rgba(255, 188, 71, 0.12) 2px,
+                        transparent 2px
+                    );
+                background-size: 43px 43px;
+                background-color: #fffff6;
+            }
+        }
+    }
+    .rhs {
+        @apply flex-grow w-full max-w-[380px] ml-auto;
+    }
+
+    ul.descendants {
+        @apply list-disc pl-6 mt-10 flex flex-col gap-10;
+        li {
+            @apply text-16;
+            @apply mb-4;
+            a {
+                display: inline-flex;
+                flex-direction: column;
+            }
+        }
+    }
+    hr {
+        @apply border-borderColor5;
+        @apply my-20;
+    }
+    h4 a {
+        @apply text-linkColor underline;
+    }
+}

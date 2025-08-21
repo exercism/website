@@ -1,0 +1,10 @@
+{
+  "title": "Exercises Overview",
+  "description": "Reacreate the Exercism exercises overview widget",
+  "language": "css",
+  "level": 14,
+  "idx": 9,
+  "editor_config": {
+    "aspect_ratio": 1.5
+  }
+}

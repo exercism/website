@@ -1,0 +1,48 @@
+#bootcamp-solve-exercise-page {
+    .exercise-digital-clock {
+        background-image: url("bootcamp/assets/digital-clock/background.png");
+        background-size: cover;
+        position: relative;
+        container-type: size;
+
+        .time,
+        .meridiem {
+            font-family: "DSDigital";
+            color: #ec1d26;
+            position: absolute;
+            font-weight: bold;
+        }
+        .time {
+            top: 32%;
+            left: 14%;
+            text-align: center;
+            font-size: 26cqw;
+            letter-spacing: 1cqw;
+            @apply grid;
+            grid-template-columns: 3fr 1fr 3fr;
+
+            .hour,
+            .minute {
+                @apply grid grid-cols-2;
+            }
+
+            .h1,
+            .h2,
+            .m1,
+            .m2 {
+                @apply text-right;
+            }
+        }
+        .meridiem {
+            font-size: 8cqw;
+            letter-spacing: 1cqw;
+            right: 10%;
+            &.am {
+                top: 36%;
+            }
+            &.pm {
+                top: 46%;
+            }
+        }
+    }
+}

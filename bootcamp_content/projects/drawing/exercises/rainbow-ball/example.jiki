@@ -1,0 +1,43 @@
+// These variables expect to be incremented before
+// they are used to draw the first circle
+set x to 3
+set y to 4
+set hue to 99
+
+// These never need to change
+set saturation to 80
+set luminosity to 50
+
+set x_direction to 2
+set y_direction to 1
+set hue_direction to 1
+
+repeat 1000 times do
+  change x to x + x_direction
+  change y to y + y_direction
+  change hue to hue + hue_direction
+
+  if x <= 0 do
+    change x_direction to random_number(1,5)
+  end
+  if x >= 100 do
+    change x_direction to random_number(-1,-5)
+  end
+  
+  if y <= 0 do
+    change y_direction to random_number(1,5)
+  end
+  if y >= 100 do
+    change y_direction to -random_number(1,5)
+  end
+  
+  if hue_direction <= 0 do
+    change hue_direction to 1
+  end
+  if hue_direction >= 255 do
+    change hue_direction to -1
+  end
+
+  fill_color_hsl(hue, 80, 50)
+  circle(x, y, 10)
+end

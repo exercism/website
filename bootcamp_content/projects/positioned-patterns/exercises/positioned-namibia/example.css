@@ -1,0 +1,87 @@
+#flag {
+    .stripes {
+        position: absolute;
+        width: 170%;
+        height: 170%;
+        top: -50%;
+        left: -20%;
+        display: grid;
+        transform: rotate(-35deg);
+        grid-template-rows: 40% 1fr 15% 1fr 40%;
+
+        .blue {
+            background: #002f6c;
+        }
+        .white {
+            background: white;
+        }
+        .red {
+            background: #c8102e;
+        }
+        .green {
+            background: #009a44;
+        }
+    }
+    .emblem {
+        position: absolute;
+        left: 40px;
+        top: 30px;
+        width: 100px;
+        height: 100px;
+        display: grid;
+        place-items: center;
+        .circle {
+            position: relative;
+            border: 5px solid #002f6c;
+            background: #ffcd00;
+            border-radius: 100%;
+            width: 50px;
+            height: 50px;
+            z-index: 2;
+        }
+        .triangles {
+            position: absolute;
+            inset: 0;
+            img {
+                height: 50px;
+                transform-origin: bottom center;
+                position: absolute;
+                left: 50px;
+                transform: translateX(-50%);
+            }
+            img:nth-of-type(2) {
+                transform: translateX(-50%) rotate(30deg);
+            }
+            img:nth-of-type(3) {
+                transform: translateX(-50%) rotate(60deg);
+            }
+            img:nth-of-type(4) {
+                transform: translateX(-50%) rotate(90deg);
+            }
+            img:nth-of-type(5) {
+                transform: translateX(-50%) rotate(120deg);
+            }
+            img:nth-of-type(6) {
+                transform: translateX(-50%) rotate(150deg);
+            }
+            img:nth-of-type(7) {
+                transform: translateX(-50%) rotate(180deg);
+            }
+            img:nth-of-type(8) {
+                transform: translateX(-50%) rotate(210deg);
+            }
+            img:nth-of-type(9) {
+                transform: translateX(-50%) rotate(240deg);
+            }
+            img:nth-of-type(10) {
+                transform: translateX(-50%) rotate(270deg);
+            }
+            img:nth-of-type(11) {
+                transform: translateX(-50%) rotate(300deg);
+            }
+            img:nth-of-type(12) {
+                transform: translateX(-50%) rotate(330deg);
+            }
+        }
+    }
+}

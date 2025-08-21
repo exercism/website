@@ -12,15 +12,23 @@ module Metrics
       redis_key = Metrics.const_get("num_#{key}_key".upcase)
 
       define_method "num_#{key}" do
-        Exercism.redis_tooling_client.get(redis_key)
+        Exercism.redis_cache_client.get(redis_key)
       end
 
       define_method "increment_num_#{key}!" do
-        Exercism.redis_tooling_client.incr(redis_key)
+        Exercism.redis_cache_client.incr(redis_key)
       end
 
       define_method "set_num_#{key}!" do
-        Exercism.redis_tooling_client.set(redis_key, klass.count)
+        return if send("num_#{key}").to_i > 350_000
+
+        count = ActiveRecord::Base.connection.select_value("
+          SELECT table_rows
+          FROM information_schema.tables
+          WHERE table_schema = '#{ActiveRecord::Base.connection.current_database}'
+            AND table_name = '#{klass.table_name}';
+        ")
+        Exercism.redis_cache_client.set(redis_key, count)
       end
     end
   end

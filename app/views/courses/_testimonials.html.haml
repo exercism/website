@@ -1,0 +1,32 @@
+%section#testimonial-section
+  .lg-container
+    %h2= t('.heading')
+    %p.subheading
+      = t('.subheading_html', link_to_read_more: (link_to t('.subheading_link'), courses_testimonials_path, class: "underline font-semibold")).html_safe
+    .primary-quote
+      .words
+        = image_tag "bootcamp/quote.png", class: 'mark left-mark'
+        %span
+          = t('.primary_quote_text')
+          = image_tag "bootcamp/quote.png", class: 'mark right-mark'
+      .person
+        .text
+          .name= t('.primary_quote_name')
+          .description= t('.primary_quote_description')
+        = image_tag "bootcamp/testimonials/oleksandra.jpg"
+
+    .quotes
+      - quotes.each do |quote, name, role, image_url|
+        .quote
+          .words
+            = image_tag "bootcamp/quote.png", class: 'mark left-mark'
+            %span
+              = raw Markdown::Parse.(quote)
+              = image_tag "bootcamp/quote.png", class: 'mark right-mark'
+          .person
+            .stars
+            .flex.flex-row.items-center.justify-end.gap-8
+              .text
+                .name= name
+                .description= role
+              = image_tag "bootcamp/testimonials/#{image_url}"

@@ -1,0 +1,117 @@
+{
+  "title": "After Party",
+  "description": "Solve an After Party guest list",
+  "level": 6,
+  "idx": 4,
+  "tests_type": "io",
+  "tasks": [
+    {
+      "name": "Standard Tasks",
+      "tests": [
+        {
+          "slug": "empty-list",
+          "description_html": "No-one's allowed in",
+          "name": "Empty register",
+          "function": "on_guest_list",
+          "args": [[], "Brad"],
+          "checks": [
+            {
+              "value": false
+            }
+          ]
+        },
+        {
+          "slug": "name-missing",
+          "description_html": "The name's but on the list",
+          "name": "Brad's turned away",
+          "function": "on_guest_list",
+          "args": [["Brian May", "Bryn Harrison", "Albert Einstein"], "Brad"],
+          "checks": [
+            {
+              "value": false
+            }
+          ]
+        },
+        {
+          "slug": "name-present",
+          "description_html": "The name's on the list",
+          "name": "Brad's allowed in",
+          "function": "on_guest_list",
+          "args": [["Brian May", "Brad Pitt", "Albert Einstein"], "Brad"],
+          "checks": [
+            {
+              "value": true
+            }
+          ]
+        },
+        {
+          "slug": "similar-name",
+          "description_html": "The name isn't on the list",
+          "name": "Close, not nope",
+          "function": "on_guest_list",
+          "args": [["Brian May", "Bradley Cooper", "Albert Einstein"], "Brad"],
+          "checks": [
+            {
+              "value": false
+            }
+          ]
+        },
+        {
+          "slug": "double-barrelled",
+          "description_html": "The name's on the list, but it's hyphenated",
+          "name": "A dutchman",
+          "function": "on_guest_list",
+          "args": [
+            [
+              "Brian May",
+              "Brad Pitt",
+              "Derk-Jan Karrenbeld",
+              "Albert Einstein"
+            ],
+            "Derk-Jan"
+          ],
+          "checks": [
+            {
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Bonus Tasks!",
+      "tests": [
+        {
+          "slug": "cher",
+          "description_html": "Some people only have one name",
+          "name": "Cher's in town",
+          "function": "on_guest_list",
+          "args": [
+            ["Cher", "Brian May", "Brad Pitt", "Albert Einstein"],
+            "Cher"
+          ],
+          "checks": [
+            {
+              "value": true
+            }
+          ]
+        },
+        {
+          "slug": "cheryl",
+          "description_html": "Are Cheryl Crow and Cher friends?",
+          "name": "Getting tough now",
+          "function": "on_guest_list",
+          "args": [
+            ["Cher", "Brian May", "Brad Pitt", "Albert Einstein"],
+            "Cheryl"
+          ],
+          "checks": [
+            {
+              "value": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

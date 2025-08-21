@@ -1,0 +1,6 @@
+{
+  "slug": "snake",
+  "title": "Snake",
+  "description": "Recreate the classic nokia game of Snake",
+  "exercises": ["slithery-snake", "controlled-snake", "growing-snake"]
+}

@@ -7,11 +7,7 @@ class User::ReputationTokens::CodeReviewToken < User::ReputationToken
 
   before_validation on: :create do
     self.earned_on = self.merged_at || self.closed_at || Time.current unless earned_on
-
-    unless track
-      normalized_repo = repo.gsub(/-(test-runner|analyzer|representer)$/, '')
-      self.track_id = Track.where(repo_url: "https://github.com/#{normalized_repo}").pick(:id)
-    end
+    self.track_id = Track.id_for_repo(repo) unless track
   end
 
   def guard_params = "PR##{pr_node_id}"

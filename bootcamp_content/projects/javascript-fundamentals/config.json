@@ -1,0 +1,28 @@
+{
+  "slug": "javascript-fundamentals",
+  "title": "JavaScript Fundamentals",
+  "description": "A series of exercises to get you familiar with JavaScript.",
+  "exercises": [
+    "lasagna",
+    "freelancer-rates",
+    "poetry-club-door-policy",
+    "annalyns-infiltration",
+    "elyses-enchantments",
+    "vehicle-purchase",
+    "etiquette-evening",
+    "abbreviations",
+    "tournament",
+    "elyses-analytic-enchantments",
+    "resistor-color",
+    "resistor-color-duo",
+    "isogram",
+    "stormy-sounds",
+    "professor-collatz",
+    "is-it-isbn",
+    "strand-similarity",
+    "letter-points",
+    "dna-to-rna",
+    "codon-pivot",
+    "nucleotides"
+  ]
+}

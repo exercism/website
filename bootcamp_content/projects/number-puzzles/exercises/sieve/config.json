@@ -1,0 +1,65 @@
+{
+  "title": "Sieve of Eratosthenes",
+  "description": "Find all prime numbers up to a given limit using the Sieve of Eratosthenes.",
+  "level": 7,
+  "idx": 10,
+  "tests_type": "io",
+  "stdlib_functions": ["push"],
+  "interpreter_options": {
+    "max_total_loop_iterations": 20000
+  },
+  "tasks": [
+    {
+      "name": "Basic cases",
+      "tests": [
+        {
+          "name": "No primes under two",
+          "slug": "sieve-no-primes-under-two",
+          "description_html": "There are no prime numbers less than 2.",
+          "function": "sieve",
+          "args": [1],
+          "checks": [{ "value": [] }]
+        },
+        {
+          "name": "Find first prime",
+          "slug": "sieve-first-prime",
+          "description_html": "The first prime number is 2.",
+          "function": "sieve",
+          "args": [2],
+          "checks": [{ "value": [2] }]
+        },
+        {
+          "name": "Find primes up to 10",
+          "slug": "sieve-primes-up-to-10",
+          "description_html": "Find prime numbers up to 10.",
+          "function": "sieve",
+          "args": [10],
+          "checks": [{ "value": [2, 3, 5, 7] }]
+        },
+        {
+          "name": "Limit is prime",
+          "slug": "sieve-limit-is-prime",
+          "description_html": "Find prime numbers up to a limit that is prime.",
+          "function": "sieve",
+          "args": [13],
+          "checks": [{ "value": [2, 3, 5, 7, 11, 13] }]
+        },
+        {
+          "name": "Find primes up to 1000",
+          "slug": "sieve-primes-up-to-1000",
+          "description_html": "Find all prime numbers up to 1000.",
+          "function": "sieve",
+          "args": [100],
+          "checks": [
+            {
+              "value": [
+                2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59,
+                61, 67, 71, 73, 79, 83, 89, 97
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

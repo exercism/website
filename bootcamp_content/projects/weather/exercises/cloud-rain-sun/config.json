@@ -1,0 +1,92 @@
+{
+  "idx": 6,
+  "title": "Clouds, Rain, and Sun",
+  "description": "Make a compound image for clouds, rain and sun",
+  "project_type": "weather",
+  "level": 1,
+  "concepts": [],
+  "tests_type": "state",
+  "readonly_ranges": [],
+  "tasks": [
+    {
+      "name": "Draw the scene",
+      "tests": [
+        {
+          "slug": "draw-scene",
+          "name": "Draw the scene.",
+          "description_html": "Fill in the outline to look like the image in the instructions",
+          "setup_functions": [
+            [
+              "setBackgroundImage",
+              [
+                "https://assets.exercism.org/bootcamp/graphics/cloud-rain-sun-template.png"
+              ]
+            ]
+          ],
+          "checks": [
+            {
+              "function": "getCircleAt(75, 30, 15)",
+              "matcher": "toBeDefined",
+              "error_html": "The sun isn't correct."
+            },
+            {
+              "function": "getRectangleAt(25, undefined, 50, undefined)",
+              "matcher": "toBeDefined",
+              "error_html": "The base of the cloud isn't correct."
+            },
+            {
+              "function": "getCircleAt(25, 50, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The fluffy bits of the cloud aren't correct."
+            },
+            {
+              "function": "getCircleAt(40, 40, 15)",
+              "matcher": "toBeDefined",
+              "error_html": "The fluffy bits of the cloud aren't correct."
+            },
+            {
+              "function": "getCircleAt(55, 40, 20)",
+              "matcher": "toBeDefined",
+              "error_html": "The fluffy bits of the cloud aren't correct."
+            },
+            {
+              "function": "getCircleAt(75, 50, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The fluffy bits of the cloud aren't correct."
+            },
+            {
+              "function": "getCircleAt(75, 50, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The fluffy bits of the cloud aren't correct."
+            },
+            {
+              "function": "getEllipseAt(30, 70, 3, 5)",
+              "matcher": "toBeDefined",
+              "error_html": "The first rain drop isn't correct"
+            },
+            {
+              "function": "getEllipseAt(50, 70, 3, 5)",
+              "matcher": "toBeDefined",
+              "error_html": "The second rain drop isn't correct"
+            },
+            {
+              "function": "getEllipseAt(70, 70, 3, 5)",
+              "matcher": "toBeDefined",
+              "error_html": "The third rain drop isn't correct"
+            },
+            {
+              "function": "getEllipseAt(40, 80, 3, 5)",
+              "matcher": "toBeDefined",
+              "error_html": "The fourth rain drop isn't correct"
+            },
+            {
+              "function": "getEllipseAt(60, 80, 3, 5)",
+              "matcher": "toBeDefined",
+              "error_html": "The fifth rain drop isn't correct"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

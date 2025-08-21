@@ -15,6 +15,7 @@ import { ResultsZone } from '@/components/ResultsZone'
 import type { Links } from '@/components/student/RequestMentoringButton'
 import type { PaginatedResult, SolutionForStudent } from '@/components/types'
 import { scrollToTop } from '@/utils/scroll-to-top'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to pull exercises')
 
@@ -26,6 +27,7 @@ export const RequestMentoringModal = ({
   request: Request
   links: Links
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/modals/RequestMentoringModal.tsx')
   const { request, setPage, setCriteria } = useList(initialRequest)
   const {
     status,
@@ -43,7 +45,7 @@ export const RequestMentoringModal = ({
       className="m-select-exercise-for-mentoring"
       {...props}
     >
-      <h2>Select an exercise to request mentoring on</h2>
+      <h2>{t('selectExercise.title')}</h2>
       <div className="c-search-bar">
         <input
           value={request.query.criteria || ''}
@@ -52,7 +54,7 @@ export const RequestMentoringModal = ({
           }}
           type="text"
           className="--search"
-          placeholder="Search exercise by name"
+          placeholder={t('selectExercise.searchPlaceholder')}
         />
       </div>
       <FetchingBoundary
@@ -82,7 +84,10 @@ export const RequestMentoringModal = ({
                         {solution.exercise.title}
                       </div>
                       <div className="num-iterations">
-                        <Icon icon="iteration" alt="Number of iterations" />
+                        <Icon
+                          icon="iteration"
+                          alt={t('exercise.numberOfIterations')}
+                        />
                         {solution.numIterations}
                       </div>
                       <div className="last-touched">

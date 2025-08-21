@@ -1,0 +1,62 @@
+@import "../tailwind";
+@import "../defaults";
+@import "../fonts";
+@import "../ui-kit/all";
+@import "../components/tab";
+@import "../components/iteration-pane";
+
+@import "../bootcamp/variables";
+
+@import "../bootcamp/components/solve-exercise-page";
+@import "../bootcamp/components/frontend-training-page";
+@import "../bootcamp/components/frontend-exercise-page";
+@import "../bootcamp/components/custom-function-selector";
+@import "../bootcamp/components/rhs-list";
+@import "../bootcamp/components/breadcrumbs";
+@import "../bootcamp/components/completed-bar";
+@import "../bootcamp/components/site-header";
+@import "../bootcamp/components/codemirror";
+@import "../bootcamp/components/scrubber";
+@import "../bootcamp/components/prose";
+@import "../bootcamp/components/editor-information-tooltip";
+@import "../bootcamp/components/tasks";
+@import "../bootcamp/components/toggle-switch";
+@import "../bootcamp/components/test-buttons";
+@import "../bootcamp/components/scenario";
+@import "../bootcamp/components/logger";
+@import "../bootcamp/components/modal";
+
+@import "../bootcamp/components/project-widget";
+@import "../bootcamp/components/exercise-widget";
+@import "../bootcamp/components/concept-widget";
+@import "../components/copy-text-to-clipboard.css";
+
+@import "../bootcamp/pages/dashboard";
+@import "../bootcamp/pages/projects";
+@import "../bootcamp/pages/project";
+@import "../bootcamp/pages/concepts";
+@import "../bootcamp/pages/concept";
+@import "../bootcamp/pages/levels";
+@import "../bootcamp/pages/level";
+@import "../bootcamp/pages/faqs";
+@import "../bootcamp/pages/custom-functions";
+@import "../bootcamp/pages/custom-function-editor";
+
+@import "../bootcamp/pages/admin/base";
+@import "../bootcamp/pages/admin/exercises";
+
+@import "../bootcamp/exercises/draw.css";
+@import "../bootcamp/exercises/maze.css";
+@import "../bootcamp/exercises/wordle.css";
+@import "../bootcamp/exercises/space-invaders.css";
+@import "../bootcamp/exercises/digital-clock.css";
+@import "../bootcamp/exercises/rock-paper-scissors.css";
+@import "../bootcamp/exercises/tic-tac-toe.css";
+@import "../bootcamp/exercises/breakout.css";
+@import "../bootcamp/exercises/weather.css";
+
+@import "../components/textblock";
+
+@import "../highlighters/highlightjs-colors";
+@import "../highlighters/highlightjs-jikiscript";
+@import "../highlighters/highlight-links";

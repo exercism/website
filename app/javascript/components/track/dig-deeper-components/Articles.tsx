@@ -1,17 +1,22 @@
+// i18n-key-prefix: articles
+// i18n-namespace: components/track/dig-deeper-components
 import React, { useContext } from 'react'
 import { ArticleSnippet, SectionHeader } from '.'
 import { Article, DigDeeperDataContext } from '../DigDeeper'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function Articles({ articles }: { articles: Article[] }): JSX.Element {
   const { exercise } = useContext(DigDeeperDataContext)
+  const { t } = useAppTranslation('components/track/dig-deeper-components')
+
   return (
     <div className="flex flex-col">
       <SectionHeader
-        title="Articles"
+        title={t('sectionHeader.articles')}
         description={
           articles.length > 0
-            ? 'Explore more ideas about this exercise'
-            : `There are no Articles for ${exercise.title}.`
+            ? t('sectionHeader.exploreMoreIdeas')
+            : t('sectionHeader.noArticles', { exerciseTitle: exercise.title })
         }
         icon="dig-deeper-gradient"
         className="mb-16"

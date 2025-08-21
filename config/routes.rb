@@ -81,9 +81,18 @@ Rails.application.routes.draw do
     get :communication_preferences
     get :donations
     get :integrations
+    get :insiders
     patch :reset_account
     delete :destroy_account
     delete :disconnect_discord
+
+    resource :github_syncer, only: %i[show update destroy], controller: "settings/github_syncer" do
+      get :callback # For GitHub installation callback
+      patch :sync_everything
+      patch :sync_track
+      patch :sync_solution
+      patch :sync_iteration
+    end
   end
 
   resource :dashboard, only: [:show], controller: "dashboard"
@@ -152,6 +161,12 @@ Rails.application.routes.draw do
     resources :submissions, only: [:index]
     resources :exercise_representations
     resources :site_updates, except: [:destroy]
+    resources :track_maintainers, only: %i[index create]
+    resources :track_categories, only: %i[index create]
+  end
+
+  namespace :localization do
+    resource :translator, only: %i[new create]
   end
 
   namespace :contributing do
@@ -231,7 +246,13 @@ Rails.application.routes.draw do
       post :join
     end
   end
-  resources :exercises, only: %i[show], controller: "generic_exercises", as: :generic_exercises
+  resources :exercises, only: %i[show], controller: "generic_exercises", as: :generic_exercises do
+    member do
+      get :approaches
+    end
+  end
+
+  resources :favorites, only: [:index]
 
   resource :user_onboarding, only: %i[show create], controller: "user_onboarding"
   resource :journey, only: [:show], controller: "journey" do
@@ -245,6 +266,7 @@ Rails.application.routes.draw do
   resources :challenges, only: [:show] do
     post :start, on: :member
     get :implementation_status, on: :member
+    get "implementation_status/:track_slug" => "challenges#track_implementation_status", on: :member, as: :track_implementation_status
   end
 
   # ############ #
@@ -252,6 +274,7 @@ Rails.application.routes.draw do
   # ############ #
   resource :unsubscribe, only: %i[show update], controller: "unsubscribe" do
     patch :all
+    get :easy_all, action: "all"
   end
 
   # #### #
@@ -271,6 +294,8 @@ Rails.application.routes.draw do
   get "sitemap-profiles" => "sitemaps#profiles", as: :sitemap_profiles
   get "sitemap-tracks-:track_id" => "sitemaps#track", as: :sitemap_track
 
+  get "ihid", to: 'pages#ihid'
+  get "javascript-browser-test-runner-worker.mjs", to: 'pages#javascript_browser_test_runner_worker'
   root to: "pages#index"
 
   ##############
@@ -292,7 +317,8 @@ Rails.application.routes.draw do
   resources :adverts, controller: "partner/adverts", only: [] do
     get :redirect, on: :member
   end
-  resources :perks, only: %i[index show] do
+  resources :partners, only: [:show]
+  resources :perks, only: %i[index] do
     get :claim, on: :member
   end
 
@@ -468,4 +494,21 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  get "/courses" => "courses#index"
+
+  get "/courses/testimonials" => "courses#testimonials"
+  get "/courses/enrolled" => "courses#enrolled", as: :courses_enrolled
+  get "/courses/:id" => "courses#show", as: :course
+
+  get "/courses/:id/enroll" => "courses#start_enrolling", as: :course_start_enrolling
+  post "/courses/:id/enroll" => "courses#enroll", as: :course_enroll
+  get "/courses/:id/pay" => "courses#pay", as: :course_pay
+
+  post "/courses/stripe/create-checkout-session" => "courses#stripe_create_checkout_session", as: :courses_stripe_create_checkout_session
+  get "/courses/stripe/session-status" => "courses#stripe_session_status", as: :courses_stripe_session_status
+
+  get "/bootcamp" => "courses#course_redirect", as: :bootcamp
+
+  draw(:bootcamp)
 end

@@ -1,0 +1,31 @@
+// The sky
+fill_color_hex("#add8e6")
+rectangle(0,0,100,100)
+
+// The grass
+fill_color_hex("#3cb372")
+rectangle(0,80,100,100)
+
+// The frame of the house
+fill_color_hex("#f0985b")
+rectangle(10,20,55,30)
+
+// The roof
+fill_color_hex("#8b4513")
+triangle(26,90, 60,60, 100,90)
+
+// The left window
+fill_color_hex("#FFFFFF")
+rectangle(10,15,6,7)
+
+// The second window
+fill_color_hex("#FFFFFF")
+rectangle(18,55,22,23)
+
+// The door
+fill_color_hex("#A0512D")
+rectangle(83,12,10,16)
+
+// The door knob
+fill_color_hex("#FFDF00")
+circle(91,20,1)

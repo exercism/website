@@ -1,0 +1,21 @@
+#flag {
+    background: white;
+    display: flex;
+    flex-wrap: wrap;
+    background: white;
+    gap: 50px;
+}
+
+#flag div {
+    background: #c8102e;
+
+    &:nth-child(1),
+    &:nth-child(3) {
+        flex-basis: 30%;
+    }
+    &:nth-child(2),
+    &:nth-child(4) {
+        flex-basis: 50%;
+        flex-grow: 1;
+    }
+}

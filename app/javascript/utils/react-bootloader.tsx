@@ -222,9 +222,10 @@ if (/Chrome/.test(navigator.userAgent)) {
 }
 
 const roots = new WeakMap()
+const eventListeners = new WeakSet()
+
 const render = (elem: HTMLElement, component: React.ReactNode) => {
   let root = roots.get(elem)
-
   if (!root) {
     root = createRoot(elem)
     roots.set(elem, root)
@@ -237,10 +238,20 @@ const render = (elem: HTMLElement, component: React.ReactNode) => {
       </QueryClientProvider>
     </React.StrictMode>
   )
-  document.addEventListener('turbo:before-frame-render', () => {
-    root.unmount()
-    roots.delete(elem)
-  })
+
+  // make sure we only add the event listener once per element
+  if (!eventListeners.has(elem)) {
+    eventListeners.add(elem)
+    document.addEventListener('turbo:before-frame-render', () => {
+      if (elem.dataset.persistent === 'true') return
+      const rootToCleanup = roots.get(elem)
+      if (rootToCleanup) {
+        rootToCleanup.unmount()
+        roots.delete(elem)
+        eventListeners.delete(elem)
+      }
+    })
+  }
 }
 
 export function renderComponents(
@@ -259,6 +270,13 @@ export function renderComponents(
     // dataset doesn't exist on type `Element`
     if (!(elem instanceof HTMLElement)) continue
 
+    if (
+      elem.dataset.persistent === 'true' &&
+      elem.dataset.rendered === 'true'
+    ) {
+      continue
+    }
+
     const reactId = elem.dataset['reactId']
     const reactData = elem.dataset.reactData
     const generator = reactId ? mappings[reactId] : null
@@ -266,6 +284,9 @@ export function renderComponents(
     if (reactId && generator && reactData) {
       const data = JSON.parse(reactData)
       render(elem, generator(data, elem))
+      if (elem.dataset.persistent === 'true') {
+        elem.dataset.rendered = 'true'
+      }
     }
   }
 }

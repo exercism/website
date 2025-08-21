@@ -5,6 +5,8 @@ class SettingsController < ApplicationController
 
   def communication_preferences; end
 
+  def insiders; end
+
   def donations
     @payments = current_user.payments.includes(:subscription).order(id: :desc)
   end

@@ -28,6 +28,7 @@ module Website
     end
 
     config.middleware.use Rack::CrawlerDetect
+    config.middleware.insert_after Rack::Runtime, Rack::ContentLength
 
     # Allow SVGs to render from active storage
     config.active_storage.content_types_to_serve_as_binary -= ['image/svg+xml']

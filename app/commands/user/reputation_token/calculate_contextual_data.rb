@@ -100,7 +100,7 @@ class User::ReputationToken::CalculateContextualData
   private_constant :Data
 
   def with_cache(user_id, key)
-    redis = Exercism.redis_tooling_client
+    redis = Exercism.redis_cache_client
     user_key = User::ReputationToken.cache_hash_for(user_id)
     value_key = ["contextual/#{key}", period, track_id, category].join("|")
 

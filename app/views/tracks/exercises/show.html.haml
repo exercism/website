@@ -1,14 +1,22 @@
+-# rubocop:disable Style/IfInsideElse
 - exercise_meta_tags(@exercise, @user_track)
 - require_stylesheet "track"
 
-#page-exercise-show
+- advert = Partner::Advert.for_track(@track)
+- advert = nil unless advert&.show_to?(current_user)
+
+#page-exercise-show{ class: advert ? "has-advert" : nil }
+  .lg-container.relative.z-1
+    - if advert
+      = render ViewComponents::Partner::Advert.new(advert:)
+
   = render ViewComponents::Track::ExerciseHeader.new(@exercise, @solution, @user_track, :overview)
   - if @user_track.external?
     = render "tracks/exercises/show/external", track: @track, exercise: @exercise, user_track: @user_track
   - else
     .lg-container.flex.flex-col.lg:flex-row
       .flex-shrink-0.mb-32.lg:mb-0{ class: 'lg:w-[40%]' }
-        .bg-backgroundColorA.shadow-lg.py-20.px-20.rounded-8{ class: "lg:py-24 lg:px-32" }
+        .bg-backgroundColorA.shadow-lg.py-20.px-20.rounded-8.mb-16{ class: "lg:py-24 lg:px-32" }
           - if @solution
             - if @solution.status_completed? || @solution.status_published?
               = render "tracks/exercises/show/timeline_completed", track: @track, exercise: @exercise, solution: @solution, user_track: @user_track
@@ -24,9 +32,12 @@
               = render "tracks/exercises/show/action_box_locked", exercise: @exercise, user_track: @user_track
             - else
               = render "tracks/exercises/show/action_box_locked_by_hello_world", exercise: @exercise, user_track: @user_track, track: @track
+        - if @solution&.iterated?
+          .bg-backgroundColorA.shadow-lg.rounded-8
+            = render ReactComponents::Student::GithubSolutionSyncerWidget.new(@solution)
 
         .mt-28.ml-8
-          = render ViewComponents::ProminentLink.new("View track documentation", Exercism::Routes.track_docs_path(@track))
+          = render ViewComponents::ProminentLink.new(t('.view_track_documentation'), Exercism::Routes.track_docs_path(@track))
 
       .lg:ml-32.lg:w-arbitary.flex-grow
         - if @exercise.concept_exercise?
@@ -35,3 +46,4 @@
           - else
             = render "tracks/exercises/show/uncompleted_concepts_section", user_track: @user_track, track: @track, exercise: @exercise, solution: @solution
         = render "tracks/exercises/show/instructions", track: @track, exercise: @exercise, solution: @solution
+-# rubocop:enable Style/IfInsideElse

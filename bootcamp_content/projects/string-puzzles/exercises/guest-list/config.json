@@ -1,0 +1,62 @@
+{
+  "title": "Guest List",
+  "description": "Determine if someone is on the guest list",
+  "level": 5,
+  "idx": 4,
+  "tests_type": "io",
+  "tasks": [
+    {
+      "name": "Determine if someone is on the guest list",
+      "tests": [
+        {
+          "slug": "name-single-list-true",
+          "description_html": "Return true if a person is on the guest list",
+          "name": "Person is on a single person list",
+          "function": "on_guest_list",
+          "args": [["Jeremy"], "Jeremy"],
+          "checks": [
+            {
+              "value": true
+            }
+          ]
+        },
+        {
+          "slug": "name-single-list-false",
+          "description_html": "Return false if a person is not on the guest list",
+          "name": "Person is not on a single person list",
+          "function": "on_guest_list",
+          "args": [["Nicole"], "Jeremy"],
+          "checks": [
+            {
+              "value": false
+            }
+          ]
+        },
+        {
+          "slug": "name-list-true",
+          "description_html": "Return true if a person is on a larger guest list",
+          "name": "Person is on a larger list",
+          "function": "on_guest_list",
+          "args": [["Aron", "Jeremy", "Nicole"], "Jeremy"],
+          "checks": [
+            {
+              "value": true
+            }
+          ]
+        },
+        {
+          "slug": "name-list-false",
+          "description_html": "Return false if a person is not on a larger guest list",
+          "name": "Person is not on a larger list",
+          "function": "on_guest_list",
+          "args": [["Aron", "Frank", "Nicole"], "Jeremy"],
+          "checks": [
+            {
+              "value": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

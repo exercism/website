@@ -39,8 +39,8 @@ export const StartDiscussionPanel = ({
     mutate: mutation,
     status,
     error,
-  } = useMutation<Discussion>(
-    async () => {
+  } = useMutation<Discussion>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: request.links.discussion,
         method: 'POST',
@@ -53,10 +53,8 @@ export const StartDiscussionPanel = ({
 
       return fetch.then((json) => typecheck<Discussion>(json, 'discussion'))
     },
-    {
-      onSuccess: (discussion) => redirectTo(discussion.links.self),
-    }
-  )
+    onSuccess: (discussion) => redirectTo(discussion.links.self),
+  })
 
   const handleSubmit = useCallback(() => {
     mutation()

@@ -1,17 +1,18 @@
+- require_stylesheet "about"
+- require_stylesheet "admin"
 .c-admin-page
   .lg-container
-    %h1.text-h1.mb-16 Advert #{@partner.name}##{@advert.id}
+    %h1.text-h1.mb-16= t('.title', partner_name: @partner.name, advert_id: @advert.id)
     = render ViewComponents::Partner::Advert.new(advert: @advert, preview: true)
     %hr.my-32.border-borderColor5
 
-    .text-h6.mb-8 Status: #{@advert.status.titleize}
-    .text-h6.mb-8 URL: #{@advert.url}
-    .text-h6.mb-8 Num Impressions: #{@advert.num_impressions}
-    .text-h6.mb-8 Num Clicks: #{@advert.num_clicks}
+    .text-h6.mb-8= t('.status', status: @advert.status.titleize)
+    .text-h6.mb-8= t('.track_slugs', slugs: @advert.track_slugs)
+    .text-h6.mb-8= t('.url', url: @advert.url)
+    .text-h6.mb-8= t('.num_impressions', count: @advert.num_impressions)
+    .text-h6.mb-8= t('.num_clicks', count: @advert.num_clicks)
 
     %hr.my-32.border-borderColor5
 
     .flex
-      = link_to "Back to partner", [:admin, @partner], class: 'btn btn-m'
-
-
+      = link_to t('.back_to_partner_button'), [:admin, @partner], class: 'btn btn-m'

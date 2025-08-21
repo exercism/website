@@ -2,6 +2,8 @@ require "test_helper"
 
 class Exercise::UpdateTagsTest < ActiveSupport::TestCase
   test "update tags" do
+    skip # Tags disabled for now!
+
     exercise = create :practice_exercise
     other_exercise = create :practice_exercise
 
@@ -40,6 +42,8 @@ class Exercise::UpdateTagsTest < ActiveSupport::TestCase
   end
 
   test "update track tags" do
+    skip # Tags disabled for now!
+
     exercise = create :practice_exercise
 
     Track::UpdateTags.expects(:call).with(exercise.track)

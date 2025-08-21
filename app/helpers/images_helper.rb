@@ -11,7 +11,7 @@ module ImagesHelper
   def avatar(user, alt: nil, css_class: 'c-avatar', extra_css_class: nil)
     bg_img(
       user.avatar_url,
-      (alt || "Uploaded avatar of #{user.handle}"),
+      alt || "Uploaded avatar of #{user.handle}",
       css_class:,
       extra_css_class:
     )

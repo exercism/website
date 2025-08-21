@@ -7,27 +7,70 @@
       .top.grid.grid-cols-1.md:grid-cols-2.gap-48
         .top-lhs
           %h1.text-h1.flex.items-center.gap-12.mb-4.sm:mb-8.lg:text-48.text-30.sm:text-32
-            Exercism Insiders
+            = t('.hero_section.title')
             = graphical_icon "insiders", css_class: 'h-[32px] md:h-[60px] w-[32px] md:w-[60px]'
           %h3.text-h3.mb-16.leading-140
-            Enjoying Exercism?
-            We rely on donations from people like you to survive &amp; grow!
+            %span.font-bold Donate to Exercism
+            and get
+            %span.underline bonus features
+            and
+            %span.underline behind-the-scenes content.
+          %p.text-p-xlarge.mb-12
+            %span.text-textColor1
+              We rely on donations from
+              %strong people like you
+              to survive &amp; grow!
+              Insiders is our way of thanking you for supporting us!
+          %p.text-p-xlarge.mb-24
+            Get behind-the-scenes access,
+            %strong Dark Mode,
+            exclusive badges,
+            %strong advanced GitHub Sync and Favorites,
+            ChatGPT integration,
+            %strong extra mentoring slots,
+            private Discord channel,
+            %strong an ad-free experience,
+            and more when you donate to Exercism 🎉
+            = t('.hero_section.subtitle_html')
           %p.text-p-xlarge.mb-24
             %strong.text-textColor1
-              Insiders is our way of saying thank you for supporting us.
-              %br
-            Get behind-the-scenes access, Dark Mode, exclusive badges, ChatGPT integration, extra mentoring slots, private Discord channel, and more when you donate to Exercism 🎉
+              = t('.hero_section.description_html')
 
           - if current_user.present?
             = render ReactComponents::Insiders::InsidersStatus.new
 
-        .top-rhs
+        .top-rhs.self-center
           = vimeo_embed("855534271?h=97d3a4c8c2")
+
+          %p.text-p-base.italic.mt-8
+            Exercism is an independent, registered not-for-profit organisation
+            (UK #11733062) with a tiny team. All donations are used to run and
+            improve the platform.
+  .gradient-container.py-32
+    .sm-container
+      %h2.text-center.text-h2= t('.sustainability_section.title')
+      %p.text-center.text-p-large.mb-16
+        = t('.sustainability_section.description_html', target_amount: "$25,000")
+      .border-1.border-borderColor6.shadow-smZ1.rounded-8.p-32.w-100.mb-32
+        .c-progress
+          - target = 25_000.0
+          - actual = Payments::Subscription.active_total_per_month_in_dollars
+          - progress = [1, actual / target].min * 100
+          .bar{ style: "width:#{progress}%" }
+
+          .current-icon{ style: "left:calc(#{progress.round}% - 18px)" }
+          .actual-number.hidden{ class: "md:block", style: "left:calc(#{progress.round}% - 160px)" }
+            = t('.sustainability_section.monthly_donations', amount: number_to_currency(actual.round, precision: 0))
+
+          .target-icon
+            = graphical_icon "party-popper"
+          .goal
+            = t('.sustainability_section.goal_html', target_amount: "$25,000")
 
   .gradient-container.py-56
     .lg-container
-      %h2.text-h2.mb-4.text-center Insider Benefits
-      %p.text-p-large.mb-32.text-center Here are some of the ways we say thank you for supporting us.
+      %h2.text-h2.mb-4.text-center= t('.insider_benefits_section.title')
+      %p.text-p-large.mb-32.text-center= t('.insider_benefits_section.description')
       .features
         - @features.each do |feature|
           .feature
@@ -37,60 +80,82 @@
 
   .gradient-container.py-56
     .lg-container
-      %h2.text-h2.mb-4.text-center Exclusive Insider Content
-      %p.text-p-large.mb-32.text-center Join Insiders to get behind-the-scenes content as we grow and evolve Exercism.
+      %h2.text-h2.mb-4.text-center= t('.exclusive_content_section.title')
+      %p.text-p-large.mb-32.text-center= t('.exclusive_content_section.description')
       .grid.grid-cols-3.gap-32
         - @videos.each do |_, _, img|
           = image_tag "https://assets.exercism.org/images/thumbnails/#{img}", class: 'block w-100 shadow-md rounded-8 border-1 border-purple'
 
+  .gradient-container.py-32
+    .sm-container
+      %h2.text-center.text-h2 Help Support Exercism
+      %p.text-center.text-p-large.mb-2
+        We need
+        %span.font-medium.text-white $25,000 in donations
+        each month to become sustainable.
+      %p.text-p-large.text-center.font-medium.text-white.mb-16
+        Please help us get there by joining Insiders!
+      .border-1.border-borderColor6.shadow-smZ1.rounded-8.p-32.w-100.mb-32
+        .c-progress
+          - target = 25_000.0
+          - actual = Payments::Subscription.active_total_per_month_in_dollars
+          - progress = [1, actual / target].min * 100
+          .bar{ style: "width:#{progress}%" }
+
+          .current-icon{ style: "left:calc(#{progress.round}% - 18px)" }
+          .actual-number.hidden{ class: "md:block", style: "left:calc(#{progress.round}% - 160px)" }
+            Monthly donations:
+            %span.font-semibold= number_to_currency(actual.round, precision: 0)
+
+          .target-icon
+            = graphical_icon "party-popper"
+          .goal
+            Sustainable at
+            %span.font-semibold $25,000
+
   .gradient-container.faqs.py-56
     .lg-container
-      %h2.text-h1.mb-40.text-center The Nitty Gritty &amp; FAQs
+      %h2.text-h1.mb-40.text-center= t('.faq_section.title')
       .flex.flex-col.gap-24.mx-auto{ class: "max-w-[940px]" }
         %details{ open: true }
-          %summary Is the only way to access Insiders through donating?
+          %summary= t('.faq_section.q1.summary')
           %p.mb-12
-            The most common way to access insiders is through a regular donation.
-            Regular contributors get Insiders access for free, and it's also possible to get Lifetime Insiders membership for significant donations or contributions.
-            You can check the exact algorithm #{link_to 'in our codebase', 'https://github.com/exercism/website/tree/main/app/commands/user/insiders_status/determine_eligibility_status.rb'} but it's also reproduced here.
-          %p.mb-4 To gain lifetime access you need one of the following:
+            = t('.faq_section.q1.p1_html', codebase_link: link_to(t('.faq_section.q1.codebase_link_text'), 'https://github.com/exercism/website/tree/main/app/commands/user/insiders_status/determine_eligibility_status.rb'))
+          %p.mb-4= t('.faq_section.q1.p2')
           %ul.mb-16
-            %li To be a founder or staff member
-            %li To be a supermentor (100+ solutions mentored on a track with a 95% positive rating)
-            %li To have a reputation equal or greater than 1,000
-            %li To have donated $499 (in one chunk or many parts)
+            %li= t('.faq_section.q1.li1')
+            %li= t('.faq_section.q1.li2')
+            %li= t('.faq_section.q1.li3')
+            %li= t('.faq_section.q1.li4')
 
-          %p.mb-4 For those without lifetime access, to gain access you need one of the following:
+          %p.mb-4= t('.faq_section.q1.p3')
           %ul.mb-16
-            %li To have a recurring monthly donation of $10 or more.
-            %li To be a maintainer
-            %li To have earned 30 reputation in the last 30 days, or 200 reputation in the last 365 days (not including reputation for publishing solutions)
-            %li To have had a recurring donation at the point that Insiders launched (May 30th 2023), and it still to be active.
-            %li For donations before we launched Insiders, you get one month of Insiders for every $9.99 donated, from the date that Insiders launched, plus one extra bonus month. So if you donated $35 before Insiders launched, you'd get Insiders access through June, July, August and September 2023.
-            %li One off donations of $10 or more give 1 months access.
+            %li= t('.faq_section.q1.li5')
+            %li= t('.faq_section.q1.li6')
+            %li= t('.faq_section.q1.li7')
+            %li= t('.faq_section.q1.li8')
+            %li= t('.faq_section.q1.li9')
+            %li= t('.faq_section.q1.li10')
 
           %p
-            If you think you meet these criteria but don't have access, please #{link_to 'open a forum issue', 'https://forum.exercism.org'} and someone will help you out!
-            If you've donated via Paypal or GitHub Sponsors but don't have access, please see the next question.
+            = t('.faq_section.q1.p4_html', forum_link: link_to(t('.faq_section.q1.forum_link_text'), 'https://forum.exercism.org'))
+            = t('.faq_section.q1.p5')
 
         %details
-          %summary I've donated via Paypal or GitHub Sponsors but don't have access.
-          Sometimes the tech breaks down and we don't get webhook notifications from GitHub or Paypal.
-          If you have issues, please #{link_to 'open a forum issue', 'https://forum.exercism.org'} and someone will help you out!
+          %summary= t('.faq_section.q2.summary')
+          %p
+            = t('.faq_section.q2.description_html', forum_link: link_to(t('.faq_section.q2.forum_link_text'), 'https://forum.exercism.org'))
 
         %details
-          %summary What does Insiders cost?
-          Insiders isn't a product that you can buy - it's our way of saying thank you for those who contribute, mentor or donate.
-          The easiest way to get Insiders access is by setting up a regular monthly donation of $10 or more.
+          %summary= t('.faq_section.q3.summary')
+          %p= t('.faq_section.q3.description')
 
         %details
-          %summary Is Insiders the same as Premium?
-          Exercism Premium was discontinued in August 2023. All Premium members were migrated to have Exercism Insider status and their monthly payments converted to recurring donations.
+          %summary= t('.faq_section.q4.summary')
+          %p= t('.faq_section.q4.description')
 
         %details
-          %summary How do I earn reputation?
-          Reputation is earned by mentoring or contributing to Exercism.
-          You can also earn reputation by publishing your solutions, but that does not count towards Insiders access.
-          You can check what actions result in what reputation by consulting #{link_to 'our docs', 'https://exercism.org/docs/using/product/reputation#h-acquisition-of-reputation'}.
-          Check your #{link_to 'journey page', journey_path} to see where you're earning reputation.
-
+          %summary= t('.faq_section.q5.summary')
+          %p
+            = t('.faq_section.q5.p1_html', docs_link: link_to(t('.faq_section.q5.docs_link_text'), 'https://exercism.org/docs/using/product/reputation#h-acquisition-of-reputation'))
+            = t('.faq_section.q5.p2_html', journey_link: link_to(t('.faq_section.q5.journey_link_text'), journey_path))

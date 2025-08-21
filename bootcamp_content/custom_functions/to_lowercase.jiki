@@ -1,0 +1,21 @@
+function my#to_lowercase with string do
+
+  set output to ""
+  set lower to "abcdefghijklmnopqrstuvwxyz"
+  set upper to "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  set upper_idx to 0
+  for each letter in string do
+    if my#contains(lower, letter) do
+      change output to concatenate(output, letter)
+    else do
+      change upper_idx to my#index_of(upper, letter)
+      if upper_idx == -1 do
+        change output to concatenate(output, letter)
+      else do
+        change output to concatenate(output, lower[upper_idx])
+      end
+    end
+  end
+  return output
+
+end

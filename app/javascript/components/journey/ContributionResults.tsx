@@ -5,6 +5,7 @@ import { MarkAllAsSeenModal } from './contribution-results/MarkAllAsSeenModal'
 import { MarkAllAsSeenButton } from './contribution-results/MarkAllAsSeenButton'
 import { APIResult } from './ContributionsList'
 import { QueryKey, useQueryClient } from '@tanstack/react-query'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export type Order = 'newest_first' | 'oldest_first'
 
@@ -15,6 +16,7 @@ export const ContributionResults = ({
   cacheKey: QueryKey
   data: APIResult
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/journey')
   const queryClient = useQueryClient()
   const [modalOpen, setModalOpen] = useState(false)
 
@@ -42,8 +44,10 @@ export const ContributionResults = ({
     <div>
       <div className="results-title-bar">
         <h3>
-          Showing {data.meta.totalCount}{' '}
-          {pluralize('contribution', data.meta.totalCount)}
+          {t('contributionResults.showingContributions', {
+            totalCount: data.meta.totalCount,
+            contributionLabel: pluralize('contribution', data.meta.totalCount),
+          })}
         </h3>
         <MarkAllAsSeenButton
           onClick={handleModalOpen}

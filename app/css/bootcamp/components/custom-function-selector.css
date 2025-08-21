@@ -1,0 +1,39 @@
+.namespace-bootcamp.controller-custom_functions.action-edit,
+.namespace-bootcamp.controller-exercises.action-edit {
+    .custom-function-selector {
+        @apply max-h-[80vh];
+        .row {
+            @apply border-1 border-borderColor5;
+            @apply rounded-8 py-12 px-16;
+            @apply text-left;
+            @apply flex items-start;
+            .circle,
+            img {
+                @apply mr-16;
+                @apply w-[24px] h-[24px];
+                @apply flex-shrink-0 mt-4;
+            }
+            .circle {
+                @apply rounded-circle border-1 border-borderColor5;
+            }
+            img {
+                @apply hidden;
+            }
+            &.selected {
+                @apply border-bootcamp-success-dark bg-bootcamp-success-light;
+                .circle {
+                    @apply hidden;
+                }
+                img {
+                    @apply block;
+                }
+            }
+            &.disabled {
+                @apply bg-[#f9eee5] border-[#e5aa7f] cursor-not-allowed;
+                .circle {
+                    @apply border-[#e5aa7f];
+                }
+            }
+        }
+    }
+}

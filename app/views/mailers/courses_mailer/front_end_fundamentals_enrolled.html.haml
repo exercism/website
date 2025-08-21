@@ -1,0 +1,18 @@
+%p= t('.greeting', user_handle: @user&.handle || t('.default_user_handle'))
+%p= t('.welcome_message')
+
+- if @user
+  %p
+    = t('.account_access_message_html', bootcamp_dashboard_link: link_to("https://exercism.org/bootcamp/dashboard", bootcamp_dashboard_url))
+- else
+  %p
+    %strong= t('.unlogged_in_warning')
+    = t('.create_account_prompt_html', create_account_link: link_to(t('.create_account_link_text'), 'https://exercism.org/users/sign_up', class: 'text-primary-blue font-semibold'), enrollment_email: @enrollment.email)
+  %p
+    = t('.different_email_prompt', enrollment_email: @enrollment.email)
+
+%p= t('.discord_invitation_html', discord_server_link: link_to(t('.discord_server_link_text'), "https://exercism.org/r/discord"), integrations_link: link_to(t('.integrations_link_text'), "https://exercism.org/settings/integrations"))
+%p
+  = t('.connect_message')
+  %strong= t('.reply_prompt')
+%p= t('.closing_thank_you')

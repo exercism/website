@@ -79,7 +79,7 @@ class Submission::Representation::ProcessResults
   end
 
   def create_notification!
-    return unless exercise_representation.has_feedback?
+    return unless exercise_representation.has_feedback? # rubocop:disable Style/RedundantReturn
 
     # TODO: (Required) Create notification about the fact there
     # is a piece of automated feedback

@@ -38,7 +38,8 @@ module ViewComponents
         { html: link_to("Your Journey", Exercism::Routes.journey_path), className: "opt" },
         { html: link_to("Settings", Exercism::Routes.settings_path), className: "opt" },
         ({ html: link_to("Maintaining", Exercism::Routes.maintaining_root_path), className: "opt" } if current_user.maintainer?),
-        { html: button_to("Sign out", Exercism::Routes.destroy_user_session_path, method: :delete), className: "opt" }
+        { html: button_to("Sign out", Exercism::Routes.destroy_user_session_path, form: { id: "sign-out-form" }, method: :delete),
+          className: "opt" }
       ].compact
     end
 

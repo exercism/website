@@ -1,0 +1,9 @@
+#page-bootcamp-faqs.pt-24
+  .lg-container
+    .flex.mb-40
+      .lhs.mr-48{ class: 'w-full max-w-[780px]' }
+        %h1.text-h1= t('.title')
+        %p.intro
+          = t('.intro')
+
+        .c-prose= raw @content

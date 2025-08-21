@@ -4,6 +4,9 @@
 #page-track-show
   = render ViewComponents::Track::Header.new(@track, :overview)
   = render ReactComponents::Modals::TrackWelcomeModal.new(@track)
+  = render ReactComponents::Modals::SenioritySurveyModal.new
+  = render ReactComponents::Modals::BegModal.new
+
   = render "tracks/show/summary_article", track: @track, user_track: @user_track, exercise_statuses: @exercise_statuses, recent_solutions: @recent_solutions, sample_learnt_concepts: @sample_learnt_concepts, sample_mastered_concepts: @sample_mastered_concepts, last_8_weeks_counts: @last_8_weeks_counts, forum_threads: @forum_threads, docs: @docs
   = render "tracks/show/mentoring_article", track: @track, user_track: @user_track
   = render "tracks/show/updates_article", track: @track, updates: @updates

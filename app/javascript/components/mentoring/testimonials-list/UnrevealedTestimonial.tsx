@@ -9,6 +9,7 @@ import { PaginatedResult } from '../TestimonialsList'
 import { FetchingBoundary } from '../../FetchingBoundary'
 import { TestimonialModal } from '../../modals/TestimonialModal'
 import { useIsMounted } from 'use-is-mounted'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to reveal testimonial')
 
@@ -28,12 +29,13 @@ export const UnrevealedTestimonial = ({
   const [open, setOpen] = useState(false)
   const [revealedTestimonial, setRevealedTestimonial] =
     useState<Testimonial | null>(null)
+  const { t } = useAppTranslation('components/mentoring/testimonials-list')
   const {
     mutate: reveal,
     status,
     error,
-  } = useMutation<Testimonial>(
-    async () => {
+  } = useMutation<Testimonial>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: testimonial.links.reveal,
         method: 'PATCH',
@@ -42,17 +44,15 @@ export const UnrevealedTestimonial = ({
 
       return fetch.then((json) => typecheck<Testimonial>(json, 'testimonial'))
     },
-    {
-      onSuccess: (testimonial) => {
-        if (!isMountedRef.current) {
-          return
-        }
+    onSuccess: (testimonial) => {
+      if (!isMountedRef.current) {
+        return
+      }
 
-        setRevealedTestimonial(testimonial)
-        setOpen(true)
-      },
-    }
-  )
+      setRevealedTestimonial(testimonial)
+      setOpen(true)
+    },
+  })
   const updateCache = useCallback(() => {
     const oldData = queryClient.getQueryData<PaginatedResult>(cacheKey)
 
@@ -82,8 +82,12 @@ export const UnrevealedTestimonial = ({
       <TrackIcon {...testimonial.track} />
       <GraphicalIcon icon="avatar-placeholder" className="c-avatar" />
       <div className="info">
-        <div className="student">Someone left you a testimonial… 😲</div>
-        <div className="exercise">Click / tap to reveal</div>
+        <div className="student">
+          {t('unrevealedTestimonial.someoneLeftYouATestimonial')}
+        </div>
+        <div className="exercise">
+          {t('unrevealedTestimonial.clickTapToReveal')}
+        </div>
       </div>
       <time dateTime={testimonial.createdAt}>
         {fromNow(testimonial.createdAt)}

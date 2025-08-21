@@ -1,15 +1,26 @@
 import React from 'react'
 import { SingleSelect } from '../../common/SingleSelect'
 import { Order } from '../TestimonialsList'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const OptionComponent = ({ option: order }: { option: Order }) => {
+  const { t } = useAppTranslation('components/mentoring/testimonials-list')
+
   switch (order) {
     case 'unrevealed':
-      return <React.Fragment>Sort by Unrevealed First</React.Fragment>
+      return (
+        <React.Fragment>
+          {t('orderSelect.sortByUnrevealedFirst')}
+        </React.Fragment>
+      )
     case 'newest':
-      return <React.Fragment>Sort by Newest First</React.Fragment>
+      return (
+        <React.Fragment>{t('orderSelect.sortByNewestFirst')}</React.Fragment>
+      )
     case 'oldest':
-      return <React.Fragment>Sort by Oldest First</React.Fragment>
+      return (
+        <React.Fragment>{t('orderSelect.sortByOldestFirst')}</React.Fragment>
+      )
   }
 }
 

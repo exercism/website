@@ -2,14 +2,10 @@
   .lg-container.flex.flex-col.lg:flex-row
     .lhs.mr-auto.mb-20.lg:mb-0
       = graphical_icon "exercism-with-logo-black"
-      %h2.text-h3.mb-4 Code practice and mentorship for everyone
+      %h2.text-h3.mb-4= t('.title')
       %p.text-p-large
-        Develop fluency in #{Track.active.count} programming languages
-        with our unique blend of learning, practice and mentoring.
-        Exercism is fun, effective and
-        100% free, forever.
-
+        = t('.description', num_active_tracks: Track.num_active)
     .rhs.flex.lg:ml-24.flex-col.sm:flex-row.items-stretch.sm:items-center
-      = link_to "Sign up for free", new_user_registration_path, class: 'btn-l btn-primary mb-16 sm:mb-0 sm:mr-32'
-      = link_to "Explore languages", tracks_path, class: 'btn-l btn-enhanced'
+      = link_to t('.signup_button'), new_user_registration_path, class: 'btn-l btn-primary mb-16 sm:mb-0 sm:mr-32'
+      = link_to t('.explore_languages_button'), tracks_path, class: 'btn-l btn-enhanced'
   .bottom

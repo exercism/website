@@ -1,0 +1,23 @@
+// TODO Set variables here
+// set sun_cy to ...
+// set sun_radius to ...
+
+repeat 100 times do
+  // TODO: Update the variables here.
+
+  // The sky
+  fill_color_hsl(210, 70, 60)
+  rectangle(0,0,100,100)
+
+  // The Sun
+  fill_color_rgb(255, 237, 0)
+  circle(50, 10, 5)
+  
+  // The sea
+  fill_color_hex("#0308ce")
+  rectangle(0,85,100,5)
+  
+  // The sand
+  fill_color_hex("#C2B280")
+  rectangle(0,90,100,10)
+end

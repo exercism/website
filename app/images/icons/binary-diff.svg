@@ -1,0 +1,17 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g clip-path="url(#paint0_angular_155_3_clip_path)" data-figma-skip-parse="true">
+    <g transform="matrix(-0.459 0.4545 -0.4545 -0.459 377.5 -174)">
+      <foreignObject x="-824.848" y="-824.848" width="1649.7" height="1649.7">
+        <div xmlns="http://www.w3.org/1999/xhtml"
+          style="background:conic-gradient(from 90deg,rgba(255, 254, 254, 1) 0deg,rgba(0, 0, 0, 1) 0.0981632deg,rgba(255, 254, 254, 1) 360deg);height:100%;width:100%;opacity:1"></div>
+      </foreignObject>
+    </g>
+  </g>
+  <rect width="200" height="200"
+    data-figma-gradient-fill="{&#34;type&#34;:&#34;GRADIENT_ANGULAR&#34;,&#34;stops&#34;:[{&#34;color&#34;:{&#34;r&#34;:0.0,&#34;g&#34;:0.0,&#34;b&#34;:0.0,&#34;a&#34;:1.0},&#34;position&#34;:0.00027267565019428730},{&#34;color&#34;:{&#34;r&#34;:1.0,&#34;g&#34;:0.99885439872741699,&#34;b&#34;:0.99885439872741699,&#34;a&#34;:1.0},&#34;position&#34;:1.0}],&#34;stopsVar&#34;:[{&#34;color&#34;:{&#34;r&#34;:0.0,&#34;g&#34;:0.0,&#34;b&#34;:0.0,&#34;a&#34;:1.0},&#34;position&#34;:0.00027267565019428730},{&#34;color&#34;:{&#34;r&#34;:1.0,&#34;g&#34;:0.99885439872741699,&#34;b&#34;:0.99885439872741699,&#34;a&#34;:1.0},&#34;position&#34;:1.0}],&#34;transform&#34;:{&#34;m00&#34;:-918.0,&#34;m01&#34;:-909.00006103515625,&#34;m02&#34;:1291.0,&#34;m10&#34;:909.00006103515625,&#34;m11&#34;:-918.0,&#34;m12&#34;:-169.50004577636719},&#34;opacity&#34;:1.0,&#34;blendMode&#34;:&#34;NORMAL&#34;,&#34;visible&#34;:true}" />
+  <defs>
+    <clipPath id="paint0_angular_155_3_clip_path">
+      <rect width="200" height="200" />
+    </clipPath>
+  </defs>
+</svg>

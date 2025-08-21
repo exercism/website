@@ -1,0 +1,10 @@
+{
+  "title": "Coffee Text",
+  "description": "Add some basic text about coffee",
+  "language": "css",
+  "level": 11,
+  "idx": 1,
+  "editor_config": {
+    "hide_css": true
+  }
+}

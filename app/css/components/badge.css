@@ -47,8 +47,8 @@
     @apply relative;
 
     & .c-icon {
-        height: 35%;
-        width: 35%;
+        height: 45%;
+        width: 45%;
     }
     & .--unknown {
         @apply text-20 leading-150 font-bold font-mono;

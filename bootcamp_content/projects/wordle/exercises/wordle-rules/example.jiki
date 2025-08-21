@@ -1,0 +1,92 @@
+function has_key with dict, key do
+  for each keys, values in dict do
+    if key == keys do
+      return true
+    end
+  end
+  return false
+end
+
+function contains with haystack, needle do
+  for each thing in haystack do
+    if needle == thing do
+      return true
+    end
+  end
+  return false
+end
+
+function add_or_increment with things, thing do
+  if not has_key(things, thing) do
+    change things[thing] to 0
+  end
+  change things[thing] to things[thing] + 1
+  return things
+end
+
+//------
+
+function letter_ok_in_guess with letter, knowledge, letter_knowledge do
+  if letter_knowledge["actual"] != "" do
+    return letter == letter_knowledge["actual"]
+  end
+  if contains(knowledge["absent"], letter) do 
+    return false
+  end
+  if contains(letter_knowledge["not"], letter) do
+    return false
+  end
+  return true
+end
+
+function process_game with word, guesses do
+  set game to new WordleGame()
+  game.draw_board()
+  for each guess in guesses indexed by idx do
+    game.add_word(idx, guess, process_guess(word, guess))
+  end
+end
+
+function should_be_present with present_letters, target_word, letter do
+  if not has_key(present_letters, letter) do
+    return true
+  end
+
+  set actual to 0
+  for each char in target_word do
+    if char == letter do
+      change actual to actual + 1
+    end
+  end
+
+  return actual > present_letters[letter]
+end
+
+function process_guess with word, guess do
+  set states to []
+  set present_letters to {}
+  for each letter in guess indexed by idx do
+    if word[idx] == letter do
+      change present_letters to add_or_increment(present_letters, letter)
+      change states to push(states, "correct")
+    else if contains(word, letter) do
+      change states to push(states, "present")
+    else do
+      change states to push(states, "absent")
+    end
+  end
+
+  for each letter in guess indexed by idx do
+    if states[idx] != "present" do
+      next
+    end
+
+    if should_be_present(present_letters, word, letter) do
+      change present_letters to add_or_increment(present_letters, letter)
+    else do
+      change states[idx] to "absent"
+    end
+  end
+  
+  return states
+end

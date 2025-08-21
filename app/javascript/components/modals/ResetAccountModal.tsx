@@ -6,6 +6,8 @@ import { useConfirmation } from '@/hooks/use-confirmation'
 import { FormButton } from '@/components/common/FormButton'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 import { Modal, ModalProps } from './Modal'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 type APIResponse = {
   links: {
@@ -23,12 +25,13 @@ export const ResetAccountModal = ({
   handle: string
   endpoint: string
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/modals/ResetAccountModal.tsx')
   const {
     mutate: mutation,
     status,
     error,
-  } = useMutation<APIResponse>(
-    async () => {
+  } = useMutation<APIResponse>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',
@@ -37,12 +40,10 @@ export const ResetAccountModal = ({
 
       return fetch
     },
-    {
-      onSuccess: (response) => {
-        redirectTo(response.links.home)
-      },
-    }
-  )
+    onSuccess: (response) => {
+      redirectTo(response.links.home)
+    },
+  })
 
   const handleSubmit = useCallback(
     (e) => {
@@ -59,33 +60,40 @@ export const ResetAccountModal = ({
     <Modal {...props} className="m-reset-account m-generic-destructive">
       <form data-turbo="false" onSubmit={handleSubmit}>
         <div className="info">
-          <h2>You&apos;re about to reset your Exercism account</h2>
+          <h2>{t('youAreAboutToReset')}</h2>
           <p>
-            <strong>
-              Please read this carefully before commiting to reset your account.
-            </strong>
+            <strong>{t('pleaseReadCarefully')}</strong>
           </p>
           <p>
-            This is <em>irreversible</em> and will mean you’ll lose everything
-            you’ve done on your account.
+            <Trans
+              ns="components/modals/ResetAccountModal.tsx"
+              i18nKey="thisIsIrreversible"
+              components={{ em: <em /> }}
+            />
           </p>
           <hr />
           <p>
-            <strong>By resetting your account, you will lose:</strong>
+            <Trans
+              ns="components/modals/ResetAccountModal.tsx"
+              i18nKey="byResettingAccount"
+              components={{ strong: <strong /> }}
+            />
           </p>
           <ul>
-            <li>All solutions you have submitted</li>
-            <li>All mentoring you have received</li>
-            <li>All mentoring you have given and any testimonials received.</li>
-            <li>
-              Any reputation you have earned through mentoring or publishing
-              solutions.
-            </li>
+            <li>{t('allSolutionsSubmitted')}</li>
+            <li>{t('allMentoringReceived')}</li>
+            <li>{t('allMentoringGiven')}</li>
+            <li>{t('anyReputationEarned')}</li>
           </ul>
         </div>
         <hr />
         <label htmlFor="confirmation">
-          To confirm, write your handle <pre>{handle}</pre> in the box below:
+          <Trans
+            i18nKey="toConfirmWriteHandle"
+            ns="components/modals/ResetAccountModal.tsx"
+            values={{ handle: handle }}
+            components={{ pre: <pre /> }}
+          />
         </label>
 
         <input
@@ -103,7 +111,7 @@ export const ResetAccountModal = ({
             type="button"
             onClick={props.onClose}
           >
-            Cancel
+            {t('cancel')}
           </FormButton>
           <FormButton
             type="submit"
@@ -111,11 +119,14 @@ export const ResetAccountModal = ({
             status={status}
             className="btn-primary btn-m"
           >
-            Reset account
+            {t('resetAccount')}
           </FormButton>
         </div>
         <ErrorBoundary resetKeys={[status]}>
-          <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />
+          <ErrorMessage
+            error={error}
+            defaultError={DEFAULT_ERROR || new Error(t('unableToResetAccount'))}
+          />
         </ErrorBoundary>
       </form>
     </Modal>

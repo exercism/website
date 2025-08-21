@@ -10,6 +10,10 @@ import type {
 } from '@/components/types'
 import { scrollToTop } from '@/utils/scroll-to-top'
 import { removeEmpty, useHistory } from '@/hooks/use-history'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
+// i18n-key-prefix: testimonialsList
+// i18n-namespace: components/profile
 
 const DEFAULT_ERROR = new Error('Unable to load testimonials')
 
@@ -29,6 +33,7 @@ export default function TestimonialsList({
     }>
   >
 }): JSX.Element {
+  const { t } = useAppTranslation('components/profile')
   const [selected, setSelected] = useState<string | null>(defaultSelected)
 
   const { request, setPage } = useList(initialRequest)
@@ -62,7 +67,7 @@ export default function TestimonialsList({
       <FetchingBoundary
         status={status}
         error={error}
-        defaultError={DEFAULT_ERROR}
+        defaultError={new Error(t('testimonialsList.unableToLoadTestimonials'))}
       >
         {resolvedData ? (
           <>

@@ -1,0 +1,66 @@
+main {
+    padding: 20px;
+    margin: 20px;
+    background: #fff;
+    border-radius: 5px;
+
+    h1 {
+        font-size: 16px;
+        margin-bottom: 5px;
+        font-weight: 500;
+
+        em {
+            color: #604fcd;
+            font-style: normal;
+        }
+
+        strong {
+            font-weight: bold;
+        }
+    }
+    .progress-section {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+
+        .progress-bar {
+            flex-grow: 1;
+            height: 15px;
+            border-radius: 20px 0 0 20px;
+            overflow: hidden;
+            background: #e1ebff;
+            display: flex;
+
+            .complete {
+                background: linear-gradient(to right, #2200ff 0%, #9e00ff 100%);
+                width: 20%;
+            }
+        }
+        img {
+            height: 35px;
+            position: relative;
+        }
+    }
+    .exercises {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        .exercise {
+            border-radius: 100%;
+            width: 20px;
+            height: 20px;
+            &.available {
+                background: #fff;
+                border: 1px solid #aaa;
+            }
+            &.completed {
+                background-image: url("/bootcamp/images/check-circle.svg");
+                background-size: contain;
+            }
+            &.in-progress {
+                border: 1px solid #2e57e8;
+                background: #6a93ff;
+            }
+        }
+    }
+}

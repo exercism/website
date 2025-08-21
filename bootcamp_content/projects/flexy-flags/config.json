@@ -1,0 +1,16 @@
+{
+  "slug": "flexy-flags",
+  "title": "Flexy Flags",
+  "description": "Use Flexbox to reproduce various flag designs.",
+  "exercises": [
+    "flexy-guinea",
+    "flexy-armenia",
+    "flexy-benin",
+    "flexy-botswana",
+    "flexy-cameroon",
+    "flexy-japan",
+    "flexy-bangladesh",
+    "flexy-denmark",
+    "flexy-liberia"
+  ]
+}

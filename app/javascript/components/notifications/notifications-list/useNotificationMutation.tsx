@@ -20,14 +20,16 @@ export const useNotificationMutation = ({
     mutate: mutation,
     status,
     error,
-  } = useMutation(async () => {
-    const { fetch } = sendRequest({
-      endpoint: endpoint,
-      method: 'PATCH',
-      body: JSON.stringify(body),
-    })
+  } = useMutation({
+    mutationFn: async () => {
+      const { fetch } = sendRequest({
+        endpoint: endpoint,
+        method: 'PATCH',
+        body: JSON.stringify(body),
+      })
 
-    return fetch
+      return fetch
+    },
   })
 
   return {

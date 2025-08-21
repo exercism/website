@@ -3,20 +3,20 @@
     = graphical_icon 'test-runner', css_class: "filter-textColor6"
     %div
       %h5.text-h5
-        The #{@track.title} test runner
+        = t('.test_runner_heading', track_title: @track.title)
         = render ViewComponents::Track::Build::Health.new(@status.test_runner.health)
 
       %p.text-p-base
         - case @status.test_runner.health.to_sym
         - when :exemplar
-          Implements the latest version of the spec.
+          = t('.health_exemplar')
         - when :healthy
-          Could be upgraded from version #{@status.test_runner.version} to #{@status.test_runner.version_target}.
+          = t('.health_healthy', current_version: @status.test_runner.version, target_version: @status.test_runner.version_target)
         - when :needs_attention
-          Should be upgraded from version #{@status.test_runner.version} to #{@status.test_runner.version_target}.
+          = t('.health_needs_attention', current_version: @status.test_runner.version, target_version: @status.test_runner.version_target)
         - when :missing
-          The test runner has not yet been implemented.
+          = t('.health_missing')
 
       - if @status.test_runner.num_runs.positive?
         %p.text-p-base
-          #{@status.test_runner.num_runs} #{'iteration'.pluralize(@status.test_runner.num_runs)} have been tested.
+          = t('.iterations_tested', count: @status.test_runner.num_runs)

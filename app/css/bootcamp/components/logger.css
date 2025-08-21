@@ -1,0 +1,67 @@
+.c-logger-resizer {
+    box-shadow: 0 0 20px white;
+}
+.c-logger {
+    @apply text-15;
+    background: aliceblue;
+
+    @apply overflow-hidden;
+    @apply p-16;
+    @apply border-t-1 border-borderColor4;
+    @apply relative;
+
+    h2 {
+        @apply text-h4 mb-8;
+    }
+    .log-container {
+        .hljs {
+            @apply text-15;
+            @apply border-l-[4px] border-blue-300;
+            @apply mb-4 pl-6 py-2;
+        }
+    }
+
+    .info-message {
+        @apply mx-auto;
+        @apply text-16;
+
+        pre {
+            @apply py-6 px-0;
+            @apply border-l-[4px] border-blue-300 pl-10;
+            @apply text-16;
+            code {
+                @apply py-0 pl-0;
+                .hljs-title {
+                    color: rgb(184, 0, 255);
+                    border-bottom: 0.5px solid rgba(184, 0, 255, 0.6);
+                }
+                .hljs-string {
+                    @apply font-normal;
+                }
+            }
+        }
+
+        p {
+            @apply mb-8;
+        }
+
+        code:not(pre code) {
+            @apply font-bold py-2 px-4 whitespace-normal;
+            color: rgb(184, 0, 255);
+            border-bottom: 0.5px solid rgba(184, 0, 255, 0.6);
+        }
+    }
+
+    .log-container {
+        @apply p-8;
+        @apply h-full;
+        @apply overflow-auto;
+        @apply font-mono font-semibold;
+        @apply flex flex-col grow overflow-auto;
+
+        .log {
+            @apply flex items-start;
+            @apply break-all;
+        }
+    }
+}

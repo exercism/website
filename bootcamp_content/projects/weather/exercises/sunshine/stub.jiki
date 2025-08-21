@@ -1,0 +1,20 @@
+// Light blue background
+fill_color_hex("#ADD8E6") 
+rectangle(0, 0, 100, 100)
+
+// Draw the Spikes
+fill_color_hex("#ffed06")
+triangle(10,10,29,33,33,29)
+triangle(50,2,47,23,53,23)
+triangle(90,10,71,33,67,29)
+triangle(98,50,77,47,77,53)
+triangle(90,90,71,67,67,71)
+triangle(10,90,29,67,33,71)
+triangle(50,98,47,77,53,77)
+triangle(2,50,23,47,23,53)
+
+// Sun
+fill_color_hex("#ffed06")
+
+// TODO: Draw the sun here
+

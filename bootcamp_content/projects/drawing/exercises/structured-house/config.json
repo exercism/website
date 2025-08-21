@@ -1,0 +1,57 @@
+{
+  "title": "Structured House",
+  "description": "Use variables instead of hard-coded values",
+  "project_type": "draw",
+  "level": 2,
+  "idx": 1,
+  "concepts": [],
+  "tests_type": "state",
+  "tasks": [
+    {
+      "name": "Correctly arrange the house",
+      "tests": [
+        {
+          "slug": "draw-the-house",
+          "name": "Draw the house.",
+          "checks": [
+            {
+              "function": "getRectangleAt(20,50,60,40)",
+              "matcher": "toBeDefined",
+              "error_html": "The frame of the house is not correct."
+            },
+            {
+              "function": "getTriangleAt(16,50, 50,30, 84,50)",
+              "matcher": "toBeDefined",
+              "error_html": "The roof of the house is not at the correct position."
+            },
+            {
+              "function": "getRectangleAt(30,55,12,13)",
+              "matcher": "toBeDefined",
+              "error_html": "The left window frame isn't positioned correctly"
+            },
+            {
+              "function": "getRectangleAt(58,55,12,13)",
+              "matcher": "toBeDefined",
+              "error_html": "The right window frame isn't positioned correctly"
+            },
+            {
+              "function": "getRectangleAt(43,72,14,18)",
+              "matcher": "toBeDefined",
+              "error_html": "The door frame isn't positioned correctly"
+            },
+            {
+              "function": "getCircleAt(55,81,1)",
+              "matcher": "toBeDefined",
+              "error_html": "The door knob isn't positiioned correctly"
+            },
+            {
+              "function": "assertAllArgumentsAreVariables()",
+              "matcher": "toBeTrue",
+              "error_html": "There still seem to be some inputs to functions that are not variables."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

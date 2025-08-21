@@ -1,0 +1,62 @@
+function determine_direction with position, direction do
+  // Set variables about facts
+  set left_boundary to 1
+  set right_boundary to 11
+
+  if position >= right_boundary do
+    return "left"
+  else if position <= left_boundary do
+    return "right"
+  end
+  return direction
+end
+
+function move with position, direction do
+  if direction is "right" do
+    move_right()
+    change position to position + 1
+  else if direction is "left" do
+    move_left()
+    change position to position - 1
+  end
+  return position
+end
+
+function all_aliens_dead with row do
+  for each alien in row do
+    if alien do
+      return false
+    end
+  end
+
+  return true
+end
+
+// Get the first row of aliens (the bottom one)
+set bottom_row to get_starting_aliens_in_row(1)
+set middle_row to get_starting_aliens_in_row(2)
+set top_row to get_starting_aliens_in_row(3)
+
+// Set variables to track things
+set direction to "right"
+set position to 1
+set shot to false
+
+// Play the game
+repeat_until_game_over do
+  change shot to false  
+  for each row in [bottom_row, middle_row, top_row] do
+    if shot is false and row[position] do
+      shoot()
+      change row[position] to false
+      change shot to true  
+    end
+  end
+
+  if all_aliens_dead(bottom_row) and all_aliens_dead(middle_row) and all_aliens_dead(top_row) do
+    fire_fireworks()
+  else do
+    change direction to determine_direction(position, direction)
+    change position to move(position, direction)
+  end
+end

@@ -1,4 +1,15 @@
 import React from 'react'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
+
+function PrLink({ improveUrl }: { improveUrl: string }): JSX.Element {
+  const { t } = useAppTranslation('session-batch-3')
+  return (
+    <a href={improveUrl} target="_blank" rel="noreferrer">
+      {t('components.mentoring.session.mentorNotes.pullRequestOnGithub')}
+    </a>
+  )
+}
 
 export const MentorNotes = ({
   notes,
@@ -9,18 +20,19 @@ export const MentorNotes = ({
   improveUrl: string
   guidanceType: 'track' | 'exercise' | 'representer'
 }): JSX.Element => {
-  const prLink = (
-    <a href={improveUrl} target="_blank" rel="noreferrer">
-      Pull Request on GitHub
-    </a>
-  )
+  const { t } = useAppTranslation('session-batch-3')
 
   if (!notes) {
     return (
       <p className="text-p-base">
-        This {guidanceType} doesn&apos;t have any mentoring notes yet. Mentoring
-        notes are written by our community. Please help get them started for
-        this exercise by sending a {prLink}.
+        <Trans
+          ns="session-batch-3"
+          i18nKey="components.mentoring.session.mentorNotes.noNotesYet"
+          components={[
+            <a href={improveUrl} target="_blank" rel="noreferrer" />,
+          ]}
+          values={{ guidanceType }}
+        />
       </p>
     )
   }
@@ -32,10 +44,17 @@ export const MentorNotes = ({
         dangerouslySetInnerHTML={{ __html: notes }}
       />
       <hr className="c-divider --small my-16" />
-      <h3 className="text-h5 mb-4">Improve these notes</h3>
+      <h3 className="text-h5 mb-4">
+        {t('components.mentoring.session.mentorNotes.improveNotes')}
+      </h3>
       <p className="text-p-base">
-        These notes are written by our community. Please help improve them by
-        sending a {prLink}.
+        <Trans
+          ns="session-batch-3"
+          i18nKey="components.mentoring.session.mentorNotes.communityNotes"
+          components={[
+            <a href={improveUrl} target="_blank" rel="noreferrer" />,
+          ]}
+        />
       </p>
     </React.Fragment>
   )

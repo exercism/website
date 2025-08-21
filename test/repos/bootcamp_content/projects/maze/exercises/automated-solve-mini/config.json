@@ -1,0 +1,88 @@
+{
+  "title": "Programatically solve a maze",
+  "description": "Empower your blob to solve any maze with code!",
+  "level": 3,
+  "idx": 1,
+  "project_type": "maze",
+  "tests_type": "state",
+  "exercise_functions": [
+    "move",
+    "turn_left",
+    "turn_right",
+    "can_move",
+    "can_turn_left",
+    "can_turn_right"
+  ],
+  "interpreter_options": {
+    "max_repeat_until_game_over_iterations": 50,
+    "max_total_execution_time": 30000
+  },
+  "tasks": [
+    {
+      "name": "A straight path",
+      "tests": [
+        {
+          "slug": "maze-1",
+          "name": "Guide person to the end of the maze",
+          "setup_functions": [
+            [
+              "setupGrid",
+              [
+                [
+                  [1, 1, 1, 1, 2, 1, 1],
+                  [1, 1, 1, 1, 0, 1, 1],
+                  [1, 1, 1, 1, 0, 1, 1],
+                  [1, 1, 1, 1, 0, 1, 1],
+                  [1, 1, 1, 1, 0, 1, 1],
+                  [1, 1, 1, 1, 0, 1, 1],
+                  [1, 1, 1, 1, 3, 1, 1]
+                ]
+              ]
+            ],
+            ["setupDirection", ["down"]],
+            ["setupPosition", [4, 0]]
+          ],
+          "checks": [
+            {
+              "property": "position",
+              "value": [4, 6],
+              "error_html": "You didn't reach the end of the maze."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Turn around if needed",
+      "tests": [
+        {
+          "slug": "quick-test-1",
+          "name": "Choose right if you can, otherwise choose left",
+          "setup_functions": [
+            [
+              "setupGrid",
+              [
+                [
+                  [2, 1, 1, 0, 0],
+                  [0, 1, 1, 0, 0],
+                  [0, 1, 1, 0, 0],
+                  [0, 1, 1, 0, 0],
+                  [3, 1, 1, 0, 0]
+                ]
+              ]
+            ],
+            ["setupDirection", ["down"]],
+            ["setupPosition", [0, 0]]
+          ],
+          "checks": [
+            {
+              "property": "position",
+              "value": [0, 4],
+              "error_html": "You didn't reach the end of the maze."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

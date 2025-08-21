@@ -1,0 +1,53 @@
+function length with list do
+  set c to 0
+  for each x in list do
+    change c to c + 1
+  end
+  return c
+end
+
+function contains with haystack, needle do
+  for each hay in haystack do
+    if hay == needle do
+      return true
+    end
+  end
+  return false
+end
+
+function char_to_num with char do
+  if char == "X" do
+    return 10
+  else if contains("0123456789", char) do
+    return string_to_number(char)
+  else do
+    return -1
+  end
+end
+
+function is_valid_isbn with isbn do
+  set total to 0
+  set num to 0
+  set multiplier to 10
+  
+  for each char in isbn do
+    if char == "X" and multiplier == 1 do
+      change num to 10
+    else if char == "-" do
+      next
+    else if contains("0123456789", char) do
+      change num to string_to_number(char)
+    else do
+      return false
+    end
+
+    change total to total + (num * multiplier)
+    change multiplier to multiplier - 1
+  end
+  
+  if multiplier != 0 do
+    return false
+  end
+  
+  return total % 11 == 0
+end

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
-import { Icon } from '@/components/common'
+import { GraphicalIcon, Icon } from '@/components/common'
 import { FormButton } from '@/components/common/FormButton'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 import { typecheck } from '@/utils'
@@ -36,8 +36,8 @@ export default function StarButton({
     mutate: mutation,
     status,
     error,
-  } = useMutation<APIResponse>(
-    async () => {
+  } = useMutation<APIResponse>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: links.star,
         method: state.isStarred ? 'DELETE' : 'POST',
@@ -46,18 +46,16 @@ export default function StarButton({
 
       return fetch.then((json) => typecheck<APIResponse>(json, 'star'))
     },
-    {
-      onSuccess: (response) => {
-        setState(response)
-      },
-    }
-  )
+    onSuccess: (response) => {
+      setState(response)
+    },
+  })
 
   if (!userSignedIn) {
     return (
       <div className="btn-enhanced btn-s star-button --unstarred">
         <Icon icon="star" alt="Number of stars" />
-        <span>{state.numStars}</span>
+        <span>Favorite</span>
       </div>
     )
   }
@@ -72,11 +70,8 @@ export default function StarButton({
         onClick={() => mutation()}
         status={status}
       >
-        <Icon
-          icon={state.isStarred ? 'starred' : 'star'}
-          alt="Number of stars"
-        />
-        <span>{state.numStars}</span>
+        <GraphicalIcon icon={state.isStarred ? 'starred' : 'star'} />
+        <span>{state.isStarred ? 'Favorited' : 'Favorite'}</span>
       </FormButton>
       {status === 'error' ? (
         <ErrorBoundary>

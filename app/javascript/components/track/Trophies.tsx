@@ -6,6 +6,7 @@ import { timeFormat } from '@/utils/time'
 import { GraphicalIcon } from '../common'
 import { Modal } from '../modals'
 import { GenericTooltip } from '../misc/ExercismTippy'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export type TrophyStatus = 'not_earned' | 'unrevealed' | 'revealed'
 
@@ -33,6 +34,7 @@ export type TrophiesProps = {
 }
 
 export default function Trophies({ trophies }: TrophiesProps): JSX.Element {
+  const { t } = useAppTranslation('components/track/Trophies.tsx')
   const [modalOpen, setModalOpen] = useState(false)
   const [highlightedTrophy, setHighlightedTrophy] = useState<Trophy | null>(
     null
@@ -81,7 +83,7 @@ export default function Trophies({ trophies }: TrophiesProps): JSX.Element {
                 />
                 <h2 className="text-h1 mb-2">{highlightedTrophy.name}</h2>
                 <div className="text-p-large text-center text-textColor6 mb-16">
-                  Awarded on{' '}
+                  {t('trophy.awardedOn')}{' '}
                   <time dateTime={highlightedTrophy.awardedAt}>
                     {timeFormat(highlightedTrophy.awardedAt, 'Do MMM YYYY')}
                   </time>
@@ -180,9 +182,10 @@ const UnrevealedTrophy = ({
   setModalOpen: Dispatch<SetStateAction<boolean>>
   updateTrophy: (trophy: Trophy) => void
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/track/Trophies.tsx')
   const [showError, setShowError] = useState(false)
-  const { mutate: mutation } = useMutation(
-    async () => {
+  const { mutate: mutation } = useMutation({
+    mutationFn: async () => {
       if (!trophy.links.reveal) {
         throw new Error('Reveal link is not available')
       }
@@ -194,17 +197,15 @@ const UnrevealedTrophy = ({
 
       return fetch
     },
-    {
-      onSuccess: () => {
-        trophy.status = 'revealed'
-        updateTrophy(trophy)
-        setHighlightedTrophy(trophy)
-        setModalOpen(true)
-        setShowError(false)
-      },
-      onError: () => setShowError(true),
-    }
-  )
+    onSuccess: () => {
+      trophy.status = 'revealed'
+      updateTrophy(trophy)
+      setHighlightedTrophy(trophy)
+      setModalOpen(true)
+      setShowError(false)
+    },
+    onError: () => setShowError(true),
+  })
 
   return (
     <button className="trophy revealable" onClick={() => mutation()}>
@@ -217,20 +218,21 @@ const UnrevealedTrophy = ({
           )})`,
         }}
       />
-      <div className="title !text-textColor1">Click to Reveal</div>
+      <div className="title !text-textColor1">{t('trophy.clickToReveal')}</div>
       {showError && (
-        <div className="c-alert--danger">Failed to reveal trophy</div>
+        <div className="c-alert--danger">{t('trophy.failedToReveal')}</div>
       )}
     </button>
   )
 }
 
 const NotEarnedTrophy = ({ trophy }: { trophy: Trophy }): JSX.Element => {
+  const { t } = useAppTranslation('components/track/Trophies.tsx')
   return (
     <GenericTooltip content={trophy.criteria}>
       <div className="trophy not-acquired">
         <TrophyIcon trophy={trophy} />
-        <div className="title">Locked</div>
+        <div className="title">{t('trophy.locked')}</div>
       </div>
     </GenericTooltip>
   )

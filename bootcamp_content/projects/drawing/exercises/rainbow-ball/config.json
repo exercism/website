@@ -1,0 +1,49 @@
+{
+  "title": "Rainbow Ball",
+  "description": "Paint the canvas using a rolling rainbow ball",
+  "project_type": "draw",
+  "level": 3,
+  "idx": 4,
+  "concepts": [],
+  "tests_type": "state",
+  "readonly_ranges": [],
+  "interpreter_options": {
+    "max_total_loop_iterations": 1000,
+    "repeat_delay": 10
+  },
+
+  "tasks": [
+    {
+      "name": "Draw the scene",
+      "tests": [
+        {
+          "slug": "draw-scence",
+          "name": "Animate and draw.",
+          "description_html": "Animate the ball - make a rainbow!",
+          "checks": [
+            {
+              "function": "getCircleAt(5, 5, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The first circle is not right."
+            },
+            {
+              "function": "getCircleAt(7, 6, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The second circle is not right."
+            },
+            {
+              "function": "checkCanvasCoverage(80)",
+              "matcher": "toBeTrue",
+              "error_html": "Less than 80% of the canvas is painted."
+            },
+            {
+              "function": "checkUniqueColoredCircles(255)",
+              "matcher": "toBeTrue",
+              "error_html": "There are not 255 different colored circles."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

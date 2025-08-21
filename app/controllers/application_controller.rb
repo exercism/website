@@ -3,17 +3,28 @@ class ApplicationController < ActionController::Base
   include Turbo::Redirection
   include Turbo::CustomFrameRequest
   include BodyClassConcern
+  include UserRateLimitConcern
 
   # around_action :set_log_level
-  before_action :store_user_location!, if: :storable_location?
+  before_action :store_session_variables
   before_action :authenticate_user!
+  before_action :rate_limit_for_user!
   before_action :ensure_onboarded!
+  around_action :switch_locale!
   around_action :mark_notifications_as_read!
   before_action :set_request_context
+  after_action :set_user_id_cookie
+  after_action :skip_empty_session_cookie
+  after_action :disable_cache_for_redirects
   after_action :set_body_class_header
   after_action :set_csp_header
+  after_action :set_vary_header
   after_action :set_link_header
   after_action :updated_last_visited_on!
+
+  # It's worth having this in case it ever gets overriden
+  # by a gem, which can cause chaos with devise etc.
+  protect_from_forgery with: :exception, prepend: true
 
   def process_action(*args)
     super
@@ -38,6 +49,11 @@ class ApplicationController < ActionController::Base
       end
   end
   # rubocop:enable Naming/MemoizedInstanceVariableName
+
+  def switch_locale!(&action)
+    locale = params[:locale] || I18n.default_locale
+    I18n.with_locale(locale, &action)
+  end
 
   def ensure_onboarded!
     return unless user_signed_in?
@@ -75,6 +91,10 @@ class ApplicationController < ActionController::Base
     return if current_user&.trainer?(@track)
 
     redirect_to training_data_external_path
+  end
+
+  def store_session_variables
+    session[:course_access_code] = params[:course_access_code] if params[:course_access_code].present?
   end
 
   # We want to mark relevant notifications as read, but we don't
@@ -122,8 +142,58 @@ class ApplicationController < ActionController::Base
     redirect_to mentoring_inbox_path
   end
 
+  def cache_public_action!
+    return if devise_controller?
+    return if Rails.env.test? || Rails.env.development?
+    return if user_signed_in?
+    return if cookies.signed[:_exercism_user_id].present?
+
+    # Cache for some seconds lasting between 5 and 20 minutes.
+    # Vary this so we don't get spikes of traffic when everything
+    # expires at the same time.
+    expires_in rand(300..1200), public: true
+  rescue StandardError
+    # Don't blow up if we get here and something hasn't worked
+    # as we're exiting in the tests so don't have coverage.
+  end
+
+  def stale?(etag:)
+    return true if devise_controller?
+    return true if Rails.env.development? || Rails.env.test?
+
+    etag = Cache::GenerateEtag.(etag, current_user)
+
+    # Do this AFTER we've generated the etag to catch
+    # any errors that might occur in the etag generation.
+    # But we don't actually want to continue here.
+    return true if Rails.env.test?
+
+    super(etag:)
+  rescue StandardError
+    # Don't blow up if we get here and something hasn't worked
+    # as we're exiting in the tests so don't have coverage.
+    true
+  end
+
   def set_request_context
     Exercism.request_context = { remote_ip: request.remote_ip }
+  end
+
+  # This is used by cloudfront to ensure that we never send
+  # publically signed-out cached content to a signed-in user.
+  # If this cookie is set then they should only receive privately
+  # cached versions of pages.
+  def set_user_id_cookie
+    return unless user_signed_in?
+
+    cookies.signed[:_exercism_user_id] = {
+      value: current_user.id,
+      domain: :all,
+      expires: 10.years
+    }
+  rescue StandardError
+    # This blows some tests up that catch edge cases,
+    # so I'm just rescuing to be safe.
   end
 
   # rubocop:disable Lint/PercentStringArray
@@ -156,6 +226,10 @@ class ApplicationController < ActionController::Base
   helper_method :csp_policy
   # rubocop:enable Lint/PercentStringArray
 
+  def showing_modal? = @showing_modal
+  def showing_modal! = (@showing_modal = true)
+  helper_method :showing_modal?, :showing_modal!
+
   private
   def set_body_class_header
     response.set_header("Exercism-Body-Class", body_class)
@@ -185,6 +259,17 @@ class ApplicationController < ActionController::Base
     response.set_header('Content-Security-Policy-Report-Only', csp_policy)
   end
 
+  def disable_cache_for_redirects
+    return unless response.redirect?
+
+    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+  end
+
+  def set_vary_header
+    response.headers["Vary"] = [response.headers["Vary"], "Accept", "Host", "Turbo-Frame"].compact.uniq.join(", ")
+  end
+
   def set_link_header
     links = [
       LinkHeaderLink.new('website.css', rel: :preload, as: :style),
@@ -201,17 +286,17 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def storable_location?
-    request.get? && is_navigational_format? && !devise_controller? && !request.xhr? &&
-      request.fullpath != '/site.webmanifest'
+  def skip_empty_session_cookie
+    return if devise_controller?
+    return if controller_name == "unsubscribe"
+    return unless session.empty? && flash.empty?
+
+    request.session_options[:skip] = true
   end
 
   def after_sign_in_path_for(resource_or_scope)
-    stored_location_for(resource_or_scope) || super
-  end
-
-  def store_user_location!
-    store_location_for(:user, request.fullpath)
+    # Don't use the Devise method, which deletes this
+    session[stored_location_key_for(resource_or_scope)] || super
   end
 
   def updated_last_visited_on!

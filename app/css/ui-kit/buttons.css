@@ -93,6 +93,22 @@
         }
     }
 
+    .btn-slightly-enhanced {
+        @apply btn-i-filled;
+        @apply bg-backgroundColorA text-textColor2;
+        @apply border-1 border-borderColor4;
+        & > .c-icon {
+            filter: var(--textColor2-filter);
+        }
+        &:not(:disabled):not(.--disabled):hover {
+            background: rgb(96, 79, 205, 0.02);
+            &.btn-l {
+                background: rgb(96, 79, 205, 0.05);
+                box-shadow: 0px 4px 8px rgba(var(--shadowColorMain), 0.3);
+            }
+        }
+    }
+
     .btn-default {
         @apply text-textColor2;
         @apply border-1 border-btnBorder;
@@ -163,6 +179,28 @@
         }
     }
 
+    .btn-xxs {
+        @apply btn-i-base;
+        height: 24px;
+        @apply px-12 rounded-5;
+        @apply text-14;
+
+        & > .c-icon {
+            height: 14px;
+            width: 14px;
+        }
+        & > .c-icon {
+            &:first-child {
+                @apply mr-6;
+            }
+            &:last-child {
+                @apply ml-6;
+            }
+        }
+        & > .kb-shortcut {
+            @apply text-13;
+        }
+    }
     .btn-xs {
         @apply btn-i-base;
         height: 32px;

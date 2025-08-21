@@ -1,6 +1,8 @@
 import React, { useContext } from 'react'
 import { TrackContext } from '../../TrackWelcomeModal'
 import { StepButton } from './components/StepButton'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+
 export function HasLearningModeStep({
   onSelectLearningMode,
   onSelectPracticeMode,
@@ -9,30 +11,40 @@ export function HasLearningModeStep({
   () => void
 >): JSX.Element {
   const { track } = useContext(TrackContext)
+  const { t } = useAppTranslation(
+    'components/modals/track-welcome-modal/LHS/steps'
+  )
+
   return (
     <>
-      <h3 className="text-h3 mb-8">Here to learn or practice?</h3>
-      <p className="mb-12">
-        This track can be used for learning {track.title} (Learning Mode) or for
-        practicing your existing {track.title} knowledge (Practice Mode).{' '}
+      <h3 className="text-h3 mb-8">
+        {t('hasLearningModeStep.hereToLearnOrPractice')}
+      </h3>
+      <p data-capy-element="welcome-modal-track-info" className="mb-12">
+        {t('hasLearningModeStep.trackCanBeUsedForLearningOrPracticing', {
+          trackTitle: track.title,
+        })}
       </p>
       <p className="mb-12">
-        We recommend Learning Mode if you're new to {track.title}, and Practice
-        Mode if you're experienced.
+        {t('hasLearningModeStep.recommendLearningModeIfNew', {
+          trackTitle: track.title,
+        })}
       </p>
       <p className="mb-16">
         <span className="font-semibold">
-          Would you like to start the track in Learning Mode or Practice Mode?
+          {t('hasLearningModeStep.startTrackInLearningOrPracticeMode', {
+            trackTitle: track.title,
+          })}
         </span>{' '}
         (You can always change later.)
       </p>
 
       <div className="grid grid-cols-2 gap-12 items-center">
         <StepButton onClick={onSelectLearningMode} className="btn-primary">
-          Learning Mode
+          {t('hasLearningModeStep.learningMode')}
         </StepButton>
         <StepButton onClick={onSelectPracticeMode} className="btn-secondary">
-          Practice Mode
+          {t('hasLearningModeStep.practiceMode')}
         </StepButton>
       </div>
     </>

@@ -1,0 +1,19 @@
+#page-bootcamp-projects
+  %header
+    .c-breadcrumbs
+      .lg-container.container
+        .title
+          = graphical_icon 'bootcamp-projects'
+          = t('.breadcrumbs.projects')
+
+    .lg-container
+      .title-bar
+        %h1.font-semibold.text-20.mb-8= t('.title_bar.projects_title')
+        %p.text-18{ class: "max-w-[850px]" }
+          = t('.title_bar.projects_description')
+
+  .lg-container
+    .grid.grid-cols-3.gap-8
+      - Bootcamp::Project.unlocked.each do |project|
+        - user_project = @user_projects[project.id]
+        = render ViewComponents::Bootcamp::ProjectWidget.new(project, user_project:)

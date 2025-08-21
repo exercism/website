@@ -1,0 +1,10 @@
+body {
+    background: #fdfaf6;
+    font-family: sans-serif;
+    padding: 0;
+    margin: 0;
+    overflow: auto;
+
+    height: 100%;
+    margin: 0;
+}

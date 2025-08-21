@@ -1,0 +1,14 @@
+{
+  "title": "Spaced-Out Lisa",
+  "description": "Use margins instead of padding!",
+  "language": "css",
+  "level": 11,
+  "idx": 7,
+  "checks": [
+    {
+      "function": "onlyPropertyGroupsUsed(['margin', 'background'])",
+      "matcher": "toBeTrue",
+      "error_html": "You should only use the margin property."
+    }
+  ]
+}

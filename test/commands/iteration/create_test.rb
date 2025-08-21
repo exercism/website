@@ -141,6 +141,26 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     Iteration::Create.(solution, submission)
   end
 
+  test "creates representation if there's a representer but no test runner" do
+    track = create :track, has_representer: true
+    exercise = create(:concept_exercise, track:, has_test_runner: false)
+    solution = create(:concept_solution, exercise:)
+    submission = create(:submission, solution:)
+
+    Submission::Representation::Init.expects(:call).once
+    Iteration::Create.(solution, submission)
+  end
+
+  test "runs analysis if there's an analyzer but no test runner" do
+    track = create :track, has_analyzer: true
+    exercise = create(:concept_exercise, track:, has_test_runner: false)
+    solution = create(:concept_solution, exercise:)
+    submission = create(:submission, solution:)
+
+    Submission::Analysis::Init.expects(:call).once
+    Iteration::Create.(solution, submission)
+  end
+
   test "do not analyze if there's no analyzer" do
     track = create :track, has_analyzer: false
     exercise = create(:concept_exercise, track:)
@@ -307,13 +327,6 @@ class Iteration::CreateTest < ActiveSupport::TestCase
 
     stub_request(:post, Exercism.config.snippet_generator_url)
     stub_request(:post, Exercism.config.lines_of_code_counter_url).
-      with(
-        body: {
-          track_slug: submission.track.slug,
-          submission_uuid: submission.uuid,
-          submission_filepaths: submission.valid_filepaths
-        }.to_json
-      ).
       to_return(status: 200, body: "{\"counts\":{\"code\":77,\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {})
 
     iteration = Iteration::Create.(solution, submission)
@@ -330,13 +343,6 @@ class Iteration::CreateTest < ActiveSupport::TestCase
 
     stub_request(:post, Exercism.config.snippet_generator_url)
     stub_request(:post, Exercism.config.lines_of_code_counter_url).
-      with(
-        body: {
-          track_slug: submission.track.slug,
-          submission_uuid: submission.uuid,
-          submission_filepaths: submission.valid_filepaths
-        }.to_json
-      ).
       to_return(status: 200, body: "{\"counts\":{\"code\":77,\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {})
 
     perform_enqueued_jobs do
@@ -354,13 +360,6 @@ class Iteration::CreateTest < ActiveSupport::TestCase
 
     stub_request(:post, Exercism.config.snippet_generator_url)
     stub_request(:post, Exercism.config.lines_of_code_counter_url).
-      with(
-        body: {
-          track_slug: submission.track.slug,
-          submission_uuid: submission.uuid,
-          submission_filepaths: submission.valid_filepaths
-        }.to_json
-      ).
       to_return(status: 200, body: "{\"counts\":{\"code\":77,\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {})
 
     perform_enqueued_jobs do
@@ -380,13 +379,6 @@ class Iteration::CreateTest < ActiveSupport::TestCase
 
     stub_request(:post, Exercism.config.snippet_generator_url)
     stub_request(:post, Exercism.config.lines_of_code_counter_url).
-      with(
-        body: {
-          track_slug: submission.track.slug,
-          submission_uuid: submission.uuid,
-          submission_filepaths: submission.valid_filepaths
-        }.to_json
-      ).
       to_return(status: 200, body: "{\"counts\":{\"code\":13,\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {})
 
     perform_enqueued_jobs do
@@ -449,5 +441,34 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     end
 
     assert_includes user.reload.trophies.map(&:class), Track::Trophies::IteratedTwentyExercisesTrophy
+  end
+
+  test "enqueues github sync with syncer" do
+    user = create :user
+    create(:user_github_solution_syncer, user:, sync_on_iteration_creation: true)
+    solution = create(:concept_solution, user:)
+    submission = create(:submission, solution:)
+
+    User::GithubSolutionSyncer::SyncIteration.expects(:defer)
+    Iteration::Create.(solution, submission)
+  end
+
+  test "does not enqueues github sync without syncer" do
+    user = create :user
+    solution = create(:concept_solution, user:)
+    submission = create(:submission, solution:)
+
+    User::GithubSolutionSyncer::SyncIteration.expects(:defer).never
+    Iteration::Create.(solution, submission)
+  end
+
+  test "does not enqueues github sync with syncer but disabled" do
+    user = create :user
+    create(:user_github_solution_syncer, user:, sync_on_iteration_creation: false)
+    solution = create(:concept_solution, user:)
+    submission = create(:submission, solution:)
+
+    User::GithubSolutionSyncer::SyncIteration.expects(:defer).never
+    Iteration::Create.(solution, submission)
   end
 end

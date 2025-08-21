@@ -1,0 +1,14 @@
+{
+  "title": "Frame Mona",
+  "description": "Give the Mona Lisa a frame",
+  "language": "css",
+  "level": 11,
+  "idx": 6,
+  "checks": [
+    {
+      "function": "onlyPropertyGroupsUsed(['padding', 'background'])",
+      "matcher": "toBeTrue",
+      "error_html": "You should only use the padding property."
+    }
+  ]
+}

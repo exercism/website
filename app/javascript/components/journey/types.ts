@@ -30,6 +30,8 @@ export class TrackProgress {
   progressChart: TrackProgressChart
 
   get completion(): number {
+    if (this.numExercises === 0) return 0
+
     return (100 * this.numCompletedExercises) / this.numExercises
   }
 

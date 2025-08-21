@@ -1,0 +1,24 @@
+// Write your classes here!
+
+set sky to new Sky()
+set sun to new Sun(80, 20)
+set ground to new Ground(20)
+set roof to new Roof(68, 20)
+set frame to new Frame(20, 50, 60, 40)
+set left_window to new Window(30, 55)
+set right_window to new Window(58, 55)
+set door to new Door(43, 72)
+
+repeat 70 times do  
+  sun.move_by(-1.2, 1)
+end
+
+left_window.turn_lights_on()
+right_window.turn_lights_on()
+
+repeat 80 times indexed by index do
+  sky.increase_hue_by(2)
+  for each part in [ground, sky, roof, frame, door] do
+    part.change_brightness(100 - index)
+  end
+end

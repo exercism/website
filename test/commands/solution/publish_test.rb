@@ -597,17 +597,4 @@ class Solution::PublishTest < ActiveSupport::TestCase
     Solution::UpdatePublishedExerciseRepresentation.expects(:call).with(solution)
     Solution::Publish.(solution, user_track, nil)
   end
-
-  test "don't invalidate image in cloudfront" do
-    Infrastructure::InvalidateCloudfrontItems.expects(:defer).never
-
-    track = create :track
-    user = create :user
-    exercise = create(:concept_exercise, track:)
-    user_track = create(:user_track, user:, track:)
-    solution = create(:concept_solution, :completed, user:, exercise:)
-    create(:iteration, solution:)
-
-    Solution::Publish.(solution, user_track, nil)
-  end
 end

@@ -1,0 +1,25 @@
+{
+  "slug": "string-puzzles",
+  "title": "String And List Puzzles",
+  "description": "An assortment of string-based and/or list-based puzzles",
+  "exercises": [
+    "two-fer",
+    "guest-list",
+    "driving-test",
+    "chop-shop",
+    "meal-prep",
+    "reverse-string",
+    "hamming",
+    "rna-transcription",
+    "after-party",
+    "formal-dinner",
+    "matching-socks",
+    "acronym",
+    "nucleotide-count",
+    "scrabble-score",
+    "word-count",
+    "protein-translation",
+    "pangram",
+    "anagram"
+  ]
+}

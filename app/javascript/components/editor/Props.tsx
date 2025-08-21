@@ -107,4 +107,6 @@ export type Props = {
   request: IterationsListRequest
   trackObjectives: string
   showDeepDiveVideo: boolean
+  hasAvailableMentoringSlot: boolean
+  localTestRunner: { files: Record<string, string> }
 }

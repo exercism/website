@@ -1,0 +1,70 @@
+#tasks {
+    @apply bg-background-purple;
+    @apply h-[40%] py-16 px-24;
+    @apply flex-grow-0 flex-shrink-0;
+    @apply border-t-1 border-thin-border-blue;
+
+    h2 {
+        @apply mb-8;
+    }
+
+    .list {
+        @apply flex flex-col gap-[12px];
+    }
+
+    .task {
+        @apply flex gap-12 items-center;
+        @apply relative;
+        @apply text-15;
+
+        .imgs {
+            @apply block w-[18px] h-[18px];
+            @apply flex-shrink-0;
+            @apply relative;
+
+            img {
+                @apply absolute inset-0;
+                @apply block w-full h-full;
+                @apply opacity-0;
+                transition: opacity ease-in 0.5s;
+            }
+        }
+        .confetti {
+            height: 120px;
+            width: 120px;
+            position: absolute;
+            left: -50px;
+            top: -50px;
+            @apply z-overlay;
+        }
+
+        &.hidden {
+            display: none;
+            opacity: 0;
+            max-height: 0;
+        }
+
+        &.inactive {
+            opacity: 0.5;
+            /* transition: all 0.8s ease-in 1s; */
+        }
+
+        &.active {
+            opacity: 1;
+            max-height: 70px;
+            transition: all 0.3s ease-in 0.3s, opacity 0.1s ease-in 0.4s;
+            .pending-icon {
+                @apply opacity-100;
+            }
+        }
+
+        &.completed {
+            filter: grayscale(1);
+            opacity: 0.5;
+            transition: all 0.3s ease-in 300ms;
+            .completed-icon {
+                opacity: 1;
+            }
+        }
+    }
+}

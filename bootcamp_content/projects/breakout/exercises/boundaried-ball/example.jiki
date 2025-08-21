@@ -1,0 +1,17 @@
+set ball to new Ball()
+
+repeat 376 times do
+  if ball.cx - ball.radius <= 0 do
+    change ball.x_velocity to 1
+  end
+  if ball.cx + ball.radius >= 100 do
+    change ball.x_velocity to -1
+  end
+  if ball.cy - ball.radius <= 0 do
+    change ball.y_velocity to 1
+  end
+  if ball.cy + ball.radius >= 100 do
+    change ball.y_velocity to -1
+  end
+  move_ball(ball)
+end

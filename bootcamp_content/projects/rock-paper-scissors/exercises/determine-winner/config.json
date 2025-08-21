@@ -1,0 +1,240 @@
+{
+  "title": "Determine Winner",
+  "description": "Determine the winner of Rock, Paper, Scissors",
+  "project_type": "rock-paper-scissors",
+  "level": 3,
+  "idx": 3,
+  "tests_type": "state",
+  "interpreter_options": {
+    "exclude_list": ["OR"]
+  },
+  "tasks": [
+    {
+      "name": "Player 1 chooses paper",
+      "tests": [
+        {
+          "slug": "paper-vs-paper",
+          "name": "Paper vs Paper",
+          "description_html": "It's a draw. Announce it correctly!",
+
+          "setup_functions": [["setChoices", ["paper", "paper"]]],
+          "checks": [
+            {
+              "property": "result",
+              "matcher": "toBeDefined",
+              "error_html": "You didn't announce a result!"
+            },
+            {
+              "property": "result",
+              "value": "tie",
+              "error_html": "Paper vs Paper should be a tie but it was a {value}"
+            }
+          ]
+        },
+        {
+          "slug": "paper-vs-rock",
+          "name": "Paper vs Rock",
+          "description_html": "Player 1's paper beats player 2's rock. Announce player 1 as the winner!",
+
+          "setup_functions": [["setChoices", ["paper", "rock"]]],
+          "checks": [
+            {
+              "property": "result",
+              "matcher": "toBeDefined",
+              "error_html": "You didn't announce a result!"
+            },
+            {
+              "property": "result",
+              "value": "player_1",
+              "error_html": "Paper vs Rock should be a win for player 1 but it was a {value}"
+            }
+          ]
+        },
+        {
+          "slug": "paper-vs-scissors",
+          "name": "Paper vs Scissors",
+          "description_html": "Player 2's scissors beat player 1's paper. Announce player 2 as the winner.",
+
+          "setup_functions": [["setChoices", ["paper", "scissors"]]],
+          "checks": [
+            {
+              "property": "result",
+              "matcher": "toBeDefined",
+              "error_html": "You didn't announce a result!"
+            },
+            {
+              "property": "result",
+              "value": "player_2",
+              "error_html": "Paper vs Scissors should be a win for player 2 but it was a {value}"
+            }
+          ]
+        },
+        {
+          "slug": "rock-vs-paper",
+          "name": "Rock vs Paper",
+          "description_html": "Player 2's paper beat player 1's rock. Announce player 2 as the winner.",
+
+          "setup_functions": [["setChoices", ["rock", "paper"]]],
+          "checks": [
+            {
+              "property": "result",
+              "matcher": "toBeDefined",
+              "error_html": "You didn't announce a result!"
+            },
+            {
+              "property": "result",
+              "value": "player_2",
+              "error_html": "Rock vs Paper should be a win for player 2 but it was a {value}"
+            }
+          ]
+        },
+        {
+          "slug": "rock-vs-rock",
+          "name": "Rock vs Rock",
+          "description_html": "It's a draw. Announce it correctly!",
+
+          "setup_functions": [["setChoices", ["rock", "rock"]]],
+          "checks": [
+            {
+              "property": "result",
+              "matcher": "toBeDefined",
+              "error_html": "You didn't announce a result!"
+            },
+            {
+              "property": "result",
+              "value": "tie",
+              "error_html": "Rock vs Rock should be a tie but it was a {value}"
+            }
+          ]
+        },
+        {
+          "slug": "rock-vs-scissors",
+          "name": "Rock vs Scissors",
+          "description_html": "Player 1's rock beat player 2's scissors. Announce player 1 as the winner.",
+
+          "setup_functions": [["setChoices", ["rock", "scissors"]]],
+          "checks": [
+            {
+              "property": "result",
+              "matcher": "toBeDefined",
+              "error_html": "You didn't announce a result!"
+            },
+            {
+              "property": "result",
+              "value": "player_1",
+              "error_html": "Rock vs Scissors should be a win for player 1 but it was a {value}"
+            }
+          ]
+        },
+        {
+          "slug": "scissors-vs-paper",
+          "name": "Scissors vs Paper",
+          "description_html": "Player 1's scissors beat player 2's paper. Announce player 1 as the winner.",
+
+          "setup_functions": [["setChoices", ["scissors", "paper"]]],
+          "checks": [
+            {
+              "property": "result",
+              "matcher": "toBeDefined",
+              "error_html": "You didn't announce a result!"
+            },
+            {
+              "property": "result",
+              "value": "player_1",
+              "error_html": "Scissors vs Paper should be a win for player 1 but it was a {value}"
+            }
+          ]
+        },
+        {
+          "slug": "scissors-vs-rock",
+          "name": "Scissors vs Rock",
+          "description_html": "Player 2's rock beat player 1's scissors. Announce player 2 as the winner.",
+
+          "setup_functions": [["setChoices", ["scissors", "rock"]]],
+          "checks": [
+            {
+              "property": "result",
+              "matcher": "toBeDefined",
+              "error_html": "You didn't announce a result!"
+            },
+            {
+              "property": "result",
+              "value": "player_2",
+              "error_html": "Scissors vs Rock should be a win for player 2 but it was a {value}"
+            }
+          ]
+        },
+        {
+          "slug": "scissors-vs-scissors",
+          "name": "Scissors vs Scissors",
+          "description_html": "It's a draw. Announce it correctly!",
+
+          "setup_functions": [["setChoices", ["scissors", "scissors"]]],
+          "checks": [
+            {
+              "property": "result",
+              "matcher": "toBeDefined",
+              "error_html": "You didn't announce a result!"
+            },
+            {
+              "property": "result",
+              "value": "tie",
+              "error_html": "Scissors vs Scissors should be a tie but it was a {value}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Bonus Tasks",
+      "bonus": true,
+      "tests": [
+        {
+          "slug": "use-functions-once",
+          "name": "Use functions only once",
+          "description_html": "Can you solve the exercise only using the `get_player_1_choice()` and `get_player_2_choice()` functions once in your program (imagine how inefficient it is to have to keep running a whole machine to get the player's choices over and over again).",
+          "setup_functions": [["setChoices", ["scissors", "scissors"]]],
+          "checks": [
+            {
+              "function": "numFunctionCalls('get_player_1_choice')",
+              "value": 1,
+              "error_html": "You called `get_player_1_choice()` more than once."
+            },
+            {
+              "function": "numFunctionCalls('get_player_2_choice')",
+              "value": 1,
+              "error_html": "You called `get_player_2_choice()` more than once."
+            }
+          ]
+        },
+        {
+          "slug": "use-announce-result-once",
+          "name": "Use announce_result only once",
+          "description_html": "Can you solve the exercise with `announce_result(...)` only appearing once in your code?",
+          "setup_functions": [["setChoices", ["scissors", "scissors"]]],
+          "checks": [
+            {
+              "function": "numFunctionCallsInCode('announce_result')",
+              "value": 1,
+              "error_html": "You called `announce_result(...)` more than once."
+            }
+          ]
+        },
+        {
+          "slug": "use-13-lines-of-code",
+          "name": "Use 13 lines of code",
+          "description_html": "Can you solve the exercise using the first two bonus conditions and only 13 lines of code (not including blank lines or comments)?",
+          "setup_functions": [["setChoices", ["scissors", "scissors"]]],
+          "checks": [
+            {
+              "function": "numLinesOfCode()",
+              "matcher": "toBeLessThanOrEqual",
+              "value": 13,
+              "error_html": "You used more than 13 lines of code."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,5 +1,7 @@
 import React from 'react'
 import currency from 'currency.js'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 type Links = {
   settings: string
@@ -14,21 +16,30 @@ export const ExistingSubscriptionNotice = ({
   onExtraDonation: () => void
   links: Links
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/donations')
   return (
     <React.Fragment>
       <div className="existing-subscription">
         <strong>
-          You already donate {amount.format()} per month to Exercism. Thank you!
+          {t(
+            'existingSubscriptionNotice.youAlreadyDonatePerMonthToExercismThankYou',
+            {
+              amount: amount.format(),
+            }
+          )}
         </strong>{' '}
-        To change or manage this go to{' '}
-        <a href={links.settings}>Donation Settings</a>.
+        <Trans
+          i18nKey="existingSubscriptionNotice.toChangeOrManageThisGoToDonationSettings"
+          ns="components/donations"
+          components={[<a href={links.settings} />]}
+        />
       </div>
       <div className="extra-cta">
-        Extra{' '}
+        {t('existingSubscriptionNotice.extra')}{' '}
         <button type="button" onClick={onExtraDonation}>
-          one-time donations
+          {t('existingSubscriptionNotice.oneTimeDonations')}
         </button>{' '}
-        are still gratefully received!
+        {t('existingSubscriptionNotice.areStillGratefullyReceived')}!
       </div>
       <div className="form-cover" />
     </React.Fragment>

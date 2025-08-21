@@ -4,6 +4,7 @@ import { Pagination, Loading, GraphicalIcon } from '@/components/common'
 import { Discussion } from './Discussion'
 import type { APIResponse } from '../Inbox'
 import { scrollToTop } from '@/utils/scroll-to-top'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type Links = {
   queue: string
@@ -22,14 +23,16 @@ export const DiscussionList = ({
   links: Links
   refetch: () => Promise<UseQueryResult<APIResponse, unknown>>
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/mentoring/inbox')
+
   return (
     <div>
-      {status === 'loading' && <Loading />}
+      {status === 'pending' && <Loading />}
       {status === 'error' && (
         <>
-          <p>Something went wrong</p>
+          <p>{t('discussionList.somethingWentWrong')}</p>
           <button onClick={() => refetch()} aria-label="Retry">
-            Retry
+            {t('discussionList.retry')}
           </button>
         </>
       )}
@@ -38,9 +41,9 @@ export const DiscussionList = ({
           <>
             <div className="--no-results">
               <GraphicalIcon icon="mentoring" category="graphics" />
-              <h3>No mentoring discussions</h3>
+              <h3>{t('discussionList.noMentoringDiscussions')}</h3>
               <a href={links.queue} className="btn-simple">
-                Mentor a new solution
+                {t('discussionList.mentorNewSolution')}
               </a>
             </div>
           </>

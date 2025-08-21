@@ -22,7 +22,8 @@ export function GraphicalIcon({
     (className) => className.length > 0
   )
 
-  const iconFile = assetUrl(`${category || 'icons'}/${icon}.svg`)
+  icon = icon.includes('.') ? icon : `${icon}.svg`
+  const iconFile = assetUrl(`${category || 'icons'}/${icon}`)
 
   return hex ? (
     <div className={classNames.join(' ')}>

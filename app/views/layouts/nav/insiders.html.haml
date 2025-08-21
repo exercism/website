@@ -1,16 +1,13 @@
 = link_to insiders_path do
   .bg-darkBlueViolet.flex.flex-col.px-24.pt-20.pb-24.theme-dark
     = graphical_icon :insiders, css_class: "w-[48px] h-[48px] mb-16"
-    %h2.text-h3.mb-2{ class: '!text-white' } Exercism Insiders
-    %p.text-h6.mb-8{ class: '!text-white' } Exercism needs your help to survive &amp; thrive!
+    %h2.text-h3.mb-2{ class: '!text-white' }= t('.title')
+    %p.text-h6.mb-8{ class: '!text-white' }= t('.tagline')
 
     .text-p-base.mb-12{ class: 'color-[#cbc9d9] max-w-[370px]' }
-      Donate to Exercism and get behind-the-scenes access and bonus features like
-      = succeed(',') do
-        %strong{ class: 'color-[#f0f3f9]' } Dark Mode, ChatGPT integration, extra mentoring slots, exclusive badges
-      and more.
+      = t('.description_html', strong_text_1: t('.strong_text_1'), strong_text_2: t('.strong_text_2'), strong_text_3: t('.strong_text_3'), strong_text_4: t('.strong_text_4'))
 
-    .btn-s.btn-primary Learn More
+    .btn-s.btn-primary= t('.learn_more_button')
 
     .text-p-small.border-t-1.border-borderColor5.mt-16.pt-16{ class: 'color-[#cbc9d9] max-w-[370px]' }
-      Exercism is a registered not-for-profit. All donations are spent on running and improving the platform.
+      = t('.non_profit_info')

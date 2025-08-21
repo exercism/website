@@ -1,0 +1,224 @@
+{
+  "title": "Alien Detector",
+  "description": "Move your laser from left to right and shoot the aliens.",
+  "project_type": "space-invaders",
+  "level": 5,
+  "idx": 14,
+  "blocks_level_progression": false,
+  "blocks_project_progression": true,
+  "tests_type": "state",
+  "interpreter_options": {
+    "max_repeat_until_game_over_iterations": 100,
+    "max_total_execution_time": 30000,
+    "time_per_frame": 0.01
+  },
+  "exercise_functions": [
+    "move_left",
+    "move_right",
+    "shoot",
+    "get_starting_aliens_in_row",
+    "fire_fireworks"
+  ],
+  "tasks": [
+    {
+      "name": "Shoot the aliens without a helper function",
+      "tests": [
+        {
+          "slug": "one-alien",
+          "name": "Shoot the alien",
+          "description_html": "Move your laser from left to right and shoot the aliens.",
+          "setup_functions": [
+            [
+              "setupAliens",
+              [
+                [
+                  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                ]
+              ]
+            ]
+          ],
+          "checks": [
+            {
+              "property": "gameStatus",
+              "value": "won",
+              "matcher": "toEqual",
+              "error_html": "You didn't shoot down the alien."
+            }
+          ]
+        },
+        {
+          "slug": "one-row",
+          "name": "One sparse row",
+          "description_html": "Move your laser from left to right and shoot the aliens.",
+          "setup_functions": [
+            [
+              "setupAliens",
+              [
+                [
+                  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                  [1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0]
+                ]
+              ]
+            ]
+          ],
+          "checks": [
+            {
+              "property": "gameStatus",
+              "value": "won",
+              "matcher": "toEqual",
+              "error_html": "You didn't shoot down all the aliens."
+            }
+          ]
+        },
+        {
+          "slug": "two-rows",
+          "name": "Two busy rows",
+          "description_html": "Move your laser from left to right and shoot the aliens.",
+          "setup_functions": [
+            [
+              "setupAliens",
+              [
+                [
+                  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                  [1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1],
+                  [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1]
+                ]
+              ]
+            ]
+          ],
+          "checks": [
+            {
+              "property": "gameStatus",
+              "value": "won",
+              "matcher": "toEqual",
+              "error_html": "You didn't shoot down all the aliens."
+            }
+          ]
+        },
+        {
+          "slug": "full-rows",
+          "name": "Three packed rows",
+          "description_html": "Move your laser from left to right and shoot the aliens.",
+          "setup_functions": [
+            [
+              "setupAliens",
+              [
+                [
+                  [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                  [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                  [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1]
+                ]
+              ]
+            ]
+          ],
+          "checks": [
+            {
+              "property": "gameStatus",
+              "value": "won",
+              "matcher": "toEqual",
+              "error_html": "You didn't shoot down all the aliens."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Fire the fireworks when they're all shot down",
+      "tests": [
+        {
+          "slug": "three-rows",
+          "name": "Three rows with Fireworks",
+          "description_html": "Add some fireworks into the mix!",
+          "setup_functions": [
+            [
+              "setupAliens",
+              [
+                [
+                  [0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0],
+                  [1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1],
+                  [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1]
+                ]
+              ]
+            ]
+          ],
+          "checks": [
+            {
+              "property": "gameStatus",
+              "value": "won",
+              "matcher": "toEqual",
+              "error_html": "You didn't shoot down all the aliens."
+            },
+            {
+              "function": "wasFunctionCalled('fire_fireworks', null)",
+              "matcher": "toBeTrue",
+              "error_html": "The fireworks didn't fire. You need to celebrate your victory!"
+            }
+          ]
+        },
+        {
+          "slug": "full-rows-fireworks",
+          "name": "Three packed rows with fireworks",
+          "description_html": "A full grid with fireworks!",
+          "setup_functions": [
+            [
+              "setupAliens",
+              [
+                [
+                  [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                  [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                  [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1]
+                ]
+              ]
+            ]
+          ],
+          "checks": [
+            {
+              "property": "gameStatus",
+              "value": "won",
+              "matcher": "toEqual",
+              "error_html": "You didn't shoot down all the aliens."
+            },
+            {
+              "function": "wasFunctionCalled('fire_fireworks', null)",
+              "matcher": "toBeTrue",
+              "error_html": "The fireworks didn't fire. You need to celebrate your victory!"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Bonus Tasks",
+      "bonus": true,
+      "tests": [
+        {
+          "slug": "fireworks-inside-loop",
+          "description_html": "Can you solve it by putting <code>fire_fireworks()</code> <strong>within</strong> the <code>repeat_until_game_over</code> loop?",
+          "name": "Fireworks inside the loop",
+          "setup_functions": [
+            [
+              "setupAliens",
+              [
+                [
+                  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                ]
+              ]
+            ]
+          ],
+          "checks": [
+            {
+              "function": "wasFireworksCalledInsideRepeatLoop()",
+              "matcher": "toBeTrue",
+              "error_html": "You didn't use the <code>fire_fireworks()</code> function inside the <code>repeat_until_game_over</code> loop."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

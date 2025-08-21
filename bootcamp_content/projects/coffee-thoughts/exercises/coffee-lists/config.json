@@ -1,0 +1,10 @@
+{
+  "title": "Coffee Lists",
+  "description": "Turn the text into a list.",
+  "language": "css",
+  "level": 11,
+  "idx": 3,
+  "editor_config": {
+    "hide_css": true
+  }
+}

@@ -10,6 +10,7 @@ import { BadgeResults } from './BadgeResults'
 import { OrderSwitcher } from './badges-list/OrderSwitcher'
 import type { PaginatedResult, Badge } from '@/components/types'
 import type { QueryKey } from '@tanstack/react-query'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ORDER = 'unrevealed_first'
 const DEFAULT_ERROR = new Error('Unable to load badge list')
@@ -21,6 +22,7 @@ export const BadgesList = ({
   request: Request
   isEnabled: boolean
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/journey')
   const {
     request,
     setPage,
@@ -74,7 +76,7 @@ export const BadgesList = ({
               setCriteria(e.target.value)
             }}
             value={criteria}
-            placeholder="Search by badge name or description"
+            placeholder={t('badgesList.searchByBadgeNameOrDescription')}
           />
           <OrderSwitcher
             value={request.query.order || DEFAULT_ORDER}

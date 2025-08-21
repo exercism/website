@@ -1,0 +1,48 @@
+#page-bootcamp-custom-functions
+  %header
+    .c-breadcrumbs
+      .lg-container.container
+        .title
+          = graphical_icon 'bootcamp-custom-functions'
+          .span= t('.header.your_functions')
+
+    .lg-container.details
+      %h1.font-semibold= t('.header.library_title')
+      %p.mb-6
+        = t('.header.library_description_p1')
+        = link_to t('.header.watch_video_link'), "https://www.youtube.com/live/00tNx4XCJxY?si=YX67gOYkhnrV0lr2&t=1403", class: "font-semibold text-linkColor"
+        = t('.header.library_description_p2')
+
+  .lg-container
+    - short_names = @custom_functions.map(&:short_name)
+    %h2= t('.active_functions.title')
+    %p.text-p-large.mb-12= t('.active_functions.description')
+    .functions
+      - @custom_functions.each do |fn|
+        - next unless fn.active?
+
+        = link_to edit_bootcamp_custom_function_path(fn.short_name) do
+          %h3= fn.name
+          %p= fn.description
+
+    %hr.border-borderColor5.mb-32
+
+    %h2= t('.inactive_functions.title')
+    %p.text-p-large.mb-12= t('.inactive_functions.description')
+    .functions
+      - Bootcamp::CustomFunction::CreatePredefinedForUser::DATA.to_a.sort_by(&:first).each do |name, data|
+        - next if short_names.include?(name.to_s)
+        = link_to edit_bootcamp_custom_function_path(short_name: name) do
+          .font-semibold.text-18.mb-2 my##{name}
+          .text-18.leading-150= data[:description]
+
+      - @custom_functions.each do |fn|
+        - next if fn.active?
+
+        = link_to edit_bootcamp_custom_function_path(fn.short_name) do
+          %h3= fn.name
+          %p= fn.description
+
+      = button_to bootcamp_custom_functions_path, { id: "new-function-button" } do
+        %h3= t('.new_function.title')
+        %p= t('.new_function.description')

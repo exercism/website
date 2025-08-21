@@ -1,15 +1,10 @@
 .mt-28{ class: 'max-w-[550px]' }
-  %h2.text-h5.mb-4 Looking for another payment provider?
-  %p.text-p-base.mb-8 We currently support Paypal and GitHub Sponsors as alternative payment providers. Please contact #{link_to 'Jeremy', 'mailto:jeremy@exercism.org'} if there is another provider you feel we should add.
+  %h2.text-h5.mb-4= t('.heading')
+  %p.text-p-base.mb-8= t('.text_html', link_to_jeremy: (link_to t('.jeremy'), 'mailto:jeremy@exercism.org'))
   .flex.flex-col.items-start.gap-12
     = link_to "#{Exercism.config.paypal_url}/donate/?hosted_button_id=#{Exercism.secrets.paypal_donation_hosted_button_id}&custom=#{current_user&.id}", class: "btn-m btn-secondary" do
       = graphical_icon "paypal", category: :graphics, css_class: "!filter-none"
-      %span Donate with Paypal
+      %span= t('.paypal_button')
     = link_to "https://github.com/sponsors/exercism", class: "btn-m btn-secondary" do
       = graphical_icon "external-site-github"
-      %span Donate via GitHub Sponsors
-
-  %h2.text-h5.mt-24.mb-4 Too cool for fiat? Donate using crypto!
-  %p.text-p-base.mb-8 We also accept donations via cryptocurrency. We support a wide range of different currencies via Coinbase. We aim to convert half to fiat and keep half in the currency in which it was donated.
-  .flex
-    = render ViewComponents::DonateWithCrypto.new
+      %span= t('.github_sponsors_button')

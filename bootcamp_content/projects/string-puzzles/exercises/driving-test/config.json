@@ -1,0 +1,76 @@
+{
+  "title": "Driving Test",
+  "description": "Work out whether someone passes the driving test",
+  "level": 5,
+  "idx": 2,
+  "blocks_level_progression": true,
+  "blocks_project_progression": false,
+  "tests_type": "io",
+  "tasks": [
+    {
+      "name": "Standard Tasks",
+      "tests": [
+        {
+          "slug": "perfect-marks",
+          "description_html": "They did everything right - wow!",
+          "name": "The perfect student!",
+          "function": "did_they_pass",
+          "args": ["✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅"],
+          "checks": [
+            {
+              "value": true
+            }
+          ]
+        },
+        {
+          "slug": "dangerous",
+          "description_html": "We can't let this one on the road!",
+          "name": "Danger to society",
+          "function": "did_they_pass",
+          "args": ["✅✅💥💥✅✅✅💥💥✅✅✅❌✅❌✅✅❌❌✅"],
+          "checks": [
+            {
+              "value": false
+            }
+          ]
+        },
+        {
+          "slug": "one-big-mistake",
+          "description_html": "One big mistake is all it takes to fail!",
+          "name": "One big mistake.",
+          "function": "did_they_pass",
+          "args": ["✅✅✅✅✅✅✅✅✅💥✅✅✅✅✅✅✅✅✅✅"],
+          "checks": [
+            {
+              "value": false
+            }
+          ]
+        },
+        {
+          "slug": "scraped-through",
+          "description_html": "They cut it close but they passed!",
+          "name": "Scraped through.",
+          "function": "did_they_pass",
+          "args": ["✅✅✅❌✅✅✅❌✅✅✅❌️✅✅✅✅✅❌️✅✅"],
+          "checks": [
+            {
+              "value": true
+            }
+          ]
+        },
+        {
+          "slug": "one-mistake-too-many",
+          "description_html": "All those little errors added up.",
+          "name": "One mistake too many!",
+          "function": "did_they_pass",
+          "args": ["✅✅✅❌✅✅✅❌✅✅✅❌️✅✅✅✅✅❌️❌️✅"],
+          "checks": [
+            {
+              "value": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

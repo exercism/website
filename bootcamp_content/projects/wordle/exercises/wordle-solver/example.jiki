@@ -1,0 +1,153 @@
+function has_key with dict, key do
+  for each keys, values in dict do
+    if key == keys do
+      return true
+    end
+  end
+  return false
+end
+
+function contains with haystack, needle do
+  for each thing in haystack do
+    if needle == thing do
+      return true
+    end
+  end
+  return false
+end
+
+function add_or_increment with things, thing do
+  if not has_key(things, thing) do
+    change things[thing] to 0
+  end
+  change things[thing] to things[thing] + 1
+  return things
+end
+
+//------
+
+function letter_ok_in_guess with letter, knowledge, letter_knowledge do
+  if letter_knowledge["actual"] != "" do
+    return letter == letter_knowledge["actual"]
+  end
+  if contains(knowledge["absent"], letter) do 
+    return false
+  end
+  if contains(letter_knowledge["not"], letter) do
+    return false
+  end
+  return true
+end
+
+function unique with list do
+  set res_list to []
+  for each elem in list do
+    if not contains(res_list, elem) do
+      change res_list to push(res_list, elem)
+    end
+  end
+  return res_list
+end
+
+function is_word_possible with word, knowledge do
+  for each letter in word indexed by idx do
+    if not letter_ok_in_guess(letter, knowledge, knowledge["squares"][idx]) do
+      return false
+    end
+  end
+  for each letter in knowledge["present"] do
+    if not contains(word, letter) do
+      return false
+    end
+  end
+  return true
+end
+
+function choose_word with knowledge do
+  set words to common_words()
+  for each word in words do
+    if is_word_possible(word, knowledge) do
+      return word
+    end
+  end
+end
+
+function setup_knowledge do
+  set knowledge to { "present": [], "absent": [], "squares": [], "won": false }
+  repeat 5 times indexed by idx do
+    change knowledge["squares"] to push(knowledge["squares"], {"actual": "", "not": [] })
+  end
+  return knowledge
+end
+
+
+function has_won with states do  
+  for each item in states do
+    if item != "correct" do
+      return false
+    end
+  end
+  return true
+end
+
+function should_be_present with present_letters, target_word, letter do
+  if not has_key(present_letters, letter) do
+    return true
+  end
+
+  set actual to 0
+  for each char in target_word do
+    if char == letter do
+      change actual to actual + 1
+    end
+  end
+
+  return actual > present_letters[letter]
+end
+
+function process_guess with game, knowledge, row, guess do
+  set states to []
+  set present_letters to {}
+  for each letter in guess indexed by idx do
+    if game.target_word[idx] == letter do
+      change knowledge["squares"][idx]["actual"] to letter
+      change present_letters to add_or_increment(present_letters, letter)
+      change states to push(states, "correct")
+    else if contains(game.target_word, letter) do
+      change knowledge["present"] to unique(push(knowledge["present"], letter))
+      change knowledge["squares"][idx]["not"] to push(knowledge["squares"][idx]["not"], letter)
+      change states to push(states, "present")
+    else do
+      change knowledge["absent"] to unique(push(knowledge["absent"], letter))
+      change states to push(states, "absent")
+    end
+  end
+
+  for each letter in guess indexed by idx do
+    if states[idx] != "present" do
+      next
+    end
+
+    if should_be_present(present_letters, game.target_word, letter) do
+      change present_letters to add_or_increment(present_letters, letter)
+    else do
+      change states[idx] to "absent"
+    end
+  end
+  
+  change knowledge["won"] to has_won(states)
+  game.add_word(row, guess, states)
+  return knowledge
+end
+
+function process_game do
+  set game to new WordleGame()
+  game.draw_board()
+  set knowledge to setup_knowledge()
+  repeat 6 times indexed by idx do
+    change knowledge to process_guess(game, knowledge, idx, choose_word(knowledge))
+    if knowledge["won"] do
+      break
+    end
+  end
+end

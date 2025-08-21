@@ -1,0 +1,18 @@
+%section#payment
+  .lg-container
+    .container
+      .lhs
+        .tag= t('.tag')
+        %h2
+          %strong= t('.heading_strong')
+        %p.intro
+          = t('.intro_html', course_name: @enrollment.course.name.downcase).html_safe
+
+        %div{ class: "hidden lg:block" }
+          = render partial: "courses/pay/upsell", locals: { enrollment: @enrollment }
+
+      .rhs
+        #checkout
+
+      %div{ class: "lg:hidden" }
+        = render partial: "courses/pay/upsell", locals: { enrollment: @enrollment }

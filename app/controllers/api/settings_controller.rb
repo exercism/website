@@ -26,6 +26,6 @@ class API::SettingsController < API::BaseController
       require(:user).
       permit(:handle, :email, :password, :password_confirmation)
 
-    return render json: {}, status: :ok if current_user.update(permitted)
+    render json: {}, status: :ok if current_user.update(permitted)
   end
 end

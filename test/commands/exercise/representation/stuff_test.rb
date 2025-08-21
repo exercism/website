@@ -1,7 +1,7 @@
 require "test_helper"
 
 class Exercise::Representation::StuffTest < ActiveSupport::TestCase
-  test "submissions hitting seperate base submission get the right feedback" do
+  test "submissions hitting separate base submission get the right feedback" do
     exercise = create :practice_exercise
     old_feedback = "Some something old"
     new_feedback = "Be more new"

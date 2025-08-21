@@ -1,0 +1,9 @@
+-# haml-lint:disable InstanceVariables
+- if has_discount
+  #top-discount-bar
+    .flag= flag_for_country_code(country_code_2)
+    - if @hello.present?
+      %strong= t('.hello', hello: hello)
+    = t('.discount_text_html', country_name: country_name, discount_percentage: discount_percentage).html_safe
+
+-# haml-lint:enable InstanceVariables

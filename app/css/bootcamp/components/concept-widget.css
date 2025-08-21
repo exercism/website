@@ -1,0 +1,15 @@
+.c-concept-widget {
+    @apply py-12 px-16 rounded-8 border-1 border-borderColor5 block;
+    @apply flex flex-col items-stretch;
+    @apply bg-white;
+    @apply shadow-base;
+
+    .title {
+        @apply text-17 leading-140;
+        @apply font-semibold;
+        @apply mb-4;
+    }
+    .description {
+        @apply text-15 leading-140;
+    }
+}

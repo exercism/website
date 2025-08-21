@@ -1,0 +1,40 @@
+#page-bootcamp-concept
+  %header
+    .c-breadcrumbs
+      .lg-container.container
+        = link_to bootcamp_concepts_path do
+          = graphical_icon 'concepts'
+          .span= t('.breadcrumbs.all_concepts')
+        .seperator /
+
+        - @concept.parents.each do |parent|
+          = link_to parent.title, bootcamp_concept_path(parent)
+          .seperator /
+
+        .title= @concept.title
+
+    .lg-container.details
+      %h1.font-semibold= @concept.title
+
+  .lg-container
+    .flex
+      .lhs.pr-40
+        .c-prose
+          = raw @concept.content_html
+
+        - if @concept.descendants.any?
+          %h3.text-22.leading-140.font-semibold.mb-8= t('.subconcepts.title')
+          %ul.descendants.mb-40.ml-10
+            - @concept.descendants.each do |concept|
+              %li
+                = link_to concept do
+                  .font-semibold.text-primary-blue.text-20.mb-2= concept.title
+                  .text-18.leading-150= concept.description
+      .rhs
+        - if @concept.exercises.unlocked.present?
+          .c-rhs-list
+            %h2.mb-12= t('.exercises.title')
+            %p= t('.exercises.description')
+            %ul
+              - @concept.exercises.unlocked.each do |exercise|
+                %li= render ViewComponents::Bootcamp::ExerciseWidget.new(exercise)

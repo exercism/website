@@ -1,0 +1,29 @@
+body.namespace-bootcamp.controller-projects.action-index {
+    @apply bg-grad-basic;
+}
+#page-bootcamp-projects {
+    header {
+        .title-bar {
+            @apply pb-20;
+            h1 {
+                @apply text-[39px] leading-140;
+                @apply font-bold;
+                @apply mb-4;
+            }
+            p {
+                @apply text-18 leading-140;
+            }
+        }
+    }
+    .lhs {
+        .introduction {
+            @apply max-w-[700px];
+        }
+    }
+    .rhs {
+        @apply w-[400px] flex-shrink-0;
+        @apply ml-auto;
+    }
+    .introduction {
+    }
+}

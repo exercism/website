@@ -1,0 +1,7 @@
+function reverse with string do
+  set result to ""
+  for each letter in string do
+    change result to concatenate(letter, result)
+  end
+  return result
+end

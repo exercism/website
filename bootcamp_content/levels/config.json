@@ -1,0 +1,82 @@
+[
+  {
+    "title": "Writing your first code",
+    "description": "Learn what coding is and how to write your first lines of code."
+  },
+  {
+    "title": "Variables and Repeats",
+    "description": "Learn how to create, update and use variables, and learn repeats."
+  },
+  {
+    "title": "Conditionals",
+    "description": "Learn about if and else keywords, and functions that return things."
+  },
+  {
+    "title": "Functions",
+    "description": "This week we learn how to make our own functions!"
+  },
+  {
+    "title": "Lists",
+    "description": "This week we learn our first compound data structure - lists."
+  },
+  {
+    "title": "Recap Week",
+    "description": "We recap everything we've learned so far and introduce your first major project!"
+  },
+  {
+    "title": "Dictionaries",
+    "description": "We look at dictionaries, break, continue and loop counters."
+  },
+  {
+    "title": "Objects",
+    "description": "We explore the first step into Object-Oriented Programming: objects"
+  },
+  {
+    "title": "Methods",
+    "description": "We explore the second small step into Object-Oriented Programming: methods"
+  },
+  {
+    "title": "Classes",
+    "description": "We finally start to build our own classes!"
+  },
+  {
+    "title": "CSS",
+    "description": "We build some CSS and HTML!"
+  },
+  {
+    "title": "JavaScript",
+    "description": "We explore the crazy (but fun) world of Javascript!"
+  },
+  {
+    "title": "Flexbox & Higher Order Functions",
+    "description": "We learn about Flexbox in CSS and higher order functions in JavaScript."
+  },
+  {
+    "title": "CSS Grid & JavaScript odds and ends",
+    "description": "We learn about Grid in CSS and some more advanced JS and functional concepts."
+  },
+  {
+    "title": "CSS Absolute Positioning & JS Game mechanics",
+    "description": "We learn about absolute positioning in CSS and some JS game mecahnics."
+  },
+  {
+    "title": "JavaScript Interactions",
+    "description": "Learn how to manage mouse and keyboard events in JavaScript."
+  },
+  {
+    "title": "Forms and APIs",
+    "description": "Learn how to build forms and call APIs in JavaScript."
+  },
+  {
+    "title": "Deploying your code via GitHub",
+    "description": "Learn how to use GitHub Pages to deploy your website."
+  },
+  {
+    "title": "Exceptions and Promises",
+    "description": "Learn about the key concepts of exceptions and promises."
+  },
+  {
+    "title": "Response Web Development",
+    "description": "Learn about topics like CSS Variables and Media Queries"
+  }
+]

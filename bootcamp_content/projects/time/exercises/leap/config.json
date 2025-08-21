@@ -1,0 +1,109 @@
+{
+  "title": "Leap Years",
+  "description": "Determine if a given year is a leap year.",
+  "level": 4,
+  "idx": 6,
+  "tests_type": "io",
+  "tasks": [
+    {
+      "name": "Determine if the year is a leap year",
+      "tests": [
+        {
+          "slug": "year-2015",
+          "description_html": "2015 is not divisible by 4 so is not a leap year",
+          "name": "Year 2015",
+          "function": "is_leap_year",
+          "args": [2015],
+          "checks": [{ "value": false }]
+        },
+        {
+          "slug": "year-1970",
+          "description_html": "1970 is not divisible 4 so is not a leap year",
+          "name": "Year 1970",
+          "function": "is_leap_year",
+          "args": [1970],
+          "checks": [{ "value": false }]
+        },
+        {
+          "slug": "year-2100",
+          "description_html": "2100 is divisible by 100 but not by 400 so is not a leap year",
+          "name": "Year 2100",
+          "function": "is_leap_year",
+          "args": [2100],
+          "checks": [{ "value": false }]
+        },
+        {
+          "slug": "year-1900",
+          "description_html": "1900 is divisible by 100 but not by 400 so is not a leap year",
+          "name": "Year 1900",
+          "function": "is_leap_year",
+          "args": [1900],
+          "checks": [{ "value": false }]
+        },
+        {
+          "slug": "year-1800",
+          "description_html": "1800 is divisible by 200 but not by 400 so is not a leap year",
+          "name": "Year 1800",
+          "function": "is_leap_year",
+          "args": [1800],
+          "checks": [{ "value": false }]
+        },
+        {
+          "slug": "year-2000",
+          "description_html": "2000 is divisible by 400 so is a leap year",
+          "name": "Year 2000",
+          "function": "is_leap_year",
+          "args": [2000],
+          "checks": [{ "value": true }]
+        },
+        {
+          "slug": "year-2400",
+          "description_html": "2400 is divisible by 400 so is a leap year",
+          "name": "Year 2400",
+          "function": "is_leap_year",
+          "args": [2400],
+          "checks": [{ "value": true }]
+        },
+        {
+          "slug": "year-1996",
+          "description_html": "1996 is divisible by 4 but not by 100 so is a leap year",
+          "name": "Year 1996",
+          "function": "is_leap_year",
+          "args": [1996],
+          "checks": [{ "value": true }]
+        },
+        {
+          "slug": "year-1960",
+          "description_html": "1960 is divisible by 4 and 5 so a leap year",
+          "name": "Year 1960",
+          "function": "is_leap_year",
+          "args": [1960],
+          "checks": [{ "value": true }]
+        }
+      ]
+    },
+    {
+      "name": "Bonus Task",
+      "bonus": true,
+      "description": "Can you solve this with only one line of code within the function?",
+      "tests": [
+        {
+          "slug": "bonus-1",
+          "name": "One Line of Code",
+          "description_html": "Can you solve this with only one line of code within the function?",
+          "function": "is_leap_year",
+          "args": [2000],
+          "checks": [
+            { "value": true },
+            {
+              "function": "numLinesOfCode()",
+              "value": 3,
+              "code_run": "We checked how many lines you used.",
+              "error_html": "You used more than one line of code."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

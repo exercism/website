@@ -1,4 +1,7 @@
+// i18n-key-prefix: topLearningCountries
+// i18n-namespace: components/impact/TopLearningCountries.tsx
 import React from 'react'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type LearningCountry = {
   country: string
@@ -11,9 +14,12 @@ export function TopLearningCountries({
 }: {
   data: LearningCountry[]
 }): JSX.Element {
+  const { t } = useAppTranslation('components/impact/TopLearningCountries.tsx')
   return (
     <div>
-      <h6 className="text-h6 mb-8">Top learning countries</h6>
+      <h6 className="text-h6 mb-8">
+        {t('topLearningCountries.topLearningCountries')}
+      </h6>
       <div className="flex flex-wrap gap-8">
         {data.map((i) => (
           <LearningCountryTag key={i.country} country={i} />

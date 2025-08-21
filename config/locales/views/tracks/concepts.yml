@@ -1,0 +1,83 @@
+en:
+  tracks:
+    concepts:
+      index:
+        meta_title: "%{track_title} key concepts on Exercism"
+        meta_description: Learn and master %{num_concepts} key concepts in
+          %{track_title} on Exercism.
+        external_cta:
+          title: Master %{num_concepts} key concepts in %{track_title}
+          description: All the concepts covered are explained in the context of
+            language-specific paradigms and conventions.
+          button: Join The %{track_title} Track
+          join_button: Join The %{track_title} Track
+        page_header:
+          title: Your journey through %{track_title}
+          description: Learn and master concepts to achieve fluency in %{track_title}.
+      tooltip:
+        summary:
+          in: in
+          exercises_locked:
+            one: 1 exercise
+            other: "%{count} exercises"
+          exercises_completed: "%{num_completed}/%{num_total} %{count} completed"
+        status_tag:
+          locked: Locked
+          mastered: Mastered
+        info:
+          locked_prerequisite: Learn %{prerequisite_names} to unlock this concept.
+          locked_tutorial: Complete "Hello, World!" to unlock concepts.
+          mastered: You’ve mastered %{concept_name}!
+          learnt: You’ve learnt %{concept_name}.
+          available: "%{concept_name} is available for you to learn."
+          locked:
+            prerequisite: Learn %{prerequisite_names} to unlock this concept.
+            hello_world: Complete "Hello, World!" to unlock concepts.
+          mastered_message: You’ve mastered %{concept_name}!
+          learnt_message: You’ve learnt %{concept_name}.
+          available_message: "%{concept_name} is available for you to learn."
+        explore_button: Explore concept
+        header:
+          summary:
+            title:
+              in_text: in
+            num_exercises:
+              locked:
+                one: 1 exercise
+                other: "%{count} exercises"
+              completed: "%{num_completed}/%{count} completed"
+          status_tag:
+            locked: Locked
+            mastered: Mastered
+        explore_concept_button: Explore concept
+      show:
+        header:
+          breadcrumbs:
+            tracks: Tracks
+            syllabus: Syllabus
+          concept_info:
+            in: in
+            exercises_count:
+              one: 1 exercise
+              other: "%{count} exercises"
+        mastered_heading:
+          text: You've mastered %{concept_name} in %{track_title}.
+          explore_link: Explore more concepts
+        about:
+          title: About %{concept_name}
+          learn_more_links:
+            title: Learn More
+            external_link_aria_label: (external link)
+        extra_info:
+          edit_via_github: Edit via GitHub
+          github_link_aria_label: The link opens in a new window or tab
+        learnt:
+          learnt_concept_message: You've learnt %{concept_name}!
+          mastered_concept_message: You've mastered %{concept_name}!
+          practice_concept_message: Practice %{concept_name}
+        learn:
+          learn_concept_message: Learn %{concept_name}
+          practice_locked_bar_aria_label: Practicing is locked
+          unlock_practice_exercises:
+            one: Unlock 1 more exercise to practice %{concept_name}
+            other: Unlock %{count} more exercises to practice %{concept_name}

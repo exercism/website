@@ -1,0 +1,60 @@
+{
+  "title": "Finish the Wall",
+  "description": "Use rectangles to finish the wall",
+  "project_type": "draw",
+  "level": 2,
+  "idx": 2,
+  "concepts": [],
+  "tests_type": "state",
+  "readonly_ranges": [],
+  "exercise_functions": ["rectangle", "fill_color_hex"],
+  "tasks": [
+    {
+      "name": "Draw the scene",
+      "tests": [
+        {
+          "slug": "finish-wall",
+          "name": "Finish off the wall",
+          "description_html": "Add a top layer to the wall!",
+          "setup_functions": [
+            ["changeStrokeWidth", [0.4]],
+            ["strokeColorHex", ["#7f3732"]],
+            ["fillColorHex", ["red"]],
+            [
+              "setBackgroundImage",
+              ["https://assets.exercism.org/bootcamp/graphics/topless-wall.png"]
+            ]
+          ],
+          "checks": [
+            {
+              "function": "getRectangleAt(0, 0, 20, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The left brick isn't correct."
+            },
+            {
+              "function": "getRectangleAt(40, 0, 20, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The middle brick isn't correct."
+            },
+            {
+              "function": "getRectangleAt(80, 0, 20, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The right brick isn't correct."
+            },
+            {
+              "function": "wasFunctionCalled('rectangle', null, 5)",
+              "matcher": "toBeTrue",
+              "error_html": "You didn't add exactly 5 bricks."
+            },
+            {
+              "function": "numFunctionCallsInCode('rectangle')",
+              "matcher": "toEqual",
+              "value": 1,
+              "error_html": "You are using the `rectangle` function in multiple places in your code."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "slug": "weather",
+  "title": "Weather Forecast",
+  "description": "Build a beautiful, functional, weather forecast app",
+  "exercises": [
+    "sunshine",
+    "cloud-rain-sun",
+    "symbols-part-1",
+    "symbols-part-2",
+    "weather-report"
+  ]
+}

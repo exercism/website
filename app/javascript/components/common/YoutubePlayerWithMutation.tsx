@@ -4,14 +4,16 @@ import { sendRequest } from '@/utils/send-request'
 import { YoutubePlayer } from './YoutubePlayer'
 
 export default function YoutubePlayerWithMutation({ markAsSeenEndpoint, id }) {
-  const { mutate: markVideoAsSeen } = useMutation(async () => {
-    const { fetch } = sendRequest({
-      endpoint: markAsSeenEndpoint,
-      method: 'POST',
-      body: null,
-    })
+  const { mutate: markVideoAsSeen } = useMutation({
+    mutationFn: async () => {
+      const { fetch } = sendRequest({
+        endpoint: markAsSeenEndpoint,
+        method: 'POST',
+        body: null,
+      })
 
-    return fetch
+      return fetch
+    },
   })
   return (
     <YoutubePlayer

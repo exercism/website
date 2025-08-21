@@ -1,8 +1,7 @@
-- content_for :meta_title, "Dig Deeper into #{@exercise.title} in #{@track.title} on Exercism"
-- content_for :meta_description, "Explore different approaches and videos on how to solve #{@exercise.title} in #{@track.title}."
+- content_for :meta_title, t('.meta_title', exercise_title: @exercise.title, track_title: @track.title)
+- content_for :meta_description, t('.meta_description', exercise_title: @exercise.title, track_title: @track.title)
 - require_stylesheet "track"
 
 #page-approaches-index
   = render ViewComponents::Track::ExerciseHeader.new(@exercise, @solution, @user_track, :dig_deeper)
   = render ReactComponents::Track::DigDeeper.new(@videos, @introduction, @approaches, @articles, @links, @track, @exercise)
-

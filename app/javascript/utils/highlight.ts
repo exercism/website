@@ -1,6 +1,6 @@
 import * as highlighter from 'highlight.js'
 import { useLayoutEffect, useRef } from 'react'
-import { areAllRegExpFeaturesSupported } from './regex-check'
+import { isLookbehindSupported } from './regex-check'
 import setupABAP from 'highlightjs-sap-abap'
 import setupCobol from 'highlightjs-cobol'
 import setupBqn from 'highlightjs-bqn'
@@ -8,15 +8,29 @@ import setupZig from 'highlightjs-zig'
 import setupGleam from '@gleam-lang/highlight.js-gleam'
 import setupBallerina from '@ballerina/highlightjs-ballerina'
 import setupRed from 'highlightjs-redbol'
+import setupChapel from 'highlightjs-chapel'
+import setupGDScript from '@exercism/highlightjs-gdscript'
+import setupJq from 'highlightjs-jq'
+import setupArturo from '@exercism/highlightjs-arturo'
+import setupRoc from 'highlightjs-roc'
+import setupUiua from '@exercism/highlightjs-uiua'
+import setupJikiscript from '@exercism/highlightjs-jikiscript'
 
-if (areAllRegExpFeaturesSupported()) {
+if (isLookbehindSupported()) {
   highlighter.default.registerLanguage('abap', setupABAP)
+  highlighter.default.registerLanguage('arturo', setupArturo)
   highlighter.default.registerLanguage('cobol', setupCobol)
   highlighter.default.registerLanguage('bqn', setupBqn)
   highlighter.default.registerLanguage('zig', setupZig)
   highlighter.default.registerLanguage('gleam', setupGleam)
   highlighter.default.registerLanguage('ballerina', setupBallerina)
   highlighter.default.registerLanguage('red', setupRed)
+  highlighter.default.registerLanguage('chapel', setupChapel)
+  highlighter.default.registerLanguage('gdscript', setupGDScript)
+  highlighter.default.registerLanguage('jq', setupJq)
+  highlighter.default.registerLanguage('roc', setupRoc)
+  highlighter.default.registerLanguage('uiua', setupUiua)
+  highlighter.default.registerLanguage('jikiscript', setupJikiscript)
 }
 
 highlighter.default.configure({
@@ -113,7 +127,7 @@ const highlightBlock = (block: HTMLElement): void => {
 }
 
 export const highlightAll = (parent: ParentNode = document): void => {
-  if (!areAllRegExpFeaturesSupported()) return
+  if (!isLookbehindSupported()) return
   parent.querySelectorAll<HTMLElement>('pre code').forEach((block) => {
     if (block.dataset.highlighted === 'true') {
       return
@@ -124,7 +138,7 @@ export const highlightAll = (parent: ParentNode = document): void => {
 }
 
 export const highlightAllAlways = (parent: ParentNode = document): void => {
-  if (!areAllRegExpFeaturesSupported()) return
+  if (!isLookbehindSupported()) return
   parent.querySelectorAll<HTMLElement>('pre code').forEach((block) => {
     block.removeAttribute('data-highlighted')
     highlightBlock(block)

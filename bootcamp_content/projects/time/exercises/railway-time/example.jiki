@@ -1,0 +1,50 @@
+function number_to_string with number do
+  set map to ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+  set digit to ""
+  set res to ""
+  repeat_forever do
+    change digit to number % 10
+    change res to concatenate(map[digit + 1], res)
+    change number to number - digit
+    if number == 10 do
+      change res to concatenate("1", res)
+      return res
+    else if number == 0 do
+      return res
+    else do
+      change number to number / 10
+    end
+  end
+end
+
+// Create the Clock class here
+class Clock do
+  private property hours
+  private property minutes
+
+  constructor with hours, minutes do
+    set this.hours to hours
+    set this.minutes to minutes
+  end
+
+  public method get_railway_time do 
+    return concatenate(number_to_string(this.hours), ":", number_to_string(this.minutes))
+  end
+
+  public method get_duodecimal_time do
+    set indicator to "am"
+    
+    if(this.hours >= 12) do
+      change indicator to "pm"
+    end
+    
+    set hour to this.hours
+    if(this.hours == 0) do
+      change hour to 12
+    else if(this.hours > 12) do
+      change hour to this.hours - 12
+    end
+
+    return concatenate(number_to_string(hour), ":", number_to_string(this.minutes), indicator)
+  end
+end

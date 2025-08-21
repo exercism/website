@@ -1,0 +1,11 @@
+{
+  "slug": "wordle",
+  "title": "Wordle",
+  "description": "Recreate the classic Wordle game",
+  "exercises": [
+    "process-game",
+    "wordle-rules",
+    "wordle-solver",
+    "wordle-evolved"
+  ]
+}

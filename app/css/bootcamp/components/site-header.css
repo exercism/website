@@ -1,0 +1,23 @@
+.c-site-header {
+    @apply bg-white;
+    @apply border-b-1 border-[#ccc];
+    .container {
+        @apply py-16;
+        @apply flex flex-row gap-8 items-center;
+        img {
+            filter: invert(1);
+        }
+        .content {
+            @apply text-18;
+        }
+    }
+}
+
+body.namespace-bootcamp.controller-exercises.action-edit,
+body.namespace-bootcamp.controller-custom_functions.action-edit,
+body.namespace-bootcamp.controller-frontend.action-index,
+body.namespace-bootcamp.controller-drawings.action-edit {
+    .c-site-header {
+        display: none;
+    }
+}

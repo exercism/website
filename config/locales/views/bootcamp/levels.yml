@@ -1,0 +1,45 @@
+en:
+  bootcamp:
+    levels:
+      index:
+        breadcrumbs:
+          title: Levels
+        header:
+          title: Levels
+          description:
+            Levels are the building blocks of the bootcamp. Each level contains
+            a set of exercises and concepts that you need to complete before
+            moving on to the next.
+        part_1:
+          title: Part 1 - Coding Fundamentals
+        part_2:
+          title: Part 2 - Front-End Fundamentals
+        levels_heading_breadcrumbs: Levels
+        levels_heading: Levels
+        levels_description:
+          Levels are the building blocks of the bootcamp. Each level
+          contains a set of exercises and concepts that you need to complete
+          before moving on to the next.
+        part_1_heading: Part 1 - Coding Fundamentals
+        part_2_heading: Part 2 - Front-End Fundamentals
+      show:
+        levels_link: Levels
+        level_title: "Level %{idx}:"
+        level_completed_text: You've completed Level %{idx}
+        all_exercises_completed:
+          one: All 1 exercise completed
+          other: All %{count} exercises completed
+        level_heading: "Level %{idx}:"
+        key_concepts_heading: Key Concepts
+        key_concepts_description:
+          These concepts are all covered in the video session.
+          Make sure you understand these concepts before moving on from this
+          level.
+        core_exercises_heading: Core Exercises
+        core_exercises_description: Complete these exercises to complete this level.
+        brain_busters_heading: Brain Busters
+        brain_busters_description: Push your limits with these optional exercises!
+        major_project_heading: Major Project 🎉
+        major_project_description:
+          Get started on this larger project, designed to be
+          completed over multiple weeks.

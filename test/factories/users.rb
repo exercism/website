@@ -3,6 +3,7 @@ FactoryBot.define do
     email { "#{SecureRandom.hex(4)}@exercism.org" }
     name { "User" }
     password { "password" }
+    seniority { :mid }
     handle { "handle-#{SecureRandom.hex(4)}" }
     accepted_terms_at { Date.new(2016, 12, 25) }
     accepted_privacy_policy_at { Date.new(2016, 12, 25) }
@@ -112,6 +113,21 @@ FactoryBot.define do
     trait :trainer do
       after(:create) do |user, _evaluator|
         user.data.update(trainer: true)
+      end
+    end
+
+    trait :maintainer do
+      uid { SecureRandom.uuid }
+      after(:create) do |user, _evaluator|
+        user.data.update!(
+          roles: (data.roles + [:maintainer])
+        )
+      end
+    end
+
+    trait :with_bootcamp_data do
+      after(:create) do |user, _evaluator|
+        user.create_bootcamp_data!(paid_at: Time.current)
       end
     end
   end

@@ -99,7 +99,7 @@
             --dropdown-offset: 0px;
             --nd-ul-width: 320px;
             --nd-view-width: 420px;
-            --nd-height: 465px;
+            --nd-height: 420px;
             --nd-width: calc(var(--nd-ul-width) + var(--nd-view-width));
 
             height: var(--nd-height);
@@ -193,6 +193,14 @@
 
                         h6 {
                             @apply text-h6 text-textColor1 mb-2;
+
+                            .new {
+                                @apply bg-orange text-white uppercase text-[11px];
+                                @apply px-8 py-2 ml-8;
+                                @apply rounded-8;
+                                @apply inline;
+                                @apply align-top;
+                            }
                         }
 
                         p {

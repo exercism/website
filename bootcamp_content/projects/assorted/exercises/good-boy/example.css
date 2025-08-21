@@ -1,0 +1,70 @@
+.frames {
+    display: grid;
+    gap: 5vmin;
+    margin: 0 10vmin 3vmin;
+    grid-template-columns: repeat(2, 1fr);
+    box-sizing: border-box;
+}
+h1 {
+    font-size: 6vmin;
+    margin: 7vmin auto 0.5vmin;
+    text-align: center;
+}
+.instruction {
+    font-size: 3.5vmin;
+    margin-bottom: 5vmin;
+    font-weight: bold;
+    text-align: center;
+}
+.dog {
+    h2 {
+        font-size: 4vmin;
+        margin-bottom: 2vmin;
+        text-align: center;
+    }
+}
+.frame {
+    background: #4e342e;
+    padding: 1vmin;
+    cursor: pointer;
+    position: relative;
+    width: 100%;
+
+    .success {
+        display: none;
+        position: absolute;
+        inset: 0;
+        place-items: center;
+        background: #008000cc;
+        color: white;
+        font-size: 80px;
+    }
+
+    .glass {
+        background: white;
+        padding: 2vmin;
+    }
+
+    .rim {
+        background: #d4af37;
+        padding: 1vmin;
+    }
+
+    .canvas {
+        background: #f5f5dc;
+        padding: 1vmin;
+        display: grid;
+        place-items: center;
+    }
+    svg {
+        margin: 5vmin auto;
+        opacity: 0.2;
+        width: 50px;
+        height: 50px;
+    }
+    img,
+    video {
+        display: none;
+        width: 100%;
+    }
+}

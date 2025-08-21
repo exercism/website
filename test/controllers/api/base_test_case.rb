@@ -22,7 +22,15 @@ module API
       @current_user.confirm
 
       auth_token = create :user_auth_token, user: @current_user
-      @headers = { 'Authorization' => "Token token=#{auth_token.token}" }
+      @headers = { 'Authorization' => "Bearer #{auth_token.token}" }
+    end
+
+    def assert_json_response(expected)
+      # expected[:meta] ||= {}
+      # expected[:meta][:valid_at] ||= Time.current.to_f.to_s.delete('.')
+
+      actual = response.parsed_body
+      assert_equal expected.to_json, actual.to_json
     end
   end
 end

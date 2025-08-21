@@ -1,0 +1,115 @@
+#bootcamp-solve-exercise-page,
+#bootcamp-custom-function-editor-page,
+#bootcamp-frontend-training-page,
+#bootcamp-frontend-exercise-page {
+    @apply flex flex-col w-full h-screen;
+
+    .page-header {
+        @apply flex-shrink-0;
+        @apply py-8 px-12;
+        @apply flex;
+        @apply border-b-1 border-gray-300;
+
+        .ident {
+            @apply flex items-center gap-8;
+            @apply text-16;
+            img {
+                @apply h-[20px];
+                filter: invert(1);
+            }
+        }
+    }
+    .page-body {
+        @apply flex-grow;
+        @apply flex;
+        @apply overflow-hidden;
+        & > button {
+            @apply bg-bootcamp-light-purple;
+            @apply px-[2px];
+            &:active {
+                @apply relative;
+                &:after {
+                    @apply absolute top-0 bottom-0 left-[4px];
+                    @apply w-[3px];
+                    content: "";
+                    @apply bg-bootcamp-purple;
+                }
+            }
+        }
+    }
+
+    .page-body-lhs {
+        @apply p-8;
+        @apply flex flex-col;
+        @apply bg-bootcamp-very-light-purple;
+        & > button {
+            @apply h-[12px];
+            &:active {
+                @apply relative;
+                &:after {
+                    @apply absolute left-0 right-0 top-[5px];
+                    @apply h-[3px];
+                    content: "";
+                    @apply bg-bootcamp-purple;
+                }
+            }
+        }
+    }
+    .page-body-lhs-bottom {
+        @apply flex flex-col;
+    }
+    .page-body-rhs {
+        @apply flex flex-col flex-grow h-full;
+        & > button {
+            @apply h-[12px];
+            &:active {
+                @apply relative;
+                &:after {
+                    @apply absolute left-0 right-0 top-[5px];
+                    @apply h-[3px];
+                    content: "";
+                    @apply bg-bootcamp-purple;
+                }
+            }
+        }
+    }
+
+    .scenario-lhs {
+        @apply w-[50%] min-w-[300px];
+        @apply flex-shrink-0 flex-grow;
+    }
+
+    .scenarios-button {
+        @apply flex items-center gap-8;
+    }
+
+    .btn-primary {
+        @apply bg-bootcamp-purple;
+    }
+}
+
+body.namespace-bootcamp.controller-exercises.action-edit {
+    overflow: hidden;
+
+    &::after {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0);
+        pointer-events: none;
+        z-index: 999;
+        transition: background-color 2.5s ease-in-out;
+    }
+
+    &:has(.spotlight)::after {
+        background: rgba(0, 0, 0, 0.9);
+    }
+
+    .spotlight {
+        position: relative;
+        z-index: 1000;
+    }
+}

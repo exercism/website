@@ -1,0 +1,61 @@
+function check_direction with direction do
+  set space to look(direction)
+  return !space.is_wall and space.in_maze and space.contents != "🔥" and space.contents != "💩"
+end
+
+function can_turn_left do
+  return check_direction("left")
+end
+function can_turn_right do
+  return check_direction("right")
+end
+function can_move do
+  return check_direction("ahead")
+end
+
+function move_and_collect with emojis do
+  move()
+  
+  set emoji to look("down").contents
+  if emoji == "" do
+    return emojis
+  end
+  
+  remove_emoji()
+  
+  if has_key(emojis, emoji) do
+    change emojis[emoji] to emojis[emoji] + 1
+  else do
+    change emojis[emoji] to 1
+  end
+  
+  return emojis
+end
+
+function turn_around do
+  turn_right()
+  turn_right()
+end
+
+set emoji to {}
+
+function turn_if_required do
+  if can_turn_left() do
+    turn_left()
+  else if can_move() do
+    return
+  else if can_turn_right() do
+    turn_right()
+  else do
+    turn_around()
+  end
+end
+
+repeat_until_game_over do
+  turn_if_required()
+  change emoji to move_and_collect(emoji)
+
+  if look("down").is_finish do
+    announce_emojis(emoji)
+  end
+end

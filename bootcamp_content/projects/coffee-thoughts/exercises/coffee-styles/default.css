@@ -1,0 +1,26 @@
+body,
+.--jiki-faux-body {
+    aspect-ratio: 1;
+    overflow: hidden;
+
+    padding: 5%;
+    container-type: size;
+    font-family: Verdana, ui-sans-serif, system-ui, sans-serif,
+        Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+    background: #e1d3c6;
+}
+h1,
+p,
+ul {
+    color: black;
+    font-weight: normal;
+}
+ul {
+    padding: 0 0 0 10%;
+}
+a {
+    text-decoration: none;
+}
+strong {
+    font-weight: normal;
+}

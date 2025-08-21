@@ -1,0 +1,57 @@
+:css
+  th, td {
+    border: 1px solid var(--borderColor8);
+    text-align:center;
+    padding:8px;
+    line-height:130%;
+  }
+  td {
+    white-space:nowrap;
+  }
+  #site-footer { display: none !important }
+  body {
+    width: 4000px;
+  }
+
+
+.p-32
+  .text-h3.mb-8= t('.track_exercises_title', track_title: @track.title)
+  .text-h5.mb-4= t('.key_to_symbols.title')
+  .text-16
+    .mb-8= t('.key_to_symbols.featured')
+    .mb-8= t('.key_to_symbols.present_on_track')
+    .mb-8= t('.key_to_symbols.missing_from_track', add_it_link: link_to(t('.key_to_symbols.please_add_it_link'), doc_path(:building, 'tracks/practice-exercises'), class: 'font-semibold text-linkColor')).html_safe
+    .mb-16= t('.key_to_symbols.do_not_implement')
+
+    = t('.key_to_symbols.want_to_implement')
+    = t('.key_to_symbols.start_with_link', video_docs_link: link_to(t('.key_to_symbols.video_and_docs_link_text'), doc_path(:building, 'tracks/practice-exercises'), class: 'font-semibold text-linkColor')).html_safe
+
+  .text-16
+    = link_to t('.back_to_overview_link'), implementation_status_challenge_path, class: 'font-semibold text-linkColor'
+
+  %hr.mt-20.mb-32.border-borderColor5
+
+  .flex.items-start{ class: "max-h-[90vh]" }
+    %table
+      %thead
+        %tr.font-semibold.bg-backgroundColorD
+          %th= t('.table_headers.week')
+          %th= t('.table_headers.exercise')
+          %th= t('.table_headers.status')
+
+      %tbody
+        - @featured_exercises.each.with_index do |featured_exercise, idx|
+          %tr
+            %td.p-8= idx + 1
+            %td.p-8
+              = link_to featured_exercise[:title], generic_exercise_path(featured_exercise[:slug]), class: 'font-semibold text-linkColor'
+            %td.p-8
+              - case @exercise_status[featured_exercise[:slug]]
+              - when :do_not_implement
+                = link_to t('.table_status_icons.do_not_implement'), generic_exercise_path(featured_exercise[:slug])
+              - when :featured
+                = link_to t('.table_status_icons.featured'), track_exercise_url(@track, featured_exercise[:slug])
+              - when :present
+                = link_to t('.table_status_icons.present'), track_exercise_url(@track, featured_exercise[:slug])
+              - else
+                = link_to t('.table_status_icons.missing'), generic_exercise_path(featured_exercise[:slug])

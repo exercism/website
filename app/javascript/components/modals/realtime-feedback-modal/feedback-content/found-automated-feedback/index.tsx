@@ -9,14 +9,13 @@ import {
 import { FeedbackContentProps } from '../../FeedbackContent'
 import { FooterButtonContainer } from '../../components'
 import { IterationStatus } from '@/components/types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const HEADLINE: Partial<Record<IterationStatus, string>> = {
-  actionable_automated_feedback:
-    "Here's a suggestion on how to improve your code…",
-  celebratory_automated_feedback: 'We have some positive feedback for you! 🎉',
-  essential_automated_feedback:
-    "Here's an important suggestion on how to improve your code…",
-  non_actionable_automated_feedback: 'Here are some thoughts on your code…',
+  actionable_automated_feedback: 'index.suggestionImproveCode',
+  celebratory_automated_feedback: 'index.positiveFeedback',
+  essential_automated_feedback: 'index.importantSuggestionImproveCode',
+  non_actionable_automated_feedback: 'index.thoughtsOnCode',
 }
 
 export function FoundAutomatedFeedback({
@@ -31,6 +30,9 @@ export function FoundAutomatedFeedback({
 > & {
   onContinue: () => void
 }): JSX.Element {
+  const { t } = useAppTranslation(
+    'components/modals/realtime-feedback-modal/feedback-content/found-automated-feedback'
+  )
   const celebratory =
     latestIteration?.status === 'celebratory_automated_feedback'
   return (
@@ -38,7 +40,7 @@ export function FoundAutomatedFeedback({
       <div className="flex gap-40 items-start">
         <div className="flex-col items-left">
           <div className="text-h4 mb-16 flex c-iteration-summary">
-            {HEADLINE[latestIteration!.status]}
+            {t(HEADLINE[latestIteration!.status] as string)}
           </div>
           {latestIteration?.representerFeedback ? (
             <RepresenterFeedback {...latestIteration.representerFeedback} />
@@ -62,7 +64,7 @@ export function FoundAutomatedFeedback({
       <FooterButtonContainer>
         {!celebratory && <GoBackToExercise onClick={onClose} />}
         <ContinueButton
-          text={celebratory ? 'Continue' : 'Continue anyway'}
+          text={t(celebratory ? 'index.continue' : 'index.continueAnyway')}
           onClick={onContinue}
           className={!celebratory ? 'btn-secondary' : ''}
         />

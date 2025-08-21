@@ -1,0 +1,6 @@
+function even_or_odd with number do
+  if number % 2 equals 0 do
+    return "Even"
+  end
+  return "Odd"
+end

@@ -4,7 +4,10 @@ import { FinishButton } from './FinishButton'
 import { GraphicalIcon } from '../../common'
 import { SessionProps } from '../Session'
 import { MentorDiscussion as Discussion } from '../../types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
+// i18n-key-prefix: ......components.mentoring.discussion.discussionActions
+// i18n-namespace: discussion
 export const DiscussionActions = ({
   status,
   links,
@@ -15,6 +18,7 @@ export const DiscussionActions = ({
   session: SessionProps
   setSession: (session: SessionProps) => void
 }): JSX.Element => {
+  const { t } = useAppTranslation('discussion-batch')
   const handleSuccess = useCallback(
     (discussion) => {
       const { student, ...discussionProps } = discussion
@@ -37,7 +41,7 @@ export const DiscussionActions = ({
       {isFinished ? (
         <div className="finished">
           <GraphicalIcon icon="completed-check-circle" />
-          Ended
+          {t('components.mentoring.discussion.discussionActions.ended')}
         </div>
       ) : links.finish ? (
         <FinishButton endpoint={links.finish} onSuccess={handleSuccess} />

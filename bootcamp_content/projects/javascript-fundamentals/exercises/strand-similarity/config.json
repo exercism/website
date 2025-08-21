@@ -1,0 +1,75 @@
+{
+  "title": "Strand Similarity",
+  "description": "Calculate the Hamming distance between two DNA strands of equal length.",
+  "level": 14,
+  "idx": 10,
+  "language": "javascript",
+  "tests_type": "io",
+  "tasks": [
+    {
+      "name": "Calculate the Hamming Distances",
+      "tests": [
+        {
+          "slug": "hamming-empty-strands",
+          "description_html": "Empty strands have a Hamming distance of 0.",
+          "name": "Empty strands",
+          "function": "hammingDistance",
+          "args": ["", ""],
+          "checks": [
+            {
+              "value": 0
+            }
+          ]
+        },
+        {
+          "slug": "hamming-single-letter-identical",
+          "description_html": "Single-letter identical strands have a Hamming distance of 0.",
+          "name": "Single letter identical strands",
+          "function": "hammingDistance",
+          "args": ["A", "A"],
+          "checks": [
+            {
+              "value": 0
+            }
+          ]
+        },
+        {
+          "slug": "hamming-long-identical-strands",
+          "description_html": "Long identical strands have a Hamming distance of 0.",
+          "name": "Long identical strands",
+          "function": "hammingDistance",
+          "args": ["GGACTGAAATCTG", "GGACTGAAATCTG"],
+          "checks": [
+            {
+              "value": 0
+            }
+          ]
+        },
+        {
+          "slug": "hamming-single-letter-different",
+          "description_html": "Single-letter different strands have a Hamming distance of 1.",
+          "name": "Single letter different strands",
+          "function": "hammingDistance",
+          "args": ["G", "T"],
+          "checks": [
+            {
+              "value": 1
+            }
+          ]
+        },
+        {
+          "slug": "hamming-long-different-strands",
+          "description_html": "Long strands with differences have a calculated Hamming distance.",
+          "name": "Long different strands",
+          "function": "hammingDistance",
+          "args": ["GGACGGATTCTG", "AGGACGGATTCT"],
+          "checks": [
+            {
+              "value": 9
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

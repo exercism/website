@@ -1,0 +1,6 @@
+{
+  "slug": "space-invaders",
+  "title": "Space Invaders",
+  "description": "Recreate the classic arcade game Space Invaders.",
+  "exercises": ["scroll-and-shoot", "alien-detector", "aliens-evolved"]
+}

@@ -1,8 +1,6 @@
 class ToolingJob::Create
   include Mandate
 
-  initialize_with :submission, :type
-
   def initialize(submission, type, git_sha: nil, run_in_background: false, context: {})
     @submission = submission
     @type = type.to_sym
@@ -12,22 +10,36 @@ class ToolingJob::Create
   end
 
   def call
-    Exercism::ToolingJob.create!(
-      type,
-      submission.uuid,
-      solution.track.slug,
-      solution.exercise.slug,
-      run_in_background:,
-      source: {
-        submission_efs_root: submission.uuid,
-        submission_filepaths: valid_filepaths,
-        exercise_git_repo: solution.track.slug,
-        exercise_git_sha: git_sha,
-        exercise_git_dir: exercise_repo.dir,
-        exercise_filepaths:
-      },
-      context:
-    )
+    ToolingJob::UploadToEFS.(efs_dir, submission.files)
+
+    # Deal with redis sometimes being having network spike issue
+    @num_attempts = 0
+    begin
+      Exercism::ToolingJob.create!(
+        job_id,
+        type,
+        submission.uuid,
+        efs_dir,
+        solution.track.slug,
+        solution.exercise.slug,
+        run_in_background:,
+        source: {
+          submission_efs_root: efs_dir,
+          submission_filepaths: valid_filepaths,
+          exercise_git_repo: solution.track.slug,
+          exercise_git_sha: git_sha,
+          exercise_git_dir: exercise_repo.dir,
+          exercise_filepaths:
+        },
+        context:
+      )
+    rescue Redis::Cluster::InitialSetupError => e
+      @num_attempts += 1
+      raise e if @num_attempts > 5
+
+      sleep(1)
+      retry
+    end
   end
 
   private
@@ -35,6 +47,15 @@ class ToolingJob::Create
 
   memoize
   delegate :solution, to: :submission
+
+  memoize
+  def job_id = SecureRandom.uuid.tr('-', '')
+
+  memoize
+  def efs_dir
+    date = Time.current.utc.strftime('%Y/%m/%d')
+    "#{Exercism.config.efs_tooling_jobs_mount_point}/#{date}/#{job_id}"
+  end
 
   def exercise_filepaths
     exercise_repo.tooling_filepaths.reject do |filepath|

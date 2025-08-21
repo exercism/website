@@ -1,0 +1,3 @@
+- content_for :head do
+  %meta{ name: "turbo-visit-control", content: "reload" }
+= render ReactComponents::Bootcamp::DrawingPage.new(@drawing)

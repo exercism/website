@@ -1,3 +1,5 @@
+// i18n-key-prefix: deleteIterationModal
+// i18n-namespace: components/student/iterations-list
 import React, { useCallback } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
@@ -6,6 +8,8 @@ import { Modal, ModalProps } from '@/components/modals/Modal'
 import { Iteration } from '@/components/types'
 import { FormButton } from '@/components/common/FormButton'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 const DEFAULT_ERROR = new Error('Unable to delete iteration')
 
@@ -18,12 +22,13 @@ export const DeleteIterationModal = ({
   iteration: Iteration
   onSuccess: (iteration: Iteration) => void
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/student/iterations-list')
   const {
     mutate: mutation,
     status,
     error,
-  } = useMutation(
-    async () => {
+  } = useMutation({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: iteration.links.delete,
         method: 'DELETE',
@@ -32,8 +37,8 @@ export const DeleteIterationModal = ({
 
       return fetch.then((json) => typecheck<Iteration>(json, 'iteration'))
     },
-    { onSuccess }
-  )
+    onSuccess,
+  })
 
   const handleSubmit = useCallback(
     (e) => {
@@ -45,7 +50,7 @@ export const DeleteIterationModal = ({
   )
 
   const handleClose = useCallback(() => {
-    if (status === 'loading') {
+    if (status === 'pending') {
       return
     }
 
@@ -59,14 +64,13 @@ export const DeleteIterationModal = ({
       onClose={handleClose}
       {...props}
     >
-      <h3>Are you sure you want to delete Iteration {iteration.idx}?</h3>
-      <p>
-        Deleted iterations are also removed from published solutions and
-        mentoring discussions. <strong>This is irreversible.</strong>
-      </p>
+      <h3>
+        {t('deleteIterationModal.areYouSure', { iterationIdx: iteration.idx })}
+      </h3>
+      <p>{t('deleteIterationModal.deletedIterationsRemoved')}</p>
       <form data-turbo="false" onSubmit={handleSubmit} className="buttons">
         <FormButton type="submit" status={status} className="btn-warning btn-s">
-          Delete iteration
+          {t('deleteIterationModal.deleteIteration')}
         </FormButton>
         <FormButton
           type="button"
@@ -74,7 +78,7 @@ export const DeleteIterationModal = ({
           onClick={handleClose}
           className="btn-enhanced btn-s"
         >
-          Cancel
+          {t('deleteIterationModal.cancel')}
         </FormButton>
       </form>
       <ErrorBoundary resetKeys={[status]}>

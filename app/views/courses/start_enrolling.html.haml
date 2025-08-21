@@ -1,0 +1,50 @@
+%section#enroll
+  .xs-container
+    .container
+      .tag= t('.tag')
+      %h2
+        .prefix= t('.heading_prefix')
+        %strong= @course.name
+      %p.intro.mb-2
+        %strong= t('.intro_strong')
+        = t('.intro_text')
+      %hr
+
+      = form_with url: course_enroll_path(@course.slug) do |f|
+        .field
+          = f.label :name, t('.form.name_label')
+          = f.text_field :name, placeholder: t('.form.name_placeholder'), value: @name, required: true
+        .field
+          = f.label :email, t('.form.email_label')
+          = f.email_field :email, autocomplete: "email", placeholder: t('.form.email_placeholder'), value: @email, required: true
+
+        .label.mt-24= t('.form.package_label')
+        .part-selector.flex.flex-col.gap-12
+          = f.label "course_or_bundle_course" do
+            = f.radio_button :course_or_bundle, "course", checked: @course_or_bundle == "course", class: "hidden"
+            .package
+              = image_tag "bootcamp/enroll-check.svg", class: 'checkmark'
+              = image_tag "bootcamp/exercism-face-dark.svg", class: "face"
+              .flex.flex-col.items-start
+                .bubble
+                  = t('.package_selector.course_bubble_prefix')
+                  %strong= t('.package_selector.course_bubble_strong')
+                %h3= @course.name
+                %p= raw @course.blurb
+
+          = f.label "course_or_bundle_bundle" do
+            = f.radio_button :course_or_bundle, "bundle", checked: @course_or_bundle != "course", class: "hidden"
+            .package
+              = image_tag "bootcamp/enroll-check.svg", class: 'checkmark'
+              = image_tag "bootcamp/exercism-face-dark.svg", class: "face"
+              .flex.flex-col.items-start
+                .bubble
+                  = t('.package_selector.bundle_bubble_prefix')
+                  %strong= t('.package_selector.bundle_bubble_strong')
+                %h3= @bundle.name
+                %p= raw @bundle.blurb
+
+        .field.mt-20
+          = f.button do
+            = t('.form.button_text')
+            %span.ml-12 👉

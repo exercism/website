@@ -1,0 +1,52 @@
+{
+  "title": "Manually solve a maze",
+  "description": "Solve a maze using some basic functions",
+  "project_type": "maze",
+  "level": 1,
+  "idx": 1,
+  "exercise_functions": ["move", "turn_left", "turn_right"],
+  "tests_type": "state",
+  "concepts": ["functions-using"],
+  "tasks": [
+    {
+      "name": "Guide person to the end of the maze",
+      "tests": [
+        {
+          "slug": "maze-1",
+          "name": "Guide person to the end of the maze",
+          "description_html": "Your job is to reach the goal.",
+          "setup_functions": [
+            [
+              "setupGrid",
+              [
+                [
+                  [2, 1, 0, 0, 0, 1, 0],
+                  [0, 1, 0, 1, 0, 1, 1],
+                  [0, 0, 0, 1, 0, 0, 0],
+                  [0, 1, 1, 1, 0, 1, 1],
+                  [0, 0, 1, 0, 0, 1, 0],
+                  [1, 1, 1, 1, 0, 1, 1],
+                  [0, 0, 0, 0, 0, 0, 3]
+                ]
+              ]
+            ],
+            ["setupDirection", ["down"]],
+            ["setupPosition", [0, 0]]
+          ],
+          "checks": [
+            {
+              "property": "position",
+              "value": [6, 6],
+              "error_html": "You didn't reach the end of the maze."
+            },
+            {
+              "function": "getGameResult()",
+              "value": "win",
+              "error_html": "You didn't reach the end of the maze."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

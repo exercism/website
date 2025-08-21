@@ -2,12 +2,12 @@
   %section.form-section
     .inner
       = link_to root_path, class: 'logo' do
-        = icon "exercism-with-logo-black", "Exercism's Logo"
+        = icon "exercism-with-logo-black", t('.exercism_logo_alt')
 
       .intro
-        %h2 Welcome! Check your email.
-        %p Welcome to Exercism. We've sent you an email to confirm you're a human.
-        %p To protect us from abuse, we validate all email addresses are valid. If you check your email now, it should already be there. If you can't see it, check spam, and then give it 10 minutes in case things are running slowly.
-        %p If it's not turned up soon, #{link_to 'we can resend it', new_confirmation_path(resource_name)}.
+        %h2= t('.welcome_check_email_title')
+        %p= t('.welcome_message')
+        %p= t('.validation_explanation_message')
+        %p= t('.resend_link_message', resend_link: (link_to t('.resend_it_link'), new_confirmation_path(resource_name)))
 
   = render "devise/shared/information"

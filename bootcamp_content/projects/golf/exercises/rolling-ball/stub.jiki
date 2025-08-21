@@ -1,0 +1,17 @@
+// TODO: Change the initial position
+// Remember that if you update the position at the 
+// *start* of the repeat block, it'll be one greater than
+// whatever you set this to when the first circle is drawn.
+set x to 0
+
+// TODO: Set your fill color
+
+// TODO: Change this to only repeat as many times as
+// needed for the ball to reach the hole
+repeat 10 times do
+  clear()
+
+  // TODO: Increase the x position by 1
+
+  // TODO: Draw the ball (a circle)
+end

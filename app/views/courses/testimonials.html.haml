@@ -1,0 +1,31 @@
+#top-discount-bar
+  = t('.top_discount_bar.text_html', coding_fundamentals_link: (link_to t('.top_discount_bar.coding_fundamentals_link_text'), "/courses/coding-fundamentals", class: "font-semibold text-white underline"), front_end_fundamentals_link: (link_to t('.top_discount_bar.front_end_fundamentals_link_text'), "/front-end-fundamentals", class: "font-semibold text-white underline")).html_safe
+
+#nav-fixed.nav
+  .lg-container.flex.flex-row.gap-8.items-center
+    = image_tag "bootcamp/exercism-face-light.svg", class: 'exercism-face'
+    .content
+      %strong.font-semibold= t('.nav.exercism_text')
+      = t('.nav.bootcamps_text')
+    = link_to t('.nav.enroll_now_button'), course_start_enrolling_path("coding-fundamentals"), class: "button !ml-auto"
+
+#page-testimonials
+  .lg-container
+    %header.text-center
+      %h1= t('.header.title')
+      %p.subheading= t('.header.subtitle')
+
+    .quotes
+      - @testimonials.each do |quote, name, role, image_url|
+        .quote
+          .words
+            = image_tag "bootcamp/quote.png", class: 'mark left-mark'
+            %span
+              = raw Markdown::Parse.(quote)
+          .person
+            .stars
+            .flex.flex-row.items-center.justify-end.gap-8
+              .text
+                .name= name
+                .description= role
+              = image_tag "bootcamp/testimonials/#{image_url}"

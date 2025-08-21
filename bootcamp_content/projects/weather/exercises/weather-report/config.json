@@ -1,0 +1,441 @@
+{
+  "title": "Weather Report",
+  "description": "Turn descriptions into drawing elements",
+  "level": 8,
+  "idx": 1,
+  "project_type": "weather",
+  "tests_type": "state",
+  "interpreter_options": {
+    "time_per_frame": 0.01
+  },
+  "tasks": [
+    {
+      "name": "Draw the scene",
+      "tests": [
+        {
+          "slug": "cold-but-hopeful",
+          "name": "Cold but hopeful",
+          "description_html": "Draw a cold but hopeful day.",
+          "function": "draw_weather",
+          "args": [
+            {
+              "meteorological": {
+                "2025": {
+                  "02": {
+                    "25": {
+                      "weather": {
+                        "summary": [
+                          {
+                            "time": "05:30",
+                            "description": "hopeful"
+                          },
+                          {
+                            "time": "06:00",
+                            "description": "snowboarding-time"
+                          },
+                          {
+                            "time": "06:30",
+                            "description": "dull"
+                          },
+                          { "time": "07:00", "description": "sunny" },
+                          { "time": "07:30", "description": "sunny" },
+                          { "time": "08:00", "description": "dull" },
+                          { "time": "07:30", "description": "sunny" },
+                          { "time": "09:00", "description": "hopeful" }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "setup_functions": [
+            [
+              "setBackgroundImage",
+              [
+                "https://assets.exercism.org/bootcamp/graphics/weather-report.png"
+              ]
+            ]
+          ],
+          "checks": [
+            {
+              "function": "getRectangleAt(1, 66, 30, 30)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom left sky isn't correct."
+            },
+            {
+              "function": "getCircleAt(16, 81, 7.5)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom left sun isn't correct."
+            },
+            {
+              "function": "getRectangleAt(35, 66, 30, 30)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom middle sky isn't correct."
+            },
+            {
+              "function": "getRectangleAt(42.5, 81, 15, 3)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom middle cloud isn't correct."
+            },
+            {
+              "function": "getCircleAt(42.5, 81, 3)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom middle cloud isn't correct."
+            },
+            {
+              "function": "getCircleAt(47, 78, 4.5)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom middle cloud isn't correct."
+            },
+            {
+              "function": "getCircleAt(51.5, 78, 6)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom middle cloud isn't correct."
+            },
+            {
+              "function": "getCircleAt(57.5, 81, 3)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom middle cloud isn't correct."
+            },
+            {
+              "function": "getRectangleAt(69, 66, 30, 30)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom right sky isn't correct."
+            },
+            {
+              "function": "getCircleAt(91.5, 75, 4.5)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom right sun isn't correct"
+            },
+            {
+              "function": "getRectangleAt(76.5, 81, 15, 3)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom right cloud isn't correct."
+            },
+            {
+              "function": "getCircleAt(76.5, 81, 3)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom right cloud isn't correct."
+            },
+            {
+              "function": "getCircleAt(81, 78, 4.5)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom right cloud isn't correct."
+            },
+            {
+              "function": "getCircleAt(85.5, 78, 6)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom right cloud isn't correct."
+            },
+            {
+              "function": "getCircleAt(91.5, 81, 3)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom right cloud isn't correct."
+            },
+            {
+              "function": "getRectangleAt(25, 4, 50, 50)",
+              "matcher": "toBeDefined",
+              "error_html": "The top sky isn't correct."
+            },
+            {
+              "function": "getCircleAt(62.5, 19, 7.5)",
+              "matcher": "toBeDefined",
+              "error_html": "The top sun isn't correct."
+            },
+            {
+              "function": "getRectangleAt(37.5, 29, 25, 5)",
+              "matcher": "toBeDefined",
+              "error_html": "The top cloud isn't correct."
+            },
+            {
+              "function": "getCircleAt(37.5, 29, 5)",
+              "matcher": "toBeDefined",
+              "error_html": "The top cloud isn't correct."
+            },
+            {
+              "function": "getCircleAt(45, 24, 7.5)",
+              "matcher": "toBeDefined",
+              "error_html": "The top cloud isn't correct."
+            },
+            {
+              "function": "getCircleAt(52.5, 24, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The top cloud isn't correct."
+            },
+            {
+              "function": "getCircleAt(62.5, 29, 5)",
+              "matcher": "toBeDefined",
+              "error_html": "The top cloud isn't correct."
+            },
+            {
+              "function": "getCircleAt(40, 39, 2.5)",
+              "matcher": "toBeDefined",
+              "error_html": "The top snow isn't correct."
+            },
+            {
+              "function": "getCircleAt(50, 39, 2.5)",
+              "matcher": "toBeDefined",
+              "error_html": "The top snow isn't correct."
+            },
+            {
+              "function": "getCircleAt(60, 39, 2.5)",
+              "matcher": "toBeDefined",
+              "error_html": "The top snow isn't correct."
+            },
+            {
+              "function": "getCircleAt(45, 44, 2.5)",
+              "matcher": "toBeDefined",
+              "error_html": "The top snow isn't correct."
+            },
+            {
+              "function": "getCircleAt(55, 44, 2.5)",
+              "matcher": "toBeDefined",
+              "error_html": "The top snow isn't correct."
+            }
+          ]
+        },
+        {
+          "slug": "just-dull",
+          "name": "It's just a dull, wet day",
+          "description_html": "Draw a dull, wet day",
+          "function": "draw_weather",
+          "args": [
+            {
+              "meteorological": {
+                "2025": {
+                  "02": {
+                    "25": {
+                      "weather": {
+                        "summary": [
+                          { "time": "06:00", "description": "miserable" },
+                          { "time": "07:00", "description": "miserable" },
+                          { "time": "08:00", "description": "dull" },
+                          {
+                            "time": "09:00",
+                            "description": "rainbow-territory"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "setup_functions": [
+            [
+              "setBackgroundImage",
+              [
+                "https://assets.exercism.org/bootcamp/graphics/weather-report.png"
+              ]
+            ]
+          ],
+          "checks": [
+            {
+              "function": "getRectangleAt(25, 4, 50, 50)",
+              "matcher": "toBeDefined",
+              "error_html": "The top sky isn't correct."
+            },
+            {
+              "function": "getRectangleAt(37.5, 29, 25, 5)",
+              "matcher": "toBeDefined",
+              "error_html": "The top cloud isn't correct."
+            },
+            {
+              "function": "getCircleAt(37.5, 29, 5)",
+              "matcher": "toBeDefined",
+              "error_html": "The top cloud isn't correct."
+            },
+            {
+              "function": "getCircleAt(45, 24, 7.5)",
+              "matcher": "toBeDefined",
+              "error_html": "The top cloud isn't correct."
+            },
+            {
+              "function": "getCircleAt(52.5, 24, 10)",
+              "matcher": "toBeDefined",
+              "error_html": "The top cloud isn't correct."
+            },
+            {
+              "function": "getCircleAt(62.5, 29, 5)",
+              "matcher": "toBeDefined",
+              "error_html": "The top cloud isn't correct."
+            },
+            {
+              "function": "getEllipseAt(40, 39, 1.5, 2.5)",
+              "matcher": "toBeDefined",
+              "error_html": "The top rain isn't correct."
+            },
+            {
+              "function": "getEllipseAt(50, 39, 1.5, 2.5)",
+              "matcher": "toBeDefined",
+              "error_html": "The top rain isn't correct."
+            },
+            {
+              "function": "getEllipseAt(60, 39, 1.5, 2.5)",
+              "matcher": "toBeDefined",
+              "error_html": "The top rain isn't correct."
+            },
+            {
+              "function": "getEllipseAt(45, 44, 1.5, 2.5)",
+              "matcher": "toBeDefined",
+              "error_html": "The top rain isn't correct."
+            },
+            {
+              "function": "getEllipseAt(55, 44, 1.5, 2.5)",
+              "matcher": "toBeDefined",
+              "error_html": "The top rain isn't correct."
+            },
+            {
+              "function": "getRectangleAt(1, 66, 30, 30)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom left sky isn't correct."
+            },
+            {
+              "function": "getRectangleAt(8.5, 81, 15, 3)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom left cloud isn't correct."
+            },
+            {
+              "function": "getCircleAt(8.5, 81, 3)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom left clou isn't correct."
+            },
+            {
+              "function": "getCircleAt(13, 78, 4.5)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom left clou isn't correct."
+            },
+            {
+              "function": "getCircleAt(17.5, 78, 6)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom left clou isn't correct."
+            },
+            {
+              "function": "getCircleAt(23.5, 81, 3)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom left clou isn't correct."
+            },
+            {
+              "function": "getEllipseAt(10, 87, 0.9, 1.5)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom left rain isn't correct."
+            },
+            {
+              "function": "getEllipseAt(16, 87, 0.9, 1.5)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom left rain isn't correct."
+            },
+            {
+              "function": "getEllipseAt(22, 87, 0.9, 1.5)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom left rain isn't correct."
+            },
+            {
+              "function": "getEllipseAt(13, 90, 0.9, 1.5)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom left rain isn't correct."
+            },
+            {
+              "function": "getEllipseAt(19, 90, 0.9, 1.5)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom left rain isn't correct."
+            },
+            {
+              "function": "getRectangleAt(35, 66, 30, 30)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom middle sky isn't correct."
+            },
+            {
+              "function": "getRectangleAt(42.5, 81, 15, 3)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom middle cloud isn't correct."
+            },
+            {
+              "function": "getCircleAt(42.5, 81, 3)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom middle cloud isn't correct."
+            },
+            {
+              "function": "getCircleAt(47, 78, 4.5)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom middle cloud isn't correct."
+            },
+            {
+              "function": "getCircleAt(51.5, 78, 6)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom middle cloud isn't correct."
+            },
+            {
+              "function": "getCircleAt(57.5, 81, 3)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom middle cloud isn't correct."
+            },
+            {
+              "function": "getRectangleAt(69, 66, 30, 30)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom right sky isn't correct."
+            },
+            {
+              "function": "getCircleAt(91.5, 75, 4.5)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom right sun isn't correct."
+            },
+            {
+              "function": "getRectangleAt(76.5, 81, 15, 3)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom right cloud isn't correct."
+            },
+            {
+              "function": "getCircleAt(76.5, 81, 3)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom right cloud isn't correct."
+            },
+            {
+              "function": "getCircleAt(81, 78, 4.5)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom right cloud isn't correct."
+            },
+            {
+              "function": "getCircleAt(85.5, 78, 6)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom right cloud isn't correct."
+            },
+            {
+              "function": "getCircleAt(91.5, 81, 3)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom right cloud isn't correct."
+            },
+            {
+              "function": "getEllipseAt(78, 87, 0.9, 1.5)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom right rain isn't correct."
+            },
+            {
+              "function": "getEllipseAt(84, 87, 0.9, 1.5)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom right rain isn't correct."
+            },
+            {
+              "function": "getEllipseAt(90, 87, 0.9, 1.5)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom right rain isn't correct."
+            },
+            {
+              "function": "getEllipseAt(81, 90, 0.9, 1.5)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom right rain isn't correct."
+            },
+            {
+              "function": "getEllipseAt(87, 90, 0.9, 1.5)",
+              "matcher": "toBeDefined",
+              "error_html": "The bottom right rain isn't correct."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

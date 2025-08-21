@@ -1,0 +1,8 @@
+function what_am_i with string do
+  set alpha to my#is_alpha(string)
+  set numeric to my#is_numeric(string)
+  set alphanumeric to my#is_alphanumeric(string)
+
+  // Finish off the function here
+
+end

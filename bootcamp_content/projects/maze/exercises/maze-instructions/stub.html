@@ -1,0 +1,1 @@
+{{EXERCISE:maze/maze-promises}}

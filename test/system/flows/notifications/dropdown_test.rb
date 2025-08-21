@@ -4,7 +4,7 @@ require_relative "../../../support/websockets_helpers"
 
 module Flows
   module Notifications
-    class DrodpownTest < ApplicationSystemTestCase
+    class DropdownTest < ApplicationSystemTestCase
       include CapybaraHelpers
       include WebsocketsHelpers
 

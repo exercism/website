@@ -55,6 +55,8 @@ namespace :api do
       resource :user_preferences, only: [:update] do
         patch :enable_solution_comments
         patch :disable_solution_comments
+        post :bootcamp_affiliate_coupon_code
+        post :bootcamp_free_coupon_code
       end
       resource :communication_preferences, only: [:update]
 
@@ -108,7 +110,7 @@ namespace :api do
       resources :concepts, only: [], param: :slug do
         resources :makers, only: [:index], controller: "concepts/makers"
       end
-      resources :trophies, only: [], param: :uuid, controller: "tracks/trophies" do
+      resources :trophies, only: [:index], param: :uuid, controller: "tracks/trophies" do
         member do
           patch :reveal
         end
@@ -118,6 +120,7 @@ namespace :api do
     get "/scratchpad/:category/:title" => "scratchpad_pages#show", as: :scratchpad_page
     patch "/scratchpad/:category/:title" => "scratchpad_pages#update"
 
+    resources :favorites, only: %i[index]
     resources :bug_reports, only: %i[create]
 
     resources :notifications, only: [:index] do
@@ -272,6 +275,17 @@ namespace :api do
           patch :update_tags
         end
       end
+    end
+
+    namespace :bootcamp do
+      resources :solutions, param: :uuid, only: [] do
+        member do
+          patch :complete
+        end
+        resources :submissions, param: :uuid, only: [:create]
+      end
+      resources :drawings, param: :uuid, only: [:update]
+      resources :custom_functions, param: :uuid, only: %i[update index destroy]
     end
 
     post "markdown/parse" => "markdown#parse", as: "parse_markdown"

@@ -1,0 +1,70 @@
+{
+  "title": "Collatz Conjecture",
+  "description": "Calculate the number of steps to reach 1 in the Collatz sequence.",
+  "level": 4,
+  "idx": 8,
+  "tests_type": "io",
+  "readonly_ranges": [
+    { "from": 1, "to": 3 },
+    { "from": 5, "to": 5 }
+  ],
+  "interpreter_options": {
+    "exclude_list": ["WHILE"],
+    "max_total_loop_iterations": 200
+  },
+  "tasks": [
+    {
+      "name": "Basic steps",
+      "tests": [
+        {
+          "slug": "number-1",
+          "description_html": "Zero steps for one.",
+          "name": "Number 1",
+          "function": "collatz_steps",
+          "args": [1],
+          "checks": [
+            {
+              "value": 0
+            }
+          ]
+        },
+        {
+          "slug": "number-16",
+          "description_html": "Divide if even.",
+          "name": "Number 16",
+          "function": "collatz_steps",
+          "args": [16],
+          "checks": [
+            {
+              "value": 4
+            }
+          ]
+        },
+        {
+          "slug": "number-12",
+          "description_html": "Even and odd steps.",
+          "name": "Number 12",
+          "function": "collatz_steps",
+          "args": [12],
+          "checks": [
+            {
+              "value": 9
+            }
+          ]
+        },
+        {
+          "slug": "number-1000000",
+          "description_html": "Large number of even and odd steps.",
+          "name": "Number 1000000",
+          "function": "collatz_steps",
+          "args": [1000000],
+          "checks": [
+            {
+              "value": 152
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

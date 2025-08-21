@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react'
 import { DeletePhotoModal } from './delete-photo-button/DeletePhotoModal'
 import { User } from '../../../types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type Links = {
   delete: string
@@ -13,6 +14,7 @@ export const DeletePhotoButton = ({
   onDelete: (user: User) => void
   links: Links
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/profile/avatar-selector/photo')
   const [modalOpen, setModalOpen] = useState(false)
 
   const handleModalOpen = useCallback(() => {
@@ -26,7 +28,7 @@ export const DeletePhotoButton = ({
   return (
     <React.Fragment>
       <button type="button" onClick={handleModalOpen}>
-        delete your picture
+        {t('deletePhotoButton.deleteYourPicture')}
       </button>
       <DeletePhotoModal
         endpoint={links.delete}

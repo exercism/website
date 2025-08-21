@@ -1,0 +1,52 @@
+{
+  "title": "LLM Response",
+  "description": "Parse the response from an LLM",
+  "level": 7,
+  "idx": 9,
+  "tests_type": "io",
+  "project_type": "data",
+  "stdlib_functions": ["concatenate", "string_to_number", "number_to_string"],
+  "tasks": [
+    {
+      "name": "Format the response",
+      "tests": [
+        {
+          "slug": "football",
+          "name": "The 1966 World Cup.",
+          "description_html": "Return the response to a very important question.",
+          "function": "ask_llm",
+          "args": ["Who won the 1966 Football Men's World Cup?"],
+          "checks": [
+            {
+              "value": "The answer to 'Who won the 1966 Football Men's World Cup?' is 'England' (100% certainty in 0.5s)."
+            }
+          ]
+        },
+        {
+          "slug": "cooking",
+          "name": "Cooking",
+          "description_html": "Return the best response for a cooking question!",
+          "function": "ask_llm",
+          "args": ["What's the best cacao percentage in chocolate?"],
+          "checks": [
+            {
+              "value": "The answer to 'What's the best cacao percentage in chocolate?' is 'The deep sensations of 82% are the best' (78% certainty in 0.123s)."
+            }
+          ]
+        },
+        {
+          "slug": "ltc",
+          "name": "Learn to Code websites",
+          "description_html": "Return the best response for a question with a clear answer!",
+          "function": "ask_llm",
+          "args": ["What's the best website to learn to code?"],
+          "checks": [
+            {
+              "value": "The answer to 'What's the best website to learn to code?' is 'Exercism is the best' (99% certainty in 1.264s)."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

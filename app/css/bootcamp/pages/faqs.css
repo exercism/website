@@ -1,0 +1,11 @@
+#page-bootcamp-faqs {
+    h1 {
+        @apply text-h1 mb-10;
+    }
+    h2 {
+        @apply text-h2 mt-20 mb-8 underline;
+    }
+    p.intro {
+        @apply text-20 leading-140;
+    }
+}

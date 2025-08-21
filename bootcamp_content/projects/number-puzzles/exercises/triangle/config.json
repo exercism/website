@@ -1,0 +1,149 @@
+{
+  "title": "Triangle",
+  "description": "Determine if a triangle is valid and, if so, its type based on side lengths.",
+  "level": 4,
+  "idx": 7,
+  "tests_type": "io",
+  "tasks": [
+    {
+      "name": "Invalid triangles",
+      "tests": [
+        {
+          "slug": "invalid-equilateral-all-zero",
+          "name": "Equilateral with all sides zero (0, 0, 0)",
+          "description_html": "A triangle with all sides zero should return \"invalid\".",
+          "function": "determine_triangle_type",
+          "args": [0, 0, 0],
+          "checks": [
+            {
+              "value": "invalid"
+            }
+          ]
+        },
+        {
+          "slug": "isosceles-first-inequality",
+          "name": "Isosceles with invalid side lengths (1, 1, 3)",
+          "description_html": "A triangle with too short sides should return \"invalid\".",
+          "function": "determine_triangle_type",
+          "args": [1, 1, 3],
+          "checks": [
+            {
+              "value": "invalid"
+            }
+          ]
+        },
+        {
+          "slug": "isosceles-second-inequality",
+          "name": "Isosceles with invalid side lengths (1, 3, 1)",
+          "description_html": "A triangle with too short sides should return \"invalid\".",
+          "function": "determine_triangle_type",
+          "args": [1, 3, 1],
+          "checks": [
+            {
+              "value": "invalid"
+            }
+          ]
+        },
+        {
+          "slug": "isosceles-third-inequality",
+          "name": "Isosceles with invalid side lengths (3, 1, 1)",
+          "description_html": "A triangle with too short sides should return \"invalid\".",
+          "function": "determine_triangle_type",
+          "args": [3, 1, 1],
+          "checks": [
+            {
+              "value": "invalid"
+            }
+          ]
+        },
+        {
+          "slug": "scalene-triangle-inequality",
+          "name": "Scalene with invalid side lengths (7, 3, 2)",
+          "description_html": "A triangle with too short sides should return \"invalid\".",
+          "function": "determine_triangle_type",
+          "args": [7, 3, 2],
+          "checks": [
+            {
+              "value": "invalid"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Equilateral triangles",
+      "tests": [
+        {
+          "slug": "valid-equilateral",
+          "name": "Equilateral triangle (2, 2, 2)",
+          "description_html": "A triangle with all sides equal should return \"equilateral\".",
+          "function": "determine_triangle_type",
+          "args": [2, 2, 2],
+          "checks": [
+            {
+              "value": "equilateral"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Isosceles triangles",
+      "tests": [
+        {
+          "slug": "valid-isosceles-first-two-equal",
+          "name": "Isosceles triangle (4, 4 ,3)",
+          "description_html": "A triangle with the first two sides equal should return \"isosceles\".",
+          "function": "determine_triangle_type",
+          "args": [4, 4, 3],
+          "checks": [
+            {
+              "value": "isosceles"
+            }
+          ]
+        },
+        {
+          "slug": "valid-isosceles-last-two-equal",
+          "name": "Isosceles triangle (3, 4, 4)",
+          "description_html": "A triangle with the last two sides equal should return \"isosceles\".",
+          "function": "determine_triangle_type",
+          "args": [3, 4, 4],
+          "checks": [
+            {
+              "value": "isosceles"
+            }
+          ]
+        },
+        {
+          "slug": "valid-isosceles-first-and-last-equal",
+          "name": "Isosceles triangle (4, 3, 4)",
+          "description_html": "A triangle with the same first and last sides should return \"isosceles\".",
+          "function": "determine_triangle_type",
+          "args": [4, 3, 4],
+          "checks": [
+            {
+              "value": "isosceles"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Scalene triangles",
+      "tests": [
+        {
+          "slug": "valid-scalene",
+          "name": "Scalene triangle (5, 4, 6)",
+          "description_html": "A triangle with all sides different should return \"scalene\".",
+          "function": "determine_triangle_type",
+          "args": [5, 4, 6],
+          "checks": [
+            {
+              "value": "scalene"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

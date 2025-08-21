@@ -1,0 +1,41 @@
+.exercise-weather {
+    .weather-report {
+        background: #add8e6;
+        @apply absolute inset-0;
+        @apply flex flex-col;
+        .top {
+            @apply flex-grow;
+            @apply pt-[3%];
+            @apply grid place-items-center;
+
+            .main-icon {
+                @apply rounded-3;
+                aspect-ratio: 1;
+                background: #fff;
+                width: 49%;
+            }
+        }
+        .middle {
+            @apply gap-[3%] ml-[0.5%] mr-[0.5%];
+            @apply grid grid-cols-3;
+            @apply flex-shrink-0;
+            @apply border-t-1 border-[#72bcd4];
+            div {
+                @apply pt-20;
+                @apply text-[#236074];
+                @apply font-semibold text-center;
+            }
+        }
+        .bottom {
+            @apply gap-[3%] pb-[3.5%] pl-[0.5%] pr-[0.5%];
+            @apply grid grid-cols-3;
+            @apply flex-shrink-0;
+            div {
+                background: #fff;
+                margin: 2px;
+
+                aspect-ratio: 1;
+            }
+        }
+    }
+}

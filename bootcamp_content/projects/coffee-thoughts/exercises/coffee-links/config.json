@@ -1,0 +1,10 @@
+{
+  "title": "Coffee Links",
+  "description": "Add some links",
+  "language": "css",
+  "level": 11,
+  "idx": 2,
+  "editor_config": {
+    "hide_css": true
+  }
+}

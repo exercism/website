@@ -1,0 +1,9 @@
+body,
+.--jiki-faux-body {
+    overflow: hidden;
+    font-family: ui-serif, serif, Apple Color Emoji, Segoe UI Emoji,
+        Segoe UI Symbol, Noto Color Emoji;
+
+    height: 100%;
+    width: 100%;
+}

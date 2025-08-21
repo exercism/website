@@ -1,0 +1,94 @@
+{
+  "title": "Positive, Negative or Zero",
+  "description": "Determine if a number is positive, negative or zero",
+  "concepts": ["strings-using", "conditionals"],
+  "level": 4,
+  "idx": 2,
+  "tests_type": "io",
+  "readonly_ranges": [
+    { "from": 1, "to": 3 },
+    { "from": 5, "to": 5 }
+  ],
+  "tasks": [
+    {
+      "name": "Correctly identify positive numbers",
+      "tests": [
+        {
+          "slug": "number-1",
+          "type": "io",
+          "name": "Number 1",
+          "function": "positive_negative_or_zero",
+          "args": [1],
+          "checks": [
+            {
+              "value": "Positive"
+            }
+          ],
+          "image_slug": "number-puzzles/positive-negative-or-zero/1.png"
+        },
+        {
+          "slug": "number-20",
+          "type": "io",
+          "name": "Number 20",
+          "function": "positive_negative_or_zero",
+          "args": [20],
+          "checks": [
+            {
+              "value": "Positive"
+            }
+          ],
+          "image_slug": "number-puzzles/positive-negative-or-zero/20.png"
+        }
+      ]
+    },
+    {
+      "name": "Correctly identify negative numbers",
+      "tests": [
+        {
+          "slug": "negative-1",
+          "type": "io",
+          "name": "Number -1",
+          "function": "positive_negative_or_zero",
+          "args": [-1],
+          "checks": [
+            {
+              "value": "Negative"
+            }
+          ],
+          "image_slug": "number-puzzles/positive-negative-or-zero/-1.png"
+        },
+        {
+          "slug": "negative-20",
+          "type": "io",
+          "name": "Number -20",
+          "function": "positive_negative_or_zero",
+          "args": [-20],
+          "checks": [
+            {
+              "value": "Negative"
+            }
+          ],
+          "image_slug": "number-puzzles/positive-negative-or-zero/-20.png"
+        }
+      ]
+    },
+    {
+      "name": "Correctly identify zero",
+      "tests": [
+        {
+          "slug": "number-0",
+          "type": "io",
+          "name": "Number 0",
+          "function": "positive_negative_or_zero",
+          "args": [0],
+          "checks": [
+            {
+              "value": "Zero"
+            }
+          ],
+          "image_slug": "number-puzzles/positive-negative-or-zero/0.png"
+        }
+      ]
+    }
+  ]
+}

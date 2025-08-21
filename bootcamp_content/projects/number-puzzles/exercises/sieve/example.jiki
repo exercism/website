@@ -1,0 +1,61 @@
+
+function get_unmarked_numbers with numbers do
+  set unmarked to []
+  for each number in numbers do
+    if not number["crossed"] and not (number["number"] == 1) do
+      change unmarked to push(unmarked, number["number"])
+    end
+  end
+  return unmarked
+end
+
+function get_multiples_of_number with number, max do
+  set multiples to []
+  set multiple to 0
+  repeat_forever indexed by idx do
+    change multiple to number["number"] * (idx + 1)
+    if multiple > max do
+      return multiples
+    else do
+      change multiples to push(multiples,multiple)
+    end
+  end
+  return multiples
+end
+
+function contains with haystack, needle do
+  for each hay in haystack do
+    if needle == hay do
+      return true
+    end
+  end
+  return false
+end
+
+function cross_off with numbers, to_cross do
+  for each number in numbers indexed by idx do
+    if contains(to_cross, number["number"]) do
+      change numbers[idx]["crossed"] to true
+    end
+  end
+  return numbers
+end
+
+function sieve with target do
+  set numbers to []
+  repeat target - 1 times indexed by idx do
+    change numbers to push(numbers, {"number": idx + 1, "crossed": false})
+  end
+  log numbers
+  
+  repeat target - 1 times indexed by idx do
+    if numbers[idx]["crossed"] do
+      next
+    end
+
+    change numbers to cross_off(numbers, get_multiples_of_number(numbers[idx], target))
+    log(numbers)
+  end
+
+  return get_unmarked_numbers(numbers)
+end

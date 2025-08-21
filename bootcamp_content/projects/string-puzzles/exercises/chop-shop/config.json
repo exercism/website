@@ -1,0 +1,119 @@
+{
+  "title": "The Chop Shop",
+  "description": "Work out if you have time for an extra client",
+  "level": 6,
+  "idx": 3,
+  "tests_type": "io",
+  "tasks": [
+    {
+      "name": "Standard Tasks",
+      "tests": [
+        {
+          "slug": "empty-queue",
+          "description_html": "No-one in the queue",
+          "name": "No one in the queue",
+          "function": "can_fit_in",
+          "args": [[], "Bob", 30],
+          "checks": [
+            {
+              "value": true
+            }
+          ]
+        },
+        {
+          "slug": "empty-queue-but-no-time",
+          "description_html": "No-one in the queue",
+          "name": "Late in the day",
+          "function": "can_fit_in",
+          "args": [[], "Shave and Polish", 5],
+          "checks": [
+            {
+              "value": false
+            }
+          ]
+        },
+        {
+          "slug": "busy-day-no-time",
+          "description_html": "A full day",
+          "name": "A full day",
+          "function": "can_fit_in",
+          "args": [
+            [
+              "Mohawk",
+              "Slicked-Back Pixie",
+              "Bob",
+              "Shave and Polish",
+              "Afro Trim",
+              "Up-do"
+            ],
+            "Mohawk",
+            90
+          ],
+          "checks": [
+            {
+              "value": false
+            }
+          ]
+        },
+        {
+          "slug": "busy-day-but-time",
+          "description_html": "A full day but there's time!",
+          "name": "Just squeezes in",
+          "function": "can_fit_in",
+          "args": [
+            [
+              "Mohawk",
+              "Slicked-Back Pixie",
+              "Afro Trim",
+              "Shave and Polish",
+              "Slicked-Back Pixie",
+              "Up-do"
+            ],
+            "Mohawk",
+            160
+          ],
+          "checks": [
+            {
+              "value": true
+            }
+          ]
+        },
+        {
+          "slug": "still-early",
+          "description_html": "It's still early in the day.",
+          "name": "Still early",
+          "function": "can_fit_in",
+          "args": [
+            [
+              "Afro Trim",
+              "Shave and Polish",
+              "Mohawk",
+              "Slicked-Back Pixie",
+              "Up-do",
+              "Up-do"
+            ],
+            "Mohawk",
+            240
+          ],
+          "checks": [
+            {
+              "value": true
+            }
+          ]
+        },
+        {
+          "slug": "cutting-it-fine",
+          "description_html": "They've made it just in time!",
+          "name": "Just in time",
+          "function": "can_fit_in",
+          "args": [["Mohawk"], "Mohawk", 45],
+          "checks": [
+            {
+              "value": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

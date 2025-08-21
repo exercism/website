@@ -13,6 +13,7 @@ class User::Preferences < ApplicationRecord
     %i[
       theme
       allow_comments_on_published_solutions
+      hide_website_adverts
     ]
   end
 end

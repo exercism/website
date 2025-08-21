@@ -1,8 +1,11 @@
+// i18n-key-prefix:
+// i18n-namespace: components/common/MarkdownEditor.tsx
 import React, { useCallback, useContext, useMemo } from 'react'
 import SimpleMDE, { SimpleMDEReactProps } from 'react-simplemde-editor'
 import { useDeepMemo } from '@/hooks/use-deep-memo'
 import { sendRequest } from '@/utils/send-request'
 import { ScreenSizeContext } from '../mentoring/session/ScreenSizeContext'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export type MarkdownEditorHandle = {
   value: (value: string | void) => string | void
@@ -28,6 +31,7 @@ export default function MarkdownEditor({
   onChange?: (value: string) => void
   options?: EasyMDE.Options
 }): JSX.Element {
+  const { t } = useAppTranslation('components/common/MarkdownEditor.tsx')
   const getInstance = useCallback(
     (editor) => {
       if (!editorDidMount) {
@@ -81,7 +85,7 @@ export default function MarkdownEditor({
       status: ['autosave'],
       previewRender: (markdown, preview) => {
         if (!url) {
-          return 'Preview unavailable'
+          return t('previewUnavailable')
         }
 
         const { fetch } = sendRequest<{ html: string }>({
@@ -101,14 +105,14 @@ export default function MarkdownEditor({
             preview.innerHTML = `<div class="c-textual-content --small">${response.html}</div>`
           })
           .catch(() => {
-            preview.innerHTML = '<p>Unable to parse markdown</p>'
+            preview.innerHTML = `<p>${t('unableToParseMarkdown')}</p>`
           })
 
-        return 'Loading...'
+        return t('loading')
       },
       ...options,
     }
-  }, [contextId, options, url, isBelowLgWidth])
+  }, [contextId, options, url, isBelowLgWidth, t])
 
   return (
     <SimpleMDE

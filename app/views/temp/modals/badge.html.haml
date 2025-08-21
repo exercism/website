@@ -4,9 +4,9 @@
       // The badge icon
       = graphical_icon 'concept-exercise'
 
-    %h2 New Badge Earned
-    .name 2020 Winter Markathon
-    .rarity Ultimate
+    %h2= t('.new_badge_earned')
+    .name= t('.badge_name')
+    .rarity= t('.badge_rarity')
     %hr.c-divider.--small
-    .reason For participation in the 2020 Winter Markathon
-    .earned-at Earned on 20 Jan 2021
+    .reason= t('.badge_reason')
+    .earned-at= t('.badge_earned_at', date: "20 Jan 2021")

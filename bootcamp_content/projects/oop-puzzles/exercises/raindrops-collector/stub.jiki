@@ -1,0 +1,14 @@
+// Create the RaindropsCollector class here.
+
+function raindrops with numbers do
+  set collector to new RaindropsCollector()
+  for each number in numbers do
+    collector.add_number(number)
+  end
+  return collector.get_sounds()
+end
+
+// Your old code is here for reference. 
+// You should delete this when you've created the class.
+
+{{EXERCISE:number-puzzles/raindrops}}

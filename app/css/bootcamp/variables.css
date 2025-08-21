@@ -1,0 +1,8 @@
+.bg-grad-basic {
+    background-image: linear-gradient(
+        var(--backgroundColorI),
+        var(--backgroundColorITransparent)
+    );
+    background-size: 100% 350px;
+    background-repeat: repeat-x;
+}

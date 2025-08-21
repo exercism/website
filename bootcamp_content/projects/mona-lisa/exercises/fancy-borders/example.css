@@ -1,0 +1,23 @@
+#frame-wood {
+    background-color: #4e342e;
+    border: 15px double saddlebrown;
+}
+
+#frame-glass {
+    background-color: #eee;
+    border: 10px dotted white;
+}
+
+#frame-rim {
+    background-color: yellow;
+    border: 5px dashed gold;
+}
+
+#frame-canvas {
+    background-color: #f5f5dc;
+    border: 20px solid #f5f5dc;
+}
+img {
+    border: 1px solid rgba(175, 116, 24, 0.5);
+    border-radius: 10px;
+}

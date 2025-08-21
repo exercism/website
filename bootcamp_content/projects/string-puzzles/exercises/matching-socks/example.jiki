@@ -1,0 +1,107 @@
+function length with str do
+  set counter to 0
+  for each char in str do
+    change counter to counter + 1
+  end
+  
+  return counter
+end
+
+function starts_with with str, substr do
+  if length(str) < length(substr) do
+    return false
+  end
+  
+  set counter to 0
+  for each char in substr do
+    change counter to counter + 1
+    if str[counter] != char do
+      return false
+    end
+  end
+  
+  return true
+end
+
+function ends_with with word, substr do
+  set word_length to length(word)
+  set substr_length to length(substr)
+  if substr_length > word_length do
+    return false
+  end
+
+  set counter to word_length - substr_length + 1
+  for each letter in substr do
+    if letter != word[counter] do
+      return false
+    end
+    change counter to counter + 1
+  end
+  
+  return true
+end
+
+function strip_prefix with description, num_letters do
+  set res to ""
+  set counter to num_letters + 1
+  repeat length(description) - num_letters times do
+    change res to concatenate(res, description[counter])
+    change counter to counter + 1
+  end
+  return res
+end
+
+function remove_left_right with description do
+  if starts_with(description, "left ") do
+    return strip_prefix(description, 5)
+  else do
+    return strip_prefix(description, 6)
+  end
+end
+
+function switch_left_right with description do
+  if starts_with(description, "left ") do
+    return concatenate("right ", remove_left_right(description))
+  else if starts_with(description, "right ") do
+    return concatenate("left ", remove_left_right(description))
+  end
+  return description
+end
+
+function extract_socks with list do
+  set socks to []
+  for each item in list do
+    if ends_with(item, " sock") do
+      change socks to push(socks, item)
+    end
+  end
+  return socks
+end
+
+function push_if_missing with list, element do
+  for each item in list do
+    if item == element do
+      return list
+    end
+  end
+  return push(list, element)
+end
+
+function matching_socks with clean, dirty do
+  set clean_socks to extract_socks(clean)
+  set dirty_socks to extract_socks(dirty)
+  set socks to concat(clean_socks, dirty_socks)
+  set matching_socks to []
+
+  set other_sock to ""
+  for each sock1 in socks do
+    change other_sock to switch_left_right(sock1)
+
+    for each sock2 in socks do
+      if other_sock == sock2 do
+        change matching_socks to push_if_missing(matching_socks, concatenate(remove_left_right(other_sock), "s"))
+      end
+    end
+  end
+  return matching_socks
+end

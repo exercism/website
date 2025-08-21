@@ -6,6 +6,7 @@ import { ErrorBoundary, useErrorHandler } from '@/components/ErrorBoundary'
 import { FavoritableStudent } from '../FavoriteButton'
 import { FormButton } from '@/components/common/FormButton'
 import { typecheck } from '@/components/../utils/typecheck'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type ComponentProps = {
   endpoint: string
@@ -28,12 +29,15 @@ const Component = ({
   onSuccess,
   setIsRemoveButtonHoverable,
 }: ComponentProps): JSX.Element | null => {
+  const { t } = useAppTranslation(
+    'components/mentoring/session/favorite-button'
+  )
   const {
     mutate: mutation,
     status,
     error,
-  } = useMutation<FavoritableStudent>(
-    async () => {
+  } = useMutation<FavoritableStudent>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'POST',
@@ -44,10 +48,8 @@ const Component = ({
         typecheck<FavoritableStudent>(json, 'student')
       )
     },
-    {
-      onSuccess: (student) => onSuccess(student),
-    }
-  )
+    onSuccess: (student) => onSuccess(student),
+  })
 
   /* TODO: (required) Style this */
   useErrorHandler(error, { defaultError: DEFAULT_ERROR })
@@ -64,7 +66,7 @@ const Component = ({
       status={status}
     >
       <GraphicalIcon icon="plus" />
-      <span>Add to favorites</span>
+      <span>{t('addFavoriteButton.addToFavorites')}</span>
     </FormButton>
   )
 }

@@ -6,6 +6,7 @@ import { ReputationToken, APIResponse } from '../Reputation'
 import { DropdownAttributes } from '../useDropdown'
 import { sendRequest } from '../../../utils/send-request'
 import { typecheck } from '../../../utils/typecheck'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const ReputationMenu = ({
   tokens,
@@ -21,13 +22,14 @@ export const ReputationMenu = ({
   DropdownAttributes,
   'listAttributes' | 'itemAttributes'
 >): JSX.Element => {
+  const { t } = useAppTranslation('components/dropdowns/reputation')
   const queryClient = useQueryClient()
   const { mutate: markAsSeen } = useMutation<
     ReputationToken,
     unknown,
     ReputationToken
-  >(
-    async (token) => {
+  >({
+    mutationFn: async (token) => {
       if (token.isSeen) {
         return Promise.resolve(token)
       }
@@ -42,23 +44,21 @@ export const ReputationMenu = ({
         typecheck<ReputationToken>(json, 'reputation')
       )
     },
-    {
-      onSuccess: (token) => {
-        const oldData = queryClient.getQueryData<APIResponse>(cacheKey)
+    onSuccess: (token) => {
+      const oldData = queryClient.getQueryData<APIResponse>(cacheKey)
 
-        if (!oldData) {
-          return
-        }
+      if (!oldData) {
+        return
+      }
 
-        queryClient.setQueryData(cacheKey, {
-          ...oldData,
-          results: oldData.results.map((oldToken) => {
-            return oldToken.uuid === token.uuid ? token : oldToken
-          }),
-        })
-      },
-    }
-  )
+      queryClient.setQueryData(cacheKey, {
+        ...oldData,
+        results: oldData.results.map((oldToken) => {
+          return oldToken.uuid === token.uuid ? token : oldToken
+        }),
+      })
+    },
+  })
 
   return (
     <ul {...listAttributes}>
@@ -80,7 +80,7 @@ export const ReputationMenu = ({
       })}
       <li {...itemAttributes(tokens.length)}>
         <a href={links.tokens} className="c-prominent-link">
-          See how you earned all your reputation
+          {t('reputationMenu.seeHowYouEarned')}
           <GraphicalIcon icon="arrow-right" />
         </a>
       </li>

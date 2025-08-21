@@ -1,0 +1,12 @@
+- solution ||= nil
+- project = exercise.project
+- status = solution ? solution.status : "available"
+= link_to bootcamp_project_exercise_path(project, exercise), class: "exercise #{status}" do
+  .flex.items-center
+    .text
+      %h3
+        = project.title
+      %h4
+        = t('.exercise_title', idx: exercise.idx + 1, title: exercise.title)
+    .tag= status.to_s.titleize
+  %p= exercise.description

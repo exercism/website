@@ -1,0 +1,10 @@
+{
+  "title": "Lemonade",
+  "description": "Make a recipe card for Lemonade",
+  "language": "css",
+  "level": 11,
+  "idx": 9,
+  "editor_config": {
+    "aspect_ratio": 1.5
+  }
+}

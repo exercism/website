@@ -1,0 +1,18 @@
+{
+  "title": "Flexy Liberia",
+  "description": "Reproduce Liberia's flag using flexbox",
+  "language": "css",
+  "level": 13,
+  "idx": 9,
+  "blocks_level_progression": false,
+  "editor_config": {
+    "aspect_ratio": 1.5
+  },
+  "checks": [
+    {
+      "function": "illegalPropertiesUsed(['background','display','flex-basis','flex-direction','flex-grow','justify-content','align-items','aspect-ratio','width', 'min-height', 'height'])",
+      "matcher": "toBeUndefined",
+      "errorHtml": "You used a CSS property that is not allowed for this exercise (%result%)."
+    }
+  ]
+}

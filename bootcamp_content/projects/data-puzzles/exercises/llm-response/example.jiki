@@ -1,0 +1,48 @@
+function contains with haystack, needle do
+  for each thread in haystack do
+    if needle == thread do
+      return true
+    end
+  end
+  return false
+end
+
+function extract_number with string do
+  set numbers to "0123456789"
+  set res to ""
+  for each letter in string do
+    if not contains(numbers, letter) do
+      break
+    end
+    change res to concatenate(res, letter)
+  end
+  return string_to_number(res)
+end
+
+function select_answer with answers do
+  set best_answer to {}
+  set best_certainty to 0
+  set answer_certainty to 0
+  
+  for each answer in answers do
+    change answer_certainty to string_to_number(answer["certainty"])
+    if answer_certainty > best_certainty do
+      change best_answer to answer
+      change best_certainty to answer_certainty
+    end
+  end
+  return best_answer
+end
+
+function ask_llm with question do
+  set data to fetch("https://myllm.com/api/v2/qanda", { "question": question })
+  set answers to data["response"]["answers"]
+  set time_ms to data["meta"]["time"]
+  set time_s to number_to_string(extract_number(time_ms) / 1000)
+
+  set answer to select_answer(answers)
+  set certainty_pc to number_to_string(string_to_number(answer["certainty"]) * 100)
+
+  set extra to concatenate(certainty_pc, "% certainty in ", time_s, "s")
+  return concatenate("The answer to '", question, "' is '", answer["text"], "' (", extra, ").")
+end

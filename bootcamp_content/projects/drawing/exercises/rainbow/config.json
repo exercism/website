@@ -1,0 +1,43 @@
+{
+  "title": "Rainbow",
+  "description": "Draw a rainbow pattern",
+  "project_type": "draw",
+  "level": 2,
+  "idx": 4,
+  "concepts": [],
+  "tests_type": "state",
+  "readonly_ranges": [],
+  "exercise_functions": ["rectangle", "fill_color_hsl"],
+  "interpreter_options": {
+    "repeat_delay": 10
+  },
+  "tasks": [
+    {
+      "name": "Draw the scene",
+      "tests": [
+        {
+          "slug": "draw-scence",
+          "name": "Draw the rainbow.",
+          "description_html": "Paint 100 beautiful rectangles",
+          "checks": [
+            {
+              "function": "getRectangleAt(1, 0, undefined, 100)",
+              "matcher": "toBeDefined",
+              "error_html": "The first rectangle is missing"
+            },
+            {
+              "function": "getRectangleAt(99, 0, undefined, 100)",
+              "matcher": "toBeDefined",
+              "error_html": "The last rectangle is missing"
+            },
+            {
+              "function": "checkUniqueColoredRectangles(100)",
+              "matcher": "toBeTrue",
+              "error_html": "There are not 100 different colored rectangles."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

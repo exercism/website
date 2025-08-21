@@ -5,7 +5,11 @@ import { typecheck } from '@/utils/typecheck'
 import { FinishMentorDiscussionModal } from '@/components/modals/mentor/FinishMentorDiscussionModal'
 import { ModalProps } from '@/components/modals/Modal'
 import type { MentorDiscussion as Discussion } from '@/components/types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
+// i18n-key-prefix: components.mentoring.discussion.finishButton
+// i18n-namespace: discussion
 export const FinishButton = ({
   endpoint,
   modalProps,
@@ -15,13 +19,14 @@ export const FinishButton = ({
   modalProps?: ModalProps
   onSuccess: (discussion: Discussion) => void
 }): JSX.Element => {
+  const { t } = useAppTranslation('discussion-batch')
   const [open, setOpen] = useState(false)
   const {
     mutate: mutation,
     status,
     error,
-  } = useMutation<Discussion>(
-    async () => {
+  } = useMutation<Discussion>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',
@@ -30,13 +35,11 @@ export const FinishButton = ({
 
       return fetch.then((json) => typecheck<Discussion>(json, 'discussion'))
     },
-    {
-      onSuccess: (discussion) => onSuccess(discussion),
-    }
-  )
+    onSuccess: (discussion) => onSuccess(discussion),
+  })
 
   const handleClose = useCallback(() => {
-    if (status === 'loading') {
+    if (status === 'pending') {
       return
     }
 
@@ -52,7 +55,11 @@ export const FinishButton = ({
           setOpen(true)
         }}
       >
-        <div className="--hint">End discussion</div>
+        <Trans
+          ns="discussion-batch"
+          i18nKey="components.mentoring.discussion.finishButton.endDiscussion"
+          components={{ hint: <div className="--hint" /> }}
+        />
       </button>
       <FinishMentorDiscussionModal
         endpoint={endpoint}

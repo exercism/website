@@ -1,0 +1,10 @@
+.flex.flex-col.items-center.items-stretch.pt-20.px-24
+  %h2.text-h3.mb-4= t('.title')
+  %p.text-p-base.font-semibold.mb-12
+    = t('.subtitle')
+  %p.text-p-base.mb-8
+    = t('.description_p1_html', strong_text_1: t('.strong_text_1'), strong_text_2: t('.strong_text_2'))
+  %p.text-p-base.mb-16
+    = t('.description_p2_html', strong_text_1: t('.strong_text_3'), strong_text_2: t('.strong_text_4'), strong_text_3: t('.strong_text_5'), strong_text_4: t('.strong_text_6'))
+
+  = link_to t('.explore_button'), Courses::FrontEndFundamentals.url, class: 'btn-primary btn-s mb-6'

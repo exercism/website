@@ -1,0 +1,50 @@
+#game {
+    position: relative;
+    background: rgb(10, 18, 21);
+
+    #bricks {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 5px;
+        margin: 25px;
+        div {
+            height: 15px;
+            border-radius: 5px;
+            &:nth-child(-n + 5) {
+                background: rgb(198, 44, 52);
+            }
+            &:nth-child(n + 6):nth-child(-n + 10) {
+                background: rgb(179, 75, 37);
+            }
+            &:nth-child(n + 11):nth-child(-n + 15) {
+                background: rgb(184, 138, 12);
+            }
+            &:nth-child(n + 16):nth-child(-n + 20) {
+                background: rgb(46, 133, 44);
+            }
+            &:nth-child(n + 21):nth-child(-n + 25) {
+                background: rgb(39, 25, 205);
+            }
+        }
+    }
+    #paddle {
+        border-radius: 5px;
+        height: 10px;
+        width: 80px;
+        background: rgb(188, 198, 200);
+        position: absolute;
+        left: 50%;
+        bottom: 15px;
+        transform: translateX(-50%);
+    }
+    #ball {
+        border-radius: 100%;
+        height: 15px;
+        width: 15px;
+        background: white;
+        position: absolute;
+        left: 50%;
+        bottom: 25px;
+        transform: translateX(-50%);
+    }
+}

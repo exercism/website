@@ -8,10 +8,11 @@ module Flows
       include ActiveSupport::Testing::TimeHelpers
 
       test "user sees track learning details" do
-        travel_to Time.utc(2024, 6, 26) do
+        Time.zone = "UTC"
+        travel_to Time.zone.local(2024, 6, 26) do
           user = create :user
           track = create :track
-          create :user_track, user:, track:, created_at: Time.utc(2016, 12, 25)
+          create :user_track, user:, track:, created_at: Time.zone.local(2016, 12, 25)
 
           exercise = create(:concept_exercise, track:)
           solution = create(:concept_solution, exercise:, user:)
@@ -34,7 +35,7 @@ module Flows
             assert_text "1 Mentoring session completed"
             assert_text "You have 1 discussion in progress and 1 solution in the queue."
 
-            assert_text "You started working through the Ruby Track 7 years ago."
+            assert_text "You started working through the Ruby Track 9 years ago."
           end
         end
       end

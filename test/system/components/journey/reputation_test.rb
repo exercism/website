@@ -57,8 +57,10 @@ module Components
 
       test "searches contributions" do
         user = create :user
-        track = create :track, title: "Ruby"
-        exercise = create :concept_exercise
+        track = create :track, slug: "ruby", title: "Ruby"
+        other_track = create :track, slug: "nim", title: "Nim"
+        exercise = create(:concept_exercise, track:)
+        other_exercise = create(:concept_exercise, track: other_track)
         contribution_token = create(:user_code_contribution_reputation_token,
           user:,
           level: :large,
@@ -67,6 +69,10 @@ module Components
           user:,
           track:,
           exercise:)
+        other_contribution_token = create(:user_code_review_reputation_token,
+          user:,
+          track: other_track,
+          exercise: other_exercise)
 
         use_capybara_host do
           sign_in!(user)
@@ -75,7 +81,8 @@ module Components
         end
 
         assert_text strip_tags(review_token.text)
-        assert_no_text strip_tags(contribution_token.text)
+        assert_text strip_tags(contribution_token.text)
+        assert_no_text strip_tags(other_contribution_token.text)
       end
 
       test "filters contributions" do

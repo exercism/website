@@ -1,0 +1,15 @@
+- tag_type = status == :locked ? :div : :a
+= content_tag tag_type, href: bootcamp_project_exercise_url(project, exercise), class: "c-exercise-widget #{status} #{'major-project' if exercise.major_project?}  #{'brain-buster' if exercise.brain_buster?} size-#{size}" do
+  .flex.items-start
+    = image_tag exercise.icon_url
+    .flex-grow.flex.flex-col
+      .flex.items-start
+        .title
+          .project-title= project.title
+        .tag
+      .exercise-title
+        = exercise.title
+      .description= exercise.description
+
+  = icon "bootcamp-brain-buster", t('.brain_buster_alt_text'), css_class: "brain-buster"
+  = icon "bootcamp-major-project", t('.major_project_alt_text'), css_class: "major-project"

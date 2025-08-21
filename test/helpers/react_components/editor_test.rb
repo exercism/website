@@ -71,6 +71,7 @@ class ReactComponents::EditorTest < ReactComponentTestCase
   test "uses latest iteration" do
     solution = create(:practice_solution)
     submission = create(:submission, solution:)
+    create(:user_track, user: solution.user, track: solution.track)
     actual = ReactComponents::Editor.new(solution).data
     assert_nil actual[:iteration]
 
@@ -87,17 +88,22 @@ class ReactComponents::EditorTest < ReactComponentTestCase
   test "no tests for concept exercises" do
     track = create :track
     solution = create(:practice_solution, track:)
+    create(:user_track, user: solution.user, track: solution.track)
     actual = ReactComponents::Editor.new(solution).data
+
     refute_nil actual[:panels][:tests]
 
     solution = create(:concept_solution, track:)
+    create(:user_track, user: solution.user, track: solution.track)
     actual = ReactComponents::Editor.new(solution).data
+
     assert_nil actual[:panels][:tests]
   end
 
   test "no deep_dive_video without video" do
     solution = create(:concept_solution)
     solution.exercise.stubs(deep_dive_youtube_id: nil)
+    create(:user_track, user: solution.user, track: solution.track)
 
     actual = ReactComponents::Editor.new(solution).data
 
@@ -107,6 +113,7 @@ class ReactComponents::EditorTest < ReactComponentTestCase
   test "show deep_dive_video if id is present" do
     solution = create(:concept_solution)
     solution.exercise.stubs(deep_dive_youtube_id: SecureRandom.uuid)
+    create(:user_track, user: solution.user, track: solution.track)
 
     actual = ReactComponents::Editor.new(solution).data
 
@@ -116,6 +123,7 @@ class ReactComponents::EditorTest < ReactComponentTestCase
   test "hide deep_dive_video not first iteration" do
     solution = create(:concept_solution)
     solution.exercise.stubs(deep_dive_youtube_id: SecureRandom.uuid)
+    create(:user_track, user: solution.user, track: solution.track)
     create(:iteration, solution:)
 
     actual = ReactComponents::Editor.new(solution).data
@@ -127,6 +135,7 @@ class ReactComponents::EditorTest < ReactComponentTestCase
 
     solution = create(:concept_solution)
     solution.exercise.stubs(deep_dive_youtube_id: youtube_id)
+    create(:user_track, user: solution.user, track: solution.track)
     create :user_watched_video, user: solution.user, video_provider: :youtube, video_id: youtube_id
 
     actual = ReactComponents::Editor.new(solution).data

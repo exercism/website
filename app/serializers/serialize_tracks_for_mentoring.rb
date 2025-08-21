@@ -39,7 +39,7 @@ class SerializeTracksForMentoring
       group(:track_id).count
   end
 
-  # We don't acutally care about what tracks the person
+  # We don't actually care about what tracks the person
   # mentors when we serialize here. We're going to seraialize
   # all the tracks that have been passed in. However we do
   # care about excluding your own solutions, etc.

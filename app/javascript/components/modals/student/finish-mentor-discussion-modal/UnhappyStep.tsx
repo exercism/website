@@ -1,5 +1,6 @@
 import React from 'react'
 import { MentorReport } from '../FinishMentorDiscussionModal'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type Links = {
   exercise: string
@@ -12,39 +13,31 @@ export const UnhappyStep = ({
   report: MentorReport
   links: Links
 }): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/modals/student/finish-mentor-discussion-modal'
+  )
   return (
     <section className="unhappy-final-step">
       {report.report ? (
         <React.Fragment>
-          <h2>Thank you for your report</h2>
-          <p className="explanation">
-            Thanks for letting us know. We will look into your report and get
-            back to you in the next few days. In the meantime we hope you have a
-            better next experience.
-          </p>
+          <h2>{t('unhappyStep.thankYouForReport')}</h2>
+          <p className="explanation">{t('unhappyStep.reportExplanation')}</p>
         </React.Fragment>
       ) : report.requeue ? (
         <React.Fragment>
-          <h2>Your solution has been be requeued</h2>
-          <p className="explanation">
-            Your solution has been put back in the queue and another mentor will
-            hopefully pick it up soon. We hope you have a positive mentoring
-            session on this solution next time!
-          </p>
+          <h2>{t('unhappyStep.solutionRequeued')}</h2>
+          <p className="explanation">{t('unhappyStep.requeueExplanation')}</p>
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <h2>We hope you have a better next experience</h2>
-          <p className="explanation">
-            Sorry this experience wasn't great. We hope the next one will be
-            better.
-          </p>
+          <h2>{t('unhappyStep.hopeBetterExperience')}</h2>
+          <p className="explanation">{t('unhappyStep.sorryExplanation')}</p>
         </React.Fragment>
       )}
 
       <div className="form-buttons">
         <a href={links.exercise} className="btn-primary btn-m">
-          Go back to your solution
+          {t('unhappyStep.goToSolution')}
         </a>
       </div>
     </section>

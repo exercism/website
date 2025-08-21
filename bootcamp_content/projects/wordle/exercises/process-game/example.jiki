@@ -1,0 +1,32 @@
+function contains with haystack, needle do
+  for each thing in haystack do
+    if needle == thing do
+      return true
+    end
+  end
+  return false
+end
+
+function process_game with word, guesses do
+  for each guess in guesses indexed by idx do
+    color_row(idx, process_guess(word, guess))
+  end
+end
+
+function process_first_guess with word, guess do
+  process_game(word, [guess])
+end
+
+function process_guess with word, guess do
+  set states to []
+  for each letter in guess indexed by idx do
+    if word[idx] == letter do
+      change states to push(states, "correct")
+    else if contains(word, letter) do
+      change states to push(states, "present")
+    else do
+      change states to push(states, "absent")
+    end
+  end
+  return states
+end

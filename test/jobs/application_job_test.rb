@@ -79,7 +79,7 @@ class ApplicationJobTest < ActiveJob::TestCase
     user = create :user
     user.destroy
 
-    # In a seperate thread, recreate the user. This will happen in between the
+    # In a separate thread, recreate the user. This will happen in between the
     # first deserialiation error and the second lookup check.
     Thread.new do
       sleep(0.2)

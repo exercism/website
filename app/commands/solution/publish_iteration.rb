@@ -8,9 +8,8 @@ class Solution::PublishIteration
 
     Solution::UpdateTags.defer(solution)
     Solution::UpdatePublishedExerciseRepresentation.defer(solution)
-    Iteration::GenerateSnippet.defer(solution)
+    Solution::UpdateSnippet.defer(solution)
     Solution::UpdateNumLoc.defer(solution)
-    Solution::InvalidateCloudfrontItem.defer(solution) if invalidate
   end
 
   private

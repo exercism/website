@@ -5,6 +5,7 @@ import { SolutionForStudent } from '@/components/types'
 import { FormButton } from '@/components/common/FormButton'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 import { Modal, ModalProps } from './Modal'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to disable comments')
 
@@ -16,12 +17,15 @@ export const DisableSolutionCommentsModal = ({
   endpoint: string
   onSuccess: () => void
 }): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/modals/DisableSolutionCommentsModal.tsx'
+  )
   const {
     mutate: mutation,
     status,
     error,
-  } = useMutation<SolutionForStudent>(
-    async () => {
+  } = useMutation<SolutionForStudent>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',
@@ -30,21 +34,16 @@ export const DisableSolutionCommentsModal = ({
 
       return fetch
     },
-    {
-      onSuccess: () => {
-        props.onClose()
-        onSuccess()
-      },
-    }
-  )
+    onSuccess: () => {
+      props.onClose()
+      onSuccess()
+    },
+  })
 
   return (
     <Modal {...props} className="m-generic-confirmation">
-      <h3>Do you want to disable comments?</h3>
-      <p>
-        Disabling comments stops people from publically posting questions and
-        thoughts on your solution. You can reenable this at any time.
-      </p>
+      <h3>{t('disableSolutionCommentsModal.confirmationTitle')}</h3>
+      <p>{t('disableSolutionCommentsModal.confirmationDescription')}</p>
 
       <div className="buttons">
         <FormButton
@@ -53,7 +52,7 @@ export const DisableSolutionCommentsModal = ({
           status={status}
           className="btn-primary btn-m"
         >
-          Disable comments
+          {t('disableSolutionCommentsModal.disableComments')}
         </FormButton>
         <FormButton
           type="button"
@@ -61,7 +60,7 @@ export const DisableSolutionCommentsModal = ({
           status={status}
           className="btn-default btn-m"
         >
-          Cancel
+          {t('disableSolutionCommentsModal.cancel')}
         </FormButton>
       </div>
       <ErrorBoundary>

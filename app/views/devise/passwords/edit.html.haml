@@ -4,8 +4,8 @@
       = icon "exercism-with-logo-black", "Exercism's Logo", css_class: "logo"
 
       .intro
-        %h2 Change your password
-        %p Choose your new password using the form below. If you don't do anything, your password will remain unchanged.
+        %h2= t('.change_your_password.title')
+        %p= t('.change_your_password.description')
 
       = flash_messages
 
@@ -13,13 +13,13 @@
         = render "devise/shared/error_messages", resource: resource
         = f.hidden_field :reset_password_token
         .field
-          = f.label :password, "New password"
-          = f.password_field :password, autofocus: true, autocomplete: "new-password", placeholder: "Enter a new password (min #{@minimum_password_length} chars)"
+          = f.label :password, t('.new_password_label')
+          = f.password_field :password, autofocus: true, autocomplete: "new-password", placeholder: t('.new_password_placeholder', minimum_password_length: @minimum_password_length)
         .field
-          = f.label :password_confirmation, "Confirm new password"
-          = f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "Enter your new password again"
+          = f.label :password_confirmation, t('.confirm_new_password_label')
+          = f.password_field :password_confirmation, autocomplete: "new-password", placeholder: t('.confirm_new_password_placeholder')
         .actions
-          = f.button "Change my password", class: "btn-primary btn-l"
+          = f.button t('.change_my_password_button'), class: "btn-primary btn-l"
 
       = render "devise/shared/links"
 

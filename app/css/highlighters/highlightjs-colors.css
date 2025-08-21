@@ -10,6 +10,7 @@
 }
 
 .hljs-doctag,
+.hljs-tag,
 .hljs-keyword,
 .hljs-formula {
     color: var(--hljs-hue-3);

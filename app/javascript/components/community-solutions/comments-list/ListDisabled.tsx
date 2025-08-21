@@ -1,18 +1,19 @@
 import React from 'react'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const ListDisabled = ({
   isAuthor,
 }: {
   isAuthor: boolean
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/community-solutions')
   if (isAuthor) {
     return (
       <p className="text-16 leading-150 text-textColor6">
-        You have disabled comments on this solution. Use the "Options" cog above
-        to toggle this option.
+        {t('commentsList.listDisabled.disabledCommentsAuthor')}
       </p>
     )
   } else {
-    return <p>Comments have been disabled</p>
+    return <p>{t('commentsList.listDisabled.disabledComments')}</p>
   }
 }

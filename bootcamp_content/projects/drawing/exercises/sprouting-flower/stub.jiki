@@ -1,0 +1,15 @@
+// TODO: Set your initial variables here
+
+repeat 60 times do
+  // TODO: Update your variables here
+
+  // Sky
+  fill_color_hex("#ADD8E6") 
+  rectangle(0, 0, 100, 90)
+  
+  // Ground
+  fill_color_hex("green")
+  rectangle(0, 90, 100, 30)
+
+  // TODO: Draw the flower here
+end

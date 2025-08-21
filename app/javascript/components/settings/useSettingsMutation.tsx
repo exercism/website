@@ -29,8 +29,8 @@ export const useSettingsMutation = <
     status,
     error,
     reset,
-  } = useMutation<U>(
-    async () => {
+  } = useMutation<U>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: method,
@@ -39,11 +39,9 @@ export const useSettingsMutation = <
 
       return fetch
     },
-    {
-      onSuccess,
-      onError,
-    }
-  )
+    onSuccess,
+    onError,
+  })
 
   const mutation = useCallback(() => {
     reset()

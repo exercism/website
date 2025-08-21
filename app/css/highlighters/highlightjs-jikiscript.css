@@ -1,0 +1,50 @@
+.language-jikiscript {
+    .hljs-comment,
+    .hljs-lineComment {
+        color: #818b94;
+        font-style: italic;
+    }
+    .hljs-string {
+        color: #3e8a00;
+    }
+    .hljs-controlKeyword {
+        color: #0080ff;
+        font-weight: 500;
+        font-style: italic;
+    }
+    .hljs-definitionKeyword {
+        color: #0080ff;
+        font-weight: 500;
+        font-style: italic;
+    }
+    .hljs-keyword {
+        color: #0080ff;
+        font-weight: 500;
+        font-style: italic;
+    }
+    .hljs-paren,
+    .hljs-squareBracket {
+        color: #888;
+    }
+    .hljs-bool,
+    .hljs-number,
+    .hljs-float {
+        color: #f33636;
+    }
+    .hljs-logicalOperator,
+    .hljs-arithmeticOperator,
+    .hljs-operator,
+    .hljs-compareOperator {
+        color: #0080ff;
+    }
+    .hljs-variableName {
+        color: #7a009f;
+    }
+    .hljs-functionName {
+        color: rgb(151, 0, 216);
+        border-bottom: 0.5px solid rgba(151, 0, 216, 0.4);
+    }
+    .hljs-className {
+        color: "#00008B";
+    }
+}

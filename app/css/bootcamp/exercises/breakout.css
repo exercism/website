@@ -1,0 +1,50 @@
+.exercise-breakout {
+    .container {
+        @apply relative;
+        @apply w-fill h-fill;
+        background: rgb(21, 18, 24);
+        overflow: hidden;
+    }
+    .game-over-lose {
+        @apply absolute inset-0;
+        background: rgb(188, 0, 0);
+        opacity: 0;
+    }
+    .game-over-win {
+        @apply absolute inset-0;
+        background: rgb(0, 138, 69);
+        opacity: 0;
+    }
+
+    .ball,
+    .circle {
+        @apply absolute;
+        @apply bg-[#fafafa];
+        @apply rounded-circle;
+        transform: translate(-50%, -50%);
+    }
+    .ball {
+        @apply bg-[#fafafa];
+        width: 6%;
+        height: 6%;
+    }
+    .paddle,
+    .rectangle {
+        @apply absolute;
+        @apply rounded-8;
+    }
+    .paddle {
+        @apply bg-[#fafafa];
+        width: 10%;
+        height: 4%;
+        transform: translate(-50%, -50%);
+    }
+    .block {
+        @apply absolute;
+        background: rgb(70, 109, 233);
+        border: 3px solid rgb(59, 89, 182);
+        @apply rounded-3;
+        width: 16%;
+        height: 7%;
+    }
+}

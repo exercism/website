@@ -4,8 +4,11 @@ module ReactComponents
       initialize_with :track
 
       def to_s
-        return if current_user.introducer_dismissed?(introducer_slug) || UserTrack.for(current_user,
-          track).tutorial_exercise_completed?
+        return if showing_modal?
+        return if current_user.introducer_dismissed?(introducer_slug)
+        return if UserTrack.for(current_user, track).tutorial_exercise_completed?
+
+        showing_modal!
 
         super(
           "modals-#{modal_slug}",
@@ -18,9 +21,12 @@ module ReactComponents
               cli_walkthrough: Exercism::Routes.cli_walkthrough_path,
               track_tooling: Exercism::Routes.track_doc_path(track, 'installation'),
               learning_resources: Exercism::Routes.track_doc_path(track, 'learning'),
-              download_cmd: Exercise.for(track.slug, 'hello-world').download_cmd
+              download_cmd: Exercise.for(track.slug, 'hello-world').download_cmd,
+              coding_fundamentals_course: Courses::CodingFundamentals.url
             },
-            track:
+            track:,
+            user_seniority: current_user.seniority,
+            user_joined_days_ago: (Time.zone.today - current_user.created_at.to_date).to_i
           }
         )
       end

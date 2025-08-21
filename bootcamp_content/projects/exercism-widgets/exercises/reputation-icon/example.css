@@ -1,0 +1,35 @@
+main {
+    display: grid;
+    height: 100%;
+    place-items: center;
+
+    .notifications {
+        background: #130b43;
+        padding: 10px;
+        border: 2px solid rgb(136, 0, 254);
+        border-radius: 25px;
+        display: flex;
+        align-items: center;
+        padding: 5px 20px;
+        gap: 10px;
+        position: relative;
+        img {
+            height: 25px;
+        }
+        .count {
+            font-size: 17px;
+            color: white;
+            font-weight: 600;
+        }
+        .dot {
+            background: #eb5757;
+            border: 3px solid white;
+            border-radius: 100%;
+            width: 15px;
+            height: 15px;
+            position: absolute;
+            top: -7px;
+            right: -7px;
+        }
+    }
+}

@@ -6,6 +6,7 @@ import { Avatar, GraphicalIcon } from '@/components/common'
 import { FormButton } from '@/components/common/FormButton'
 import { FetchingBoundary } from '@/components/FetchingBoundary'
 import { TestimonialField } from './TestimonialField'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to submit mentor rating')
 
@@ -20,13 +21,16 @@ export const AddTestimonialStep = ({
   onBack: () => void
   discussion: MentorDiscussion
 }): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/modals/student/finish-mentor-discussion-modal'
+  )
   const [value, setValue] = useState('')
   const {
     mutate: mutation,
     status,
     error,
-  } = useMutation(
-    async () => {
+  } = useMutation({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: discussion.links.finish,
         method: 'PATCH',
@@ -38,12 +42,10 @@ export const AddTestimonialStep = ({
 
       return fetch
     },
-    {
-      onSuccess: () => {
-        value.length === 0 ? onSkip() : onSubmit()
-      },
-    }
-  )
+    onSuccess: () => {
+      value.length === 0 ? onSkip() : onSubmit()
+    },
+  })
   const handleSubmit = useCallback(
     (e) => {
       e.preventDefault()
@@ -58,23 +60,26 @@ export const AddTestimonialStep = ({
   const handleChange = useCallback((e) => {
     setValue(e.target.value)
   }, [])
-  const primaryButtonText = value.length === 0 ? 'Skip' : 'Finish'
+  const primaryButtonText =
+    value.length === 0
+      ? t('addTestimonialStep.skip')
+      : t('addTestimonialStep.finish')
   const primaryButtonClass =
     value.length === 0 ? 'btn-default btn-m' : 'btn-primary btn-m'
 
   return (
     <section className="testimonial-step">
-      <h2>We&apos;re glad you had a good discussion!</h2>
+      <h2>{t('addTestimonialStep.gladGoodDiscussion')}</h2>
       <div className="container">
         <div className="lhs">
           <p className="explanation">
-            Mentors volunteer their time for free. A nice testimonial is a great
-            way of thanking them, and encouraging them to continue helping
-            others.
+            {t('addTestimonialStep.mentorsVolunteerTime')}
           </p>
           <form data-turbo="false" onSubmit={handleSubmit}>
             <label htmlFor="testimonial">
-              Leave {discussion.mentor.handle} a testimonial (optional)
+              {t('addTestimonialStep.leaveTestimonial', {
+                mentorHandle: discussion.mentor.handle,
+              })}
             </label>
             <TestimonialField
               id="testimonial"
@@ -91,7 +96,7 @@ export const AddTestimonialStep = ({
                 className="btn-default btn-m"
               >
                 <GraphicalIcon icon="arrow-left" />
-                <span>Back</span>
+                <span>{t('addTestimonialStep.back')}</span>
               </FormButton>
 
               <FormButton

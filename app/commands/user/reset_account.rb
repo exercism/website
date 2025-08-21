@@ -38,6 +38,9 @@ class User::ResetAccount
     user.user_tracks.each do |user_track|
       UserTrack::Destroy.(user_track)
     end
+
+    user.viewed_community_solutions.destroy_all
+    user.viewed_exercise_approaches.destroy_all
   end
 
   def reset_mentoring!

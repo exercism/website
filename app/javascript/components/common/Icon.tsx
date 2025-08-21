@@ -22,7 +22,9 @@ export function Icon({
   if (className !== undefined) {
     classNames.push(className)
   }
-  const iconFile = assetUrl(`${category}/${icon}.svg`)
+  // Add .svg if there's no extension
+  icon = icon.includes('.') ? icon : `${icon}.svg`
+  const iconFile = assetUrl(`${category}/${icon}`)
 
   return (
     <img

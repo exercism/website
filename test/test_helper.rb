@@ -128,6 +128,18 @@ else
   )
 end
 
+# Setup our indexes once (we'll keep them clear in teardowns)
+opensearch = Exercism.opensearch_client
+[
+  Document::OPENSEARCH_INDEX,
+  Solution::OPENSEARCH_INDEX,
+  Exercise::Representation::OPENSEARCH_INDEX
+].map do |index|
+  opensearch.indices.delete(index:) if opensearch.indices.exists(index:)
+  opensearch.indices.create(index:)
+end
+Exercism::TOUCHED_OPENSEARCH_INDEXES = [] # rubocop:disable Style/MutableConstant
+
 class ActionMailer::TestCase
   def assert_email(email, to, subject, fixture, bulk: false) # rubocop:disable Lint/UnusedMethodArgument
     # Test email can send ok
@@ -156,7 +168,6 @@ class ActiveSupport::TestCase
   # parallelize(workers: :number_of_processors)
 
   setup do
-    reset_opensearch!
     reset_redis!
     reset_rack_attack!
 
@@ -170,6 +181,8 @@ class ActiveSupport::TestCase
   end
 
   teardown do
+    reset_opensearch!
+
     Bullet.perform_out_of_channel_notifications if Bullet.notification?
     Bullet.end_request
   end
@@ -208,9 +221,10 @@ class ActiveSupport::TestCase
   end
 
   def reset_redis!
-    redis = Exercism.redis_tooling_client
-    keys = redis.keys("#{Exercism.env}:*")
-    redis.del(*keys) if keys.present?
+    [Exercism.redis_tooling_client, Exercism.redis_cache_client].each do |redis|
+      keys = redis.keys("#{Exercism.env}:*")
+      redis.del(*keys) if keys.present?
+    end
   end
 
   def reset_rack_attack!
@@ -266,8 +280,10 @@ class ActiveSupport::TestCase
 
   def create_tooling_job!(submission, type, params = {})
     Exercism::ToolingJob.create!(
+      SecureRandom.base64(8), # We don't override this anywhere
       type,
       submission.uuid,
+      "opt/efs/somepath",
       submission.track.slug,
       submission.exercise.slug,
       **params
@@ -294,11 +310,17 @@ class ActiveSupport::TestCase
   # OpenSearch Helpers #
   ######################
   def reset_opensearch!
+    return unless Exercism::TOUCHED_OPENSEARCH_INDEXES.present?
+
+    OpenSearch::Client.unstub(:new)
+    Exercism.unstub(:opensearch_client)
     opensearch = Exercism.opensearch_client
-    OPENSEARCH_INDEXES.each do |index|
+
+    Exercism::TOUCHED_OPENSEARCH_INDEXES.map do |index|
       opensearch.indices.delete(index:) if opensearch.indices.exists(index:)
       opensearch.indices.create(index:)
     end
+    Exercism::TOUCHED_OPENSEARCH_INDEXES.clear
   end
 
   def get_opensearch_doc(index, id)
@@ -312,7 +334,7 @@ class ActiveSupport::TestCase
     perform_enqueued_jobs
 
     # Force an index refresh to ensure there are no concurrent actions in the background
-    OPENSEARCH_INDEXES.each do |index|
+    Exercism::TOUCHED_OPENSEARCH_INDEXES.each do |index|
       Exercism.opensearch_client.indices.refresh(index:)
     end
   end
@@ -333,7 +355,7 @@ class ActiveSupport::TestCase
   def generate_reputation_periods!
     # We use reputation periods for the calculation
     # This command should generate them all.
-    User::ReputationToken.all.each { |t| User::ReputationPeriod::MarkForToken.(t) }
+    User::ReputationToken.all.find_each { |t| User::ReputationPeriod::MarkForToken.(t) }
     User::ReputationPeriod::Sweep.()
   end
 
@@ -390,13 +412,6 @@ class ActiveSupport::TestCase
     user.data.reload.update!(cache: nil)
     user.reload
   end
-
-  OPENSEARCH_INDEXES = [
-    Document::OPENSEARCH_INDEX,
-    Solution::OPENSEARCH_INDEX,
-    Exercise::Representation::OPENSEARCH_INDEX
-  ].freeze
-  private_constant :OPENSEARCH_INDEXES
 end
 
 class ActionView::TestCase

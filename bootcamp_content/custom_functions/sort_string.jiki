@@ -1,0 +1,21 @@
+
+function sort_string with string do
+  set dict to {}
+  set letters to "ABCDEFGHIJKLMNOPQRSTUVWXYZ" 
+  for each letter in letters do
+    change dict[letter] to 0
+  end
+
+  for each char in string do
+    change dict[char] to dict[char] + 1
+  end
+
+  set res to ""
+  for each k in letters do
+    repeat dict[k] times do
+      change res to concatenate(res, k)
+    end
+  end
+  
+  return res
+end

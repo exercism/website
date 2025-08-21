@@ -1,0 +1,7 @@
+.c-nav {
+    @apply flex flex-row items-center gap-10;
+    @apply mb-12;
+    a {
+        @apply font-semibold text-16 text-[blue];
+    }
+}

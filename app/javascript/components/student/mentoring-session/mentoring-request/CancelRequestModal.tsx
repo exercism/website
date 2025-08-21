@@ -6,6 +6,7 @@ import { Modal, ModalProps } from '@/components/modals/Modal'
 import { FormButton } from '@/components/common/FormButton'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 import { MentorSessionRequest } from '@/components/types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to cancel request')
 
@@ -23,12 +24,15 @@ export const CancelRequestModal = ({
 }: Omit<ModalProps, 'className'> & {
   request: MentorSessionRequest
 }): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/student/mentoring-session/mentoring-request'
+  )
   const {
     mutate: mutation,
     status,
     error,
-  } = useMutation<APIResponse>(
-    async () => {
+  } = useMutation<APIResponse>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: request.links.cancel,
         method: 'PATCH',
@@ -37,12 +41,10 @@ export const CancelRequestModal = ({
 
       return fetch
     },
-    {
-      onSuccess: (response) => {
-        redirectTo(response.links.home)
-      },
-    }
-  )
+    onSuccess: (response) => {
+      redirectTo(response.links.home)
+    },
+  })
 
   const handleSubmit = useCallback(
     (e) => {
@@ -54,7 +56,7 @@ export const CancelRequestModal = ({
   )
 
   const handleClose = useCallback(() => {
-    if (status === 'loading') {
+    if (status === 'pending') {
       return
     }
 
@@ -68,15 +70,11 @@ export const CancelRequestModal = ({
       className="m-generic-confirmation"
       {...props}
     >
-      <h3>Cancel mentoring request?</h3>
-      <p>
-        Are you sure you want to cancel this mentoring request? Please note that
-        if someone has started giving feedback in the last few minutes, the
-        session may continue regardless of this cancellation.
-      </p>
+      <h3>{t('cancelRequestModal.cancelMentoringRequest')}</h3>
+      <p>{t('cancelRequestModal.areYouSure')}</p>
       <form data-turbo="false" onSubmit={handleSubmit} className="buttons">
         <FormButton status={status} type="submit" className="btn-primary btn-s">
-          Cancel mentoring request
+          {t('cancelRequestModal.cancelMentoringRequestButton')}
         </FormButton>
         <FormButton
           status={status}
@@ -84,7 +82,7 @@ export const CancelRequestModal = ({
           className="btn-enhanced btn-s"
           onClick={handleClose}
         >
-          Close
+          {t('cancelRequestModal.close')}
         </FormButton>
       </form>
       <ErrorBoundary resetKeys={[status]}>

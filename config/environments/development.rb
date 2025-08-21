@@ -38,14 +38,13 @@ Rails.application.configure do
     config.action_controller.perform_caching = true
     config.action_controller.enable_fragment_cache_logging = true
 
-    config.cache_store = :memory_store
     config.public_file_server.headers = {
       'Cache-Control' => "public, max-age=#{2.days.to_i}"
     }
   else
     config.action_controller.perform_caching = false
-    config.cache_store = :redis_cache_store, { url: Exercism.config.tooling_redis_url }
   end
+  config.cache_store = :redis_cache_store, { url: Exercism.config.tooling_redis_url }
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
@@ -81,11 +80,12 @@ Rails.application.configure do
   ENV['EXERCISM_DOCKER'] ? config.file_watcher = ActiveSupport::FileUpdateChecker : config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   # TODO: Change to exercism on launch
-  config.session_store :cookie_store, key: "_exercism", domain: :all
+  config.session_store :cookie_store, key: "_exercism"
 
   config.hosts << "local.exercism.io"
   config.hosts << "website" if ENV['EXERCISM_DOCKER']
   config.hosts << /.*.ngrok.io/
+  config.hosts << /.*.ngrok.dev/
   config.hosts << /.*.ngrok-free.app/
   config.hosts << "host.docker.internal"
 end

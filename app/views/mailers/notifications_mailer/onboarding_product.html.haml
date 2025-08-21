@@ -1,25 +1,19 @@
-%p Hey there,
+%p= t('.greeting')
 
 %p
-  It's been a day or so since you signed up to #{link_to 'Exercism', 'https://exercism.org'}, and I wanted to check how you're getting on so far?
+  = t('.intro_message_html', exercism_link: link_to(t('.exercism_link_text'), 'https://exercism.org')).html_safe
 %p
-  Sometimes Exercism can be a bit overwhelming at first. Some people get a bit lost and things don't quite make sense to them.
-  If you get stuck, check out our #{link_to 'Discord', 'https://exercism.org/r/discord'} or #{link_to 'Forum', 'https://exercism.org/r/forum'}, where you can ask for help.
-  It's always helpful for us to know where people are tripping up so we can fix it, so please don't be afraid to speak up!
+  = t('.stuck_message_html', discord_link: link_to(t('.discord_link_text'), 'https://exercism.org/r/discord'), forum_link: link_to(t('.forum_link_text'), 'https://exercism.org/r/forum')).html_safe
 %p
-  If you've not started exploring a language yet, we have over 65 to choose from, including the most widly used languages (e.g. Python, JavaScript, C#), the popular new-kids on the block (e.g. Go, Elixir, Rust) and some quite unusual and esotoric languages (e.g. 8th, COBOL, Prolog).
-  There's tons to learn and a lot of fun to be had!
+  = t('.language_exploration_message')
 %p
-  And as a final a reminder, Exercism is 100% free, open-source and not for profit. Enjoy!
+  = t('.final_reminder_message')
 
-%p Best regards,
+%p= t('.best_regards')
 
 %p
-  Jeremy Walker
+  = t('.signature_name')
   %br
-  Exercism Co-founder &amp; CEO
+  = t('.signature_title')
 
-= email_button_to 'Visit Exercism', root_url
-
-
-
+= email_button_to t('.button_text'), root_url

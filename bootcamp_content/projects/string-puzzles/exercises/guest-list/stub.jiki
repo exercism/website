@@ -1,0 +1,4 @@
+// Define the on_guest_list function
+// The first input is the guest list.
+// The second input is the name of the person.
+// Return if the person is on the list.

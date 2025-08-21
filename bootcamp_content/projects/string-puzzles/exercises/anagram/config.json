@@ -1,0 +1,116 @@
+{
+  "title": "Anagram",
+  "description": "Find all anagrams of a given word from a list of candidates.",
+  "level": 9,
+  "idx": 3,
+  "tests_type": "io",
+  "stdlib_functions": ["push", "concatenate", "sort_string"],
+  "tasks": [
+    {
+      "name": "Find Anagrams",
+      "tests": [
+        {
+          "name": "No matches",
+          "slug": "anagram-no-matches",
+          "description_html": "If no anagrams exist in the candidates, return an empty list.",
+          "function": "find_anagrams",
+          "args": ["diaper", ["hello", "world", "zombies", "pants"]],
+          "checks": [{ "value": [] }]
+        },
+        {
+          "name": "Detects two anagrams",
+          "slug": "anagram-detects-two",
+          "description_html": "Find two anagrams from a list of candidates.",
+          "function": "find_anagrams",
+          "args": ["master", ["maters", "stream", "pigeon"]],
+          "checks": [{ "value": ["maters", "stream"] }]
+        },
+        {
+          "name": "Does not detect anagram subsets",
+          "slug": "anagram-no-subsets",
+          "description_html": "An anagram must use all letters exactly once.",
+          "function": "find_anagrams",
+          "args": ["good", ["dog", "goody"]],
+          "checks": [{ "value": [] }]
+        },
+        {
+          "name": "Detects anagram",
+          "slug": "anagram-detects-one",
+          "description_html": "Find a single anagram from a list.",
+          "function": "find_anagrams",
+          "args": ["listen", ["enlists", "google", "inlets", "banana"]],
+          "checks": [{ "value": ["inlets"] }]
+        },
+        {
+          "name": "Detects multiple anagrams with different case",
+          "slug": "anagram-different-case",
+          "description_html": "Anagrams should be detected regardless of case.",
+          "function": "find_anagrams",
+          "args": ["nose", ["Eons", "ONES"]],
+          "checks": [{ "value": ["Eons", "ONES"] }]
+        },
+        {
+          "name": "Detects anagrams case-insensitively",
+          "slug": "anagram-case-insensitive",
+          "description_html": "Case should not affect anagram detection.",
+          "function": "find_anagrams",
+          "args": ["Orchestra", ["cashregister", "Carthorse", "radishes"]],
+          "checks": [{ "value": ["Carthorse"] }]
+        },
+        {
+          "name": "Words are not anagrams of themselves (case-insensitive)",
+          "slug": "anagram-not-itself",
+          "description_html": "A word should not be considered an anagram of itself.",
+          "function": "find_anagrams",
+          "args": ["BANANA", ["BANANA", "Banana", "banana"]],
+          "checks": [{ "value": [] }]
+        },
+        {
+          "name": "Words other than themselves can be anagrams",
+          "slug": "anagram-other-than-itself",
+          "description_html": "A word should detect valid anagrams from the list excluding itself.",
+          "function": "find_anagrams",
+          "args": ["LISTEN", ["Listen", "Silent", "LISTEN"]],
+          "checks": [{ "value": ["Silent"] }]
+        }
+      ]
+    },
+    {
+      "name": "Bonus Tests",
+      "bonus": true,
+      "tests": [
+        {
+          "slug": "sort_string",
+          "skip_ci": true,
+          "name": "Use your own sort_string",
+          "description_html": "Can you solve the exercise without using the built in sort_string?",
+          "function": "find_anagrams",
+          "args": [
+            "stone",
+            ["stone", "tones", "banana", "tons", "notes", "Seton"]
+          ],
+          "checks": [
+            {
+              "code_run": "We checked how many times the built in sort_string function was used.",
+              "function": "numFunctionCallsInCode('sort_string')",
+              "value": 0,
+              "error_html": "You should not use the sort_string function in your solution."
+            },
+            { "value": ["Seton", "notes", "tones"] }
+          ]
+        },
+        {
+          "name": "Sorting",
+          "slug": "sorting",
+          "description_html": "Can you sort the anagrams in alphabetical order?",
+          "function": "find_anagrams",
+          "args": [
+            "stone",
+            ["stone", "tones", "banana", "tons", "notes", "Seton"]
+          ],
+          "checks": [{ "value": ["Seton", "notes", "tones"] }]
+        }
+      ]
+    }
+  ]
+}

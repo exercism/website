@@ -6,8 +6,8 @@
         %span 💙
         = image_tag user_track.track.icon_url, alt: "Elixir"
 
-      %h1.text-h0.text-center.mb-12.md:mb-16 Introducing the #{cohort.name}
-      %p.text-p-2xlarge What happens when a few committed learners encourage and help each other on their learning journeys? We've invented the Exhort to find out! (The "Elixir cohort", see what we did there? 😉)
+      %h1.text-h0.text-center.mb-12.md:mb-16= t('.intro_cohort', cohort_name: cohort.name)
+      %p.text-p-2xlarge= t('.exhort_intro')
 
   %article
     %section.mentoring-section.pt-40.md:pt-56.mb-16.md:mb-48
@@ -15,24 +15,24 @@
         .content.flex.flex-col
           %h2.text-h4.mb-16.flex.items-center
             = graphical_icon "mentoring-gradient"
-            .text-gradient.ml-24 Tell me more!
+            .text-gradient.ml-24= t('.tell_me_more')
           %h3.text-h1
-            %span What is the Exhort?
+            %span= t('.what_is_exhort')
           %hr.c-divider.my-24
           %p.text-p-xlarge.mb-16
-            The Exhort is simple. We'll give you and a bunch of other learners a space to learn together, add in some of our best mentors and Exercism experts, and support you as you work together through the Exercism Elixir syllabus over 30 days.
+            = t('.exhort_description')
           %ul.text-p-xlarge.mb-16.list-disc.pl-20
-            %li.mb-6 100% free
-            %li.mb-6 Starts August 8th. Lasts for 30 days.
-            %li.mb-6 Work through the track in your own time
-            %li.mb-6 Pair with each other or work as individuals
-            %li Commit to sharing your journey, and supporting others
+            %li.mb-6= t('.free_access')
+            %li.mb-6= t('.start_date')
+            %li.mb-6= t('.own_time')
+            %li.mb-6= t('.pair_or_individual')
+            %li= t('.commit_sharing')
 
           %p.text-p-xlarge.mb-32
-            %strong Notes: Some programming experience is required (if you can write a "Hello World" in any language, you're good enough).
+            %strong= t('.notes_programming_experience')
 
           = link_to "#register", class: 'btn-primary btn-m self-start' do
-            Sign up below!
+            = t('.sign_up_below')
             = graphical_icon "chevron-down"
 
         %section.video-section.flex-shrink-0.mb-32.lg:mb-0
@@ -42,27 +42,21 @@
       .lg-container.flex.flex-col.items-center
         %h2.text-h4.mb-16.flex.items-center
           = graphical_icon "concepts"
-          .text-gradient.ml-24 Gain fluency in Elixir
+          .text-gradient.ml-24= t('.gain_fluency_elixir')
 
-        %h3.text-h1 Here's a taste of what you'll learn!
+        %h3.text-h1= t('.taste_of_what_youll_learn')
 
         %hr.c-divider.my-24
         %p.text-p-xlarge.mb-16.text-center
-          The Elixir track on Exercism has
-          %em #{user_track.num_concepts} concepts
-          to learn, along with
-          %em #{user_track.num_exercises} coding exercises
-          for you to complete. It’s a great way to pick up Elixir specific concepts and ways of working.
+          = t('.elixir_track_description', num_concepts: user_track.num_concepts, num_exercises: user_track.num_exercises)
 
         %p.text-p-xlarge.mb-32.text-center
           %strong
-            And better still, get mentoring from senior Elixir developers to discover your knowledge gaps and build a deep understanding of the language.
+            = t('.mentoring_benefit_elixir')
 
         = link_to track_path('elixir'), class: 'btn-enhanced btn-m mb-48' do
-          Explore the Elixir track
+          = t('.explore_elixir_track')
           = graphical_icon "arrow-right"
 
         = link_to track_concepts_path('elixir'), class: "concepts-map" do
           = image_tag "screenshots/elixir-concepts.png"
-
-

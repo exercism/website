@@ -1,0 +1,70 @@
+body.namespace-bootcamp.controller-levels.action-index {
+    @apply bg-grad-basic;
+}
+
+#page-bootcamp-levels {
+    header {
+        @apply mb-20;
+
+        .details {
+            @apply flex flex-col items-start;
+            .status {
+                @apply border-1 rounded-100;
+                @apply font-semibold leading-170;
+                @apply px-12 py-4;
+                @apply whitespace-nowrap;
+                &.completed {
+                    @apply bg-green-100 text-green-700 border-green-400;
+                }
+                &.in-progress {
+                    @apply bg-blue-100 text-blue-700 border-blue-400;
+                }
+            }
+            h1 {
+                @apply text-[39px] leading-140;
+                @apply font-bold;
+            }
+            p {
+                @apply text-18 leading-140;
+                @apply max-w-[880px];
+            }
+        }
+    }
+    .level {
+        @apply block border-1 border-borderColor5;
+        @apply py-12 px-16 rounded-8;
+        @apply shadow-base;
+        @apply flex items-start gap-16;
+
+        .number {
+            @apply rounded-circle text-[24px] leading-140;
+            @apply grid place-items-center flex-shrink-0;
+            @apply border-3 border-purple;
+            @apply text-purple font-bold;
+            @apply w-[48px] h-[48px];
+        }
+        h2 {
+            @apply text-20 leading-150 mr-8;
+        }
+        p {
+            @apply text-16 leading-150;
+        }
+        .completed-icon {
+            @apply w-[24px] h-[24px];
+            @apply ml-auto;
+            @apply hidden;
+        }
+        &.completed {
+            @apply border-2;
+            @apply bg-veryLightGreen2 border-darkSuccessGreen;
+            .completed-icon {
+                @apply block;
+            }
+        }
+    }
+    .locked-level {
+        @apply block border-1 border-borderColor5 rounded-8 bg-gray-300;
+        @apply opacity-[0.5];
+        @apply h-[100px];
+    }
+}

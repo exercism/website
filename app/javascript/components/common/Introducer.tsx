@@ -29,8 +29,8 @@ export default function Introducer({
     mutate: mutation,
     status,
     error,
-  } = useMutation(
-    async () => {
+  } = useMutation({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',
@@ -39,21 +39,19 @@ export default function Introducer({
 
       return fetch
     },
-    {
-      onSuccess: () => {
-        if (
-          ref.current &&
-          ref.current.parentElement &&
-          ref.current.parentElement.classList.contains(
-            'c-react-wrapper-common-introducer'
-          )
-        ) {
-          ref.current.parentElement.classList.add('hidden')
-        }
-        setHidden(true)
-      },
-    }
-  )
+    onSuccess: () => {
+      if (
+        ref.current &&
+        ref.current.parentElement &&
+        ref.current.parentElement.classList.contains(
+          'c-react-wrapper-common-introducer'
+        )
+      ) {
+        ref.current.parentElement.classList.add('hidden')
+      }
+      setHidden(true)
+    },
+  })
 
   const classNames = ['c-introducer', `--${size}`, hidden ? 'hidden' : '']
     .filter((className) => className.length > 0)

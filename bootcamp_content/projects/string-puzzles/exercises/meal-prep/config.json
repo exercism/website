@@ -1,0 +1,76 @@
+{
+  "title": "Meal Prep",
+  "description": "Work out what you need to buy for a meal",
+  "level": 6,
+  "idx": 2,
+  "tests_type": "io",
+  "stdlib_functions": ["push"],
+  "interpreter_options": {
+    "max_total_loop_iterations": 10000,
+    "max_repeat_until_game_over_iterations": 10000
+  },
+  "tasks": [
+    {
+      "name": "Standard Tasks",
+      "tests": [
+        {
+          "slug": "empty-fridge",
+          "description_html": "Today is a simple pasta salad",
+          "name": "Empty fridge",
+          "function": "shopping_list",
+          "args": [[], ["peas", "tomatoes", "garlic", "basil", "olives"]],
+          "checks": [
+            {
+              "value": ["peas", "tomatoes", "garlic", "basil", "olives"]
+            }
+          ]
+        },
+        {
+          "slug": "you-have-everything",
+          "description_html": "Today we're going mexican",
+          "name": "You have everything",
+          "function": "shopping_list",
+          "args": [
+            ["salsa", "guac", "chillis", "spring greens", "cilantro"],
+            ["salsa", "guac", "chillis", "spring greens", "cilantro"]
+          ],
+          "checks": [
+            {
+              "value": []
+            }
+          ]
+        },
+        {
+          "slug": "one-thing",
+          "description_html": "A fresh Japanese Miso soup",
+          "name": "One thing",
+          "function": "shopping_list",
+          "args": [
+            ["miso", "seaweed", "spring onions"],
+            ["tofu", "miso", "seaweed", "spring onions"]
+          ],
+          "checks": [
+            {
+              "value": ["tofu"]
+            }
+          ]
+        },
+        {
+          "slug": "few-things",
+          "description_html": "It's falafel wrap day!",
+          "name": "A few things",
+          "function": "shopping_list",
+          "args": [
+            ["chilis", "pickles", "tahini"],
+            ["chilis", "cucumber", "pickles", "tahini", "hummus"]
+          ],
+          "checks": [
+            {
+              "value": ["cucumber", "hummus"]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

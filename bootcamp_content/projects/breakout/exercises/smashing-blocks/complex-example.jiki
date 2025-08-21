@@ -1,0 +1,93 @@
+set ball to new Ball()
+
+set blocks to []
+set y to 31
+repeat 5 times indexed by x do 
+  change blocks to push(blocks, new Block(8 + ((x - 1) * 17), y))
+end
+  
+function change_direction with ball do
+  if ball.cx - 3 <= 0 do
+    change ball.x_velocity to 1
+  end
+  if ball.cx + 3 >= 100 do
+    change ball.x_velocity to -1
+  end
+  if ball.cy - 3 <= 0 do
+    change ball.y_velocity to 1
+  end
+  if ball.cy + 3 >= 100 do
+    change ball.y_velocity to -1
+  end
+end
+
+function handle_collision with ball, blocks do
+  set ball_top to ball.cy - 3
+  set ball_bottom to ball.cy + 3
+  set ball_left to ball.cx - 3
+  set ball_right to ball.cx + 3
+  
+  for each block in blocks do
+    if block.smashed do
+      next
+    end
+    if not ball_hozizontally_aligned_to_block(block, ball.cx) do
+      next
+    end
+    if ball_top == block.top + 7 do
+      change ball.y_velocity to 1
+      change block.smashed to true
+      return
+    end
+    if ball_bottom == block.top do
+      change ball.y_velocity to -1
+      change block.smashed to true
+      return
+    end
+  end
+
+  check_left_block(ball, blocks, ball_right, ball.cy)
+  check_right_block(ball, blocks, ball_left, ball.cy)
+end
+
+function ball_hozizontally_aligned_to_block with block, ball_cx  do
+  return ball_cx >= block.left and ball_cx <= block.left + 14
+end
+
+function ball_vertically_aligned_to_block with block, ball_cy  do
+  return ball_cy <= block.top + 7 and ball_cy >= block.top
+end
+
+function check_left_block with ball, blocks, ball_right, ball_cy do
+  set block to blocks[1]
+  if not ball_vertically_aligned_to_block(block, ball_cy) do
+    return
+  end
+  
+  if ball_right != block.left do
+    return
+  end
+
+  change block.smashed to true
+  change ball.x_velocity to -1
+end
+
+function check_right_block with ball, blocks, ball_left, ball_cy do
+  set block to blocks[5]
+  if not ball_vertically_aligned_to_block(block, ball_cy) do
+    return
+  end
+  
+  if ball_left != block.left + 14 do
+    return
+  end
+
+  change block.smashed to true
+  change ball.x_velocity to 1
+end
+
+repeat 520 times do
+  move_ball(ball)
+  change_direction(ball)
+  handle_collision(ball, blocks)
+end

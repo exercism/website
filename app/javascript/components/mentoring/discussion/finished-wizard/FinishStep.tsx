@@ -1,6 +1,7 @@
 import React from 'react'
 import { GraphicalIcon } from '../../../common/GraphicalIcon'
 import { Student } from '../../../types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const FinishStep = ({
   student,
@@ -9,14 +10,29 @@ export const FinishStep = ({
   student: Student
   onReset: () => void
 }): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/mentoring/discussion/finished-wizard'
+  )
   return (
     <div>
       {student.isFavorited ? (
-        <p>{student.handle} is one of your favorites.</p>
+        <p>
+          {t('finishStep.isOneOfYourFavorites', {
+            studentHandle: student.handle,
+          })}
+        </p>
       ) : student.isBlocked ? (
-        <p>You will not see future mentor requests from {student.handle}.</p>
+        <p>
+          {t('finishStep.willNotSeeFutureRequests', {
+            studentHandle: student.handle,
+          })}
+        </p>
       ) : (
-        <p>Thanks for mentoring {student.handle}.</p>
+        <p>
+          {t('finishStep.thanksForMentoring', {
+            studentHandle: student.handle,
+          })}
+        </p>
       )}
       <button
         className="btn-link-legacy"
@@ -24,7 +40,7 @@ export const FinishStep = ({
         onClick={() => onReset()}
       >
         <GraphicalIcon icon="reset" />
-        <span>Change preferences</span>
+        <span>{t('finishStep.changePreferences')}</span>
       </button>
     </div>
   )

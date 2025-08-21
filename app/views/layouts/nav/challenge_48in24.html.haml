@@ -1,12 +1,12 @@
 .text-center.flex.flex-col.items-center.items-stretch.pt-32.px-24
-  %h2.text-h4.mb-8 The #48in24 Challenge
+  %h2.text-h3.mb-8= t('.title')
   %p.text-p-base.font-semibold.mb-8
-    Try out a different programming challenge each week during 2024, curated and guided by us!
+    = t('.subtitle')
   %p.text-p-base.mb-16
-    Build your programming skills one week at a time.
-    Join our community as we explore a different exercise each week, digging into how it can be solved with different languages and paradigms.
+    = t('.description_p1')
+    = t('.description_p2')
 
-  = link_to "Explore #48in24", challenge_path("48in24"), class: 'btn-primary btn-s mb-12'
+  = link_to t('.explore_button'), challenge_path("48in24"), class: 'btn-primary btn-s mb-12'
 
   %p.text-p-small.mb-8
-    For each week we've chosen a different exercise to feature, with approaches, walkthroughs, videos, and more.
+    = t('.feature_info')

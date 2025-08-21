@@ -1,0 +1,85 @@
+function draw_weather with description do
+  draw_sky()
+  
+  if description == "sunny" do
+    draw_sun("large")
+    return
+  end
+
+  set elements to description_to_elements(description)
+  for each element in elements do
+    if element == "cloud" do
+      draw_cloud()
+    else if element == "sun" do
+      draw_sun("small")
+    else if element == "rain" do
+      draw_rain()
+    else if element == "snow" do
+      draw_snow()
+    end
+  end
+end
+
+function draw_sky do
+  fill_color_hex("#ADD8E6") 
+  rectangle(0, 0, 100, 100)
+end
+
+function draw_sun with size do
+  fill_color_hex("#ffed06")
+  if size is "large" do
+    circle(50,50,25)
+  else do
+    circle(75, 30, 15)
+  end
+end
+
+function draw_cloud do
+  fill_color_hex("#FFFFFF")
+  rectangle(25, 50, 50, 10)
+  circle(25, 50, 10) 
+  circle(40, 40, 15) 
+  circle(55, 40, 20)
+  circle(75, 50, 10) 
+end
+
+function draw_rain do
+  fill_color_hex("#56AEFF")
+  ellipse(30, 70, 3, 5) 
+  ellipse(50, 70, 3, 5)
+  ellipse(70, 70, 3, 5) 
+  ellipse(40, 80, 3, 5) 
+  ellipse(60, 80, 3, 5)
+end
+
+function draw_snow do
+  fill_color_hex("#56AEFF")
+  circle(30, 70, 5) 
+  circle(50, 70, 5)
+  circle(70, 70, 5) 
+  circle(40, 80, 5) 
+  circle(60, 80, 5)
+end
+
+//
+//
+// Your code from the part-1
+//
+//
+function description_to_elements with description do
+  if description == "sunny" do
+    return ["sun"]
+  else if description == "dull" do
+    return ["cloud"]
+  else if description == "miserable" do
+    return ["cloud", "rain"]
+  else if description == "hopeful" do
+    return ["sun", "cloud"]
+  else if description == "rainbow-territory" do
+    return ["sun", "cloud", "rain"]
+  else if description == "exciting" do
+    return ["cloud", "snow"]
+  else if description == "snowboarding-time" do
+    return ["sun", "cloud", "snow"]
+  end
+end

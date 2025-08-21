@@ -77,7 +77,7 @@
         }
     }
     & .available {
-        @apply text-textColor1 font-semibold whitespace-nowrap;
+        @apply text-textColor1 font-semibold;
         & .icon {
             @apply shadow-none;
         }

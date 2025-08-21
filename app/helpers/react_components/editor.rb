@@ -52,6 +52,7 @@ module ReactComponents
         request:,
         mentoring_status: solution.mentoring_status,
         track_objectives: user_track&.objectives.to_s,
+        has_available_mentoring_slot: user_track&.has_available_mentoring_slot?,
         links: {
           run_tests: Exercism::Routes.api_solution_submissions_url(solution.uuid),
           back: Exercism::Routes.track_exercise_path(track, exercise),
@@ -74,7 +75,8 @@ module ReactComponents
           icon_url: track.icon_url,
           median_wait_time: track.median_wait_time
         },
-        show_deep_dive_video: show_deep_dive_video?
+        show_deep_dive_video: show_deep_dive_video?,
+        local_test_runner:
       }
     end
 
@@ -99,6 +101,10 @@ module ReactComponents
       return false if solution.user.watched_video?(:youtube, exercise.deep_dive_youtube_id)
 
       true
+    end
+
+    def local_test_runner
+      Solution::GenerateTestRunConfig.(solution)
     end
 
     def mark_video_as_seen_endpoint

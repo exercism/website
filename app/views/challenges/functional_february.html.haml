@@ -5,26 +5,26 @@
         .mr-auto{ class: 'max-w-[860px]' }
           .text-purple.font-semibold.leading-150.flex.items-center.mb-4
             %span.emoji.mr-6 📆
-            Month 2 of #12in23
-          %h1.text-h1.mb-8 It's Functional February! ✨
+            = t('.month_header')
+          %h1.text-h1.mb-8= t('.title')
           %p.text-p-xlarge.mb-20
-            This month for #12in23 we're exploring functional languages. We've got interviews with language creators, lots of live streaming, exclusive functional swag and more.
+            = t('.intro_paragraph')
 
           .shadow-baseZ1.grid.grid-cols-2.gap-20.py-20.px-20.rounded-8.bg-white
             .flex-shrink
-              %h2.text-h4.mb-2 Start by watching our Functional February overview video  👉
+              %h2.text-h4.mb-2= t('.overview_video.heading')
               %p.text-p-base.mb-8
-                We've put together an introductory video to get you started. Its split into two parts. In part 1, we'll tell your what's in store for the month. In part 2 we'll take a brief look at what makes functional programming so interesting!
+                = t('.overview_video.description_part1')
               %p.text-p-base
-                Take a watch and leave a comment!
+                = t('.overview_video.description_part2')
 
             .rhs
               %div{ class: 'w-[100%] max-w-[500px]' }
                 = render ReactComponents::Common::YoutubePlayer.new('uIFGx1SDnWI', 'challenge#show')
 
-          %h2.text-h3.mt-32.mb-2 Learn and Earn (the badge)!
+          %h2.text-h3.mt-32.mb-2= t('.learn_earn.heading')
           %p.text-p-large.mb-20
-            Earn the Functional February badge for completing and publishing 5 exercises in one of the following languages.
+            = t('.learn_earn.description')
 
           - tracks = Track.where(slug: %w[elixir fsharp clojure erlang haskell ocaml scala sml gleam])
           .grid.grid-cols-9.gap-12.mb-32
@@ -37,64 +37,49 @@
                 .text-h6= track.title.gsub("Standard ML", "SML")
 
           %p.text-p-large.mb-12
-            You can solve any exercises in these tracks to get the badge, but we recommend the following as interesting challenges to approach from a functional perspective:
+            = t('.recommended_challenges.intro')
           %ul.text-p-large.mb-12
             %li.mb-2
               = image_tag "#{Exercism.config.website_icons_host}/exercises/hamming.svg", class: "w-[25px] inline"
-              %strong.font-semibold Hamming:
-              Explore higher order functions
+              %strong.font-semibold= t('.recommended_challenges.hamming_title')
+              = t('.recommended_challenges.hamming_description')
             %li.mb-2
               = image_tag "#{Exercism.config.website_icons_host}/exercises/collatz-conjecture.svg", class: "w-[25px] inline"
-              %strong.font-semibold Collatz Conjecture:
-              Try out recursion
+              %strong.font-semibold= t('.recommended_challenges.collatz_conjecture_title')
+              = t('.recommended_challenges.collatz_conjecture_description')
             %li.mb-2
               = image_tag "#{Exercism.config.website_icons_host}/exercises/robot-simulator.svg", class: "w-[25px] inline"
-              %strong.font-semibold Robot Simulator:
-              Explore immutability, records, pattern matching
+              %strong.font-semibold= t('.recommended_challenges.robot_simulator_title')
+              = t('.recommended_challenges.robot_simulator_description')
             %li.mb-2
               = image_tag "#{Exercism.config.website_icons_host}/exercises/yacht.svg", class: "w-[25px] inline"
-              %strong.font-semibold Yacht:
-              Practice pattern-matching and higher-order functions
+              %strong.font-semibold= t('.recommended_challenges.yacht_title')
+              = t('.recommended_challenges.yacht_description')
             %li.mb-2
               = image_tag "#{Exercism.config.website_icons_host}/exercises/protein-translation.svg", class: "w-[25px] inline"
-              %strong.font-semibold Protein Translation:
-              Practice higher-order functions and pattern matching further
+              %strong.font-semibold= t('.recommended_challenges.protein_translation_title')
+              = t('.recommended_challenges.protein_translation_description')
 
-          %h2.text-h3.mt-32.mb-4 Learn from others… 🎥
+          %h2.text-h3.mt-32.mb-4= t('.learn_from_others.heading')
           %p.text-p-large.mb-12
-            Throughout the month we'll have interviews — including Jose Valim, the creator of Elixir, and Louis Pilfold, the creator or Gleam — walkthroughs from Exercism track contributors, and live streams of the community solving exercises.
-            Subscribe to our
-            = link_to "Twitch Channel", 'https://twitch.tv/exercismlive', class: 'underline'
-            and
-            = link_to "YouTube Channel", 'https://www.youtube.com/exercism_videos?sub_confirmation=1', class: 'underline'
-            to not miss out!
-            There is a schedule at the top right of this page.
+            = t('.learn_from_others.description', twitch_channel: link_to(t('.learn_from_others.twitch_channel_link'), 'https://twitch.tv/exercismlive', class: 'underline'), youtube_channel: link_to(t('.learn_from_others.youtube_channel_link'), 'https://www.youtube.com/exercism_videos?sub_confirmation=1', class: 'underline'))
+            = t('.learn_from_others.schedule_note')
 
-          %h2.text-h3.mt-32.mb-4 Join the conversation… 💬
+          %h2.text-h3.mt-32.mb-4= t('.join_conversation.heading')
           %ul.text-p-large.list-disc.pl-16
             %li.mb-4
-              Help us compile the
-              = link_to "definitive list of great resources", "https://forum.exercism.org/t/the-definitive-guide-to-learning-functional-languages/3254"
-              for learning and mastering functional programming languages in our dedicated forum thread.
+              = t('.join_conversation.resource_list', resource_link: link_to(t('.join_conversation.resource_list_link'), "https://forum.exercism.org/t/the-definitive-guide-to-learning-functional-languages/3254"))
             %li.mb-4
-              Join in the conversation by using the
-              = link_to "#12in23 tag on our forums", "https://forum.exercism.org/tag/12in23"
-              or the
-              %strong.font-semibold #12in23
-              hashtag around social media!
+              = t('.join_conversation.hashtag_note', tag_link: link_to(t('.join_conversation.hashtag_link'), "https://forum.exercism.org/tag/12in23"), hashtag_bold: t('.join_conversation.hashtag_bold'))
             %li.mb-4
-              We have exclusive "functional" swag that will only be available this month coming soon. Keep an eye on the
-              = link_to "swag store", "https://swag.exercism.org"
-              for details!
+              = t('.join_conversation.swag_note')
 
         .ml-80{ class: 'max-w-[450px]' }
           .bg-unnamed15.rounded-8.py-16.px-24.mb-24.border-1.border-borderColor7
-            %h2.text-h4.mb-4 Upcoming Streaming Schedule
+            %h2.text-h4.mb-4= t('.streaming_schedule.heading')
             %p.text-p-base.mb-12
-              This schedule is regularly updated. All events will stream on our
-              = link_to "Twitch Channel", 'https://twitch.tv/exercismlive', class: 'underline'
-              \- subscribe so not to miss out!
-              %strong.font-semibold All times in UTC.
+              = t('.streaming_schedule.description', twitch_channel: link_to(t('.streaming_schedule.twitch_channel_link'), 'https://twitch.tv/exercismlive', class: 'underline'))
+              %strong.font-semibold= t('.streaming_schedule.all_times_utc')
 
             %ul.text-p-base.list-disc.pl-16
               - StreamingEvent.next_5.each do |event|
@@ -105,38 +90,37 @@
 
 
           .bg-unnamed15.rounded-8.py-16.px-24.mb-24.border-1.border-borderColor7
-            %h2.text-h4.mb-4 How does #12in23 work?
+            %h2.text-h4.mb-4= t('.how_it_works.heading')
             %p.text-p-base.mb-12
-              Each month has a different theme and featured languages. Solve exercises in a featured language during that month. Check out our two introductory videos for more details!
+              = t('.how_it_works.description')
             .grid.grid-cols-2.gap-12
               = link_to "https://youtu.be/Svzev-9shKs", class: 'bg-white p-8 shadow-smZ1 rounded-5 relative' do
                 = graphical_icon "video-play", css_class: '!absolute top-[40px] w-[30px] left-[50%] ml-[-15px]', style: "filter: var(--white-filter) drop-shadow(0px 0px 6px black)"
                 = image_tag "https://assets.exercism.org/images/thumbnails/yt-introducing-12in23.jpg", alt: 'A video thumbnail', class: 'mb-8 block block w-fill rounded-5'
-                .text-center.text-h6 Take the #12in23 Challenge
+                .text-center.text-h6= t('.how_it_works.video1_title')
 
               = link_to "https://youtu.be/2refhxXqePI", class: 'bg-white p-8 shadow-smZ1 rounded-5 relative' do
                 = graphical_icon "video-play", css_class: '!absolute top-[40px] w-[30px] left-[50%] ml-[-15px]', style: "filter: var(--white-filter) drop-shadow(0px 0px 6px black)"
                 = image_tag "https://assets.exercism.org/images/thumbnails/yt-official-12in23-calendar.jpg", alt: 'A video thumbnail', class: 'mb-8 block w-fill rounded-5'
-                .text-center.text-h6 The Official #12in23 Calendar
+                .text-center.text-h6= t('.how_it_works.video2_title')
 
             %p.text-p-small.text-center.mt-20.bg-veryLightBlue.rounded-8.py-8.px-12.font-medium
-              You can track your progress at the bottom of the page.
+              = t('.how_it_works.track_progress_note')
 
           .bg-unnamed15.rounded-8.py-16.px-24.border-1.border-borderColor7
-            %h2.text-h4.mb-4 Enjoying #12in23? Please donate 🙏
+            %h2.text-h4.mb-4= t('.donate.heading')
             %p.text-p-base.mb-12
-              We keep Exercism free so that anyone can use it. But we rely on the generosity of people that could afford it to make that possible. If you're enjoying #12in23 and are financially able, please consider donating to keep Exercism going!
-            = link_to "Donate now", donate_path, class: 'btn btn-primary'
+              = t('.donate.description')
+            = link_to t('.donate.button'), donate_path, class: 'btn btn-primary'
 
   %article
     .md-container
       .flex.text-center.flex-col.items-center
-        %h1.text-h1.mb-16 Your #12in23 Progress
+        %h1.text-h1.mb-16= t('.progress.heading')
         %p.text-p-xlarge
-          Below you'll see a list of all the languages you've used during 2023.
-          Aim to complete 12 languages by the end of the year!
+          = t('.progress.description_part1')
         %p.text-p-large.cta
-          Submit 5 exercises (not including "Hello World") in a track to tick off that language!
+          = t('.progress.description_part2')
 
       .grid.grid-cols-4.gap-32.mx-auto
         - @track_counts.each do |track_id, count|
@@ -145,12 +129,12 @@
             = image_tag track.icon_url, alt: '', class: "c-icon c-track-icon h-[48px] w-[48px] mb-8"
             .text-h4.mb-20= track.title
             - if count >= 5
-              = icon "completed-check-circle", "Completed", width: 24, height: 24, css_class: "!absolute top-[-12px] right-[-12px]"
+              = icon "completed-check-circle", t('.progress.completed_badge'), width: 24, height: 24, css_class: "!absolute top-[-12px] right-[-12px]"
               .progress
-              .count #{count} exercises completed
+              .count= t('.progress.exercises_completed', count: count)
             - else
               %progress.progress-bar{ value: count, max: 5 }
-              .count #{count} / 5 exercises completed
+              .count= t('.progress.exercises_count', count: count)
 
         - num_placeholders = 12 - @track_counts.size
         - if num_placeholders.positive?

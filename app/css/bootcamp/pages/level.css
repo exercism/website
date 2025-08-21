@@ -1,0 +1,45 @@
+body.namespace-bootcamp.controller-levels.action-show {
+    @apply bg-grad-basic;
+}
+
+#page-bootcamp-level {
+    header {
+        @apply pb-16;
+
+        .details {
+            @apply flex flex-col items-start;
+            .status {
+                @apply border-1 rounded-100;
+                @apply font-semibold leading-170;
+                @apply px-12 py-4;
+                @apply whitespace-nowrap;
+                &.completed {
+                    @apply bg-green-100 text-green-700 border-green-400;
+                }
+                &.in-progress {
+                    @apply bg-blue-100 text-blue-700 border-blue-400;
+                }
+            }
+        }
+        /* img {
+      @apply w-[128px] h-[128px];
+    } */
+        h1 {
+            @apply text-[39px] leading-140;
+            @apply font-bold;
+        }
+    }
+    .c-youtube-container {
+        @apply mb-20;
+        iframe {
+            @apply w-full;
+        }
+    }
+    .lhs {
+        /* @apply flex-grow; */
+        @apply max-w-[800px];
+    }
+    .rhs {
+        @apply flex-grow w-full max-w-[400px] ml-auto;
+    }
+}

@@ -1,0 +1,110 @@
+{
+  "title": "Poetry Club Door Policy",
+  "description": "Learn about strings using poems to get into the poetry club.",
+  "language": "javascript",
+  "level": 12,
+  "idx": 3,
+  "tests_type": "io",
+  "tasks": [
+    {
+      "name": "Front door response",
+      "tests": [
+        {
+          "name": "First characters from SUMMER poem",
+          "slug": "front-door-summer",
+          "description_html": "Extract first letters from each line of the poem SUMMER.",
+          "function": "frontDoorResponse",
+          "args": ["Sunshine warming my toes,"],
+          "checks": [{ "value": "S" }]
+        },
+        {
+          "name": "First characters from SOPHIA poem",
+          "slug": "front-door-sophia",
+          "description_html": "Extract first letters from each line of the poem SOPHIA.",
+          "function": "frontDoorResponse",
+          "args": ["Serene, calming quality"],
+          "checks": [{ "value": "S" }]
+        },
+        {
+          "name": "First characters from CODE poem",
+          "slug": "front-door-code",
+          "description_html": "Extract first letters from each line of the poem CODE.",
+          "function": "frontDoorResponse",
+          "args": ["Compilers intensily bestow"],
+          "checks": [{ "value": "C" }]
+        }
+      ]
+    },
+    {
+      "name": "Front door password",
+      "tests": [
+        {
+          "name": "Password capitalized: SUMMER",
+          "slug": "front-password-summer",
+          "description_html": "Properly capitalize the password SUMMER.",
+          "function": "frontDoorPassword",
+          "args": ["SUMMER"],
+          "checks": [{ "value": "Summer" }]
+        },
+        {
+          "name": "Password capitalized: sophia",
+          "slug": "front-password-sophia",
+          "description_html": "Properly capitalize the password sophia.",
+          "function": "frontDoorPassword",
+          "args": ["sophia"],
+          "checks": [{ "value": "Sophia" }]
+        },
+        {
+          "name": "Password capitalized: Code",
+          "slug": "front-password-code",
+          "description_html": "Properly capitalize the password Code.",
+          "function": "frontDoorPassword",
+          "args": ["Code"],
+          "checks": [{ "value": "Code" }]
+        }
+      ]
+    },
+    {
+      "name": "Back door response",
+      "tests": [
+        {
+          "name": "Last letters from CODE_WORK poem",
+          "slug": "back-door-code-work",
+          "description_html": "Extract last meaningful letters from each line of CODE_WORK.",
+          "function": "backDoorResponse",
+          "args": ["Compilers intensily bestow"],
+          "checks": [{ "value": "w" }]
+        },
+        {
+          "name": "Last letters ignoring whitespace in SHIRE_HORSE",
+          "slug": "back-door-shire-horse",
+          "description_html": "Extract last meaningful letters ignoring whitespace in SHIRE_HORSE.",
+          "function": "backDoorResponse",
+          "args": ["Stands so high   "],
+          "checks": [{ "value": "h" }]
+        }
+      ]
+    },
+    {
+      "name": "Back door password",
+      "tests": [
+        {
+          "name": "Password 'work' becomes 'Work, please'",
+          "slug": "back-password-work",
+          "description_html": "Format the word 'work' properly for the back door.",
+          "function": "backDoorPassword",
+          "args": ["work"],
+          "checks": [{ "value": "Work, please" }]
+        },
+        {
+          "name": "Password 'horse' becomes 'Horse, please'",
+          "slug": "back-password-horse",
+          "description_html": "Format the word 'horse' properly for the back door.",
+          "function": "backDoorPassword",
+          "args": ["horse"],
+          "checks": [{ "value": "Horse, please" }]
+        }
+      ]
+    }
+  ]
+}

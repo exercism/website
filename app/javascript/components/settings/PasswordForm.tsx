@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react'
 import { FormButton } from '@/components/common/FormButton'
 import { useSettingsMutation } from './useSettingsMutation'
 import { FormMessage } from './FormMessage'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type Links = {
   update: string
@@ -23,6 +24,7 @@ export default function PasswordForm({ links }: { links: Links }): JSX.Element {
     password: '',
     passwordConfirmation: '',
   })
+  const { t } = useAppTranslation('components/settings/PasswordForm.tsx')
   const { mutation, status, error } = useSettingsMutation<RequestBody>({
     endpoint: links.update,
     method: 'PATCH',
@@ -47,11 +49,11 @@ export default function PasswordForm({ links }: { links: Links }): JSX.Element {
 
   return (
     <form data-turbo="false" onSubmit={handleSubmit}>
-      <h2>Change your password</h2>
+      <h2>{t('changeYourPassword')}</h2>
       <hr className="c-divider --small" />
       <div className="field">
         <label htmlFor="user_sudo_password" className="label">
-          Current password
+          {t('currentPassword')}
         </label>
         <input
           type="password"
@@ -63,7 +65,7 @@ export default function PasswordForm({ links }: { links: Links }): JSX.Element {
       </div>
       <div className="field">
         <label htmlFor="user_password" className="label">
-          New password
+          {t('newPassword')}
         </label>
         <input
           type="password"
@@ -75,7 +77,7 @@ export default function PasswordForm({ links }: { links: Links }): JSX.Element {
       </div>
       <div className="field">
         <label htmlFor="user_password_confirmation" className="label">
-          Confirm new password
+          {t('confirmNewPassword')}
         </label>
         <input
           type="password"
@@ -87,13 +89,13 @@ export default function PasswordForm({ links }: { links: Links }): JSX.Element {
           required
         />
         <p className="info">
-          <strong>Warning: Changing your password will sign you out.</strong>{' '}
-          You can then sign back in with your new password.
+          <strong>{t('warningChangingPassword')}</strong>{' '}
+          {t('youCanThenSignBackIn')}
         </p>
       </div>
       <div className="form-footer">
         <FormButton status={status} className="btn-primary btn-m">
-          Change password
+          {t('changePassword')}
         </FormButton>
         <FormMessage
           status={status}

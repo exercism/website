@@ -1,0 +1,99 @@
+{
+  "title": "Hamming",
+  "description": "Calculate the Hamming distance between two DNA strands of equal length.",
+  "level": 5,
+  "idx": 7,
+  "tests_type": "io",
+  "tasks": [
+    {
+      "name": "Calculate the Hamming Distances",
+      "tests": [
+        {
+          "slug": "hamming-empty-strands",
+          "description_html": "Empty strands have a Hamming distance of 0.",
+          "name": "Empty strands",
+          "function": "hamming_distance",
+          "args": ["", ""],
+          "checks": [
+            {
+              "value": 0
+            }
+          ]
+        },
+        {
+          "slug": "hamming-single-letter-identical",
+          "description_html": "Single-letter identical strands have a Hamming distance of 0.",
+          "name": "Single letter identical strands",
+          "function": "hamming_distance",
+          "args": ["A", "A"],
+          "checks": [
+            {
+              "value": 0
+            }
+          ]
+        },
+        {
+          "slug": "hamming-long-identical-strands",
+          "description_html": "Long identical strands have a Hamming distance of 0.",
+          "name": "Long identical strands",
+          "function": "hamming_distance",
+          "args": ["GGACTGAAATCTG", "GGACTGAAATCTG"],
+          "checks": [
+            {
+              "value": 0
+            }
+          ]
+        },
+        {
+          "slug": "hamming-single-letter-different",
+          "description_html": "Single-letter different strands have a Hamming distance of 1.",
+          "name": "Single letter different strands",
+          "function": "hamming_distance",
+          "args": ["G", "T"],
+          "checks": [
+            {
+              "value": 1
+            }
+          ]
+        },
+        {
+          "slug": "hamming-long-different-strands",
+          "description_html": "Long strands with differences have a calculated Hamming distance.",
+          "name": "Long different strands",
+          "function": "hamming_distance",
+          "args": ["GGACGGATTCTG", "AGGACGGATTCT"],
+          "checks": [
+            {
+              "value": 9
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Bonus Tasks",
+      "bonus": true,
+      "tests": [
+        {
+          "slug": "hamming-11-lines",
+          "description_html": "Solve the Hamming distance in 11 lines of code.",
+          "name": "11 lines of code",
+          "function": "hamming_distance",
+          "args": ["GGACGGATTCTG", "AGGACGGATTCT"],
+          "checks": [
+            {
+              "value": 9
+            },
+            {
+              "function": "numLinesOfCode()",
+              "matcher": "toBeLessThanOrEqual",
+              "value": 11,
+              "code_run": "We checked how many lines you used.",
+              "error_html": "You have more than 11 lines of code."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

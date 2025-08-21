@@ -1,0 +1,93 @@
+{
+  "title": "Railway Time",
+  "description": "Let your clock toggle switch between 12 and 24 hours",
+  "level": 10,
+  "idx": 2,
+  "tests_type": "io",
+  "stdlib_functions": ["concatenate"],
+  "tasks": [
+    {
+      "name": "Display times",
+      "tests": [
+        {
+          "slug": "morning-duodecimal",
+          "name": "Early morning - Duodecimal",
+          "description_html": "Display 6:35 in duodecimal time.",
+          "expression": "(new Clock(6, 35)).get_duodecimal_time()",
+          "code_run": "(new Clock(6, 35)).get_duodecimal_time()",
+          "checks": [
+            {
+              "value": "6:35am"
+            }
+          ]
+        },
+        {
+          "slug": "morning-railway",
+          "name": "Early morning - Railway",
+          "description_html": "Display 6:35 in railway time.",
+          "expression": "(new Clock(6, 35)).get_railway_time()",
+          "code_run": "(new Clock(6, 35)).get_railway_time()",
+          "checks": [
+            {
+              "value": "6:35"
+            }
+          ]
+        },
+        {
+          "slug": "afternoon-duodecimal",
+          "name": "Afternoon - Duodecimal",
+          "description_html": "Display 13:48 in duodecimal time.",
+          "expression": "(new Clock(13, 48)).get_duodecimal_time()",
+          "code_run": "(new Clock(13, 48)).get_duodecimal_time()",
+          "checks": [
+            {
+              "value": "1:48pm"
+            }
+          ]
+        },
+        {
+          "slug": "afternoon-railway",
+          "name": "Afternoon - Railway",
+          "description_html": "Display 13:48 in railway time.",
+          "expression": "(new Clock(13, 48)).get_railway_time()",
+          "code_run": "(new Clock(13, 48)).get_railway_time()",
+          "checks": [
+            {
+              "value": "13:48"
+            }
+          ]
+        },
+        {
+          "slug": "evening-duodecimal",
+          "name": "Evening - Duodecimal",
+          "description_html": "Display 19:35 in duodecimal time.",
+          "expression": "(new Clock(19, 35)).get_duodecimal_time()",
+          "code_run": "(new Clock(19, 35)).get_duodecimal_time()",
+          "checks": [
+            {
+              "value": "7:35pm"
+            }
+          ]
+        },
+        {
+          "slug": "evening-railway",
+          "name": "Evening - Railway",
+          "skip_ci": true,
+          "description_html": "Display 19:35 in railway time.",
+          "expression": "(new Clock(19, 35)).get_railway_time()",
+          "checks": [
+            {
+              "value": "19:35"
+            },
+            {
+              "function": "numStatements()",
+              "code_run": "We checked how many instructions your code gives to Jiki. We just expected 1 (\"make a class\"), but found other instructions outside the class too.",
+              "value": 1,
+              "error_html": "Your solution should only have the Clock class."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

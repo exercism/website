@@ -8,6 +8,7 @@ import { ErrorBoundary, ErrorMessage } from '../../../ErrorBoundary'
 import { Track } from '../../../types'
 import { UserTrack } from '../LeaveTrackModal'
 import { redirectTo } from '../../../../utils/redirect-to'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to leave track')
 
@@ -20,12 +21,13 @@ export const LeaveTrackForm = ({
   track: Track
   onCancel: () => void
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/dropdowns/track-menu')
   const {
     mutate: mutation,
     status,
     error,
-  } = useMutation<UserTrack | undefined>(
-    async () => {
+  } = useMutation<UserTrack | undefined>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',
@@ -39,16 +41,14 @@ export const LeaveTrackForm = ({
         return typecheck<UserTrack>(json, 'userTrack')
       })
     },
-    {
-      onSuccess: (track) => {
-        if (!track) {
-          return
-        }
+    onSuccess: (track) => {
+      if (!track) {
+        return
+      }
 
-        redirectTo(track.links.self)
-      },
-    }
-  )
+      redirectTo(track.links.self)
+    },
+  })
   const handleCancel = useCallback(() => {
     onCancel()
   }, [onCancel])
@@ -66,22 +66,38 @@ export const LeaveTrackForm = ({
     <form onSubmit={handleSubmit}>
       <div className="info">
         <p>
-          <strong>When you leave the track, you still keep:</strong>
+          <strong>{t('leaveTrackModal.leaveTrackForm.strongText')}</strong>
         </p>
         <ul>
-          <li>All solutions you have submitted in {track.title}</li>
-          <li>All mentoring you have received in {track.title}</li>
+          <li>
+            {t('leaveTrackModal.leaveTrackForm.listItem1', {
+              trackTitle: track.title,
+            })}
+          </li>
+          <li>
+            {t('leaveTrackModal.leaveTrackForm.listItem2', {
+              trackTitle: track.title,
+            })}
+          </li>
         </ul>
         <p>
-          <strong>However, we will:</strong>
+          <strong>{t('leaveTrackModal.leaveTrackForm.howeverWeWill')}</strong>
         </p>
         <ul>
-          <li>End all mentoring discussions in {track.title}</li>
-          <li>Remove {track.title} from your active tracks list</li>
+          <li>
+            {t('leaveTrackModal.leaveTrackForm.listItem3', {
+              trackTitle: track.title,
+            })}
+          </li>
+          <li>
+            {t('leaveTrackModal.leaveTrackForm.listItem4', {
+              trackTitle: track.title,
+            })}
+          </li>
         </ul>
         <div className="info-box">
           <Icon icon="info-circle" alt="Info" />
-          You’re free to join back at anytime and return to where you left off.
+          {t('leaveTrackModal.leaveTrackForm.infoBoxText')}
         </div>
       </div>
       <div className="btns">
@@ -90,10 +106,10 @@ export const LeaveTrackForm = ({
           status={status}
           className="btn-default btn-m"
         >
-          Cancel
+          {t('leaveTrackModal.leaveTrackForm.cancel')}
         </FormButton>
         <FormButton status={status} className="btn-primary btn-m">
-          Leave track
+          {t('leaveTrackModal.leaveTrackForm.leaveTrack')}
         </FormButton>
       </div>
       <ErrorBoundary>

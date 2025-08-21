@@ -3,51 +3,37 @@
     = render ViewComponents::SettingsNav.new(:integrations)
 
     %article
-      %h1 Integrations
-      %section.github-section.flex.flex-col.items-start
-        %h2{ class: "!mb-4" } GitHub
-        - if current_user.provider.present?
-          %p.text-16.leading-140
-            Your Exercism and GitHub accounts are linked. Any pull requests that are merged on GitHub should award you
-            = link_to doc_path(:using, "product/reputation"), class: 'external-link' do
-              reputation
-              = icon "external-link", "(opens in a new tab)"
-            on your Exercism account.
-        - else
-          %p.text-16.leading-140.mb-16
-            To be awarded
-            = link_to doc_path(:using, "product/reputation"), class: 'external-link' do
-              reputation
-              = icon "external-link", "(opens in a new tab)"
-            on Exercism when you submit pull requests on GitHub, please connect your accounts using the button below.
-          = button_to omniauth_authorize_path(:user, :github),
-            form_class: "github-btn",
-            class: "btn-enhanced btn-m",
-            method: :post,
-            data: { turbo: false } do
-            = graphical_icon 'external-site-github'
-            %span Connect with GitHub
+      %h1= t('.heading')
 
       %section.github-section.flex.flex-col.items-start
-        %h2{ class: "!mb-4" } Discord
-        - if current_user.discord_uid.present?
-          %p.text-16.leading-140.mb-16
-            Your Exercism and Discord accounts are linked.
-            You should receive the correct roles on Discord.
-            If you don't, please open an issue on #{link_to 'the forum', forum_redirect_url, class: 'text-linkColor font-semibold'}.
-          = button_to "Disconnect from Discord",
-            disconnect_discord_settings_path,
-            form_class: "discord-btn",
-            class: "btn-enhanced btn-m",
-            method: :delete,
-            data: { turbo: false }
+        %h2{ class: '!mb-4' }= t('.github.heading')
+        - if current_user.provider.present?
+          %p.text-16.leading-140
+            - reputation_link = capture do
+              = link_to doc_path(:using, "product/reputation"), class: 'external-link' do
+                = t('.github.reputation_link_text')
+                = icon "external-link", t('.github.external_link_aria_label')
+            = t('.github.linked_info_html', reputation_link: reputation_link).html_safe
         - else
           %p.text-16.leading-140.mb-16
-            To be assigned the correct roles on Discord, please connect your Exercism and Discord accounts.
-          = button_to omniauth_authorize_path(:user, :discord),
-            form_class: "discord-btn",
-            class: "btn-enhanced btn-m !bg-discordBlue !text-white",
-            method: :post,
-            data: { turbo: false } do
+            - reputation_link = capture do
+              = link_to doc_path(:using, "product/reputation"), class: 'external-link' do
+                = t('.github.reputation_link_text')
+                = icon "external-link", t('.github.external_link_aria_label')
+            = t('.github.unlinked_info_html', reputation_link: reputation_link).html_safe
+          = button_to omniauth_authorize_path(:user, :github), form_class: "github-btn", class: "btn-enhanced btn-m", method: :post, data: { turbo: false } do
+            = graphical_icon 'external-site-github'
+            %span= t('.github.connect_button')
+
+      %section.github-section.flex.flex-col.items-start
+        %h2{ class: '!mb-4' }= t('.discord.heading')
+        - if current_user.discord_uid.present?
+          %p.text-16.leading-140.mb-16
+            = t('.discord.linked_info_html', forum_link: link_to(t('.discord.forum_link_text'), forum_redirect_url, class: 'text-linkColor font-semibold')).html_safe
+          = button_to t('.discord.disconnect_button'), disconnect_discord_settings_path, form_class: "discord-btn", class: "btn-enhanced btn-m", method: :delete, data: { turbo: false }
+        - else
+          %p.text-16.leading-140.mb-16
+            = t('.discord.unlinked_info')
+          = button_to omniauth_authorize_path(:user, :discord), form_class: "discord-btn", class: "btn-enhanced btn-m !bg-discordBlue !text-white", method: :post, data: { turbo: false } do
             = graphical_icon 'external-site-discord', css_class: '!filter-none'
-            %span Connect with Discord
+            %span= t('.discord.connect_button')

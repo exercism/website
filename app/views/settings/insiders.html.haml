@@ -1,0 +1,16 @@
+#page-settings-preferences.page-settings
+  .lg-container
+    = render ViewComponents::SettingsNav.new(:insiders)
+
+    %article
+      %h1= t('.insiders.heading')
+
+      %section{ id: 'insider-benefits-form' }
+        = render ReactComponents::Settings::InsiderBenefitsForm.new
+
+      %section{ id: 'bootcamp-affiliate-coupon-form' }
+        = render ReactComponents::Settings::BootcampAffiliateCouponForm.new("settings")
+
+      - if current_user.lifetime_insider?
+        %section{ id: 'bootcamp-free-coupon-form' }
+          = render ReactComponents::Settings::BootcampFreeCouponForm.new

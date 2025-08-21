@@ -10,12 +10,4 @@ class User::IncrementVersionTest < ActiveSupport::TestCase
     assert_equal 5, random_user.version
     assert_equal 6, user.version
   end
-
-  test "defers avatar cloudfront invalidation" do
-    user = create :user
-
-    User::InvalidateAvatarInCloudfront.expects(:defer).with(user)
-
-    User::IncrementVersion.(user)
-  end
 end

@@ -1,11 +1,16 @@
 class PagesController < ApplicationController
   skip_before_action :authenticate_user!
+  protect_from_forgery except: :javascript_browser_test_runner_worker
+
+  before_action :cache_public_action!, only: %i[index]
 
   def index
     return redirect_to dashboard_path if user_signed_in?
 
+    @num_tracks = Track.num_active
+    return unless stale?(etag: @num_tracks)
+
     @tracks = Track.active.order(num_students: :desc).limit(12).to_a
-    @num_tracks = Track.active.count
 
     @showcase_exercises = [
       {
@@ -39,5 +44,25 @@ class PagesController < ApplicationController
 
   def supporter_gobridge
     @blog_posts = BlogPost.where(slug: 'exercism-is-the-official-go-mentoring-platform')
+  end
+
+  def ihid
+    expires_in 10, public: true unless user_signed_in?
+    stale = stale?(etag: "foo")
+    Rails.logger.unknown "|| iHiD: User: #{current_user&.id}, Stale: #{stale}, Time: #{Time.current.to_f}, IP: #{request.remote_ip}, Params: #{params.permit!.to_h}" # rubocop:disable Layout/LineLength
+    render json: { "Hello": "iHiD" } if stale
+  end
+
+  def javascript_browser_test_runner_worker
+    base_path = Rails.root.join('node_modules', '@exercism', 'javascript-browser-test-runner')
+    # extract version from the installed package.json file
+    pkg_path = base_path.join('package.json')
+    version = File.exist?(pkg_path) ? JSON.parse(File.read(pkg_path))['version'] : 'dev'
+
+    return unless stale?(etag: version)
+
+    file_path = base_path.join('output', 'javascript-browser-test-runner-worker.mjs')
+
+    render file: file_path, content_type: 'application/javascript'
   end
 end

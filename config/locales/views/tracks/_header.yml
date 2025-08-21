@@ -1,0 +1,12 @@
+en:
+  tracks:
+    header:
+      students:
+        one: student
+        other: students
+      contributors:
+        one: "%{count} contributor"
+        other: "%{count} contributors"
+      mentors:
+        one: "%{count} mentor"
+        other: "%{count} mentors"

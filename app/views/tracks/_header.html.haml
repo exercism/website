@@ -1,4 +1,4 @@
-= cache "track/#{track.id}/header/#{user_signed_in?}/#{external}/#{practice_mode}/#{course}/#{selected_tab}/#{track.updated_at.to_i}/#{Time.zone.today}/2" do
+= cache "track/#{track.id}/header/#{user_signed_in?}/#{external}/#{practice_mode}/#{course}/#{selected_tab}/#{track.updated_at.to_i}/#{Time.zone.today}/2", expires_in: 1.day do
   .lg-container.container
     .flex.items-center
       .flex-grow.w-100
@@ -11,7 +11,7 @@
               = graphical_icon("students")
               %span
                 = number_with_delimiter(track.num_students)
-                students
+                = t('.students', count: track.num_students)
             .tags.lg:hidden.mt-8= raw tags
 
         .tabs.overflow-x-auto{ data: { scrollable_container: "true" } }= raw tabs
@@ -22,5 +22,5 @@
             - track.top_contributors[0, 3].map do |author|
               .face= avatar(author)
           .stats
-            .contributors= pluralize(track.num_code_contributors, "contributor")
-            .mentors= pluralize(track.num_mentors, "mentor")
+            .contributors= t(".contributors", count: track.num_contributors)
+            .mentors= t(".mentors", count: track.num_mentors)

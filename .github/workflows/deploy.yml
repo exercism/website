@@ -32,6 +32,9 @@ env:
 on:
   push:
     branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: 0 */2 * * *
 
 jobs:
   deploy:
@@ -48,6 +51,9 @@ jobs:
       ###############
       - name: Checkout
         uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
+
+      - name: Authenticate with private NPM package
+        run: echo -e "//npm.pkg.github.com/:_authToken=${{ secrets.NPM_TOKEN }}\n@juliangarnierorg:registry=https://npm.pkg.github.com" > ~/.npmrc
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@e1e17a757e536f70e52b5a12b2e8d1d1c60e04ef
@@ -73,12 +79,15 @@ jobs:
           IMAGE_NAME: "${{ steps.login_to_ecr.outputs.registry}}/${{ env.ecr_repository_rails }}:${{ github.sha }}"
           DOCKERFILE: ${{ env.dockerfile_rails }}
           GEOIP_LICENSE_KEY: ${{ secrets.GEOIP_LICENSE_KEY }}
+          GEOIP_ACCOUNT_ID: ${{ secrets.GEOIP_ACCOUNT_ID }}
         run: |
           # Build a docker container and push it to ECR
           docker build -t $IMAGE_NAME -f $DOCKERFILE \
-            --build-arg GEOIP_LICENSE_KEY \
+            --build-arg GEOIP_LICENSE_KEY=$GEOIP_LICENSE_KEY \
+            --build-arg GEOIP_ACCOUNT_ID=$GEOIP_ACCOUNT_ID \
             --build-arg GEOIP_CACHE_BUSTER=$(date -d "`date +%Y%m01`" +%Y-%m-%d) \
             --build-arg BUNDLER_VERSION=$(awk '/BUNDLED WITH/ {getline;$1=$1;print}' Gemfile.lock) \
+            --build-arg NPM_TOKEN=${{ secrets.NPM_TOKEN }} \
             .
           docker push $IMAGE_NAME
 

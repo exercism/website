@@ -38,12 +38,12 @@ class API::Solutions::SubmissionAIHelpControllerTest < API::BaseTestCase
 
     post api_solution_submission_ai_help_path(solution.uuid, submission.uuid), headers: @headers, as: :json
 
-    assert_response 402
+    assert_response :payment_required
     expected = { error: {
       type: "too_many_requests",
       message: I18n.t('api.errors.too_many_requests'),
       usage_type: 'chatgpt',
-      usage: { "4.0": 10, "3.5": 100 }  # rubocop:disable Naming/VariableNumber
+      usage: { "4.0": 10, "3.5": 100 } # rubocop:disable Naming/VariableNumber
     } }
     actual = JSON.parse(response.body, symbolize_names: true)
     assert_equal expected, actual
@@ -60,7 +60,7 @@ class API::Solutions::SubmissionAIHelpControllerTest < API::BaseTestCase
 
     post api_solution_submission_ai_help_path(solution.uuid, submission.uuid), headers: @headers, as: :json
 
-    assert_response 202
+    assert_response :accepted
 
     sleep(0.1)
   end
@@ -75,6 +75,6 @@ class API::Solutions::SubmissionAIHelpControllerTest < API::BaseTestCase
 
     post api_solution_submission_ai_help_path(solution.uuid, submission.uuid), headers: @headers, as: :json
 
-    assert_response 200
+    assert_response :ok
   end
 end

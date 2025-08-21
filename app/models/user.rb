@@ -21,11 +21,15 @@ class User < ApplicationRecord
     :omniauthable, omniauth_providers: %i[github discord]
 
   has_many :auth_tokens, dependent: :destroy
+  has_one :github_solution_syncer, dependent: :destroy
 
   has_one :data, dependent: :destroy, class_name: "User::Data", autosave: true
+  has_one :bootcamp_data, dependent: :destroy, class_name: "User::BootcampData"
   has_one :profile, dependent: :destroy
   has_one :preferences, dependent: :destroy
   has_one :communication_preferences, dependent: :destroy
+
+  has_many :course_enrollments, dependent: :nullify
 
   has_many :user_tracks, dependent: :destroy
   has_many :tracks, through: :user_tracks
@@ -103,7 +107,11 @@ class User < ApplicationRecord
 
   has_many :solution_comments, dependent: :destroy, class_name: "Solution::Comment", inverse_of: :author
   has_many :solution_stars, dependent: :destroy, class_name: "Solution::Star"
+  has_many :starred_solutions, through: :solution_stars, source: :solution
   has_many :solution_tags, dependent: :destroy, class_name: "Solution::Tag"
+
+  has_many :viewed_community_solutions, class_name: "UserTrack::ViewedCommunitySolution", dependent: :destroy
+  has_many :viewed_exercise_approaches, class_name: "UserTrack::ViewedExerciseApproach", dependent: :destroy
 
   has_many :track_mentorships, dependent: :destroy
   has_many :mentored_tracks, through: :track_mentorships, source: :track
@@ -123,14 +131,16 @@ class User < ApplicationRecord
 
   has_many :cohort_memberships, dependent: :destroy
 
-  has_many :github_team_memberships,
-    class_name: "Github::TeamMember",
-    primary_key: :uid,
-    inverse_of: :user,
-    dependent: :destroy
+  has_many :github_team_memberships, class_name: "Github::TeamMember", dependent: :destroy
 
   has_many :challenges, dependent: :destroy
   has_many :watched_videos, class_name: "User::WatchedVideo", dependent: :destroy
+
+  has_many :bootcamp_solutions, dependent: :destroy, class_name: "Bootcamp::Solution"
+  has_many :bootcamp_user_projects, dependent: :destroy, class_name: "Bootcamp::UserProject"
+  has_many :bootcamp_projects, through: :bootcamp_user_projects, source: :project
+  has_many :bootcamp_drawings, dependent: :destroy, class_name: "Bootcamp::Drawing"
+  has_many :bootcamp_custom_functions, dependent: :destroy, class_name: "Bootcamp::CustomFunction"
 
   scope :random, -> { order('RAND()') }
 
@@ -200,6 +210,8 @@ class User < ApplicationRecord
 
   def to_param = handle
 
+  delegate :hide_website_adverts?, to: :preferences
+
   def pronoun_parts
     a = pronouns.to_s.split("/")
     a.size == 3 && a.exclude?('') ? a : nil
@@ -246,9 +258,7 @@ class User < ApplicationRecord
   def total_one_off_donations_in_dollars = total_donated_in_dollars - total_subscription_donations_in_dollars
 
   memoize
-  def total_donated_in_dollars
-    total_donated_in_cents / BigDecimal(100)
-  end
+  def total_donated_in_dollars = total_donated_in_cents / BigDecimal(100)
 
   def reputation_for_track(track)
     User::ReputationToken.where(
@@ -331,6 +341,11 @@ class User < ApplicationRecord
   def reverify_email!
     email_status_unverified!
     User::VerifyEmail.defer(self)
+  end
+
+  memoize
+  def bought_course?
+    course_enrollments.paid.exists?
   end
 
   memoize

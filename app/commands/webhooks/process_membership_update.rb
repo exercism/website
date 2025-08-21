@@ -1,7 +1,7 @@
 class Webhooks::ProcessMembershipUpdate
   include Mandate
 
-  initialize_with :action, :user_id, :team_name, :organization_name
+  initialize_with :action, :github_uid, :team_name, :organization_name
 
   def call
     return unless %(added removed).include?(action)
@@ -9,13 +9,19 @@ class Webhooks::ProcessMembershipUpdate
 
     case action
     when 'added'
-      Github::TeamMember::Create.(user_id, team_name)
+      Github::TeamMember::Create.(user, team_name) if user
     when 'removed'
-      Github::TeamMember::Destroy.(user_id, team_name)
+      Github::TeamMember::Destroy.(team_member) if team_member
     end
   end
 
   private
   memoize
   def organization = Github::Organization.instance
+
+  memoize
+  def user = User.find_by(uid: github_uid)
+
+  memoize
+  def team_member = Github::TeamMember.find_by(user:, team_name:)
 end

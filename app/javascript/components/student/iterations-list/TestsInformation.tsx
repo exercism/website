@@ -2,7 +2,7 @@ import React from 'react'
 import { Request, usePaginatedRequestQuery } from '../../../hooks/request-query'
 import { FetchingBoundary } from '../../FetchingBoundary'
 import { ResultsZone } from '../../ResultsZone'
-import { TestRunSummary } from '../../editor/TestRunSummary'
+import { TestRunSummary } from '../../editor/testComponents/TestRunSummary'
 import { TestRun, TestRunner } from '../../editor/types'
 
 const DEFAULT_ERROR = new Error('Unable to fetch test run')

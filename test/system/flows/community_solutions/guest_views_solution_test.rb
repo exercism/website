@@ -84,7 +84,7 @@ module Flows
         use_capybara_host do
           visit track_exercise_solution_path(exercise.track, exercise, author.handle)
 
-          within(".star-button") { assert_text "3" }
+          within(".star-button") { assert_text "Favorite" }
 
           assert_no_css "button.star-button"
         end

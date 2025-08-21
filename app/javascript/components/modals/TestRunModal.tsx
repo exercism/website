@@ -1,5 +1,5 @@
 import React from 'react'
-import { TestRunSummary } from '../editor/TestRunSummary'
+import { TestRunSummary } from '../editor/testComponents/TestRunSummary'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { Modal, ModalProps } from './Modal'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'

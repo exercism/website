@@ -11,8 +11,8 @@ export function useTagToggler({
   setLocalTags: React.Dispatch<React.SetStateAction<Tag[]>>
   endpoints: AnalyzerTagsEndpoints
 }) {
-  const { mutate } = useMutation(
-    ({ tag, field }: { tag: Tag; field: TagFlags }) => {
+  const { mutate } = useMutation({
+    mutationFn: ({ tag, field }: { tag: Tag; field: TagFlags }) => {
       const endpoint = endpoints[field].replace(
         ':tag',
         encodeURIComponent(tag.tag)
@@ -24,8 +24,8 @@ export function useTagToggler({
       })
 
       return fetch
-    }
-  )
+    },
+  })
 
   const debouncedMutate = debounce(mutate, 300)
 

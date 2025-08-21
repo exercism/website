@@ -6,6 +6,7 @@ import { Loading } from '../../../common'
 import { GraphicalIcon } from '../../../common/GraphicalIcon'
 import { ErrorBoundary, useErrorHandler } from '../../../ErrorBoundary'
 import { FavoritableStudent } from '../../session/FavoriteButton'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to mark student as a favorite')
 
@@ -24,12 +25,15 @@ export const FavoriteStep = ({
   onFavorite: (student: FavoritableStudent) => void
   onSkip: () => void
 }): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/mentoring/discussion/finished-wizard'
+  )
   const {
     mutate: handleFavorite,
     status,
     error,
-  } = useMutation<FavoritableStudent>(
-    async () => {
+  } = useMutation<FavoritableStudent>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: student.links.favorite,
         method: 'POST',
@@ -40,40 +44,42 @@ export const FavoriteStep = ({
         typecheck<FavoritableStudent>(json, 'student')
       )
     },
-    {
-      onSuccess: (student) => {
-        if (!onFavorite) {
-          return
-        }
+    onSuccess: (student) => {
+      if (!onFavorite) {
+        return
+      }
 
-        onFavorite(student)
-      },
-    }
-  )
+      onFavorite(student)
+    },
+  })
 
   return (
     <div>
-      <p>Add {student.handle} to your favorites?</p>
+      <p>
+        {t('favoriteStep.addStudentToFavorites', {
+          studentHandle: student.handle,
+        })}
+      </p>
       <div className="buttons">
         <button
           className="btn-small"
           type="button"
           onClick={() => handleFavorite()}
-          disabled={status === 'loading'}
+          disabled={status === 'pending'}
         >
           <GraphicalIcon icon="plus" />
-          Add to favorites
+          {t('favoriteStep.addToFavorites')}
         </button>
         <button
           className="btn-small"
           type="button"
           onClick={() => onSkip()}
-          disabled={status === 'loading'}
+          disabled={status === 'pending'}
         >
-          Skip
+          {t('favoriteStep.skip')}
         </button>
       </div>
-      {status === 'loading' ? <Loading /> : null}
+      {status === 'pending' ? <Loading /> : null}
       {status === 'error' ? (
         <ErrorBoundary>
           <ErrorHandler error={error} />

@@ -55,6 +55,7 @@ export const TrackSelect = <T extends Track>({
   size = 'single',
   SelectedComponent = DefaultSelectedComponent,
   OptionComponent = DefaultOptionComponent,
+  disabled,
 }: {
   tracks: readonly T[]
   value: T
@@ -62,11 +63,13 @@ export const TrackSelect = <T extends Track>({
   size?: Size
   SelectedComponent?: React.ComponentType<{ option: T }>
   OptionComponent?: React.ComponentType<{ option: T }>
+  disabled?: boolean
 }): JSX.Element => {
   return (
     <SingleSelect<T>
       options={tracks}
       value={value}
+      disabled={disabled}
       setValue={setValue}
       SelectedComponent={SelectedComponent}
       OptionComponent={OptionComponent}

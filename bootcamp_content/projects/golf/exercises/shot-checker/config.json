@@ -1,0 +1,210 @@
+{
+  "title": "Shot Checker",
+  "description": "Check to see if the ball lands in the hole",
+  "project_type": "golf",
+  "level": 3,
+  "idx": 2,
+  "concepts": [],
+  "tests_type": "state",
+  "interpreter_options": {
+    "repeat_delay": 20,
+    "time_per_frame": 0.01
+  },
+  "readonly_ranges": [],
+  "tasks": [
+    {
+      "name": "Handle the ball being too short",
+      "tests": [
+        {
+          "slug": "too-short",
+          "name": "Golfer hits ball 23 (too short).",
+          "description_html": "Make the ball roll 23 from the tee.",
+          "setup_functions": [
+            ["setShotLength", [23]],
+            [
+              "setBackgroundImage",
+              [
+                "https://assets.exercism.org/bootcamp/graphics/golf-shot-checker.png"
+              ]
+            ]
+          ],
+          "checks": [
+            {
+              "function": "getCircleAt(29, 75, 3)",
+              "matcher": "toBeUndefined",
+              "error_html": "The ball seems to go too far to the left."
+            },
+            {
+              "function": "getCircleAt(30, 75, 3)",
+              "matcher": "toBeDefined",
+              "error_html": "The ball doesn't seem to start in the right place."
+            },
+            {
+              "function": "getCircleAt(53, 75, 3)",
+              "matcher": "toBeDefined",
+              "error_html": "The ball doesn't seem to reach the correct finishing point."
+            },
+            {
+              "function": "getCircleAt(54, 75, 3)",
+              "matcher": "toBeUndefined",
+              "error_html": "The ball seems to go too far to the right."
+            },
+            {
+              "function": "wasFunctionCalled('fire_fireworks', null)",
+              "matcher": "toBeFalse",
+              "error_html": "The fireworks shouldn't be fired as the ball didn't land in the hole."
+            }
+          ]
+        },
+        {
+          "slug": "too-long",
+          "name": "Golfer hits ball 70 (too long).",
+          "description_html": "Make the ball roll 70 from the tee.",
+          "setup_functions": [
+            ["setShotLength", [70]],
+            [
+              "setBackgroundImage",
+              [
+                "https://assets.exercism.org/bootcamp/graphics/golf-shot-checker.png"
+              ]
+            ]
+          ],
+          "checks": [
+            {
+              "function": "getCircleAt(29, 75, 3)",
+              "matcher": "toBeUndefined",
+              "error_html": "The ball seems to go too far to the left."
+            },
+            {
+              "function": "getCircleAt(30, 75, 3)",
+              "matcher": "toBeDefined",
+              "error_html": "The ball doesn't seem to start in the right place."
+            },
+            {
+              "function": "getCircleAt(100, 75, 3)",
+              "matcher": "toBeDefined",
+              "error_html": "The ball doesn't seem to reach the correct finishing point."
+            },
+            {
+              "function": "getCircleAt(101, 75, 3)",
+              "matcher": "toBeUndefined",
+              "error_html": "The ball seems to go too far to the right."
+            },
+            {
+              "function": "getCircleAt(100, 76, 3)",
+              "matcher": "toBeUndefined",
+              "error_html": "The ball tried to sink into the ground beyond the hole."
+            },
+            {
+              "function": "wasFunctionCalled('fire_fireworks', null)",
+              "matcher": "toBeFalse",
+              "error_html": "The fireworks shouldn't be fired as the ball didn't land in the hole."
+            }
+          ]
+        },
+        {
+          "slug": "just-inside-left",
+          "name": "Golfer hits ball just in the hole.",
+          "description_html": "Roll the ball 56 from the tee, sink it into the hole, and fire some fireworks!",
+          "setup_functions": [
+            ["setShotLength", [56]],
+            [
+              "setBackgroundImage",
+              [
+                "https://assets.exercism.org/bootcamp/graphics/golf-shot-checker.png"
+              ]
+            ]
+          ],
+          "checks": [
+            {
+              "function": "getCircleAt(29, 75, 3)",
+              "matcher": "toBeUndefined",
+              "error_html": "The ball seems to go too far to the left."
+            },
+            {
+              "function": "getCircleAt(30, 75, 3)",
+              "matcher": "toBeDefined",
+              "error_html": "The ball doesn't seem to start in the right place."
+            },
+            {
+              "function": "getCircleAt(86, 75, 3)",
+              "matcher": "toBeDefined",
+              "error_html": "The ball doesn't seem to roll the correct length."
+            },
+            {
+              "function": "getCircleAt(86, 84, 3)",
+              "matcher": "toBeDefined",
+              "error_html": "The ball doesn't seem to reach the correct finishing point."
+            },
+            {
+              "function": "getCircleAt(86, 83, 3)",
+              "matcher": "toBeDefined",
+              "error_html": "The ball doesn't seem to sink into the hole."
+            },
+            {
+              "function": "getCircleAt(86, 85, 3)",
+              "matcher": "toBeUndefined",
+              "error_html": "The ball seems to sink into the grass too far!"
+            },
+            {
+              "function": "wasFunctionCalled('fire_fireworks', null)",
+              "matcher": "toBeTrue",
+              "error_html": "The fireworks didn't fire."
+            }
+          ]
+        },
+        {
+          "slug": "just-inside-right",
+          "name": "Golfer just about keeps the ball in the hole.",
+          "description_html": "Roll the ball 63 from the tee, sink it into the hole, and fire some fireworks!",
+          "setup_functions": [
+            ["setShotLength", [63]],
+            [
+              "setBackgroundImage",
+              [
+                "https://assets.exercism.org/bootcamp/graphics/golf-shot-checker.png"
+              ]
+            ]
+          ],
+          "checks": [
+            {
+              "function": "getCircleAt(29, 75, 3)",
+              "matcher": "toBeUndefined",
+              "error_html": "The ball seems to go too far to the left."
+            },
+            {
+              "function": "getCircleAt(30, 75, 3)",
+              "matcher": "toBeDefined",
+              "error_html": "The ball doesn't seem to start in the right place."
+            },
+            {
+              "function": "getCircleAt(93, 75, 3)",
+              "matcher": "toBeDefined",
+              "error_html": "The ball doesn't seem to roll the correct length."
+            },
+            {
+              "function": "getCircleAt(93, 84, 3)",
+              "matcher": "toBeDefined",
+              "error_html": "The ball doesn't seem to reach the correct finishing point."
+            },
+            {
+              "function": "getCircleAt(93, 83, 3)",
+              "matcher": "toBeDefined",
+              "error_html": "The ball doesn't seem to sink into the hole."
+            },
+            {
+              "function": "getCircleAt(93, 85, 3)",
+              "matcher": "toBeUndefined",
+              "error_html": "The ball seems to sink into the grass too far!"
+            },
+            {
+              "function": "wasFunctionCalled('fire_fireworks', null)",
+              "matcher": "toBeTrue",
+              "error_html": "The fireworks didn't fire."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

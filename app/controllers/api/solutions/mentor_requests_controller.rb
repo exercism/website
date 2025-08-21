@@ -33,12 +33,12 @@ class API::Solutions::MentorRequestsController < API::BaseController
       return render_solution_not_found
     end
 
-    return render_solution_not_accessible unless @solution.user_id == current_user.id
+    render_solution_not_accessible unless @solution.user_id == current_user.id
   end
 
   def use_mentor_request
     @mentor_request = @solution.mentor_requests.find_by!(uuid: params[:uuid])
 
-    return render_solution_not_accessible unless @mentor_request.solution.user_id == current_user.id
+    render_solution_not_accessible unless @mentor_request.solution.user_id == current_user.id
   end
 end

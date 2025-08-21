@@ -3,18 +3,17 @@
     = graphical_icon 'syllabus', css_class: "filter-textColor6"
     %div
       %h5.text-h5
-        The #{@track.title} syllabus
+        = t('.syllabus_heading', track_title: @track.title)
         = render ViewComponents::Track::Build::Health.new(@status.syllabus.health)
 
       %p.text-p-base
         - case @status.syllabus.health.to_sym
         - when :exemplar
-          An impressive #{@status.syllabus.concepts.active.size} concepts are being taught!
+          = t('.syllabus_exemplar', count: @status.syllabus.concepts.active.size)
         - when :healthy
-          A respectable #{@status.syllabus.concepts.active.size} concepts are being taught.
+          = t('.syllabus_healthy', count: @status.syllabus.concepts.active.size)
         - when :needs_attention
           - num_concepts_to_target = @status.syllabus.concepts.num_active_target - @status.syllabus.concepts.active.size
-          Should have #{num_concepts_to_target} more #{'concept'.pluralize(num_concepts_to_target)} being implemented.
+          = t('.syllabus_needs_attention', count: num_concepts_to_target)
         - when :missing
-          No concepts have been implemented.
-
+          = t('.syllabus_missing')

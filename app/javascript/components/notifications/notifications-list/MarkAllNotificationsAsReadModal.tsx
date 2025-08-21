@@ -3,6 +3,7 @@ import { MutationStatus } from '@tanstack/react-query'
 import { Modal, ModalProps } from '@/components/modals/Modal'
 import { FormButton } from '@/components/common/FormButton'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to mark all notifications as read')
 
@@ -18,8 +19,9 @@ export const MarkAllNotificationsAsReadModal = ({
   }
   onSubmit: () => void
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/notifications/notifications-list')
   const handleClose = useCallback(() => {
-    if (mutation.status === 'loading') {
+    if (mutation.status === 'pending') {
       return
     }
 
@@ -38,15 +40,15 @@ export const MarkAllNotificationsAsReadModal = ({
 
   return (
     <Modal className="m-generic-confirmation" onClose={handleClose} {...props}>
-      <h3>Mark all as read?</h3>
-      <p>Are you sure you want to mark all notifications as read?</p>
+      <h3>{t('markAllNotificationsAsReadModal.markAllAsRead')}</h3>
+      <p>{t('markAllNotificationsAsReadModal.areYouSure')}</p>
       <form data-turbo="false" onSubmit={handleSubmit} className="buttons">
         <FormButton
           type="submit"
           status={mutation.status}
           className="btn-primary btn-s"
         >
-          Continue
+          {t('markAllNotificationsAsReadModal.continue')}
         </FormButton>
         <FormButton
           type="button"
@@ -54,7 +56,7 @@ export const MarkAllNotificationsAsReadModal = ({
           onClick={handleClose}
           className="btn-enhanced btn-s"
         >
-          Cancel
+          {t('markAllNotificationsAsReadModal.cancel')}
         </FormButton>
       </form>
       <ErrorBoundary resetKeys={[mutation.status]}>

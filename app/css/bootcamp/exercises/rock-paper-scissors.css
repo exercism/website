@@ -1,0 +1,69 @@
+#bootcamp-solve-exercise-page {
+    .exercise-rock-paper-scissors {
+        .container {
+            @apply w-full h-full;
+            @apply pt-[24%] px-[6%];
+            @apply grid grid-cols-2 gap-[10%];
+            container-type: size;
+        }
+        &.result-player_1 {
+            .player-1 {
+                @apply border-purple;
+            }
+        }
+        &.result-player_2 {
+            .player-2 {
+                @apply border-purple;
+            }
+        }
+        .player-1 {
+            &:after {
+                content: "Player 1";
+            }
+        }
+
+        .player-2 {
+            &:before {
+                transform: rotateY(180deg);
+            }
+            &:after {
+                content: "Player 2";
+            }
+        }
+        .player-1,
+        .player-2 {
+            aspect-ratio: 1;
+            position: relative;
+            @apply font-semibold text-[7cqw];
+            @apply border-3 border-borderColor5;
+            @apply rounded-8;
+            &::before {
+                content: "";
+                @apply absolute inset-0;
+                @apply bg-center bg-no-repeat;
+                background-size: 80%;
+            }
+
+            &:after {
+                position: absolute;
+                bottom: -30%;
+                @apply inset-x-0 text-center;
+            }
+            &.rock {
+                &:before {
+                    background-image: url("bootcamp/assets/rock-paper-scissors/rock.png");
+                }
+            }
+            &.paper {
+                &:before {
+                    background-image: url("bootcamp/assets/rock-paper-scissors/paper.png");
+                }
+            }
+            &.scissors {
+                &:before {
+                    background-image: url("bootcamp/assets/rock-paper-scissors/scissors.png");
+                }
+            }
+        }
+    }
+}

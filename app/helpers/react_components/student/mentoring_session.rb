@@ -24,6 +24,7 @@ module ReactComponents
           videos:,
           donation: {
             show_donation_modal:,
+            previous_donor:,
             request: {
               endpoint: Exercism::Routes.current_api_payments_subscriptions_url,
               options: {
@@ -110,6 +111,9 @@ module ReactComponents
 
         SerializeIterations.(solution.iterations, comment_counts:)
       end
+
+      memoize
+      def previous_donor = current_user.total_donated_in_dollars.positive?
 
       def show_donation_modal
         return false if current_user.insider?

@@ -44,7 +44,8 @@ class SerializeSolutionForCLI
     return Exercism::Routes.private_solution_url(solution) if solution.user == requester
     return Exercism::Routes.mentoring_discussion_url(discussion) if requester.mentor? && discussion
     return Exercism::Routes.mentoring_request_url(mentoring_request) if requester.mentor? && mentoring_request
-    return Exercism::Routes.published_solution_url(solution) if solution.published?
+
+    Exercism::Routes.published_solution_url(solution) if solution.published?
   end
 
   def instructions_url

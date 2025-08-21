@@ -7,6 +7,7 @@ import { QueryKey, QueryStatus } from '@tanstack/react-query'
 import { useErrorHandler, ErrorBoundary } from '../ErrorBoundary'
 import { Loading } from '../common/Loading'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export type Links = {
   tokens: string
@@ -62,6 +63,7 @@ const DropdownContent = ({
   status: QueryStatus
   error: unknown
 } & Pick<DropdownAttributes, 'listAttributes' | 'itemAttributes'>) => {
+  const { t } = useAppTranslation('components/dropdowns')
   if (data) {
     return (
       <ReputationMenu
@@ -77,7 +79,7 @@ const DropdownContent = ({
 
     return (
       <div id={id} hidden={hidden}>
-        {status === 'loading' ? <Loading /> : null}
+        {status === 'pending' ? <Loading /> : null}
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <ErrorMessage error={error} />
         </ErrorBoundary>
@@ -87,6 +89,7 @@ const DropdownContent = ({
 }
 
 const MAX_TOKENS = 5
+export const REPUTATION_CACHE_KEY = 'reputations'
 
 export default function Reputation({
   defaultReputation,
@@ -97,20 +100,25 @@ export default function Reputation({
   defaultIsSeen: boolean
   endpoint: string
 }): JSX.Element {
+  const { t } = useAppTranslation('components/dropdowns')
   const [isStale, setIsStale] = useState(false)
   const [reputation, setReputation] = useState(defaultReputation)
   const [isSeen, setIsSeen] = useState(defaultIsSeen)
-  const cacheKey = 'reputations'
+
   const {
     data: resolvedData,
     error,
     status,
     refetch,
-  } = usePaginatedRequestQuery<APIResponse>([cacheKey], {
+  } = usePaginatedRequestQuery<APIResponse>([REPUTATION_CACHE_KEY], {
     endpoint: endpoint,
     query: { per_page: MAX_TOKENS },
-    options: {},
+    options: {
+      staleTime: 30,
+      refetchOnMount: true,
+    },
   })
+
   const {
     buttonAttributes,
     panelAttributes,
@@ -171,7 +179,7 @@ export default function Reputation({
         <div className="c-reputation-dropdown" {...panelAttributes}>
           <DropdownContent
             data={resolvedData}
-            cacheKey={[cacheKey]}
+            cacheKey={[REPUTATION_CACHE_KEY]}
             status={status}
             error={error}
             itemAttributes={itemAttributes}

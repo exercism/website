@@ -6,6 +6,7 @@ import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '../../utils/send-request'
 import { MentoredTrack } from '../types'
 import { APIResponse as TrackListAPIResponse } from '../mentoring/queue/useTrackList'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type Links = {
   tracks: string
@@ -25,11 +26,14 @@ export const MentorChangeTracksModal = ({
   cacheKey: QueryKey
   onSuccess: () => void
 }): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/modals/MentorChangeTracksModal.tsx'
+  )
   const queryClient = useQueryClient()
   const [selected, setSelected] = useState<string[]>(tracks.map((t) => t.slug))
 
-  const { mutate: mutation } = useMutation<TrackListAPIResponse>(
-    async () => {
+  const { mutate: mutation } = useMutation<TrackListAPIResponse>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: links.updateTracks,
         method: 'PATCH',
@@ -38,16 +42,14 @@ export const MentorChangeTracksModal = ({
 
       return fetch
     },
-    {
-      onSuccess: (response) => {
-        queryClient.setQueryData(cacheKey, response)
-        onSuccess()
-      },
-      onSettled: () => {
-        queryClient.invalidateQueries({ queryKey: cacheKey })
-      },
-    }
-  )
+    onSuccess: (response) => {
+      queryClient.setQueryData(cacheKey, response)
+      onSuccess()
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: cacheKey })
+    },
+  })
 
   return (
     <Modal
@@ -58,11 +60,8 @@ export const MentorChangeTracksModal = ({
     >
       <header>
         <div className="info">
-          <h2>Change the Tracks you mentor</h2>
-          <p>
-            You will still be able to continue any existing discussions on other
-            tracks.
-          </p>
+          <h2>{t('changeTheTracksYouMentor')}</h2>
+          <p>{t('youWillStillBeAbleToContinue')}</p>
         </div>
       </header>
       <TrackSelector

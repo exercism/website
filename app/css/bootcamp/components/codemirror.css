@@ -1,0 +1,177 @@
+#bootcamp-solve-exercise-page,
+#bootcamp-custom-function-editor-page,
+/* this is the CSSExercise page - change it to bootcamp-css-exercise-page ASAP! */
+#bootcamp-frontend-training-page ,
+#bootcamp-frontend-exercise-page {
+    .cm-breakpoint-gutter .cm-gutterElement {
+        @apply flex;
+    }
+    .cm-idle-marker,
+    .cm-breakpoint-marker {
+        width: 20px;
+        cursor: pointer;
+        display: grid;
+        place-content: center;
+
+        &:after {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            content: "";
+        }
+    }
+
+    .cm-breakpoint-marker {
+        &:after {
+            @apply bg-orange;
+        }
+    }
+
+    .cm-idle-marker {
+        &:after {
+            opacity: 0;
+            @apply bg-orange;
+        }
+
+        &:hover,
+        &.hovered-idle-marker {
+            &:after {
+                opacity: 0.7;
+            }
+        }
+    }
+
+    .editor-wrapper {
+        overflow: hidden;
+        @apply h-[60%] flex-grow-0;
+        @apply rounded-5;
+        @apply border-2 border-bootcamp-light-purple;
+    }
+
+    .editor {
+        height: 100%;
+        background: #fff;
+        overflow-y: auto;
+        @apply flex flex-grow;
+
+        .cm-gutters {
+            background: white;
+            @apply border-r-0;
+        }
+        .cm-lineNumbers .cm-gutterElement,
+        .cm-foldGutter,
+        .cm-icon-container-gutter .cm-gutterElement {
+            @apply grid items-center;
+        }
+
+        .cm-icon-container-gutter .cm-gutterElement {
+            @apply px-4;
+        }
+        .cm-lockedGutter {
+            .cm-lock-marker {
+                background-image: url("bootcamp/readonly-lock.svg");
+                background-size: 80%;
+                @apply bg-no-repeat bg-center;
+                @apply opacity-[0.4];
+            }
+        }
+
+        .cm-foldGutter {
+            .cm-gutterElement {
+                @apply grid place-items-center w-[16px];
+            }
+            span {
+                @apply block px-2 text-20 leading-100 mb-[4px];
+                color: rgba(0, 128, 255, 0.7);
+                &:hover {
+                    color: rgba(0, 128, 255, 1);
+                }
+            }
+        }
+        .cm-foldPlaceholder {
+            @apply px-6 mx-10;
+            @apply border-1 border-[#0080FF];
+            @apply text-[#0080FF];
+            background: rgba(0, 128, 255, 0.05);
+            @apply text-16;
+        }
+        .cm-line {
+            padding: 2px 2px 2px 4px;
+        }
+        .cm-lockedLine,
+        .cm-lockedGutter {
+            background: #f6f6f6;
+        }
+        .ͼ1 .cm-underline {
+            text-decoration: none;
+            border-bottom: 2px solid red;
+            background: rgba(255, 0, 0, 0.2);
+        }
+    }
+    .cm-editor {
+        font-family: "Source Code Pro", "Courier New", Courier, monospace;
+        text-align: left;
+        width: 100%;
+        color: #aaa;
+        font-size: 16px;
+
+        .cm-cursor {
+            border-color: var(--textColor1);
+        }
+
+        .cm-scroller {
+            font-family: "Source Code Pro", "Courier New", Courier, monospace;
+        }
+        .cm-foldGutter .cm-foldGutter span {
+            display: none;
+        }
+    }
+    .cm-lineNumbers {
+        .cm-gutterElement {
+            @apply pr-8 pl-12;
+        }
+    }
+
+    .cm-content {
+        outline: none !important;
+    }
+
+    .declaration-arrow {
+        position: absolute;
+    }
+
+    .cm-line {
+        /* display: flex;
+        align-items: center; */
+    }
+
+    .custom-tooltip {
+        font-family: Poppins;
+        font-size: 14px;
+        padding: 4px;
+        color: #130b43;
+        line-height: 160%;
+        background: #ffd38f;
+        border-radius: 8px;
+    }
+
+    .cm-tooltip {
+        border: none !important;
+    }
+
+    .cm-lineNumbers {
+        text-align: right;
+    }
+
+    .cm-highlightedLine {
+        @apply relative;
+        background: var(--highlighted-line-background-color);
+        outline: 1.5px solid var(--highlighted-line-border-color);
+        border-radius: 2px;
+        @apply mx-[2px];
+        padding-left: 2px !important;
+        &.cm-activeLine {
+            background-color: #d6ecfa80;
+        }
+    }
+}

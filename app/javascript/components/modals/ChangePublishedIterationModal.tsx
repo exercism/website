@@ -9,6 +9,7 @@ import { FormButton } from '@/components/common/FormButton'
 import { ErrorMessage, ErrorBoundary } from '@/components/ErrorBoundary'
 import { IterationSelector } from './student/IterationSelector'
 import { generateAriaFieldIds } from '@/utils/generate-aria-field-ids'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to change published iteration')
 export type RedirectType = 'public' | 'private'
@@ -25,6 +26,9 @@ export const ChangePublishedIterationModal = ({
   defaultIterationIdx: number | null
   iterations: readonly Iteration[]
 }): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/modals/ChangePublishedIterationModal.tsx'
+  )
   const [iterationIdx, setIterationIdx] = useState<number | null>(
     defaultIterationIdx
   )
@@ -32,8 +36,8 @@ export const ChangePublishedIterationModal = ({
     mutate: mutation,
     status,
     error,
-  } = useMutation<SolutionForStudent>(
-    async () => {
+  } = useMutation<SolutionForStudent>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',
@@ -44,16 +48,14 @@ export const ChangePublishedIterationModal = ({
         typecheck<SolutionForStudent>(response, 'solution')
       )
     },
-    {
-      onSuccess: (solution) => {
-        if (redirectType == 'public') {
-          redirectTo(solution.publicUrl)
-        } else {
-          redirectTo(solution.privateUrl)
-        }
-      },
-    }
-  )
+    onSuccess: (solution) => {
+      if (redirectType == 'public') {
+        redirectTo(solution.publicUrl)
+      } else {
+        redirectTo(solution.privateUrl)
+      }
+    },
+  })
 
   const handleSubmit = useCallback(
     (e) => {
@@ -68,11 +70,11 @@ export const ChangePublishedIterationModal = ({
 
   return (
     <Modal aria={ariaObject} {...props}>
-      <h3 id={ariaObject.labelledby}>Change published iterations</h3>
+      <h3 id={ariaObject.labelledby}>
+        {t('changePublishedIterationsModal.changePublishedIterations')}
+      </h3>
       <p id={ariaObject.describedby}>
-        We recommend publishing all iterations to help others learn from your
-        journey, but you can also choose just your favourite iteration to
-        showcase instead.
+        {t('changePublishedIterationsModal.recommendPublishing')}
       </p>
       <form data-turbo="false" onSubmit={handleSubmit}>
         <IterationSelector
@@ -86,7 +88,7 @@ export const ChangePublishedIterationModal = ({
             status={status}
             className="btn-primary btn-m"
           >
-            Update published solution
+            {t('changePublishedIterationsModal.updatePublishedSolution')}
           </FormButton>
           <FormButton
             type="button"
@@ -94,7 +96,7 @@ export const ChangePublishedIterationModal = ({
             status={status}
             className="btn-default btn-m"
           >
-            Cancel
+            {t('changePublishedIterationsModal.cancel')}
           </FormButton>
         </div>
         <ErrorBoundary>

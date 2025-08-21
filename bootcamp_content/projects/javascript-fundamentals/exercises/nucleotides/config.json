@@ -1,0 +1,97 @@
+{
+  "title": "Nucleotides",
+  "description": "Given a DNA string, compute how many times each nucleotide occurs in the string",
+  "level": 14,
+  "idx": 12,
+  "language": "javascript",
+  "tests_type": "io",
+  "tasks": [
+    {
+      "name": "Basic strands",
+      "tests": [
+        {
+          "slug": "nucleotide-count-empty-strand",
+          "description_html": "An empty strand should result in all counts being zero.",
+          "name": "Empty strand",
+          "function": "countNucleotides",
+          "args": [""],
+          "checks": [
+            {
+              "value": {
+                "A": 0,
+                "C": 0,
+                "G": 0,
+                "T": 0
+              }
+            }
+          ]
+        },
+        {
+          "slug": "nucleotide-count-single-nucleotide",
+          "description_html": "A single-character strand should correctly count the nucleotide.",
+          "name": "Single nucleotide",
+          "function": "countNucleotides",
+          "args": ["G"],
+          "checks": [
+            {
+              "value": {
+                "A": 0,
+                "C": 0,
+                "G": 1,
+                "T": 0
+              }
+            }
+          ]
+        },
+        {
+          "slug": "nucleotide-count-repeated-nucleotide",
+          "description_html": "A strand with repeated nucleotides should correctly count occurrences.",
+          "name": "Repeated nucleotide",
+          "function": "countNucleotides",
+          "args": ["GGGGGGG"],
+          "checks": [
+            {
+              "value": {
+                "A": 0,
+                "C": 0,
+                "G": 7,
+                "T": 0
+              }
+            }
+          ]
+        },
+        {
+          "slug": "nucleotide-count-mixed-strand",
+          "description_html": "A strand with multiple nucleotides should correctly count each nucleotide.",
+          "name": "Mixed nucleotide strand",
+          "function": "countNucleotides",
+          "args": [
+            "AGCTTTTCATTCTGACTGCAACGGGCAATATGTCTCTGTGTGGATTAAAAAAAGAGTGTCTGATAGCAGC"
+          ],
+          "checks": [
+            {
+              "value": {
+                "A": 20,
+                "C": 12,
+                "G": 17,
+                "T": 21
+              }
+            }
+          ]
+        },
+        {
+          "slug": "nucleotide-count-invalid-nucleotide",
+          "description_html": "A strand with invalid nucleotides should raise an error.",
+          "name": "Invalid nucleotide",
+          "function": "countNucleotides",
+          "args": ["AGXXACT"],
+          "checks": [
+            {
+              "value": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

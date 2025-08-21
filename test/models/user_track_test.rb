@@ -639,7 +639,7 @@ class UserTrackTest < ActiveSupport::TestCase
       active_practice_exercise
     ].map(&:slug).sort, user_track.reload.exercises.map(&:slug).sort
 
-    create :github_team_member, user_id: user.uid, team_name: track.github_team_name
+    create :github_team_member, user:, team_name: track.github_team_name
 
     # wip and concept exercises are included when user is track maintainer
     assert_equal [
@@ -678,7 +678,7 @@ class UserTrackTest < ActiveSupport::TestCase
 
     # Sanity check: concept exercises are included for track without course but user is track maintainer
     user.update(roles: [:maintainer], uid: '21312312')
-    create :github_team_member, user_id: user.uid, team_name: track.github_team_name
+    create :github_team_member, user:, team_name: track.github_team_name
     assert_equal [
       beta_concept_exercise,
       active_concept_exercise,
@@ -955,7 +955,7 @@ class UserTrackTest < ActiveSupport::TestCase
     user.update(roles: [:maintainer])
     refute user_track.reload.maintainer?
 
-    create :github_team_member, user_id: user.uid, team_name: track.github_team_name
+    create :github_team_member, user:, team_name: track.github_team_name
     assert user_track.reload.maintainer?
   end
 
@@ -979,7 +979,7 @@ class UserTrackTest < ActiveSupport::TestCase
     refute maintainer_user_track.course?
 
     # Only track maintainer that are in the track's GitHub team are excempted
-    create :github_team_member, user_id: maintainer.uid, team_name: track.github_team_name
+    create :github_team_member, user: maintainer, team_name: track.github_team_name
     refute non_maintainer_user_track.reload.course?
     assert maintainer_user_track.reload.course?
   end

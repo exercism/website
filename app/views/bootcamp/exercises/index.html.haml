@@ -1,0 +1,12 @@
+.lg-container.mb-40
+  %h1.text-h2.mt-20= t('.exercises_title')
+  %p.text-p-xlarge.mb-16= t('.exercises_description')
+  - @projects.each do |project, exercises|
+    - next unless exercises.present?
+    %hr.border-borderColor6.mb-20
+    %h2.text-h3
+      = link_to project.title, project, class: "hover:underline"
+    %p.text-p-large.mb-16= project.description
+    .exercises.gap-16.mb-28.grid{ class: "grid-cols-1 md:grid-cols-2 lg:grid-cols-3" }
+      - exercises.each do |exercise|
+        = render ViewComponents::Bootcamp::ExerciseWidget.new(exercise, solution: @solutions[exercise.id], user_project: @user_project)

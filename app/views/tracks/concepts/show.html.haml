@@ -1,19 +1,26 @@
 - concept_meta_tags(@concept, @user_track)
 - require_stylesheet "track"
 
-#page-concept-show
+- advert = Partner::Advert.for_track(@track)
+- advert = nil unless advert&.show_to?(current_user)
+
+#page-concept-show{ class: advert ? "has-advert" : nil }
+  .lg-container.relative.z-1
+    - if advert
+      = render ViewComponents::Partner::Advert.new(advert:)
+
   %header.concept-header
     .c-track-breadcrumbs
       .lg-container.container
         = link_to tracks_path do
           = graphical_icon 'tracks', hex: true
-          .span Tracks
+          .span= t('.header.breadcrumbs.tracks')
         .seperator /
         = link_to @track do
           = track_icon @track
           .span= @track.title
         .seperator /
-        = link_to "Syllabus", track_concepts_path(@track)
+        = link_to t('.header.breadcrumbs.syllabus'), track_concepts_path(@track)
         .seperator /
         .exercise-title= @concept.name
 
@@ -22,14 +29,12 @@
       .info
         %h1
           = @concept.name
-          %small in
+          %small= t('.header.concept_info.in')
           = track_icon(@track)
         .exercises
           = graphical_icon(:exercises)
-          = pluralize @user_track.num_exercises_for_concept(@concept), "exercise"
+          = t('.header.concept_info.exercises_count', count: @user_track.num_exercises_for_concept(@concept))
 
-      .absolute{ style: 'right: var(--container-padding-x)', class: 'z-[10] top-[-31px]' }
-        = render ViewComponents::Partner::Advert.new(track: @track)
       -#
         - unless @user_track.external?
           .rhs.progress
@@ -47,14 +52,14 @@
     - if @user_track.concept_mastered?(@concept)
       %section.mastered-heading
         = graphical_icon 'completed-check-circle', css_class: "check-mark-icon"
-        .text You've mastered #{@concept.name} in #{@track.title}.
-        = render ViewComponents::ProminentLink.new("Explore more concepts", track_concepts_path(@track))
+        .text= t('.mastered_heading.text', concept_name: @concept.name, track_title: @track.title)
+        = render ViewComponents::ProminentLink.new(t('.mastered_heading.explore_link'), track_concepts_path(@track))
 
     .flex.flex-col.xl:flex-row
       .flex-grow.xl:w-arbitary.xl:mr-48.mb-32.xl:mb-0
         %section.about.px-20.xl:px-32.py-20.xl:py-24
           .c-textual-content.--large
-            %h2 About #{@concept.name}
+            %h2= t('.about.title', concept_name: @concept.name)
             - if @user_track.external? || @user_track.concept_learnt?(@concept)
               = raw Markdown::Parse.(@concept.about)
             - else
@@ -62,20 +67,20 @@
 
           - if @concept.links.present?
             .links
-              %h3 Learn More
+              %h3= t('.about.learn_more_links.title')
               %ul
                 - @concept.links.each do |link|
                   %li
                     = link_to link.url do
                       %span= link.description
-                      = icon('external-link', "(external link)")
+                      = icon('external-link', t('.about.learn_more_links.external_link_aria_label'))
         %section.extra-info
           = render ReactComponents::Track::ConceptMakersButton.new(@concept)
 
           = link_to "https://github.com/exercism/#{@track.slug}/tree/main/concepts/#{@concept.slug}", target: "_blank", rel: 'noreferrer' do
             = graphical_icon "external-site-github", css_class: "github-icon"
-            %span Edit via GitHub
-            = icon "external-link", "The link opens in a new window or tab", css_class: "action-icon"
+            %span= t('.extra_info.edit_via_github')
+            = icon "external-link", t('.extra_info.github_link_aria_label'), css_class: "action-icon"
 
       .rhs.flex-shrink-0
         - if @user_track.concept_learnt?(@concept)

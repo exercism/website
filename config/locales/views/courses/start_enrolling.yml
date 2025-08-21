@@ -1,0 +1,19 @@
+en:
+  courses:
+    start_enrolling:
+      tag: Let's get you coding!
+      heading_prefix: Enroll on
+      intro_strong: Great decision!
+      intro_text: We're really excited to have you come and join us! 🎉
+      form:
+        name_label: Name
+        name_placeholder: Your name
+        email_label: Email
+        email_placeholder: Enter your email address
+        package_label: Choose your package
+        button_text: Continue to the Course
+      package_selector:
+        course_bubble_prefix: Only
+        course_bubble_strong: This Course
+        bundle_bubble_prefix: The
+        bundle_bubble_strong: Complete Bundle

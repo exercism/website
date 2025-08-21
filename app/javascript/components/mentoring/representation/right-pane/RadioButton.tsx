@@ -2,6 +2,7 @@ import React, { ChangeEventHandler } from 'react'
 import { Icon } from '../../../common'
 import { ExercismTippy } from '../../../misc/ExercismTippy'
 import InfoTooltip, { Tooltip } from './InfoTooltip'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export default function RadioButton({
   label,
@@ -24,6 +25,9 @@ export default function RadioButton({
   labelClassName?: string
   className?: string
 }): JSX.Element {
+  const { t } = useAppTranslation(
+    'components/mentoring/representation/right-pane'
+  )
   return (
     <label className={`c-radio-wrapper mb-8 hover:cursor-pointer ${className}`}>
       <input
@@ -45,7 +49,7 @@ export default function RadioButton({
               <Icon
                 className="w-[15px] h-[15px] filter-textColor6"
                 icon="info-circle"
-                alt="Info"
+                alt={t('radioButton.info')}
               />
             </div>
           </ExercismTippy>

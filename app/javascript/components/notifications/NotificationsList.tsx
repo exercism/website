@@ -14,6 +14,7 @@ import {
 } from './notifications-list'
 import type { Notification } from '@/components/types'
 import { scrollToTop } from '@/utils/scroll-to-top'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to load notifications')
 const MARK_AS_READ_DEFAULT_ERROR = new Error(
@@ -49,6 +50,7 @@ export default function NotificationsList({
   request: Request
   links: Links
 }): JSX.Element {
+  const { t } = useAppTranslation('components/notifications/')
   const queryClient = useQueryClient()
 
   const [currentData, setCurrentData] = useState<APIResponse | undefined>()
@@ -115,7 +117,7 @@ export default function NotificationsList({
           {
             onSuccess: () => {
               setSelected([])
-              queryClient.invalidateQueries(cacheKey)
+              queryClient.invalidateQueries({ queryKey: cacheKey })
             },
           }
         )
@@ -124,7 +126,7 @@ export default function NotificationsList({
     [cacheKey, selected, queryClient]
   )
 
-  const disabled = isFetching || mutations.some((m) => m.status === 'loading')
+  const disabled = isFetching || mutations.some((m) => m.status === 'pending')
 
   useHistory({ pushOn: removeEmpty(request.query) })
 
@@ -132,7 +134,7 @@ export default function NotificationsList({
     <>
       <ResultsZone isFetching={disabled}>
         <header className="notifications-header">
-          <h1 className="text-h1">Notifications</h1>
+          <h1 className="text-h1">{t('notificationsList.notifications')}</h1>
           <div className="actions">
             <MutationButton
               mutation={markAsReadMutation}
@@ -144,7 +146,7 @@ export default function NotificationsList({
               }
               defaultError={MARK_AS_READ_DEFAULT_ERROR}
             >
-              Mark as read
+              {t('notificationsList.markAsRead')}
             </MutationButton>
             <MutationButton
               mutation={markAsUnreadMutation}
@@ -156,7 +158,7 @@ export default function NotificationsList({
               }
               defaultError={MARK_AS_UNREAD_DEFAULT_ERROR}
             >
-              Mark as unread
+              {t('notificationsList.markAsUnread')}
             </MutationButton>
             <button
               type="button"
@@ -165,7 +167,7 @@ export default function NotificationsList({
               className="btn-s btn-enhanced"
             >
               <GraphicalIcon icon="double-checkmark" />
-              <span>Mark all as read</span>
+              <span>{t('notificationsList.markAllAsRead')}</span>
             </button>
           </div>
         </header>

@@ -1,0 +1,123 @@
+{
+  "title": "Grades",
+  "description": "Turn the school grades into a pattern",
+  "level": 9,
+  "idx": 2,
+  "tests_type": "io",
+  "project_type": "data",
+  "stdlib_functions": ["concatenate", "push", "sort_string"],
+  "tasks": [
+    {
+      "name": "Build the URL",
+      "tests": [
+        {
+          "slug": "build-url",
+          "name": "build the url correctly",
+          "description_html": "Start by building the URL correctly",
+          "function": "build_url",
+          "args": ["Class 6 of 2025"],
+          "checks": [
+            {
+              "value": "https://api.school.com/v4/grades/2025/class-6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Format the response",
+      "tests": [
+        {
+          "slug": "all-a",
+          "name": "All A's",
+          "description_html": "A nice easy starting point with all A's!",
+          "function": "grades_to_pattern",
+          "args": ["Class 6 of 2025"],
+          "checks": [
+            {
+              "value": { "teacher": "Joseph", "grades": "AAAAAA" }
+            }
+          ]
+        },
+        {
+          "slug": "all-b",
+          "name": "All B's",
+          "description_html": "All B's but as one string.",
+          "function": "grades_to_pattern",
+          "args": ["Class 7 of 2024"],
+          "checks": [
+            {
+              "value": { "teacher": "Omar", "grades": "BBBBBBBBBBBB" }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Sort the grades",
+      "tests": [
+        {
+          "slug": "sort-1",
+          "name": "Grades to sort",
+          "description_html": "Some grades to sort.",
+          "function": "grades_to_pattern",
+          "args": ["Class 2 of 2024"],
+          "checks": [
+            {
+              "value": { "teacher": "Li", "grades": "AAAABBCDDDEEFF" }
+            }
+          ]
+        },
+        {
+          "slug": "sort-2",
+          "name": "More grades to sort",
+          "description_html": "Some more grades to sort.",
+          "function": "grades_to_pattern",
+          "args": ["Class 9 of 2025"],
+          "checks": [
+            {
+              "value": { "teacher": "Bankole", "grades": "AAABCCDDDDEEFFF" }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Bonus tasks",
+      "bonus": true,
+      "tests": [
+        {
+          "slug": "complex",
+          "name": "A more complex name",
+          "description_html": "A nice easy starting point with all A's!",
+          "function": "grades_to_pattern",
+          "args": ["Class 3 of 2024"],
+          "checks": [
+            {
+              "value": { "teacher": "Perez Espinosa", "grades": "AAABCDDE" }
+            }
+          ]
+        },
+        {
+          "slug": "sort_string",
+          "skip_ci": true,
+          "name": "Use your own sort_string",
+          "description_html": "Can you solve the exercise without using the built in sort_string?",
+          "function": "grades_to_pattern",
+          "args": ["Class 3 of 2024"],
+          "checks": [
+            {
+              "code_run": "We checked how many times the built in sort_string function was used.",
+              "function": "numFunctionCallsInCode('sort_string')",
+              "value": 0,
+              "error_html": "You should not use the sort_string function in your solution."
+            },
+            {
+              "value": { "teacher": "Perez Espinosa", "grades": "AAABCDDE" }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

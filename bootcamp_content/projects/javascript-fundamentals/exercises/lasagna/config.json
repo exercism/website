@@ -1,0 +1,113 @@
+{
+  "title": "Lasagna",
+  "description": "Learn the basics of JavaScript cooking a brilliant lasagna from your favorite cooking book.",
+  "language": "javascript",
+  "level": 12,
+  "idx": 1,
+  "tests_type": "io",
+  "tasks": [
+    {
+      "name": "Remaining minutes in oven",
+      "tests": [
+        {
+          "name": "Calculates remaining time correctly",
+          "slug": "remaining-minutes-in-oven-normal",
+          "description_html": "Calculate the remaining minutes in the oven.",
+          "function": "remainingMinutesInOven",
+          "args": [25],
+          "checks": [{ "value": 15 }]
+        },
+        {
+          "name": "Calculates remaining time correctly 2",
+          "slug": "remaining-minutes-in-oven-normal-2",
+          "description_html": "Calculate the remaining minutes when 5 minutes have passed.",
+          "function": "remainingMinutesInOven",
+          "args": [5],
+          "checks": [{ "value": 35 }]
+        },
+        {
+          "name": "Calculates remaining time correctly 3",
+          "slug": "remaining-minutes-in-oven-normal-3",
+          "description_html": "Calculate the remaining minutes when 39 minutes have passed.",
+          "function": "remainingMinutesInOven",
+          "args": [39],
+          "checks": [{ "value": 1 }]
+        },
+        {
+          "name": "Edge case: oven time complete",
+          "slug": "remaining-minutes-in-oven-edge-1",
+          "description_html": "Zero minutes remaining when oven time is complete.",
+          "function": "remainingMinutesInOven",
+          "args": [40],
+          "checks": [{ "value": 0 }]
+        },
+        {
+          "name": "Edge case: no time passed yet",
+          "slug": "remaining-minutes-in-oven-edge-2",
+          "description_html": "Full oven time remaining when no time has passed.",
+          "function": "remainingMinutesInOven",
+          "args": [0],
+          "checks": [{ "value": 40 }]
+        }
+      ]
+    },
+    {
+      "name": "Preparation time",
+      "tests": [
+        {
+          "name": "Calculate preparation time for 1 layer",
+          "slug": "preparation-time-1-layer",
+          "description_html": "Preparation time should be 2 minutes per layer.",
+          "function": "preparationTimeInMinutes",
+          "args": [1],
+          "checks": [{ "value": 2 }]
+        },
+        {
+          "name": "Calculate preparation time for 2 layers",
+          "slug": "preparation-time-2-layers",
+          "description_html": "Preparation time should be proportional to number of layers.",
+          "function": "preparationTimeInMinutes",
+          "args": [2],
+          "checks": [{ "value": 4 }]
+        },
+        {
+          "name": "Calculate preparation time for 8 layers",
+          "slug": "preparation-time-8-layers",
+          "description_html": "Preparation time for 8 layers should be 16 minutes.",
+          "function": "preparationTimeInMinutes",
+          "args": [8],
+          "checks": [{ "value": 16 }]
+        }
+      ]
+    },
+    {
+      "name": "Total cooking time",
+      "tests": [
+        {
+          "name": "Calculate total cooking time for 1 layer",
+          "slug": "total-cooking-time-1-layer",
+          "description_html": "Total time should include preparation and oven time.",
+          "function": "totalTimeInMinutes",
+          "args": [1, 5],
+          "checks": [{ "value": 7 }]
+        },
+        {
+          "name": "Calculate total cooking time for 4 layers",
+          "slug": "total-cooking-time-4-layers",
+          "description_html": "Calculate total time for multiple layers.",
+          "function": "totalTimeInMinutes",
+          "args": [4, 15],
+          "checks": [{ "value": 23 }]
+        },
+        {
+          "name": "Calculate total cooking time for 1 layer long baking",
+          "slug": "total-cooking-time-1-layer-long",
+          "description_html": "Calculate total time for longer oven time.",
+          "function": "totalTimeInMinutes",
+          "args": [1, 30],
+          "checks": [{ "value": 32 }]
+        }
+      ]
+    }
+  ]
+}

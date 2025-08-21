@@ -1,11 +1,17 @@
+// i18n-key-prefix: videoCredits
+// i18n-namespace: components/track/dig-deeper-components/community-videos
 import React from 'react'
 import { Avatar, Icon } from '@/components/common'
 import type { CommunityVideoType } from '@/components/types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function VideoCredits({
   author,
   links,
 }: Pick<CommunityVideoType, 'author' | 'links'>): JSX.Element {
+  const { t } = useAppTranslation(
+    'components/track/dig-deeper-components/community-videos'
+  )
   return (
     <div className="mb-24 py-16 px-32 text-textColor6 flex justify-between items-center border-1 border-borderLight2 rounded-16 shadow-sm md:flex-row flex-col">
       <div className="grid grid-rows-[24px_24px] grid-cols-[48px_auto] place-items-start gap-x-16">
@@ -29,7 +35,7 @@ export function VideoCredits({
       <div className="underline font-semibold leading-150 text-14 flex items-center mt-8 md:mt-0">
         {author && author.links.profile && (
           <a href={author.links.profile} className="mr-32">
-            Exercism Profile
+            {t('videoCredits.exercismProfile')}
           </a>
         )}
 
@@ -40,7 +46,7 @@ export function VideoCredits({
             rel="noreferrer"
             className="flex"
           >
-            YouTube Channel&nbsp;
+            {t('videoCredits.youTubeChannel')}&nbsp;
             <Icon
               className="filter-textColor6 ml-12"
               icon={'new-tab'}

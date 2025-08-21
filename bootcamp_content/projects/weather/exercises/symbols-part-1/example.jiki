@@ -1,0 +1,27 @@
+function description_to_elements with description do
+  if description == "sunny" do
+    return ["sun"]
+  else if description == "dull" do
+    return ["cloud"]
+  else if description == "miserable" do
+    return ["cloud", "rain"]
+  else if description == "hopeful" do
+    return ["sun", "cloud"]
+  else if description == "rainbow-territory" do
+    return ["sun", "cloud", "rain"]
+  else if description == "exciting" do
+    return ["cloud", "snow"]
+  else if description == "snowboarding-time" do
+    return ["sun", "cloud", "snow"]
+  end
+end
+
+
+// function description_to_elements with description do
+//   set mappings to [["sunny", ["sun"]], ["dull", ["cloud"]], ["miserable", ["cloud", "rain"]], ["hopeful", ["cloud", "sun"]], ["rainbow-territory", ["cloud", "rain", "sun"]], ["exciting", ["cloud", "snow"]], ["snowboarding-time", ["cloud", "snow", "sun"]]]
+//   for each mapping in mappings do
+//     if description == mapping[1] do
+//       return mapping[2]
+//     end
+//   end
+// end

@@ -1,31 +1,30 @@
 .track-team-group
   .track-header.mb-16
     .flex.md:flex-row.flex-col.md:items-center.items-left.justify-between.mb-8.md:gap-0.gap-y-8
-      %h3.--representer-gradient Representer
+      %h3.--representer-gradient= t('.representer_heading')
       = link_to doc_path(:building, "tooling/representers"), class: "learn-more-new-tab" do
-        Learn More
-    %p Build a Representer: a bit of code that has the single responsibility of taking a solution and returning a normalized representation of it.
+        = t('.learn_more_button')
+    %p= t('.representer_description')
 
   - if status.representer.health == "missing"
     .action-required
-      Next goal: Build a Representer.
+      = t('.next_goal_build_representer')
       = link_to doc_path(:building, "tooling/representers/interface") do
-        Find out more.
+        = t('.find_out_more_button')
   - else
     %p.text-16
-      Current version:
+      = t('.current_version_label')
       %strong= current_sha
-      %span.italic (Takes up to 10 mins to deploy)
+      %span.italic= t('.deploy_time_notice_short')
 
     .border-t-1.border-borderColor6.mt-20.mb-16
     .c-build-page-stats-container
       .record-row
-        .record-name Total Representer Runs
+        .record-name= t('.total_representer_runs_label')
         .record-value= number_with_delimiter(status.representer.num_runs)
       .record-row
-        .record-name Total Representation Comments Made
+        .record-name= t('.total_representation_comments_made_label')
         .record-value= number_with_delimiter(status.representer.num_comments)
       .record-row
-        .record-name Feedback Given Frequency
-        .record-value #{status.representer.display_rate_percentage}%
-
+        .record-name= t('.feedback_given_frequency_label')
+        .record-value= t('.percentage_value', percentage: status.representer.display_rate_percentage)

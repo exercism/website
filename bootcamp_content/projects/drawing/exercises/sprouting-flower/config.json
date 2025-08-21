@@ -1,0 +1,81 @@
+{
+  "title": "Sprouting flower",
+  "description": "Make the flower sprout",
+  "project_type": "draw",
+  "level": 2,
+  "idx": 6,
+  "blocks_level_progression": false,
+  "blocks_project_progression": false,
+  "tests_type": "state",
+  "interpreter_options": {
+    "time_per_frame": 0.01,
+    "repeat_delay": 50,
+    "max_total_execution_time": 30000
+  },
+  "readonly_ranges": [],
+  "tasks": [
+    {
+      "name": "Draw the scene",
+      "tests": [
+        {
+          "slug": "draw-scence",
+          "name": "Make the flower sprout.",
+          "description_html": "Take it one step at a time!",
+          "checks": [
+            {
+              "function": "getCircleAt(50, 89, 0.4)",
+              "matcher": "toBeDefined",
+              "error_html": "The first Flower Head isn't correct."
+            },
+            {
+              "function": "getCircleAt(50, 30, 24)",
+              "matcher": "toBeDefined",
+              "error_html": "The final Flower Head isn't correct."
+            },
+
+            {
+              "function": "getCircleAt(50, 89, 0.1)",
+              "matcher": "toBeDefined",
+              "error_html": "The first Pistil isn't correct."
+            },
+            {
+              "function": "getCircleAt(50, 30, 6)",
+              "matcher": "toBeDefined",
+              "error_html": "The final Pistil isn't correct."
+            },
+            {
+              "function": "getRectangleAt(49.95, 89, 0.1, 1)",
+              "matcher": "toBeDefined",
+              "error_html": "The first Stem isn't correct."
+            },
+            {
+              "function": "getRectangleAt(47, 30, 6, 60)",
+              "matcher": "toBeDefined",
+              "error_html": "The final Stem isn't correct."
+            },
+            {
+              "function": "getEllipseAt(49.75, 89.5, 0.2, 0.08)",
+              "matcher": "toBeDefined",
+              "error_html": "The first Left Leaf isn't correct."
+            },
+            {
+              "function": "getEllipseAt(35, 60, 12, 4.8)",
+              "matcher": "toBeDefined",
+              "error_html": "The final Left Leaf isn't correct."
+            },
+            {
+              "function": "getEllipseAt(50.25, 89.5, 0.2, 0.08)",
+              "matcher": "toBeDefined",
+              "error_html": "The first Right Leaf isn't correct."
+            },
+            {
+              "function": "getEllipseAt(65, 60, 12, 4.8)",
+              "matcher": "toBeDefined",
+              "error_html": "The final Right Leaf isn't correct."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

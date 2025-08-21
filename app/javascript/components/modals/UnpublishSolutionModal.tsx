@@ -7,6 +7,7 @@ import { SolutionForStudent } from '@/components/types'
 import { FormButton } from '@/components/common/FormButton'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 import { Modal, ModalProps } from './Modal'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to unpublish solution')
 
@@ -14,12 +15,15 @@ export const UnpublishSolutionModal = ({
   endpoint,
   ...props
 }: ModalProps & { endpoint: string }): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/modals/UnpublishSolutionModal.tsx'
+  )
   const {
     mutate: mutation,
     status,
     error,
-  } = useMutation<SolutionForStudent>(
-    async () => {
+  } = useMutation<SolutionForStudent>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',
@@ -30,22 +34,15 @@ export const UnpublishSolutionModal = ({
         typecheck<SolutionForStudent>(json, 'solution')
       )
     },
-    {
-      onSuccess: (solution) => {
-        redirectTo(solution.privateUrl)
-      },
-    }
-  )
+    onSuccess: (solution) => {
+      redirectTo(solution.privateUrl)
+    },
+  })
 
   return (
     <Modal {...props} className="m-unpublish-solution">
-      <h3>Do you want to unpublish your solution?</h3>
-      <p>
-        Unpublishing your solution will mean it no longer appears on your
-        profile and can no longer be viewed under Community Solutions. All stars
-        and comments will be lost, and any associated reputation will be
-        removed.
-      </p>
+      <h3>{t('unpublishSolutionModal.title')}</h3>
+      <p>{t('unpublishSolutionModal.body')}</p>
 
       <div className="btns">
         <FormButton
@@ -54,7 +51,7 @@ export const UnpublishSolutionModal = ({
           status={status}
           className="btn-primary btn-m"
         >
-          Unpublish solution
+          {t('unpublishSolutionModal.unpublishButton')}
         </FormButton>
         <FormButton
           type="button"
@@ -62,7 +59,7 @@ export const UnpublishSolutionModal = ({
           status={status}
           className="btn-default btn-m"
         >
-          Cancel
+          {t('unpublishSolutionModal.cancelButton')}
         </FormButton>
       </div>
       <ErrorBoundary>

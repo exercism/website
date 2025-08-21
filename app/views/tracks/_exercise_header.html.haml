@@ -2,13 +2,13 @@
   .lg-container.container
     = link_to tracks_path do
       = graphical_icon 'tracks', hex: true
-      .span Tracks
+      .span= t('.breadcrumbs.tracks')
     .seperator /
     = link_to track do
       = track_icon track
       .span= track.title
     .seperator /
-    = link_to "Exercises", track_exercises_path(track)
+    = link_to t('.breadcrumbs.exercises'), track_exercises_path(track)
     .seperator /
     .exercise-title= exercise.title
 
@@ -20,8 +20,8 @@
   .lg-container
     %section.c-completed-exercise-heading
       = graphical_icon 'completed-check-circle', css_class: "check-mark-icon"
-      .text You've completed #{exercise.title}.
-      = render ViewComponents::ProminentLink.new("Discover more exercises", track_exercises_path(track))
+      .text= t('.completed_heading.text', exercise_title: exercise.title)
+      = render ViewComponents::ProminentLink.new(t('.completed_heading.discover_more_link'), track_exercises_path(track))
 
 .flex
   .content.lg-container.container.flex.items-center.relative
@@ -31,31 +31,30 @@
         %h1
           = exercise.title
           - if solution&.completed?
-            = icon 'completed-check-circle', "Exercise is completed"
+            = icon 'completed-check-circle', t('.completed_icon_alt')
 
         .tags.mb-16.lg:mb-0
           = render ViewComponents::Track::ExerciseStatusTag.new(exercise, user_track)
 
           - if exercise.tutorial?
-            .c-exercise-type-tag.--tutorial Tutorial Exercise
+            .c-exercise-type-tag.--tutorial= t('.exercise_type_tag.tutorial')
           - elsif exercise.concept_exercise?
             .c-exercise-type-tag.--concept
               = graphical_icon 'concept-exercise'
-              Learning Exercise
+              = t('.exercise_type_tag.learning')
           - elsif exercise.difficulty_category == :easy
             -# TODO: Use the React component for these
             .c-difficulty-tag.--easy
               .icon
-              Easy
+              = t('.difficulty_tag.easy')
           - elsif exercise.difficulty_category == :medium
             .c-difficulty-tag.--medium
               .icon
-              Medium
+              = t('.difficulty_tag.medium')
           - elsif exercise.difficulty_category == :hard
             .c-difficulty-tag.--hard
               .icon
-              Hard
-    = render ViewComponents::Partner::Advert.new(track:)
+              = t('.difficulty_tag.hard')
 
     -#
       TODO: Cache this

@@ -1,0 +1,7 @@
+en:
+  admin:
+    insiders:
+      index:
+        title: Insiders
+        num_subscribers: "Num Subscribers: %{count}"
+        total_recurring_donations: "Total recurring donations: %{amount}"

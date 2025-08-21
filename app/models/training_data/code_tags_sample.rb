@@ -1,9 +1,9 @@
 class TrainingData::CodeTagsSample < ApplicationRecord
   extend Mandate::Memoize
 
-  serialize :tags, JSON
-  serialize :llm_tags, JSON
-  serialize :files, JSON
+  serialize :tags, coder: JSON
+  serialize :llm_tags, coder: JSON
+  serialize :files, coder: JSON
 
   belongs_to :track
   belongs_to :exercise, optional: true

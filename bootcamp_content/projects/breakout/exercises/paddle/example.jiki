@@ -1,0 +1,123 @@
+set game to new Game()
+
+set y to 28
+repeat 5 times indexed by x do 
+  game.add_block(new Block(8 + ((x - 1) * 17), y))
+end
+  
+function change_direction with ball do
+  if ball.cx - ball.radius <= 0 do
+    change ball.x_velocity to 1
+  end
+  if ball.cx + ball.radius >= 100 do
+    change ball.x_velocity to -1
+  end
+  if ball.cy - ball.radius <= 0 do
+    change ball.y_velocity to 1
+  end
+  if ball.cy + ball.radius >= 100 do
+    change ball.y_velocity to -1
+  end
+end
+
+function handle_block_collision with game do
+  set ball to game.ball
+  set ball_top to ball.cy - ball.radius
+  set ball_bottom to ball.cy + ball.radius
+  set ball_left to ball.cx - ball.radius
+  set ball_right to ball.cx + ball.radius
+  
+  for each block in game.blocks do
+    if block.smashed do
+      next
+    end
+    if not ball_hozizontally_aligned_to_block(block, ball.cx) do
+      next
+    end
+    if ball_top == block.top + block.height do
+      change ball.y_velocity to 1
+      change block.smashed to true
+      return
+    end
+    if ball_bottom == block.top do
+      change ball.y_velocity to -1
+      change block.smashed to true
+      return
+    end
+  end
+end
+
+function handle_paddle_collision with game do
+  set ball to game.ball
+  set paddle to game.paddle
+  set ball_bottom to ball.cy + ball.radius
+  set ball_left to ball.cx - ball.radius
+  set ball_right to ball.cx + ball.radius
+  set paddle_top to paddle.cy - paddle.height / 2
+  set paddle_left to paddle.cx - paddle.width / 2
+  set paddle_right to paddle.cx + paddle.width / 2
+  
+  if ball_right < paddle_left or ball_left > paddle_right do
+    return
+  end
+
+  if ball_bottom >= paddle_top do
+    change ball.y_velocity to -1
+  end
+end
+
+function ball_hozizontally_aligned_to_block with block, ball_cx  do
+  return ball_cx >= block.left and ball_cx <= block.left + block.width
+end
+
+function all_blocks_smashed with blocks do
+  for each block in blocks do
+    if not block.smashed do
+      return false
+    end
+  end
+  return true
+end
+
+function move_paddle_left with paddle do
+  if paddle.cx - paddle.width / 2 <= 1 do
+    return
+  end
+  paddle.move_left()
+end
+function move_paddle_right with paddle do
+  if paddle.cx + (paddle.width / 2) >= 99 do
+    return
+  end
+  paddle.move_right()
+end
+
+function move_paddle with ball, paddle do
+ if ball.y_velocity == - 1 do
+    if paddle.cx < 50 do
+      move_paddle_right(paddle)
+    else do
+      move_paddle_left(paddle)
+    end
+   else if paddle.cx < ball.cx do
+    move_paddle_right(paddle)
+  else if paddle.cx > ball.cx do
+    move_paddle_left(paddle)
+  end
+end
+
+repeat_forever do
+  game.ball.move()
+  if game.ball.cy + game.ball.radius == 100 do
+    game.game_over("lose")
+    break
+  end
+  change_direction(game.ball)
+  handle_block_collision(game)
+  handle_paddle_collision(game)
+  if all_blocks_smashed(game.blocks) do
+    game.game_over("win")
+    break
+  end
+  move_paddle(game.ball, game.paddle)
+end

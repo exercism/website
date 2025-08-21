@@ -1,7 +1,8 @@
-- content_for :meta_title, "#{sanitize(@user.handle)}'s contributions to Exercism".html_safe
-- content_for :meta_description, "See how #{@user.handle} has contributed to Exercism"
+- content_for :meta_title, t('.meta_title', user_handle: sanitize(@user.handle)).html_safe
+- content_for :meta_description, t('.meta_description', user_handle: @user.handle).html_safe
 - content_for :canonical_url, contributions_profile_url(@user, order: params[:order].presence, page: params[:page].to_i > 1 ? params[:page] : nil)
 - require_stylesheet "profile"
+- require_stylesheet "track"
 
 #page-profile-contributions
   = render ViewComponents::Profile::Header.new(@user, @profile, :contributions)
@@ -9,7 +10,7 @@
   %article
     .lg-container{ data: { 'scroll-top-anchor': 'profile-contributions' } }
       = render ReactComponents::Common::Introducer.new(:profile_contributions, "solutions") do
-        %h2 Exercism is built by people like #{@user.handle} and you
-        %p See #{@user.handle}'s contributions to Exercism, along with the exercises and concepts they authored for various tracks.
+        %h2= t('.introducer.title', user_handle: @user.handle)
+        %p= t('.introducer.description', user_handle: @user.handle)
 
       = render ReactComponents::Profile::ContributionsList.new(@user)

@@ -1,0 +1,12 @@
+en:
+  maintaining:
+    track_categories:
+      index:
+        track_categories_heading: Track Categories
+        table_headers:
+          track: Track
+          category: Category
+        github_repo_link_parenthetical_html: (%{github_repo_link})
+        github_repo_text: GitHub repo
+        clear_cache_button: Clear cache
+        clear_cache_confirm: Are you sure? This is an expensive operation

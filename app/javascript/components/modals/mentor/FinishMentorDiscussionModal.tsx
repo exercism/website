@@ -4,6 +4,7 @@ import { Loading } from '@/components/common'
 import { FormButton } from '@/components/common/FormButton'
 import { ErrorBoundary, useErrorHandler } from '@/components/ErrorBoundary'
 import { Modal } from '../Modal'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to end discussion')
 
@@ -28,6 +29,8 @@ export const FinishMentorDiscussionModal = ({
   onFinish: () => void
   onCancel: () => void
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/modals/mentor')
+
   return (
     <Modal
       open={open}
@@ -35,13 +38,8 @@ export const FinishMentorDiscussionModal = ({
       className="m-generic-confirmation"
       {...props}
     >
-      <h3>Are you sure you want to end this discussion?</h3>
-      <p>
-        It&apos;s normally time to end a discussion when the student has got
-        what they wanted from the conversation, or you have taken the
-        conversation as far as you like. It&apos;s generally polite to leave the
-        student a final goodbye.
-      </p>
+      <h3>{t('finishMentorDiscussionModal.areYouSure')}</h3>
+      <p>{t('finishMentorDiscussionModal.explanation')}</p>
       <div className="buttons">
         <FormButton
           type="button"
@@ -49,7 +47,7 @@ export const FinishMentorDiscussionModal = ({
           onClick={onCancel}
           status={status}
         >
-          Cancel
+          {t('finishMentorDiscussionModal.cancel')}
         </FormButton>
         <FormButton
           type="button"
@@ -57,11 +55,11 @@ export const FinishMentorDiscussionModal = ({
           onClick={onFinish}
           status={status}
         >
-          End discussion
+          {t('finishMentorDiscussionModal.endDiscussion')}
         </FormButton>
       </div>
 
-      {status === 'loading' ? <Loading /> : null}
+      {status === 'pending' ? <Loading /> : null}
       {status === 'error' ? (
         <ErrorBoundary>
           <ErrorHandler error={error} />

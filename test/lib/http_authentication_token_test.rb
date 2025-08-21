@@ -1,5 +1,4 @@
 require "test_helper"
-require "hcaptcha"
 
 class HttpAuthenticationTokenTest < ActiveSupport::TestCase
   test "returns token when using token auth" do

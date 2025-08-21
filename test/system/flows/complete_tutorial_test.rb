@@ -21,7 +21,7 @@ module Flows
         find("label", text: "Yes, I'd like to share my solution with the community.").click
         click_on "Confirm"
         sleep(1)
-        assert_text "You’ve completed “Hello, World!”"
+        assert_text "You've completed “Hello, World!”"
 
         click_on "Return to “Hello, World!”"
         sleep(1)

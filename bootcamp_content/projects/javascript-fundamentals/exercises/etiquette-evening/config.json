@@ -1,0 +1,140 @@
+{
+  "title": "Etiquette Evening",
+  "description": "Play bouncer at a high-etiquette evening!",
+  "level": 12,
+  "idx": 7,
+  "tests_type": "io",
+  "language": "javascript",
+  "tasks": [
+    {
+      "name": "Standard Tasks",
+      "tests": [
+        {
+          "slug": "empty-list",
+          "description_html": "No-one's allowed in",
+          "name": "Empty register",
+          "function": "onGuestList",
+          "args": [[], "Mr Pitt"],
+          "checks": [
+            {
+              "value": false
+            }
+          ]
+        },
+        {
+          "slug": "name-missing",
+          "description_html": "The name's not on the list",
+          "name": "Brad's turned away",
+          "function": "onGuestList",
+          "args": [["Brian May", "Albert Einstein", "James Watt"], "Mr Pitt"],
+          "checks": [
+            {
+              "value": false
+            }
+          ]
+        },
+        {
+          "slug": "name-present",
+          "description_html": "The name's on the list",
+          "name": "Brad's allowed in",
+          "function": "onGuestList",
+          "args": [["Brian May", "Brad Pitt", "Albert Einstein"], "Mr Pitt"],
+          "checks": [
+            {
+              "value": true
+            }
+          ]
+        },
+        {
+          "slug": "different-honorific",
+          "description_html": "Handle a different honourific",
+          "name": "Knight of the realm",
+          "function": "onGuestList",
+          "args": [
+            ["Arthur Conan Doyle", "Bradley Cooper", "Albert Einstein"],
+            "Lord Doyle"
+          ],
+          "checks": [
+            {
+              "value": true
+            }
+          ]
+        },
+        {
+          "slug": "bond-allowed",
+          "description_html": "James is always allowed, regardless of the disguise",
+          "name": "Mr Bond, I presume",
+          "function": "onGuestList",
+
+          "args": [
+            ["James Bond"],
+            "setup.concatenate(setup.randomHonorific(), \" Bond\")"
+          ],
+          "checks": [
+            {
+              "value": true
+            }
+          ]
+        },
+        {
+          "slug": "bond-not-allowed",
+          "description_html": "You see James a mile off. He's not getting in here.",
+          "name": "Hmmm.. Mr Bond, I presume",
+          "function": "onGuestList",
+
+          "args": [
+            ["Jason Bourne"],
+            "setup.concatenate(setup.randomHonorific(), \" Bond\")"
+          ],
+          "checks": [
+            {
+              "value": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Bonus Tasks!",
+      "tests": [
+        {
+          "bonus": true,
+          "slug": "lloyd-webber",
+          "description_html": "Baron Lloyd Webber has two words in his surname!",
+          "name": "How about a Baron?",
+          "function": "onGuestList",
+          "args": [
+            [
+              "Brian May",
+              "Brad Pitt",
+              "Albert Einstein",
+              "Andrew Lloyd Webber"
+            ],
+            "Baron Lloyd Webber"
+          ],
+          "checks": [
+            {
+              "value": true
+            }
+          ]
+        },
+        {
+          "bonus": true,
+          "slug": "mark-webber",
+          "description_html": "A differ Webber doesn't count",
+          "name": "Is Mark the Baron?",
+          "function": "onGuestList",
+          "args": [
+            ["Brian May", "Brad Pitt", "Albert Einstein", "Mark Webber"],
+            "Baron Lloyd Webber"
+          ],
+          "checks": [
+            {
+              "value": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

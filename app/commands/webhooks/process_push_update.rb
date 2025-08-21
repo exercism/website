@@ -15,6 +15,10 @@ class Webhooks::ProcessPushUpdate
       Git::SyncBlog.defer
     when "problem-specifications"
       Git::SyncProblemSpecifications.defer
+    when "tooling-invoker"
+      Git::SyncToolingInvoker.defer
+    when "tooling-manager"
+      Git::SyncToolingManager.defer
     else
       track = Track.find_by(slug: repo_name)
       Git::SyncTrack.defer(track) if track

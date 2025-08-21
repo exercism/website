@@ -10,12 +10,15 @@ import {
 import { ExercismTippy } from '@/components/misc/ExercismTippy'
 import { StudentTooltip } from '@/components/tooltips'
 import type { MentorDiscussion } from '@/components/types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const Discussion = ({
   discussion,
 }: {
   discussion: MentorDiscussion
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/mentoring/inbox')
+
   return (
     <ExercismTippy
       content={<StudentTooltip endpoint={discussion.links.tooltipUrl} />}
@@ -39,7 +42,7 @@ export const Discussion = ({
             {discussion.student.isFavorited ? (
               <Icon
                 icon="gold-star"
-                alt="Favorite student"
+                alt={t('discussion.favoriteStudent')}
                 className="favorited"
               />
             ) : null}
@@ -47,7 +50,12 @@ export const Discussion = ({
           <div className="--exercise-title">on {discussion.exercise.title}</div>
         </div>
         <div className="--comments-count">
-          <Icon icon="comment" alt={`{discussion.postsCount} comments`} />
+          <Icon
+            icon="comment"
+            alt={t('discussion.comments', {
+              postsCount: discussion.postsCount,
+            })}
+          />
           {discussion.postsCount}
         </div>
         <time className="-updated-at">{fromNow(discussion.updatedAt)}</time>

@@ -1,7 +1,10 @@
 class Github::TeamMember::Destroy
   include Mandate
 
-  initialize_with :user_id, :team_name
+  initialize_with :team_member
 
-  def call = ::Github::TeamMember.where(user_id:, team_name:).destroy_all
+  def call
+    team_member.delete
+    User::UpdateMaintainer.(team_member.user) if team_member.track_id
+  end
 end

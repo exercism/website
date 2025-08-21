@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 const fs = require('fs')
 const ImportGlobPlugin = require('esbuild-plugin-import-glob')
-const browserslistToEsbuild = require('browserslist-to-esbuild')
 
 function build() {
   const env = require('./.config/env.json')
@@ -12,6 +11,8 @@ function build() {
         './app/javascript/packs/core.tsx',
         './app/javascript/packs/internal.tsx',
         './app/javascript/packs/landing.tsx',
+        './app/javascript/packs/courses.tsx',
+        './app/javascript/packs/bootcamp-js.tsx',
         ...(process.env.RAILS_ENV === 'test'
           ? ['./app/javascript/packs/test.tsx']
           : []),
@@ -19,13 +20,15 @@ function build() {
       bundle: true,
       sourcemap: true,
       format: 'esm',
+      // chunkNames: '[name]-[hash]-1',
       splitting: true,
       minify: process.env.NODE_ENV === 'production',
       watch: process.argv.includes('--watch'),
       outdir: '.built-assets',
       tsconfig: './tsconfig.json',
-      target: browserslistToEsbuild(),
+      target: 'es2022',
       define: {
+        // global: 'window',
         // TODO: move bugsnag API key into config
         'process.env.BUGSNAG_API_KEY': '"938ae3d231c5455e5c6597de1b1467af"',
 

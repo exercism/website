@@ -1,0 +1,23 @@
+#page-bootcamp-admin-exercises.page-bootcamp-admin.pt-20
+  .lg-container
+    %h1= t('.exercises_title')
+    - @exercises_by_level.each do |level_idx, exercises|
+      %h2= t('.level_heading', level_idx: level_idx)
+      %table
+        %thead
+          %tr
+            %th
+            %th= t('.table_headers.project')
+            %th= t('.table_headers.exercise')
+            %th= t('.table_headers.num_stale')
+            %th= t('.table_headers.num_active')
+            %th= t('.table_headers.num_done')
+        %tbody
+          - exercises.each do |exercise|
+            %tr
+              %td #{exercise.idx}.
+              %td= link_to exercise.project.title, bootcamp_project_path(exercise.project)
+              %td= link_to exercise.title, bootcamp_project_exercise_path(exercise.project, exercise)
+              %td= @stale_exercise_counts[exercise.id].to_i
+              %td= @active_exercise_counts[exercise.id].to_i
+              %td= @completed_exercise_counts[exercise.id].to_i

@@ -1,0 +1,262 @@
+{
+  "title": "Annalyn's Infiltration",
+  "description": "Help Annalyn free her best friend using boolean logic in JavaScript",
+  "language": "javascript",
+  "level": 12,
+  "idx": 4,
+  "tests_type": "io",
+  "tasks": [
+    {
+      "name": "Fast attack execution",
+      "tests": [
+        {
+          "name": "Cannot execute fast attack when knight is awake",
+          "slug": "fast-attack-knight-awake",
+          "description_html": "Check fast attack not possible when knight is awake.",
+          "function": "canExecuteFastAttack",
+          "args": [true],
+          "checks": [{ "value": false }]
+        },
+        {
+          "name": "Can execute fast attack when knight is asleep",
+          "slug": "fast-attack-knight-asleep",
+          "description_html": "Check fast attack possible when knight is asleep.",
+          "function": "canExecuteFastAttack",
+          "args": [false],
+          "checks": [{ "value": true }]
+        }
+      ]
+    },
+    {
+      "name": "Spy capability",
+      "tests": [
+        {
+          "name": "Cannot spy when everyone asleep",
+          "slug": "spy-everyone-asleep",
+          "description_html": "Spying not possible when everyone is asleep.",
+          "function": "canSpy",
+          "args": [false, false, false],
+          "checks": [{ "value": false }]
+        },
+        {
+          "name": "Can spy when only prisoner awake",
+          "slug": "spy-only-prisoner",
+          "description_html": "Spying possible when only the prisoner is awake.",
+          "function": "canSpy",
+          "args": [false, false, true],
+          "checks": [{ "value": true }]
+        },
+        {
+          "name": "Can spy when only archer awake",
+          "slug": "spy-only-archer",
+          "description_html": "Spying possible when only the archer is awake.",
+          "function": "canSpy",
+          "args": [false, true, false],
+          "checks": [{ "value": true }]
+        },
+        {
+          "name": "Can spy when knight asleep, others awake",
+          "slug": "spy-knight-asleep-others-awake",
+          "description_html": "Spying possible when knight is asleep and others are awake.",
+          "function": "canSpy",
+          "args": [false, true, true],
+          "checks": [{ "value": true }]
+        },
+        {
+          "name": "Can spy when only knight awake",
+          "slug": "spy-only-knight",
+          "description_html": "Spying possible when only the knight is awake.",
+          "function": "canSpy",
+          "args": [true, false, false],
+          "checks": [{ "value": true }]
+        },
+        {
+          "name": "Can spy when archer asleep, others awake",
+          "slug": "spy-archer-asleep-others-awake",
+          "description_html": "Spying possible when archer is asleep and others are awake.",
+          "function": "canSpy",
+          "args": [true, false, true],
+          "checks": [{ "value": true }]
+        },
+        {
+          "name": "Can spy when everyone is awake",
+          "slug": "spy-everyone-awake",
+          "description_html": "Spying possible when everyone is awake.",
+          "function": "canSpy",
+          "args": [true, true, true],
+          "checks": [{ "value": true }]
+        }
+      ]
+    },
+    {
+      "name": "Signal prisoner capability",
+      "tests": [
+        {
+          "name": "Cannot signal when everyone asleep",
+          "slug": "signal-everyone-asleep",
+          "description_html": "Signaling not possible when everyone is asleep.",
+          "function": "canSignalPrisoner",
+          "args": [false, false],
+          "checks": [{ "value": false }]
+        },
+        {
+          "name": "Can signal when only prisoner awake",
+          "slug": "signal-only-prisoner",
+          "description_html": "Signaling possible when only the prisoner is awake.",
+          "function": "canSignalPrisoner",
+          "args": [false, true],
+          "checks": [{ "value": true }]
+        },
+        {
+          "name": "Cannot signal when only archer awake",
+          "slug": "signal-only-archer",
+          "description_html": "Signaling not possible when only the archer is awake.",
+          "function": "canSignalPrisoner",
+          "args": [true, false],
+          "checks": [{ "value": false }]
+        },
+        {
+          "name": "Cannot signal when everyone awake",
+          "slug": "signal-everyone-awake",
+          "description_html": "Signaling not possible when everyone is awake.",
+          "function": "canSignalPrisoner",
+          "args": [true, true],
+          "checks": [{ "value": false }]
+        }
+      ]
+    },
+    {
+      "name": "Free prisoner scenarios",
+      "tests": [
+        {
+          "name": "Cannot free when everyone asleep, no dog",
+          "slug": "free-everyone-asleep-no-dog",
+          "description_html": "Cannot free prisoner if everyone asleep and no dog present.",
+          "function": "canFreePrisoner",
+          "args": [false, false, false, false],
+          "checks": [{ "value": false }]
+        },
+        {
+          "name": "Can free when everyone asleep, with dog",
+          "slug": "free-everyone-asleep-dog",
+          "description_html": "Can free prisoner if everyone asleep and dog present.",
+          "function": "canFreePrisoner",
+          "args": [false, false, false, true],
+          "checks": [{ "value": true }]
+        },
+        {
+          "name": "Can free when only prisoner awake, no dog",
+          "slug": "free-prisoner-awake-no-dog",
+          "description_html": "Can free prisoner if only prisoner awake and no dog.",
+          "function": "canFreePrisoner",
+          "args": [false, false, true, false],
+          "checks": [{ "value": true }]
+        },
+        {
+          "name": "Can free when only prisoner awake, with dog",
+          "slug": "free-prisoner-awake-dog",
+          "description_html": "Can free prisoner if only prisoner awake and dog present.",
+          "function": "canFreePrisoner",
+          "args": [false, false, true, true],
+          "checks": [{ "value": true }]
+        },
+        {
+          "name": "Cannot free when only archer awake, no dog",
+          "slug": "free-archer-awake-no-dog",
+          "description_html": "Cannot free prisoner if only archer awake, no dog.",
+          "function": "canFreePrisoner",
+          "args": [false, true, false, false],
+          "checks": [{ "value": false }]
+        },
+        {
+          "name": "Cannot free when only archer awake, with dog",
+          "slug": "free-archer-awake-dog",
+          "description_html": "Cannot free prisoner if only archer awake, even with dog.",
+          "function": "canFreePrisoner",
+          "args": [false, true, false, true],
+          "checks": [{ "value": false }]
+        },
+        {
+          "name": "Cannot free when only knight asleep, no dog",
+          "slug": "free-knight-asleep-no-dog",
+          "description_html": "Cannot free prisoner if only knight asleep, no dog.",
+          "function": "canFreePrisoner",
+          "args": [false, true, true, false],
+          "checks": [{ "value": false }]
+        },
+        {
+          "name": "Cannot free when only knight asleep, with dog",
+          "slug": "free-knight-asleep-dog",
+          "description_html": "Cannot free prisoner if only knight asleep, with dog.",
+          "function": "canFreePrisoner",
+          "args": [false, true, true, true],
+          "checks": [{ "value": false }]
+        },
+        {
+          "name": "Cannot free when only knight awake, no dog",
+          "slug": "free-knight-awake-no-dog",
+          "description_html": "Cannot free prisoner if only knight awake, no dog.",
+          "function": "canFreePrisoner",
+          "args": [true, false, false, false],
+          "checks": [{ "value": false }]
+        },
+        {
+          "name": "Can free when only knight awake, with dog",
+          "slug": "free-knight-awake-dog",
+          "description_html": "Can free prisoner if only knight awake, with dog.",
+          "function": "canFreePrisoner",
+          "args": [true, false, false, true],
+          "checks": [{ "value": true }]
+        },
+        {
+          "name": "Cannot free when only archer asleep, no dog",
+          "slug": "free-archer-asleep-no-dog",
+          "description_html": "Cannot free prisoner if only archer asleep, no dog.",
+          "function": "canFreePrisoner",
+          "args": [true, false, true, false],
+          "checks": [{ "value": false }]
+        },
+        {
+          "name": "Can free when only archer asleep, with dog",
+          "slug": "free-archer-asleep-dog",
+          "description_html": "Can free prisoner if only archer asleep, with dog.",
+          "function": "canFreePrisoner",
+          "args": [true, false, true, true],
+          "checks": [{ "value": true }]
+        },
+        {
+          "name": "Cannot free when prisoner asleep, no dog",
+          "slug": "free-prisoner-asleep-no-dog",
+          "description_html": "Cannot free prisoner if prisoner asleep, no dog.",
+          "function": "canFreePrisoner",
+          "args": [true, true, false, false],
+          "checks": [{ "value": false }]
+        },
+        {
+          "name": "Cannot free when prisoner asleep, with dog",
+          "slug": "free-prisoner-asleep-dog",
+          "description_html": "Cannot free prisoner if prisoner asleep, with dog.",
+          "function": "canFreePrisoner",
+          "args": [true, true, false, true],
+          "checks": [{ "value": false }]
+        },
+        {
+          "name": "Cannot free when everyone awake, no dog",
+          "slug": "free-everyone-awake-no-dog",
+          "description_html": "Cannot free prisoner when everyone is awake and no dog present.",
+          "function": "canFreePrisoner",
+          "args": [true, true, true, false],
+          "checks": [{ "value": false }]
+        },
+        {
+          "name": "Cannot free when everyone awake, with dog",
+          "slug": "free-everyone-awake-dog",
+          "description_html": "Cannot free prisoner when everyone is awake even with dog.",
+          "function": "canFreePrisoner",
+          "args": [true, true, true, true],
+          "checks": [{ "value": false }]
+        }
+      ]
+    }
+  ]
+}

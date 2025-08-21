@@ -1,0 +1,16 @@
+{
+  "slug": "breakout",
+  "title": "Breakout",
+  "description": "Recreate the classic game of Breakout",
+  "exercises": [
+    "boundaried-ball",
+    "smashing-blocks",
+    "paddle",
+    "break-out-those-classes",
+    "breakout-css",
+    "bouncy-ball",
+    "take-control",
+    "hot-zones",
+    "breakout-game"
+  ]
+}

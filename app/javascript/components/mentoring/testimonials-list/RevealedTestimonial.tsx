@@ -5,6 +5,7 @@ import { Avatar, GraphicalIcon, HandleWithFlair, TrackIcon } from '../../common'
 import { TestimonialModal } from '../../modals/TestimonialModal'
 import { Testimonial, SharePlatform } from '../../types'
 import { OptionsDropdown } from './revealed-testimonial/OptionsDropdown'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const RevealedTestimonial = ({
   testimonial,
@@ -18,6 +19,7 @@ export const RevealedTestimonial = ({
   platforms: readonly SharePlatform[]
 }): JSX.Element => {
   const [open, setOpen] = useState(false)
+  const { t } = useAppTranslation('components/mentoring/testimonials-list')
 
   return (
     <React.Fragment>
@@ -42,10 +44,15 @@ export const RevealedTestimonial = ({
               />
             </div>
             <div className="exercise">
-              on {testimonial.exercise.title} in {testimonial.track.title}
+              {t('revealedTestimonial.onExerciseInTrack', {
+                exerciseTitle: testimonial.exercise.title,
+                trackTitle: testimonial.track.title,
+              })}
             </div>
           </div>
-          {isRevealed ? <div className="new">New</div> : null}
+          {isRevealed ? (
+            <div className="new">{t('revealedTestimonial.new')}</div>
+          ) : null}
           <div className="content">{testimonial.content}</div>
           <time dateTime={testimonial.createdAt}>
             {fromNow(testimonial.createdAt)}

@@ -1,0 +1,9 @@
+#page-settings-github-syncer.page-settings
+  .lg-container
+    = render ViewComponents::SettingsNav.new(:github_syncer)
+
+    %article
+      - if current_user.github_solution_syncer
+        %h1= t('.github_syncer.heading')
+
+      = render ReactComponents::Settings::GithubSyncerForm.new

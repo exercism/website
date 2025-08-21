@@ -1,0 +1,192 @@
+{
+  "title": "Acronym",
+  "description": "Generate an acronym from a given phrase.",
+  "level": 5,
+  "idx": 13,
+  "blocks_level_progression": false,
+  "blocks_project_progression": false,
+  "tests_type": "io",
+  "stdlib_functions": ["concatenate", "to_upper_case"],
+  "tasks": [
+    {
+      "name": "Basic acronyms",
+      "tests": [
+        {
+          "slug": "png",
+          "name": "Basic acronym",
+          "description_html": "Generate an acronym for 'Portable Network Graphics'.",
+          "image_slug": "string-puzzles/acronym/png.jpg",
+          "function": "acronym",
+          "args": ["Portable Network Graphics"],
+          "checks": [
+            {
+              "value": "PNG"
+            }
+          ]
+        },
+        {
+          "slug": "ror",
+          "name": "Lowercase words",
+          "description_html": "Generate an acronym for 'Ruby on Rails'.",
+          "image_slug": "string-puzzles/acronym/ror.jpg",
+          "function": "acronym",
+          "args": ["Ruby on Rails"],
+          "checks": [
+            {
+              "value": "ROR"
+            }
+          ]
+        },
+        {
+          "slug": "gimp",
+          "description_html": "Generate an acronym for 'GNU Image Manipulation Program'.",
+          "name": "All caps word",
+          "image_slug": "string-puzzles/acronym/gimp.jpg",
+          "function": "acronym",
+          "args": ["GNU Image Manipulation Program"],
+          "checks": [
+            {
+              "value": "GIMP"
+            }
+          ]
+        },
+        {
+          "slug": "fifo",
+          "description_html": "Generate an acronym for 'First In, First Out'.",
+          "name": "Acronym with punctuation",
+          "image_slug": "string-puzzles/acronym/fifo.jpg",
+          "function": "acronym",
+          "args": ["First In, First Out"],
+          "checks": [
+            {
+              "value": "FIFO"
+            }
+          ]
+        },
+        {
+          "slug": "cmos",
+          "description_html": "Generate an acronym for 'Complementary metal-oxide semiconductor'.",
+          "name": "Punctuation without whitespace",
+          "image_slug": "string-puzzles/acronym/cmos.jpg",
+          "function": "acronym",
+          "args": ["Complementary metal-oxide semiconductor"],
+          "checks": [
+            {
+              "value": "CMOS"
+            }
+          ]
+        },
+        {
+          "slug": "hc",
+          "description_html": "Generate an acronym for 'Halley's Comet'.",
+          "name": "Acronym with apostrophes",
+          "image_slug": "string-puzzles/acronym/hc.jpg",
+          "function": "acronym",
+          "args": ["Halley's Comet"],
+          "checks": [
+            {
+              "value": "HC"
+            }
+          ]
+        },
+        {
+          "slug": "roflshtmdcoalm",
+          "description_html": "Generate an acronym for 'Rolling On The Floor Laughing So Hard That My Dogs Came Over And Licked Me'.",
+          "name": "Very long acronym",
+          "image_slug": "string-puzzles/acronym/roflshtmdcoalm.jpg",
+
+          "function": "acronym",
+          "args": [
+            "Rolling On The Floor Laughing So Hard That My Dogs Came Over And Licked Me"
+          ],
+          "checks": [
+            {
+              "value": "ROTFLSHTMDCOALM"
+            }
+          ]
+        },
+        {
+          "slug": "simufta",
+          "description_html": "Generate an acronym for 'Something - I made up from thin air'.",
+          "name": "Acronym with consecutive delimiters",
+          "image_slug": "string-puzzles/acronym/simufta.jpg",
+          "function": "acronym",
+          "args": ["Something - I made up from thin air"],
+          "checks": [
+            {
+              "value": "SIMUFTA"
+            }
+          ]
+        },
+        {
+          "slug": "trnt",
+          "description_html": "Generate an acronym for 'The Road _Not_ Taken'.",
+          "name": "Acronym with underscore emphasis",
+          "image_slug": "string-puzzles/acronym/trnt.jpg",
+          "function": "acronym",
+          "args": ["The Road _Not_ Taken"],
+          "checks": [
+            {
+              "value": "TRNT"
+            }
+          ]
+        },
+        {
+          "slug": "random",
+          "description_html": "Generate an acronym for an every changing string!",
+          "name": "A scenario that changes every time",
+          "image_slug": "string-puzzles/acronym/trnt.jpg",
+          "function": "acronym",
+          "args": [
+            "setup.concatenate(\"Hello \", setup.randomEmoji(), \"World\")"
+          ],
+          "checks": [
+            {
+              "value": "HW"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Bonus Tasks!",
+      "bonus": true,
+      "tests": [
+        {
+          "slug": "lowercase-only",
+          "name": "How about a Baron?",
+          "description_html": "Can you solve this without having a capital letter anywhere in your code?",
+          "function": "acronym",
+          "args": ["Andrew Lloyd Webber"],
+          "value": "ALW",
+          "checks": [
+            {
+              "function": "numUppercaseLettersInStrings",
+              "matcher": "toBe",
+              "value": 0,
+              "code_run": "Checked for how many uppercase letters are in your code.",
+              "error_html": "You have a capital letter in your code."
+            }
+          ]
+        },
+        {
+          "slug": "22-lines",
+          "name": "22 lines of code",
+          "description_html": "Can you solve it with only 22 lines of code?",
+          "function": "acronym",
+          "args": ["Andrew Lloyd Webber"],
+          "value": "ALW",
+          "checks": [
+            {
+              "function": "numLinesOfCode",
+              "matcher": "toBeLessThanOrEqual",
+              "value": 22,
+              "code_run": "Checked for how many lines of code you have.",
+              "error_html": "You have more than 22 lines of code."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

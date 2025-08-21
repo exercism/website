@@ -1,0 +1,14 @@
+{
+  "slug": "number-puzzles",
+  "title": "Number Puzzles",
+  "description": "An assortment of number-based puzzles",
+  "exercises": [
+    "positive-negative-or-zero",
+    "even-or-odd",
+    "raindrops",
+    "collatz-conjecture",
+    "triangle",
+    "isbn-verifier",
+    "sieve"
+  ]
+}

@@ -1,0 +1,54 @@
+#game {
+    background: white;
+    width: 80vmin;
+    height: 80vmin;
+    margin: 10vh auto;
+    border: 1px solid #aaa;
+    display: flex;
+    justify-content: stretch;
+    align-items: stretch;
+
+    #board {
+        flex-grow: 1;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        margin: 5%;
+
+        .square {
+            border: 0px solid #aaa;
+            display: grid;
+            place-items: center;
+            container-type: size;
+            font-size: 20cqmin;
+            line-height: 1;
+            cursor: pointer;
+
+            &.win {
+                background: purple;
+                color: #fff;
+            }
+            &.draw {
+                background: #ddd;
+                color: #666;
+            }
+
+            &:nth-child(1),
+            &:nth-child(2),
+            &:nth-child(4),
+            &:nth-child(5),
+            &:nth-child(7),
+            &:nth-child(8) {
+                border-right-width: 1px;
+            }
+            &:nth-child(1),
+            &:nth-child(2),
+            &:nth-child(3),
+            &:nth-child(4),
+            &:nth-child(5),
+            &:nth-child(6) {
+                border-bottom-width: 1px;
+            }
+        }
+    }
+}

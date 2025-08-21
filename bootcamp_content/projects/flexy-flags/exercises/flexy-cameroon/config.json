@@ -1,0 +1,17 @@
+{
+  "title": "Flexy Cameroon",
+  "description": "Reproduce Cameroon's flag with flexbox",
+  "language": "css",
+  "level": 13,
+  "idx": 5,
+  "editor_config": {
+    "aspect_ratio": 1.5
+  },
+  "checks": [
+    {
+      "function": "illegalPropertiesUsed(['background','display','flex-basis','flex-grow','justify-content','align-items','width'])",
+      "matcher": "toBeUndefined",
+      "errorHtml": "You used a CSS property that is not allowed for this exercise (%result%)."
+    }
+  ]
+}

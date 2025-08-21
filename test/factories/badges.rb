@@ -16,6 +16,7 @@ FactoryBot.define do
     summer_of_sexps jurassic_july apps_august slimline_september
     object_oriented_october nibbly_november december_diversions
     completed_12_in_23 polyglot
+    participant_in_48_in_24 larisa_latynina paavo_nurmi usain_bolt
   ].each do |type|
     factory "#{type}_badge", class: "Badges::#{type.to_s.camelize}Badge" do
     end

@@ -1,0 +1,35 @@
+en:
+  user_onboarding:
+    show:
+      header:
+        title: Just before you get started… 📝
+        subtitle_html:
+          We're so excited you're here and hope that Exercism will be a
+          valuable and fun experience for you. <strong>We need to get a couple
+          of quick legal bits out of the way to ensure you get the experience
+          you expect, and to protect our community.</strong>
+      terms_section:
+        title: Our Terms of Service
+        summary: "In summary, our Terms of Service say that:"
+        code_of_conduct_html:
+          You must act in a way that is in line with Exercism's
+          values of respect and empathy per our %{code_of_conduct_link}. If you
+          do not, we have the right to block your usage of the platform.
+        property_license: Anything you submit to the site (e.g. your solutions,
+          feedback, etc) remains your property, but you grant Exercism a licence
+          to use it as we wish in perpetuity.
+        licences_html:
+          You may use exercises (provided by Exercism) and solutions
+          (created by users) in accordance with the %{mit_license_link} and
+          %{cc_sa_4_license_link} licences respectively.
+        full_terms_html: You can read our full %{terms_of_service_link}.
+        accept_terms: I accept Exercism's Terms of Service
+      privacy_policy_section:
+        title: Privacy Policy
+        summary_html:
+          Our Privacy Policy is nice and simple. It says that <strong>we
+          will never share your details with anyone outside of
+          Exercism,</strong> and that we don't use third-party cookies, so
+          no-one will track you here. You can %{privacy_policy_link}.
+        accept_privacy_policy: I accept Exercism's Privacy Policy
+      save_button: Save & Get Started

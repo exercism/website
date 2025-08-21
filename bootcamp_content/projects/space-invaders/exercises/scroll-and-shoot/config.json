@@ -1,0 +1,114 @@
+{
+  "title": "Scroll and Shoot",
+  "description": "Move your laser from left to right and shoot the aliens.",
+  "project_type": "space-invaders",
+  "level": 3,
+  "idx": 5,
+  "tests_type": "state",
+  "interpreter_options": {
+    "max_repeat_until_game_over_iterations": 100,
+    "max_total_execution_time": 20000
+  },
+  "tasks": [
+    {
+      "name": "Move your laser from left to right and shoot the aliens.",
+      "tests": [
+        {
+          "slug": "scroll-and-shoot",
+          "name": "Scroll and Shoot",
+          "description_html": "Move your laser from left to right and shoot the aliens.",
+          "setup_functions": [
+            [
+              "setupAliens",
+              [
+                [
+                  [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                  [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                  [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1]
+                ]
+              ]
+            ],
+            ["enableAlienRespawning"]
+          ],
+          "checks": [
+            {
+              "property": "gameStatus",
+              "value": "won",
+              "matcher": "toEqual",
+              "error_html": "You didn't shoot down all the aliens."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Bonus Tasks",
+      "bonus": true,
+      "tests": [
+        {
+          "slug": "no-repeat",
+          "name": "No Repeat",
+          "description_html": "Do not use the `repeat` keyword? (You can still use `repeat_until_game_over`)",
+          "setup_functions": [
+            [
+              "setupAliens",
+              [
+                [
+                  [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                  [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                  [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1]
+                ]
+              ]
+            ],
+            ["enableAlienRespawning"]
+          ],
+          "checks": [
+            {
+              "property": "gameStatus",
+              "value": "won",
+              "matcher": "toEqual",
+              "error_html": "You didn't shoot down all the aliens."
+            },
+            {
+              "function": "numTimesStatementUsed('RepeatStatement')",
+              "matcher": "toBe",
+              "value": 0,
+              "error_html": "You used the `repeat` keyword."
+            }
+          ]
+        },
+        {
+          "slug": "one-shoot",
+          "name": "One Shoot",
+          "description_html": "Only have `shoot()` appear once in your code?",
+          "setup_functions": [
+            [
+              "setupAliens",
+              [
+                [
+                  [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                  [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                  [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1]
+                ]
+              ]
+            ],
+            ["enableAlienRespawning"]
+          ],
+          "checks": [
+            {
+              "property": "gameStatus",
+              "value": "won",
+              "matcher": "toEqual",
+              "error_html": "You didn't shoot down all the aliens."
+            },
+            {
+              "function": "numFunctionCallsInCode('shoot')",
+              "value": 1,
+              "error_html": "You used the `shoot()` function more than once."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

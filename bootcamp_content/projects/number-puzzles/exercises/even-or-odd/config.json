@@ -1,0 +1,116 @@
+{
+  "title": "Even or Odd",
+  "description": "Determine if a number is even or odd",
+  "concepts": ["strings-using", "conditionals"],
+  "level": 4,
+  "idx": 3,
+  "tests_type": "io",
+  "stdlib_functions": ["concatenate"],
+  "tasks": [
+    {
+      "name": "Correctly identify even numbers",
+      "tests": [
+        {
+          "slug": "number-14",
+          "type": "io",
+          "name": "Number 14",
+          "function": "even_or_odd",
+          "args": [14],
+          "checks": [
+            {
+              "value": "Even"
+            }
+          ],
+          "image_slug": "number-puzzles/even-or-odd/14.png"
+        },
+        {
+          "slug": "number-28",
+          "type": "io",
+          "name": "Number 28",
+          "function": "even_or_odd",
+          "args": [28],
+          "checks": [
+            {
+              "value": "Even"
+            }
+          ],
+          "image_slug": "number-puzzles/even-or-odd/28.png"
+        }
+      ]
+    },
+    {
+      "name": "Correctly identify odd numbers",
+      "tests": [
+        {
+          "slug": "number--1",
+          "type": "io",
+          "name": "Number -1",
+          "function": "even_or_odd",
+          "args": [-1],
+          "checks": [
+            {
+              "value": "Odd"
+            }
+          ],
+          "image_slug": "number-puzzles/even-or-odd/-1.png"
+        },
+        {
+          "slug": "number-17",
+          "type": "io",
+          "name": "Number 17",
+          "function": "even_or_odd",
+          "args": [17],
+          "checks": [
+            {
+              "value": "Odd"
+            }
+          ],
+          "image_slug": "number-puzzles/even-or-odd/17.png"
+        }
+      ]
+    },
+    {
+      "name": "Correctly identify zero",
+      "tests": [
+        {
+          "slug": "number-0",
+          "type": "io",
+          "name": "Number 0",
+          "function": "even_or_odd",
+          "args": [0],
+          "checks": [
+            {
+              "value": "Even"
+            }
+          ],
+          "image_slug": "number-puzzles/even-or-odd/0.png"
+        }
+      ]
+    },
+    {
+      "name": "Bonus Tasks",
+      "bonus": true,
+      "tests": [
+        {
+          "slug": "bonus-1",
+          "name": "6 Lines of Code",
+          "function": "even_or_odd",
+          "args": [0],
+          "checks": [
+            {
+              "value": "Even"
+            },
+            {
+              "description": "We checked how many lines of code you added.",
+              "code_run": "We checked how many lines you used.",
+              "function": "numLinesOfCode()",
+              "matcher": "toBeLessThanOrEqual",
+              "value": 6,
+              "error_html": "You have more than 6 lines of code."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

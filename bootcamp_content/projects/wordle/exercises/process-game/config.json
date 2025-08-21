@@ -1,0 +1,212 @@
+{
+  "title": "Wordle Introduction",
+  "description": "Turn a guess into squares",
+  "project_type": "wordle",
+  "level": 6,
+  "idx": 1,
+  "tests_type": "state",
+  "stdlib_functions": ["push"],
+  "exercise_functions": ["color_row", "color_top_row"],
+  "tasks": [
+    {
+      "name": "Process Guesses",
+      "tests": [
+        {
+          "slug": "all-correct",
+          "name": "All correct",
+          "description_html": "Deal with a fully correct guess",
+          "setup_functions": [["setupView"], ["drawGuesses", [["hello"]]]],
+          "function": "process_first_guess",
+          "args": ["hello", "hello"],
+          "checks": [
+            {
+              "function": "statesForRow(0)",
+              "value": ["correct", "correct", "correct", "correct", "correct"],
+              "error_html": "We expected all the letters to be green"
+            }
+          ]
+        },
+        {
+          "slug": "absent",
+          "name": "Some absent",
+          "description_html": "Handle when some letters are wrong.",
+          "setup_functions": [["setupView"], ["drawGuesses", [["hallu"]]]],
+          "function": "process_first_guess",
+          "args": ["hello", "hallu"],
+          "checks": [
+            {
+              "function": "statesForRow(0)",
+              "value": ["correct", "absent", "correct", "correct", "absent"],
+              "error_html": "We expected the 'a' and 'u' to be absent"
+            }
+          ]
+        },
+        {
+          "slug": "present",
+          "name": "Some present",
+          "description_html": "Deal with a letters in the wrong place",
+          "setup_functions": [["setupView"], ["drawGuesses", [["hlelo"]]]],
+          "function": "process_first_guess",
+          "args": ["hello", "hlelo"],
+          "checks": [
+            {
+              "function": "statesForRow(0)",
+              "value": ["correct", "present", "present", "correct", "correct"],
+              "error_html": "We expected the 'l' and 'e' to be present."
+            }
+          ]
+        },
+        {
+          "slug": "complex",
+          "name": "Complex",
+          "description_html": "Deal with a more complex scenario",
+          "setup_functions": [["setupView"], ["drawGuesses", [["ehola"]]]],
+          "function": "process_first_guess",
+          "args": ["hello", "ehola"],
+          "checks": [
+            {
+              "function": "statesForRow(0)",
+              "value": ["present", "present", "present", "correct", "absent"],
+              "error_html": "We expected present, present, present, correct, absent"
+            }
+          ]
+        },
+        {
+          "slug": "different-word",
+          "name": "A different word",
+          "description_html": "And finally a different word!",
+          "setup_functions": [["setupView"], ["drawGuesses", [["beaks"]]]],
+          "function": "process_first_guess",
+          "args": ["break", "beaks"],
+          "checks": [
+            {
+              "function": "statesForRow(0)",
+              "value": ["correct", "present", "present", "present", "absent"],
+              "error_html": "We expected present, present, present, correct, absent"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Process Games",
+      "tests": [
+        {
+          "slug": "hole-in-one",
+          "name": "First time!",
+          "description_html": "Deal with a first correct guess.",
+          "setup_functions": [["setupView"], ["drawGuesses", [["hello"]]]],
+          "function": "process_game",
+          "args": ["hello", ["hello"]],
+          "checks": [
+            {
+              "function": "statesForRow(0)",
+              "value": ["correct", "correct", "correct", "correct", "correct"],
+              "error_html": "We expected all the letters to be green"
+            }
+          ]
+        },
+        {
+          "slug": "two-guesses",
+          "name": "Nailed it in two",
+          "description_html": "Deal with two guesses.",
+          "setup_functions": [
+            ["setupView"],
+            ["drawGuesses", [["hallo", "hello"]]]
+          ],
+          "function": "process_game",
+          "args": ["hello", ["hallo", "hello"]],
+          "checks": [
+            {
+              "function": "statesForRow(0)",
+              "value": ["correct", "absent", "correct", "correct", "correct"],
+              "error_html": "We expected the second letter to be absent"
+            },
+            {
+              "function": "statesForRow(1)",
+              "value": ["correct", "correct", "correct", "correct", "correct"],
+              "error_html": "We expected all the letters to be green"
+            }
+          ]
+        },
+        {
+          "slug": "three-guesses",
+          "name": "Got there in three",
+          "description_html": "Deal with three guesses.",
+          "setup_functions": [
+            ["setupView"],
+            ["drawGuesses", [["hulal", "hallo", "hello"]]]
+          ],
+          "function": "process_game",
+          "args": ["hello", ["hulal", "hallo", "hello"]],
+          "checks": [
+            {
+              "function": "statesForRow(0)",
+              "value": ["correct", "absent", "correct", "absent", "present"],
+              "error_html": "We expected the second and fourth letters to be absent"
+            },
+            {
+              "function": "statesForRow(1)",
+              "value": ["correct", "absent", "correct", "correct", "correct"],
+              "error_html": "We expected the second letter to be absent"
+            },
+            {
+              "function": "statesForRow(2)",
+              "value": ["correct", "correct", "correct", "correct", "correct"],
+              "error_html": "We expected all the letters to be green"
+            }
+          ]
+        },
+        {
+          "slug": "phew",
+          "name": "Phew!",
+          "description_html": "Phew! That was close!",
+          "setup_functions": [
+            ["setupView"],
+            [
+              "drawGuesses",
+              [["jumpy", "trend", "jumbo", "crisp", "gowfy", "block"]]
+            ]
+          ],
+          "function": "process_game",
+          "args": [
+            "block",
+            ["jumpy", "trend", "jumbo", "crisp", "gowfy", "block"]
+          ],
+          "checks": [
+            {
+              "function": "statesForRow(0)",
+              "value": ["absent", "absent", "absent", "absent", "absent"],
+              "error_html": "We expected everything to be absent."
+            },
+            {
+              "function": "statesForRow(1)",
+              "value": ["absent", "absent", "absent", "absent", "absent"],
+              "error_html": "We expected everything to be absent."
+            },
+            {
+              "function": "statesForRow(2)",
+              "value": ["absent", "absent", "absent", "present", "present"],
+              "error_html": "We expected the last two to be present and the rest absent."
+            },
+            {
+              "function": "statesForRow(3)",
+              "value": ["present", "absent", "absent", "absent", "absent"],
+              "error_html": "We expected the first to be present and the rest absent."
+            },
+            {
+              "function": "statesForRow(4)",
+              "value": ["absent", "present", "absent", "absent", "absent"],
+              "error_html": "We expected the second to be present and the rest absent"
+            },
+            {
+              "function": "statesForRow(5)",
+              "value": ["correct", "correct", "correct", "correct", "correct"],
+              "error_html": "We expected all the letters to be green"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

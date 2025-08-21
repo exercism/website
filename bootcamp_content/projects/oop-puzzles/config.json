@@ -1,0 +1,11 @@
+{
+  "slug": "oop-puzzles",
+  "title": "Object Oriented Programming Puzzles",
+  "description": "An assortment of object-oriented programming puzzles",
+  "exercises": [
+    "formal-robots",
+    "robot-classes",
+    "raindrops-collector",
+    "tame-or-game"
+  ]
+}

@@ -10,8 +10,12 @@ import { StripeForm } from './StripeForm'
 import currency from 'currency.js'
 import { Request, useRequestQuery } from '../../hooks/request-query'
 import { FetchingBoundary } from '../FetchingBoundary'
-import { FormWithModalLinks } from './FormWithModal'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
+export type StripeFormLinks = {
+  success: string
+  settings: string
+}
 const TabsContext = createContext<TabContext>({
   current: 'subscription',
   switchToTab: () => null,
@@ -58,6 +62,7 @@ export const Form = ({
   onSettled = () => null,
   id,
 }: Props): JSX.Element => {
+  const { t } = useAppTranslation('components/donations')
   const queryClient = useQueryClient()
   const { data, status, error } = useRequestQuery<{
     subscription: Subscription
@@ -141,13 +146,13 @@ export const Form = ({
           >
             <Icon
               icon="insiders"
-              alt="Eligible for Insiders Access"
+              alt={t('stripeForm.eligibleForInsidersAccess')}
               className="emoji mr-4 !filter-none md:block hidden"
             ></Icon>
-            Monthly Recurring
+            {t('form.monthlyRecurring')}
           </Tab>
           <Tab id="payment" context={TabsContext}>
-            One-off
+            {t('form.oneOff')}
           </Tab>
         </div>
         <div className="--content">
@@ -194,6 +199,7 @@ export const Form = ({
                 onSuccess={handleSuccess}
                 onProcessing={onProcessing}
                 onSettled={onSettled}
+                submitButtonDisabled={status === 'loading'}
               />
             </ExercismStripeElements>
           </Tab.Panel>
@@ -224,6 +230,7 @@ export const Form = ({
                 onSuccess={handleSuccess}
                 onProcessing={onProcessing}
                 onSettled={onSettled}
+                submitButtonDisabled={status === 'loading'}
               />
             </ExercismStripeElements>
           </Tab.Panel>

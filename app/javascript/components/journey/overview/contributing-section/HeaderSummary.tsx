@@ -2,6 +2,7 @@ import React from 'react'
 import { TrackContribution } from '../../../types'
 import { TrackHeaderSummaryText } from '../TrackHeaderSummaryText'
 import { TrackHeaderSpan } from '../TrackHeaderSpan'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const MAX_TRACKS = 4
 
@@ -32,6 +33,9 @@ export const HeaderSummary = ({
 }: {
   tracks: readonly TrackContribution[]
 }): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/journey/overview/contributing-section'
+  )
   const allTrack = tracks.find((track) => track.slug === null)
 
   if (!allTrack) {
@@ -49,7 +53,7 @@ export const HeaderSummary = ({
 
   return (
     <p>
-      You&apos;ve contributed most to{' '}
+      {t('headerSummary.youHaveContributedMostTo')}{' '}
       <TrackHeaderSummaryText<TrackContributionWithPercentage>
         tracks={tracksToDisplay}
         SpanComponent={TrackSummary}
@@ -63,8 +67,11 @@ const TrackSummary = ({
 }: {
   track: TrackContributionWithPercentage
 }): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/journey/overview/contributing-section'
+  )
   if (!track.slug) {
-    throw new Error('No summary for track')
+    throw new Error(t('headerSummary.noSummaryForTrack'))
   }
 
   return (

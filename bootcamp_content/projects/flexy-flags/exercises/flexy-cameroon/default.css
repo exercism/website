@@ -1,0 +1,18 @@
+body,
+.--jiki-faux-body {
+    overflow: hidden;
+    font-family: ui-serif, system-ui, serif, Apple Color Emoji, Segoe UI Emoji,
+        Segoe UI Symbol, Noto Color Emoji;
+    background: pink;
+
+    display: flex;
+    justify-content: stretch;
+    align-items: stretch;
+
+    height: 100%;
+    width: 100%;
+
+    & > * {
+        flex: 1;
+    }
+}

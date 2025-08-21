@@ -10,7 +10,7 @@ class User::Notification::MarkRelevantAsRead
       return unless ids.present?
 
       User::Notification.where(id: ids).update_all(status: :read, read_at: Time.current)
-      NotificationsChannel.broadcast_changed!(user)
     end
+    NotificationsChannel.broadcast_changed!(user)
   end
 end

@@ -76,6 +76,9 @@ const SiteUpdatesList = lazy(
 const CopyToClipboardButton = lazy(
   () => import('@/components/common/CopyToClipboardButton')
 )
+const TrackSlugsMultiselector = lazy(
+  () => import('@/components/common/TrackSlugsMultiselector')
+)
 const ThemeToggleButton = lazy(
   () => import('@/components/common/ThemeToggleButton')
 )
@@ -204,15 +207,45 @@ const PerksExternalModalButton = lazy(
 const Trophies = lazy(() => import('@/components/track/Trophies'))
 
 import { QueryClient } from '@tanstack/react-query'
+import { persistQueryClient } from '@tanstack/query-persist-client-core'
+import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister'
+
 declare global {
   interface Window {
     Turbo: typeof import('@hotwired/turbo/dist/types/core/index')
     queryClient: QueryClient
   }
 }
-// use query client by pulling it out of the provider with useQueryClient hook
-// const queryClient = useQueryClient()
-window.queryClient = new QueryClient()
+
+if (typeof window !== 'undefined') {
+  const persister = createSyncStoragePersister({
+    storage: window.localStorage,
+    key: 'REACT_QUERY_OFFLINE_CACHE',
+  })
+
+  // use query client by pulling it out of the provider with useQueryClient hook
+  window.queryClient = new QueryClient()
+
+  // use this path to register the worker for the exercism browser test runner
+  globalThis.__exercism ||= {}
+  globalThis.__exercism.workers ||= {}
+  globalThis.__exercism.workers.javascript =
+    '/javascript-browser-test-runner-worker.mjs'
+
+  persistQueryClient({
+    queryClient: window.queryClient,
+    persister,
+    dehydrateOptions: {
+      shouldDehydrateQuery: (query) => {
+        const [key] = query.queryKey
+        // only persist notifications and reputation in localStorage cache
+        return [NOTIFICATIONS_CACHE_KEY, REPUTATION_CACHE_KEY].includes(
+          key as string
+        )
+      },
+    },
+  })
+}
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
@@ -574,6 +607,14 @@ export const mappings = {
       <CopyToClipboardButton textToCopy={data.text_to_copy} />
     </Suspense>
   ),
+  'common-track-slugs-multiselector': (data: any): JSX.Element => (
+    <Suspense fallback={RenderLoader()}>
+      <TrackSlugsMultiselector
+        trackSlugs={data.track_slugs}
+        selectedTrackSlugs={data.selected_track_slugs}
+      />
+    </Suspense>
+  ),
   'common-theme-toggle-button': (
     data: Omit<ThemeToggleButtonProps, 'defaultTheme'> & {
       default_theme: string
@@ -800,12 +841,44 @@ import { ExerciseStatusChartSkeleton } from '@/components/common/skeleton/skelet
 import { TracksListSkeleton } from '@/components/common/skeleton/skeletons/TracksListSkeleton'
 import { ThemeToggleButtonSkeleton } from '@/components/common/skeleton/skeletons/ThemeToggleButtonSkeleton'
 import { UserMenuDropdownSkeleton } from '@/components/common/skeleton/skeletons/UserMenuDropdownSkeleton'
+import { initializeFullscreenChangeListeners } from '@/utils/handle-accessibility-fullscreen'
+import { NOTIFICATIONS_CACHE_KEY } from '@/components/dropdowns/Notifications'
+import { REPUTATION_CACHE_KEY } from '@/components/dropdowns/Reputation'
+
+// clear localStorage on logout..
+document.addEventListener('submit', function (event: SubmitEvent) {
+  if (
+    event &&
+    event.target &&
+    (event.target as HTMLFormElement).id === 'sign-out-form'
+  ) {
+    // ..except for a few keys that we want to keep
+    const keysToKeep = [
+      'solve-exercise-page-editor-height',
+      'solve-exercise-page-lhs',
+      'solve-exercise-page-rhs-height',
+      'split-pane-editor',
+      'theme-preference',
+      'frontend-training-page-rhs-height',
+      'frontend-training-page-size',
+    ]
+
+    const allKeys = Object.keys(localStorage)
+
+    allKeys.forEach((key) => {
+      if (!keysToKeep.includes(key)) {
+        localStorage.removeItem(key)
+      }
+    })
+  }
+})
 
 document.addEventListener('turbo:load', () => {
   showSiteFooter()
   handleNavbarFocus()
   scrollIntoView()
   addAnchorsToDocsHeaders()
+  initializeFullscreenChangeListeners()
   document.querySelector('meta[name="turbo-visit-control"]')?.remove()
 
   // Do this last

@@ -1,14 +1,13 @@
 .track-team-group
   .track-header.mb-16
     .flex.md:flex-row.flex-col.md:items-center.items-left.justify-between.mb-8.md:gap-0.gap-y-8
-      %h3.--syllabus-gradient Programming Tags
+      %h3.--syllabus-gradient= t('.programming_tags_heading')
       = link_to doc_path(:building, "tooling/analyzers/tags"), class: "learn-more-new-tab" do
-        Learn More
-    %p Help manage the tags used to group, filter and recommend solutions, approaches and articles.
+        = t('.learn_more_button')
+    %p= t('.tags_description')
 
   %details
     %summary
-      #{tags.size} tags
+      = t('.tags_summary', count: tags.size)
       = graphical_icon 'chevron-right', css_class: 'summary-chevron'
     = render ReactComponents::Track::Build::AnalyzerTags.new(tags, status.tags.solution_counts, track.slug)
-

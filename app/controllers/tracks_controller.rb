@@ -2,7 +2,14 @@ class TracksController < ApplicationController
   before_action :use_track, except: :index
   skip_before_action :authenticate_user!, only: %i[index show about]
 
+  before_action :cache_public_action!, only: %i[index show about]
+
   def index
+    etag = [Track.num_active]
+    etag << current_user.user_tracks.order(updated_at: :desc).pick(:updated_at) if current_user
+
+    return unless stale?(etag:)
+
     @tracks = Track::Search.(
       criteria: params[:criteria],
       tags: params[:tags],
@@ -10,7 +17,7 @@ class TracksController < ApplicationController
       user: current_user
     )
 
-    @num_tracks = Track.active.count
+    @num_tracks = Track.num_active
 
     # TODO: (Optional) Change this to only select the fields needed for an icon
     @track_icon_urls = Track.active.order('rand()').limit(8).map(&:icon_url)
@@ -18,14 +25,16 @@ class TracksController < ApplicationController
 
   def about
     return redirect_to action: :show if @user_track.external?
+    return unless stale?(etag: @track)
 
     setup_about
   end
 
   def show
     if @user_track.external?
-      setup_about
+      return unless stale?(etag: @track)
 
+      setup_about
       return render "tracks/about"
     end
 

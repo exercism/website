@@ -25,13 +25,15 @@ module Flows
         sign_in!(user)
         visit mentoring_path
         click_on "Try mentoring now"
-        find("label", text: "Ruby").click
+
+        find("label", text: /Ruby/, wait: 5).click
         within(".m-become-mentor") { click_on "Continue" }
 
-        find("label", text: "Abide by the\nCode of Conduct").click
-        find("label", text: "Be patient, empathic and kind to those you're mentoring").click
-        find("label", text: "Demonstrate\nintellectual humility").find(".c-checkbox").click # TODO: simplify
-        find("label", text: "Not use Exercism to promote personal agendas").click
+        find("label", text: /Abide by the/, wait: 5).click
+        find("label", text: /Be patient, empathic and kind to those you're mentoring/, wait: 5).click
+        find("label", text: /Demonstrate/, wait: 5).find(".c-checkbox").click # TODO: simplify
+        find("label", text: /Not use Exercism to promote personal agendas/, wait: 5).click
+
         within(".m-become-mentor") { click_on "Continue" }
         click_on "I'm ready to get started"
 

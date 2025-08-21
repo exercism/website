@@ -9,21 +9,34 @@ module ViewComponents
           icon: 'nav-tracks',
           view: :tracks
         },
-
         {
-          title: "#48in24 Challenge",
-          description: "A different challenge each week in 2024",
-          path: Exercism::Routes.challenge_path('48in24'),
-          icon: 'nav-12in23',
-          view: :challenge_48in24 # rubocop:disable Naming/VariableNumber
+          title: "Coding Fundamentals",
+          description: "The ultimate way to learn to code",
+          path: Exercism::Routes.bootcamp_url(course: "coding-fundamentals"),
+          icon: 'nav-coding-fundamentals',
+          view: :coding_fundamentals
         },
-
+        {
+          title: "Front-end Fundamentals",
+          description: "Learn the basics of front-end development",
+          path: Exercism::Routes.bootcamp_url(course: "front-end-fundamentals"),
+          icon: 'nav-front-end-fundamentals',
+          view: :front_end_fundamentals
+        },
         {
           title: "Your Journey",
           description: "Explore your Exercism journey",
           path: Exercism::Routes.journey_path,
           icon: 'nav-journey',
           view: :journey
+        },
+        {
+          title: "Your Favorites",
+          description: "Revisit your favorite solutions",
+          path: Exercism::Routes.favorites_path,
+          icon: 'nav-favorites',
+          view: :favorites,
+          is_new: true
         }
       ].freeze
 
@@ -109,10 +122,25 @@ module ViewComponents
           path: Exercism::Routes.contributing_contributors_path,
           icon: :contributors,
           icon_filter: "textColor6"
+        },
+        {
+          title: "Translators",
+          description: "Support our Localization project",
+          path: Exercism::Routes.new_localization_translator_path,
+          icon: :world,
+          is_new: true,
+          icon_filter: "textColor6"
         }
       ].freeze
 
       MORE_SUBMENU = [
+        # {
+        #   title: "GitHub Backup",
+        #   description: "Use our automated GitHub Backup system",
+        #   path: Exercism::Routes.settings_github_syncer_path,
+        #   icon: 'github-syncer',
+        #   category: "graphics",
+        # },
 
         {
           title: "Donate",
@@ -135,20 +163,20 @@ module ViewComponents
           icon: :report,
           icon_filter: "textColor6"
         },
+        {
+          title: "GitHub Syncer",
+          description: "Backup your solutions to GitHub",
+          path: Exercism::Routes.settings_github_syncer_path,
+          icon: 'feature-github-sync',
+          icon_filter: "textColor6",
+          is_new: true
+        },
 
         {
           title: "Insiders",
           description: "Our way of saying thank you",
           path: Exercism::Routes.insiders_path,
           icon: :insiders
-        },
-        {
-          title: "SWAG",
-          description: "Hoodies, stickers & more",
-          path: 'https://swag.exercism.org',
-          icon: :swag,
-          icon_filter: "textColor6",
-          external: true
         }
 
       ].freeze

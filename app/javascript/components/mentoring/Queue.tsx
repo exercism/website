@@ -10,6 +10,7 @@ import { SolutionList } from './queue/SolutionList'
 import { TextFilter } from './TextFilter'
 import { Sorter } from './Sorter'
 import { ResultsZone } from '../ResultsZone'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const TRACKS_LIST_CACHE_KEY = 'mentored-tracks'
 
@@ -38,6 +39,7 @@ export default function Queue({
   sortOptions: SortOption[]
   links: Links
 }): JSX.Element {
+  const { t } = useAppTranslation('components/mentoring/Queuetsx')
   const isMounted = useRef(false)
   const {
     tracks,
@@ -121,7 +123,7 @@ export default function Queue({
             filter={criteria}
             setFilter={setCriteria}
             id="mentoring-queue-student-name-filter"
-            placeholder="Filter by student handle"
+            placeholder={t('queue.filterByStudentHandle')}
           />
           <Sorter
             sortOptions={sortOptions}

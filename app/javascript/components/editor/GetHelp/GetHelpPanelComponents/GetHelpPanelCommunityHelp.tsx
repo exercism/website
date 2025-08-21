@@ -1,6 +1,9 @@
+// i18n-key-prefix: getHelpPanelComponents.getHelpPanelCommunityHelp
+// i18n-namespace: components/editor/GetHelp
 import React from 'react'
 import { GraphicalIcon } from '@/components/common'
 import { GetHelpAccordionSkeleton } from './GetHelpAccordionSkeleton'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function GetHelpPanelCommunityHelp({
   links,
@@ -8,26 +11,33 @@ export function GetHelpPanelCommunityHelp({
   'links',
   Record<'forumRedirectPath' | 'discordRedirectPath', string>
 >): JSX.Element {
+  const { t } = useAppTranslation('components/editor/GetHelp')
   return (
     <GetHelpAccordionSkeleton title="Community help" iconSlug="support">
       <div className="pt-8 flex flex-col gap-2">
         <p className="text-p-base text-color-2 mb-8">
-          Don&apos;t struggle on alone! Our community is always here to help.
+          {t(
+            'getHelpPanelComponents.getHelpPanelCommunityHelp.dontStruggleAlone'
+          )}
         </p>
         <p className="text-p-base text-color-2 mb-8">
-          Although you can&apos;t submit a mentoring requests until you get the
-          tests passing, you can ask for help on Discord or our Forum. Use the
-          links below to get started:
+          {t(
+            'getHelpPanelComponents.getHelpPanelCommunityHelp.cantSubmitMentoringRequest'
+          )}
         </p>
         <CommunityOpportunity
           name="Discord"
-          description="Get real time help in the #support channel on our Discord server."
+          description={t(
+            'getHelpPanelComponents.getHelpPanelCommunityHelp.discordDescription'
+          )}
           icon="external-site-discord-blue"
           link={links.discordRedirectPath}
         />
         <CommunityOpportunity
           name="Forum"
-          description="Dig deeper into topics and ideas on our forum."
+          description={t(
+            'getHelpPanelComponents.getHelpPanelCommunityHelp.forumDescription'
+          )}
           icon="discourser"
           link={links.forumRedirectPath}
         />

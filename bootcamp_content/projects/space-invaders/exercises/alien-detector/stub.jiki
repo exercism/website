@@ -1,0 +1,35 @@
+// Get the first row of aliens (the bottom one)
+set bottom_row to get_starting_aliens_in_row(1)
+
+// Set variables about facts
+set left_boundary to 1
+set right_boundary to 11
+
+// Set variables to track things
+set direction to "right"
+set position to 1
+
+// Play the game
+repeat_until_game_over do
+  // TODO: This function no longer exists...
+  // How can you solve the exercise without it?
+  // if is_alien_above() do
+    shoot()
+  // end
+
+  // If we hit an edge, change direction
+  if position >= right_boundary do
+    change direction to "left"
+  else if position <= left_boundary do
+    change direction to "right"
+  end
+
+  // Move along
+  if direction is "right" do
+    move_right()
+    change position to position + 1
+  else if direction is "left" do
+    move_left()
+    change position to position - 1
+  end
+end

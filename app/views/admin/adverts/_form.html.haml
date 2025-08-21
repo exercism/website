@@ -1,8 +1,6 @@
 - if advert.errors.any?
   %div{ style: "color: red" }
-    %h2
-      = pluralize(advert.errors.count, "error")
-      prohibited this advert from being saved:
+    %h2= t('.errors.header', count: advert.errors.count)
     %ul
       - advert.errors.each do |error|
         %li= error.full_message
@@ -16,11 +14,11 @@
     = f.label :url, class: 'text-h6 mb-4'
     = f.text_field :url
   .flex.flex-col.mb-16
-    = f.label :base_text, class: 'text-h6 mb-4'
-    = f.text_field :base_text
+    = f.label :markdown, class: 'text-h6 mb-4'
+    = f.text_field :markdown
   .flex.flex-col.mb-16
-    = f.label :emphasised_text, class: 'text-h6 mb-4'
-    = f.text_field :emphasised_text
+    = f.label :mailer_text, class: 'text-h6 mb-4'
+    = f.text_field :mailer_text
 
   .flex.flex-col.mb-16
     = f.label :light_logo, class: 'text-h6 mb-4'
@@ -30,6 +28,10 @@
     = f.label :dark_logo, class: 'text-h6 mb-4'
     = f.file_field :dark_logo
 
+  .flex.flex-col.mb-16
+    = f.label :track_slugs, "Select Tracks", class: 'text-h6 mb-4'
+    = render ReactComponents::Common::TrackSlugsMultiselector.new(Track.pluck(:slug), advert.track_slugs)
+    = f.hidden_field :track_slugs, id: 'partner_advert_track_slugs'
+
 %div
   = f.submit class: 'btn btn-primary btn-base'
-

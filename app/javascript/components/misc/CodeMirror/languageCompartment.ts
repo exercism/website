@@ -1,4 +1,4 @@
-import { StreamLanguage } from '@codemirror/stream-parser'
+import { StreamLanguage } from '@codemirror/language'
 import { Compartment, Extension } from '@codemirror/state'
 
 const compartment = new Compartment()
@@ -7,6 +7,10 @@ export const loadLanguageCompartment = async (
   language: string
 ): Promise<Extension> => {
   switch (language) {
+    case 'arturo': {
+      const { arturo } = await import('@exercism/codemirror-lang-arturo')
+      return compartment.of(arturo())
+    }
     case 'cpp': {
       const { cpp } = await import('@codemirror/lang-cpp')
       return compartment.of(cpp())
@@ -28,6 +32,10 @@ export const loadLanguageCompartment = async (
       const { javascript } = await import('@codemirror/lang-javascript')
       return compartment.of(javascript())
     }
+    case 'jq': {
+      const { jq } = await import('codemirror-lang-jq')
+      return compartment.of(jq())
+    }
     case 'php': {
       const { php } = await import('@codemirror/lang-php')
       return compartment.of(php())
@@ -44,9 +52,17 @@ export const loadLanguageCompartment = async (
       const { rust: reasonml } = await import('@codemirror/lang-rust')
       return compartment.of(reasonml())
     }
+    case 'uiua': {
+      const { uiua } = await import('@exercism/codemirror-lang-uiua')
+      return compartment.of(uiua())
+    }
     case 'wren': {
       const { wren } = await import('@exercism/codemirror-lang-wren')
       return compartment.of(wren())
+    }
+    case 'yamlscript': {
+      const { yaml } = await import('@codemirror/lang-yaml')
+      return compartment.of(yaml())
     }
     case 'zig': {
       const { rust: zig } = await import('@codemirror/lang-rust')
@@ -54,10 +70,11 @@ export const loadLanguageCompartment = async (
     }
 
     // Legacy
-    case 'abap': {
-      const { abapMode } = await import('codemirror6-abap')
-      return compartment.of(StreamLanguage.define(abapMode))
-    }
+    // case 'abap': {
+    //   const { abapMode } = await import('codemirror6-abap')
+    //   // @ts-ignore
+    //   return compartment.of(StreamLanguage.define(abapMode))
+    // }
     case 'bash': {
       const { shell } = await import('@codemirror/legacy-modes/mode/shell')
       return compartment.of(StreamLanguage.define(shell))
@@ -200,6 +217,10 @@ export const loadLanguageCompartment = async (
       const { r } = await import('@codemirror/legacy-modes/mode/r')
       return compartment.of(StreamLanguage.define(r))
     }
+    case 'roc': {
+      const { elm } = await import('@codemirror/legacy-modes/mode/elm')
+      return compartment.of(StreamLanguage.define(elm))
+    }
     case 'ruby': {
       const { ruby } = await import('@codemirror/legacy-modes/mode/ruby')
       return compartment.of(StreamLanguage.define(ruby))
@@ -248,6 +269,7 @@ export const loadLanguageCompartment = async (
     // Custom
     case 'elixir': {
       const { elixir } = await import('codemirror-lang-elixir')
+      // @ts-ignore
       return compartment.of(StreamLanguage.define(elixir))
     }
     case 'nim': {
@@ -255,7 +277,7 @@ export const loadLanguageCompartment = async (
       return compartment.of(StreamLanguage.define(nim({}, {})))
     }
     case 'julia': {
-      const { julia } = await import('lang-julia')
+      const { julia } = await import('@plutojl/lang-julia')
       return compartment.of(julia())
     }
     default:

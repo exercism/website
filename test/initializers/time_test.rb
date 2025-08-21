@@ -1,5 +1,4 @@
 require "test_helper"
-require "hcaptcha"
 
 class TimeTest < ActiveSupport::TestCase
   test "min_of_day on Time instance" do

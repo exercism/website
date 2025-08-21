@@ -9,7 +9,7 @@ export const FormButton = ({
 }: React.PropsWithChildren<
   React.ButtonHTMLAttributes<HTMLButtonElement> & { status: MutationStatus }
 >): JSX.Element => {
-  const requestDisabled = status === 'loading'
+  const requestDisabled = status === 'pending'
 
   return (
     <button {...props} disabled={requestDisabled || propDisabled}>

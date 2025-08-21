@@ -1,0 +1,21 @@
+// Receives a number as its input
+// Should return the equivelent raindrop sounds
+function raindrops with number do
+  set result to ""
+
+  if number % 3 == 0 do
+    change result to concatenate(result, "Pling")
+  end
+  if number % 5 == 0 do
+    change result to concatenate(result, "Plang")
+  end
+  if number % 7 == 0 do
+    change result to concatenate(result, "Plong")
+  end
+
+  if result == "" do
+    change result to number_to_string(number)
+  end
+
+  return result
+end

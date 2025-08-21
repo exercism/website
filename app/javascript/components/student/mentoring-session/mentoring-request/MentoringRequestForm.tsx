@@ -9,12 +9,13 @@ import type {
   MentorSessionTrack as Track,
   MentorSessionExercise as Exercise,
   MentorSessionRequest as Request,
-  DiscussionLinks,
 } from '@/components/types'
 import {
   TrackObjectivesTextArea,
   SolutionCommentTextArea,
 } from './MentoringRequestFormComponents'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 const DEFAULT_ERROR = new Error('Unable to create mentor request')
 
@@ -31,6 +32,9 @@ export const MentoringRequestForm = ({
   links: DiscussionLinks
   onSuccess: (mentorRequest: Request) => void
 }): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/student/mentoring-session/mentoring-request'
+  )
   const {
     error,
     handleSubmit,
@@ -43,8 +47,11 @@ export const MentoringRequestForm = ({
     <div className="mentoring-request-section">
       <div className="direct">
         <h3>
-          Send this link to a friend for private mentoring.{' '}
-          <a href={links.learnMoreAboutPrivateMentoring}>Learn more</a>.
+          {t('mentoringRequestForm.sendThisLinkFriend')}.{' '}
+          <a href={links.learnMoreAboutPrivateMentoring}>
+            {t('mentoringRequestForm.learnMore')}
+          </a>
+          .
         </h3>
         <CopyToClipboardButton textToCopy={links.privateMentoring} />
       </div>
@@ -55,11 +62,14 @@ export const MentoringRequestForm = ({
       >
         <div className="heading">
           <div className="info">
-            <h2>It&apos;s time to deepen your knowledge.</h2>
+            <h2>{t('mentoringRequestForm.itsTimeToDeepen')}</h2>
             <p>
-              Start a mentoring discussion on <strong>{exercise.title}</strong>{' '}
-              to discover new and exciting ways to approach it. Expand and
-              deepen your knowledge.
+              <Trans
+                i18nKey="mentoringRequestForm.startMentoringDiscussion"
+                ns="components/student/mentoring-session/mentoring-request"
+                values={{ exerciseTitle: exercise.title }}
+                components={{ strong: <strong /> }}
+              />
             </p>
           </div>
           <GraphicalIcon icon="mentoring" category="graphics" />
@@ -71,7 +81,7 @@ export const MentoringRequestForm = ({
         />
         <SolutionCommentTextArea ref={solutionCommentRef} />
         <FormButton status={status} className="btn-primary btn-m">
-          Submit mentoring request
+          {t('mentoringRequestForm.submitMentoringRequest')}
         </FormButton>
         <FetchingBoundary
           status={status}
@@ -79,8 +89,7 @@ export const MentoringRequestForm = ({
           defaultError={DEFAULT_ERROR}
         />
         <p className="flow-explanation">
-          Once you submit, your request will be open for a mentor to join and
-          start providing feedback.
+          {t('mentoringRequestForm.openForMentor')}
           <MedianWaitTime seconds={track.medianWaitTime} />
         </p>
       </form>

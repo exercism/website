@@ -1,0 +1,172 @@
+{
+  "title": "Word Count",
+  "description": "Count the frequency of words in a sentence.",
+  "level": 7,
+  "idx": 3,
+  "blocks_project_progression": false,
+  "tests_type": "io",
+  "stdlib_functions": [
+    "concatenate",
+    "push",
+    "has_key",
+    "to_lower_case"
+  ],
+  "tasks": [
+    {
+      "name": "Basic cases",
+      "tests": [
+        {
+          "slug": "word-count-single-word",
+          "description_html": "Count a single word.",
+          "name": "Count one word",
+          "function": "count_words",
+          "args": ["word"],
+          "checks": [
+            {
+              "value": {
+                "word": 1
+              }
+            }
+          ]
+        },
+        {
+          "slug": "word-count-multiple-unique-words",
+          "description_html": "Count one of each word in a sentence.",
+          "name": "Count one of each word",
+          "function": "count_words",
+          "args": ["one of each"],
+          "checks": [
+            {
+              "value": {
+                "one": 1,
+                "of": 1,
+                "each": 1
+              }
+            }
+          ]
+        },
+        {
+          "slug": "word-count-multiple-occurrences",
+          "description_html": "Count multiple occurrences of a word.",
+          "name": "Multiple occurrences",
+          "function": "count_words",
+          "args": ["one fish two fish red fish blue fish"],
+          "checks": [
+            {
+              "value": {
+                "one": 1,
+                "fish": 4,
+                "two": 1,
+                "red": 1,
+                "blue": 1
+              }
+            }
+          ]
+        },
+        {
+          "slug": "word-count-cramped-list",
+          "description_html": "Handle lists with cramped formatting.",
+          "name": "Cramped list",
+          "function": "count_words",
+          "args": ["one,two,three"],
+          "checks": [
+            {
+              "value": {
+                "one": 1,
+                "two": 1,
+                "three": 1
+              }
+            }
+          ]
+        },
+        {
+          "slug": "word-count-ignore-punctuation",
+          "description_html": "Ignore punctuation while counting words.",
+          "name": "Ignore punctuation",
+          "function": "count_words",
+          "args": ["car: carpet as java: javascript!!&@$%^&"],
+          "checks": [
+            {
+              "value": {
+                "car": 1,
+                "carpet": 1,
+                "as": 1,
+                "java": 1,
+                "javascript": 1
+              }
+            }
+          ]
+        },
+        {
+          "slug": "word-count-include-numbers",
+          "description_html": "Count words and include numbers.",
+          "name": "Include numbers",
+          "function": "count_words",
+          "args": ["testing, 1, 2 testing"],
+          "checks": [
+            {
+              "value": {
+                "testing": 2,
+                "1": 1,
+                "2": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Case normalization",
+      "tests": [
+        {
+          "slug": "word-count-normalize-case",
+          "description_html": "Count words regardless of case.",
+          "name": "Normalize case",
+          "function": "count_words",
+          "args": ["go Go GO Stop stop"],
+          "checks": [
+            {
+              "value": {
+                "go": 3,
+                "stop": 2
+              }
+            }
+          ]
+        },
+        {
+          "slug": "word-count-with-apostrophes",
+          "description_html": "Correctly handle words with apostrophes.",
+          "name": "Words with apostrophes",
+          "function": "count_words",
+          "args": ["First: don't laugh. Then: don't cry."],
+          "checks": [
+            {
+              "value": {
+                "first": 1,
+                "don't": 2,
+                "laugh": 1,
+                "then": 1,
+                "cry": 1
+              }
+            }
+          ]
+        },
+        {
+          "slug": "word-count-multiple-spaces",
+          "description_html": "Handle multiple spaces correctly.",
+          "name": "Multiple spaces",
+          "function": "count_words",
+          "args": [" multiple   whitespaces"],
+          "checks": [
+            {
+              "value": {
+                "multiple": 1,
+                "whitespaces": 1
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

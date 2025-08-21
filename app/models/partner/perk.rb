@@ -6,7 +6,6 @@ class Partner::Perk < ApplicationRecord
   has_markdown_field :general_offer_summary
   has_markdown_field :insiders_offer_summary
 
-  enum audience: { general: 0, insider: 1 }
   enum status: { pending: 0, active: 1, out_of_budget: 2, retired: 3 }
 
   before_create do

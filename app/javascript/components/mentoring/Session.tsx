@@ -47,6 +47,7 @@ import { CancelledRequestModal } from './session/CancelledRequestModal'
 import { ScreenSizeContext } from './session/ScreenSizeContext'
 import { MobileCodePanel } from './session/mobile-code-panel/MobileCodePanel'
 import { usePanelFallback } from './session/mobile-code-panel/usePanelFallback'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export type Links = {
   mentorDashboard: string
@@ -97,6 +98,7 @@ export const TabsContext = createContext<TabContext>({
 })
 
 export default function Session(props: SessionProps): JSX.Element {
+  const { t } = useAppTranslation('components/mentoring/Session.tsx')
   const [session, setSession] = useState(props)
   const {
     student,
@@ -217,20 +219,20 @@ export default function Session(props: SessionProps): JSX.Element {
                   {isBelowLgWidth && (
                     <Tab id="code" context={TabsContext}>
                       <GraphicalIcon icon="comment" />
-                      <Tab.Title text="Code" />
+                      <Tab.Title text={t('session.code')} />
                     </Tab>
                   )}
                   <Tab id="discussion" context={TabsContext}>
                     <GraphicalIcon icon="comment" />
-                    <Tab.Title text="Discussion" />
+                    <Tab.Title text={t('session.discussion')} />
                   </Tab>
                   <Tab id="scratchpad" context={TabsContext}>
                     <GraphicalIcon icon="scratchpad" />
-                    <Tab.Title text="Scratchpad" />
+                    <Tab.Title text={t('session.scratchpad')} />
                   </Tab>
                   <Tab id="guidance" context={TabsContext}>
                     <GraphicalIcon icon="guidance" />
-                    <Tab.Title text="Guidance" />
+                    <Tab.Title text={t('session.guidance')} />
                   </Tab>
                 </div>
                 {isBelowLgWidth && (

@@ -13,6 +13,26 @@ class API::Settings::UserPreferencesController < API::BaseController
     respond_to_enabling_comments!
   end
 
+  def bootcamp_affiliate_coupon_code
+    code = User::GenerateBootcampAffiliateCouponCode.(current_user)
+
+    if code
+      render json: { coupon_code: code }
+    else
+      render_403(:could_not_generate_coupon_code)
+    end
+  end
+
+  def bootcamp_free_coupon_code
+    code = User::GenerateBootcampFreeCouponCode.(current_user)
+
+    if code
+      render json: { coupon_code: code }
+    else
+      render_403(:could_not_generate_coupon_code)
+    end
+  end
+
   private
   def user_preferences_params
     params.
@@ -20,6 +40,7 @@ class API::Settings::UserPreferencesController < API::BaseController
       permit(*User::Preferences.keys).tap do |ps|
       # TODO: Add a test for this
       ps[:theme] = "light" if ps[:theme] == "dark" && !current_user.insider?
+      ps[:hide_website_adverts] = false unless current_user.insider?
     end
   end
 

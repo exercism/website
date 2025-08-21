@@ -1,0 +1,89 @@
+!!!
+%html
+  %head
+    %meta{ :content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type" }/
+    %meta{ name: "user-id", content: current_user&.id }
+
+    -# Fallback fonts first
+    %link{ rel: "preload", href: asset_path('poppins-v20-latin-regular.woff2'), as: "font", type: "font/woff2", crossorigin: :anonymous }
+    %link{ rel: "preload", href: asset_path('poppins-v20-latin-600.woff2'), as: "font", type: "font/woff2", crossorigin: :anonymous }
+
+    -# Then the main stylesheet
+    = stylesheet_link_tag "courses", "data-turbo-track": "reload"
+
+    -# Then other critical fonts
+    %link{ rel: "preload", href: asset_path('poppins-v20-latin-200.woff2'), as: "font", type: "font/woff2", crossorigin: :anonymous }
+    %link{ rel: "preload", href: asset_path('poppins-v20-latin-300.woff2'), as: "font", type: "font/woff2", crossorigin: :anonymous }
+    %link{ rel: "preload", href: asset_path('poppins-v20-latin-500.woff2'), as: "font", type: "font/woff2", crossorigin: :anonymous }
+    %link{ rel: "preload", href: asset_path('poppins-v20-latin-700.woff2'), as: "font", type: "font/woff2", crossorigin: :anonymous }
+
+    -# Next, setup the fallback font
+    :css
+      @font-face {
+        font-display: fallback;
+        font-family: PoppinsInitial;
+        font-weight: 400;
+        src: url(#{asset_path('poppins-v20-latin-regular.woff2')}) format('woff2');
+      }
+
+    -# Use the 600 font-weight for 500/600/700
+    - [500, 600, 700].each do |weight|
+      :css
+        @font-face {
+          font-display: fallback;
+          font-family: PoppinsInitial;
+          font-weight: #{weight};
+          src: url(#{asset_path('poppins-v20-latin-600.woff2')}) format('woff2');
+        }
+
+    :css
+      body {
+        --body-font: Poppins, PoppinsInitial, sans-serif;
+        font-family: var(--body-font);
+        -webkit-font-smoothing: antialiased;
+      }
+
+    = javascript_include_tag('courses', type: :module, crossorigin: :anonymous, 'data-turbo-track': 'reload', 'data-turbo-eval': false, defer: true)
+
+    %title= content_for(:title) || "Bootcamp"
+    %meta{ content: "width=device-width,initial-scale=1", name: "viewport" }/
+    %meta{ content: "yes", name: "apple-mobile-web-app-capable" }/
+    %meta{ name: "stripe-publishable-key", content: Exercism.secrets.stripe_publishable_key }
+
+    = csrf_meta_tags
+    = csp_meta_tag
+
+    - if @course
+      - title = @course.name
+      - description = @course.description
+      - url = @course.url
+      - og_image_url = image_url("bootcamp/og-#{@course.slug}.jpg")
+
+      %title= title
+      %meta{ name: "description", content: description }
+      %meta{ name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" }
+
+      -# Twitter Card data
+      %meta{ name: "twitter:card", content: "summary_large_image" }
+      %meta{ name: "twitter:site", content: "@exercism_io" }
+      %meta{ name: "twitter:creator", content: "@exercism_io" }
+      %meta{ name: "twitter:url", content: url }
+      %meta{ name: "twitter:title", content: title }
+      %meta{ name: "twitter:description", content: description }
+      %meta{ name: "twitter:image", content: og_image_url }
+
+      -# Open Graph data
+      %meta{ property: "og:title", content: title }
+      %meta{ property: "og:type", content: "website" }
+      %meta{ property: "og:url", content: url }
+      %meta{ property: "og:image", content: og_image_url }
+      %meta{ property: "og:description", content: description }
+      %meta{ property: "og:site_name", content: "Exercism" }
+      %meta{ property: "fb:admins", content: "744760440" }
+
+    -# Favicon
+    %link{ rel: "apple-touch-icon", sizes: "180x180", href: "#{Exercism.config.website_icons_host}/meta/apple-touch-icon.png" }
+    %link{ rel: "icon", type: "image/png", sizes: "32x32", href: "#{Exercism.config.website_icons_host}/meta/favicon-32x32.png" }
+    %link{ rel: "icon", type: "image/png", sizes: "16x16", href: "#{Exercism.config.website_icons_host}/meta/favicon-16x16.png" }
+
+  %body= yield

@@ -1,0 +1,42 @@
+.card {
+    margin: 20px;
+    padding: 20px;
+    border: 3px double rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    background-image: url("/bootcamp/images/paper-texture.jpg");
+    background-position: top left;
+    background-size: cover;
+}
+
+.inner {
+    background-image: url("/bootcamp/images/candle.png");
+    background-size: 70px;
+    background-position: bottom right;
+    background-repeat: no-repeat;
+}
+
+.brand {
+    font-size: 27px;
+    font-weight: bold;
+    color: #5b3a29;
+    margin-bottom: 5px;
+}
+
+.tagline {
+    font-style: italic;
+    color: #8c6e54;
+    margin-bottom: 30px;
+    font-size: 16px;
+}
+
+.contact {
+    font-size: 15px;
+    color: #8c6e54;
+}
+
+.contact div {
+    margin-top: 10px;
+}
+.emoji {
+    margin-right: 5px;
+}

@@ -2,13 +2,14 @@ import React from 'react'
 import {
   QueryObserverResult,
   QueryStatus,
+  RefetchOptions,
   RefetchQueryFilters,
 } from '@tanstack/react-query'
 import { Pagination, Loading, GraphicalIcon } from '@/components/common'
 import { TaggableCode } from './TaggableCode'
 import { scrollToTop } from '@/utils/scroll-to-top'
 import { TrainingDataRequestAPIResponse } from './Dashboard.types'
-import type { RefetchOptions } from 'react-query/types/core/query'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const TaggableCodeList = ({
   resolvedData,
@@ -19,10 +20,11 @@ export const TaggableCodeList = ({
   resolvedData: TrainingDataRequestAPIResponse | undefined
   status: QueryStatus
   setPage: (page: number) => void
-  refetch: <TPageData>(
+  refetch: <TPageData extends readonly unknown[]>(
     options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
   ) => Promise<QueryObserverResult<TrainingDataRequestAPIResponse, unknown>>
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/training-data/dashboard')
   const noResults = resolvedData && resolvedData.results.length === 0
 
   const SuccessContent = () => {
@@ -30,7 +32,7 @@ export const TaggableCodeList = ({
       return (
         <div className="--no-results">
           <GraphicalIcon icon="mentoring" category="graphics" />
-          <h3>No training data</h3>
+          <h3>{t('taggableCodeList.noTrainingData')}</h3>
         </div>
       )
     return (
@@ -60,7 +62,7 @@ export const TaggableCodeList = ({
   }
 
   switch (status) {
-    case 'loading':
+    case 'pending':
       return <Loading />
     case 'error':
       return <SomethingWentWrongWithRefetch refetch={refetch} />
@@ -71,16 +73,19 @@ export const TaggableCodeList = ({
 
 // TODO: Turn this into a common/global component
 function SomethingWentWrongWithRefetch({ refetch }) {
+  const { t } = useAppTranslation('components/training-data/dashboard')
   return (
     <div className="flex flex-col gap-32 p-32 place-items-center">
-      <h3 className="text-h3">Oops! Something went wrong!</h3>
+      <h3 className="text-h3">
+        {t('taggableCodeList.oopsSomethingWentWrong')}
+      </h3>
       <GraphicalIcon icon="error-404" width={50} height={50} />
       <button
         className="btn-m btn-default"
-        onClick={() => refetch()}
+        onClick={refetch}
         aria-label="Retry"
       >
-        Retry
+        {t('taggableCodeList.retry')}
       </button>
     </div>
   )

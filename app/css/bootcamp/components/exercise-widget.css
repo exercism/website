@@ -1,0 +1,150 @@
+.c-exercise-widget {
+    @apply py-12 px-12 rounded-8 border-1 border-borderColor5 block;
+    @apply flex flex-col items-stretch;
+    @apply bg-white;
+    @apply relative;
+    @apply shadow-sm;
+
+    img {
+        @apply w-[80px] h-[80px] mr-12;
+    }
+
+    img.brain-buster {
+        @apply hidden;
+        @apply w-[24px] h-[24px];
+        @apply absolute bottom-[12px] right-[0];
+    }
+
+    img.major-project {
+        @apply hidden;
+        @apply w-[32px] h-[32px];
+        @apply absolute bottom-[16px] right-[0];
+        @apply mr-8;
+    }
+
+    .title {
+        @apply mr-12;
+    }
+    .project-title {
+        @apply text-14 leading-150;
+        @apply font-semibold text-gray-900;
+    }
+    .exercise-title {
+        @apply text-17 leading-140;
+        @apply font-semibold;
+        @apply mb-2;
+    }
+    .description {
+        @apply text-15 leading-140 pr-24;
+    }
+    .tag {
+        width: 20px;
+        height: 20px;
+        flex-shrink: 0;
+        background-position: center center;
+        background-size: 12px;
+        background-repeat: no-repeat;
+
+        @apply ml-auto;
+        @apply border-1 rounded-circle;
+    }
+
+    &.brain-buster {
+        @apply bg-superLightOrange;
+        @apply border-[#fbb64e];
+
+        .brain-buster {
+            @apply block;
+        }
+    }
+    &.major-project {
+        @apply bg-bootcamp-very-light-purple;
+        @apply border-bootcamp-purple;
+
+        .major-project {
+            @apply block;
+        }
+        .brain-buster {
+            @apply hidden !important;
+        }
+    }
+
+    &.available,
+    &.in_progress {
+        @apply shadow-base;
+
+        .tag {
+            @apply border-gray-300;
+            background-image: url("icons/bootcamp-available.svg");
+        }
+    }
+    &.locked {
+        @apply bg-gray-200;
+        @apply opacity-[0.5] cursor-not-allowed;
+        @apply shadow-none;
+
+        .tag {
+            @apply border-gray-400;
+            background-image: url("icons/lock.svg");
+        }
+    }
+
+    &.completed {
+        background: #ecf8ec;
+        border-color: #4bb543;
+        .tag {
+            background: #e7fdf6;
+            border-color: #43b593;
+            color: #43b593;
+            background-image: url("icons/bootcamp-completed-check-circle.svg");
+            background-repeat: no-repeat;
+        }
+    }
+    &.completed-bonus {
+        filter: drop-shadow(0px 0px 9px #fdd017cc);
+        border-color: #fdd017;
+        background: #fdd01722;
+        border-width: 2px;
+
+        mask: linear-gradient(-60deg, #000 30%, #0005, #000 70%) right/400% 100%;
+        background-repeat: no-repeat;
+        animation: shimmer 7s infinite;
+
+        .tag {
+            border: none;
+            padding: 0;
+            background-image: url("icons/gold-star.svg");
+            background-repeat: no-repeat;
+            background-size: 30px;
+            filter: drop-shadow(0px 0px 3px #fdd017ff);
+        }
+        img {
+            filter: drop-shadow(0px 0px 3px #fdd017ff);
+        }
+    }
+    &.size-large {
+        .project-title {
+            @apply mb-2;
+        }
+        .exercise-title {
+            @apply text-22;
+            @apply mb-4;
+        }
+
+        .description {
+            @apply text-17 leading-140;
+        }
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        mask-position: right/300% 100%;
+    }
+    20% {
+        mask-position: left;
+    }
+    100% {
+        mask-position: left;
+    }
+}

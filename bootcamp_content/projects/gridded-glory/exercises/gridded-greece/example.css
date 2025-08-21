@@ -1,0 +1,37 @@
+#flag {
+    display: grid;
+    grid-template-areas:
+        "star top-stripes"
+        "bottom-stripes bottom-stripes";
+    grid-template-columns: calc(10 / 27 * 100%) 1fr;
+    grid-template-rows: 5fr 4fr;
+    background: white;
+
+    #star {
+        grid-area: star;
+        aspect-ratio: 1;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20%;
+        height: 100%;
+        div {
+            background: #0d5eaf;
+        }
+    }
+    #top-stripes {
+        grid-area: top-stripes;
+        grid-template-rows: repeat(5, 1fr);
+    }
+    #bottom-stripes {
+        grid-area: bottom-stripes;
+        grid-template-rows: repeat(4, 1fr);
+    }
+    #top-stripes,
+    #bottom-stripes {
+        display: grid;
+    }
+    #top-stripes div:nth-child(odd),
+    #bottom-stripes div:nth-child(even) {
+        background: #0d5eaf;
+    }
+}

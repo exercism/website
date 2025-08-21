@@ -1,0 +1,18 @@
+body,
+.--jiki-faux-body {
+    aspect-ratio: 1;
+    overflow: hidden;
+    display: flex;
+    justify-content: stretch;
+    align-items: stretch;
+}
+
+div,
+img {
+    display: flex;
+    flex-grow: 1;
+}
+
+img {
+    width: 1%;
+}

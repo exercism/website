@@ -1,0 +1,146 @@
+{
+  "title": "Digital Clock",
+  "description": "Display the time on a digital clock",
+  "project_type": "digital-clock",
+  "level": 3,
+  "idx": 1,
+  "tests_type": "state",
+  "tasks": [
+    {
+      "name": "Display morning times",
+      "tests": [
+        {
+          "slug": "morning-1",
+          "name": "Early morning",
+          "description_html": "Display 6:35 as \"6:35 am\"",
+          "setup_functions": [["setTime", [6, 35]]],
+          "checks": [
+            {
+              "property": "displayedTime",
+              "matcher": "toBeDefined",
+              "error_html": "The clock didn't get updated. Make sure you use the `display_time` function."
+            },
+            {
+              "property": "displayedTime",
+              "value": "6:35am",
+              "matcher": "toEqual",
+              "error_html": "The clock didn't display 6:35am"
+            }
+          ]
+        },
+        {
+          "slug": "morning-2",
+          "name": "Late morning",
+          "description_html": "Display 11:04 as \"11:04 am\"",
+          "setup_functions": [["setTime", [11, 4]]],
+          "checks": [
+            {
+              "property": "displayedTime",
+              "matcher": "toBeDefined",
+              "error_html": "The clock didn't get updated. Make sure you use the `display_time` function."
+            },
+            {
+              "property": "displayedTime",
+              "value": "11:4am",
+              "matcher": "toEqual",
+              "error_html": "The clock didn't display 11:04am"
+            }
+          ]
+        },
+        {
+          "slug": "afternoon-1",
+          "name": "Early afternoon",
+          "description_html": "Display the time 12:19 as \"12:19 pm\"",
+          "setup_functions": [["setTime", [12, 19]]],
+          "checks": [
+            {
+              "property": "displayedTime",
+              "matcher": "toBeDefined",
+              "error_html": "The clock didn't get updated. Make sure you use the `display_time` function."
+            },
+            {
+              "property": "displayedTime",
+              "value": "12:19pm",
+              "matcher": "toEqual",
+              "error_html": "The clock didn't display 12:19pm"
+            }
+          ]
+        },
+        {
+          "slug": "afternoon-2",
+          "name": "Late evening",
+          "description_html": "Display the time 23:32 as \"11:32 pm\"",
+          "setup_functions": [["setTime", [23, 32]]],
+          "checks": [
+            {
+              "property": "displayedTime",
+              "matcher": "toBeDefined",
+              "error_html": "The clock didn't get updated. Make sure you use the `display_time` function."
+            },
+            {
+              "property": "displayedTime",
+              "value": "11:32pm",
+              "matcher": "toEqual",
+              "error_html": "The clock didn't display 11:32pm"
+            }
+          ]
+        },
+        {
+          "slug": "midnight",
+          "name": "Midnight",
+          "description_html": "Display midnight as \"12:00 am\"",
+          "setup_functions": [["setTime", [0, 0]]],
+          "checks": [
+            {
+              "property": "displayedTime",
+              "matcher": "toBeDefined",
+              "error_html": "The clock didn't get updated. Make sure you use the `display_time` function."
+            },
+            {
+              "property": "displayedTime",
+              "value": "12:0am",
+              "matcher": "toEqual",
+              "error_html": "The clock didn't display 12:00am"
+            }
+          ]
+        },
+        {
+          "slug": "noon",
+          "name": "Noon",
+          "description_html": "Display noon as \"12:00 pm\"",
+          "setup_functions": [["setTime", [12, 0]]],
+          "checks": [
+            {
+              "property": "displayedTime",
+              "matcher": "toBeDefined",
+              "error_html": "The clock didn't get updated. Make sure you use the `display_time` function."
+            },
+            {
+              "property": "displayedTime",
+              "value": "12:0pm",
+              "matcher": "toEqual",
+              "error_html": "The clock didn't display 12:00pm"
+            }
+          ]
+        },
+        {
+          "slug": "now",
+          "name": "Display the current time",
+          "description_html": "Display the current time",
+          "checks": [
+            {
+              "property": "displayedTime",
+              "matcher": "toBeDefined",
+              "error_html": "The clock didn't get updated. Make sure you use the `display_time` function."
+            },
+            {
+              "function": "didDisplayCurrentTime()",
+              "matcher": "toBeTrue",
+              "error_html": "The clock didn't display the current time"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

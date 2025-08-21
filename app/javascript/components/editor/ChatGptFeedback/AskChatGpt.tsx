@@ -1,7 +1,11 @@
+// i18n-key-prefix: askChatGpt
+// i18n-namespace: components/editor/ChatGptFeedback
 import React from 'react'
 import { GraphicalIcon } from '@/components/common'
 import { LoadingBar } from '@/components/common/LoadingBar'
 import type { useChatGptFeedbackProps, HelpRecord } from './useChatGptFeedback'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 export function AskChatGpt({
   helpRecord,
@@ -10,6 +14,7 @@ export function AskChatGpt({
 }: Pick<useChatGptFeedbackProps, 'helpRecord' | 'status'> & {
   children: React.ReactNode
 }): JSX.Element {
+  const { t } = useAppTranslation('components/editor/ChatGptFeedback')
   let content
   switch (status) {
     case 'fetching': {
@@ -25,19 +30,21 @@ export function AskChatGpt({
       break
     }
     default: {
-      content = <div>Couldn&apos;t receive feedback</div>
+      content = <div>{t('askChatGpt.couldntReceiveFeedback')}</div>
     }
   }
   return <div className="c-chatgpt">{content} </div>
 }
 
 function ChatGptResponse({ helpRecord }: { helpRecord: HelpRecord }) {
+  const { t } = useAppTranslation('components/editor/ChatGptFeedback')
+
   return (
     <div className="response">
       <div className="c-textual-content --small">
-        <h2>ChatGPT&apos;s Suggestions</h2>
+        <h2>{t('askChatGpt.chatGptsSuggestions')}</h2>
 
-        <p>ChatGPT has the following suggestions:</p>
+        <p>{t('askChatGpt.chatGptHasTheFollowingSuggestions')}</p>
 
         <div dangerouslySetInnerHTML={{ __html: helpRecord.adviceHtml }} />
 
@@ -45,16 +52,14 @@ function ChatGptResponse({ helpRecord }: { helpRecord: HelpRecord }) {
 
         <div className="c-textblock-caution mb-16">
           <div className="c-textblock-header">
-            Reminder: Use this advice wisely
+            {t('askChatGpt.reminderUseThisAdviceWisely')}
           </div>
           <div className="c-textblock-content c-textblock-content text-16 leading-150">
-            However clever ChatGPT appears, it does not &quot;understand&quot;
-            code. Its suggestions may therefore be incorrect, muddled or
-            misleading. However, it often provides useful insights to help
-            unblock you.{' '}
-            <strong className="font-medium">
-              Use these suggestions as inspiration, not instruction.
-            </strong>
+            <Trans
+              i18nKey="askChatGpt.howeverCleverChatGptAppearsItDoesNotUnderstandCode"
+              ns="components/editor/ChatGptFeedback"
+              components={{ bold: <strong className="font-semibold" /> }}
+            />
           </div>
         </div>
       </div>
@@ -63,26 +68,32 @@ function ChatGptResponse({ helpRecord }: { helpRecord: HelpRecord }) {
 }
 
 function AskingChatGpt() {
+  const { t } = useAppTranslation('components/editor/ChatGptFeedback')
+
   return (
     <div role="status" className="running">
-      <GraphicalIcon icon="spinner" className="animate-spin-slow" />
+      <GraphicalIcon
+        icon="spinner"
+        className="animate-spin-slow filter-textColor6"
+      />
       <LoadingBar animationDuration={15} />
       <p>
-        <strong>Asking ChatGPT…</strong>
-        <span>Estimated running time 15s</span>
+        <strong>{t('askChatGpt.askingChatGPT')}</strong>
+        <span>{t('askChatGpt.estimatedRunningTime15s')}</span>
       </p>
     </div>
   )
 }
 
 function Unfetched({ children }: { children: React.ReactNode }): JSX.Element {
+  const { t } = useAppTranslation('components/editor/ChatGptFeedback')
+
   return (
     <section className="run-tests-prompt">
       <GraphicalIcon className="filter-textColor6" icon="automation" />
-      <h2>Get unstuck with ChatGPT</h2>
+      <h2>{t('askChatGpt.getUnstuckWithChatGPT')}</h2>
       <p className="mb-32">
-        If you&apos;re feeling stuck and can&apos;t seem to make progress,
-        don&apos;t worry - just ask ChatGPT for help and get back on track.
+        {t('askChatGpt.ifYoureFeelingStuckAndCantSeemToMakeProgress')}
       </p>
       {children}
     </section>

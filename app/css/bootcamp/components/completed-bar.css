@@ -1,0 +1,25 @@
+.c-completed-bar {
+    @apply flex items-center py-12 px-32 shadow-lg rounded-8 mb-24;
+    @apply border-2 border-darkGreen;
+    @apply bg-[#B8EADB];
+
+    .check-mark-icon {
+        height: 32px;
+        width: 32px;
+        @apply mr-16;
+    }
+    .text {
+        @apply flex-grow;
+        @apply text-18 leading-150 font-semibold text-gray-900;
+    }
+    .stat {
+        @apply font-semibold text-darkSuccessGreen;
+    }
+
+    c-prominent-link {
+        @apply text-lightBlue;
+        /* .c-icon {
+          filter: var(--iconFilterNotificationsProminentLink);
+      } */
+    }
+}

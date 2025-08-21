@@ -1,3 +1,5 @@
+// i18n-key-prefix: cropFinishedStep
+// i18n-namespace: components/profile/avatar-selector/cropping-modal
 import React, { useCallback } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { camelizeKeys } from 'humps'
@@ -8,6 +10,7 @@ import { ResultsZone } from '@/components/ResultsZone'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 import { User } from '@/components/types'
 import { State, Action } from '../use-image-crop'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type Links = {
   update: string
@@ -26,12 +29,16 @@ export const CropFinishedStep = ({
   links: Links
   onUpload: (user: User) => void
 }): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/profile/avatar-selector/cropping-modal'
+  )
+
   const {
     mutate: submit,
     status,
     error,
-  } = useMutation(
-    async () => {
+  } = useMutation({
+    mutationFn: async () => {
       if (!state.croppedImage) {
         throw new Error('Cropped image was expected')
       }
@@ -48,17 +55,15 @@ export const CropFinishedStep = ({
           return typecheck<User>(json, 'user')
         })
     },
-    {
-      onSuccess: (user) => {
-        dispatch({
-          type: 'avatar.uploaded',
-          payload: { avatarUrl: user.avatarUrl },
-        })
+    onSuccess: (user) => {
+      dispatch({
+        type: 'avatar.uploaded',
+        payload: { avatarUrl: user.avatarUrl },
+      })
 
-        onUpload(user)
-      },
-    }
-  )
+      onUpload(user)
+    },
+  })
 
   const handleRedo = useCallback(() => {
     dispatch({ type: 'crop.redo' })
@@ -70,9 +75,11 @@ export const CropFinishedStep = ({
 
   return (
     <>
-      <h3>Happy with the result?</h3>
-      <ResultsZone isFetching={status === 'loading'}>
+      <h3>{t('cropFinishedStep.happyWithResult')}</h3>
+      <ResultsZone isFetching={status === 'pending'}>
         <img
+          // @ts-expect-error URL.createObjectURL expect File or Blob meanwhile croppedImage can be null
+          // TODO: fix this
           src={URL.createObjectURL(state.croppedImage)}
           className="cropped-image"
         />
@@ -84,14 +91,14 @@ export const CropFinishedStep = ({
           className="btn-default btn-s"
         >
           <GraphicalIcon icon="reset" />
-          Recrop
+          {t('cropFinishedStep.recrop')}
         </FormButton>
         <FormButton
           status={status}
           onClick={handleSubmit}
           className="btn-primary btn-s"
         >
-          Save image
+          {t('cropFinishedStep.saveImage')}
         </FormButton>
       </div>
       <ErrorBoundary>

@@ -1,5 +1,5 @@
 Rails.application.configure do
-  config.assets.version = "1.0"
+  config.assets.version = "1.1"
   config.assets.paths << 'app/images'
   config.assets.paths << 'app/fonts'
   config.assets.paths << '.built-assets'
@@ -15,7 +15,7 @@ module Propshaft
     def call(env)
       path, digest = extract_path_and_digest(env)
 
-      esbuild_split_asset = (path.include?('-') && path.ends_with?('.js'))
+      esbuild_split_asset = path.include?('-') && path.ends_with?('.js')
       if (asset = @assembly.load_path.find(path)) && (asset.fresh?(digest) || esbuild_split_asset)
         compiled_content = @assembly.compilers.compile(asset)
 

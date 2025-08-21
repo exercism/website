@@ -1,0 +1,23 @@
+set sky to new Sky(1)
+set sun to new Sun(80, 20, 10, 2)
+set ground to new Ground(20, 3)
+set roof to new Roof(50, 30, 68, 20, 4)
+set frame to new Frame(20, 50, 60, 40, 5)
+set left_window to new Window(30, 55, 12, 13, 5)
+set right_window to new Window(58, 55, 12, 13, 5)
+set door to new Door(43, 72, 14, 18, 5)
+
+repeat 70 times do  
+  change sun.cx to sun.cx - 1.2
+  change sun.cy to sun.cy + 1
+end
+
+change left_window.lights to true
+change right_window.lights to true
+
+repeat 80 times indexed by index do
+  change sky.hue to min(sky.hue + 2, 310)
+  for each part in [ground, sky, roof, frame, door] do
+    change part.brightness to 100 - index
+  end
+end

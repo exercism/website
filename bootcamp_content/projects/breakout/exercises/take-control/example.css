@@ -1,0 +1,31 @@
+body {
+    background: white;
+}
+#game {
+    width: 80vmin;
+    height: 80vmin;
+    margin: 10vmin auto;
+    background: rgb(10, 18, 21);
+    position: relative;
+}
+#ball {
+    border-radius: 100%;
+    width: 4%;
+    height: 4%;
+    position: absolute;
+    left: 50%;
+    top: 94%;
+    transform: translateX(-50%) translateY(-50%);
+    background: white;
+}
+
+#paddle {
+    width: 20%;
+    background: white;
+    height: 3%;
+    border-radius: 10px;
+    position: absolute;
+    left: 50%;
+    top: 96%;
+    transform: translateX(-50%);
+}

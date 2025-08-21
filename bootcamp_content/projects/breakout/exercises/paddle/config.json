@@ -1,0 +1,168 @@
+{
+  "title": "Paddle",
+  "description": "Add the paddle to Breakout (and make it move intelligently!)",
+  "project_type": "breakout",
+  "level": 9,
+  "idx": 3,
+  "tests_type": "state",
+  "exercise_classes": ["Game", "Block"],
+  "exercise_functions": [],
+  "interpreter_options": {
+    "timePerFrame": 0.01,
+    "repeat_delay": 10,
+    "max_total_loop_iterations": 5000,
+    "max_repeat_until_game_over_iterations": 600,
+    "max_total_execution_time": 30000
+  },
+  "stdlib_functions": ["push"],
+  "tasks": [
+    {
+      "name": "Smash the blocks",
+      "tests": [
+        {
+          "slug": "standard",
+          "name": "Smash the blocks",
+          "description_html": "Don't let the ball hit the ground!",
+          "setup_functions": [
+            ["disableAutoDrawBlock"],
+            ["setDefaultBlockHeight", [5]]
+          ],
+          "checks": [
+            {
+              "function": "didBallAppearAt(null, 97)",
+              "value": false,
+              "error_html": "The ball hit the ground!"
+            },
+            {
+              "function": "didBallAppearAt(null, 95)",
+              "value": false,
+              "error_html": "The ball dropped too low!"
+            },
+            {
+              "function": "didBallAppearAt(null, 96)",
+              "value": false,
+              "error_html": "The ball dropped too low!"
+            },
+            {
+              "property": "numBlocks",
+              "value": 5,
+              "error_html": "You didn't create exactly 5 blocks."
+            },
+            {
+              "property": "numSmashedBlocks",
+              "value": 5,
+              "error_html": "You didn't smash all the blocks"
+            },
+            {
+              "property": "paddleBallInteractionCount",
+              "value": 4,
+              "error_html": "The paddle didn't hit the ball 4 times."
+            },
+            {
+              "property": "numBallPositions",
+              "value": 504,
+              "matcher": "toBeLessThanOrEqual",
+              "error_html": "You moved the ball more times than you needed to!"
+            }
+          ]
+        },
+        {
+          "slug": "jumbo-ball",
+          "name": "Jumbo Ball",
+          "description_html": "Check your code still works with a jumbo ball!",
+          "setup_functions": [
+            ["disableAutoDrawBlock"],
+            ["setDefaultBallRadius", [5]],
+            ["setDefaultBlockHeight", [7]]
+          ],
+          "checks": [
+            {
+              "function": "didBallAppearAt(null, 96)",
+              "value": false,
+              "error_html": "The ball hit the ground!"
+            },
+            {
+              "function": "didBallAppearAt(null, 95)",
+              "value": false,
+              "error_html": "The ball dropped too low!"
+            },
+            {
+              "function": "didBallAppearAt(null, 94)",
+              "value": false,
+              "error_html": "The ball dropped too low!"
+            },
+            {
+              "property": "numBlocks",
+              "value": 5,
+              "error_html": "You didn't create exactly 5 blocks."
+            },
+            {
+              "property": "numSmashedBlocks",
+              "value": 5,
+              "error_html": "You didn't smash all the blocks"
+            },
+            {
+              "property": "paddleBallInteractionCount",
+              "value": 4,
+              "error_html": "The paddle didn't hit the ball 4 times."
+            },
+            {
+              "property": "numBallPositions",
+              "value": 450,
+              "matcher": "toBeLessThanOrEqual",
+              "error_html": "You moved the ball more times than you needed to! (%actual%)"
+            }
+          ]
+        },
+        {
+          "slug": "tiny-everything",
+          "name": "Tiny Everything.",
+          "description_html": "Check your code still works with tiny everything!",
+          "setup_functions": [
+            ["disableAutoDrawBlock"],
+            ["setDefaultBallRadius", [2]],
+            ["setDefaultBlockHeight", [3]]
+          ],
+          "checks": [
+            {
+              "function": "didBallAppearAt(null, 96)",
+              "value": false,
+              "error_html": "The ball hit the ground!"
+            },
+            {
+              "function": "didBallAppearAt(null, 95)",
+              "value": false,
+              "error_html": "The ball dropped too low!"
+            },
+            {
+              "function": "didBallAppearAt(null, 94)",
+              "value": false,
+              "error_html": "The ball dropped too low!"
+            },
+            {
+              "property": "numBlocks",
+              "value": 5,
+              "error_html": "You didn't create exactly 5 blocks."
+            },
+            {
+              "property": "numSmashedBlocks",
+              "value": 5,
+              "error_html": "You didn't smash all the blocks"
+            },
+            {
+              "property": "paddleBallInteractionCount",
+              "value": 3,
+              "error_html": "The paddle didn't hit the ball 3 times."
+            },
+            {
+              "property": "numBallPositions",
+              "value": 578,
+              "matcher": "toBeLessThanOrEqual",
+              "error_html": "You moved the ball more times than you needed to! (%actual%)"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

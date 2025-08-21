@@ -1,0 +1,54 @@
+{
+  "title": "Two-Fer",
+  "description": "Return a phrase based on the given name or a default.",
+  "level": 5,
+  "idx": 1,
+  "tests_type": "io",
+  "stdlib_functions": ["concatenate"],
+  "tasks": [
+    {
+      "name": "Handle the different names",
+      "tests": [
+        {
+          "slug": "two-fer-default",
+          "description_html": "No name is given so return 'One for you, one for me.'",
+          "name": "No name given",
+          "function": "two_fer",
+          "args": [""],
+          "checks": [
+            {
+              "value": "One for you, one for me."
+            }
+          ],
+          "image_slug": "string-puzzles/two-fer/no-name.jpg"
+        },
+        {
+          "slug": "two-fer-alice",
+          "description_html": "Her name is 'Alice' so return 'One for Alice, one for me.'",
+          "name": "Name given as Alice",
+          "function": "two_fer",
+          "args": ["Alice"],
+          "checks": [
+            {
+              "value": "One for Alice, one for me."
+            }
+          ],
+          "image_slug": "string-puzzles/two-fer/alice.jpg"
+        },
+        {
+          "slug": "two-fer-tom",
+          "description_html": "His name is 'Tom' so return 'One for Tom, one for me.'",
+          "name": "Name given as Tom",
+          "function": "two_fer",
+          "args": ["Tom"],
+          "image_slug": "string-puzzles/two-fer/tom.jpg",
+          "checks": [
+            {
+              "value": "One for Tom, one for me."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

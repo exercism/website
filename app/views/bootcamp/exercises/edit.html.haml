@@ -1,0 +1,9 @@
+- content_for :head do
+  %meta{ name: "turbo-visit-control", content: "reload" }
+
+- if @solution.exercise.language == "css"
+  = render ReactComponents::Bootcamp::CSSExercise.new(@solution)
+- elsif @solution.exercise.language == "frontend"
+  = render ReactComponents::Bootcamp::FrontendExercisePage.new(@solution)
+- else
+  = render ReactComponents::Bootcamp::JikiscriptExercise.new(@solution)

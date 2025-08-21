@@ -7,9 +7,13 @@ class User::SetDiscourseGroups
     set_trust_level!
     set_pm_enabled!
     set_insiders!
+    set_bootcamp_attendee!
+    set_bootcamp_mentor!
   rescue DiscourseApi::NotFoundError
     # If the external user can't be found, then the
     # oauth didn't complete so there's nothing to do.
+  rescue DiscourseApi::TooManyRequests
+    requeue_job!(rand(10..360))
   end
 
   private
@@ -30,6 +34,22 @@ class User::SetDiscourseGroups
       add_to_group!(INSIDERS_GROUP_NAME)
     else
       remove_from_group!(INSIDERS_GROUP_NAME)
+    end
+  end
+
+  def set_bootcamp_attendee!
+    if user.bootcamp_attendee?
+      add_to_group!(BOOTCAMP_ATTENDEES_GROUP_NAME)
+    else
+      remove_from_group!(BOOTCAMP_ATTENDEES_GROUP_NAME)
+    end
+  end
+
+  def set_bootcamp_mentor!
+    if user.bootcamp_mentor?
+      add_to_group!(BOOTCAMP_MENTORS_GROUP_NAME)
+    else
+      remove_from_group!(BOOTCAMP_MENTORS_GROUP_NAME)
     end
   end
 
@@ -63,4 +83,6 @@ class User::SetDiscourseGroups
 
   PM_ENABLED_GROUP_NAME = "pm-enabled".freeze
   INSIDERS_GROUP_NAME = "insiders".freeze
+  BOOTCAMP_ATTENDEES_GROUP_NAME = "bootcamp_attendees".freeze
+  BOOTCAMP_MENTORS_GROUP_NAME = "bootcamp_mentors".freeze
 end

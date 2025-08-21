@@ -1,5 +1,5 @@
-- content_for :meta_title, "The #48in24 Challenge"
-- content_for :meta_description, "Try out a new programming challenge each week. Broaden your horizons and level up your programming skills as your explore the varied paradigms and ideas that different languages embrace. It's free, fun, and useful!".html_safe
+- content_for :meta_title, t('.meta_title')
+- content_for :meta_description, t('.meta_description').html_safe
 - content_for :meta_image, "https://assets.exercism.org/images/thumbnails/introducing-48-in-24.jpg"
 - content_for :canonical_url, challenge_url('48in24')
 
@@ -13,52 +13,50 @@
 
       .relative.lg-container
         .bg-backgroundColorA.bg-opacity-95.my-48.px-32.py-32.rounded-16.border-borderColor5.shadow-baseZ1.flex.flex-col.items-center
-          %h1.text-h0.mb-16 The #48in24 Challenge
+          %h1.text-h0.mb-16= t('.main_heading')
           %p.mb-12.text-balance
-            Improve your programming skills by digging deep into a
-            %strong.font-semibold different programming challenge
-            every week during 2024.
+            = t('.intro_paragraph1_part1')
+            %strong.font-semibold= t('.intro_paragraph1_part2')
+            = t('.intro_paragraph1_part3')
           %p
-            Each week, solve a different exercise, explore different approaches and paradigms, try new languages, get mentored by experts, and join in with the community.
+            = t('.intro_paragraph2')
 
           %p.unsure.mt-24.mb-24
-            100% free, fun and invaluable!
+            = t('.free_fun_invaluable')
 
           - if user_signed_in?
-            = button_to "Get started!", start_challenge_path(@challenge_id), class: 'btn-l btn-primary'
+            = button_to t('.get_started_button'), start_challenge_path(@challenge_id), class: 'btn-l btn-primary'
           - else
             .flex.items-center.sm:gap-24.gap-12.sm:flex-row.flex-col.sm:w-unset.w-100
-              = link_to "Sign up to get started", new_user_registration_path, class: 'btn-m btn-primary sm:w-unset w-100'
-              = link_to "Log in", new_user_session_path, class: 'btn-m btn-secondary sm:w-unset w-100'
+              = link_to t('.signup_button'), new_user_registration_path, class: 'btn-m btn-primary sm:w-unset w-100'
+              = link_to t('.login_button'), new_user_session_path, class: 'btn-m btn-secondary sm:w-unset w-100'
 
   %article.lg-container
     %section.video-section
       = render ReactComponents::Common::YoutubePlayer.new('v6fMaOdUxSk', 'challenge#external')
 
     %section.reasons-section
-      %h2 Why take part?
+      %h2= t('.why_take_part_heading')
       .reasons.grid-cols-1.md:grid-cols-3
         .reason
           = graphical_icon "mentoring-opportunity"
-          %h3 Expand your knowledge
-          %p Learning new languages is a great way to explore different paradigms, concepts and ideas. Learning different ways to solve problems is a guaranteed way to make you a better developer.
+          %h3= t('.expand_knowledge.heading')
+          %p= t('.expand_knowledge.description')
 
         .reason
           = graphical_icon "mentoring-soft-skills"
-          %h3 Learn together
-          %p The Challenge is a great way of connecting with other developers. Chat to others on our forums, watch streamers on YouTube or Twitch, or bounce solutions on social media.
+          %h3= t('.learn_together.heading')
+          %p= t('.learn_together.description')
 
         .reason
           = graphical_icon "testimonials"
-          %h3 Have fun!
-          %p Coding should be fun! When we get stuck in the same patterns every day it can feel monotonous and boring. Solving challenges in different languages is a great way to reignite your spark.
+          %h3= t('.have_fun.heading')
+          %p= t('.have_fun.description')
 
       .flex.justify-center.mt-48
         - if user_signed_in?
-          = button_to "Get started!", start_challenge_path(@challenge_id), class: 'btn-l btn-primary'
+          = button_to t('.get_started_button'), start_challenge_path(@challenge_id), class: 'btn-l btn-primary'
         - else
           .flex.items-center.sm:gap-24.gap-12.sm:flex-row.flex-col.sm:w-unset.w-100
-            = link_to "Sign up to get started", new_user_registration_path, class: 'btn-l btn-primary sm:w-unset w-100'
-            = link_to "Log in", new_user_session_path, class: 'btn-l btn-secondary sm:w-unset w-100'
-
-
+            = link_to t('.signup_button'), new_user_registration_path, class: 'btn-l btn-primary sm:w-unset w-100'
+            = link_to t('.login_button'), new_user_session_path, class: 'btn-l btn-secondary sm:w-unset w-100'

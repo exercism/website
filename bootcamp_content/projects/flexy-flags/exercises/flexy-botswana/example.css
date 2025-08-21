@@ -1,0 +1,16 @@
+#flag {
+    background: white;
+    display: flex;
+    flex-direction: column;
+    gap: 5%;
+
+    div:nth-child(1),
+    div:nth-child(3) {
+        background: #6da9d2;
+        flex-grow: 1;
+    }
+    div:nth-child(2) {
+        background: black;
+        flex-basis: 20%;
+    }
+}

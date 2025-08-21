@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import consumer from '../../utils/action-cable-consumer'
 import { GraphicalIcon } from '../common/GraphicalIcon'
 import { NotificationsIcon } from './notifications/NotificationsIcon'
@@ -9,7 +9,9 @@ import { DropdownAttributes } from './useDropdown'
 import { usePaginatedRequestQuery } from '../../hooks/request-query'
 import { useErrorHandler, ErrorBoundary } from '../ErrorBoundary'
 import { Loading } from '../common/Loading'
-import { QueryStatus } from '@tanstack/react-query'
+import { QueryStatus, useQueryClient } from '@tanstack/react-query'
+import { NotificationsChannel } from '@/channels/notificationsChannel'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export type APIResponse = {
   results: NotificationType[]
@@ -45,6 +47,7 @@ const DropdownContent = ({
   status: QueryStatus
   error: unknown
 } & Pick<DropdownAttributes, 'listAttributes' | 'itemAttributes'>) => {
+  const { t } = useAppTranslation('components/dropdowns')
   if (data) {
     return (
       <ul {...listAttributes}>
@@ -57,7 +60,7 @@ const DropdownContent = ({
         })}
         <li {...itemAttributes(data.results.length)}>
           <a href={data.meta.links.all} className="c-prominent-link">
-            <span>See all your notifications</span>
+            <span>{t('notifications.seeAllYourNotifications')}</span>
             <GraphicalIcon icon="arrow-right" />
           </a>
         </li>
@@ -68,7 +71,7 @@ const DropdownContent = ({
 
     return (
       <div id={id} hidden={hidden}>
-        {status === 'loading' ? <Loading /> : null}
+        {status === 'pending' ? <Loading /> : null}
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <ErrorMessage error={error} />
         </ErrorBoundary>
@@ -78,24 +81,29 @@ const DropdownContent = ({
 }
 
 const MAX_NOTIFICATIONS = 5
-const CACHE_KEY = 'notifications'
+export const NOTIFICATIONS_CACHE_KEY = 'notifications'
 
 export default function Notifications({
   endpoint,
 }: {
   endpoint: string
 }): JSX.Element {
-  const [isStale, setIsStale] = useState(false)
+  const queryClient = useQueryClient()
   const {
     data: resolvedData,
     error,
     status,
-    refetch,
-  } = usePaginatedRequestQuery<APIResponse, unknown>([CACHE_KEY], {
-    endpoint: endpoint,
-    query: { per_page: MAX_NOTIFICATIONS },
-    options: {},
-  })
+  } = usePaginatedRequestQuery<APIResponse, unknown>(
+    [NOTIFICATIONS_CACHE_KEY],
+    {
+      endpoint: endpoint,
+      query: { per_page: MAX_NOTIFICATIONS },
+      options: {
+        staleTime: 30 * 1000,
+        refetchOnMount: true,
+      },
+    }
+  )
   const {
     buttonAttributes,
     panelAttributes,
@@ -104,27 +112,28 @@ export default function Notifications({
     open,
   } = useNotificationDropdown(resolvedData)
 
-  useEffect(() => {
-    const subscription = consumer.subscriptions.create(
-      { channel: 'NotificationsChannel' },
-      {
-        received: () => {
-          setIsStale(true)
-        },
-      }
-    )
-
-    return () => subscription.unsubscribe()
-  }, [])
+  const connectionRef = useRef<NotificationsChannel | null>(null)
 
   useEffect(() => {
-    if (!listAttributes.hidden || !isStale) {
-      return
+    if (!connectionRef.current) {
+      connectionRef.current = new NotificationsChannel((message) => {
+        if (!message) return
+
+        if (message.type === 'notifications.changed' && listAttributes.hidden) {
+          queryClient.invalidateQueries({ queryKey: [NOTIFICATIONS_CACHE_KEY] })
+        }
+      })
     }
 
-    refetch()
-    setIsStale(false)
-  }, [isStale, listAttributes.hidden, refetch])
+    if (!listAttributes.hidden) {
+      queryClient.refetchQueries({ queryKey: [NOTIFICATIONS_CACHE_KEY] })
+    }
+
+    return () => {
+      connectionRef.current?.disconnect()
+      connectionRef.current = null
+    }
+  }, [listAttributes.hidden, queryClient])
 
   return (
     <React.Fragment>

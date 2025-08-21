@@ -1,0 +1,20 @@
+// Add the Robot and FormalConversation classes
+
+function hold_conversation with name_1, age_1, name_2, age_2, name_3, age_3 do
+  set r1 to new Robot(name_1, age_1)
+  set r2 to new Robot(name_2, age_2)
+  set conversation_1 to new FormalConversation(r1, r2)
+
+  conversation_1.exchange_salutations()
+  r1.say(concatenate("I am ", number_to_string(r1.age), " years old. How old are you?"))
+  r2.say(concatenate("I am ", number_to_string(r2.age), ". Together we are ", number_to_string(r1.age + r2.age), " years old. Wow."))
+  r1.say("Wow.")
+  conversation_1.exchange_valedictions()
+
+  set r3 to new Robot(name_3, age_3)
+  set conversation_2 to new FormalConversation(r3, r1)
+  conversation_2.exchange_salutations()
+  r3.say("Who was that?")
+  r1.say(concatenate("That was ", conversation_1.get_participant_name(2), "."))
+  conversation_2.exchange_valedictions()
+end

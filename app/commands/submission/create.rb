@@ -1,16 +1,15 @@
 class Submission::Create
   include Mandate
 
-  def initialize(solution, files, submitted_via)
+  def initialize(solution, raw_files, submitted_via, test_results_json = nil)
     @submission_uuid = SecureRandom.compact_uuid
-
     @solution = solution
-    @submitted_files = files
     @submitted_via = submitted_via
+    @test_results_json = test_results_json
 
     # TODO: (Optional) - Move this into another service
     # TODO: (Optional) - Consider risks around filenames
-    @submitted_files.each do |f|
+    @submitted_files = raw_files.each do |f|
       f[:digest] = Digest::SHA1.hexdigest(f[:content])
     end
   end
@@ -21,7 +20,7 @@ class Submission::Create
 
     create_submission!
     create_files!
-    init_test_run!
+    handle_test_run!
     schedule_jobs!
     log_metric!
 
@@ -30,7 +29,7 @@ class Submission::Create
   end
 
   private
-  attr_reader :solution, :submitted_files, :submission_uuid, :submitted_via, :submission
+  attr_reader :solution, :submitted_files, :submission_uuid, :submitted_via, :submission, :test_results_json
 
   delegate :track, :user, to: :solution
 
@@ -61,8 +60,12 @@ class Submission::Create
     end
   end
 
-  def init_test_run!
-    Submission::TestRun::Init.(submission)
+  def handle_test_run!
+    if test_results_json.present?
+      Submission::TestRun::ProcessClientSideResults.(submission, test_results_json)
+    else
+      Submission::TestRun::Init.(submission)
+    end
   end
 
   def schedule_jobs!

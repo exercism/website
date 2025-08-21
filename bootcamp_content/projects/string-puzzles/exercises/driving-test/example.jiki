@@ -1,0 +1,11 @@
+function did_they_pass with marks do
+  set minors to 0
+  for each mark in marks do
+    if mark == "💥" do
+      return false
+    else if mark == "❌" do
+      change minors to minors + 1
+    end
+  end
+  return minors < 5
+end

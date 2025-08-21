@@ -1,5 +1,5 @@
-- content_for :meta_title, "Exercism's Impact Report".html_safe
-- content_for :meta_description, "We've provided over 310 million minutes of free learning to over a million people. Learn more in our impact report!".html_safe
+- content_for :meta_title, t('.meta_title').html_safe
+- content_for :meta_description, t('.meta_description').html_safe
 - content_for :canonical_url, impact_about_url
 - require_stylesheet "about"
 
@@ -10,47 +10,45 @@
     .md-container.c-shapes-impact.c-shapes-1
     %h1.text-h5.text-textColor6.mb-16.flex.items-center
       = graphical_icon "report", css_class: 'h-[26px] w-[26px] filter-textColor6 mr-16'
-      Exercism Impact Report
+      = t('.header.title')
     %h2.text-h0.mb-12.text-center{ class: 'max-w-[800px]' }
-      We&apos;ve provided
+      = t('.header.provided_text_prefix')
       %strong{ class: 'pl-8 pr-12 font-bold bg-[url(graphics/impact-highlight.svg)] bg-[length:100%_100%] text-textColor1NoDark' } 310,569,762
       %strong{ class: 'pl-8 pr-8 mr-[-8px] font-bold bg-[url(graphics/impact-highlight.svg)] bg-[length:100%_100%] text-textColor1NoDark' } minutes
-      of free education.
+      = t('.header.provided_text_suffix')
     %p.font-medium.text-textColor6.text-24.leading-160.text-center{ class: 'max-w-[780px]' }
-      And we provide another ~285,340 minutes every day!
+      = t('.header.daily_minutes_provided')
       %br
-      All on a free, open source project funded by people like you.
+      = t('.header.funding_info')
 
   .md-container.mb-48
     .flex.flex-col.md:flex-row.md:items-stretch
       .md:mr-32.mb-40.md:mb-0{ class: 'w-fill md:max-w-[380px]' }
         .shadow-lgZ1.py-8.rounded-16.mb-32.bg-backgroundColorA.overflow-hidden
           .py-12.px-32.bg-backgroundColorF
-            %h3.label-large Students
+            %h3.label-large= t('.stats.students')
             .text-purple.font-semibold.text-40.leading-150{ class: 'h-[60px]' }
               = render ReactComponents::Impact::Stat.new(:sign_up_metric, Metrics.num_users.to_i)
 
           .py-12.px-32.bg-backgroundColorB
-            %h3.label-large Exercise Submissions
+            %h3.label-large= t('.stats.exercise_submissions')
             .text-purple.font-semibold.text-40.leading-150{ class: 'h-[60px]' }
               = render ReactComponents::Impact::Stat.new(:submit_submission_metric, Metrics.num_submissions.to_i)
 
           .py-12.px-32
-            %h3.label-large Mentoring Discussions
+            %h3.label-large= t('.stats.mentoring_discussions')
             .text-purple.font-semibold.text-40.leading-150
               = render ReactComponents::Impact::Stat.new(:mentoring_discussions_metric, Metrics.num_discussions.to_i)
 
         .bg-backgroundColorB.shadow-base.py-16.px-24
           %p.text-p-large.mb-8
-            %span.text-h5 Exercism teaches #{Track.active.count} programming languages
-            from #{Track.active.order('title ASC').first.title} to #{Track.active.order('title ASC').last.title},
-            using a unique blend of learning, practicing, and mentoring.
-          %p.text-h5 Everything on Exercism is 100% free.
+            = t('.languages_taught', num_languages: Track.num_active, first_language: Track.active.order('title ASC').first.title, last_language: Track.active.order('title ASC').last.title)
+          %p.text-h5= t('.everything_is_free')
 
       .shadow-lg.flex-grow.bg-backgroundColorB.rounded-16.py-48.px-24.relative
         .absolute.w-full.shadow-sm.text-h5.py-6.px-16.rounded-24.bg-backgroundColorA.flex.flex-row.items-center.whitespace-nowrap{ class: 'top-0 left-1/2 -translate-y-1/2 -translate-x-1/2' }
           = graphical_icon "graph-stats-gradient", css_class: 'h-[24px] w-[24px] mr-12'
-          Live activity on Exercism
+          = t('.live_activity')
         = ReactComponents::Impact::Map.new
 
   .md-container.mb-64
@@ -61,10 +59,9 @@
           .flex.flex-col
             .label-large David Pritchard
             .text-p-base.text-textColor6 @dapritchard_
-          = link_to icon('external-site-twitter', 'Twitter', css_class: 'filter-twitter h-[16px] w-[16px]'), "https://twitter.com/dapritchard_/status/1549978935995338753", class: 'ml-auto p-8'
+          = link_to icon('external-site-twitter', t('.social_media.twitter'), css_class: 'filter-twitter h-[16px] w-[16px]'), "https://twitter.com/dapritchard_/status/1549978935995338753", class: 'ml-auto p-8'
         %p.text-p-large
-          %em.not-italic.font-medium.text-purple @exercism_io
-          is really incredible. My submission was failing it's tests…I asked for mentoring to help straighten things out, and within 15 minutes someone had messaged me explaining my error.
+          = t('.testimonials.dapritchard_html', twitter_handle: tag.em('@exercism_io', class: 'not-italic font-medium text-purple'))
 
       .flex.flex-col.py-20.px-24
         .flex.items-center.mb-12
@@ -72,12 +69,9 @@
           .flex.flex-col
             .label-large Karl 🇺🇦
             .text-p-base.text-textColor6 @zippcode
-          = link_to icon('external-site-twitter', 'Twitter', css_class: 'filter-twitter h-[16px] w-[16px]'), "https://twitter.com/zippkode/status/1561075536834838530", class: 'ml-auto p-8'
+          = link_to icon('external-site-twitter', t('.social_media.twitter'), css_class: 'filter-twitter h-[16px] w-[16px]'), "https://twitter.com/zippkode/status/1561075536834838530", class: 'ml-auto p-8'
         %p.text-p-large
-          \…I worked on the Ruby strings exercises at
-          %em.not-italic.font-medium.text-purple @exercism_io
-          This platform forces me to slow down and actually logically solve the tasks…
-
+          = t('.testimonials.zippkode_html', twitter_handle: tag.em('@exercism_io', class: 'not-italic font-medium text-purple'))
 
       .flex.flex-col.py-20.px-24
         .flex.items-center.mb-12
@@ -85,26 +79,24 @@
           .flex.flex-col
             .label-large Alessandro Baffa
             .text-p-base.text-textColor6 @alebaffa
-          = link_to icon('external-site-twitter', 'Twitter', css_class: 'filter-twitter h-[16px] w-[16px]'), "https://twitter.com/alebaffa/status/1545972418497302528", class: 'ml-auto p-8'
+          = link_to icon('external-site-twitter', t('.social_media.twitter'), css_class: 'filter-twitter h-[16px] w-[16px]'), "https://twitter.com/alebaffa/status/1545972418497302528", class: 'ml-auto p-8'
         %p.text-p-large
-          I've always loved
-          %em.not-italic.font-medium.text-purple @exercism_io
-          because you learn not only the syntax of a language, but also its dev environment: how to setup tests, packaging and build. Fantastic resource!
+          = t('.testimonials.alebaffa_html', twitter_handle: tag.em('@exercism_io', class: 'not-italic font-medium text-purple'))
 
   .md-container.mb-64
     .flex.flex-col.md:flex-row
       .md:mr-32.mb-48.md:mb-0.shadow-lg.flex-grow.bg-backgroundColorA.rounded-16.py-40.px-48
-        %h2.text-h1.mb-32 Exercism is powered by huge team of wonderful volunteers.
+        %h2.text-h1.mb-32= t('.volunteers_section.title')
         .grid.grid-cols-1.gap-20.lg:grid-cols-3
           .flex.flex-col
             .text-40.leading-150.font-semibold.text-purple 19,603
-            .label-large Mentors
+            .label-large= t('.volunteers_section.mentors_label')
           .flex.flex-col
             .text-40.leading-150.font-semibold.text-purple 5,508
-            .label-large Code Contributors
+            .label-large= t('.volunteers_section.code_contributors_label')
           .flex.flex-col
             .text-40.leading-150.font-semibold.text-purple 3
-            .label-large Full-time Staff
+            .label-large= t('.volunteers_section.full_time_staff_label')
 
         .flex.flex-wrap.mt-32.overflow-y-hidden{ class: 'h-[76px]' }
           - @contributor_avatars.each do |avatar|
@@ -113,71 +105,56 @@
       %div{ class: 'w-fill md:max-w-[374px]' }
         .py-24.px-24.pt-60.shadow-base.mb-32.bg-backgroundColorA.relative
           .absolute.bg-lightGold.rounded-circle.w-48.text-24.p-12{ class: 'top-0 -translate-y-1/2' } 🙌
-          %h3.text-h4.mb-8 Has Exercism helped you become a better developer?
-          %p.text-p-large.mb-16 If Exercism has helped your career prospects or given you joy, please consider financially supporting us.
-          %p.text-p-large Only 1% of people that use Exercism support us. Please be one of them.
+          %h3.text-h4.mb-8= t('.support_section.call_to_action_title')
+          %p.text-p-large.mb-16= t('.support_section.call_to_action_paragraph_one')
+          %p.text-p-large= t('.support_section.call_to_action_paragraph_two')
 
         = link_to donate_path, class: "btn btn-base btn-secondary" do
-          %span See how you can support us
+          %span= t('.support_section.support_button')
           = graphical_icon "arrow-right"
 
   .md-container.mb-64
-    %h3.text-h3.text-center.mb-16 A special thanks to these organisations…
+    %h3.text-h3.text-center.mb-16= t('.partners_section.title')
     .logos.flex.items-center.justify-center.flex-wrap.gap-64.mb-24
-      = icon "mozilla", "Mozilla", category: :partners, css_class: "mozilla h-48 filter-textColor1"
-      = icon "gobridge", "GoBridge", category: :partners, css_class: "gobridge h-[80px]"
-      = icon "chicago", "University of Chicago", category: :partners, css_class: "chicago h-48"
-      = icon "packt", "Packt Publishing", category: :partners, css_class: 'h-48'
+      = icon "mozilla", t('.partners_section.mozilla_alt'), category: :partners, css_class: "mozilla h-48 filter-textColor1"
+      = icon "gobridge", t('.partners_section.gobridge_alt'), category: :partners, css_class: "gobridge h-[80px]"
+      = icon "chicago", t('.partners_section.chicago_alt'), category: :partners, css_class: "chicago h-48"
+      = icon "packt", t('.partners_section.packt_alt'), category: :partners, css_class: 'h-48'
     .text-center.text-18.leading-150.text-textColor6.font-semibold
-      And over
-      = link_to "700 individuals donors!", individual_supporters_about_path, class: 'underline hover:text-lightBlue'
+      = t('.partners_section.donors_prefix')
+      = link_to t('.partners_section.individual_donors_link'), individual_supporters_about_path, class: 'underline hover:text-lightBlue'
 
+  - num_users_display = number_to_human(Metrics.num_users, units: { million: "M" }, precision: 1, significant: false, format: "%n%u")
   .impact-chart-container.bg-repeat.overflow-hidden{ class: 'bg-[#221E31] bg-[length:90px] bg-[url(photos/chart-bg.jpg)]' }
     .md-container
       .pt-48.flex.flex-col.items-center
         .flex.flex-col.text-center{ class: "max-w-[927px]" }
           = graphical_icon "graph-stats-ascend", css_class: "mb-16 mx-auto h-[67px] w-[64px]"
           %h2.text-h1.leading-128.text-white.mb-16
-            We&apos;ve grown to over 1M students entirely by word of mouth.
+            = t('.growth_section.title', num_users: num_users_display)
           %p.text-gray.text-p-2xlarge
-            We work closely with our community to understand how to evolve Exercism
-            to be the best it can be, and they reward us by sharing with their
-            friends.
+            = t('.growth_section.description')
 
     %div{ class: 'h-[480px]' }
       = render ReactComponents::Impact::Chart.new
 
-  -# .relative{ class: 'h-[900px]' }
-    = ReactComponents::Impact::Chart.new
-    .absolute{ class: 'top-[50px] left-0 right-0' }
-      .flex.flex-col.items-center
-        .flex.flex-col.text-center{ class: "max-w-[927px]" }
-          = graphical_icon "graph-stats-ascend", css_class: "mb-16 mx-auto h-[67px] w-[64px]"
-          %h2.text-h1.leading-128.text-white.mb-16
-            We&apos;ve grown to over 1M students entirely by word of mouth.
-          %p.text-gray.text-p-2xlarge
-            We work closely with our community to understand how to evolve Exercism
-            to be the best it can be, and they reward us by sharing with their
-            friends.
-
   .sm-container.mb-64.relative{ class: 'mt-[-64px]' }
     .bg-backgroundColorA.flex.flex-col.text-center.justify-center.rounded-32.pt-24.md:pb-40.pb-24.md:px-48.px-24.shadow-lgv2
       .text-48.leading-130.mb-8 🚀
-      %h2.text-h1.mb-12 Become rocket fuel for our mission
+      %h2.text-h1.mb-12= t('.mission_cta.title')
       %p.text-p-2xlarge.mb-36.text-center.text-textColor6.font-medium
-        We&apos;ve built everything for under $500,000. Imagine what we could do with
-        more significant funding! Could you be the one to make it happen?
+        = t('.mission_cta.description')
       .flex.flex-col.border.border-2.border-gradient.rounded-16.md:px-40.px-24.py-24.shadow-smZ1
         .flex.flex-col.gap-8.md:gap-0.items-center.mx-auto.mb-24.md:flex-row
           = image_tag "team/jeremy-walker.jpg", alt: "A photo of Jeremy Walker", class: 'w-[64px] h-[64px] md:mr-24 md:mb-4 rounded-circle'
           .flex.flex-col.text-left
             .md:text-h4.text-h5.mb-4
-              Interested in supporting Exercism as an organisation?
+              = t('.mission_cta.organization_support_title')
             .leading-regular.text-textColor5.text-18
-              Get in touch with
+              = t('.mission_cta.contact_prefix')
               = succeed(',') do
                 %span.text-textColor2.font-medium Jeremy Walker
-              Co-founder & CEO
+              = t('.mission_cta.contact_suffix')
         = link_to "mailto:jeremy@exercism.org", class: "btn btn-primary" do
           = graphical_icon "envelope", css_class: "mr-16"
           %span.md:text-16.text-14 jeremy@exercism.org
@@ -185,7 +162,7 @@
   .lg-container.mb-64
     .c-shapes-impact.c-shapes-1
       %h2.text-h1.text-center{ class: "max-w-[800px] mx-auto" }
-        Over 85,000 students have left testimonials to thank their mentors.
+        = t('.testimonials_section.title')
 
     .md-container{ class: "bg-[var(--backgroundColorImpactPage)]" }
       %article.testimonials.pt-40

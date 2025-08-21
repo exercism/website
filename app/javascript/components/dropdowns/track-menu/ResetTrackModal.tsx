@@ -8,6 +8,7 @@ import { ErrorBoundary, ErrorMessage } from '../../ErrorBoundary'
 import { useConfirmation } from '../../../hooks/use-confirmation'
 import { Track } from '../../types'
 import { redirectTo } from '../../../utils/redirect-to'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type UserTrack = {
   links: {
@@ -26,13 +27,14 @@ export const ResetTrackModal = ({
   endpoint: string
   track: Track
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/dropdowns/track-menu')
   const confirmation = `reset ${track.slug}`
   const {
     mutate: mutation,
     status,
     error,
-  } = useMutation<UserTrack | undefined>(
-    async () => {
+  } = useMutation<UserTrack | undefined>({
+    mutationFn: async () => {
       const { fetch } = sendRequest({
         endpoint: endpoint,
         method: 'PATCH',
@@ -47,16 +49,14 @@ export const ResetTrackModal = ({
         return typecheck<UserTrack>(json, 'userTrack')
       })
     },
-    {
-      onSuccess: (track) => {
-        if (!track) {
-          return
-        }
+    onSuccess: (track) => {
+      if (!track) {
+        return
+      }
 
-        redirectTo(track.links.self)
-      },
-    }
-  )
+      redirectTo(track.links.self)
+    },
+  })
 
   const { attempt, setAttempt, isAttemptPass } = useConfirmation(confirmation)
 
@@ -77,43 +77,37 @@ export const ResetTrackModal = ({
     >
       <form onSubmit={handleSubmit}>
         <div className="info">
-          <h2>You’re about to reset all your {track.title} progress.</h2>
-          <p>
-            <strong>Please read this carefully before continuing.</strong>
-          </p>
-          <p>
-            This is <em>irreversible</em> and will mean you’ll lose everything
-            you’ve done on this track.
-          </p>
+          <h2>{t('resetTrackModal.heading', { trackTitle: track.title })}</h2>
+          <p>{t('resetTrackModal.pleaseReadCarefully')}</p>
+          <p>{t('resetTrackModal.irreversible')}</p>
           <hr />
           <p>
-            <strong>By resetting this track, you will lose access to:</strong>
+            <strong>{t('resetTrackModal.byResettingThisTrack')}</strong>
           </p>
           <ul>
-            <li>All solutions you have submitted in {track.title}</li>
-            <li>All mentoring you have received in {track.title}</li>
             <li>
-              Lose any reputation you have earned for publishing solutions in{' '}
-              {track.title}
+              {t('resetTrackModal.listItem1', { trackTitle: track.title })}
             </li>
+            <li>
+              {t('resetTrackModal.listItem2', { trackTitle: track.title })}
+            </li>
+            <li>{t('resetTrackModal.listItem3')}</li>
           </ul>
           <p>
-            <strong>However:</strong>
+            <strong>{t('resetTrackModal.however')}</strong>
           </p>
           <ul>
+            <li>{t('resetTrackModal.listItem4')}</li>
             <li>
-              Any local versions of solutions stored on your machine will be
-              unaffected
-            </li>
-            <li>
-              You will keep any badges earned as a result of your work on the{' '}
-              {track.title} track
+              {t('resetTrackModal.listItem5', { trackTitle: track.title })}
             </li>
           </ul>
         </div>
         <hr />
         <label htmlFor="confirmation">
-          To confirm, write <pre>{confirmation}</pre> in the box below:
+          {t('resetTrackModal.confirmationLabel', {
+            confirmation,
+          })}
         </label>
 
         <input
@@ -131,14 +125,14 @@ export const ResetTrackModal = ({
             type="button"
             className="btn-default btn-m"
           >
-            Cancel
+            {t('resetTrackModal.cancel')}
           </FormButton>
           <FormButton
             status={status}
             disabled={!isAttemptPass}
             className="btn-primary btn-m"
           >
-            Reset track
+            {t('resetTrackModal.resetTrack')}
           </FormButton>
         </div>
         <ErrorBoundary>

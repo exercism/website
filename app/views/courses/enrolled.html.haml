@@ -1,0 +1,16 @@
+%section#confirmation
+  .xs-container
+    #pending
+      .container
+        .flex.flex-col.items-center.w-fill
+          = icon "spinner", t('.spinner_alt_text'), css_class: "spinner"
+    #success.hidden
+      .container
+        .tag= t('.tag')
+        %h2
+          %strong= t('.congratulations_strong')
+        %p.intro
+          = t('.intro')
+        %hr
+
+        = render "courses/enrolled/#{@enrollment.course.template_slug}", enrollment: @enrollment

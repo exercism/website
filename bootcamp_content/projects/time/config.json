@@ -1,0 +1,6 @@
+{
+  "slug": "time",
+  "title": "Time",
+  "description": "Adventures in time",
+  "exercises": ["digital-clock", "leap", "railway-time"]
+}

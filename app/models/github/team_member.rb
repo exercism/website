@@ -1,8 +1,8 @@
 class Github::TeamMember < ApplicationRecord
-  has_one :user,
-    foreign_key: :uid,
-    primary_key: :user_id,
-    class_name: "User",
-    inverse_of: :github_team_memberships,
-    dependent: :destroy
+  belongs_to :user
+  belongs_to :track, optional: true
+
+  before_validation on: :create do
+    self.track_id = Track.where(slug: team_name).pick(:id) unless track
+  end
 end

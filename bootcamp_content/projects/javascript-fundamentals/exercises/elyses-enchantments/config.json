@@ -1,0 +1,226 @@
+{
+  "title": "Elyse's Enchantments",
+  "description": "Help Elyse with her Enchantments and learn about arrays in the process.",
+  "language": "javascript",
+  "level": 12,
+  "idx": 5,
+  "tests_type": "io",
+  "tasks": [
+    {
+      "name": "Pick a card",
+      "tests": [
+        {
+          "name": "Get the first card",
+          "slug": "get-first-card",
+          "description_html": "Retrieve the first card from the stack.",
+          "function": "getItem",
+          "args": [[1, 2, 3], 0],
+          "checks": [{ "value": 1 }]
+        },
+        {
+          "name": "Get the middle card",
+          "slug": "get-middle-card",
+          "description_html": "Retrieve the middle card from the stack.",
+          "function": "getItem",
+          "args": [[4, 5, 6], 1],
+          "checks": [{ "value": 5 }]
+        },
+        {
+          "name": "Get the last card",
+          "slug": "get-last-card",
+          "description_html": "Retrieve the last card from the stack.",
+          "function": "getItem",
+          "args": [[9, 8, 7], 2],
+          "checks": [{ "value": 7 }]
+        }
+      ]
+    },
+    {
+      "name": "Sleight of hand",
+      "tests": [
+        {
+          "name": "Replace the first card",
+          "slug": "replace-first-card",
+          "description_html": "Replace the first card with a 7.",
+          "function": "setItem",
+          "args": [[1, 2, 3], 0, 7],
+          "checks": [{ "value": [7, 2, 3] }]
+        },
+        {
+          "name": "Replace the middle card",
+          "slug": "replace-middle-card",
+          "description_html": "Replace the middle card with a 5.",
+          "function": "setItem",
+          "args": [[2, 2, 2], 1, 5],
+          "checks": [{ "value": [2, 5, 2] }]
+        },
+        {
+          "name": "Replace the last card",
+          "slug": "replace-last-card",
+          "description_html": "Replace the last card with a 7.",
+          "function": "setItem",
+          "args": [[7, 7, 6], 2, 7],
+          "checks": [{ "value": [7, 7, 7] }]
+        }
+      ]
+    },
+    {
+      "name": "Make cards appear at the top",
+      "tests": [
+        {
+          "name": "Add second card at top",
+          "slug": "add-second-card-top",
+          "description_html": "Add a second card to the top of the stack.",
+          "function": "insertItemAtTop",
+          "args": [[1], 5],
+          "checks": [{ "value": [1, 5] }]
+        },
+        {
+          "name": "Add third card at top",
+          "slug": "add-third-card-top",
+          "description_html": "Add a third card to the top of the stack.",
+          "function": "insertItemAtTop",
+          "args": [[1, 5], 9],
+          "checks": [{ "value": [1, 5, 9] }]
+        },
+        {
+          "name": "Add fourth card at top",
+          "slug": "add-fourth-card-top",
+          "description_html": "Add a fourth card to the top of the stack.",
+          "function": "insertItemAtTop",
+          "args": [[1, 5, 9], 2],
+          "checks": [{ "value": [1, 5, 9, 2] }]
+        }
+      ]
+    },
+    {
+      "name": "Make cards disappear",
+      "tests": [
+        {
+          "name": "Remove card at bottom",
+          "slug": "remove-card-bottom",
+          "description_html": "Remove the first card at the bottom of the stack.",
+          "function": "removeItem",
+          "args": [[1, 2, 3, 4], 0],
+          "checks": [{ "value": [2, 3, 4] }]
+        },
+        {
+          "name": "Remove card at top",
+          "slug": "remove-card-top",
+          "description_html": "Remove the last card from the stack.",
+          "function": "removeItem",
+          "args": [[1, 2, 3, 4], 3],
+          "checks": [{ "value": [1, 2, 3] }]
+        },
+        {
+          "name": "Remove second card",
+          "slug": "remove-second-card",
+          "description_html": "Remove the second card from the stack.",
+          "function": "removeItem",
+          "args": [[1, 2, 3, 4], 1],
+          "checks": [{ "value": [1, 3, 4] }]
+        }
+      ]
+    },
+    {
+      "name": "Remove cards from the top",
+      "tests": [
+        {
+          "name": "Remove the only card from top",
+          "slug": "remove-only-card-top",
+          "description_html": "Remove the only card from the top of the stack.",
+          "function": "removeItemFromTop",
+          "args": [[1]],
+          "checks": [{ "value": [] }]
+        },
+        {
+          "name": "Remove card from top",
+          "slug": "remove-card-top-single",
+          "description_html": "Remove the top card from the stack.",
+          "function": "removeItemFromTop",
+          "args": [[1, 2, 3]],
+          "checks": [{ "value": [1, 2] }]
+        }
+      ]
+    },
+    {
+      "name": "Make cards appear at the bottom",
+      "tests": [
+        {
+          "name": "Add second card at bottom",
+          "slug": "add-second-card-bottom",
+          "description_html": "Add a second card to the bottom of the stack.",
+          "function": "insertItemAtBottom",
+          "args": [[1], 5],
+          "checks": [{ "value": [5, 1] }]
+        },
+        {
+          "name": "Add third card at bottom",
+          "slug": "add-third-card-bottom",
+          "description_html": "Add a third card to the bottom of the stack.",
+          "function": "insertItemAtBottom",
+          "args": [[5, 1], 9],
+          "checks": [{ "value": [9, 5, 1] }]
+        }
+      ]
+    },
+    {
+      "name": "Remove cards from the bottom",
+      "tests": [
+        {
+          "name": "Remove the only card from bottom",
+          "slug": "remove-only-card-bottom",
+          "description_html": "Remove the only card from the bottom of the stack.",
+          "function": "removeItemAtBottom",
+          "args": [[1]],
+          "checks": [{ "value": [] }]
+        },
+        {
+          "name": "Remove card from bottom",
+          "slug": "remove-card-bottom-single",
+          "description_html": "Remove the bottom card from the stack.",
+          "function": "removeItemAtBottom",
+          "args": [[1, 2, 3]],
+          "checks": [{ "value": [2, 3] }]
+        }
+      ]
+    },
+    {
+      "name": "Check size of stack",
+      "tests": [
+        {
+          "name": "Empty stack",
+          "slug": "check-empty-stack",
+          "description_html": "Check size for empty stack.",
+          "function": "checkSizeOfStack",
+          "args": [[], 0],
+          "checks": [{ "value": true }]
+        },
+        {
+          "name": "Single card stack",
+          "slug": "check-single-card-stack",
+          "description_html": "Check size for stack with single card.",
+          "function": "checkSizeOfStack",
+          "args": [[7], 1],
+          "checks": [{ "value": true }]
+        },
+        {
+          "name": "Even cards stack",
+          "slug": "check-even-cards-stack",
+          "description_html": "Check size for stack with even cards.",
+          "function": "checkSizeOfStack",
+          "args": [[2, 4, 6, 8], 4],
+          "checks": [{ "value": true }]
+        },
+        {
+          "name": "Odd cards stack",
+          "slug": "check-odd-cards-stack",
+          "description_html": "Check size for stack with odd cards.",
+          "function": "checkSizeOfStack",
+          "args": [[1, 3, 5, 7, 9], 5],
+          "checks": [{ "value": true }]
+        }
+      ]
+    }
+  ]
+}

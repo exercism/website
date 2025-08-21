@@ -1,6 +1,8 @@
 import React from 'react'
 import { ModuleTag } from '../../contributing/tasks-list/task/ModuleTag'
 import { TaskModule } from '../../types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 export const ModuleInfo = ({ module }: { module: TaskModule }): JSX.Element => {
   return (
@@ -16,91 +18,101 @@ export const ModuleInfo = ({ module }: { module: TaskModule }): JSX.Element => {
 }
 
 const ModuleDetails = ({ module }: { module: TaskModule }): JSX.Element => {
+  const { t } = useAppTranslation('components/tooltips/task-tooltip')
+
+  const transComponents = { strong: <strong /> }
+  const transNs = 'components/tooltips/task-tooltip'
+
   switch (module) {
     case 'analyzer':
       return (
         <>
           <h3>
-            For this task, you&apos;ll be working on <strong>Analyzers</strong>
-            ..
+            <Trans
+              ns={transNs}
+              i18nKey="moduleInfo.analyzers"
+              components={transComponents}
+            />
           </h3>
-          <p>
-            Analyzers take code and generating automated suggestions for how to
-            make code more idiomatic.
-          </p>
+          <p>{t('moduleInfo.analyzersDescription')}</p>
         </>
       )
     case 'concept':
       return (
         <>
           <h3>
-            This task is about <strong>Concepts</strong>.
+            <Trans
+              ns={transNs}
+              i18nKey="moduleInfo.concepts"
+              components={transComponents}
+            />
           </h3>
-          <p>
-            Concepts are comprised of brief introductions and more complex
-            explanations about a programming topic.
-          </p>
+          <p>{t('moduleInfo.conceptsDescription')}</p>
         </>
       )
     case 'concept-exercise':
       return (
         <>
           <h3>
-            This task is about <strong>Learning Exercises</strong>.
+            <Trans
+              ns={transNs}
+              i18nKey="moduleInfo.learningExercises"
+              components={transComponents}
+            />
           </h3>
-          <p>
-            Learning Exercises teach one or more Concepts. They are
-            signficiantly more complex to make than Practice Exercises.
-          </p>
+          <p>{t('moduleInfo.learningExercisesDescription')}</p>
         </>
       )
     case 'generator':
       return (
         <>
           <h3>
-            This task is about <strong>Generators</strong>.
+            <Trans
+              ns={transNs}
+              i18nKey="moduleInfo.generators"
+              components={transComponents}
+            />
           </h3>
-          <p>
-            Generators are pieces of tooling that Tracks use to keep in sync
-            with our central set of exercises.
-          </p>
+          <p>{t('moduleInfo.generatorsDescription')}</p>
         </>
       )
     case 'practice-exercise':
       return (
         <>
           <h3>
-            This task is about <strong>Practice Exercises</strong>.
+            <Trans
+              ns={transNs}
+              i18nKey="moduleInfo.practiceExercises"
+              components={transComponents}
+            />
           </h3>
-          <p>
-            Most exercises are Practice Exercises - they enable students to
-            practice the Concepts they have learnt in Learning Exercises.
-          </p>
+          <p>{t('moduleInfo.practiceExercisesDescription')}</p>
         </>
       )
     case 'representer':
       return (
         <>
           <h3>
-            This task is about <strong>Representers</strong>.
-            <p>
-              Representers create normalized versions of students&apos;
-              submissions, which can have mentoring comments attached to them.
-            </p>
+            <Trans
+              ns={transNs}
+              i18nKey="moduleInfo.representers"
+              components={transComponents}
+            />
           </h3>
+          <p>{t('moduleInfo.representersDescription')}</p>
         </>
       )
     case 'test-runner':
       return (
         <>
           <h3>
-            This task is about <strong>Test Runners</strong>.
+            <Trans
+              ns={transNs}
+              i18nKey="moduleInfo.testRunners"
+              components={transComponents}
+            />
           </h3>
-          <p>
-            Test Runners allow Exercism to run students&apos; code and determine
-            whether they pass or fail the tests, and provide useful feedback to
-            the student.
-          </p>
+          <p>{t('moduleInfo.testRunnersDescription')}</p>
         </>
       )
   }

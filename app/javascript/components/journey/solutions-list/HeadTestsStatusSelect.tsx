@@ -1,5 +1,6 @@
 import React from 'react'
 import { SingleSelect } from '@/components/common/SingleSelect'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export type HeadTestsStatus =
   | undefined
@@ -13,24 +14,28 @@ const OptionComponent = ({
 }: {
   option: HeadTestsStatus
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/journey/solutions-list')
+
   switch (status) {
     case 'passed':
-      return <>Passed</>
+      return <>{t('headTestsStatusSelect.passed')}</>
     case 'failed':
-      return <>Failed</>
+      return <>{t('headTestsStatusSelect.failed')}</>
     case 'errored':
-      return <>Errored</>
+      return <>{t('headTestsStatusSelect.errored')}</>
     case 'exceptioned':
-      return <>Exceptioned</>
+      return <>{t('headTestsStatusSelect.exceptioned')}</>
     case undefined:
-      return <>All</>
+      return <>{t('headTestsStatusSelect.all')}</>
   }
 }
 
 const SelectedComponent = ({ option }: { option: HeadTestsStatus }) => {
+  const { t } = useAppTranslation('components/journey/solutions-list')
+
   switch (option) {
     case undefined:
-      return <>Latest Tests status</>
+      return <>{t('headTestsStatusSelect.latestTestsStatus')}</>
     default:
       return <OptionComponent option={option} />
   }

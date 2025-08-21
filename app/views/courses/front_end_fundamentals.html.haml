@@ -1,0 +1,638 @@
+= render "discount_bar", has_discount: @has_discount, country_code_2: @country_code_2, country_name: @country_name, discount_percentage: @discount_percentage, hello: @hello
+
+-# #countdown-bar
+-#   %span.inline-block
+-#     %strong First live session
+-#     in
+-#     #js-countdown-time.inline>= " #{@days} days, #{@hours} hours, #{@minutes} minutes"
+-#     #js-countdown-seconds{ class: "hidden md:inline" }> , #{@seconds} seconds
+-#     \.
+-#   %strong.inline-block Don't miss out!
+
+#nav-fixed.nav{ class: "h-[64px]" }
+  #nav-contents.lg-container.flex.flex-row.gap-8.items-center
+    = image_tag "bootcamp/exercism-face-light.svg", class: 'exercism-face'
+    .content
+      %strong.font-semibold Exercism
+      Bootcamps
+    = link_to "Enroll now 👉", course_start_enrolling_path(@course.slug), class: "button !ml-auto"
+#nav-sticky.nav
+
+.hero
+  .md-container
+    .text-center
+      %h1.rock-solid
+        Learn
+        %strong Front-end
+        Fundamentals
+      .tagline{ class: "max-w-[570px]" }
+        Learn
+        how to make
+        %strong beautiful, interactive websites
+        with
+        %strong live teaching
+        and 100s of hours of
+        %strong fun projects!
+
+    .bubbles
+      .bubble
+        = image_tag "bootcamp/wave.svg"
+        .text
+          %strong Live
+          Teaching
+      .bubble
+        = image_tag "bootcamp/fun.svg"
+        .text
+          %strong Fun
+          projects
+      .bubble
+        = image_tag "bootcamp/help.svg"
+        .text
+          Helpful
+          %strong mentors
+
+    .video-container
+      .video
+        <iframe src="https://player.vimeo.com/video/1068682610?h=578b751ae3&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="bootcamp"></iframe>
+        <script src="https://player.vimeo.com/api/player.js"></script>
+
+    .supported-by
+      %h3 Exercism's supporters include:
+      .logos
+        = image_tag "bootcamp/google.png", class: 'h-[42px] mt-[3px]'
+        = image_tag "bootcamp/chicago.svg", class: 'h-[38px]'
+        = image_tag "bootcamp/mozilla.svg", class: 'h-[38px] mt-[-7px]'
+        = image_tag "bootcamp/packt.svg", class: 'h-[38px] mt-[2px]'
+
+  = render "scrolling_testimonials"
+
+%section.welcome
+  .md-container
+    .flex.flex-col.items-center.gap-40
+      .flex.flex-col.items-stretch
+    %h2{ class: "!mb-20" }
+      Hi there!
+      %span.waving-hand
+        👋
+      I'm Jeremy, and I've helped over
+      .inline.rough-highlight two million people
+      level up their coding skills.
+
+    .sm:float-right.sm:ml-24.sm:mb-24{ class: "xl:mr-[-100px] mr-0" }
+      %div{ class: 'border-white border-[8px] rounded-[5px] lg:w-[300px] sm:w-[220px] w-full', style: "box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);" }
+        = image_tag "bootcamp/with-rhodri.jpg", class: 'w-[100%] border-[#aaa] border-[1px] rounded-[1px]'
+        .text-14.text-center.font-normal.pt-8.px-8{ class: "leading-[140%]" }
+          %span.lg:hidden.inline 1998: Me making the first website I ever got paid for.
+          %span.lg:inline.hidden 1998: Me and Rhodri making the first website we ever got paid for.
+
+    %p.mt-16.md:mt-0
+      When I first wrote my first lines of JavaScript over 25 years ago, almost no-one knew how to code.
+      If you could make even the simplest of websites, you were a wizard! 🧙
+    %p
+      But now-a-days, web development is a very
+      %strong competitive market.
+      Standing out from the crowd is much tougher.
+    %p
+      Lots of people think you stand out by knowing the
+      %strong most languages or the most frameworks.
+      But that's not true!
+      When I'm hiring, I look for one thing...
+
+    %h3
+      %span.inline.rough-highlight Do you have the coding mindset?  🧠
+
+    %p
+      The people that thrive at coding, the ones that get the best jobs and enjoy the work the most share one thing.
+      They have the
+      %strong coder mindset.
+      They are great at
+      %strong critical thinking,
+      great at
+      %strong problem solving.
+    %p
+      To become a good developer you need to learn how to think like a coder.
+      And the secret to that is to
+      %strong practice making real things,
+      with the right
+      %strong guidance, support and mentoring.
+
+    %h3
+      %span.inline.rough-highlight What is this course?
+    %p
+      This is a new type of course, that teaches you the fundamentals of web development - things like CSS and JavaScript - but does it differently, focussed on getting you
+      %strong building fun things.
+      In the first few weeks, you'll be building games like
+      %strong Space Invaders, Tic Tac Toe, and
+      %strong Breakout.
+      You'll be building bots that can solve mazes, and talking to real APIs like
+      %strong ChatGPT
+      to build useful real-world projects.
+
+    .grid.grid-cols-4.gap-10.my-16
+      = image_tag "bootcamp/space-invaders.gif", class: "w-full border-2 border-bootcamp-purple rounded-[5px]"
+      = image_tag "bootcamp/tic-tac-toe.gif", class: "w-full border-2 border-bootcamp-purple rounded-[5px]"
+      = image_tag "bootcamp/breakout.gif", class: "w-full border-2 border-bootcamp-purple rounded-[5px]"
+      = image_tag "bootcamp/maze.gif", class: "w-full border-2 border-bootcamp-purple rounded-[5px]"
+
+    %p ☝️☝️☝️ You'll make all these in JavaScript, HTML and CSS from scratch!
+
+    %h3
+      %span.inline.rough-highlight Bootcamp Style!
+    %p
+      And once (just once!) we're going to run the course as an
+      %strong interactive bootcamp,
+      where
+      %strong I'll be there to guide you.
+      I'll be there to explore ideas with you, help you if you get stuck, and have fun with you! ✨
+    %p
+      For 3 months, I'll teach you the fundamentals of web development, and help you
+      %strong to think like a coder.
+    %p
+      And even more, we have world-class mentors to help you out.
+      Some who have worked in web-dev for decades and others who have worked at places like Google.
+      They'll be there to help nudge you in the right directions and challenge you even more!
+    %p
+      If that sounds exciting, then
+      %strong I'd love for you to join us! 💙
+
+%section#bootcamp
+  .lg-container
+    .container.syllabus
+      .tag What you'll Learn
+      %h2
+        What's on the
+        %strong Menu?
+      %p.intro.mb-24.text-balance{ class: 'max-w-[750px]' }
+        We've put together a course that teaches all the things you need to be able to make
+        %strong beautiful, interactive websites.
+
+      .sections
+        .section.relative
+          #part-2-arrow.arrow-animation
+          .lhs
+            %h3.mb-8
+              Front-End Web Development 🧑‍💻
+            .part-intro
+              From April to July, you'll gain the skills you need to build
+              %strong beautiful, interactive websites
+              and kickstart your career.
+
+            %ul
+              %li
+                = image_tag "bootcamp/javascript.svg"
+                .text
+                  %strong Get comfortable with JavaScript.
+                  We'll be looking at the core JavaScript programming techniques essential for web development and building your confidence with the language.
+
+              %li
+                = image_tag "bootcamp/html.svg"
+                .text
+                  %strong Learn HTML and CSS.
+                  These two languages are the other fundamentals of web development. You'll learn both and use them to create beautiful websites.
+
+              %li
+                = image_tag "bootcamp/work-locally.svg"
+                .text
+                  %strong Learn Visual Studio Code and Git.
+                  Master these important tools, and how to use them to make your life easier.
+
+              %li
+                = image_tag "bootcamp/portfolio.svg"
+                .text
+                  %strong Build a portfolio of projects.
+                  Create projects to showcase to potential employers while practicing your skills.
+          .rhs
+            .dates.h3-sideheading.z-overlay
+              = image_tag "bootcamp/calendar.svg"
+              April - July 2025
+            = image_tag "bootcamp/part-2.png", class: 'w-[350px] -mr-32 -mt-[60px]'
+
+  .lg-container
+    #schedule-subsection.subcontainer.relative
+      #schedule-arrow.arrow-animation
+      .flex.flex-col.mb-8{ class: 'lg:flex-row' }
+        %h3.mr-auto
+          What your week will look like 🔎
+        .h3-sideheading.flex.mt-8.flex-wrap
+          .flex.items-center.gap-8
+            = image_tag "bootcamp/teacher.svg"
+            .mr-20.whitespace-nowrap 2 hours teaching
+          .flex.items-center.gap-8
+            = image_tag "bootcamp/study.svg"
+            .mr-20.whitespace-nowrap 6 hours project work
+      %p.mb-12
+        Each week we'll have a mix of live sessions and fun projects for you to work on!
+
+      %ul
+        %li
+          = image_tag "bootcamp/teacher-illustration.svg"
+          %h4 1x 120min teaching sessions 🧑‍🏫
+          %p
+            In these core sessions, I'll slowly and carefully go through the next core concepts making sure everyone understands what I'm teaching.
+            Join live to participate or watch back on demand.
+        %li
+          = image_tag "bootcamp/coding-illustration.svg"
+          .text
+            %h4 6+ hours of having fun coding 🧑‍💻
+            %p
+              The most important part of the bootcamp!
+              The more you code, the better your brain starts to piece everything together.
+              If you get too busy in a week to do everything, this is the bit to focus on!
+        %li
+          = image_tag "bootcamp/unstuck-illustration.svg"
+          .text
+            %h4 1x 120min "Labs" session 💊
+            %p
+              No-one's getting stuck in this bootcamp!
+              Each week we'll dedicate time to working through people's problems together.
+              If you can't attend, message me where you're stuck and then watch back later!
+        %li
+          = image_tag "bootcamp/discussion-illustration.svg", class: "scale-x-[-1]"
+          .text
+            %h4 1 hour of discussing code 🗣️
+            %p
+              Discussing code is another great way to reinforce your skills. Invest some time into answering questions and helping other students get unstuck, and you'll quickly level up your own knowledge.
+
+  .lg-container
+    #portfolio-subsection.subcontainer.relative
+      #portfolio-arrow.arrow-animation
+      .flex.flex-col.mb-8{ class: 'lg:flex-row' }
+        %h3.mr-auto
+          A few things we'll build together ✨
+        .h3-sideheading
+          Build your portfolio during the bootcamp!
+      %p.mb-16
+        Our focus from day one is to get you building fun things. You'll make classic games (and bots to beat them!), interesting websites, and integrate with APIs like ChatGPT to make cutting edge projects!
+      .projects
+        .project.snake
+          .img
+          .title
+            Recreate the classic
+            %strong Nokia Snake
+            game
+        .project.tetris
+          .img
+          .title
+            Create a
+            %strong Tetris
+            clone. A tricky one!
+        .project.breakout
+          .img
+          .title
+            Recreate my childhood favourite:
+            %strong Breakout
+        .project.tic-tac-toe
+          .img
+          .title
+            Create your first bot to beat
+            %strong Tic Tac Toe
+        .project.weather
+          .img
+          .title
+            Design a responsive
+            %strong Weather App
+        .project.story
+          .img
+          .title
+            Create a story along with
+            %strong ChatGPT
+        .project.positive
+          .img
+          .title
+            Calm your world with a
+            %strong Positive news
+            filter
+        .project.piano
+          .img
+          .title
+            Get musical with a
+            %strong Piano Composer
+            app
+
+  .lg-container
+    .subcontainer
+      #certificate-arrow.arrow-animation
+      #certificate-subsection
+        .flex.lg:flex-row.flex-col.items-center.gap-0
+
+          .lhs.flex.flex-col.items-start
+            .bubble Celebrate your new skills!
+            %h3.mb-8 Get a verified certificate
+            %p.text-16.mb-12 At the end of the Bootcamp, we'll issue you an official certificate to recognise your participation and completion of the course.
+            %p.text-16 Show off your skills on your resume and in the Certifications section of your LinkedIn profile.
+
+          = image_tag "bootcamp/certificate-arrow.png", class: 'w-[100px] self-middle mt-[100px] mb-10 mr-40 my-10 lg:block hidden'
+          .certificate.flex-shrink-0.mt-24.lg:mt-0
+            = image_tag "bootcamp/certificate.png", class: 'lg:w-[350px] w-100 rounded-[5px]', style: 'box-shadow: 0 0 20px rgba(0,0,0,0.4)'
+        .linkedin
+          = image_tag "bootcamp/linkedin.png"
+          %span Share your certificate in your network
+
+= render "testimonials", quotes: @quotes
+
+%section#signup-section
+  .lhs-bg
+  .rhs-bg
+  .lg-container
+    %h2.text-center.font-normal
+      Choose
+      your
+      %strong.font-semibold Path
+    %p.intro
+      Sign up now to secure your spot on the bootcamp starting on April 26th.
+      There are limited spaces available so don't miss out!
+    - if @has_discount
+      #discount-bar
+        .flag= flag_for_country_code(@country_code_2)
+        - if @hello.present?
+          %strong #{@hello}!
+        Everyone in #{@country_name} gets a
+        %strong.inline #{@discount_percentage}% discount!
+
+    - elsif @using_vpn
+      #vpn-bar
+        %span.inline-block
+          🌐 Many countries have
+          %strong discounts
+          that make this course more affordable
+          %strong globally! 🌐
+        Please
+        %strong disable your VPN
+        and refresh the page to see if you're eligible.
+    .grid.md:grid-cols-2.grid-cols-1.gap-40
+      .container
+        .header
+          = image_tag "bootcamp/exercism-face-dark.svg", class: "face"
+
+          .bubbles
+            .bubble
+              Front-End
+              %strong only
+          %h2
+            Front-end
+            %strong Fundamentals
+          %p Designed for students who understand the fundamentals of coding.
+
+          - if @has_discount
+            .price
+              %strong $#{@course_price}
+              %span{ class: "text-[26px] line-through text-[#777] font-normal" } $#{@course.full_price}
+            .discount
+              Includes a
+              %strong #{@discount_percentage}% discount
+              for
+              %strong.font-semibold our friends in
+              %span.flag= flag_for_country_code(@country_code_2)
+              %strong.font-semibold #{@country_name}.
+          - else
+            .price
+              %strong $#{@course_price}
+        .body
+          .point
+            %h4 Who's it for? 🧑🏽
+            %p
+              Anyone who understands coding fundamentals and wants to become a
+              %strong web developer
+              or add front-end skills to their repertoire.
+
+          .point
+            %h4 Duration ⏳
+            %p.mb-12 3 months, part-time.
+
+          .point
+            %h4 Where you'll be by the end 🎉
+            %p
+              You'll be confident creating
+              %strong website front-ends from scratch
+              and well on your way to a career in web development.
+
+          .point
+            %h4 What's included? 🔎
+            %ul.list-disc
+              %li
+                Over
+                %strong 35 hours
+                of live teaching - yours forever!
+              %li
+                %strong Weekly sessions
+                to answer your questions.
+              %li
+                %strong Hundreds of hours
+                of fun and interesting exercises and projects.
+              %li
+                A dedicated,
+                %strong active
+                community Discord server.
+              %li
+                An official
+                %strong certificate
+                of completion.
+
+          = link_to "Learn Front-End 👉", course_start_enrolling_path(@course.slug, course_or_bundle: "course"), class: "button"
+
+      .container
+        .header
+          = image_tag "bootcamp/exercism-face-dark.svg", class: "face"
+          .flex.flex-col.items-start
+            .bubbles
+              .bubble
+                The Fundamentals
+                %strong Bundle
+
+            %h2
+              Learn to
+              %strong Code
+              +
+              %strong Front-End
+            %p Designed for total beginners. The best way to learn to code on the internet.
+          - if @has_discount
+            .price
+              %strong $#{@bundle_price}
+              %span{ class: "text-[26px] line-through text-[#777] font-normal" } $#{@bundle.full_price}
+            .discount
+
+              Includes a
+              %strong #{@discount_percentage}% discount
+              for
+              %strong.font-semibold our friends in
+              %span.flag= flag_for_country_code(@country_code_2)
+              %strong.font-semibold #{@country_name}!
+          - else
+            .price
+              %strong $#{@bundle_price}
+        .body
+          .point
+            %h4 Who's it for? 🧑🏽
+            %p
+              Anyone looking to develop rock solid
+              %strong coding fundamentals
+              and
+              %strong web-dev skils.
+              Designed for
+              %strong absolute beginners
+              or newer devs.
+
+          .point
+            %h4 Duration ⏳
+            %p.mb-12 6 months, part-time.
+
+          .point
+            %h4 Where you'll be by the end 🎉
+            %p
+              You'll have a solid understanding of
+              %strong coding fundamentals
+              and be confident making
+              %strong beautiful, functional
+              front-ends for websites.
+
+          .point
+            %h4 What's included? 🔎
+            %ul.list-disc
+              %li
+                Everything in Front-End Fundamentals;
+                %strong PLUS...
+              %li
+                An extra
+                %strong 40 hours
+                of videos - yours forever!
+              %li
+                Hundreds hours more
+                %strong of exercises and projects.
+              %li
+                A
+                %strong specially designed interface
+                for beginners that makes programming easier and more fun.
+              %li
+                An extra official
+                %strong certificate
+                of completion.
+
+          = link_to "Learn to Code + Front-End 👉", course_start_enrolling_path(@course.slug, course_or_bundle: "bundle"), class: "button"
+
+= image_tag "bootcamp/divider.png", class: 'w-[100px] mx-auto my-64'
+
+%section#exercism
+  .lg-container
+    %h2 What makes Exercism special?
+    %p.intro.text-balance
+      Exercism is a
+      %strong.font-medium longstanding nonprofit
+      that's helped over
+      %strong.font-medium.whitespace-nowrap 2 million people
+      level-up their coding skills.
+    %ul
+      %li
+        .emoji 🧑‍💻
+        .count 2,100,000
+        .title Exercism students
+        %p We've grown entirely by word of mouth. Good friends tell their friends about Exercism!
+
+      %li
+        .emoji 👏
+        .count 85,000
+        .title Testimonials
+        %p We've been one of the most trusted resources for coding education for over a decade.
+
+      %li
+        .emoji 🧩
+        .count 47,082,260
+        .title Exercises Solved
+        %p Our exercises are trusted by the coding community as the perfect way to level up!
+
+      %li
+        .emoji 👯
+        .count 384,906
+        .title Mentoring Sessions
+        %p Our unique mentoring program is one of the best ways to get tips from experts!
+
+= image_tag "bootcamp/divider.png", class: 'w-[100px] mx-auto my-64'
+
+%section#faqs
+  .background
+  .md-container.relative
+    %h2 Frequently Asked Questions
+    %p.intro
+      These are the questions we get asked the most. Your question not answered here?
+      = link_to "Ping us an email!", "mailto:bootcamp@exercism.org"
+
+    .faq
+      %h4 When does the Bootcamp start?
+      %p
+        The first session of Front-End Fundamentals be on April 26th 2025.
+        If you buy the bundle with Coding Fundamentals, you can access all that content immediately!
+    .faq
+      %h4 How much time will I need to spend each week on the bootcamp?
+      %p We're aiming for about 8 hours per week (See the "What your week will look like" for more details). If you can put in an hour per day, that will be enough for you to get through the main work. If you can invest an extra few hours per week, you'll be able to also complete any more advanced exercises.
+    .faq
+      %h4 I missed the first part of the Bootcamp? Can I do join now?
+      %p The first part of the Bootcamp is now called "Coding Fundamentals" and is available for you to buy as part of the bundle above.
+    .faq
+      %h4 Are there group activities and do I have to take part?
+      %p
+        There are no formal group activities.
+        However, we encourage everyone to share their journey and explore programming together in our Discord server.
+        Exploring other people's code is one of the best ways to improve your programming skills.
+        Some students get together (virtually) for study sessions.
+        You can choose to opt-out of the community aspects if you prefer.
+    .faq
+      %h4 What specific programming languages/techniques will be taught in Front-End Fundamentals?
+      %p
+        We'll be teaching JavaScript, CSS and HTML.
+        We'll be teaching modern JavaScript. We'll teach both a functional approach and also Object Oriented Programming, so you'll get a mixture of the things you see in the wild!
+    .faq
+      %h4 Is there a limit to the number of students who can join the live sessions?
+      %p No, the sessions will be streamed online and everyone will be able to ask questions and participate. You can watch them back at any time in the future.
+    .faq
+      %h4 Are the exercises graded or just for practice? Is there any form of assessment?
+      %p Most exercises can be completed by reaching a certain objective. However, they are not graded and your code isn't assessed or marked. We will explore some (anonymised) code in the weekly sessions and discuss how it could be improved, but our philosophy is that you should be in the trenches coding, not worrying about passing tests.
+    - if @has_discount
+      .faq
+        %h4 How does the discount for #{@country_name} work?
+        %p We understand that $#{@full_price} is a significant amount of money in countries with currencies that are weak against the dollar. So we're offering a #{@discount_percentage}% discount to people in #{@country_name} to ensure they can take part.
+        %p Simply click the "Enroll now" button and the discount will be automatically applied at checkout.
+    - else
+      .faq
+        %h4 Do you offer any discounts for students, unemployed or people in countries with weak currencies?
+        %p Yes, we do. We want to ensure as many people can benefit from this bootcamp as possible. Email #{link_to 'bootcamp@exercism.org', 'mailto:bootcamp@exercism.org', class: 'font-semibold text-[blue]'}, tell me your situation, and I'll see what we can do for you.
+    .faq
+      %h4 I've signed up but not received anything.
+      %p Please check your email. The first live session is on April 26th 2025, so you won't have access to anything until then. However, you should receive emails giving you more information. If you don't receive those, please email #{link_to 'bootcamp@exercism.org', 'mailto:bootcamp@exercism.org', class: 'font-semibold text-[blue]'} and we'll check everything for you.
+
+%section#legals
+  .md-container.text-center
+    %strong Exercism
+    is a registered
+    %strong not-for-profit organisation.
+    %span.whitespace-nowrap © #{Date.current.year} Exercism
+
+-# :javascript
+-#   const targetDate = new Date(Date.UTC(2025,3,26,12,0,0)).getTime();
+-#   const timeElem = document.getElementById("js-countdown-time")
+-#   const secondsElem = document.getElementById("js-countdown-seconds")
+
+-#   function updateCountdown() {
+-#     const now = new Date().getTime();
+-#     const distance = targetDate - now;
+
+-#     if (distance < 0) {
+-#       timeElem.innerText = "Countdown Finished!";
+-#       secondsElem.style.display = "none"
+-#       return;
+-#     }
+
+-#     // Calculate time components
+-#     const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+-#     const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+-#     const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+-#     const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+-#     // Display the countdown
+-#     timeElem.innerText = ` ${days} days, ${hours} hours, ${minutes} minutes`;
+-#     secondsElem.innerText = `, ${seconds} seconds`
+-#   }
+
+-#   // Update the countdown every second
+-#   setInterval(updateCountdown, 1000);
+
+-#   // Initialize the countdown
+-#   updateCountdown();

@@ -1,5 +1,6 @@
 class User::Data < ApplicationRecord
   include User::Roles
+  serialize :translator_locales, coder: JSONWithIndifferentAccess
 
   scope :donors, -> { where.not(first_donated_at: nil) }
   scope :public_supporter, -> { donors.where(show_on_supporters_page: true) }
@@ -21,12 +22,22 @@ class User::Data < ApplicationRecord
     invalid: 2
   }, _prefix: true
 
+  enum seniority: {
+    absolute_beginner: 0,
+    beginner: 1,
+    junior: 2,
+    mid: 3,
+    senior: 4
+  }, _suffix: true
+
   def insiders_status = super.to_sym
   def insider? = insiders_status_active? || insiders_status_active_lifetime?
   def lifetime_insider? = insiders_status_active_lifetime?
   def donated? = first_donated_at.present?
   def onboarded? = accepted_privacy_policy_at.present? && accepted_terms_at.present?
   def email_status = super.to_sym
+  def seniority = super&.to_sym
+  def junior? = seniority == :absolute_beginner || seniority == :beginner
 
   def usages = super || (self.usages = {})
 

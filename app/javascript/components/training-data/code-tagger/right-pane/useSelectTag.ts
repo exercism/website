@@ -10,8 +10,8 @@ export function useSelectTag({
 }: Pick<CodeTaggerProps, 'links'> & { defaultSelectedTags: Tags }) {
   const [selectedTags, setSelectedTags] = useState<Tags>(defaultSelectedTags)
 
-  const { mutate: confirmTags, error } = useMutation(
-    () => {
+  const { mutate: confirmTags, error } = useMutation({
+    mutationFn: () => {
       const { fetch } = sendRequest({
         endpoint: links.confirmTagsApi,
         method: 'PATCH',
@@ -20,12 +20,10 @@ export function useSelectTag({
 
       return fetch
     },
-    {
-      onSuccess: () => {
-        redirectTo(links.nextSample)
-      },
-    }
-  )
+    onSuccess: () => {
+      redirectTo(links.nextSample)
+    },
+  })
 
   return { confirmTags, setSelectedTags, error }
 }

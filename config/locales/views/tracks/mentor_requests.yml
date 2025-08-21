@@ -1,0 +1,19 @@
+en:
+  tracks:
+    mentor_requests:
+      no_slots_remaining:
+        whoops: Whoops!
+        no_slots_available: You have no more mentoring slots available.
+        replenish_slots:
+          Replenish your mentoring slots by successfully completing
+          ongoing sessions.
+        go_to_track_link: Go to track
+      get_more_slots:
+        whoops: Whoops!
+        no_slots_available: You have no more mentoring slots available.
+        get_more_slots_html:
+          You can get more mentoring slots by %{reputation_link} or
+          %{donate_link}.
+        reputation_link_text: earning reputation
+        donate_link_text: donating to Exercism
+        go_to_track_link: Go to track

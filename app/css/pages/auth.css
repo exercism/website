@@ -117,7 +117,8 @@ body.namespace-auth.user-signed_out {
                     }
                 }
 
-                & label {
+                & label,
+                .label {
                     @apply block mb-8;
                     @apply text-14 leading-code uppercase font-mono font-bold;
                 }

@@ -1,0 +1,339 @@
+{
+  "title": "Omniscience",
+  "description": "Navigate the maze without any help!",
+  "level": 9,
+  "idx": 4,
+  "project_type": "maze",
+  "tests_type": "state",
+  "blocks_level_progression": false,
+  "exercise_functions": [
+    "move",
+    "turn_left",
+    "turn_right",
+    "announce_emojis",
+    "get_initial_maze"
+  ],
+  "interpreter_options": {
+    "max_repeat_until_game_over_iterations": 50,
+    "max_total_loop_iterations": 20000,
+    "max_total_execution_time": 30000,
+    "time_per_frame": 0.01
+  },
+  "tasks": [
+    {
+      "name": "A straight path",
+      "tests": [
+        {
+          "slug": "diamonds",
+          "name": "Collect the diamonds",
+          "description_html": "Collect and announce the diamonds.",
+          "setup_functions": [
+            ["enableEmojiMode"],
+            ["enableOOP"],
+            [
+              "setupGrid",
+              [
+                [
+                  [1, 1, 1, 1, 2, 1, 1],
+                  [1, 1, 1, 1, 0, 1, 1],
+                  [1, 1, 1, 1, 0, 1, 1],
+                  [1, 1, 1, 1, 0, 1, 1],
+                  [1, 1, 1, 1, 0, 1, 1],
+                  [1, 1, 1, 1, 0, 1, 1],
+                  [1, 1, 1, 1, 3, 1, 1]
+                ]
+              ]
+            ],
+            ["setupDirection", ["down"]],
+            ["setupPosition", [4, 0]]
+          ],
+          "checks": [
+            {
+              "property": "position",
+              "value": [4, 6],
+              "error_html": "You didn't reach the end of the maze."
+            }
+          ]
+        },
+        {
+          "slug": "left-turn",
+          "name": "A single left turn",
+          "setup_functions": [
+            [
+              "setupGrid",
+              [
+                [
+                  [2, 1, 1, 1, 1, 1, 1, 1, 1],
+                  [0, 1, 1, 1, 1, 1, 1, 1, 1],
+                  [0, 1, 1, 1, 1, 1, 1, 1, 1],
+                  [0, 1, 1, 1, 1, 1, 1, 1, 1],
+                  [0, 1, 1, 1, 1, 1, 1, 1, 1],
+                  [0, 0, 0, 0, 0, 0, 0, 0, 3],
+                  [1, 1, 1, 1, 1, 1, 1, 1, 1],
+                  [1, 1, 1, 1, 1, 1, 1, 1, 1],
+                  [1, 1, 1, 1, 1, 1, 1, 1, 1]
+                ]
+              ]
+            ],
+            ["setupDirection", ["down"]],
+            ["setupPosition", [0, 0]]
+          ],
+          "checks": [
+            {
+              "property": "position",
+              "value": [8, 5],
+              "error_html": "You didn't reach the end of the maze."
+            },
+            {
+              "property": "direction",
+              "value": "right",
+              "error_html": "You seem to have done an extra unnecessary turn at the end."
+            }
+          ]
+        },
+        {
+          "slug": "right-turn",
+          "name": "A single right turn",
+          "setup_functions": [
+            [
+              "setupGrid",
+              [
+                [
+                  [1, 1, 1, 1, 1, 1, 1, 1, 2],
+                  [1, 1, 1, 1, 1, 1, 1, 1, 0],
+                  [1, 1, 1, 1, 1, 1, 1, 1, 0],
+                  [1, 1, 1, 1, 1, 1, 1, 1, 0],
+                  [1, 1, 1, 1, 1, 1, 1, 1, 0],
+                  [3, 0, 0, 0, 0, 0, 0, 0, 0],
+                  [1, 1, 1, 1, 1, 1, 1, 1, 1],
+                  [1, 1, 1, 1, 1, 1, 1, 1, 1],
+                  [1, 1, 1, 1, 1, 1, 1, 1, 1]
+                ]
+              ]
+            ],
+            ["setupDirection", ["down"]],
+            ["setupPosition", [8, 0]]
+          ],
+          "checks": [
+            {
+              "property": "position",
+              "value": [0, 5],
+              "error_html": "You didn't reach the end of the maze."
+            }
+          ]
+        },
+        {
+          "slug": "forks",
+          "name": "Choose left if you can, otherwise choose right",
+          "setup_functions": [
+            [
+              "setupGrid",
+              [
+                [
+                  [2, 1, 1, 1, 1, 1, 1, 1, 1],
+                  [0, 1, 1, 1, 1, 1, 1, 1, 1],
+                  [0, 1, 1, 1, 0, 0, 0, 0, 3],
+                  [0, 1, 1, 1, 0, 1, 1, 1, 1],
+                  [0, 1, 1, 1, 0, 1, 1, 1, 1],
+                  [0, 0, 0, 0, 0, 1, 1, 1, 1],
+                  [1, 4, 1, 1, 4, 1, 1, 1, 1],
+                  [1, 4, 4, 4, 4, 1, 1, 1, 1],
+                  [1, 1, 1, 1, 4, 1, 1, 1, 1]
+                ]
+              ]
+            ],
+            ["setupDirection", ["down"]],
+            ["setupPosition", [0, 0]]
+          ],
+          "checks": [
+            {
+              "property": "position",
+              "value": [8, 2],
+              "error_html": "You didn't reach the end of the maze."
+            }
+          ]
+        },
+
+        {
+          "slug": "turn-around",
+          "name": "Turn around if you can't move straight, left, or right",
+          "setup_functions": [
+            [
+              "setupGrid",
+              [
+                [
+                  [1, 1, 1, 2, 1, 1, 1, 1, 1],
+                  [1, 1, 1, 0, 1, 1, 1, 1, 1],
+                  [1, 1, 1, 0, 1, 1, 1, 1, 1],
+                  [1, 4, 4, 0, 1, 1, 0, 1, 1],
+                  [1, 4, 1, 0, 1, 1, 0, 1, 1],
+                  [1, 4, 4, 0, 0, 0, 0, 0, 1],
+                  [1, 1, 1, 0, 1, 1, 1, 1, 1],
+                  [3, 0, 0, 0, 1, 1, 1, 1, 1],
+                  [1, 1, 1, 0, 1, 1, 1, 1, 1]
+                ]
+              ]
+            ],
+            ["setupDirection", ["down"]],
+            ["setupPosition", [3, 0]]
+          ],
+          "checks": [
+            {
+              "property": "position",
+              "value": [0, 7],
+              "error_html": "You didn't reach the end of the maze."
+            }
+          ]
+        },
+        {
+          "slug": "forks-2",
+          "name": "Choose right if you can, otherwise choose left",
+          "setup_functions": [
+            [
+              "setupGrid",
+              [
+                [
+                  [2, 1, 1, 1, 1, 1, 1, 1, 1],
+                  [0, 1, 1, 0, 0, 1, 1, 1, 1],
+                  [0, 1, 1, 1, 0, 0, 0, 0, 1],
+                  [0, 1, 1, 0, 0, 1, 0, 1, 1],
+                  [0, 1, 1, 1, 0, 1, 0, 1, 1],
+                  [0, 0, 0, 0, 0, 1, 0, 0, 1],
+                  [1, 4, 1, 1, 0, 1, 1, 0, 1],
+                  [1, 4, 4, 4, 0, 1, 0, 0, 1],
+                  [1, 1, 1, 1, 3, 1, 1, 1, 1]
+                ]
+              ]
+            ],
+            ["setupDirection", ["down"]],
+            ["setupPosition", [0, 0]]
+          ],
+          "checks": [
+            {
+              "property": "position",
+              "value": [4, 8],
+              "error_html": "You didn't reach the end of the maze."
+            }
+          ]
+        },
+        {
+          "slug": "poo",
+          "name": "Watch out!",
+          "description_html": "Collect the animals - not their waste!",
+          "setup_functions": [
+            ["enableEmojiMode"],
+            ["enableOOP"],
+            [
+              "setupGrid",
+              [
+                [
+                  [2, 1, 1, 1, 1, 1, 1, 1, 1],
+                  [0, 1, 1, 0, 0, 1, 1, 1, 1],
+                  [0, 1, 1, 1, 0, 0, 0, 0, 1],
+                  ["🐶", 1, 1, 0, 0, 1, 0, 1, 1],
+                  [0, 1, 1, 1, 0, 1, 0, 1, 1],
+                  [0, 0, 0, "🐈", "🐶", 1, 0, 0, 1],
+                  [1, 4, 1, 1, 0, 1, 1, 5, 1],
+                  [1, 4, 4, 4, 0, 1, 0, "🐶", 1],
+                  [1, 1, 1, 1, 3, 1, 1, 1, 1]
+                ]
+              ]
+            ],
+            ["setupDirection", ["down"]],
+            ["setupPosition", [0, 0]]
+          ],
+          "checks": [
+            {
+              "property": "position",
+              "value": [4, 8],
+              "error_html": "You didn't reach the end of the maze."
+            },
+            {
+              "property": "collectedEmojis",
+              "value": { "🐈": 1, "🐶": 2 },
+              "error_html": "You didn't report the collected emojis correctly. We expected you to report: <br/><code>{\"🐈\": 1, \"🐶\": 2 }</code>"
+            }
+          ]
+        },
+        {
+          "slug": "only-once",
+          "name": "Only once!",
+          "description_html": "Make sure you only collect things once!",
+          "setup_functions": [
+            ["enableEmojiMode"],
+            ["enableOOP"],
+            [
+              "setupGrid",
+              [
+                [
+                  [3, 1, 0, 0, 2, 1, 1, 1, 1],
+                  [0, 1, "🎀", 1, "🩷", 1, 1, 1, 1],
+                  ["👑", 1, 0, 1, 0, 0, 0, "🩷", 1],
+                  ["👑", 0, 0, 1, 0, 1, 4, 1, 1],
+                  [0, 1, 4, 1, 0, 1, 4, 1, 1],
+                  [5, 0, 0, 1, 0, 1, 4, 1, 1],
+                  [1, 4, 1, 1, "🩷", 4, 4, 1, 1],
+                  [1, 4, 4, 4, 0, 1, 1, 1, 1],
+                  [1, 1, 1, 1, 1, 1, 1, 1, 1]
+                ]
+              ]
+            ],
+            ["setupDirection", ["down"]],
+            ["setupPosition", [4, 0]]
+          ],
+          "checks": [
+            {
+              "property": "position",
+              "value": [0, 0],
+              "error_html": "You didn't reach the end of the maze."
+            },
+            {
+              "property": "collectedEmojis",
+              "value": { "🩷": 3, "🎀": 1, "👑": 2 },
+              "error_html": "You didn't report the collected emojis correctly. We expected you to report: <br/><code>{ \"🩷\": 3, \"🎀\": 1, \"👑\": 2 }</code>"
+            }
+          ]
+        },
+        {
+          "slug": "random-emojis",
+          "name": "Random Emojis!",
+          "description_html": "Different emojis every time!",
+          "setup_functions": [
+            ["enableEmojiMode"],
+            ["enableOOP"],
+            [
+              "setupGrid",
+              [
+                [
+                  [1, 1, 0, 0, 0, 1, 1, 1, 1],
+                  [3, 1, 6, 1, 6, 1, 1, 1, 1],
+                  [6, 1, 0, 1, 0, 0, 0, 6, 1],
+                  [6, 0, 0, 1, 1, 1, 4, 0, 1],
+                  [0, 1, 0, 1, 1, 0, 4, 0, 1],
+                  [0, 0, 6, 1, 1, 1, 4, 0, 1],
+                  [6, 5, 6, 0, 6, 0, 4, 6, 1],
+                  [1, 5, 5, 5, 0, 1, 1, 0, 2],
+                  [1, 1, 1, 1, 1, 1, 1, 1, 1]
+                ]
+              ]
+            ],
+            ["setupDirection", ["left"]],
+            ["setupPosition", [8, 7]]
+          ],
+          "checks": [
+            {
+              "property": "position",
+              "value": [0, 1],
+              "error_html": "You didn't reach the end of the maze."
+            },
+            {
+              "function": "randomEmojisAllCollected",
+              "matcher": "toBeTrue",
+              "error_html": "You didn't report the collected emojis correctly."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

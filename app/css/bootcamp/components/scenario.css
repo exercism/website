@@ -1,0 +1,140 @@
+#bootcamp-solve-exercise-page,
+#bootcamp-custom-function-editor-page,
+#bootcamp-frontend-training-page,
+#bootcamp-frontend-exercise-page {
+    .c-scenario {
+        @apply border-2 rounded-5;
+        @apply overflow-hidden;
+        @apply flex justify-between flex-grow;
+
+        .scenario-lhs {
+            @apply border-r-2 border-bootcamp-light-purple;
+            @apply flex flex-col;
+
+            .scenario-lhs-content {
+                @apply overflow-auto; /* Needed to ensure the scrubber shows */
+                @apply flex-grow;
+                @apply flex flex-col;
+
+                @apply py-16 px-12;
+
+                h3 {
+                    @apply text-17 leading-140;
+                    @apply mb-12;
+                    strong {
+                        @apply font-semibold;
+                    }
+                }
+                .description {
+                    @apply text-17 leading-140 font-normal;
+                    @apply mb-12;
+                    strong {
+                        @apply font-semibold;
+                    }
+                }
+                .success-message {
+                    @apply text-17 leading-140 font-normal;
+                    @apply mb-12;
+                    @apply flex items-center gap-8;
+                    img {
+                        @apply w-[20px] h-[20px];
+                        @apply inline-block;
+                    }
+                    strong {
+                        @apply font-semibold;
+                    }
+                }
+                .error-message {
+                    @apply text-17 leading-140 font-normal;
+                    @apply text-darkRed;
+                    @apply mb-12;
+                    @apply flex items-center gap-8;
+                    img {
+                        @apply w-[20px] h-[20px];
+                        @apply inline-block;
+                        @apply border-[2px] rounded-circle bg-bgRed;
+                        border-color: rgba(235, 87, 87);
+                    }
+                    strong {
+                        @apply font-semibold;
+                    }
+                }
+                p,
+                .content {
+                    @apply text-16 leading-140;
+                    @apply mb-8;
+                }
+            }
+        }
+
+        &.pending {
+            @apply border-blue-300;
+            .scenario-lhs {
+                @apply bg-blue-100;
+            }
+        }
+        &.pass {
+            @apply border-bootcamp-success-dark;
+            .scenario-lhs {
+                @apply bg-bootcamp-success-light;
+            }
+        }
+        &.fail {
+            @apply border-bootcamp-fail-dark;
+            .scenario-lhs {
+                @apply bg-bootcamp-fail-light;
+            }
+
+            span.added-part,
+            span.removed-part {
+                @apply whitespace-pre;
+            }
+            span.added-part {
+                @apply bg-bootcamp-success-light;
+                @apply border-b-1 border-bootcamp-success-dark;
+            }
+            span.removed-part {
+                @apply bg-bootcamp-fail-light;
+                @apply border-b-1 border-bootcamp-fail-dark;
+            }
+        }
+        .io-test-result-info {
+            border-spacing: 6px;
+            border-collapse: separate;
+            tr {
+                th,
+                td {
+                    @apply text-16 leading-140;
+                    @apply bg-white;
+                    @apply py-10 px-10;
+                }
+                th {
+                    @apply rounded-l-5;
+                    @apply text-left font-normal whitespace-nowrap;
+                    @apply w-[1px];
+                }
+                td {
+                    @apply rounded-r-5;
+                    @apply font-mono text-15;
+                }
+            }
+        }
+    }
+
+    .scenario-rhs {
+        @apply h-fill overflow-auto;
+
+        &.javascript {
+            @apply h-[80%];
+        }
+        @apply py-16 px-20;
+        h3 {
+        }
+
+        .Typewriter__wrapper {
+            p {
+                display: inline;
+            }
+        }
+    }
+}

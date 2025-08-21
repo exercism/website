@@ -5,6 +5,7 @@ import { Loading } from '@/components/common'
 import { ErrorBoundary, useErrorHandler } from '@/components/ErrorBoundary'
 import { Modal } from '@/components/modals'
 import { GenericTooltip } from '../../misc/ExercismTippy'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type ComponentProps = {
   endpoint: string
@@ -21,19 +22,24 @@ export const MarkAsNothingToDoButton = (props: ComponentProps): JSX.Element => {
 const DEFAULT_ERROR = new Error('Unable to mark discussion as nothing to do')
 
 const Component = ({ endpoint }: ComponentProps): JSX.Element | null => {
+  const { t } = useAppTranslation(
+    'components/mentoring/discussion/MarkAsNothingToDoButton.tsx'
+  )
   const [isModalOpen, setIsModalOpen] = useState(false)
   const {
     mutate: mutation,
     status,
     error,
-  } = useMutation(async () => {
-    const { fetch } = sendRequest({
-      endpoint: endpoint,
-      method: 'PATCH',
-      body: null,
-    })
+  } = useMutation({
+    mutationFn: async () => {
+      const { fetch } = sendRequest({
+        endpoint: endpoint,
+        method: 'PATCH',
+        body: null,
+      })
 
-    return fetch
+      return fetch
+    },
   })
 
   useErrorHandler(error, { defaultError: DEFAULT_ERROR })
@@ -41,18 +47,16 @@ const Component = ({ endpoint }: ComponentProps): JSX.Element | null => {
   switch (status) {
     case 'idle':
       return (
-        <GenericTooltip
-          content={
-            "This button allows you to remove this discussion from your Inbox and return it to the student's Inbox. Use it when it's the student's turn but the system incorrectly thinks its yours."
-          }
-        >
+        <GenericTooltip content={t('markAsNothingToDoButton.studentsTurn')}>
           <div>
             <button
               onClick={() => setIsModalOpen(true)}
               type="button"
               className="btn-xs btn-enhanced"
             >
-              <div className="--hint">It&apos;s the student&apos;s turn…</div>
+              <div className="--hint">
+                {t('markAsNothingToDoButton.itsTheStudentsTurn')}
+              </div>
             </button>
             <ConfirmationModal
               isOpen={isModalOpen}
@@ -62,7 +66,7 @@ const Component = ({ endpoint }: ComponentProps): JSX.Element | null => {
           </div>
         </GenericTooltip>
       )
-    case 'loading':
+    case 'pending':
       return <Loading />
     default:
       return null
@@ -78,28 +82,27 @@ function ConfirmationModal({
   onClose: () => void
   onConfirm: () => void
 }) {
+  const { t } = useAppTranslation(
+    'components/mentoring/discussion/MarkAsNothingToDoButton.tsx'
+  )
+
   return (
     <Modal open={isOpen} onClose={onClose}>
       <h2 className="text-h4 mb-8">
-        Pass this discussion back to the student?
+        {t('markAsNothingToDoButton.passDiscussionBack')}
       </h2>
       <p className="text-p-base max-w-[540px] mb-8">
-        Continuing will remove this from your Inbox and return it to the
-        student&apos;s Inbox. This feature is intended for when a student has
-        left a message for you such as &quot;Sure, I&apos;ll do that&quot; and
-        the system now needs to be told it&apos;s still the student&apos;s turn
-        to act.
+        {t('markAsNothingToDoButton.continuingWillRemove')}
       </p>
       <p className="text-p-base max-w-[540px] font-medium color-textColor2">
-        If it may not be clear to the student that it&apos;s their turn to act,
-        please add a comment to the discussion in addition to using this button.
+        {t('markAsNothingToDoButton.addCommentToDiscussion')}
       </p>
       <div className="flex gap-8 mt-20 ">
         <button className="btn-s btn-primary" onClick={onConfirm}>
-          Continue
+          {t('markAsNothingToDoButton.continue')}
         </button>
         <button className="btn-s btn-default" onClick={onClose}>
-          Cancel
+          {t('markAsNothingToDoButton.cancel')}
         </button>
       </div>
     </Modal>

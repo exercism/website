@@ -5,6 +5,7 @@ import { ResultsZone } from '../../../ResultsZone'
 import { RepresentationData } from '../../../types'
 import { MostPopularTag } from '../../automation/MostPopularTag'
 import { FilePanel } from '../../session/FilePanel'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const IterationView = ({
   representationData,
@@ -43,15 +44,24 @@ export function SimpleIterationHeader({
   lastOccurred: string
   appearsFrequently: boolean
 }): JSX.Element {
+  const { t } = useAppTranslation(
+    'components/mentoring/representation/left-pane'
+  )
   return (
     <header className="iteration-header">
       <div>
         <div className="flex flex-row items-center text-15 text-textColor1 font-semibold leading-170">
-          Solution #{solutionNumber} {appearsFrequently && <MostPopularTag />}
+          {t('representationIterationView.solutionNumber', { solutionNumber })}{' '}
+          {appearsFrequently && <MostPopularTag />}
         </div>
         <div className="text-14 text-textColor6 font-medium leading-160">
-          {pluralizeWithNumber(occurrenceNumber, 'occurrence')} · Last occurred{' '}
-          {lastOccurred}
+          {t(
+            occurrenceNumber > 1
+              ? 'representationIterationView.occurrences'
+              : 'representationIterationView.occurrence',
+            { count: occurrenceNumber }
+          )}{' '}
+          · {t('representationIterationView.lastOccurred', { lastOccurred })}
         </div>
       </div>
       <div></div>

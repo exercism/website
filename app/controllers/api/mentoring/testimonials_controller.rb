@@ -28,6 +28,6 @@ class API::Mentoring::TestimonialsController < API::BaseController
 
   def use_testimonial
     @testimonial = current_user.mentor_testimonials.find_by(uuid: params[:uuid])
-    return render_404(:mentor_testimonial_not_found) unless @testimonial
+    render_404(:mentor_testimonial_not_found) unless @testimonial
   end
 end

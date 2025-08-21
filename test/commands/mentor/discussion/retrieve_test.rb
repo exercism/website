@@ -147,7 +147,7 @@ class Mentor::Discussion::RetrieveTest < ActiveSupport::TestCase
     margaret_bowling = create :practice_solution, user: margaret, exercise: bowling
     margaret_food_chain = create :practice_solution, user: margaret, exercise: food_chain
 
-    PracticeSolution.all.each do |solution|
+    PracticeSolution.all.find_each do |solution|
       create :mentor_discussion, :awaiting_mentor, solution:, mentor:
     end
 

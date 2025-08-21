@@ -2,69 +2,74 @@
   - if user_signed_in?
     .nfp.mb-40.md:mb-58
       = graphical_icon "exercism-face-gradient"
-      %h2.text-h2.mb-32 Help us keep Exercism free for everyone, everywhere.
+      %h2.text-h2.mb-32= t('.nfp_section.title')
       = render ReactComponents::Donations::FooterForm.new
-      %h3.text-h4.mt-32.mb-8 Exercism is open source and 100% free.
-      %p.text-p-large Help us provide opportunity for people of all backgrounds by helping them develop their programming skills through code practice and mentorship.
+      %h3.text-h4.mt-32.mb-8= t('.nfp_section.subtitle')
+      %p.text-p-large= t('.nfp_section.description')
 
   %hr
   .site-links.mt-24.md:mt-56
     .grid.grid-cols-1.sm:grid-cols-2.md:grid-cols-3.lg:grid-cols-3.xl:grid-cols-6.gap-x-40
       .col
-        %h3 Editions
+        %h3= t('.site_links.editions.title')
         %hr.c-divider.--small
         %ul
-          %li= link_to "Exercism", root_url
-          %li= link_to "Exercism for Teams", doc_path(:using, 'editions/teams')
-          %li= link_to "Exercism Research", doc_path(:using, 'editions/research')
+          %li= link_to t('.site_links.editions.exercism_link'), root_url
+          -# UPDATE LINKS - footer
+          %li= link_to t('.site_links.editions.learn_to_code_link'), Courses::CodingFundamentals.url
+          %li= link_to t('.site_links.editions.coding_fundamentals_link'), Courses::CodingFundamentals.url
+          %li= link_to t('.site_links.editions.front_end_course_link'), Courses::FrontEndFundamentals.url
+          %li= link_to t('.site_links.editions.bootcamp_link'), Exercism::Routes.bootcamp_url
+          %li= link_to t('.site_links.editions.teams_link'), doc_path(:using, 'editions/teams')
+          %li= link_to t('.site_links.editions.research_link'), doc_path(:using, 'editions/research')
 
       .col
-        %h3 About
+        %h3= t('.site_links.about.title')
         %hr.c-divider.--small
         %ul
-          %li= link_to "About Exercism", about_path
-          %li= link_to "Our team", team_about_path
-          %li= link_to "Contributors", contributing_contributors_path
-          %li= link_to "Partners", Exercism::Routes.about_partners_path
-          %li= link_to "Individual supporters", individual_supporters_about_path
+          %li= link_to t('.site_links.about.about_exercism_link'), about_path
+          %li= link_to t('.site_links.about.our_team_link'), team_about_path
+          %li= link_to t('.site_links.about.contributors_link'), contributing_contributors_path
+          %li= link_to t('.site_links.about.partners_link'), Exercism::Routes.about_partners_path
+          %li= link_to t('.site_links.about.individual_supporters_link'), individual_supporters_about_path
 
       .col
-        %h3 Get involved
+        %h3= t('.site_links.get_involved.title')
         %hr.c-divider.--small
         %ul
-          %li= link_to "Exercism Insiders", insiders_path
-          %li= link_to "Contribute", contributing_root_path
-          %li= link_to "Mentor", mentoring_path
-          %li= link_to "Donate", donate_path
+          %li= link_to t('.site_links.get_involved.exercism_insiders_link'), insiders_path
+          %li= link_to t('.site_links.get_involved.contribute_link'), contributing_root_path
+          %li= link_to t('.site_links.get_involved.mentor_link'), mentoring_path
+          %li= link_to t('.site_links.get_involved.donate_link'), donate_path
 
       .col
-        %h3 Legal &amp; policies
+        %h3= t('.site_links.legal_and_policies.title')
         %hr.c-divider.--small
         %ul
-          %li= link_to "Terms of usage", doc_path(:using, "legal/terms-of-service")
-          %li= link_to "Privacy policy", doc_path(:using, "legal/privacy-policy")
-          %li= link_to "Cookie policy", doc_path(:using, "legal/cookie-policy")
-          %li= link_to "Code of conduct", doc_path(:using, "legal/code-of-conduct")
-          %li= link_to "Accessibility statement", doc_path(:using, "legal/accessibility")
+          %li= link_to t('.site_links.legal_and_policies.terms_of_usage_link'), doc_path(:using, "legal/terms-of-service")
+          %li= link_to t('.site_links.legal_and_policies.privacy_policy_link'), doc_path(:using, "legal/privacy-policy")
+          %li= link_to t('.site_links.legal_and_policies.cookie_policy_link'), doc_path(:using, "legal/cookie-policy")
+          %li= link_to t('.site_links.legal_and_policies.code_of_conduct_link'), doc_path(:using, "legal/code-of-conduct")
+          %li= link_to t('.site_links.legal_and_policies.accessibility_statement_link'), doc_path(:using, "legal/accessibility")
 
       .col
-        %h3 Keep in touch
+        %h3= t('.site_links.keep_in_touch.title')
         %hr.c-divider.--small
         %ul
-          %li= link_to "Exercism's blog", blog_posts_path
-          %li= link_to "Discuss on GitHub", "https://github.com/exercism/exercism"
-          %li= link_to "Contact us", doc_path(:using, "contact")
-          %li= link_to "Report abuse", doc_path(:using, "report-abuse")
+          %li= link_to t('.site_links.keep_in_touch.blog_link'), blog_posts_path
+          %li= link_to t('.site_links.keep_in_touch.github_link'), "https://github.com/exercism/exercism"
+          %li= link_to t('.site_links.keep_in_touch.contact_us_link'), doc_path(:using, "contact")
+          %li= link_to t('.site_links.keep_in_touch.report_abuse_link'), doc_path(:using, "report-abuse")
 
       .col
-        %h3 Get help
+        %h3= t('.site_links.get_help.title')
         %hr.c-divider.--small
         %ul
-          %li= link_to "Exercism's Docs", docs_path
-          %li= link_to "Getting started", doc_path(:using, "getting-started")
-          %li= link_to "FAQs", doc_path(:using, "faqs")
-          %li= link_to "Installing the CLI", doc_path(:using, "solving-exercises/working-locally")
-          %li= link_to "Interactive CLI Walkthrough", cli_walkthrough_path
+          %li= link_to t('.site_links.get_help.docs_link'), docs_path
+          %li= link_to t('.site_links.get_help.getting_started_link'), doc_path(:using, "getting-started")
+          %li= link_to t('.site_links.get_help.faqs_link'), doc_path(:using, "faqs")
+          %li= link_to t('.site_links.get_help.installing_cli_link'), doc_path(:using, "solving-exercises/working-locally")
+          %li= link_to t('.site_links.get_help.cli_walkthrough_link'), cli_walkthrough_path
 
   .socials.mt-24.mb-40.md:mb-56
     = link_to "https://twitter.com/exercism_io", class: 'icon twitter' do
@@ -78,7 +83,7 @@
 
   .tracks.mt-32.md:mt-48.mb-32.md:mb-48.md:items-center
     .hidden.md:block
-      %h2.text-h3 Our programming language tracks
+      %h2.text-h3= t('.tracks_section.title')
       %hr.c-divider.mt-28.mb-36
 
     .grid.grid-cols-1.sm:grid-cols-2.md:grid-cols-3.lg:grid-cols-3.xl:grid-cols-6.gap-x-32
@@ -89,16 +94,22 @@
               %li= link_to title, track_path(slug)
 
       .col.hidden.md:block.mt-32.xl:mt-0
-        %h3.text-h6 Want to add a language track to Exercism?
+        %h3.text-h6= t('.tracks_section.add_language_title')
         %p.text-p-base
-          Start a new topic
-          = link_to "in the forum", "https://forum.exercism.org/c/exercism/4"
-          and let's discuss it.
+          = t('.tracks_section.add_language_description')
+          = link_to t('.tracks_section.add_language_forum_link'), "https://forum.exercism.org/c/exercism/4"
+          = t('.tracks_section.add_language_discussion_text')
   %hr
   .legals.mt-24.md:mt-32.mb-32.md:mb-40.flex.md:items-center.flex-col.md:flex-row
     .company.mb-16.md:mb-0.md:mr-32
-      Exercism is a not-for-profit organisation
-      #{link_to 'registered in the UK', 'https://find-and-update.company-information.service.gov.uk/company/11733062'}.
-      Its trustees are #{link_to 'Katrina Owen', 'https://exercism.github.io/kytrinyx/'}, #{link_to 'Jeremy Walker', 'https://ihid.info/'} and #{link_to 'Erik Schierboom', 'https://erikschierboom.com/'}.
+      = t('.legals.company_info_part1')
+      = link_to t('.legals.company_info_link_text'), 'https://find-and-update.company-information.service.gov.uk/company/11733062'
+      = t('.legals.company_info_part2')
+      = link_to t('.legals.katrina_owen_link'), 'https://exercism.github.io/kytrinyx/'
+      = t('.legals.jeremy_walker_link_separator')
+      = link_to t('.legals.jeremy_walker_link'), 'https://ihid.info/'
+      = t('.legals.erik_schierboom_link_separator')
+      = link_to t('.legals.erik_schierboom_link'), 'https://erikschierboom.com/'
+      = t('.legals.company_info_part3')
     .copyright.md:ml-auto
-      © #{Date.current.year} Exercism
+      = t('.legals.copyright', year: Date.current.year)

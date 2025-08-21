@@ -1,0 +1,16 @@
+set hour to current_time_hour()
+set minutes to current_time_minute()
+
+set indicator to "am"
+
+if(hour >= 12) do
+  change indicator to "pm"
+end
+
+if(hour == 0) do
+  change hour to 12
+else if(hour > 12) do
+  change hour to hour - 12
+end
+
+display_time(hour, minutes, indicator)

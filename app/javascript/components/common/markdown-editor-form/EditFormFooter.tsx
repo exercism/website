@@ -2,6 +2,7 @@ import React from 'react'
 import { MutationStatus } from '@tanstack/react-query'
 import { GraphicalIcon } from '..'
 import { FormButton } from '../FormButton'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const EditFormFooter = ({
   status,
@@ -14,6 +15,7 @@ export const EditFormFooter = ({
   onCancel?: (e: React.FormEvent) => void
   onDelete?: (e: React.FormEvent) => void
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/common/markdown-editor-form')
   return (
     <footer className="editor-footer">
       {onCancel ? (
@@ -23,7 +25,7 @@ export const EditFormFooter = ({
           onClick={onCancel}
           status={status}
         >
-          Cancel
+          {t('editFormFooter.cancel')}
         </FormButton>
       ) : null}
       {value.length === 0 ? (
@@ -34,7 +36,7 @@ export const EditFormFooter = ({
             status={status}
             onClick={onDelete}
           >
-            <span>Delete</span>
+            <span>{t('editFormFooter.delete')}</span>
           </FormButton>
         ) : null
       ) : (
@@ -44,7 +46,7 @@ export const EditFormFooter = ({
           status={status}
         >
           <GraphicalIcon icon="send" />
-          <span>Update</span>
+          <span>{t('editFormFooter.update')}</span>
         </FormButton>
       )}
     </footer>

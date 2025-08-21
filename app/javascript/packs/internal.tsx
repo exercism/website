@@ -15,7 +15,6 @@ import type {
   MentorSessionExercise,
   MentorDiscussion,
   MentoredTrack,
-  SolutionForStudent,
   CommunitySolution,
   MentoredTrackExercise,
   CommunicationPreferences,
@@ -44,12 +43,7 @@ import type { Links as RequestMentoringButtonLinks } from '@/components/student/
 import type { Track as MentoringTestimonialsListTrack } from '@/components/mentoring/TestimonialsList'
 import type { Category as JourneyPageCategory } from '@/components/journey/JourneyPage'
 import type { Links as TrackMenuLinks } from '@/components/dropdowns/TrackMenu'
-import type {
-  Track as IterationsListTrack,
-  Exercise as IterationsListExercise,
-  Links as IterationsListLinks,
-  IterationsListRequest,
-} from '@/components/student/IterationsList'
+import { type IterationsListProps } from '@/components/student/IterationsList'
 import type { Links as NotificationsListLinks } from '@/components/notifications/NotificationsList'
 import type { Request } from '@/hooks/request-query'
 import type { Request as MentoringInboxRequest } from '@/components/mentoring/Inbox'
@@ -67,6 +61,7 @@ import type { ChangePublishedIterationModalButtonProps } from '@/components/stud
 import type { UnpublishSolutionModalButtonProps } from '@/components/student/published-solution/UnpublishSolutionModalButton'
 
 // Component imports
+const BegModal = lazy(() => import('@/components/modals/BegModal'))
 const Editor = lazy(() => import('@/components/Editor'))
 const SubmissionsSummaryTable = lazy(() => import('@/components/maintaining'))
 const Inbox = lazy(() => import('@/components/mentoring/Inbox'))
@@ -125,6 +120,19 @@ const PasswordForm = lazy(() => import('@/components/settings/PasswordForm'))
 const UserPreferencesForm = lazy(
   () => import('@/components/settings/UserPreferencesForm')
 )
+const InsiderBenefitsForm = lazy(
+  () => import('@/components/settings/InsiderBenefitsForm')
+)
+
+const GitHubSyncerForm = lazy(
+  () => import('@/components/settings/github-syncer/GitHubSyncerForm')
+)
+const BootcampAffiliateCouponForm = lazy(
+  () => import('@/components/settings/BootcampAffiliateCouponForm')
+)
+const BootcampFreeCouponForm = lazy(
+  () => import('@/components/settings/BootcampFreeCouponForm')
+)
 const TokenForm = lazy(() => import('@/components/settings/TokenForm'))
 const ThemePreferenceForm = lazy(
   () => import('@/components/settings/ThemePreferenceForm')
@@ -170,7 +178,13 @@ const IterationSummaryWithWebsockets = lazy(
 const NotificationsList = lazy(
   () => import('@/components/notifications/NotificationsList')
 )
-const WelcomeModal = lazy(() => import('@/components/modals/WelcomeModal'))
+const WelcomeModal = lazy(
+  () => import('@/components/modals/welcome-modal/WelcomeModal')
+)
+const SenioritySurveyModal = lazy(
+  () =>
+    import('@/components/modals/seniority-survey-modal/SenioritySurveyModal')
+)
 const WelcomeToInsidersModal = lazy(
   () => import('@/components/modals/WelcomeToInsidersModal')
 )
@@ -202,19 +216,37 @@ const UnpublishSolutionModalButton = lazy(
     )
 )
 
+const FavoritesList = lazy(() => import('@/components/favorites-list'))
+
 import { RenderLoader } from '@/components/common'
 import { ScreenSizeWrapper } from '@/components/mentoring/session/ScreenSizeContext'
 import { TrackMenuDropdownSkeleton } from '@/components/common/skeleton/skeletons/TrackMenuDropdownSkeleton'
 import { NotificationsDropdownSkeleton } from '@/components/common/skeleton/skeletons/NotificationsDropdownSkeleton'
 import { ReputationDropdownSkeleton } from '@/components/common/skeleton/skeletons/ReputationDropdownSkeleton'
+import { TrackWelcomeModal } from '@/components/modals/track-welcome-modal/TrackWelcomeModal'
+import { TrackWelcomeModalProps } from '@/components/modals/track-welcome-modal/TrackWelcomeModal.types'
+import { GitHubSyncerFormProps } from '@/components/settings/github-syncer/GitHubSyncerForm'
 import {
-  TrackWelcomeModal,
-  TrackWelcomeModalProps,
-} from '@/components/modals/track-welcome-modal/TrackWelcomeModal'
+  GithubSyncerWidget,
+  GithubSyncerWidgetProps,
+} from '@/components/github-syncer-widget/GithubSyncerWidget'
+import { BootcampFreeCouponFormProps } from '@/components/settings/BootcampFreeCouponForm'
+import { FavoritesListProps } from '@/components/favorites-list'
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
 initReact({
+  'beg-modal': (data: any) => (
+    <Suspense fallback={RenderLoader()}>
+      <BegModal
+        previousDonor={data.previous_donor}
+        request={camelizeKeysAs<Request>(data.request)}
+        links={camelizeKeysAs<StripeFormLinks & { hideIntroducer: string }>(
+          data.links
+        )}
+      />
+    </Suspense>
+  ),
   'common-markdown-editor': (data: any) => (
     <Suspense fallback={RenderLoader()}>
       <MarkdownEditor contextId={data.context_id} />
@@ -223,13 +255,40 @@ initReact({
 
   editor: (data: any): JSX.Element => (
     <Suspense fallback={RenderLoader()}>
-      <Editor {...camelizeKeysAs<EditorProps>(data)} />
+      <Editor
+        {...camelizeKeysAs<EditorProps>(data)}
+        localTestRunner={data.local_test_runner}
+      />
+    </Suspense>
+  ),
+
+  'favorites-list': (data: any) => (
+    <Suspense fallback={RenderLoader()}>
+      <FavoritesList {...camelizeKeysAs<FavoritesListProps>(data)} />
     </Suspense>
   ),
 
   'modals-welcome-modal': (data: any) => (
     <Suspense fallback={RenderLoader()}>
-      <WelcomeModal endpoint={data.endpoint} />
+      <WelcomeModal
+        links={camelizeKeysAs<{
+          hideModalEndpoint: string
+          apiUserEndpoint: string
+          codingFundamentalsCourse: string
+        }>(data.links)}
+        numTracks={data.num_tracks}
+      />
+    </Suspense>
+  ),
+  'modals-seniority-survey-modal': (data: any) => (
+    <Suspense fallback={RenderLoader()}>
+      <SenioritySurveyModal
+        links={camelizeKeysAs<{
+          hideModalEndpoint: string
+          apiUserEndpoint: string
+          codingFundamentalsCourse: string
+        }>(data.links)}
+      />
     </Suspense>
   ),
 
@@ -403,6 +462,14 @@ initReact({
       />
     </Suspense>
   ),
+
+  'settings-bootcamp-free-coupon-form': (data: any) => (
+    <Suspense fallback={RenderLoader()}>
+      <BootcampFreeCouponForm
+        {...camelizeKeysAs<BootcampFreeCouponFormProps>(data)}
+      />
+    </Suspense>
+  ),
   'settings-photo-form': (data: any) => (
     <Suspense fallback={RenderLoader()}>
       <PhotoForm
@@ -451,6 +518,36 @@ initReact({
         defaultPreferences={camelizeKeysAs<UserPreferences>(data.preferences)}
         links={data.links}
       />
+    </Suspense>
+  ),
+  'settings-insider-benefits-form': (data: any) => (
+    <Suspense fallback={RenderLoader()}>
+      <InsiderBenefitsForm
+        defaultPreferences={camelizeKeysAs<{ hideWebsiteAdverts: boolean }>(
+          data.preferences
+        )}
+        insidersStatus={data.insiders_status}
+        links={camelizeKeysAs<ThemePreferenceLinks>(data.links)}
+      />
+    </Suspense>
+  ),
+  'settings-bootcamp-affiliate-coupon-form': (data: any) => (
+    <Suspense fallback={RenderLoader()}>
+      <BootcampAffiliateCouponForm
+        context={data.context}
+        insidersStatus={data.insiders_status}
+        bootcampAffiliateCouponCode={data.bootcamp_affiliate_coupon_code}
+        links={camelizeKeysAs<{
+          insidersPath: string
+          bootcampAffiliateCouponCode: string
+        }>(data.links)}
+      />
+    </Suspense>
+  ),
+
+  'settings-github-syncer-form': (data: GitHubSyncerFormProps) => (
+    <Suspense fallback={RenderLoader()}>
+      <GitHubSyncerForm {...camelizeKeysAs<GitHubSyncerFormProps>(data)} />
     </Suspense>
   ),
   'settings-theme-preference-form': (data: any) => (
@@ -542,15 +639,14 @@ initReact({
       />
     </Suspense>
   ),
-  'student-iterations-list': (data: any) => (
+  'student-github-solution-syncer-widget': (data: GithubSyncerWidgetProps) => (
     <Suspense fallback={RenderLoader()}>
-      <StudentIterationsList
-        solutionUuid={data.solution_uuid}
-        request={camelizeKeysAs<IterationsListRequest>(data.request)}
-        exercise={camelizeKeysAs<IterationsListExercise>(data.exercise)}
-        track={camelizeKeysAs<IterationsListTrack>(data.track)}
-        links={camelizeKeysAs<IterationsListLinks>(data.links)}
-      />
+      <GithubSyncerWidget {...camelizeKeysAs<GithubSyncerWidgetProps>(data)} />
+    </Suspense>
+  ),
+  'student-iterations-list': (data: IterationsListProps) => (
+    <Suspense fallback={RenderLoader()}>
+      <StudentIterationsList {...camelizeKeysAs<IterationsListProps>(data)} />
     </Suspense>
   ),
   'student-latest-iteration-link': (data: any) => (

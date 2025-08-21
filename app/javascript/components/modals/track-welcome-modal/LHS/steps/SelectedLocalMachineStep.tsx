@@ -2,65 +2,87 @@ import React, { useContext } from 'react'
 import { StepButton } from './components/StepButton'
 import CopyToClipboardButton from '@/components/common/CopyToClipboardButton'
 import { TrackContext } from '../../TrackWelcomeModal'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 export function SelectedLocalMachineStep({
   onContinueToLocalMachine,
 }: Record<'onContinueToLocalMachine', () => void>): JSX.Element {
   const { track, send, links } = useContext(TrackContext)
+  const { t } = useAppTranslation(
+    'components/modals/track-welcome-modal/LHS/steps'
+  )
+
   return (
     <>
-      <h3 className="text-h3 mb-8">Let's get coding!</h3>
-      <p className="mb-8">There are three steps to get started:</p>
+      <h3 className="text-h3 mb-8">{t('selectedLocalMachineStep.title')}</h3>
+      <p className="mb-8">{t('selectedLocalMachineStep.subtitle')}</p>
+
       <ol className="list-decimal pl-16 mb-16">
         <li>
-          Install{' '}
-          <a
-            href={links.cliWalkthrough}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Exercism's CLI
-          </a>
-          .
+          <Trans
+            ns="components/modals/track-welcome-modal/LHS/steps"
+            i18nKey="selectedLocalMachineStep.step1"
+            components={{
+              cliLink: (
+                <a
+                  href={links.cliWalkthrough}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                />
+              ),
+            }}
+          />
         </li>
         <li>
-          Install{' '}
-          <a
-            href={links.trackTooling}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {track.title}'s tooling
-          </a>
-          .
+          <Trans
+            ns="components/modals/track-welcome-modal/LHS/steps"
+            i18nKey="selectedLocalMachineStep.step2"
+            values={{ trackTitle: track.title }}
+            components={{
+              toolingLink: (
+                <a
+                  href={links.trackTooling}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                />
+              ),
+            }}
+          />
         </li>
         <li>
-          Download this exercise:
+          {t('selectedLocalMachineStep.step3')}
           <CopyToClipboardButton textToCopy={links.downloadCmd} />
         </li>
       </ol>
 
       <div className="text-17 leading-huge mb-16">
-        <strong className="font-semibold">All done?</strong> Click "Continue" to
-        see the instructions, then solve the exercise on your machine and submit
-        it via{' '}
-        <code className="inline-block bg-backgroundColorD px-8 rounded-2">
-          <pre>exercism submit</pre>
-        </code>
-        .
+        <Trans
+          ns="components/modals/track-welcome-modal/LHS/steps"
+          i18nKey="selectedLocalMachineStep.doneMessage"
+          components={{
+            strong: <strong className="font-semibold" />,
+            code: (
+              <code className="inline-block bg-backgroundColorD px-8 rounded-2">
+                <pre />
+              </code>
+            ),
+          }}
+        />
       </div>
+
       <div className="flex gap-8">
         <StepButton
           onClick={onContinueToLocalMachine}
           className="btn-primary flex-grow"
         >
-          Continue
+          {t('selectedLocalMachineStep.continue')}
         </StepButton>
         <StepButton
           onClick={() => send('RESET')}
           className="btn-secondary w-1-3"
         >
-          Reset choices
+          {t('selectedLocalMachineStep.reset')}
         </StepButton>
       </div>
     </>

@@ -1,0 +1,10 @@
+en:
+  profiles:
+    contributions:
+      meta_title: "%{user_handle}'s contributions to Exercism"
+      meta_description: See how %{user_handle} has contributed to Exercism
+      introducer:
+        title: Exercism is built by people like %{user_handle} and you
+        description:
+          See %{user_handle}'s contributions to Exercism, along with the
+          exercises and concepts they authored for various tracks.

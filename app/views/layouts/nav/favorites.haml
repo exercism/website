@@ -1,0 +1,21 @@
+.flex.flex-col.items-center.items-stretch.pt-20.px-24
+  %h2.text-h3.mb-4 Your Favourites
+  %p.text-p-base.font-medium.mb-12
+    Store your favorite solutions from around Exercism and learn from them later.
+
+  - if current_user.starred_solutions.empty?
+    %hr.border-borderColor6.mb-12
+    %p.text-p-base.mb-12 You haven't added any favorites yet. Start exploring community solutions and add some interesting ones to your favorites!
+    = link_to "Get started", favorites_path, class: 'btn-primary btn-s mb-6'
+  - else
+    .flex.flex-col.gap-8.mb-12
+      - current_user.starred_solutions.limit(3).includes(exercise: :track).each do |solution|
+        = link_to Exercism::Routes.published_solution_path(solution), class: 'c-community-solution flex-grow !py-12' do
+          %header.--header{ class: "!mb-0" }
+            = avatar(solution.user)
+            .--info
+              .--title.flex
+                #{solution.user.handle}'s solution
+              .--subtitle to #{solution.exercise.title} in #{solution.exercise.track.title}
+
+    = link_to "View all", favorites_path, class: 'btn-primary btn-s mb-6'

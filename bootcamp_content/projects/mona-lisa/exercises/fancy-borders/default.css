@@ -1,0 +1,34 @@
+body,
+.--jiki-faux-body {
+    margin: 0;
+    aspect-ratio: 1;
+    overflow: hidden;
+    display: flex;
+    justify-content: stretch;
+    align-items: stretch;
+}
+
+div,
+img {
+    display: flex;
+    flex-grow: 1;
+}
+
+img {
+    width: 1%;
+}
+
+#frame-wood {
+    background: #4e342e;
+}
+
+#frame-glass {
+    background: #eee;
+}
+
+#frame-rim {
+    background: yellow;
+}
+#frame-canvas {
+    background: #f5f5dc;
+}

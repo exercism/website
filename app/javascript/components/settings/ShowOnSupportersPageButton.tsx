@@ -1,6 +1,9 @@
+// i18n-key-prefix:
+// i18n-namespace: components/settings/ShowOnSupportersPageButton.tsx
 import React, { useState, useCallback } from 'react'
 import { GraphicalIcon } from '../common'
 import { useSettingsMutation } from './useSettingsMutation'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type Links = {
   update: string
@@ -35,6 +38,10 @@ export default function ShowOnSupportersPageButton({
     [mutation]
   )
 
+  const { t } = useAppTranslation(
+    'components/settings/ShowOnSupportersPageButton.tsx'
+  )
+
   return (
     <label className="c-checkbox-wrapper ml-auto">
       <input type="checkbox" checked={value} onChange={handleChange} />
@@ -43,7 +50,7 @@ export default function ShowOnSupportersPageButton({
           <GraphicalIcon icon="checkmark" />
         </div>
         <span className={'text-16 font-medium text-textColor2'}>
-          Appear on supporters page?
+          {t('appearOnSupportersPage')}
         </span>
       </div>
     </label>

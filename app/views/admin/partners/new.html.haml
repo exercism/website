@@ -1,8 +1,6 @@
 .lg-container
-  %h1.text-h1.mb-16 Add a new partner
+  %h1.text-h1.mb-16= t('.add_new_partner')
   = render "form", partner: @partner
   %br/
   .flex.gap-16
-    = link_to "Back to partners", admin_partners_path
-
-
+    = link_to t('.back_to_partners'), admin_partners_path

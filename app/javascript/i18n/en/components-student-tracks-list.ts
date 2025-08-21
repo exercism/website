@@ -1,0 +1,23 @@
+// namespace: components/student/tracks-list
+export default {
+  'orderSelect.sortByLastTouched': 'Sort by last touched',
+  'track.learningMode': 'Learning Mode',
+  'track.thisTrackIsNew': 'This track is new',
+  'track.new': 'New',
+  'track.joined': 'Joined',
+  'track.numberOfExercises': '{{count}} exercise',
+  'track.numberOfExercises_one': '{{count}} exercise',
+  'track.numberOfExercises_other': '{{count}} exercises',
+  'track.numberOfConcepts': '{{count}} concept',
+  'track.numberOfConcepts_one': '{{count}} concept',
+  'track.numberOfConcepts_other': '{{count}} concepts',
+  'track.lastTouched': 'Last touched {{time}}',
+  'list.noResultsFound': 'No results found',
+  'list.resetSearchAndFilters': 'Reset search and filters',
+  'tagsFilter.filterBy': 'Filter by',
+  'tagsFilter.showingAll_one': 'Showing all {{count}} track',
+  'tagsFilter.showingAll_other': 'Showing all {{count}} tracks',
+  'tagsFilter.resetFilters': 'Reset filters',
+  'tagOptionList.apply': 'Apply',
+  'tagOptionList.close': 'Close',
+}

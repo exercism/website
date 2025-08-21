@@ -1,8 +1,11 @@
+// i18n-key-prefix: tagsFilter
+// i18n-namespace: components/student/tracks-list
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { TagOptionList } from './TagOptionList'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
 import pluralize from 'pluralize'
 import { TagOption } from '../TracksList'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const TagsFilter = ({
   options,
@@ -15,6 +18,7 @@ export const TagsFilter = ({
   value: string[]
   numTracks: number
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/student/tracks-list')
   const [expanded, setExpanded] = useState(false)
   const [selectedTags, setSelectedTags] = useState<string[]>(value)
   const [hasExpandedEver, markAsExpanded] = useState(false)
@@ -83,7 +87,9 @@ export const TagsFilter = ({
         aria-haspopup="true"
         aria-expanded={expanded}
       >
-        <span className="hidden sm:block sm:mr-12">Filter by</span>
+        <span className="hidden sm:block sm:mr-12">
+          {t('tagsFilter.filterBy')}
+        </span>
         <GraphicalIcon icon="chevron-down" />
       </button>
       <div
@@ -108,14 +114,11 @@ export const TagsFilter = ({
         </div>
       </div>
       <div className="--state">
-        <p>
-          Showing {value === undefined || value.length == 0 ? 'all' : ''}{' '}
-          {numTracks} {pluralize('track', numTracks)}
-        </p>
+        <p>{t('tagsFilter.showingAll', { count: numTracks })}</p>
         {value !== undefined && value.length > 0 ? (
           <button onClick={handleReset} className="--reset-btn">
             <GraphicalIcon icon="reset" />
-            Reset filters
+            {t('tagsFilter.resetFilters')}
           </button>
         ) : null}
       </div>

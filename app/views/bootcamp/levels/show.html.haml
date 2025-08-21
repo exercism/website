@@ -1,0 +1,71 @@
+#page-bootcamp-level
+  %header
+    .c-breadcrumbs
+      .lg-container.container
+        = link_to bootcamp_levels_path do
+          = graphical_icon 'bootcamp-levels'
+          .span= t('.levels_link')
+        .seperator /
+        .title
+          = t('.level_title', idx: @level.idx)
+          = @level.title
+
+    .lg-container
+      - if @completed
+        %section.c-completed-bar
+          = graphical_icon 'bootcamp-completed-check-circle', css_class: "check-mark-icon"
+          .text= t('.level_completed_text', idx: @level.idx)
+          .stat
+            = t('.all_exercises_completed', count: @level.exercises.count)
+
+      .details
+        %h1
+          = t('.level_heading', idx: @level.idx)
+          = @level.title
+
+  .lg-container
+    .flex.pb-40
+      .lhs.pr-40
+        .content.c-prose
+          = raw @level.content_html
+          - if @level.youtube_id
+            .mt-24
+              = render ReactComponents::Common::YoutubePlayer.new(@level.youtube_id, 'community')
+          - if @level.youtube_id
+            .mt-24
+              = render ReactComponents::Common::YoutubePlayer.new(@level.labs_youtube_id, 'community')
+
+          %hr.border-borderColor5.my-32
+
+          %h2.text-24.leading-140.mb-4.font-semibold= t('.key_concepts_heading')
+          %p.mb-10= t('.key_concepts_description')
+          %ul.flex.flex-col.gap-8
+            - @level.concepts.non_apex.each do |concept|
+              %li
+                = link_to bootcamp_concept_path(concept) do
+                  .text-20.leading-140.font-semibold.mb-2= concept.title
+                  .text-18.leading-140.text-textColor5.font-normal= concept.description
+
+      .rhs.mb-40
+        - brain_busters, core = @level.exercises.partition(&:brain_buster?)
+        - projects, core = core.partition(&:major_project?)
+        .c-rhs-list
+          %h2= t('.core_exercises_heading')
+          %p= t('.core_exercises_description')
+          %ul
+            - core.each do |exercise|
+              %li= render ViewComponents::Bootcamp::ExerciseWidget.new(exercise)
+
+          - if brain_busters.present?
+            %h2.mt-24= t('.brain_busters_heading')
+            %p.mb-8= t('.brain_busters_description')
+            %ul
+              - brain_busters.each do |exercise|
+                %li= render ViewComponents::Bootcamp::ExerciseWidget.new(exercise)
+
+          - if projects.present?
+            %h2.mt-28= t('.major_project_heading')
+            %p.mb-8= t('.major_project_description')
+            %ul
+              - projects.each do |exercise|
+                %li= render ViewComponents::Bootcamp::ExerciseWidget.new(exercise)

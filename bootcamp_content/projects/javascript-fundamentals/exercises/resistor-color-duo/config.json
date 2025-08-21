@@ -1,0 +1,55 @@
+{
+  "title": "Resistor Color Duo",
+  "description": "Convert color codes, as used on resistors, to a numeric value.",
+  "language": "javascript",
+  "level": 13,
+  "idx": 12,
+  "tests_type": "io",
+  "tasks": [
+    {
+      "name": "Decode Resistor Value",
+      "tests": [
+        {
+          "name": "Brown and black",
+          "slug": "brown-black",
+          "description_html": "Decode ['brown', 'black'] as 10.",
+          "function": "decodedValue",
+          "args": [["brown", "black"]],
+          "checks": [{ "value": 10 }]
+        },
+        {
+          "name": "Blue and grey",
+          "slug": "blue-grey",
+          "description_html": "Decode ['blue', 'grey'] as 68.",
+          "function": "decodedValue",
+          "args": [["blue", "grey"]],
+          "checks": [{ "value": 68 }]
+        },
+        {
+          "name": "Yellow and violet",
+          "slug": "yellow-violet",
+          "description_html": "Decode ['yellow', 'violet'] as 47.",
+          "function": "decodedValue",
+          "args": [["yellow", "violet"]],
+          "checks": [{ "value": 47 }]
+        },
+        {
+          "name": "Orange and orange",
+          "slug": "orange-orange",
+          "description_html": "Decode ['orange', 'orange'] as 33.",
+          "function": "decodedValue",
+          "args": [["orange", "orange"]],
+          "checks": [{ "value": 33 }]
+        },
+        {
+          "name": "Ignore additional colors",
+          "slug": "ignore-additional",
+          "description_html": "Only consider the first two colors and ignore extras.",
+          "function": "decodedValue",
+          "args": [["green", "brown", "orange"]],
+          "checks": [{ "value": 51 }]
+        }
+      ]
+    }
+  ]
+}

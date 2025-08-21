@@ -1,7 +1,10 @@
+// i18n-key-prefix: list
+// i18n-namespace: components/student/tracks-list
 import React from 'react'
 import { Track } from './Track'
 import { GraphicalIcon } from '@/components/common/GraphicalIcon'
 import { StudentTrack } from '@/components/types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const List = ({
   data,
@@ -10,14 +13,16 @@ export const List = ({
   data: StudentTrack[]
   onReset: () => void
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/student/tracks-list')
+
   if (data.length === 0) {
     return (
       <div className="empty-state">
         <GraphicalIcon icon="sad-exercism" className="mb-20" />
-        <h3 className="text-h3 mb-24">No results found</h3>
+        <h3 className="text-h3 mb-24">{t('list.noResultsFound')}</h3>
         <button type="button" onClick={onReset} className="btn-enhanced btn-s">
           <GraphicalIcon icon="reset" />
-          <span>Reset search and filters</span>
+          <span>{t('list.resetSearchAndFilters')}</span>
         </button>
       </div>
     )

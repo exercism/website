@@ -1,2 +1,2 @@
-export { StarButton } from './StarButton'
-export { CommentsList } from './CommentsList'
+export { default as StarButton } from './StarButton'
+export { default as CommentsList } from './CommentsList'

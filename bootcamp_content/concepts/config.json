@@ -1,0 +1,422 @@
+[
+  {
+    "slug": "jikiscript",
+    "apex": true,
+    "title": "JikiScript",
+    "description": "Learn programming via JikiScript!",
+    "level": 1
+  },
+  {
+    "slug": "html",
+    "apex": true,
+    "title": "HTML",
+    "description": "Learn the structural language of the web: HTML",
+    "level": 11
+  },
+  {
+    "slug": "css",
+    "apex": true,
+    "title": "CSS",
+    "description": "Learn the visual language of the web: CSS",
+    "level": 11
+  },
+  {
+    "slug": "javascript",
+    "apex": true,
+    "title": "JavaScript",
+    "description": "Learn the functional language of the web: JavaScript",
+    "level": 11
+  },
+  {
+    "slug": "jikiscript/fundamentals",
+    "parent": "jikiscript",
+    "title": "Fundamentals",
+    "description": "Understand the absolute basics and start building your confidence.",
+    "level": 1
+  },
+  {
+    "slug": "jikiscript/what-is-coding",
+    "parent": "jikiscript/fundamentals",
+    "title": "What is Coding?",
+    "description": "Before you start learning how to code, you need to understand what coding actually is!",
+    "level": 1
+  },
+  {
+    "slug": "jikiscript/comments",
+    "parent": "jikiscript/fundamentals",
+    "title": "Comments",
+    "description": "Annotate your code so your future self, and others, can understand it.",
+    "level": 1
+  },
+  {
+    "slug": "jikiscript/data-types",
+    "parent": "jikiscript",
+    "title": "Data Types",
+    "description": "Data types are a fundamental concept in programming. They are used to represent different types of data.",
+    "level": 1
+  },
+  {
+    "slug": "jikiscript/strings",
+    "parent": "jikiscript/data-types",
+    "title": "Strings",
+    "description": "Strings are a fundamental concept in programming. They are used to represent text, words, and characters.",
+    "level": 1
+  },
+  {
+    "slug": "jikiscript/strings-using",
+    "parent": "jikiscript/strings",
+    "title": "Using Strings",
+    "description": "Learn how to use strings in your code.",
+    "level": 1
+  },
+  {
+    "slug": "jikiscript/strings-indexing",
+    "parent": "jikiscript/strings",
+    "title": "Indexing Strings",
+    "description": "Learn how to access a letter by its index",
+    "level": 5
+  },
+  {
+    "slug": "jikiscript/numbers",
+    "parent": "jikiscript/data-types",
+    "title": "Numbers",
+    "description": "Numbers are a fundamental concept in programming, both for anything involving maths, but also for day-to-day programming.",
+    "level": 1
+  },
+  {
+    "slug": "jikiscript/functions",
+    "parent": "jikiscript",
+    "title": "Functions",
+    "description": "Master a fundamental building block of programs - functions.",
+    "level": 1
+  },
+  {
+    "slug": "jikiscript/functions-introduction",
+    "parent": "jikiscript/functions",
+    "title": "What are Functions?",
+    "description": "Learn what functions are in programming.",
+    "level": 1
+  },
+  {
+    "slug": "jikiscript/functions-using",
+    "parent": "jikiscript/functions",
+    "title": "Using Functions",
+    "description": "Learn how to use basic functions.",
+    "level": 1
+  },
+  {
+    "slug": "jikiscript/functions-using-arguments",
+    "parent": "jikiscript/functions",
+    "title": "Function Inputs",
+    "description": "Learn how to pass inputs (also known as 'arguments') into functions.",
+    "level": 1
+  },
+  {
+    "slug": "jikiscript/functions-defining",
+    "parent": "jikiscript/functions",
+    "title": "Defining Functions",
+    "description": "Learn about to define (or make) you're own functions",
+    "level": 4
+  },
+  {
+    "slug": "jikiscript/functions-defining-inside",
+    "parent": "jikiscript/functions",
+    "title": "Inside a function",
+    "description": "Learn about what happens inside a function",
+    "level": 4
+  },
+  {
+    "slug": "jikiscript/conditionals",
+    "parent": "jikiscript/flow-control",
+    "title": "Conditionals",
+    "description": "Learn about if statements.",
+    "level": 3
+  },
+  {
+    "slug": "jikiscript/else-statements",
+    "parent": "jikiscript/flow-control",
+    "title": "Else Statements",
+    "description": "Learn about else statements.",
+    "level": 3
+  },
+  {
+    "slug": "jikiscript/foreach",
+    "parent": "jikiscript/flow-control",
+    "title": "For each statements",
+    "description": "For each statements allow you to loop through a list or string.",
+    "level": 5
+  },
+  {
+    "slug": "jikiscript/lists",
+    "parent": "jikiscript/data-types",
+    "title": "Lists",
+    "description": "Lists allow us to store multiple pieces of data together in order.",
+    "level": 5
+  },
+  {
+    "slug": "jikiscript/variables",
+    "parent": "jikiscript",
+    "title": "Variables",
+    "description": "Master a fundamental building block of programs - variables.",
+    "level": 2
+  },
+  {
+    "slug": "jikiscript/variables-introduction",
+    "parent": "jikiscript/variables",
+    "title": "What are Variables?",
+    "description": "Learn what variables are in programming.",
+    "level": 2
+  },
+  {
+    "slug": "jikiscript/variables-creating",
+    "parent": "jikiscript/variables",
+    "title": "Creating variables",
+    "description": "Learn how to create variables",
+    "level": 2
+  },
+  {
+    "slug": "jikiscript/variables-changing",
+    "parent": "jikiscript/variables",
+    "title": "Change variables",
+    "description": "Learn how to change variables",
+    "level": 2
+  },
+  {
+    "slug": "jikiscript/variables-unique-names",
+    "parent": "jikiscript/variables",
+    "title": "Unique Variable names",
+    "description": "Learn about how variable names have to be unique",
+    "level": 2
+  },
+  {
+    "slug": "jikiscript/variables-using",
+    "parent": "jikiscript/variables",
+    "title": "Using Variables",
+    "description": "Learn how to use variables as inputs to functions.",
+    "level": 2
+  },
+  {
+    "slug": "jikiscript/flow-control",
+    "parent": "jikiscript",
+    "title": "Flow control",
+    "description": "Learn about different ways to control what the program does.",
+    "level": 2
+  },
+  {
+    "slug": "jikiscript/repeat",
+    "parent": "jikiscript/flow-control",
+    "title": "Using Repeat Blocks",
+    "description": "Learn how to use repeat blocks",
+    "level": 2
+  },
+  {
+    "slug": "jikiscript/index-access-chaining",
+    "parent": "jikiscript/lists",
+    "title": "Index Access Chaining",
+    "description": "Learn how to chain index accessors",
+    "level": 6
+  },
+  {
+    "slug": "jikiscript/lists-of-lists",
+    "parent": "jikiscript/lists",
+    "title": "Lists of Lists",
+    "description": "Learn how to to put lists inside of lists",
+    "level": 6
+  },
+  {
+    "slug": "jikiscript/dictionaries",
+    "parent": "jikiscript/data-types",
+    "title": "Dictionaries",
+    "description": "Learn everything about dictionaries",
+    "level": 7
+  },
+  {
+    "slug": "jikiscript/next-and-break",
+    "parent": "jikiscript/flow-control",
+    "title": "Next and Break",
+    "description": "Learn about the next and break keywords",
+    "level": 7
+  },
+  {
+    "slug": "jikiscript/indexed-by",
+    "parent": "jikiscript/flow-control",
+    "title": "Indexed By",
+    "description": "Learn about keeping track of the iteration you're on with indexed by.",
+    "level": 7
+  },
+  {
+    "slug": "jikiscript/objects",
+    "parent": "jikiscript",
+    "title": "Objects",
+    "description": "Learn about objects - the building block of object-oriented programming.",
+    "level": 8
+  },
+  {
+    "slug": "jikiscript/objects-introduction",
+    "parent": "jikiscript/objects",
+    "title": "Introduction to Objects",
+    "description": "Grasp what objects are and why you would use them.",
+    "level": 8
+  },
+  {
+    "slug": "jikiscript/objects-instantiation",
+    "parent": "jikiscript/objects",
+    "title": "Creating Objects",
+    "description": "Learn how to use the new keyword to create objects",
+    "level": 8
+  },
+  {
+    "slug": "jikiscript/objects-properties",
+    "parent": "jikiscript/objects",
+    "title": "Object Properties",
+    "description": "Learn how to read and write properties from objects.",
+    "level": 8
+  },
+  {
+    "slug": "jikiscript/objects-in-functions",
+    "parent": "jikiscript/objects",
+    "title": "Using objects in functions",
+    "description": "Learn how we pass references to objects into functions.",
+    "level": 8
+  },
+  {
+    "slug": "html/tags",
+    "parent": "html",
+    "title": "Tags",
+    "description": "Learn the basics of HTML Tags",
+    "level": 11
+  },
+  {
+    "slug": "html/attributes",
+    "parent": "html",
+    "title": "Attributes",
+    "description": "Learn the basics of HTML Attributes",
+    "level": 11
+  },
+  {
+    "slug": "html/text",
+    "parent": "html",
+    "title": "Text",
+    "description": "Learn about styling text",
+    "level": 11
+  },
+  {
+    "slug": "html/lists",
+    "parent": "html",
+    "title": "Lists",
+    "description": "Learn about ordered and unordered lists.",
+    "level": 11
+  },
+  {
+    "slug": "html/tables",
+    "parent": "html",
+    "title": "Tables",
+    "description": "Learn about tables.",
+    "level": 11
+  },
+  {
+    "slug": "css/basics",
+    "parent": "css",
+    "title": "CSS Basics",
+    "description": "Learn the basics of CSS",
+    "level": 11
+  },
+  {
+    "slug": "css/flexbox",
+    "parent": "css",
+    "title": "FlexBox",
+    "description": "Learn the Flexbox layout system",
+    "level": 13
+  },
+  {
+    "slug": "css/grid",
+    "parent": "css",
+    "title": "CSS Grid",
+    "description": "Learn CSS's Grid layout system",
+    "level": 14
+  },
+  {
+    "slug": "css/positioning",
+    "parent": "CSS",
+    "title": "Positioning",
+    "description": "Learn about static, relative and absolute positioning",
+    "level": 15
+  },
+  {
+    "slug": "javascript/basics",
+    "parent": "javascript",
+    "title": "JavaScript Basics",
+    "description": "Learn the basics of JavaScript",
+    "level": 12
+  },
+  {
+    "slug": "javascript/syntax",
+    "parent": "javascript",
+    "title": "JavaScript Syntax",
+    "description": "Learn JavaScript's syntax",
+    "level": 12
+  },
+  {
+    "slug": "javascript/variables",
+    "parent": "javascript",
+    "title": "Variables in JavaScript",
+    "description": "Learn the basics of JavaScript Variables",
+    "level": 12
+  },
+  {
+    "slug": "javascript/data-types",
+    "parent": "javascript",
+    "title": "JavaScript Data Types",
+    "description": "Learn the basic JavaScript data types",
+    "level": 12
+  },
+  {
+    "slug": "javascript/arrays",
+    "parent": "javascript",
+    "title": "Arrays in JavaScript",
+    "description": "Learn the basics of JavaScript Arrays",
+    "level": 12
+  },
+  {
+    "slug": "javascript/array-iteration",
+    "parent": "javascript",
+    "title": "Array Iteration",
+    "description": "Learn how to iterate through an array.",
+    "level": 12
+  },
+  {
+    "slug": "javascript/manual-mapping",
+    "parent": "javascript",
+    "title": "Manual Mapping",
+    "description": "Learn how to map manually in JavaScript",
+    "level": 12
+  },
+  {
+    "slug": "javascript/objects",
+    "parent": "javascript",
+    "title": "Objects (Dictionaries) in JavaScript",
+    "description": "Learn the basics of JavaScript Objects",
+    "level": 12
+  },
+  {
+    "slug": "javascript/conditionals",
+    "parent": "javascript",
+    "title": "Conditionals",
+    "description": "Learn how to use conditions in JavaScript",
+    "level": 12
+  },
+  {
+    "slug": "javascript/intro-to-the-dom",
+    "parent": "javascript",
+    "title": "Intro to the DOM",
+    "description": "Learn about the DOM and style elements",
+    "level": 15
+  },
+  {
+    "slug": "javascript/game-loop",
+    "parent": "javascript",
+    "title": "The Game Loop",
+    "description": "Learn about the Game Loop and RequestAnimationFrame",
+    "level": 15
+  }
+]

@@ -1,0 +1,92 @@
+#bootcamp-solve-exercise-page {
+    .test-selector-buttons {
+        @apply flex gap-x-4;
+
+        .test-button {
+            @apply flex-shrink-0;
+        }
+
+        &.bonus {
+            &:before {
+                content: "⋮";
+                vertical-align: middle;
+                text-align: center;
+                font-size: 30px;
+                color: rgba(112, 41, 245, 0.3);
+                line-height: 40px;
+                @apply mr-2;
+            }
+
+            .test-button {
+                letter-spacing: 2px;
+            }
+        }
+    }
+    .test-button {
+        @apply relative p-4 w-[40px] h-[40px] grid place-content-center;
+        transition: background-color 0.3s ease-out;
+        @apply font-medium;
+
+        @apply border-2 rounded-3;
+        @apply bg-no-repeat;
+
+        &.idle {
+            @apply border-[#efefef];
+            background-color: white;
+            &.selected {
+                @apply border-bootcamp-purple;
+            }
+            &:after {
+                @apply border-t-6 border-bootcamp-purple;
+            }
+        }
+
+        &.pass {
+            border-color: #ddefe6;
+            @apply bg-bootcamp-success-light;
+            @apply text-bootcamp-success-dark;
+            background-image: url("icons/bootcamp-tick-green.svg");
+            background-size: 12px;
+            background-position: 24px 0px;
+            &.selected {
+                @apply border-bootcamp-success-dark;
+            }
+            &:after {
+                @apply border-t-6 border-bootcamp-success-dark;
+            }
+        }
+
+        &.fail {
+            border-color: #ffdddd;
+            background-color: #ffe5e5; /* Deliberately different to be more visible */
+            @apply text-bootcamp-fail-text;
+            background-image: url("icons/bootcamp-cross-red.svg");
+            background-size: 9px;
+            background-position: 25px 2px;
+            &.selected {
+                @apply border-bootcamp-fail-dark;
+            }
+            &:after {
+                @apply border-t-6 border-bootcamp-fail-dark;
+            }
+        }
+
+        &.selected {
+            @apply relative;
+            @apply font-semibold;
+
+            &:after {
+                content: "";
+
+                @apply absolute bottom-[-10px] left-[50%];
+                transform: translateX(-50%);
+                z-index: 100;
+
+                width: 0;
+                height: 0;
+                border-left: 6px solid transparent;
+                border-right: 6px solid transparent;
+            }
+        }
+    }
+}

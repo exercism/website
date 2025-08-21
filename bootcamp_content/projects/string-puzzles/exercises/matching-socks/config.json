@@ -1,0 +1,143 @@
+{
+  "title": "Matching Socks",
+  "description": "Find the matching socks",
+  "level": 6,
+  "idx": 6,
+  "blocks_level_progression": false,
+  "blocks_project_progression": false,
+  "tests_type": "io",
+  "stdlib_functions": ["concatenate", "push", "concat"],
+  "interpreter_options": {
+    "max_total_loop_iterations": 10000,
+    "max_total_execution_time": 30000
+  },
+
+  "tasks": [
+    {
+      "name": "Matching Socks",
+      "tests": [
+        {
+          "slug": "empty-baskets",
+          "description_html": "Both baskets are empty",
+          "name": "Empty baskets",
+          "function": "matching_socks",
+          "args": [[], []],
+          "checks": [
+            {
+              "value": []
+            }
+          ]
+        },
+        {
+          "slug": "nothing-clean",
+          "description_html": "There's nothing clean",
+          "name": "Nothing clean",
+          "function": "matching_socks",
+          "args": [[], ["sweater"]],
+          "checks": [
+            {
+              "value": []
+            }
+          ]
+        },
+        {
+          "slug": "nothing-dirty",
+          "description_html": "There's nothing dirty",
+          "name": "Nothing dirty",
+          "function": "matching_socks",
+          "args": [["left spotty sock"], []],
+          "checks": [
+            {
+              "value": []
+            }
+          ]
+        },
+        {
+          "slug": "no-socks",
+          "description_html": "There are no socks anywhere",
+          "name": "No socks",
+          "function": "matching_socks",
+          "args": [["blue sweater"], ["green trousers"]],
+          "checks": [
+            {
+              "value": []
+            }
+          ]
+        },
+        {
+          "slug": "one-in-each",
+          "description_html": "There's a matching sock in each",
+          "name": "One in each",
+          "function": "matching_socks",
+          "args": [["left red sock"], ["right red sock"]],
+          "checks": [
+            {
+              "value": ["red socks"]
+            }
+          ]
+        },
+        {
+          "slug": "a-big-mix",
+          "description_html": "A mix of clothes",
+          "name": "A big mix!",
+          "function": "matching_socks",
+          "args": [
+            [
+              "left red sock",
+              "right green sock",
+              "sweater",
+              "right red sock",
+              "left blue sock"
+            ],
+            [
+              "right blue sock",
+              "right red sock",
+              "left spotty sock",
+              "right spotty sock"
+            ]
+          ],
+          "checks": [
+            {
+              "value": ["red socks", "blue socks", "spotty socks"],
+              "matcher": "toIncludeSameMembers"
+            }
+          ]
+        },
+        {
+          "slug": "some-added-pain",
+          "description_html": "A few oddities snuck in",
+          "name": "Odds and ends",
+          "function": "matching_socks",
+          "args": [
+            [
+              "left red sock",
+              "right pink sock",
+              "left brown shoe",
+              "sweater",
+              "leftover fabric",
+              "right blue sock",
+              "left blue sock",
+              "left green sock",
+              "right spotty sock",
+              "left spotty sock",
+              "left green trainer"
+            ],
+            [
+              "left blue sock",
+              "right red sock",
+              "right green trainer",
+              "right brown shoe",
+              "left green sock"
+            ]
+          ],
+          "checks": [
+            {
+              "value": ["red socks", "blue socks", "spotty socks"],
+              "matcher": "toIncludeSameMembers"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

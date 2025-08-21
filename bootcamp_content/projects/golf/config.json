@@ -1,0 +1,6 @@
+{
+  "slug": "golf",
+  "title": "Golf",
+  "description": "Let's play golf!",
+  "exercises": ["rolling-ball", "shot-checker"]
+}

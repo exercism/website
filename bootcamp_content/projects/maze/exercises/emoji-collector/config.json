@@ -1,0 +1,217 @@
+{
+  "title": "Emoji Collector",
+  "description": "Turn your little blob into an emoji hoover!",
+  "level": 7,
+  "idx": 6,
+  "project_type": "maze",
+  "tests_type": "state",
+  "stdlib_functions": "has_key",
+  "exercise_functions": [
+    "move",
+    "turn_left",
+    "turn_right",
+    "look",
+    "remove_emoji",
+    "announce_emojis"
+  ],
+  "interpreter_options": {
+    "max_repeat_until_game_over_iterations": 50,
+    "max_total_execution_time": 30000,
+    "time_per_frame": 0.01
+  },
+  "tasks": [
+    {
+      "name": "A straight path",
+      "tests": [
+        {
+          "slug": "diamonds",
+          "name": "Collect the diamonds",
+          "description_html": "Collect and announce the diamonds.",
+          "setup_functions": [
+            ["enableEmojiMode"],
+            [
+              "setupGrid",
+              [
+                [
+                  [1, 1, 1, 1, 2, 1, 1],
+                  [1, 1, 1, 1, 0, 1, 1],
+                  [1, 1, 1, 1, "💎", 1, 1],
+                  [1, 1, 1, 1, 0, 1, 1],
+                  [1, 1, 1, 1, "💎", 1, 1],
+                  [1, 1, 1, 1, "💎", 1, 1],
+                  [1, 1, 1, 1, 3, 1, 1]
+                ]
+              ]
+            ],
+            ["setupDirection", ["down"]],
+            ["setupPosition", [4, 0]]
+          ],
+          "checks": [
+            {
+              "property": "position",
+              "value": [4, 6],
+              "error_html": "You didn't reach the end of the maze."
+            },
+            {
+              "property": "collectedEmojis",
+              "value": { "💎": 3 },
+              "error_html": "You didn't report the collected emojis correctly. We expected you to report: <br/><code>{\"💎\": 3}</code>"
+            }
+          ]
+        },
+        {
+          "slug": "faces",
+          "name": "Two types of emojis!",
+          "description_html": "Collect two types of emojis this time!",
+          "setup_functions": [
+            ["enableEmojiMode"],
+            [
+              "setupGrid",
+              [
+                [
+                  [2, 1, 1, 1, 1, 1, 1, 1, 1],
+                  [0, 1, 1, 1, 1, 1, 1, 1, 1],
+                  [0, 1, 1, 1, 0, 0, 0, "🤡", 3],
+                  [0, 1, 1, 1, 0, 1, 1, 1, 1],
+                  [0, 1, 1, 1, "🥰", 1, 1, 1, 1],
+                  [0, 0, "🤡", 0, 0, 1, 1, 1, 1],
+                  [1, 4, 1, 1, 4, 1, 1, 1, 1],
+                  [1, 4, 4, 4, 4, 1, 1, 1, 1],
+                  [1, 1, 1, 1, 4, 1, 1, 1, 1]
+                ]
+              ]
+            ],
+            ["setupDirection", ["down"]],
+            ["setupPosition", [0, 0]]
+          ],
+          "checks": [
+            {
+              "property": "position",
+              "value": [8, 2],
+              "error_html": "You didn't reach the end of the maze."
+            },
+            {
+              "property": "collectedEmojis",
+              "value": { "🤡": 2, "🥰": 1 },
+              "error_html": "You didn't report the collected emojis correctly. We expected you to report: <br/><code>{\"🤡\": 2, \"🥰\": 1 }</code>"
+            }
+          ]
+        },
+        {
+          "slug": "poo",
+          "name": "Watch out!",
+          "description_html": "Collect the animals - not their waste!",
+          "setup_functions": [
+            ["enableEmojiMode"],
+            [
+              "setupGrid",
+              [
+                [
+                  [2, 1, 1, 1, 1, 1, 1, 1, 1],
+                  [0, 1, 1, 0, 0, 1, 1, 1, 1],
+                  [0, 1, 1, 1, 0, 0, 0, 0, 1],
+                  ["🐶", 1, 1, 0, 0, 1, 0, 1, 1],
+                  [0, 1, 1, 1, 0, 1, 0, 1, 1],
+                  [0, 0, 0, "🐈", "🐶", 1, 0, 0, 1],
+                  [1, 4, 1, 1, 0, 1, 1, 5, 1],
+                  [1, 4, 4, 4, 0, 1, 0, "🐶", 1],
+                  [1, 1, 1, 1, 3, 1, 1, 1, 1]
+                ]
+              ]
+            ],
+            ["setupDirection", ["down"]],
+            ["setupPosition", [0, 0]]
+          ],
+          "checks": [
+            {
+              "property": "position",
+              "value": [4, 8],
+              "error_html": "You didn't reach the end of the maze."
+            },
+            {
+              "property": "collectedEmojis",
+              "value": { "🐈": 1, "🐶": 2 },
+              "error_html": "You didn't report the collected emojis correctly. We expected you to report: <br/><code>{\"🐈\": 1, \"🐶\": 2 }</code>"
+            }
+          ]
+        },
+        {
+          "slug": "only-once",
+          "name": "Only once!",
+          "description_html": "Make sure you only collect things once!",
+          "setup_functions": [
+            ["enableEmojiMode"],
+            [
+              "setupGrid",
+              [
+                [
+                  [3, 1, 0, 0, 2, 1, 1, 1, 1],
+                  [0, 1, "🎀", 1, "🩷", 1, 1, 1, 1],
+                  ["👑", 1, 0, 1, 0, 0, 0, "🩷", 1],
+                  ["👑", 0, 0, 1, 0, 1, 4, 1, 1],
+                  [0, 1, 4, 1, 0, 1, 4, 1, 1],
+                  [5, 0, 0, 1, 0, 1, 4, 1, 1],
+                  [1, 4, 1, 1, "🩷", 4, 4, 1, 1],
+                  [1, 4, 4, 4, 0, 1, 1, 1, 1],
+                  [1, 1, 1, 1, 1, 1, 1, 1, 1]
+                ]
+              ]
+            ],
+            ["setupDirection", ["down"]],
+            ["setupPosition", [4, 0]]
+          ],
+          "checks": [
+            {
+              "property": "position",
+              "value": [0, 0],
+              "error_html": "You didn't reach the end of the maze."
+            },
+            {
+              "property": "collectedEmojis",
+              "value": { "🩷": 3, "🎀": 1, "👑": 2 },
+              "error_html": "You didn't report the collected emojis correctly. We expected you to report: <br/><code>{ \"🩷\": 3, \"🎀\": 1, \"👑\": 2 }</code>"
+            }
+          ]
+        },
+        {
+          "slug": "random-emojis",
+          "name": "Random Emojis!",
+          "description_html": "Different emojis every time!",
+          "setup_functions": [
+            ["enableEmojiMode"],
+            [
+              "setupGrid",
+              [
+                [
+                  [1, 1, 0, 0, 0, 1, 1, 1, 1],
+                  [3, 1, 6, 1, 6, 1, 1, 1, 1],
+                  [6, 1, 0, 1, 0, 0, 0, 6, 1],
+                  [6, 0, 0, 1, 1, 1, 4, 0, 1],
+                  [0, 1, 0, 1, 1, 0, 4, 0, 1],
+                  [0, 0, 6, 1, 1, 1, 4, 0, 1],
+                  [6, 5, 6, 0, 6, 0, 4, 6, 1],
+                  [1, 5, 5, 5, 0, 1, 1, 0, 2],
+                  [1, 1, 1, 1, 1, 1, 1, 1, 1]
+                ]
+              ]
+            ],
+            ["setupDirection", ["left"]],
+            ["setupPosition", [8, 7]]
+          ],
+          "checks": [
+            {
+              "property": "position",
+              "value": [0, 1],
+              "error_html": "You didn't reach the end of the maze."
+            },
+            {
+              "function": "randomEmojisAllCollected()",
+              "matcher": "toBeTrue",
+              "error_html": "You didn't report the collected emojis correctly."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

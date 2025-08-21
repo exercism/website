@@ -33,7 +33,8 @@
         & .--close-button {
             @apply fixed rounded-circle shadow-smZ1 bg-purpleDarker3;
             @apply border-2 border-transparent;
-            @apply grid place-items-center;
+            @apply grid place-items-center z-modal;
+
             cursor: pointer;
             top: 48px;
             right: 48px;

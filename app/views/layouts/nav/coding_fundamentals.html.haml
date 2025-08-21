@@ -1,0 +1,16 @@
+.flex.flex-col.items-center.items-stretch.pt-20.px-24
+  %h2.text-h3.mb-4= t('.title')
+  %p.text-p-base.font-semibold.mb-12
+    = t('.subtitle')
+  %p.text-p-base.mb-8
+    = t('.description_p1_html', strong_text_1: t('.strong_text_1'), strong_text_2: t('.strong_text_2'))
+  %p.text-p-base.mb-4
+    = t('.description_p2')
+
+  .grid.grid-cols-4.gap-10.my-16
+    = image_tag "bootcamp/space-invaders.gif", class: "w-full border-2 border-bootcamp-purple rounded-[5px]"
+    = image_tag "bootcamp/tic-tac-toe.gif", class: "w-full border-2 border-bootcamp-purple rounded-[5px]"
+    = image_tag "bootcamp/breakout.gif", class: "w-full border-2 border-bootcamp-purple rounded-[5px]"
+    = image_tag "bootcamp/maze.gif", class: "w-full border-2 border-bootcamp-purple rounded-[5px]"
+
+  = link_to t('.explore_button'), Exercism::Routes.bootcamp_url, class: 'btn-primary btn-s'

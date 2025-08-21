@@ -3,6 +3,7 @@ import { fromNow } from '@/utils/date'
 import { Testimonial as TestimonialProps } from '@/components/types'
 import { Avatar, GraphicalIcon, TrackIcon } from '@/components/common'
 import { TestimonialModal } from '@/components/profile/testimonials-list/TestimonialModal'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const ImpactTestimonial = ({
   open,
@@ -15,6 +16,7 @@ const ImpactTestimonial = ({
   onClick: () => void
   onClose: () => void
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/impact/ImpactTestimonial.tsx')
   return (
     <React.Fragment>
       <button className="testimonial" type="button" onClick={onClick}>
@@ -39,12 +41,12 @@ const ImpactTestimonial = ({
         </div>
         <div className="content">{testimonial.content}</div>
         <div className="inline-flex flex-wrap items-center gap-x-4 text-16 text-textColor2 leading-160">
-          <span className="font-medium">{testimonial.student.handle}</span> said
-          this about{' '}
+          <span className="font-medium">{testimonial.student.handle}</span>{' '}
+          {t('impactTestimonial.saidThisAbout')}{' '}
           <span className="font-medium">{testimonial.mentor.handle}</span>
         </div>
         <div className="exercise">
-          {testimonial.exercise.title} on{' '}
+          {testimonial.exercise.title} {t('impactTestimonial.on')}{' '}
           <TrackIcon
             iconUrl={testimonial.track.iconUrl}
             title={testimonial.track.title}

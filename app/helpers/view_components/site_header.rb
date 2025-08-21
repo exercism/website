@@ -4,10 +4,33 @@ module ViewComponents
     include ViewComponents::NavHelpers::All
     # include ViewComponents::ThemeToggleButton
 
-    delegate :namespace_name, :controller_name,
+    delegate :namespace_name, :controller_name, :javascript_track?,
       to: :view_context
 
     def to_s
+      decorated_cached_html
+    end
+
+    def decorated_cached_html
+      return cached_html if user_signed_in?
+
+      raw cached_html.gsub(
+        Exercism::Routes.new_user_session_path,
+        User::GenerateNewSessionPath.(request, controller)
+      )
+    end
+
+    def cached_html
+      return html if user_signed_in?
+
+      # Cache the header for signed-out users to improve performance
+      cache_key = "site-header-2"
+      Rails.cache.fetch(cache_key, expires_in: 1.day) do
+        html
+      end
+    end
+
+    def html
       tag.header(id: "site-header") do
         announcement_bar +
           tag.div(class: "lg-container container") do
@@ -17,15 +40,52 @@ module ViewComponents
     end
 
     def announcement_bar
-      return tag.span("") if !user_signed_in? ||
-                             current_user.donated? ||
-                             current_user.solutions.count < 3
+      # return downtime_announcement_bar if user_signed_in?
+
+      return coding_fundamentals_announcement_bar unless user_signed_in?
+      return front_end_fundamentals_announcement_bar if javascript_track? && current_user.seniority != :absolute_beginner
+      return coding_fundamentals_announcement_bar if current_user.junior?
+
+      return tag.span("") if current_user.current_subscription
+      return tag.span("") if current_user.donated_in_last_35_days?
 
       link_to(Exercism::Routes.insiders_path, class: "announcement-bar md:block hidden") do
         tag.div(class: "lg-container") do
           tag.span("👋", class: 'emoji mr-6') +
             tag.span("Enjoying Exercism? We need your help to survive…") +
-            tag.strong("Please support us if you can!")
+            tag.strong("Please donate if you can!")
+        end
+      end
+    end
+
+    def downtime_announcement_bar
+      link_to("https://forum.exercism.org/t/scheduled-maintenance/18062", class: "announcement-bar md:block hidden") do
+        tag.div(class: "lg-container") do
+          tag.span("⚠️", class: 'emoji mr-6') +
+            tag.span("Server Upgrades: We'll be making infrastructure updates for the next 24 hours.") +
+            tag.strong("Read more...")
+        end
+      end
+    end
+
+    def coding_fundamentals_announcement_bar
+      link_to(Courses::CodingFundamentals.url, class: "announcement-bar md:block hidden") do
+        tag.div(class: "lg-container") do
+          tag.span("👋", class: 'emoji mr-6') +
+            tag.span("Learning to code? Check out our") +
+            tag.strong("Coding Fundamentals") +
+            tag.span("course for beginners!")
+        end
+      end
+    end
+
+    def front_end_fundamentals_announcement_bar
+      link_to(Courses::FrontEndFundamentals.url, class: "announcement-bar md:block hidden") do
+        tag.div(class: "lg-container") do
+          tag.span("👋", class: 'emoji mr-6') +
+            tag.span("Learning web development? Check out our") +
+            tag.strong("Front-end Fundamentals") +
+            tag.span("course!")
         end
       end
     end
@@ -156,17 +216,9 @@ module ViewComponents
       link_to('', Exercism::Routes.badges_journey_path(anchor: "journey-content"), class: 'new-badge')
     end
 
-    memoize
-    def selected_tab
-      if namespace_name == "mentoring"
-        :mentoring
-      elsif namespace_name == "contributing"
-        :contributing
-      elsif controller_name == "dashboard"
-        :dashboard
-      elsif %w[tracks exercises concepts iterations community_solutions mentor_discussions].include?(controller_name)
-        :tracks
-      end
+    private
+    def cache_key
+      Cache::KeyForHeader.(current_user)
     end
   end
 end

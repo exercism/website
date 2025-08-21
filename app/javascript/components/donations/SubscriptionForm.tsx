@@ -1,6 +1,8 @@
 import React from 'react'
 import currency from 'currency.js'
 import { FormOptions } from './subscription-form/FormOptions'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 type Links = {
   cancel: string
@@ -34,15 +36,19 @@ export default ({
   links,
   provider,
 }: SubscriptionFormProps): JSX.Element => {
+  const { t } = useAppTranslation('components/donations')
   return (
     <React.Fragment>
       <h2>
-        You&apos;re currently donating {amount.format()} each month to Exercism.
+        {t('subscriptionForm.youReCurrentlyDonatingEachMonthToExercism', {
+          amount: amount.format(),
+        })}
       </h2>
       <p className="text-p-base">
-        <strong>Thank you!</strong> Regular donations like yours allow us to
-        anticipate our cashflow and make responsible decisions about hiring and
-        growing Exercism.
+        <strong>{t('subscriptionForm.thankYou')}</strong>{' '}
+        {t(
+          'subscriptionForm.regularDonationsLikeYoursAllowUsToAnticipateOurCashflowAndMakeResponsibleDecisionsAboutHiringAndGrowingExercism'
+        )}
       </p>
       {provider === 'stripe' ? (
         <FormOptions amount={amount} links={links} />
@@ -60,13 +66,17 @@ export function ExternalDonationManagement({
   displayName,
   updateLink,
 }: ProviderInfoEntry): JSX.Element {
+  const { t } = useAppTranslation('components/donations')
   return (
     <p className="text-p-base">
-      Your regular donation is managed by {displayName}. To modify or cancel
-      your recurring donation, please use{' '}
-      <a className="text-prominentLinkColor" href={updateLink}>
-        {displayName} Dashboard.
-      </a>
+      <Trans
+        i18nKey="externalDonationManagement.yourRegularDonationIsManagedByToModifyOrCancelYourRecurringDonationPleaseUseDashboard"
+        ns="components/donations"
+        values={{ displayName }}
+        components={[
+          <a className="text-prominentLinkColor" href={updateLink} />,
+        ]}
+      />
     </p>
   )
 }

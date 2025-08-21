@@ -1,0 +1,90 @@
+{
+  "title": "Contains",
+  "description": "Build a library function to checks whether a list contains an item, or a string contains a character.",
+  "level": 5,
+  "idx": 5,
+  "tests_type": "io",
+  "readonly_ranges": [
+    { "from": 1, "to": 2 },
+    { "from": 6, "to": 6 }
+  ],
+  "tasks": [
+    {
+      "name": "Contains",
+      "tests": [
+        {
+          "slug": "duck",
+          "name": "Rubber Duck",
+          "description_html": "Does a rubber duck contain a D?",
+          "function": "is_it_there",
+          "args": ["Rubber Duck", "D"],
+          "checks": [
+            {
+              "value": "It's there! 🙂"
+            }
+          ]
+        },
+        {
+          "slug": "no-duck",
+          "name": "No Rubber Duck",
+          "description_html": "Does a rubber duck contain a C?",
+          "function": "is_it_there",
+          "args": ["Rubber Duck", "C"],
+          "checks": [
+            {
+              "value": "It's not there 😔"
+            }
+          ]
+        },
+        {
+          "slug": "list-true",
+          "name": "Is there a duck?",
+          "description_html": "Is there a duck?",
+          "function": "is_it_there",
+          "args": [["Chicken", "Duck", "Goose"], "Duck"],
+          "checks": [
+            {
+              "value": "It's there! 🙂"
+            }
+          ]
+        },
+        {
+          "slug": "list-false",
+          "name": "Is there still a duck?",
+          "description_html": "Is there still a duck?",
+          "function": "is_it_there",
+          "args": [["Cat", "Dog", "Mouse"], "Duck"],
+          "checks": [
+            {
+              "value": "It's not there 😔"
+            }
+          ]
+        },
+        {
+          "slug": "empty-string",
+          "name": "Empty String",
+          "description_html": "Does an empty string contain a character?",
+          "function": "is_it_there",
+          "args": ["", "a"],
+          "checks": [
+            {
+              "value": "It's not there 😔"
+            }
+          ]
+        },
+        {
+          "slug": "empty-list",
+          "name": "Empty List",
+          "description_html": "Does an empty list contain an item?",
+          "function": "is_it_there",
+          "args": [[], 1],
+          "checks": [
+            {
+              "value": "It's not there 😔"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

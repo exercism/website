@@ -1,0 +1,166 @@
+// i18n-key-prefix:
+// i18n-namespace: components/settings/InsiderBenefitsForm.tsx
+import React, { useState, useCallback } from 'react'
+import { Icon, GraphicalIcon } from '@/components/common'
+import { FormButton } from '@/components/common/FormButton'
+import { FormMessage } from './FormMessage'
+import { useMutation } from '@tanstack/react-query'
+import { sendRequest } from '@/utils/send-request'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
+
+type Links = {
+  update: string
+  insidersPath: string
+}
+
+export type UserPreferences = {
+  hideWebsiteAdverts: boolean
+}
+
+const DEFAULT_ERROR = new Error('Unable to change preferences')
+
+export default function InsiderBenefitsForm({
+  defaultPreferences,
+  insidersStatus,
+  links,
+}: {
+  defaultPreferences: UserPreferences
+  insidersStatus: string
+  links: Links
+}): JSX.Element {
+  const { t } = useAppTranslation('components/settings/InsiderBenefitsForm.tsx')
+  const [hideAdverts, setHideAdverts] = useState(
+    defaultPreferences.hideWebsiteAdverts
+  )
+
+  const {
+    mutate: mutation,
+    status,
+    error,
+  } = useMutation({
+    mutationFn: async () => {
+      const { fetch } = sendRequest({
+        endpoint: links.update,
+        method: 'PATCH',
+        body: JSON.stringify({
+          user_preferences: { hide_website_adverts: hideAdverts },
+        }),
+      })
+
+      return fetch
+    },
+  })
+
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault()
+
+      mutation()
+    },
+    [mutation]
+  )
+
+  const isInsider =
+    insidersStatus == 'active' || insidersStatus == 'active_lifetime'
+
+  return (
+    <form data-turbo="false" onSubmit={handleSubmit}>
+      <h2 className="!mb-8">{t('insiderBenefits.insiderBenefits')}</h2>
+      <InfoMessage
+        isInsider={isInsider}
+        insidersStatus={insidersStatus}
+        insidersPath={links.insidersPath}
+      />
+      <label className="c-checkbox-wrapper">
+        <input
+          type="checkbox"
+          disabled={!isInsider}
+          checked={hideAdverts}
+          onChange={(e) => setHideAdverts(e.target.checked)}
+        />
+        <div className="row">
+          <div className="c-checkbox">
+            <GraphicalIcon icon="checkmark" />
+          </div>
+          {t('insiderBenefits.hideWebsiteAdverts')}
+        </div>
+      </label>
+      <div className="form-footer">
+        <FormButton
+          disabled={!isInsider}
+          status={status}
+          className="btn-primary btn-m"
+        >
+          {t('insiderBenefits.changePreferences')}
+        </FormButton>
+        <FormMessage
+          status={status}
+          defaultError={DEFAULT_ERROR}
+          error={error}
+          SuccessMessage={SuccessMessage}
+        />
+      </div>
+    </form>
+  )
+}
+
+const SuccessMessage = () => {
+  const { t } = useAppTranslation('components/settings/InsiderBenefitsForm.tsx')
+  return (
+    <div className="status success">
+      <Icon icon="completed-check-circle" alt="Success" />
+      {t('insiderBenefits.preferencesUpdated')}
+    </div>
+  )
+}
+
+export function InfoMessage({
+  insidersStatus,
+  insidersPath,
+  isInsider,
+}: {
+  insidersStatus: string
+  insidersPath: string
+  isInsider: boolean
+}): JSX.Element {
+  const { t } = useAppTranslation('components/settings/InsiderBenefitsForm.tsx')
+
+  if (isInsider) {
+    return (
+      <p className="text-p-base mb-16">
+        {t('insiderBenefits.thanksForBeingInsider')}
+      </p>
+    )
+  }
+
+  switch (insidersStatus) {
+    case 'eligible':
+    case 'eligible_lifetime':
+      return (
+        <p className="text-p-base mb-16">
+          <Trans
+            ns="components/settings/InsiderBenefitsForm.tsx"
+            i18nKey="insiderBenefits.eligibleToJoin"
+            components={{ link: <a href={insidersPath} /> }}
+          />
+        </p>
+      )
+    default:
+      return (
+        <>
+          <p className="text-p-base mb-12">
+            {t('insiderBenefits.exclusiveOptions')}
+          </p>
+          <p className="text-p-base mb-12">
+            <strong>
+              <a className="text-prominentLinkColor" href={insidersPath}>
+                {t('insiderBenefits.donateToExercism')}
+              </a>
+            </strong>{' '}
+            {t('insiderBenefits.becomeInsider')}
+          </p>
+        </>
+      )
+  }
+}

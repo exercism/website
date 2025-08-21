@@ -1,5 +1,5 @@
-- content_for :meta_title, "#{@track.title} impact and status on Exercism"
-- content_for :meta_description, "Explore the impact and status of #{@track.title} on Exercism."
+- content_for :meta_title, t('.meta_title', track_title: @track.title)
+- content_for :meta_description, t('.meta_description', track_title: @track.title)
 - require_stylesheet "track"
 
 #page-tracks-build.bg-backgroundColorB
@@ -13,46 +13,46 @@
         .flex.mb-32.items-center
           = graphical_icon "building", css_class: "h-[64px] w-[64px] mr-20 self-start", hex: true
           .flex.flex-col.mr-auto
-            %h2.text-h1 #{@track.title} Track Management
-            %p.text-21.text-textColor1.leading-150 This page provides the Exercism community with the information and tools needed to manage the #{@track.title} track.
+            %h2.text-h1= t('.track_management_title', track_title: @track.title)
+            %p.text-21.text-textColor1.leading-150= t('.track_management_description', track_title: @track.title)
 
         .grid.md:grid-cols-3.sm:grid-cols-2.grid-cols-1.mb-32.gap-16
           .report-stat
             .stat-name
-              Students
+              = t('.students_stat')
               = graphical_icon "info-circle"
             .current-number= number_with_delimiter(@track.num_students)
           .report-stat
             .stat-name
-              Submissions
+              = t('.submissions_stat')
               = graphical_icon "info-circle"
             .current-number= number_with_delimiter(@status.submissions.num_submissions)
           .report-stat
             .stat-name
-              Mentoring Discussions
+              = t('.mentoring_discussions_stat')
               = graphical_icon "info-circle"
             .current-number
               = number_with_delimiter(@status.mentor_discussions.num_discussions)
 
         .track-status
           %h3.text-h3.font-bold.mb-12
-            The #{@track.title} track
+            = t('.track_status_title', track_title: @track.title)
             = render ViewComponents::Track::Build::Health.new(@status.health)
 
           .flex
             .flex.flex-col.sm:mr-40.mr-0
-              .tooling-status-label Building
+              .tooling-status-label= t('.tooling_status_building')
               .tooling-status-group
                 - if @track.course?
-                  %div{ 'tooling-status': @status.syllabus.health, 'aria-label': "Syllabus status for #{@track.title}", 'data-tooltip-type': 'tooling', 'data-endpoint': Exercism::Routes.syllabus_tooltip_track_build_path(@track) }
+                  %div{ 'tooling-status': @status.syllabus.health, 'aria-label': t('.aria_label_syllabus', track_title: @track.title), 'data-tooltip-type': 'tooling', 'data-endpoint': Exercism::Routes.syllabus_tooltip_track_build_path(@track) }
                     = graphical_icon 'syllabus'
-                %div{ 'tooling-status': @status.test_runner.health, 'aria-label': "Status of the test runner for #{@track.title}", 'data-tooltip-type': 'tooling', 'data-endpoint': Exercism::Routes.test_runner_tooltip_track_build_path(@track) }
+                %div{ 'tooling-status': @status.test_runner.health, 'aria-label': t('.aria_label_test_runner', track_title: @track.title), 'data-tooltip-type': 'tooling', 'data-endpoint': Exercism::Routes.test_runner_tooltip_track_build_path(@track) }
                   = graphical_icon 'test-runner'
-                %div{ 'tooling-status': @status.analyzer.health, 'aria-label': "Status of the analyzer for #{@track.title}", 'data-tooltip-type': 'tooling', 'data-endpoint': Exercism::Routes.analyzer_tooltip_track_build_path(@track) }
+                %div{ 'tooling-status': @status.analyzer.health, 'aria-label': t('.aria_label_analyzer', track_title: @track.title), 'data-tooltip-type': 'tooling', 'data-endpoint': Exercism::Routes.analyzer_tooltip_track_build_path(@track) }
                   = graphical_icon 'analyzer'
-                %div{ 'tooling-status': @status.representer.health, 'aria-label': "Status of the representer for #{@track.title}", 'data-tooltip-type': 'tooling', 'data-endpoint': Exercism::Routes.representer_tooltip_track_build_path(@track) }
+                %div{ 'tooling-status': @status.representer.health, 'aria-label': t('.aria_label_representer', track_title: @track.title), 'data-tooltip-type': 'tooling', 'data-endpoint': Exercism::Routes.representer_tooltip_track_build_path(@track) }
                   = graphical_icon 'representer'
-                %div{ 'tooling-status': @status.practice_exercises.health, 'aria-label': "Practice Exercises status for #{@track.title}", 'data-tooltip-type': 'tooling', 'data-endpoint': Exercism::Routes.practice_exercises_tooltip_track_build_path(@track) }
+                %div{ 'tooling-status': @status.practice_exercises.health, 'aria-label': t('.aria_label_practice_exercises', track_title: @track.title), 'data-tooltip-type': 'tooling', 'data-endpoint': Exercism::Routes.practice_exercises_tooltip_track_build_path(@track) }
                   = graphical_icon 'practice-exercises'
 
             -# .flex.flex-col.pl-40.border-l-1.border-borderLight
@@ -85,7 +85,7 @@
           .flex.items-center.mb-12
             = graphical_icon "team-idea", css_class: "h-[24px] w-[24px] filter-textColor1 mr-16"
             .label-large.mr-16
-              = 'Volunteer'.pluralize(@status.volunteers.num_volunteers)
+              = t('.volunteers_label', count: @status.volunteers.num_volunteers)
             .c-count-bubble= @status.volunteers.num_volunteers
 
           - @status.volunteers.users[0, 3].to_a.each do |volunteer|
@@ -101,12 +101,12 @@
             - if @status.volunteers.num_volunteers > @status.volunteers.users.size
               .col-span-2.self-center.leading-170.text-14.font-semibold.text-lightBlue
                 = link_to contributing_contributors_path(track_slug: @track.slug) do
-                  + #{number_with_delimiter(@status.volunteers.num_volunteers - @status.volunteers.users.size)} more
+                  = t('.more_volunteers_link', count: number_with_delimiter(@status.volunteers.num_volunteers - @status.volunteers.users.size))
 
           .rounded-8.py-16.px-20.bg-backgroundColorG
-            %h6.text-h6.leading-150.mb-4 We 💙 our volunteers
+            %h6.text-h6.leading-150.mb-4= t('.love_volunteers_title')
             %p.text-textColor5.leading-150.text-14.mb-4
-              Exercism relies on open-source volunteers to build our language tracks and mentor students.
+              = t('.love_volunteers_description')
             = link_to community_path, class: "text-prominentLinkColor font-semibold flex items-center" do
-              %span.mr-8.leading-170 Become an Exercism Volunteer
+              %span.mr-8.leading-170= t('.become_volunteer_link')
               = graphical_icon "arrow-right", css_class: "h-[14px] w-[14px] filter-prominentLinkColor"

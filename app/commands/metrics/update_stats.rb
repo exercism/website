@@ -4,6 +4,7 @@ class Metrics::UpdateStats
   def call
     Metrics.set_num_users!
     Metrics.set_num_solutions!
+    Metrics.set_num_submissions!
     Metrics.set_num_discussions!
   end
 end

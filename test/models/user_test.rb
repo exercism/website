@@ -368,14 +368,14 @@ class UserTest < ActiveSupport::TestCase
     other_user = create :user, uid: '769032'
     assert_empty user.github_team_memberships
 
-    team_member_1 = create :github_team_member, user_id: user.uid
+    team_member_1 = create(:github_team_member, user:)
     assert_equal [team_member_1], user.reload.github_team_memberships
 
-    team_member_2 = create :github_team_member, user_id: user.uid
+    team_member_2 = create(:github_team_member, user:)
     assert_equal [team_member_1, team_member_2].sort, user.reload.github_team_memberships.sort
 
     # Sanity check: other user
-    create :github_team_member, user_id: other_user.uid
+    create :github_team_member, user: other_user
     assert_equal [team_member_1, team_member_2].sort, user.reload.github_team_memberships.sort
   end
 

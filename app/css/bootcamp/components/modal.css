@@ -1,0 +1,25 @@
+.solve-exercise-page-react-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.55);
+    z-index: 9999;
+}
+
+.solve-exercise-page-react-modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    transform: translate(-50%, -50%);
+    background: white;
+    @apply px-32 py-28;
+    border: 1px solid #ccc;
+    overflow: auto;
+    @apply rounded-16;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+    outline: none;
+}

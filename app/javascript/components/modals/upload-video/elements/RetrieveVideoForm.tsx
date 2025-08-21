@@ -4,6 +4,7 @@ import { sendRequest } from '@/utils/send-request'
 import { DigDeeperDataContext } from '@/components/track/DigDeeper'
 import type { CommunityVideoType } from '@/components/types'
 import { UploadVideoTextInput } from '.'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export type VideoDataResponse =
   | { communityVideo: CommunityVideoType }
@@ -18,6 +19,8 @@ export function RetrieveVideoForm({
   onSuccess,
 }: RetrieveVideoForm): JSX.Element {
   const { links } = useContext(DigDeeperDataContext)
+  const { t } = useAppTranslation('components/modals/upload-video/elements')
+
   async function VerifyVideo(link: string) {
     const URL = `${links.video.lookup}?video_url=${link}`
     const { fetch } = sendRequest({ endpoint: URL, body: null, method: 'GET' })
@@ -26,13 +29,11 @@ export function RetrieveVideoForm({
 
   const [retrievalError, setRetrievalError] = useState(false)
 
-  const { mutate: verifyVideo } = useMutation(
-    async (url: any) => VerifyVideo(url),
-    {
-      onSuccess: (data: VideoDataResponse) => onSuccess(data),
-      onError: () => setRetrievalError(true),
-    }
-  )
+  const { mutate: verifyVideo } = useMutation({
+    mutationFn: async (url: any) => VerifyVideo(url),
+    onSuccess: (data: VideoDataResponse) => onSuccess(data),
+    onError: () => setRetrievalError(true),
+  })
 
   const handleRetrieveVideo = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
@@ -47,15 +48,17 @@ export function RetrieveVideoForm({
   return (
     <form onSubmit={handleRetrieveVideo}>
       <UploadVideoTextInput
-        label="PASTE YOUR VIDEO URL (YOUTUBE)"
+        label={t('retrieveVideoForm.pasteYourVideoUrlYoutube')}
         name="videoUrl"
         error={retrievalError}
-        errorMessage="This link is invalid, please check it again!"
-        placeholder="Paste your video here"
+        errorMessage={t(
+          'retrieveVideoForm.thisLinkIsInvalidPleaseCheckItAgain'
+        )}
+        placeholder={t('retrieveVideoForm.pasteYourVideoHere')}
       />
       <div className="flex">
         <button type="submit" className="w-full btn-primary btn-l grow">
-          Retrieve video
+          {t('retrieveVideoForm.retrieveVideo')}
         </button>
       </div>
     </form>

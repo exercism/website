@@ -1,0 +1,45 @@
+function contains with string, target do
+  for each character in string do
+    if target == character do
+      return true
+    end
+  end
+  return false
+end
+
+function index_of with sentence, target do
+  for each letter in sentence indexed by idx do
+    if target == letter do
+      return idx
+    end
+  end
+  return -1
+end
+
+function to_lower with sentence do
+  set output to ""
+  set lower to "abcdefghijklmnopqrstuvwxyz"
+  set upper to "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  set upper_idx to 0
+  for each letter in sentence do
+    if contains(lower, letter) do
+      change output to concatenate(output, letter)
+    else do
+      change upper_idx to index_of(upper, letter)
+      if upper_idx != -1 do
+        change output to concatenate(output, lower[upper_idx])
+      end
+    end
+  end
+  return output
+end
+
+function is_pangram with sentence do
+  change sentence to to_lower(sentence)
+  for each letter in "abcdefghijklmnopqrstuvwxyz" do
+    if not contains(sentence, letter) do
+      return false
+    end
+  end
+  return true
+end

@@ -5,6 +5,7 @@ import { typecheck, redirectTo } from '@/utils'
 import { sendRequest } from '@/utils/send-request'
 import { FormButton } from '@/components/common/FormButton'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type APIResponse = {
   links: {
@@ -23,14 +24,15 @@ export const UpdatingOption = ({
   updateLink: string
   onClose: () => void
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/donations/subscription-form')
   const [amount, setAmount] = useState<currency | ''>(currentAmount)
 
   const {
     mutate: mutation,
     status,
     error,
-  } = useMutation<APIResponse>(
-    async () => {
+  } = useMutation<APIResponse>({
+    mutationFn: async () => {
       if (amount === '') {
         throw 'cant change to empty amount'
       }
@@ -43,12 +45,10 @@ export const UpdatingOption = ({
 
       return fetch.then((json) => typecheck<APIResponse>(json, 'subscription'))
     },
-    {
-      onSuccess: (response) => {
-        redirectTo(response.links.index)
-      },
-    }
-  )
+    onSuccess: (response) => {
+      redirectTo(response.links.index)
+    },
+  })
 
   const handleSubmit = useCallback(
     (e) => {
@@ -79,10 +79,12 @@ export const UpdatingOption = ({
     <div className="expanded-option">
       <form data-turbo="false" onSubmit={handleSubmit}>
         <label htmlFor="donation_amount" className="text-label">
-          Change donation amount
+          {t('formOptions.updatingOption.changeDonationAmount')}
         </label>
         <label className="c-faux-input">
-          <div className="icon">$</div>
+          <div className="icon">
+            {t('formOptions.updatingOption.dollarSign')}
+          </div>
           <input
             type="number"
             min="0"
@@ -90,16 +92,17 @@ export const UpdatingOption = ({
             id="donation_amount"
             value={amount === '' ? amount : amount.value}
             onChange={handleChange}
+            className="!border-l-1 !border-borderColor5 !pl-16"
           />
         </label>
         {amount !== '' ? (
           <React.Fragment>
             <p className="footnote">
-              You&apos;ll start being charged{' '}
-              <strong>{amount.format()} per month</strong>, on your next billing
-              date.
+              {t('formOptions.updatingOption.chargedPerMonth', {
+                amount: amount.format(),
+              })}
               {amount.value > currentAmount.value
-                ? ' Thank you for increasing your donation!'
+                ? t('formOptions.updatingOption.thankYouForIncreasingDonation')
                 : null}
             </p>
           </React.Fragment>
@@ -110,7 +113,7 @@ export const UpdatingOption = ({
             disabled={amount === ''}
             className="btn-xs btn-primary mr-12"
           >
-            Change amount
+            {t('formOptions.updatingOption.changeAmountButton')}
           </FormButton>
           <FormButton
             type="button"
@@ -118,7 +121,7 @@ export const UpdatingOption = ({
             status={status}
             className="btn-xs btn-enhanced"
           >
-            Cancel this change
+            {t('formOptions.updatingOption.cancelThisChange')}
           </FormButton>
         </div>
       </form>

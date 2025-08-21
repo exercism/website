@@ -1,0 +1,55 @@
+{
+  "title": "Boundaried Ball",
+  "description": "Add the ball and make it bounce off walls",
+  "project_type": "breakout",
+  "level": 8,
+  "idx": 2,
+  "tests_type": "state",
+  "interpreter_options": {
+    "timePerFrame": 0.01,
+    "repeat_delay": 10,
+    "max_total_loop_iterations": 10000,
+    "max_repeat_until_game_over_iterations": 500
+  },
+  "stdlib_functions": ["push"],
+  "tasks": [
+    {
+      "name": "Make the ball bounce around",
+      "tests": [
+        {
+          "slug": "add-ball",
+          "name": "Add the ball",
+          "description_html": "Add the ball and make it bounce around the game area.",
+          "checks": [
+            {
+              "function": "numFunctionCalls('move_ball')",
+              "value": 376,
+              "matcher": "toBe",
+              "error_html": "We expected the ball to move twice around the game area and land back in the same starting place."
+            },
+            {
+              "function": "didBallAppearAt(3, 50)",
+              "matcher": "toBeTrue",
+              "error_html": "The ball didn't seem to touch middle of the left hand side"
+            },
+            {
+              "function": "didBallAppearAt(97, 50)",
+              "matcher": "toBeTrue",
+              "error_html": "The ball didn't seem to touch middle of the right hand side"
+            },
+            {
+              "function": "didBallAppearAt(50, 3)",
+              "matcher": "toBeTrue",
+              "error_html": "The ball didn't seem to touch the top middle"
+            },
+            {
+              "function": "didBallAppearAt(50, 97)",
+              "matcher": "toBeTrue",
+              "error_html": "The ball didn't seem to touch bottom middle"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

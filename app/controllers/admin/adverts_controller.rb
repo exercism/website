@@ -50,6 +50,6 @@ class Admin::AdvertsController < Admin::BaseController
 
   # Only allow a list of trusted parameters through.
   def advert_params
-    params.require(:partner_advert).permit(*%i[status url base_text emphasised_text light_logo dark_logo])
+    params.require(:partner_advert).permit!
   end
 end

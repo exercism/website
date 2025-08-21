@@ -27,6 +27,8 @@ class Track < ApplicationRecord
   # TODO: Pre-launch: remove dependent: :destroy
   has_many :tasks, class_name: "Github::Task", dependent: :destroy
 
+  has_many :github_team_members, class_name: "Github::TeamMember", dependent: :destroy
+
   scope :active, -> { where(active: true) }
 
   delegate :key_features, :about, :snippet,
@@ -45,9 +47,28 @@ class Track < ApplicationRecord
     find_by!(slug: param)
   end
 
-  def self.for_repo(repo)
-    slug = repo.gsub(/-(test-runner|analyzer|representer)$/, '').split('/').last
-    find_by(slug:)
+  def self.for_repo(repo) = find_by(slug: slug_from_repo(repo))
+  def self.id_for_repo(repo) = where(slug: slug_from_repo(repo)).pick(:id)
+
+  def self.slug_from_repo(repo)
+    name = repo.split('/').last
+    TRACK_HELPER_REPOS[name] || name.gsub(TRACK_REPO_PREFIXES, '').gsub(TRACK_REPO_SUFFIXES, '')
+  end
+
+  NUM_ACTIVE_TRACKS_CACHE_KEY = 'num_active_tracks'.freeze
+  def self.num_active
+    @num_active ||= Rails.cache.fetch(NUM_ACTIVE_TRACKS_CACHE_KEY, expires_in: 1.hour) do
+      Track.active.count
+    end
+  end
+
+  def self.reset_num_active!
+    Rails.cache.delete(NUM_ACTIVE_TRACKS_CACHE_KEY)
+    @num_active = nil
+  end
+
+  after_save_commit do
+    self.class.reset_num_active!
   end
 
   def to_param = slug
@@ -148,6 +169,7 @@ class Track < ApplicationRecord
     typing: {
       static: "Static",
       dynamic: "Dynamic",
+      gradual: "Gradual",
       strong: "Strong",
       weak: "Weak"
     },
@@ -188,4 +210,12 @@ class Track < ApplicationRecord
   }.with_indifferent_access.freeze
 
   INFRASTRUCTURE_DURATION_S = 1
+
+  TRACK_REPO_PREFIXES = /^(codemirror-lang|eslint-config|babel-preset|highlightjs)-/i
+  TRACK_REPO_SUFFIXES = /-(test-runner|analyzer|representer|lib-jest-extensions|lib-static-analysis|docker-base)$/i
+
+  TRACK_HELPER_REPOS = {
+    "dotnet-tests" => "csharp",
+    "eslint-config-tooling" => "typescript"
+  }.freeze
 end

@@ -5,7 +5,7 @@ module ViewComponents
     def initialize(docs, selected_doc, track: nil)
       super()
 
-      @docs = docs.includes(:track)
+      @docs = docs.includes(:track).sorted
       @selected_doc = selected_doc
       @track = track
     end
@@ -100,7 +100,7 @@ module ViewComponents
         levels << current
       end
 
-      paths = docs.map(&:slug).sort
+      paths = docs.map(&:slug)
       paths.each_with_object({}) do |path, tree|
         # Only get docs that are:
         # - top level
@@ -123,7 +123,7 @@ module ViewComponents
 
     memoize
     def slugs_with_children
-      paths = docs.map(&:slug).sort
+      paths = docs.map(&:slug)
       paths.select do |path|
         paths.any? { |otherpath| otherpath != path && otherpath.start_with?("#{path}/") }
       end

@@ -13,21 +13,21 @@ class User::Challenges::FeaturedExercisesProgress48In24
     { week: 6, slug: 'list-ops', title: 'List Ops', featured_tracks: %w[gleam swift sml], learning_opportunity: "This exercise is the perfect space to explore the imperative and functional approaches to common functions. Compare both types of coding, and try to optimise your solution to use tail-call recursion!" },
     { week: 7, slug: 'acronym', title: 'Acronym', featured_tracks: %w[haskell tcl powershell], learning_opportunity: "This exercise is the perfect space to explore regular expressions. You can solve the exercise using basic techniques or more complex ones, but can you solve it using just one regular single expression?" },
     { week: 8, slug: 'circular-buffer', title: 'Circular Buffer', featured_tracks: %w[c groovy scala], learning_opportunity: "Circular Buffers are First In, First Out (FIFO) queues that are a fixed size. They're usually backed by an array, which gives it great spatial/data locality (good for performance!). Explore different ways to create them yourself!" },
-    { week: 9, slug: 'parallel-letter-frequency', title: 'Parallel Letter Frequency', featured_tracks: %w[go java elixir], learning_opportunity: "" },
+    { week: 9, slug: 'parallel-letter-frequency', title: 'Parallel Letter Frequency', featured_tracks: %w[go java elixir], learning_opportunity: "Learn about the difference between concurrency and parallellism and how they affect performance. Explore different ways to run code in parallel and how to avoid concurrency issues through mutexes or concurrent collections." },
     { week: 10, slug: 'allergies', title: 'Allergies', featured_tracks: %w[nim elm rust], learning_opportunity: "Learn about bitwise operations, bitshifting, bitwise comparison and other binary number concepts, or try solving the exercise functionally with pattern matching and recursion." },
-    { week: 11, slug: 'sieve', title: 'Sieve', featured_tracks: %w[zig bash fortran], learning_opportunity: "" },
-    { week: 12, slug: 'luhn', title: 'Luhn', featured_tracks: %w[typescript perl5 awk], learning_opportunity: "" },
-    { week: 13, slug: 'scrabble-score', title: 'Scrabble Score', featured_tracks: %w[python scheme c], learning_opportunity: "" },
+    { week: 11, slug: 'sieve', title: 'Sieve', featured_tracks: %w[zig bash fortran], learning_opportunity: "Though usually implemented using a fixed-size buffer and nested loops, this exercise is the perfect place to explore bitwise representations and clever loop limits to improve memory and performance." },
+    { week: 12, slug: 'luhn', title: 'Luhn', featured_tracks: %w[typescript perl5 awk], learning_opportunity: "Explore different ways to validate input and to double every other digit, which can be done in some surprising ways, with imperative, OOP and functional ways all possible!" },
+    { week: 13, slug: 'scrabble-score', title: 'Scrabble Score', featured_tracks: %w[python scheme c], learning_opportunity: "Learn to use loops, dictionaries, pattern matching and lookup tables to sum a word's letter scores! Or try and get creative to solve it with regular expressions." },
     { week: 14, slug: 'difference-of-squares', title: 'Difference Of Squares', featured_tracks: %w[r wasm swift], learning_opportunity: "" },
-    { week: 15, slug: 'pangram', title: 'Pangram', featured_tracks: %w[julia elixir go], learning_opportunity: "" },
-    { week: 16, slug: 'all-your-base', title: 'All Your Base', featured_tracks: %w[cpp erlang groovy], learning_opportunity: "" },
-    { week: 17, slug: 'zebra-puzzle', title: 'Zebra Puzzle', featured_tracks: %w[prolog scala javascript], learning_opportunity: "" },
-    { week: 18, slug: 'minesweeper', title: 'Minesweeper', featured_tracks: %w[pharo-smalltalk ocaml crystal], learning_opportunity: "" },
-    { week: 19, slug: 'dnd-character', title: 'D&D Character', featured_tracks: %w[unison nim tcl], learning_opportunity: "" },
-    { week: 20, slug: 'pig-latin', title: 'Pig Latin', featured_tracks: %w[bash lua csharp], learning_opportunity: "" },
-    { week: 21, slug: 'space-age', title: 'Space Age', featured_tracks: %w[clojure ruby python], learning_opportunity: "" },
-    { week: 22, slug: 'yacht', title: 'Yacht', featured_tracks: %w[common-lisp rust fsharp], learning_opportunity: "" },
-    { week: 23, slug: 'matching-brackets', title: 'Matching Brackets', featured_tracks: %w[racket zig vbnet], learning_opportunity: "" },
+    { week: 15, slug: 'pangram', title: 'Pangram', featured_tracks: %w[julia elixir go], learning_opportunity: "Learn how to use higher-order functions to filter and count unique letters, or try using set operations or even bitwise operations to efficiently keep track of seen letters." },
+    { week: 16, slug: 'all-your-base', title: 'All Your Base', featured_tracks: %w[cpp erlang groovy], learning_opportunity: "Learn to use modulo arithmetic or built-in functions to convert between bases. Or try a long multiplication approach that doesn't require converting to a base 10 intermediate value!" },
+    { week: 17, slug: 'zebra-puzzle', title: 'Zebra Puzzle', featured_tracks: %w[prolog scala javascript], learning_opportunity: "Learn to efficiently find the solution in billions of possible solutions. Use lazy evaluation and some early filtering to exclude invalid permutations. Or use depth-first searching, the AC-3 algorithm or even a genetic algorithm to find the solution!" },
+    { week: 18, slug: 'minesweeper', title: 'Minesweeper', featured_tracks: %w[pharo-smalltalk ocaml crystal], learning_opportunity: "Learn to annotate a collection of strings using loops, a functional pipeline or even two-dimensional matrices!" },
+    { week: 19, slug: 'dnd-character', title: 'D&D Character', featured_tracks: %w[unison nim tcl], learning_opportunity: "Learn how to generate random values and use them to build a D&D character." },
+    { week: 20, slug: 'pig-latin', title: 'Pig Latin', featured_tracks: %w[bash lua csharp], learning_opportunity: "Learn to transform text via loops, pattern matching or regular expressions." },
+    { week: 21, slug: 'space-age', title: 'Space Age', featured_tracks: %w[clojure ruby python], learning_opportunity: "Learn how to use dictionaries and pattern matching to calculate someone's age on another planet. Or get fancy with some meta-programming or using reciprocals to turn division into multiplication." },
+    { week: 22, slug: 'yacht', title: 'Yacht', featured_tracks: %w[common-lisp rust fsharp], learning_opportunity: "Learn how to score dice by tallying them in a dictionary, using higher-order functions and/or (custom) pattern matching." },
+    { week: 23, slug: 'matching-brackets', title: 'Matching Brackets', featured_tracks: %w[racket zig vbnet], learning_opportunity: "Learn how to check for balanced brackets via repeated string replacement, regular expressions or by using a stack. Or get fancy and use a grammar based approach." },
     { week: 24, slug: 'rna-transcription', title: 'RNA Transcription', featured_tracks: %w[scheme elm abap], learning_opportunity: "" },
     { week: 25, slug: 'binary-search', title: 'Binary Search', featured_tracks: %w[fortran ballerina ocaml], learning_opportunity: "" },
     { week: 26, slug: 'spiral-matrix', title: 'Spiral Matrix', featured_tracks: %w[vbnet purescript go], learning_opportunity: "" },
@@ -73,7 +73,7 @@ class User::Challenges::FeaturedExercisesProgress48In24
     completed_exercises = completions[exercise[:slug]].to_a
     return :in_progress if completed_exercises.blank?
 
-    num_completions_in_2024 = completed_exercises.count { |(_, year)| year == 2024 }
+    num_completions_in_2024 = completed_exercises.count { |(_, date)| date >= '2023-12-31' && date <= '2025-01-01' }
     return :in_progress if num_completions_in_2024.zero?
     return :bronze if num_completions_in_2024 < 3
 
@@ -86,11 +86,12 @@ class User::Challenges::FeaturedExercisesProgress48In24
     user.solutions.completed.
       joins(exercise: :track).
       where(exercise: { slug: EXERCISES.pluck(:slug) }).
-      pluck('exercise.slug', 'tracks.slug', 'YEAR(completed_at)').
+      pluck('exercise.slug', 'tracks.slug', Arel.sql("DATE_FORMAT(completed_at, '%Y-%m-%d')")).
       group_by(&:first).
       transform_values { |entries| entries.map { |entry| entry[1..] } }
   end
 
+  memoize
   def csharp_exercises
     Track.find('csharp').practice_exercises.index_by(&:slug)
   rescue ActiveRecord::RecordNotFound

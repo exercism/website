@@ -1,6 +1,9 @@
+// i18n-key-prefix: publishSolutionButton
+// i18n-namespace: components/student/PublishSolutionButton.tsx
 import React, { useState } from 'react'
 import { PublishSolutionModal } from '../modals/PublishSolutionModal'
 import { Iteration } from '../types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export default function PublishSolutionButton({
   endpoint,
@@ -10,6 +13,9 @@ export default function PublishSolutionButton({
   iterations: readonly Iteration[]
 }): JSX.Element {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const { t } = useAppTranslation(
+    'components/student/PublishSolutionButton.tsx'
+  )
 
   return (
     <>
@@ -17,7 +23,7 @@ export default function PublishSolutionButton({
         onClick={() => setIsModalOpen(!isModalOpen)}
         className="btn-enhanced btn-m publish-btn"
       >
-        Publish solution
+        {t('publishSolutionButton.publishSolution')}
       </button>
       <PublishSolutionModal
         open={isModalOpen}

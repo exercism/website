@@ -1,0 +1,17 @@
+{
+  "title": "Gridded Grand Prix",
+  "description": "Reproduce he Checkered Flag using CSS Grid",
+  "language": "css",
+  "level": 14,
+  "idx": 3,
+  "editor_config": {
+    "aspect_ratio": 1.5
+  },
+  "checks": [
+    {
+      "function": "illegalPropertiesUsed(['background','display','grid-template-columns','grid-template-rows'])",
+      "matcher": "toBeUndefined",
+      "errorHtml": "You used a CSS property that is not allowed for this exercise (%result%)."
+    }
+  ]
+}

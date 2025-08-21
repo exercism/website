@@ -17,8 +17,8 @@ class Git::SyncMainDocs
   def sync_config!(section)
     config = repo.section_config(section)
 
-    config.to_a.each do |doc_config|
-      Git::SyncDoc.(doc_config, section, repo.head_sha)
+    config.to_a.each_with_index do |doc_config, position|
+      Git::SyncDoc.(doc_config, section, position, repo.head_sha)
     end
   end
 

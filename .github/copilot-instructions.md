@@ -72,17 +72,17 @@ Always reference these instructions first and fallback to search or bash command
 - **ALWAYS run linting before committing or CI will fail**
 
 ### Running the Development Server
-Use the Procfile.dev to orchestrate all services:
+Use `./bin/dev` to orchestrate all services:
 
-#### Mac-specific
 ```bash
-hivemind -p 3020 Procfile.dev
+./bin/dev
 ```
 
-#### Unix-specific  
-```bash
-overmind start --port 3020 --procfile Procfile.dev
-```
+This script automatically:
+- Clears built assets
+- Starts required Docker services (LocalStack and OpenSearch)
+- Installs JavaScript dependencies
+- Runs all services via Procfile.dev using hivemind
 
 #### Manual startup (all platforms)
 ```bash
@@ -154,12 +154,129 @@ bundle exec rails test:zeitwerk
 ### Application Structure
 - `app/controllers/` - Rails controllers
 - `app/models/` - ActiveRecord models and business logic
+- `app/commands/` - Mandate command objects for business logic (see Command Pattern below)
 - `app/javascript/` - React/TypeScript frontend code
 - `app/css/` - PostCSS stylesheets with Tailwind
 - `app/views/` - HAML view templates
 - `test/` - All test files (unit, integration, system)
 - `test/system/` - Capybara system tests
 - `test/javascript/` - Jest test files
+
+### Command Pattern with Mandate
+The `/app/commands` directory contains command objects that encapsulate business logic using the Mandate gem. This pattern promotes:
+- Single Responsibility Principle
+- Testable business logic separation from controllers
+- Consistent error handling and callbacks
+
+#### Command Structure
+Commands follow a consistent pattern:
+
+```ruby
+class User::Update
+  include Mandate
+  include Mandate::Callbacks  # Optional, for success/failure callbacks
+
+  initialize_with :user, :params  # Defines constructor parameters
+
+  def call  # Single method that performs the operation
+    # Business logic here
+    abort!(errors) if errors.present?  # Stops execution and triggers failure callback
+  end
+
+  memoize  # Caches the result of expensive operations
+  def errors
+    # Validation logic
+  end
+
+  private
+  # Helper methods
+end
+```
+
+#### Calling Commands
+Commands are invoked using the `.()` syntax:
+
+```ruby
+# Simple call
+result = User::Update.(current_user, params)
+
+# With callbacks (common in API controllers)
+cmd = User::Update.(current_user, params)
+cmd.on_success { render json: {} }
+cmd.on_failure { |errors| render_400(:failed_validations, errors: errors) }
+```
+
+#### Key Patterns
+- **`initialize_with`**: Defines required and optional parameters for the command constructor
+- **`memoize`**: Caches expensive computations like validation results
+- **`call`**: Single public method that performs the main operation
+- **`abort!(errors)`**: Stops execution and triggers failure callbacks
+- **Callbacks**: `.on_success` and `.on_failure` for handling results
+
+#### Common Command Types
+- **Create commands**: `User::Create`, `Solution::Create`
+- **Update commands**: `User::Update`, `Exercise::Update`
+- **Query commands**: `Solution::Search`, `User::RetrieveAuthored`
+- **Processing commands**: `Ansi::RenderHTML`, `Markdown::Parse`
+
+### API, SPI and Route Architecture
+
+#### API Routes (`/api`)
+The API namespace provides public endpoints for authenticated users, primarily consumed by:
+- Exercism Command Line Interface (CLI)
+- Exercism website frontend
+- Third-party integrations with proper authentication
+
+API controllers delegate business logic to Mandate commands:
+
+```ruby
+class API::SettingsController < API::BaseController
+  def update
+    cmd = User::Update.(current_user, params)
+    
+    cmd.on_success { render json: {} }
+    cmd.on_failure { |errors| render_400(:failed_validations, errors: errors) }
+  end
+end
+```
+
+Key characteristics:
+- Requires authentication via Bearer tokens (`Authorization: Bearer <token>`)
+- Returns JSON responses
+- Handles errors consistently via `render_400`, `render_403`, etc.
+- Routes defined in `config/routes/api.rb`
+
+#### SPI Routes (`/spi`)
+The Service Provider Interface (SPI) provides internal endpoints for:
+- AWS Lambda functions
+- Internal microservices
+- Exercism infrastructure components
+
+**Security Model**: SPI endpoints are secured at the AWS infrastructure level rather than application-level authentication, allowing trusted internal services to post data arbitrarily.
+
+```ruby
+# Example SPI endpoints
+namespace :spi do
+  resources :tooling_jobs, only: :update        # Tooling service updates
+  resources :chatgpt_responses, only: :create   # AI service responses
+  get "solution_image_data/:track_slug/:exercise_slug/:user_handle" => "solution_image_data#show"
+end
+```
+
+Key characteristics:
+- No application-level authentication required
+- AWS-level security controls access
+- Used by Lambda functions to post results back to main application
+- Routes defined in `config/routes/spi.rb`
+
+#### Standard Routes
+Regular Rails routes handle:
+- User-facing web pages
+- Authentication flows (Devise)
+- Webhooks (GitHub, Stripe, PayPal)
+- Admin interfaces
+
+Routes are organized in the main `config/routes.rb` with additional route files for specific features like bootcamp functionality.
 
 ### Configuration
 - `config/database.yml` - Database configuration

@@ -93,13 +93,13 @@ en:
         live_on_track: Live on the %{track_title} track…
       summary_article:
         progress_chart:
-          just_started_track: You&apos;ve just started the %{track_title} track.
+          just_started_track: You've just started the %{track_title} track.
             <strong>Good luck, adventurer!</strong>
           track_completed:
             Amazing - you've completed the track!! <strong>What an
             achievement! 👏</strong>
           through_track_html:
-            You&apos;re <em>%{completed_percentage}%</em> through the
+            You're <em>%{completed_percentage}%</em> through the
             %{track_title} track.
           completed_icon_alt: Completed
           status:

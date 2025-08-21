@@ -23,9 +23,6 @@ function Scrubber({
   frames: Frame[]
   context?: string
 }) {
-  const { t } = useAppTranslation(
-    'components/bootcamp/JikiscriptExercisePage/Scrubber'
-  )
   const [_, setIsPlaying] = useState(false)
 
   const { hasCodeBeenEdited, setShouldShowInformationWidget } = useEditorStore()
@@ -150,9 +147,6 @@ function PlayPauseButton({
   onPlay: () => void
   onPause: () => void
 }) {
-  const { t } = useAppTranslation(
-    'components/bootcamp/JikiscriptExercisePage/Scrubber'
-  )
   if (!animationTimeline.showPlayButton) return <></>
 
   return animationTimeline.paused ? (
@@ -262,10 +256,12 @@ function BreakpointStepperButtons({
   onPrev: () => void
   disabled: boolean
 }) {
-  if (!currentFrame) return null
-
   const { breakpoints } = useEditorStore()
+  const { t } = useAppTranslation(
+    'components/bootcamp/JikiscriptExercisePage/Scrubber'
+  )
   if (breakpoints.length == 0) return null
+  if (!currentFrame) return null
 
   const isPrevBreakpoint = prevBreakpointExists(
     currentFrame,
@@ -276,9 +272,6 @@ function BreakpointStepperButtons({
     currentFrame.timelineTime,
     frames,
     breakpoints
-  )
-  const { t } = useAppTranslation(
-    'components/bootcamp/JikiscriptExercisePage/Scrubber'
   )
 
   return (

@@ -22,10 +22,7 @@ export const TrackSummary = ({
       <div className="details">
         <div className="journey-label">{track.title}</div>
         <div className="journey-h4">
-          {track.numDiscussions}{' '}
-          {pluralize('session', track.numDiscussions) === 'session'
-            ? t('trackSummary.session', { count: track.numDiscussions })
-            : t('trackSummary.sessions', { count: track.numDiscussions })}
+          {t('trackSummary.session', { count: track.numDiscussions })}
         </div>
       </div>
     </div>

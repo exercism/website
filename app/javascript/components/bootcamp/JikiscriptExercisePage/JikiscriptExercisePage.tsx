@@ -18,9 +18,8 @@ import { Project } from './utils/exerciseMap'
 import JikiscriptExercisePageContextWrapper, {
   ExerciseLocalStorageData,
 } from './JikiscriptExercisePageContextWrapper'
-import { Logger } from './RHS/Logger/Logger'
-import { assembleClassNames } from '@/utils/assemble-classnames'
 import { RHS } from './RHS/RHS'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export default function JikiscriptExercisePage({
   exercise,
@@ -31,6 +30,8 @@ export default function JikiscriptExercisePage({
 }: JikiscriptExercisePageProps): JSX.Element {
   const { wasFinishLessonModalShown, wasCompletedBonusTasksModalShown } =
     useTaskStore()
+
+  const { t } = useAppTranslation('components/bootcamp/common/ErrorBoundary')
 
   const [oldEditorLocalStorageValue] = useLocalStorage(
     'bootcamp-editor-value-' + exercise.config.title,
@@ -148,7 +149,7 @@ export default function JikiscriptExercisePage({
         <Header />
         <div className="page-body">
           <div style={{ width: LHSWidth }} className="page-body-lhs">
-            <ErrorBoundary>
+            <ErrorBoundary t={t}>
               <CodeMirror
                 style={{ height: `${TopHeight}px` }}
                 ref={editorViewRef}

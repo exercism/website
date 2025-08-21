@@ -737,10 +737,12 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_19_141635) do
     t.string "type", null: false
     t.string "key", null: false
     t.text "value", null: false
-    t.text "data", null: false
+    t.string "object_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["key"], name: "index_localization_originals_on_key", unique: true
+    t.index ["type", "object_id"], name: "index_localization_originals_on_type_and_object_id"
+    t.index ["type"], name: "index_localization_originals_on_type"
     t.index ["uuid"], name: "index_localization_originals_on_uuid", unique: true
   end
 

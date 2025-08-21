@@ -1,8 +1,6 @@
 class Localization::Original < ApplicationRecord
   disable_sti!
 
-  serialize :data, coder: JSONWithIndifferentAccess
-
   ## Types
   # unknown
   # website_server_side
@@ -21,7 +19,6 @@ class Localization::Original < ApplicationRecord
 
   before_create do
     self.uuid = SecureRandom.uuid if uuid.blank?
-    self.data = {} unless data.present?
   end
 
   def to_param = uuid

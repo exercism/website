@@ -13,5 +13,5 @@ class Localization::Content::Retrieve
   end
 
   private
-  def key = Localization::Text::GenerateKey.(type, text)
+  def key = Localization::Text::GenerateKey.(text)
 end

@@ -43,7 +43,7 @@ module LocalizationHelper
   end
 
   def translation_or_out_of_date_guard(type, text, markdown: false)
-    translation = Localization::Content::Retrieve.(type, text, I18n.locale)
+    translation = Localization::Text::Retrieve.(type, text, I18n.locale)
 
     return maybe_parse_as_markdown(translation, markdown) if translation
 

@@ -10,6 +10,12 @@ There is a subdirectory called `docs/llm-support` which contains detailed inform
 
 - `API.md` - Detailed API architecture, authentication, and patterns
 - `SPI.md` - Service Provider Interface for internal AWS services
+- `commands.md` - Complete Command Pattern documentation with Mandate gem usage
+- `serializers.md` - Data serialization patterns for JSON API responses
+- `assemblers.md` - Data assembly patterns for consistent API and SSR responses
+- `view-components.md` - Server-side component architecture with encapsulated logic
+- `react-components.md` - Client-side React component integration and data passing
+- `testing/` - Comprehensive testing patterns for models, commands, controllers, and system tests
 
 These files provide comprehensive context that supplements the workflow guidance in this document.
 

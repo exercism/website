@@ -173,78 +173,10 @@ bundle exec rails test:zeitwerk
 - `test/javascript/` - Jest test files
 
 ## Command Pattern with Mandate
-The `/app/commands` directory contains command objects that encapsulate business logic using the Mandate gem. This pattern promotes:
-- Single Responsibility Principle
-- Testable business logic separation from controllers
-- Consistent error handling and callbacks
 
-#### Command Structure
-Commands follow a consistent pattern:
+**Exercism uses the command pattern for most business logic operations.** The `/app/commands` directory contains command objects that encapsulate business logic using the Mandate gem.
 
-```ruby
-class User::Update
-  include Mandate
-  include Mandate::Callbacks  # Optional, for success/failure callbacks
-
-  initialize_with :user, :params  # Defines constructor parameters
-
-  def call  # Single public method that performs the operation
-    some_guard!
-    SomeModel.create(...).tap do |model|
-      exec_callbacks!(model)
-    end
-  end
-
-  private
-  # Helper methods - use bang methods (foobar!) for anything that DOES something
-  # Use normal methods for memoized values
-
-  def some_guard!
-    raise SomeError if invalid_condition?
-  end
-
-  memoize  # Caches the result of expensive operations
-  def errors
-    # Validation logic
-  end
-end
-```
-
-**Key principles:**
-- The `call` method should be short and rely on memoized values and private methods
-- Use `tap` to always return the created object when appropriate
-- Use bang methods (`foobar!`) for anything that performs actions
-- Use normal methods for memoized computed values
-- Only the `call` method should be public
-
-#### Calling Commands
-Commands are invoked using the `.()` syntax:
-
-```ruby
-# Simple call
-result = User::Update.(current_user, params)
-
-# With callbacks (common in API controllers)
-cmd = User::Update.(current_user, params)
-cmd.on_success { render json: {} }
-cmd.on_failure { |errors| render_400(:failed_validations, errors: errors) }
-```
-
-#### Key Patterns
-- **`initialize_with`**: Defines constructor parameters
-  - **Positional params**: For required parameters (e.g., `:user, :exercise`)
-  - **Named params**: For optional parameters (e.g., `page: 1, per: 20`)
-  - **`Mandate::NO_DEFAULT`**: For rare situations where a named parameter is required but has no sensible default
-- **`memoize`**: Caches expensive computations like validation results
-- **`call`**: Single public method that performs the main operation
-- **Error handling**: Raise exceptions rather than using framework-specific methods like `abort!`
-- **Callbacks**: `.on_success` and `.on_failure` for handling results
-
-#### Common Command Types
-- **Create commands**: `User::Create`, `Solution::Create`
-- **Update commands**: `User::Update`, `Exercise::Update`
-- **Query commands**: `Solution::Search`, `User::RetrieveAuthored`
-- **Processing commands**: `Ansi::RenderHTML`, `Markdown::Parse`
+For comprehensive documentation on command structure, patterns, and implementation details, see [`docs/llm-support/commands.md`](../docs/llm-support/commands.md).
 
 ### API, SPI and Route Architecture
 
@@ -254,18 +186,24 @@ For detailed information about API and SPI architectures, see:
 
 #### Quick Reference
 
-**API Routes (`/api`)**: Public endpoints for authenticated users (CLI, frontend, third-party integrations)
+#### API Routes (`/api`)
+
+Public endpoints for authenticated users (CLI, frontend, third-party integrations)
 - Require Bearer token authentication
 - Delegate business logic to Mandate commands
 - Consistent JSON error responses
 - Routes defined in `config/routes/api.rb`
 
-**SPI Routes (`/spi`)**: Internal endpoints for AWS Lambda functions and microservices
+#### SPI Routes (`/spi`)
+
+Internal endpoints for AWS Lambda functions and microservices
 - No application-level authentication (secured at AWS infrastructure level)
 - Used by Lambda functions to post results back to main application
 - Routes defined in `config/routes/spi.rb`
 
-**Standard Routes**: Regular Rails routes for user-facing web pages, authentication flows, webhooks, and admin interfaces.
+#### Standard Routes
+
+Regular Rails routes for user-facing web pages, authentication flows, webhooks, and admin interfaces.
 
 ### Configuration
 - `config/database.yml` - Database configuration
@@ -285,7 +223,8 @@ For detailed information about API and SPI architectures, see:
 - Reset database: `bundle exec rails db:drop db:create db:migrate db:seed`
 - Check migrations: `bundle exec rails db:migrate:status`
 
-### Asset Issues  
+### Asset Issues
+
 - Clear assets: `rm -rf .built-assets/`
 - Rebuild: `yarn build:css && yarn build`
 
@@ -304,182 +243,4 @@ This setup is complex but necessary for the full Exercism platform. When in doub
 
 ## Testing Patterns
 
-Exercism uses **Minitest** as the testing framework with **FactoryBot** for test data generation. Tests are organized by type with comprehensive helper methods to support different testing scenarios.
-
-### Testing Tools and Setup
-
-**Core Testing Stack:**
-- **Minitest**: Ruby's standard testing framework with assertions and test structure
-- **FactoryBot**: Flexible test data generation with realistic factory definitions
-- **Mocha**: Mocking and stubbing framework for isolating tests
-- **Capybara**: Browser automation for system tests
-- **WebMock**: HTTP request stubbing for external service integration
-
-**Test Data Management:**
-- Factories defined in `test/factories/` directory
-- Use `create :user` for persisted records, `build :user` for unsaved objects
-- Factory traits available for common variations: `create :user, :admin`
-- Consistent data patterns ensure realistic test scenarios
-
-### Model Tests
-Model tests focus on testing every public method with small, focused tests. Tests should cover:
-- **Happy path behavior**: Normal usage scenarios
-- **Edge cases**: Boundary conditions and error states
-- **Validations**: Ensure all model validations work correctly
-- **Associations**: Test relationships between models
-- **Scopes and queries**: Verify custom query methods
-
-```ruby
-class UserTest < ActiveSupport::TestCase
-  test "reputation_for_track returns correct value" do
-    user = create :user
-    track = create :track
-    create :user_arbitrary_reputation_token, user:, track:, params: { arbitrary_value: 20 }
-    
-    assert_equal 20, user.reputation_for_track(track)
-  end
-
-  test "handles nil track gracefully" do
-    user = create :user
-    assert_equal 0, user.reputation_for_track(nil)
-  end
-end
-```
-
-### Command Tests  
-Command tests follow the pattern: **setup, execute command, assert**. Focus on:
-- **Happy path test**: One test for the main successful scenario
-- **Edge case tests**: Every possible failure condition and boundary case
-- **Idempotency**: Ensure commands can be run multiple times safely when applicable
-
-```ruby
-class Solution::CreateTest < ActiveSupport::TestCase
-  test "creates concept solution successfully" do
-    user = create :user
-    exercise = create :concept_exercise
-    create :user_track, user:, track: exercise.track
-    UserTrack.any_instance.expects(:exercise_unlocked?).returns(true)
-
-    solution = Solution::Create.(user, exercise)
-    
-    assert solution.is_a?(ConceptSolution)
-    assert_equal user, solution.user
-    assert_equal exercise, solution.exercise
-  end
-
-  test "raises when exercise is locked" do
-    user = create :user
-    exercise = create :concept_exercise
-    create :user_track, user:, track: exercise.track
-    UserTrack.any_instance.expects(:exercise_unlocked?).returns(false)
-
-    assert_raises ExerciseLockedError do
-      Solution::Create.(user, exercise)
-    end
-  end
-
-  test "idempotent behavior" do
-    user = create :user
-    exercise = create :concept_exercise
-    create :user_track, user:, track: exercise.track
-    UserTrack.any_instance.expects(:exercise_unlocked?).returns(true).twice
-
-    assert_idempotent_command { Solution::Create.(user, exercise) }
-  end
-end
-```
-
-### Controller Tests
-Controller tests verify HTTP request handling and integration with command objects. They focus on authentication, parameter validation, and response formatting.
-
-**API Controller Tests:**
-- Inherit from `API::BaseTestCase` which provides authentication helpers
-- Use `setup_user` to create authenticated test user with auth token
-- Test authentication guards with `guard_incorrect_token!` class method
-- Mock command objects to isolate controller logic from business logic
-
-```ruby
-class API::SolutionsControllerTest < API::BaseTestCase
-  # Test authentication requirements for all endpoints
-  guard_incorrect_token! :api_solutions_path
-  guard_incorrect_token! :api_solution_path, args: 1, method: :patch
-
-  test "create solution successfully" do
-    setup_user
-    exercise = create :exercise
-    mock_solution = mock('solution')
-    
-    Solution::Create.expects(:call).with(@current_user, exercise).returns(mock_solution)
-    
-    post api_solutions_path, 
-         params: { exercise_id: exercise.id },
-         headers: @headers,
-         as: :json
-    
-    assert_response :created
-  end
-end
-```
-
-**Available Helper Methods (API::BaseTestCase):**
-- `setup_user(user = nil)`: Creates authenticated user with auth token, sets `@current_user` and `@headers`
-- `guard_incorrect_token!(path, args: 0, method: :get)`: Class method that generates authentication test
-- `assert_json_response(expected)`: Compares JSON response with expected hash
-
-**Standard Controller Tests:**
-- Inherit from `ActionDispatch::IntegrationTest` for web controllers
-- Test user flows, form submissions, and page rendering
-- Use Devise test helpers for authentication
-
-### System Tests
-System tests verify end-to-end user workflows using browser automation. They should:
-- **Test complete user journeys**: From login to task completion
-- **Verify UI interactions**: Button clicks, form submissions, navigation
-- **Check visual feedback**: Success messages, error states, loading indicators
-- **Use realistic test data**: Mirror production scenarios
-
-```ruby
-class UserRegistrationTest < ApplicationSystemTestCase
-  test "user registers successfully" do
-    visit new_user_registration_path
-    fill_in "Email", with: "user@exercism.org"
-    fill_in "Username", with: "user22"
-    fill_in "Password", with: "password"
-    fill_in "Password confirmation", with: "password"
-
-    click_on "Sign Up", class: "test-sign-up-btn"
-
-    assert_text "Check your email"
-  end
-
-  test "user sees validation errors" do
-    visit new_user_registration_path
-    fill_in "Email", with: "invalid-email"
-    click_on "Sign Up"
-
-    assert_text "Email is invalid"
-  end
-end
-```
-
-**Available Helper Methods (ApplicationSystemTestCase):**
-- `sign_in!(user = nil)`: Creates and signs in user, confirms account, sets `@current_user`
-- `assert_page(page)`: Verifies current page by checking for `#page-{page}` element
-- `assert_html(html, within: "body")`: Compares HTML structure within specified element
-- `assert_text(text, **options)`: Enhanced text assertion with normalized whitespace
-- `assert_no_text(text, **options)`: Text absence assertion with React loading delay handling
-- `url_to_path(url)`: Converts full URL to path for route comparisons
-- `expecting_errors { ... }`: Disables JavaScript error checking for tests that expect errors
-
-**Capybara Integration:**
-- Access to all Capybara helpers: `visit`, `fill_in`, `click_on`, `find`, etc.
-- WebSocket testing support through `WebsocketsHelpers` module
-- Custom browser configuration for headless Chrome with download directory setup
-- Automatic JavaScript error detection and test failure on unexpected errors
-
-**System Test Guidelines:**
-- Use descriptive test names that explain the user action
-- Include both success and failure scenarios  
-- Use `wait` parameters for dynamic content loading
-- Test accessibility and responsive behavior when relevant
-- Use data attributes like `class: "test-sign-up-btn"` for reliable element selection
+There are tests for models, commands, controllers, and system testing - check the docs in `docs/llm-support/testing/...` for comprehensive details when creating or amending tests.

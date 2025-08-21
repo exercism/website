@@ -1,6 +1,6 @@
 # API Architecture
 
-> **Related Documentation**: See [`SPI.md`](./SPI.md) for internal service endpoints that complement these public API routes.
+> **Related Documentation**: See [`SPI.md`](./SPI.md) for internal service endpoints and [`commands.md`](./commands.md) for the command pattern used in API controllers.
 
 The API namespace (`/api`) provides public endpoints for authenticated users and external integrations. This document details the architecture, authentication patterns, and implementation guidelines.
 

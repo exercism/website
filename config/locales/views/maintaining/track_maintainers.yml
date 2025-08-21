@@ -30,9 +30,9 @@ en:
             username.
           emphasis: Shows the user's GitHub username.
         cutoff_values_heading: Cutoff values used
-        min_rep_member: "Minimum reputation for member: %{min_rep}"
-        min_rep_candidate: "Minimum reputation for candidate: %{min_rep}"
-        last_months_rep: "Last number of months for reputation: %{num_months}"
+        min_rep_member_html: "Minimum reputation for member: %{min_rep}"
+        min_rep_candidate_html: "Minimum reputation for candidate: %{min_rep}"
+        last_months_rep_html: "Last number of months for reputation: %{num_months}"
         table_headers:
           track: Track
           active: Active
@@ -40,8 +40,8 @@ en:
           candidates: Candidates
           contributors: Contributors
           unlinked: Unlinked
-        maintainer_info: "%{handle} (%{reputation} rep)"
-        commits_link_parenthetical: (%{commits_link})
+        maintainer_info_html: "%{handle} (%{reputation} rep)"
+        commits_link_parenthetical_html: (%{commits_link})
         commits_text: commits
         clear_cache_button: Clear cache
         clear_cache_confirm: Are you sure? This is an expensive operation

@@ -45,7 +45,7 @@ class Localization::Original::Prompts::ExerciseInstructions
         You are translating the generic (language-agnostic) instructions to an Exercism exercise.
         The slug of the exercise is #{original.object_id}.
       PROMPT
-    elsif original.object_type == :exercise_instructions
+    elsif original.type == :exercise_instructions
       exercise = Exercise.find(original.object_id)
 
       <<~PROMPT

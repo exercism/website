@@ -1,7 +1,7 @@
 .learn
   %h3
     = graphical_icon(:concepts)
-    = t('.learnt_concept_title', concept_name: concept.name)
+    = t('.learnt_concept_message', concept_name: concept.name)
 
   .exercises
     - concept_exercises.each do |concept_exercise|
@@ -12,9 +12,9 @@
     %h3
       = graphical_icon(:exercises)
       - if user_track.concept_mastered?(concept)
-        = t('.mastered_concept_title', concept_name: concept.name)
+        = t('.mastered_concept_message', concept_name: concept.name)
       - else
-        = t('.practice_concept_title', concept_name: concept.name)
+        = t('.practice_concept_message', concept_name: concept.name)
 
     .exercises
       - practice_exercises.each do |practice_exercise|

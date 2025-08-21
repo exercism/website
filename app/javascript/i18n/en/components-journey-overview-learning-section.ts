@@ -1,10 +1,9 @@
 // namespace: components/journey/overview/learning-section
 export default {
-  'exercisesCompletedSummary.exerciseCompleted': '{{count}} Exercise completed',
-  'exercisesCompletedSummary.exercisesCompleted':
-    '{{count}} Exercises completed',
-  'conceptsLearntSummary.conceptLearnt': '{{count}} Concept learnt',
-  'conceptsLearntSummary.conceptsLearnt': '{{count}} Concepts learnt',
+  'exercisesCompletedSummary.exerciseCompleted': 'Exercise completed',
+  'exercisesCompletedSummary.exercisesCompleted': 'Exercises completed',
+  'conceptsLearntSummary.conceptLearnt': 'Concept learnt',
+  'conceptsLearntSummary.conceptsLearnt': 'Concepts learnt',
   'headerSummary.youVeProgressed': "You've progressed the furthest in ",
   'learningStats.didYouKnow': 'Did you know?',
   'learningStats.linesOfCodeStat':

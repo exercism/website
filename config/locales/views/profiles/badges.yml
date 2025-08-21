@@ -12,5 +12,5 @@ en:
           during learning, mentoring and contributing on Exercism.
       summary:
         badges_owned:
-          one: 1 badge owned
-          other: "%{count} badges owned"
+          one: badge owned
+          other: badges owned

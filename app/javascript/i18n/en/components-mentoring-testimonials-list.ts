@@ -5,7 +5,7 @@ export default {
   'orderSelect.sortByOldestFirst': 'Sort by Oldest First',
   'trackDropdown.title': '{{title}}',
   'revealedTestimonial.new': 'New',
-  'revealedTestimonial.exerciseInTrack':
+  'revealedTestimonial.onExerciseInTrack':
     'on {{exerciseTitle}} in {{trackTitle}}',
   'unrevealedTestimonial.someoneLeftYouATestimonial':
     'Someone left you a testimonial… 😲',

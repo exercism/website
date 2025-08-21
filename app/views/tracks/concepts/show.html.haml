@@ -14,13 +14,13 @@
       .lg-container.container
         = link_to tracks_path do
           = graphical_icon 'tracks', hex: true
-          .span= t('.breadcrumbs.tracks')
+          .span= t('.header.breadcrumbs.tracks')
         .seperator /
         = link_to @track do
           = track_icon @track
           .span= @track.title
         .seperator /
-        = link_to t('.breadcrumbs.syllabus'), track_concepts_path(@track)
+        = link_to t('.header.breadcrumbs.syllabus'), track_concepts_path(@track)
         .seperator /
         .exercise-title= @concept.name
 
@@ -29,11 +29,11 @@
       .info
         %h1
           = @concept.name
-          %small= t('.concept_in_track')
+          %small= t('.header.concept_info.in')
           = track_icon(@track)
         .exercises
           = graphical_icon(:exercises)
-          = t('.exercise_plural', count: @user_track.num_exercises_for_concept(@concept))
+          = t('.header.concept_info.exercises_count', count: @user_track.num_exercises_for_concept(@concept))
 
       -#
         - unless @user_track.external?
@@ -52,14 +52,14 @@
     - if @user_track.concept_mastered?(@concept)
       %section.mastered-heading
         = graphical_icon 'completed-check-circle', css_class: "check-mark-icon"
-        .text= t('.mastered_heading', concept_name: @concept.name, track_title: @track.title)
-        = render ViewComponents::ProminentLink.new(t('.explore_more_concepts_link'), track_concepts_path(@track))
+        .text= t('.mastered_heading.text', concept_name: @concept.name, track_title: @track.title)
+        = render ViewComponents::ProminentLink.new(t('.mastered_heading.explore_link'), track_concepts_path(@track))
 
     .flex.flex-col.xl:flex-row
       .flex-grow.xl:w-arbitary.xl:mr-48.mb-32.xl:mb-0
         %section.about.px-20.xl:px-32.py-20.xl:py-24
           .c-textual-content.--large
-            %h2= t('.about_concept_title', concept_name: @concept.name)
+            %h2= t('.about.title', concept_name: @concept.name)
             - if @user_track.external? || @user_track.concept_learnt?(@concept)
               = raw Markdown::Parse.(@concept.about)
             - else
@@ -67,20 +67,20 @@
 
           - if @concept.links.present?
             .links
-              %h3= t('.learn_more_title')
+              %h3= t('.about.learn_more_links.title')
               %ul
                 - @concept.links.each do |link|
                   %li
                     = link_to link.url do
                       %span= link.description
-                      = icon('external-link', t('.external_link_aria_label'))
+                      = icon('external-link', t('.about.learn_more_links.external_link_aria_label'))
         %section.extra-info
           = render ReactComponents::Track::ConceptMakersButton.new(@concept)
 
           = link_to "https://github.com/exercism/#{@track.slug}/tree/main/concepts/#{@concept.slug}", target: "_blank", rel: 'noreferrer' do
             = graphical_icon "external-site-github", css_class: "github-icon"
-            %span= t('.edit_via_github_link')
-            = icon "external-link", t('.github_link_aria_label'), css_class: "action-icon"
+            %span= t('.extra_info.edit_via_github')
+            = icon "external-link", t('.extra_info.github_link_aria_label'), css_class: "action-icon"
 
       .rhs.flex-shrink-0
         - if @user_track.concept_learnt?(@concept)

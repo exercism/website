@@ -3,17 +3,17 @@
     = graphical_icon 'practice-exercises', css_class: "filter-textColor6"
     %div
       %h5.text-h5
-        = t('.title', track_title: @track.title)
+        = t('.practice_exercises_tooltip_title', track_title: @track.title)
         = render ViewComponents::Track::Build::Health.new(@status.practice_exercises.health, plural: true)
 
       %p.text-p-base
         - case @status.practice_exercises.health.to_sym
         - when :exemplar
-          = t('.exemplar_health', count: @status.practice_exercises.active.size)
+          = t('.practice_exercises_tooltip_exemplar', count: @status.practice_exercises.active.size)
         - when :healthy
-          = t('.healthy_health', count: @status.practice_exercises.active.size)
+          = t('.practice_exercises_tooltip_healthy', count: @status.practice_exercises.active.size)
         - when :needs_attention
           - num_active_to_implement = @status.practice_exercises.num_active_target - @status.practice_exercises.active.size
-          = t('.needs_attention_health', count: num_active_to_implement)
+          = t('.practice_exercises_tooltip_needs_attention', count: num_active_to_implement)
         - when :missing
-          = t('.missing_health')
+          = t('.practice_exercises_tooltip_missing')

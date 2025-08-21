@@ -1,7 +1,7 @@
 // namespace: components/community-solutions
 export default {
   'commentsList.reminder.rememberComments':
-    'Remember! Comments are for asking questions or applauding a solution. <strong>Do not use them</strong> for mentoring or giving feedback.',
+    'Remember! Comments are for asking questions or applauding a solution. <0>Do not use them</0> for mentoring or giving feedback.',
   'commentsList.commentView.edit': 'Edit',
   'commentsList.count.numberOfComments': '{{number}} {{pluralize}}',
   'commentsList.emptyList.noComments': 'No one has commented on this solution.',

@@ -1,7 +1,7 @@
 .learn
   %h3
     = graphical_icon(:concepts)
-    = t('.learn_concept_title', concept_name: concept.name)
+    = t('.learn_concept_message', concept_name: concept.name)
 
   .exercises
     - concept_exercises.each do |concept_exercise|
@@ -9,12 +9,12 @@
 
 - if practice_exercises.present?
   .practice-locked-bar
-    = icon "lock-circle", t('.practice_locked_aria_label')
+    = icon "lock-circle", t('.practice_locked_bar_aria_label')
 
   .practice
     %h3
       = graphical_icon(:exercises)
-      = t('.unlock_exercises_title', count: practice_exercises.count, concept_name: concept.name)
+      = t('.unlock_practice_exercises', count: practice_exercises.count, concept_name: concept.name)
 
     .exercises
       - practice_exercises.each do |practice_exercise|

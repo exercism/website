@@ -3,19 +3,19 @@
     = graphical_icon 'representer', css_class: "filter-textColor6"
     %div
       %h5.text-h5
-        = t('.representer_title', track_title: @track.title)
+        = t('.representer_heading', track_title: @track.title)
         = render ViewComponents::Track::Build::Health.new(@status.representer.health)
 
       %p.text-p-base
         - case @status.representer.health.to_sym
         - when :exemplar
-          = t('.feedback.exemplar')
+          = t('.representer_exemplar')
         - when :healthy
-          = t('.feedback.healthy')
+          = t('.representer_healthy')
         - when :needs_attention
-          = t('.feedback.needs_attention')
+          = t('.representer_needs_attention')
         - when :missing
-          = t('.feedback.missing')
+          = t('.representer_missing')
 
       - if @status.representer.num_comments.positive?
         %p.text-p-base

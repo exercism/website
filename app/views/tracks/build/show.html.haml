@@ -41,18 +41,18 @@
 
           .flex
             .flex.flex-col.sm:mr-40.mr-0
-              .tooling-status-label= t('.building_label')
+              .tooling-status-label= t('.tooling_status_building')
               .tooling-status-group
                 - if @track.course?
-                  %div{ 'tooling-status': @status.syllabus.health, 'aria-label': t('.syllabus_status_aria_label', track_title: @track.title), 'data-tooltip-type': 'tooling', 'data-endpoint': Exercism::Routes.syllabus_tooltip_track_build_path(@track) }
+                  %div{ 'tooling-status': @status.syllabus.health, 'aria-label': t('.aria_label_syllabus', track_title: @track.title), 'data-tooltip-type': 'tooling', 'data-endpoint': Exercism::Routes.syllabus_tooltip_track_build_path(@track) }
                     = graphical_icon 'syllabus'
-                %div{ 'tooling-status': @status.test_runner.health, 'aria-label': t('.test_runner_status_aria_label', track_title: @track.title), 'data-tooltip-type': 'tooling', 'data-endpoint': Exercism::Routes.test_runner_tooltip_track_build_path(@track) }
+                %div{ 'tooling-status': @status.test_runner.health, 'aria-label': t('.aria_label_test_runner', track_title: @track.title), 'data-tooltip-type': 'tooling', 'data-endpoint': Exercism::Routes.test_runner_tooltip_track_build_path(@track) }
                   = graphical_icon 'test-runner'
-                %div{ 'tooling-status': @status.analyzer.health, 'aria-label': t('.analyzer_status_aria_label', track_title: @track.title), 'data-tooltip-type': 'tooling', 'data-endpoint': Exercism::Routes.analyzer_tooltip_track_build_path(@track) }
+                %div{ 'tooling-status': @status.analyzer.health, 'aria-label': t('.aria_label_analyzer', track_title: @track.title), 'data-tooltip-type': 'tooling', 'data-endpoint': Exercism::Routes.analyzer_tooltip_track_build_path(@track) }
                   = graphical_icon 'analyzer'
-                %div{ 'tooling-status': @status.representer.health, 'aria-label': t('.representer_status_aria_label', track_title: @track.title), 'data-tooltip-type': 'tooling', 'data-endpoint': Exercism::Routes.representer_tooltip_track_build_path(@track) }
+                %div{ 'tooling-status': @status.representer.health, 'aria-label': t('.aria_label_representer', track_title: @track.title), 'data-tooltip-type': 'tooling', 'data-endpoint': Exercism::Routes.representer_tooltip_track_build_path(@track) }
                   = graphical_icon 'representer'
-                %div{ 'tooling-status': @status.practice_exercises.health, 'aria-label': t('.practice_exercises_status_aria_label', track_title: @track.title), 'data-tooltip-type': 'tooling', 'data-endpoint': Exercism::Routes.practice_exercises_tooltip_track_build_path(@track) }
+                %div{ 'tooling-status': @status.practice_exercises.health, 'aria-label': t('.aria_label_practice_exercises', track_title: @track.title), 'data-tooltip-type': 'tooling', 'data-endpoint': Exercism::Routes.practice_exercises_tooltip_track_build_path(@track) }
                   = graphical_icon 'practice-exercises'
 
             -# .flex.flex-col.pl-40.border-l-1.border-borderLight
@@ -104,9 +104,9 @@
                   = t('.more_volunteers_link', count: number_with_delimiter(@status.volunteers.num_volunteers - @status.volunteers.users.size))
 
           .rounded-8.py-16.px-20.bg-backgroundColorG
-            %h6.text-h6.leading-150.mb-4= t('.volunteers_love_heading')
+            %h6.text-h6.leading-150.mb-4= t('.love_volunteers_title')
             %p.text-textColor5.leading-150.text-14.mb-4
-              = t('.volunteers_description')
+              = t('.love_volunteers_description')
             = link_to community_path, class: "text-prominentLinkColor font-semibold flex items-center" do
               %span.mr-8.leading-170= t('.become_volunteer_link')
               = graphical_icon "arrow-right", css_class: "h-[14px] w-[14px] filter-prominentLinkColor"

@@ -9,13 +9,13 @@
       %p.text-p-base
         - case @status.test_runner.health.to_sym
         - when :exemplar
-          = t('.health_status.exemplar')
+          = t('.health_exemplar')
         - when :healthy
-          = t('.health_status.healthy', current_version: @status.test_runner.version, target_version: @status.test_runner.version_target)
+          = t('.health_healthy', current_version: @status.test_runner.version, target_version: @status.test_runner.version_target)
         - when :needs_attention
-          = t('.health_status.needs_attention', current_version: @status.test_runner.version, target_version: @status.test_runner.version_target)
+          = t('.health_needs_attention', current_version: @status.test_runner.version, target_version: @status.test_runner.version_target)
         - when :missing
-          = t('.health_status.missing')
+          = t('.health_missing')
 
       - if @status.test_runner.num_runs.positive?
         %p.text-p-base

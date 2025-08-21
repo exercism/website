@@ -4,15 +4,15 @@
       .lg-container.container
         .title
           = graphical_icon 'bootcamp-levels'
-          = t('.breadcrumbs.title')
+          = t('.levels_heading_breadcrumbs')
 
     .lg-container
       .details
-        %h1.font-semibold.text-20.mb-8= t('.header.title')
-        %p= t('.header.description')
+        %h1.font-semibold.text-20.mb-8= t('.levels_heading')
+        %p= t('.levels_description')
   .lg-container
     - if current_user.bootcamp_data.enrolled_on_part_1?
-      %h3.text-h3.mt-32.mb-12= t('.part_1.title')
+      %h3.text-h3.mt-32.mb-12= t('.part_1_heading')
       .grid.grid-cols-3.gap-16
         - (1..10).each do |idx|
           - level = @levels[idx]
@@ -32,7 +32,7 @@
       %hr.my-32.border-borderColor5
 
     - if current_user.bootcamp_data.enrolled_on_part_2?
-      %h3.text-h3.mt-32.mb-16= t('.part_2.title')
+      %h3.text-h3.mt-32.mb-16= t('.part_2_heading')
       .grid.grid-cols-3.gap-16
         - (11..27).each do |idx|
           - level = @levels[idx]

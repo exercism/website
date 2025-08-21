@@ -243,7 +243,9 @@ function ExpandedView({
                 {actual && (
                   <tr>
                     <th>{t('customFunctionTest.actual')}:</th>
-                    <td className="whitespace-pre">{formatActual(actual)}</td>
+                    <td className="whitespace-pre">
+                      {formatActual(actual, t)}
+                    </td>
                   </tr>
                 )}
               </tbody>
@@ -278,8 +280,7 @@ function ExpandedView({
   )
 }
 
-function formatActual(actual: string | null | undefined) {
-  const { t } = useAppTranslation('components/bootcamp/CustomFunctionEditor')
+function formatActual(actual: string | null | undefined, t) {
   if (actual === 'null') {
     return t('customFunctionTest.yourFunctionDidntReturnAnything')
   }

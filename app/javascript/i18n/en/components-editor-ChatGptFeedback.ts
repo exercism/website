@@ -24,7 +24,7 @@ export default {
     'ChatGPT has the following suggestions:',
   'askChatGpt.reminderUseThisAdviceWisely': 'Reminder: Use this advice wisely',
   'askChatGpt.howeverCleverChatGptAppearsItDoesNotUnderstandCode':
-    'However clever ChatGPT appears, it does not &quot;understand&quot; code. Its suggestions may therefore be incorrect, muddled or misleading. However, it often provides useful insights to help unblock you. <bold>Use these suggestions as inspiration, not instruction.</bold>',
+    'However clever ChatGPT appears, it does not "understand" code. Its suggestions may therefore be incorrect, muddled or misleading. However, it often provides useful insights to help unblock you. <bold>Use these suggestions as inspiration, not instruction.</bold>',
   'askChatGpt.askingChatGPT': 'Asking ChatGPT…',
   'askChatGpt.estimatedRunningTime15s': 'Estimated running time 15s',
   'askChatGpt.getUnstuckWithChatGPT': 'Get unstuck with ChatGPT',

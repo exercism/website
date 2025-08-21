@@ -42,6 +42,7 @@ export default {
   'fileStructureSection.areYouSureWantRevert':
     'Are you sure you want to revert your path template to default?',
   'fileStructureSection.revert': 'Revert',
+  'fileStructureSection.cancel': 'Cancel',
   'statusSection.status':
     'Status: <span style={{ color: textColor }}>{{status}}</span>',
   'statusSection.githubSyncerLinked':

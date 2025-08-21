@@ -44,7 +44,7 @@
         %tr
           %td
             = link_to track.title, Exercism::Routes.track_url(track)
-            = t('.github_repo_link_parenthetical', github_repo_link: link_to(t('.github_repo_text'), track.repo_url))
+            = t('.github_repo_link_parenthetical_html', github_repo_link: link_to(t('.github_repo_text'), track.repo_url))
           %td= category
 
   %p.mb-16

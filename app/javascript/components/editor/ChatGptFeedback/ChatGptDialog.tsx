@@ -126,7 +126,6 @@ export const ChatGptDialog = ({
         setValue={setValue}
       />
       <div className="text-textColor6 text-p-small mt-12">
-        {t('chatGptDialog.noteChatGPT4IsSignificantlyBetter')}
         <Trans
           i18nKey="chatGptDialog.noteChatGPT4IsSignificantlyBetter"
           ns="components/editor/ChatGptFeedback"

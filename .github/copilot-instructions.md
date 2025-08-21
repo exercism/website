@@ -4,6 +4,15 @@ Exercism Website is a comprehensive Ruby on Rails application with React/TypeScr
 
 Always reference these instructions first and fallback to search or bash commands only when you encounter unexpected information that does not match the info here.
 
+## Documentation
+
+There is a subdirectory called `docs/llm-support` which contains detailed information that an LLM might find useful on different areas of the application. When working with specific components, always reference the RELEVANT docs in that directory first:
+
+- `API.md` - Detailed API architecture, authentication, and patterns
+- `SPI.md` - Service Provider Interface for internal AWS services
+
+These files provide comprehensive context that supplements the workflow guidance in this document.
+
 ## Working Effectively
 
 ### Prerequisites and Environment Setup
@@ -144,7 +153,7 @@ bundle exec rails test:zeitwerk
 - **Bundler 2.6.9**: Locked version in Gemfile.lock
 
 ### Known Limitations
-- Ruby version managers (rbenv/rvm) recommended for version management
+- Ruby version managers (setup-ruby and chruby) recommended for version management
 - Some JS packages require private NPM access (will fail in some environments)  
 - Docker services must be running before Rails server starts
 - Database must be properly configured with utf8mb4 collation
@@ -239,62 +248,24 @@ cmd.on_failure { |errors| render_400(:failed_validations, errors: errors) }
 
 ### API, SPI and Route Architecture
 
-#### API Routes (`/api`)
-The API namespace provides public endpoints for authenticated users, primarily consumed by:
-- Exercism Command Line Interface (CLI)
-- Exercism website frontend
-- Third-party integrations with proper authentication
+For detailed information about API and SPI architectures, see:
+- [`docs/llm-support/API.md`](../docs/llm-support/API.md) - API endpoints, authentication, and patterns
+- [`docs/llm-support/SPI.md`](../docs/llm-support/SPI.md) - Internal service endpoints and AWS integration
 
-API controllers delegate business logic to Mandate commands:
+#### Quick Reference
 
-```ruby
-class API::SettingsController < API::BaseController
-  def update
-    cmd = User::Update.(current_user, params)
-    
-    cmd.on_success { render json: {} }
-    cmd.on_failure { |errors| render_400(:failed_validations, errors: errors) }
-  end
-end
-```
-
-Key characteristics:
-- Requires authentication via Bearer tokens (`Authorization: Bearer <token>`)
-- Returns JSON responses
-- Handles errors consistently via `render_400`, `render_403`, etc.
+**API Routes (`/api`)**: Public endpoints for authenticated users (CLI, frontend, third-party integrations)
+- Require Bearer token authentication
+- Delegate business logic to Mandate commands
+- Consistent JSON error responses
 - Routes defined in `config/routes/api.rb`
 
-#### SPI Routes (`/spi`)
-The Service Provider Interface (SPI) provides internal endpoints for:
-- AWS Lambda functions
-- Internal microservices
-- Exercism infrastructure components
-
-**Security Model**: SPI endpoints are secured at the AWS infrastructure level rather than application-level authentication, allowing trusted internal services to post data arbitrarily.
-
-```ruby
-# Example SPI endpoints
-namespace :spi do
-  resources :tooling_jobs, only: :update        # Tooling service updates
-  resources :chatgpt_responses, only: :create   # AI service responses
-  get "solution_image_data/:track_slug/:exercise_slug/:user_handle" => "solution_image_data#show"
-end
-```
-
-Key characteristics:
-- No application-level authentication required
-- AWS-level security controls access
+**SPI Routes (`/spi`)**: Internal endpoints for AWS Lambda functions and microservices
+- No application-level authentication (secured at AWS infrastructure level)
 - Used by Lambda functions to post results back to main application
 - Routes defined in `config/routes/spi.rb`
 
-#### Standard Routes
-Regular Rails routes handle:
-- User-facing web pages
-- Authentication flows (Devise)
-- Webhooks (GitHub, Stripe, PayPal)
-- Admin interfaces
-
-Routes are organized in the main `config/routes.rb` with additional route files for specific features like bootcamp functionality.
+**Standard Routes**: Regular Rails routes for user-facing web pages, authentication flows, webhooks, and admin interfaces.
 
 ### Configuration
 - `config/database.yml` - Database configuration
@@ -332,6 +303,23 @@ Routes are organized in the main `config/routes.rb` with additional route files 
 This setup is complex but necessary for the full Exercism platform. When in doubt, refer to the CI configuration in `.github/workflows/tests.yml` for authoritative build commands and timing expectations.
 
 ## Testing Patterns
+
+Exercism uses **Minitest** as the testing framework with **FactoryBot** for test data generation. Tests are organized by type with comprehensive helper methods to support different testing scenarios.
+
+### Testing Tools and Setup
+
+**Core Testing Stack:**
+- **Minitest**: Ruby's standard testing framework with assertions and test structure
+- **FactoryBot**: Flexible test data generation with realistic factory definitions
+- **Mocha**: Mocking and stubbing framework for isolating tests
+- **Capybara**: Browser automation for system tests
+- **WebMock**: HTTP request stubbing for external service integration
+
+**Test Data Management:**
+- Factories defined in `test/factories/` directory
+- Use `create :user` for persisted records, `build :user` for unsaved objects
+- Factory traits available for common variations: `create :user, :admin`
+- Consistent data patterns ensure realistic test scenarios
 
 ### Model Tests
 Model tests focus on testing every public method with small, focused tests. Tests should cover:
@@ -401,6 +389,48 @@ class Solution::CreateTest < ActiveSupport::TestCase
 end
 ```
 
+### Controller Tests
+Controller tests verify HTTP request handling and integration with command objects. They focus on authentication, parameter validation, and response formatting.
+
+**API Controller Tests:**
+- Inherit from `API::BaseTestCase` which provides authentication helpers
+- Use `setup_user` to create authenticated test user with auth token
+- Test authentication guards with `guard_incorrect_token!` class method
+- Mock command objects to isolate controller logic from business logic
+
+```ruby
+class API::SolutionsControllerTest < API::BaseTestCase
+  # Test authentication requirements for all endpoints
+  guard_incorrect_token! :api_solutions_path
+  guard_incorrect_token! :api_solution_path, args: 1, method: :patch
+
+  test "create solution successfully" do
+    setup_user
+    exercise = create :exercise
+    mock_solution = mock('solution')
+    
+    Solution::Create.expects(:call).with(@current_user, exercise).returns(mock_solution)
+    
+    post api_solutions_path, 
+         params: { exercise_id: exercise.id },
+         headers: @headers,
+         as: :json
+    
+    assert_response :created
+  end
+end
+```
+
+**Available Helper Methods (API::BaseTestCase):**
+- `setup_user(user = nil)`: Creates authenticated user with auth token, sets `@current_user` and `@headers`
+- `guard_incorrect_token!(path, args: 0, method: :get)`: Class method that generates authentication test
+- `assert_json_response(expected)`: Compares JSON response with expected hash
+
+**Standard Controller Tests:**
+- Inherit from `ActionDispatch::IntegrationTest` for web controllers
+- Test user flows, form submissions, and page rendering
+- Use Devise test helpers for authentication
+
 ### System Tests
 System tests verify end-to-end user workflows using browser automation. They should:
 - **Test complete user journeys**: From login to task completion
@@ -432,8 +462,24 @@ class UserRegistrationTest < ApplicationSystemTestCase
 end
 ```
 
+**Available Helper Methods (ApplicationSystemTestCase):**
+- `sign_in!(user = nil)`: Creates and signs in user, confirms account, sets `@current_user`
+- `assert_page(page)`: Verifies current page by checking for `#page-{page}` element
+- `assert_html(html, within: "body")`: Compares HTML structure within specified element
+- `assert_text(text, **options)`: Enhanced text assertion with normalized whitespace
+- `assert_no_text(text, **options)`: Text absence assertion with React loading delay handling
+- `url_to_path(url)`: Converts full URL to path for route comparisons
+- `expecting_errors { ... }`: Disables JavaScript error checking for tests that expect errors
+
+**Capybara Integration:**
+- Access to all Capybara helpers: `visit`, `fill_in`, `click_on`, `find`, etc.
+- WebSocket testing support through `WebsocketsHelpers` module
+- Custom browser configuration for headless Chrome with download directory setup
+- Automatic JavaScript error detection and test failure on unexpected errors
+
 **System Test Guidelines:**
 - Use descriptive test names that explain the user action
-- Include both success and failure scenarios
+- Include both success and failure scenarios  
 - Use `wait` parameters for dynamic content loading
 - Test accessibility and responsive behavior when relevant
+- Use data attributes like `class: "test-sign-up-btn"` for reliable element selection

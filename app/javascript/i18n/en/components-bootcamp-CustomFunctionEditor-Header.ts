@@ -11,7 +11,7 @@ export default {
     'There are no library functions yet.',
   'manageCustomFunctionsModal.saveAndClose': 'Save & Close',
   'dependsOnCurrentFunctionText.dependsOnFunction':
-    'This function depends on <code>{{customFunctionName}}</code>, so it cannot be imported.',
+    'This function depends on <0>{{customFunctionName}}</0>, so it cannot be imported.',
   'header.exercismBootcamp': 'Exercism',
   'header.saveChanges': 'Save Changes',
   'header.close': 'Close',

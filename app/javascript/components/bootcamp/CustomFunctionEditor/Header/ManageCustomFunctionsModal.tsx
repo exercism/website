@@ -6,6 +6,7 @@ import { GraphicalIcon } from '@/components/common'
 import { CustomFunctionContext } from '../CustomFunctionEditor'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 Modal.setAppElement('body')
 
@@ -150,9 +151,12 @@ function DependsOnCurrentFunctionText() {
 
   return (
     <div className="mt-8 font-semibold text-[#cc5500]">
-      {t('dependsOnCurrentFunctionText.dependsOnFunction', {
-        customFunctionName: customFunction.name,
-      })}
+      <Trans
+        ns="components/bootcamp/CustomFunctionEditor/Header"
+        i18nKey="dependsOnCurrentFunctionText.dependsOnFunction"
+        values={{ customFunctionName: customFunction.name }}
+        components={[<code />]}
+      />
     </div>
   )
 }

@@ -85,6 +85,7 @@ This script automatically:
 - Runs all services via Procfile.dev using hivemind
 
 #### Manual startup (all platforms)
+**NOTE: This is very rarely necessary - use `./bin/dev` instead.**
 ```bash
 # Terminal 1: Rails server
 bundle exec rails server -p 3020
@@ -116,7 +117,7 @@ After making changes, ALWAYS test core functionality:
 5. Verify CSS styling renders correctly
 
 ### Pre-commit Validation
-ALWAYS run before committing:
+ALWAYS run before committing (for changed files only):
 ```bash
 bundle exec rubocop --except Metrics
 yarn test
@@ -162,7 +163,7 @@ bundle exec rails test:zeitwerk
 - `test/system/` - Capybara system tests
 - `test/javascript/` - Jest test files
 
-### Command Pattern with Mandate
+## Command Pattern with Mandate
 The `/app/commands` directory contains command objects that encapsulate business logic using the Mandate gem. This pattern promotes:
 - Single Responsibility Principle
 - Testable business logic separation from controllers
@@ -178,20 +179,34 @@ class User::Update
 
   initialize_with :user, :params  # Defines constructor parameters
 
-  def call  # Single method that performs the operation
-    # Business logic here
-    abort!(errors) if errors.present?  # Stops execution and triggers failure callback
+  def call  # Single public method that performs the operation
+    some_guard!
+    SomeModel.create(...).tap do |model|
+      exec_callbacks!(model)
+    end
+  end
+
+  private
+  # Helper methods - use bang methods (foobar!) for anything that DOES something
+  # Use normal methods for memoized values
+
+  def some_guard!
+    raise SomeError if invalid_condition?
   end
 
   memoize  # Caches the result of expensive operations
   def errors
     # Validation logic
   end
-
-  private
-  # Helper methods
 end
 ```
+
+**Key principles:**
+- The `call` method should be short and rely on memoized values and private methods
+- Use `tap` to always return the created object when appropriate
+- Use bang methods (`foobar!`) for anything that performs actions
+- Use normal methods for memoized computed values
+- Only the `call` method should be public
 
 #### Calling Commands
 Commands are invoked using the `.()` syntax:
@@ -207,10 +222,13 @@ cmd.on_failure { |errors| render_400(:failed_validations, errors: errors) }
 ```
 
 #### Key Patterns
-- **`initialize_with`**: Defines required and optional parameters for the command constructor
+- **`initialize_with`**: Defines constructor parameters
+  - **Positional params**: For required parameters (e.g., `:user, :exercise`)
+  - **Named params**: For optional parameters (e.g., `page: 1, per: 20`)
+  - **`Mandate::NO_DEFAULT`**: For rare situations where a named parameter is required but has no sensible default
 - **`memoize`**: Caches expensive computations like validation results
 - **`call`**: Single public method that performs the main operation
-- **`abort!(errors)`**: Stops execution and triggers failure callbacks
+- **Error handling**: Raise exceptions rather than using framework-specific methods like `abort!`
 - **Callbacks**: `.on_success` and `.on_failure` for handling results
 
 #### Common Command Types
@@ -312,3 +330,110 @@ Routes are organized in the main `config/routes.rb` with additional route files 
 - "Asset compilation failed": Ensure Node.js and Yarn versions are compatible
 
 This setup is complex but necessary for the full Exercism platform. When in doubt, refer to the CI configuration in `.github/workflows/tests.yml` for authoritative build commands and timing expectations.
+
+## Testing Patterns
+
+### Model Tests
+Model tests focus on testing every public method with small, focused tests. Tests should cover:
+- **Happy path behavior**: Normal usage scenarios
+- **Edge cases**: Boundary conditions and error states
+- **Validations**: Ensure all model validations work correctly
+- **Associations**: Test relationships between models
+- **Scopes and queries**: Verify custom query methods
+
+```ruby
+class UserTest < ActiveSupport::TestCase
+  test "reputation_for_track returns correct value" do
+    user = create :user
+    track = create :track
+    create :user_arbitrary_reputation_token, user:, track:, params: { arbitrary_value: 20 }
+    
+    assert_equal 20, user.reputation_for_track(track)
+  end
+
+  test "handles nil track gracefully" do
+    user = create :user
+    assert_equal 0, user.reputation_for_track(nil)
+  end
+end
+```
+
+### Command Tests  
+Command tests follow the pattern: **setup, execute command, assert**. Focus on:
+- **Happy path test**: One test for the main successful scenario
+- **Edge case tests**: Every possible failure condition and boundary case
+- **Idempotency**: Ensure commands can be run multiple times safely when applicable
+
+```ruby
+class Solution::CreateTest < ActiveSupport::TestCase
+  test "creates concept solution successfully" do
+    user = create :user
+    exercise = create :concept_exercise
+    create :user_track, user:, track: exercise.track
+    UserTrack.any_instance.expects(:exercise_unlocked?).returns(true)
+
+    solution = Solution::Create.(user, exercise)
+    
+    assert solution.is_a?(ConceptSolution)
+    assert_equal user, solution.user
+    assert_equal exercise, solution.exercise
+  end
+
+  test "raises when exercise is locked" do
+    user = create :user
+    exercise = create :concept_exercise
+    create :user_track, user:, track: exercise.track
+    UserTrack.any_instance.expects(:exercise_unlocked?).returns(false)
+
+    assert_raises ExerciseLockedError do
+      Solution::Create.(user, exercise)
+    end
+  end
+
+  test "idempotent behavior" do
+    user = create :user
+    exercise = create :concept_exercise
+    create :user_track, user:, track: exercise.track
+    UserTrack.any_instance.expects(:exercise_unlocked?).returns(true).twice
+
+    assert_idempotent_command { Solution::Create.(user, exercise) }
+  end
+end
+```
+
+### System Tests
+System tests verify end-to-end user workflows using browser automation. They should:
+- **Test complete user journeys**: From login to task completion
+- **Verify UI interactions**: Button clicks, form submissions, navigation
+- **Check visual feedback**: Success messages, error states, loading indicators
+- **Use realistic test data**: Mirror production scenarios
+
+```ruby
+class UserRegistrationTest < ApplicationSystemTestCase
+  test "user registers successfully" do
+    visit new_user_registration_path
+    fill_in "Email", with: "user@exercism.org"
+    fill_in "Username", with: "user22"
+    fill_in "Password", with: "password"
+    fill_in "Password confirmation", with: "password"
+
+    click_on "Sign Up", class: "test-sign-up-btn"
+
+    assert_text "Check your email"
+  end
+
+  test "user sees validation errors" do
+    visit new_user_registration_path
+    fill_in "Email", with: "invalid-email"
+    click_on "Sign Up"
+
+    assert_text "Email is invalid"
+  end
+end
+```
+
+**System Test Guidelines:**
+- Use descriptive test names that explain the user action
+- Include both success and failure scenarios
+- Use `wait` parameters for dynamic content loading
+- Test accessibility and responsive behavior when relevant

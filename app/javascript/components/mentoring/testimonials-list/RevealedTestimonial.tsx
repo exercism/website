@@ -44,11 +44,10 @@ export const RevealedTestimonial = ({
               />
             </div>
             <div className="exercise">
-              {t('exerciseInTrack', {
+              {t('revealedTestimonial.onExerciseInTrack', {
                 exerciseTitle: testimonial.exercise.title,
                 trackTitle: testimonial.track.title,
               })}
-              on {testimonial.exercise.title} in {testimonial.track.title}
             </div>
           </div>
           {isRevealed ? (

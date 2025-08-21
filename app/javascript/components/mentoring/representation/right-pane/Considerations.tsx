@@ -15,16 +15,14 @@ export default function Considerations({
       <Trans
         i18nKey="considerations.readThisBeforeGivingFeedback"
         ns="components/mentoring/representation/right-pane"
-        components={{
-          link: (
-            <a
-              href={guidance.links.representationFeedbackGuide}
-              target="_blank"
-              rel="noreferrer"
-              className="!text-textCAlertLabel underline"
-            />
-          ),
-        }}
+        components={[
+          <a
+            href={guidance.links.representationFeedbackGuide}
+            target="_blank"
+            rel="noreferrer"
+            className="!text-textCAlertLabel underline"
+          />,
+        ]}
       />
     </p>
   )

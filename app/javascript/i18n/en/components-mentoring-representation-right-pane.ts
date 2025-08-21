@@ -5,7 +5,7 @@ export default {
   'automationRules.pleaseReadBeforeGivingFeedback':
     'Please read before giving feedback',
   'considerations.readThisBeforeGivingFeedback':
-    'Please <link>read this</link> before giving your first feedback.',
+    'Please\u00A0<0>read this</0>\u00A0before giving your first feedback.',
   'utilityTabs.information': 'Information',
   'utilityTabs.scratchpad': 'Scratchpad',
   'utilityTabs.guidance': 'Guidance',

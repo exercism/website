@@ -12,7 +12,7 @@ export default {
   'mentoringRequestInfo.mentoringRelies':
     'Mentoring relies on mentors and students having a shared understanding of how it works.',
   'mentoringRequestInfo.readOurGuide':
-    '<link>Read our guide <icon/></link> or watch the videos below to get that understanding.',
+    '<0>Read our guide <1/></0> or watch the videos below to get that understanding.',
   'mentoringRequestInfo.newWindowOrTab':
     'The link opens in a new window or tab',
   'mentoringRequestInfo.waitingOnMentorQuestion': 'Waiting on a mentor?',

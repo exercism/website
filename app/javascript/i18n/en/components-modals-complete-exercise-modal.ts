@@ -1,26 +1,35 @@
-// namespace: components/modals/complete-exercise-modal
 export default {
-  'exerciseCompletedModal.awesomeWorkLearning':
-    'Awesome work. You’re one step closer to learning {{trackTitle}} 🚀',
-  'exerciseCompletedModal.learntConcepts': 'You’ve learnt ',
-  'exerciseCompletedModal.conceptsCount':
-    '{{conceptCount}} {{conceptCount_plural}}',
-  'exerciseCompletedModal.conceptsCount_one': 'concept',
-  'exerciseCompletedModal.conceptsCount_other': 'concepts',
-  'exerciseCompletedModal.unlockedExercises':
-    ' and unlocked {{unlockedExercisesCount}} {{unlockedExercisesCount_plural}}',
-  'exerciseCompletedModal.unlockedExercises_one': 'exercise',
-  'exerciseCompletedModal.unlockedExercises_other': 'exercises',
-  'exerciseCompletedModal.byCompleting': ' by completing this exercise.',
-  'exerciseCompletedModal.showMeMoreConcepts': 'Show me more concepts',
-  'exerciseCompletedModal.returnToExercise': 'Return to the exercise',
-  'exerciseCompletedModal.awesomeWorkMastering':
-    'Awesome work. You’re one step closer to mastering {{trackTitle}} 🚀',
-  'exerciseCompletedModal.progressedWith': 'You’ve progressed with ',
-  'exerciseCompletedModal.oncePracticedMore':
-    "Once you've practiced some more {{trackTitle}}, come back to this exercise and see if you can make it even better.",
-  'exerciseCompletedModal.showMeMoreExercises': 'Show me more exercises',
   'exerciseCompletedModal.youCompleted': "You've completed {{exerciseTitle}}!",
+  'exerciseCompletedModal.awesomeWorkLearning':
+    "Awesome work. You're one step closer to learning {{trackTitle}} 🚀",
+  'exerciseCompletedModal.awesomeWorkMastering':
+    "Awesome work. You're one step closer to mastering {{trackTitle}} 🚀",
+
+  'exerciseCompletedModal.concept.info_1':
+    "You've learnt <strong>{{count}}</strong> concept.",
+  'exerciseCompletedModal.concept.info_many':
+    "You've learnt <strong>{{count}}</strong> concepts.",
+
+  'exerciseCompletedModal.concept.info_1_1':
+    "You've learnt <strong>{{count}}</strong> concept and unlocked {{unlockedExercisesCount}} exercise by completing this exercise.",
+  'exerciseCompletedModal.concept.info_1_many':
+    "You've learnt <strong>{{count}}</strong> concept and unlocked {{unlockedExercisesCount}} exercises by completing this exercise.",
+  'exerciseCompletedModal.concept.info_many_1':
+    "You've learnt <strong>{{count}}</strong> concepts and unlocked {{unlockedExercisesCount}} exercise by completing this exercise.",
+  'exerciseCompletedModal.concept.info_many_many':
+    "You've learnt <strong>{{count}}</strong> concepts and unlocked {{unlockedExercisesCount}} exercises by completing this exercise.",
+
+  'exerciseCompletedModal.practice.info_1':
+    "You've progressed with <strong>{{count}}</strong> concept by completing this exercise.",
+  'exerciseCompletedModal.practice.info_many':
+    "You've progressed with <strong>{{count}}</strong> concepts by completing this exercise.",
+  'exerciseCompletedModal.practice.info_none':
+    "Once you've practiced some more {{trackTitle}}, come back to this exercise and see if you can make it even better.",
+
+  'exerciseCompletedModal.showMeMoreConcepts': 'Show me more concepts',
+  'exerciseCompletedModal.showMeMoreExercises': 'Show me more exercises',
+  'exerciseCompletedModal.returnToExercise': 'Return to the exercise',
+
   'publishSolutionModal.publishKnowledge':
     'Publish your code and share your knowledge',
   'publishSolutionModal.publishHelpOthers':
@@ -30,12 +39,12 @@ export default {
   'tutorialCompletedModal.journeyStart':
     'This is just the start of your journey on the {{trackTitle}} track 🚀',
   'tutorialCompletedModal.readyToGetStuck':
-    'You’re now ready to get stuck into some ',
+    "You're now ready to get stuck into some ",
   'tutorialCompletedModal.realExercises': 'real exercises',
   'tutorialCompletedModal.weHaveAlsoRevealed':
-    'We’ve also revealed {{trackTitle}}’s {{conceptCount}} concepts for you to take a look at.',
+    "We've also revealed {{trackTitle}}'s {{conceptCount}} concepts for you to take a look at.",
   'tutorialCompletedModal.accessToMentoring':
-    'Once you start your next exercise, you’ll have access to the mentoring section on your track too.',
+    "Once you start your next exercise, you'll have access to the mentoring section on your track too.",
   'tutorialCompletedModal.showMeConcepts': 'Show me the Concepts',
   'tutorialCompletedModal.returnToTutorial': 'Return to “{{exerciseTitle}}”',
   'publishSolutionForm.yesShareSolution':

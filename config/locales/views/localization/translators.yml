@@ -1,0 +1,58 @@
+en:
+  localization:
+    translators:
+      new:
+        hero:
+          title: Exercism in Your Language
+          subtitle_html: We're translating Exercism into <strong>all the
+            languages</strong> and we <strong>need your help!</strong>
+          description:
+            If you'd like to help translate Exercism into the language(s) you
+            know, please fill out the form below and we'll be in touch in the
+            next couple of weeks with details!
+        call_to_action:
+          join_team_signed_out: Join the Team!
+          login_prompt_html:
+            To help in our translation project, please log into Exercism
+            (or create an account if you're new around here!)
+          log_in_button: Log In
+          sign_up_button: Sign Up
+          join_team_signed_in: Join the Team!
+          choose_languages_description: Choose up to 5 languages that you want to help translate.
+        form:
+          signed_up_title: You're signed up to be a translator!
+          signed_up_description_html:
+            <strong>Thank you! We'll be in touch soon!</strong>
+            These are the languages which you've signed up to translate Exercism
+            into.
+          select_language_prompt_first: Please select at least one language...
+          update_languages_button: Update your languages
+          become_translator_button: Become a translator!
+        faq:
+          title: FAQs
+          what_it_involves_question: What does being a translator involve?
+          what_it_involves_answer:
+            Translators will help us translate the Exercism
+            website, documentation, and other content into their chosen
+            languages. This will involve translating text, reviewing
+            translations, and ensuring that the content is culturally
+            appropriate and accurate. We are generating machine translations
+            first then asking translators to review and improve them.
+          time_commitment_question: How much time will it take?
+          time_commitment_answer:
+            You can spend as much time as you're willing to give to
+            the project. We are hoping to build large teams of translators for
+            each language, who can work together to quickly give us a great
+            first version.
+          payment_reward_question: Is there any payment or reward?
+          payment_reward_answer_html:
+            All of Exercism's content is created by volunteers
+            who give their time to help others. Like other parts of the site,
+            there is no financial reward for helping, but you will
+            <strong>receive Exercism Reputation</strong> which boosts your
+            public profile!
+          when_start_question: When do we start?
+          when_start_answer:
+            Soon! We're currently finishing building the UI you'll use,
+            and creating our initial machine-translations. We hope to be ready
+            near the start of September for you!

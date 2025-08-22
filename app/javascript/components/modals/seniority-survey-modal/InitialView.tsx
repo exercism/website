@@ -13,24 +13,33 @@ import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to save seniority level.')
 
-export const SENIORITIES: { label: string; value: SeniorityLevel }[] = [
+export const SENIORITIES: {
+  key: string
+  label: string
+  value: SeniorityLevel
+}[] = [
   {
+    key: 'absoluteBeginner',
     label: 'Absolute Beginner',
     value: 'absolute_beginner',
   },
   {
+    key: 'beginner',
     label: 'Beginner',
     value: 'beginner',
   },
   {
+    key: 'juniorDeveloper',
     label: 'Junior Developer',
     value: 'junior',
   },
   {
+    key: 'midLevelDeveloper',
     label: 'Mid-level Developer',
     value: 'mid',
   },
   {
+    key: 'seniorDeveloper',
     label: 'Senior Developer',
     value: 'senior',
   },
@@ -91,7 +100,7 @@ export function InitialView() {
             )}
             onClick={() => setSelected(seniority.value)}
           >
-            {t(`initialView.${seniority.label.replace(' ', '')}`)}
+            {t(`initialView.${seniority.key}`)}
           </button>
         ))}
       </div>

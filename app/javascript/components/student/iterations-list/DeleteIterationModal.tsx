@@ -67,7 +67,13 @@ export const DeleteIterationModal = ({
       <h3>
         {t('deleteIterationModal.areYouSure', { iterationIdx: iteration.idx })}
       </h3>
-      <p>{t('deleteIterationModal.deletedIterationsRemoved')}</p>
+      <p>
+        <Trans
+          i18nKey="deleteIterationModal.deletedIterationsRemoved"
+          ns="components/student/iterations-list"
+          components={{ strong: <strong /> }}
+        />
+      </p>
       <form data-turbo="false" onSubmit={handleSubmit} className="buttons">
         <FormButton type="submit" status={status} className="btn-warning btn-s">
           {t('deleteIterationModal.deleteIteration')}

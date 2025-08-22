@@ -173,7 +173,7 @@
         .community-team
           = graphical_icon "maintaining"
           %h3= t('.community_teams.maintainers.title')
-          %p.text-p-large= t('.community_teams.maintainers.description')
+          %p.text-p-large= t('.community_teams.maintainers.description', num_lang: Track.num_active)
           = render ViewComponents::ProminentLink.new(t('.community_teams.maintainers.link_text'), contributing_contributors_path(category: :maintaining))
 
         .community-team

@@ -72,6 +72,7 @@ export const MentoringRequestInfo = ({
           </div>
           <CancelRequestButton request={request} />
         </div>
+
         <div className="placeholder">
           <div className="info">
             <div className="title">
@@ -98,21 +99,17 @@ export const MentoringRequestInfo = ({
             <Trans
               ns="components/student/mentoring-session/mentoring-request"
               i18nKey="mentoringRequestInfo.readOurGuide"
-              components={{
-                link: (
-                  <a
-                    href={links.mentoringGuide}
-                    target="_blank"
-                    rel="noreferrer"
-                  />
-                ),
-                icon: (
-                  <Icon
-                    icon="external-link"
-                    alt="The link opens in a new window or tab"
-                  />
-                ),
-              }}
+              components={[
+                <a
+                  href={links.mentoringGuide}
+                  target="_blank"
+                  rel="noreferrer"
+                />,
+                <Icon
+                  icon="external-link"
+                  alt="The link opens in a new window or tab"
+                />,
+              ]}
             />
           </p>
           <div className="videos">
@@ -121,11 +118,12 @@ export const MentoringRequestInfo = ({
             ))}
           </div>
         </div>
-        <div className="direct">
-          <h3>{t('mentoringRequestInfo.wantAFriend')}</h3>
-          <p>{t('mentoringRequestInfo.sendThisLink')}</p>
-          <CopyToClipboardButton textToCopy={links.privateMentoring} />
-        </div>
+      </div>
+
+      <div className="direct">
+        <h3>{t('mentoringRequestInfo.wantAFriend')}</h3>
+        <p>{t('mentoringRequestInfo.sendThisLink')}</p>
+        <CopyToClipboardButton textToCopy={links.privateMentoring} />
       </div>
     </div>
   )

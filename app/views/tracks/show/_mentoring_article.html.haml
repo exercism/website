@@ -31,7 +31,7 @@
         - unless user_track.rep_for_next_mentoring_slot.nil?
           .info
             .next-slot
-              = t('.next_slot_unlocks_at', reputation_amount: number_with_delimiter(user_track.rep_for_next_mentoring_slot))
+              = t('.next_slot_unlocks_at_html', reputation_amount: number_with_delimiter(user_track.rep_for_next_mentoring_slot))
 
           .info
             .next-slot

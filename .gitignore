@@ -58,3 +58,4 @@ config/settings.local.yml
 
 app/javascript/i18n/.env
 vendor/bundle/
+ruby-3.4.4/

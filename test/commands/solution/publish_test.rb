@@ -100,7 +100,9 @@ class Solution::PublishTest < ActiveSupport::TestCase
     solution = create(:practice_solution, user:, exercise:)
     iteration = create(:iteration, solution:)
 
-    Solution::Publish.(solution, solution.user_track, iteration.idx)
+    perform_enqueued_jobs do
+      Solution::Publish.(solution, solution.user_track, iteration.idx)
+    end
 
     activity = User::Activities::PublishedExerciseActivity.last
     assert_equal user, activity.user
@@ -594,7 +596,7 @@ class Solution::PublishTest < ActiveSupport::TestCase
     solution = create(:concept_solution, user:, exercise:)
     create(:iteration, solution:)
 
-    Solution::UpdatePublishedExerciseRepresentation.expects(:call).with(solution)
+    Solution::UpdatePublishedExerciseRepresentation.expects(:defer).with(solution)
     Solution::Publish.(solution, user_track, nil)
   end
 end

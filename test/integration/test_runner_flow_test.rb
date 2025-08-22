@@ -28,7 +28,10 @@ class TestRunnerFlowTest < ActionDispatch::IntegrationTest
   test "runs the tests for an iteration submission" do
     # Stub things we don't care about here
     Iteration::GenerateSnippet.any_instance.stubs(:call)
-    Solution::UpdateNumLoc.any_instance.stubs(:call)
+    Solution::UpdateNumLoc.stubs(:defer)
+    Solution::UpdateTags.stubs(:defer)
+    Solution::UpdatePublishedExerciseRepresentation.stubs(:defer)
+    Solution::UpdateSnippet.stubs(:defer)
     Iteration::CountLinesOfCode.any_instance.stubs(:call)
 
     solution = create(:concept_solution)
@@ -75,7 +78,10 @@ class TestRunnerFlowTest < ActionDispatch::IntegrationTest
   test "handles a new git sha being pushed: failing" do
     # Stub things we don't care about here
     Iteration::GenerateSnippet.any_instance.stubs(:call)
-    Solution::UpdateNumLoc.any_instance.stubs(:call)
+    Solution::UpdateNumLoc.stubs(:defer)
+    Solution::UpdateTags.stubs(:defer)
+    Solution::UpdatePublishedExerciseRepresentation.stubs(:defer)
+    Solution::UpdateSnippet.stubs(:defer)
     Iteration::CountLinesOfCode.any_instance.stubs(:call)
 
     exercise = create :practice_exercise, git_sha: '0b04b8976650d993ecf4603cf7413f3c6b898eff'
@@ -178,7 +184,10 @@ class TestRunnerFlowTest < ActionDispatch::IntegrationTest
   test "handles a new git sha being pushed: passing auto updates" do
     # Stub things we don't care about here
     Iteration::GenerateSnippet.any_instance.stubs(:call)
-    Solution::UpdateNumLoc.any_instance.stubs(:call)
+    Solution::UpdateNumLoc.stubs(:defer)
+    Solution::UpdateTags.stubs(:defer)
+    Solution::UpdatePublishedExerciseRepresentation.stubs(:defer)
+    Solution::UpdateSnippet.stubs(:defer)
     Iteration::CountLinesOfCode.any_instance.stubs(:call)
 
     exercise = create :practice_exercise, git_sha: '0b04b8976650d993ecf4603cf7413f3c6b898eff'
@@ -271,7 +280,10 @@ class TestRunnerFlowTest < ActionDispatch::IntegrationTest
   test "honours [no important files changed] and auto-updates" do
     # Stub things we don't care about here
     Iteration::GenerateSnippet.any_instance.stubs(:call)
-    Solution::UpdateNumLoc.any_instance.stubs(:call)
+    Solution::UpdateNumLoc.stubs(:defer)
+    Solution::UpdateTags.stubs(:defer)
+    Solution::UpdatePublishedExerciseRepresentation.stubs(:defer)
+    Solution::UpdateSnippet.stubs(:defer)
     Iteration::CountLinesOfCode.any_instance.stubs(:call)
 
     # This exercise contains the right set of things to

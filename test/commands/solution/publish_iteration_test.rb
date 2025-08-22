@@ -68,7 +68,7 @@ class Solution::PublishIterationTest < ActiveSupport::TestCase
     solution = create(:concept_solution)
     create(:iteration, submission: create(:submission, solution:))
 
-    Solution::UpdatePublishedExerciseRepresentation.expects(:call).with(solution)
+    Solution::UpdatePublishedExerciseRepresentation.expects(:defer).with(solution)
 
     Solution::Publish.(solution, user_track, nil)
   end
@@ -83,7 +83,7 @@ class Solution::PublishIterationTest < ActiveSupport::TestCase
     solution = create(:concept_solution)
     create(:iteration, submission: create(:submission, solution:))
 
-    Solution::UpdateTags.expects(:call).with(solution)
+    Solution::UpdateTags.expects(:defer).with(solution)
 
     Solution::Publish.(solution, user_track, nil)
   end

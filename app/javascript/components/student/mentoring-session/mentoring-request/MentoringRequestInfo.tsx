@@ -72,6 +72,7 @@ export const MentoringRequestInfo = ({
           </div>
           <CancelRequestButton request={request} />
         </div>
+
         <div className="placeholder">
           <div className="info">
             <div className="title">
@@ -117,11 +118,12 @@ export const MentoringRequestInfo = ({
             ))}
           </div>
         </div>
-        <div className="direct">
-          <h3>{t('mentoringRequestInfo.wantAFriend')}</h3>
-          <p>{t('mentoringRequestInfo.sendThisLink')}</p>
-          <CopyToClipboardButton textToCopy={links.privateMentoring} />
-        </div>
+      </div>
+
+      <div className="direct">
+        <h3>{t('mentoringRequestInfo.wantAFriend')}</h3>
+        <p>{t('mentoringRequestInfo.sendThisLink')}</p>
+        <CopyToClipboardButton textToCopy={links.privateMentoring} />
       </div>
     </div>
   )

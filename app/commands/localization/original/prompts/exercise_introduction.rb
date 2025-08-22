@@ -4,36 +4,24 @@ class Localization::Original::Prompts::ExerciseIntroduction
   initialize_with :original, :locale
 
   def call
+    Localization::Original::Prompts::GenericPrompt.(original, locale, context)
+  end
+
+  private
+  def context
     <<~PROMPT
-      You are a localization expert. Your task is to translate text from english to a given locale.
+      ## Context
 
       You are translating the introduction to an Exercism exercise.
       The title of the exercise is #{exercise.title}.
       It is on the #{exercise.track.title} track.
 
-      Respond with JSON containing one field:
-      - `value`: The translated text
-
-      Follow these rules carefully:
-      - Maintain the meaning of the original text. Do not improve or change the meaning.
-      - Maintain the tone of the original text, while adhering to the conventions of the target locale.
-      - Do not change the length of the text significantly. It should be roughly the same length as the original.
-
-      When dealing with codeblocks:
-      - Do NOT change ANY code (including variable names).#{' '}
-      - You CAN translate comments from english to `#{locale}` while refering to the correct variables etc if appropriate.
-
-      The target locale is `#{locale}`
-
-      The original English text was:
+      For your context (DO NOT TRANSLATE THIS), here are some instructions that comes straight after this:
       ~~~~~~
-      #{original.value}
+      #{exercise.instructions}
       ~~~~~~
-
-      Respond with JSON.
     PROMPT
   end
 
-  memoize
-  def exercise = Exercise.find(original.data[:exercise_id])
+  def exercise = Exercise.find(original.about_id)
 end

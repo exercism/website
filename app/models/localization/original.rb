@@ -5,9 +5,12 @@ class Localization::Original < ApplicationRecord
   # unknown
   # website_server_side
   # website_client_side
-  # problem_specifications_introduction
-  # problem_specifications_instructions
-  # problem_specifications_description
+  # generic_exercise_introduction
+  # generic_exercise_instructions
+  # generic_exercise_description
+  # generic_exercise_title
+  # generic_exercise_blurb
+  # generic_exercise_source
   # exercise_introduction
   # exercise_instructions
   # exercise_description

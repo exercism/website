@@ -40,6 +40,7 @@ class Git::ProblemSpecifications::Exercise
   memoize
   def deprecated? = deprecated_exists?
 
+  # TODO: Where and why is this used??
   memoize
   def description_html
     return Markdown::Parse.(description) if description.present?

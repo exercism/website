@@ -1,4 +1,4 @@
-class Localization::Original::Prompts::ExerciseInstructions
+class Localization::Original::Prompts::GenericExerciseInstructions
   include Mandate
 
   initialize_with :original, :locale
@@ -14,7 +14,7 @@ class Localization::Original::Prompts::ExerciseInstructions
 
       You are translating the instructions to an Exercism exercise.
       The title of the exercise is #{exercise.title}.
-      It is on the #{exercise.track.title} track.
+      These are the cross-track generic instructions.
 
       For your context (DO NOT TRANSLATE THIS), here is some introductory text the user has also seen for this exercise:
       ~~~~~~
@@ -23,5 +23,5 @@ class Localization::Original::Prompts::ExerciseInstructions
     PROMPT
   end
 
-  def exercise = Exercise.find(original.about_id)
+  def exercise = GenericExercise.find(original.about_id)
 end

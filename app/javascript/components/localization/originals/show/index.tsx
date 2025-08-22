@@ -63,7 +63,6 @@ function LHS() {
         {original.translations.map((translation, index) => {
           switch (translation.status) {
             case 'proposed': {
-              // TODO: Get userId, work out a proper translation type
               return (
                 <Proposed
                   // @ts-ignore

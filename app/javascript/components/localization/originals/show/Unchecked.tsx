@@ -1,9 +1,9 @@
 import React, { useCallback, useContext, useState } from 'react'
 import { nameForLocale } from '@/utils/name-for-locale'
 import { flagForLocale } from '@/utils/flag-for-locale'
-import { useLogger } from '@/components/bootcamp/common/hooks/useLogger'
 import { sendRequest } from '@/utils/send-request'
 import { OriginalsShowContext } from '.'
+import { redirectTo } from '@/utils'
 
 export function Unchecked({ translation }: { translation: Translation }) {
   const { links } = useContext(OriginalsShowContext)
@@ -18,17 +18,23 @@ export function Unchecked({ translation }: { translation: Translation }) {
     setEditMode(false)
   }, [textEditorValue, copy])
 
-  // TODO: redirect!
   const createProposal = useCallback(async () => {
-    sendRequest({
-      method: 'POST',
-      endpoint: links.createProposal.replace(
-        'TRANSLATION_ID',
-        translation.uuid
-      ),
-      body: JSON.stringify({ value: copy }),
-    })
-  }, [textEditorValue])
+    try {
+      const { fetch } = sendRequest({
+        method: 'POST',
+        endpoint: links.createProposal.replace(
+          'TRANSLATION_ID',
+          translation.uuid
+        ),
+        body: JSON.stringify({ value: copy }),
+      })
+
+      await fetch
+      redirectTo(links.originalsListPage)
+    } catch (err) {
+      console.error(err)
+    }
+  }, [links.createProposal, translation.uuid, copy, links.originalsListPage])
 
   const cancelEditing = useCallback(() => {
     setTextEditorValue(copy)

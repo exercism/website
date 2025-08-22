@@ -21,13 +21,13 @@ export default function ({
 }
 
 function Header() {
-  const { original } = React.useContext(OriginalsShowContext)
+  const { original, links } = React.useContext(OriginalsShowContext)
   return (
     <header className="header">
       <div className="lg-container container">
-        <div className="close-btn">
+        <a href={links.originalsListPage} className="close-btn">
           <Icon icon="close" className="c-icon" alt="Close" />
-        </div>
+        </a>
         <div className="info">
           <div className="intro">You are editing translations for</div>
           <div className="key">{original.key}</div>

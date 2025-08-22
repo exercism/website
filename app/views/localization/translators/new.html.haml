@@ -5,69 +5,59 @@
   .lg-container.flex.mt-24
     .content.flex.flex-col.items-center.text-center.text-balance.mx-auto{ class: "max-w-[820px]" }
       = graphical_icon "world", category: :graphics, css_class: 'w-[190px] h-[190px] mb-12'
-      %h1.text-h1.mb-12 Exercism in Your Language
+      %h1.text-h1.mb-12= t('.hero.title')
       %p.text-p-xlarge.mb-16
-        We're translating Exercism into
-        %strong.font-semibold all the languages
-        and we
-        %strong.font-semibold need your help!
+        = t('.hero.subtitle_html').html_safe
       %p.text-p-xlarge.mb-16
-        If you'd like to help translate Exercism into the language(s) you know, please fill out the form below and we'll be in touch in the next couple of weeks with details!
+        = t('.hero.description')
 
 .lg-container.flex.mt-24
   .content.flex.flex-col.items-center.text-center.text-balance.mx-auto{ class: "max-w-[820px]" }
     - if !user_signed_in?
-      %h2.text-h2.mb-8 Join the Team!
-      %p.text-p-xlarge.mb-12 To help in our translation project, please log into Exercism (or create an account if you're new around here!)
+      %h2.text-h2.mb-8= t('.call_to_action.join_team_signed_out')
+      %p.text-p-xlarge.mb-12= t('.call_to_action.login_prompt_html').html_safe
       .flex.gap-8.mb-32
-        = link_to "Log In", new_user_session_path, class: 'btn-l btn-primary !px-40'
-        = link_to "Sign Up", new_user_registration_path, class: 'btn-l btn-secondary !px-40'
+        = link_to t('.call_to_action.log_in_button'), new_user_session_path, class: 'btn-l btn-primary !px-40'
+        = link_to t('.call_to_action.sign_up_button'), new_user_registration_path, class: 'btn-l btn-secondary !px-40'
 
     - elsif current_user.translator_locales.present?
       = form_with url: localization_translator_path, class: "flex flex-col max-w-[600px] mb-40" do
-        %h2.text-h2.mb-8 You're signed up to be a translator!
+        %h2.text-h2.mb-8= t('.form.signed_up_title')
         %p.text-p-large.mb-12
-          %strong.font-semibold Thank you! We'll be in touch soon!
-          These are the languages which you've signed up to translate Exercism into.
+          = t('.form.signed_up_description_html').html_safe
 
         - 5.times do |idx|
           .styled-selected.mb-8.text-18
-            = select_tag "locales[]", options_for_select(@locale_options, selected: current_user.translator_locales[idx].to_s), prompt: idx.zero? ? "Please select at least one language..." : "", required: idx.zero?, class: 'px-12 py-8 w-fill border-1 border-borderColor5 rounded-5'
+            = select_tag "locales[]", options_for_select(@locale_options, selected: current_user.translator_locales[idx].to_s), prompt: idx.zero? ? t('.form.select_language_prompt_first') : "", required: idx.zero?, class: 'px-12 py-8 w-fill border-1 border-borderColor5 rounded-5'
 
-        = button_tag "Update your languages", class: 'btn-l btn-primary mt-12'
+        = button_tag t('.form.update_languages_button'), class: 'btn-l btn-primary mt-12'
 
     - else
       = form_with url: localization_translator_path, class: "flex flex-col max-w-[550px] mb-40" do
-        %h2.text-h2.mb-8 Join the Team!
-        %p.text-p-large.mb-12 Choose up to 5 languages that you want to help translate.
+        %h2.text-h2.mb-8= t('.call_to_action.join_team_signed_in')
+        %p.text-p-large.mb-12= t('.call_to_action.choose_languages_description')
 
         - 5.times do |idx|
           .styled-selected.mb-8.text-18
-            = select_tag "locales[]", options_for_select(@locale_options), prompt: idx.zero? ? "Please select at least one language..." : "", required: idx.zero?, class: 'px-12 py-8 w-fill border-1 border-borderColor5 rounded-5'
+            = select_tag "locales[]", options_for_select(@locale_options), prompt: idx.zero? ? t('.form.select_language_prompt_first') : "", required: idx.zero?, class: 'px-12 py-8 w-fill border-1 border-borderColor5 rounded-5'
 
-        = button_tag "Become a translator!", class: 'btn-l btn-primary mt-12'
+        = button_tag t('.form.become_translator_button'), class: 'btn-l btn-primary mt-12'
 
     %hr.c-divider.mt-28.mb-36
 
-    %h2.text-h1.mb-24 FAQs
-    %h4.text-22.font-semibold.mb-12.text-textColor2 What does being a translator involve?
+    %h2.text-h1.mb-24= t('.faq.title')
+    %h4.text-22.font-semibold.mb-12.text-textColor2= t('.faq.what_it_involves_question')
     %p.text-p-xlarge.mb-40
-      Translators will help us translate the Exercism website, documentation, and other content into their chosen languages. This will involve translating text, reviewing translations, and ensuring that the content is culturally appropriate and accurate.
-      We are generating machine translations first then asking translators to review and improve them.
+      = t('.faq.what_it_involves_answer')
 
-    %h4.text-22.font-semibold.mb-12.text-textColor2 How much time will it take?
+    %h4.text-22.font-semibold.mb-12.text-textColor2= t('.faq.time_commitment_question')
     %p.text-p-xlarge.mb-40
-      You can spend as much time as you're willing to give to the project.
-      We are hoping to build large teams of translators for each language, who can work together to quickly give us a great first version.
+      = t('.faq.time_commitment_answer')
 
-    %h4.text-22.font-semibold.mb-12.text-textColor2 Is there any payment or reward?
+    %h4.text-22.font-semibold.mb-12.text-textColor2= t('.faq.payment_reward_question')
     %p.text-p-xlarge.mb-40
-      All of Exercism's content is created by volunteers who give their time to help others.
-      Like other parts of the site, there is no financial reward for helping, but you will
-      %strong.font-sembold receive Exercism Reptuation
-      which boosts your public profile!
+      = t('.faq.payment_reward_answer_html').html_safe
 
-    %h4.text-22.font-semibold.mb-12.text-textColor2 When do we start?
+    %h4.text-22.font-semibold.mb-12.text-textColor2= t('.faq.when_start_question')
     %p.text-p-xlarge.mb-40
-      Soon! We're currently finishing building the UI you'll use, and creating our initial machine-translations.
-      We hope to be ready near the start of September for you!
+      = t('.faq.when_start_answer')

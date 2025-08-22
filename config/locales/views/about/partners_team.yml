@@ -156,9 +156,9 @@ en:
         maintainers:
           title: Track Maintainers
           description:
-            Our maintainers are the lynchpins of the language tracks and
+            Our maintainers are the linchpins of the language tracks and
             exercises on Exercism. They create and organize exercises for each
-            of our 50 languages and help guide us to ensure Exercism teaches
+            of our %{num_lang} languages and help guide us to ensure Exercism teaches
             students in the most idiomatic way possible.
           link_text: See all Exercism maintainers
         mentors:

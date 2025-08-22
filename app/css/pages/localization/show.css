@@ -134,7 +134,7 @@ body.namespace-localization.controller-originals.action-show {
                     }
                 }
                 .buttons {
-                    @apply flex gap-8 items-center;
+                    @apply flex gap-8 items-center justify-between;
                     @apply text-textColor6;
                 }
             }

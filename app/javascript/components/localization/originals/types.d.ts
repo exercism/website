@@ -61,6 +61,7 @@ type OriginalsShowLinks = {
   createProposal: string
   approveProposal: string
   rejectProposal: string
+  updateProposal: string
 }
 
 type OriginalsShowContextType = OriginalsShowProps

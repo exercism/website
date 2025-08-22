@@ -1,7 +1,12 @@
-import React, { createContext, useCallback, useContext, useState } from 'react'
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from 'react'
 import { flagForLocale } from '@/utils/flag-for-locale'
 import { nameForLocale } from '@/utils/name-for-locale'
-import { useLogger } from '@/components/bootcamp/common/hooks/useLogger'
 import { sendRequest } from '@/utils/send-request'
 import { redirectTo } from '@/utils'
 import { ProposalDescription } from './ProposalDescription'
@@ -59,9 +64,6 @@ api_localization_translation_proposal             PATCH    /api/v2/localization/
 // after editing Update proposal: PATCH api_localization_translation_proposal
 export function Proposed({ translation }: ProposedProps) {
   const { locale, proposals } = translation
-  const { links } = useContext(OriginalsShowContext)
-
-  useLogger('TRANSLATION', translation)
 
   return (
     <section className="locale proposed">
@@ -118,8 +120,6 @@ function ProposalCard({
   const { currentUserId } = useContext(OriginalsShowContext)
   const isOwn = String(proposal.proposerId) === String(currentUserId)
 
-  useLogger('PROPOSAL', proposal)
-
   const cardClasses = isMultiple
     ? 'border-1 border-borderColor5 p-12 rounded-8 bg-backgroundColorF shadow-keystroke'
     : ''
@@ -127,16 +127,21 @@ function ProposalCard({
   const [editMode, setEditMode] = useState(false)
   const [proposalValue, setProposalValue] = useState(proposal.value)
   const [editorValue, setEditorValue] = useState(proposal.value)
+
+  const hasBeenEdited = useMemo(() => {
+    return proposalValue !== proposal.value
+  }, [proposalValue])
+
   const onSaveEditing = useCallback(() => {
-    setEditMode(false)
     setProposalValue(editorValue)
-  }, [])
+    setEditMode(false)
+  }, [editorValue])
   const onCancelEditing = useCallback(() => {
     setEditMode(false)
     setEditorValue(proposalValue)
   }, [proposalValue])
 
-  const onResetEditing = useCallback(() => {
+  const onResetChanges = useCallback(() => {
     setEditorValue(proposal.value)
     setProposalValue(proposal.value)
   }, [])
@@ -164,10 +169,13 @@ function ProposalCard({
         )}
 
         {editMode ? (
-          <EditActions onUpdate={onSaveEditing} onCancel={onCancelEditing} />
+          <EditActions onSave={onSaveEditing} onCancel={onCancelEditing} />
         ) : (
           <ProposalActions
             isOwn={isOwn}
+            proposalValue={proposalValue}
+            onResetChanges={onResetChanges}
+            hasBeenEdited={hasBeenEdited}
             uuids={{ proposal: proposal.uuid, translation: translationUuid }}
           />
         )}
@@ -179,9 +187,15 @@ function ProposalCard({
 function ProposalActions({
   isOwn,
   uuids,
+  onResetChanges,
+  hasBeenEdited,
+  proposalValue = '',
 }: {
   isOwn: boolean
   uuids: { proposal: string; translation: string }
+  onResetChanges: () => void
+  hasBeenEdited?: boolean
+  proposalValue: string
 }) {
   const { setEditMode } = useContext(ProposalCardContext)
   const { links } = useContext(OriginalsShowContext)
@@ -195,6 +209,26 @@ function ProposalActions({
             .replace('TRANSLATION_ID', translationUuid)
             .replace('PROPOSAL_ID', proposalUuid),
           body: null,
+        })
+
+        await fetch
+        redirectTo(links.originalsListPage)
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    []
+  )
+
+  const updateProposal = useCallback(
+    async ({ translationUuid, proposalUuid, proposalValue }) => {
+      try {
+        const { fetch } = sendRequest({
+          method: 'PATCH',
+          endpoint: links.updateProposal
+            .replace('TRANSLATION_ID', translationUuid)
+            .replace('PROPOSAL_ID', proposalUuid),
+          body: JSON.stringify({ value: proposalValue }),
         })
 
         await fetch
@@ -228,19 +262,43 @@ function ProposalActions({
 
   return (
     <div className="buttons">
-      <button
-        type="button"
-        className="btn-s btn-default"
-        onClick={() => setEditMode(true)}
-      >
-        Edit
-      </button>{' '}
-      {isOwn ? (
-        <>
-          <span>(This is your proposal so you cannot approve it)</span>
-        </>
+      <div className="flex gap-8 items-center">
+        <button
+          type="button"
+          className="btn-s btn-default"
+          onClick={() => setEditMode(true)}
+        >
+          Edit
+        </button>
+        {hasBeenEdited && (
+          <button
+            type="button"
+            className="btn-s btn-default"
+            onClick={onResetChanges}
+          >
+            Reset changes
+          </button>
+        )}
+      </div>
+
+      {hasBeenEdited ? (
+        <button
+          type="button"
+          className="btn-s btn-primary"
+          onClick={() =>
+            updateProposal({
+              translationUuid: uuids.translation,
+              proposalUuid: uuids.proposal,
+              proposalValue,
+            })
+          }
+        >
+          Update proposal
+        </button>
+      ) : isOwn ? (
+        <span>(This is your proposal so you cannot approve it)</span>
       ) : (
-        <>
+        <div className="flex gap-8 items-center">
           <button
             type="button"
             className="btn-s btn-default"
@@ -265,17 +323,17 @@ function ProposalActions({
           >
             Reject
           </button>
-        </>
+        </div>
       )}
     </div>
   )
 }
 
-function EditActions({ onUpdate, onCancel }) {
+function EditActions({ onSave, onCancel }) {
   return (
     <div className="flex gap-8 items-center">
-      <button type="button" className="btn-s btn-primary" onClick={onUpdate}>
-        Update
+      <button type="button" className="btn-s btn-primary" onClick={onSave}>
+        Save
       </button>
       <button type="button" className="btn-s btn-default" onClick={onCancel}>
         Cancel

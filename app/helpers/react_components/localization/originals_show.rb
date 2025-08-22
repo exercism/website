@@ -13,7 +13,7 @@ module ReactComponents
             create_proposal: Exercism::Routes.api_localization_translation_proposals_url(translation_id: "TRANSLATION_ID"),
             approve_proposal: Exercism::Routes.approve_api_localization_translation_proposal_url(translation_id: "TRANSLATION_ID", id: "PROPOSAL_ID"), # rubocop:disable Layout/LineLength
             reject_proposal: Exercism::Routes.reject_api_localization_translation_proposal_url(translation_id: "TRANSLATION_ID", id: "PROPOSAL_ID"), # rubocop:disable Layout/LineLength
-            update_translation: Exercism::Routes.api_localization_translation_proposal_url(translation_id: "TRANSLATION_ID", id: "PROPOSAL_ID") # rubocop:disable Layout/LineLength
+            update_proposal: Exercism::Routes.api_localization_translation_proposal_url(translation_id: "TRANSLATION_ID", id: "PROPOSAL_ID") # rubocop:disable Layout/LineLength
           }
         })
       end

@@ -52,7 +52,9 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     solution = create(:practice_solution, user:, exercise:)
     create(:iteration, solution:)
 
-    Solution::Complete.(solution, user_track)
+    perform_enqueued_jobs do
+      Solution::Complete.(solution, user_track)
+    end
 
     activity = User::Activities::CompletedExerciseActivity.last
     assert_equal user, activity.user
@@ -73,7 +75,9 @@ class Solution::CompleteTest < ActiveSupport::TestCase
       # Sanity check
       assert solution.completed?
 
-      Solution::Complete.(solution, user_track)
+      perform_enqueued_jobs do
+        Solution::Complete.(solution, user_track)
+      end
 
       solution.reload
       assert solution.completed?

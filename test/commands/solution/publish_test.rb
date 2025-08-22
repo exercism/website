@@ -596,7 +596,7 @@ class Solution::PublishTest < ActiveSupport::TestCase
     solution = create(:concept_solution, user:, exercise:)
     create(:iteration, solution:)
 
-    Solution::UpdatePublishedExerciseRepresentation.expects(:call).with(solution)
+    Solution::UpdatePublishedExerciseRepresentation.expects(:defer).with(solution)
     Solution::Publish.(solution, user_track, nil)
   end
 end

@@ -40,7 +40,7 @@ en:
           title: Your current Reputation is
         max_mentoring_slots: You have the maximum available mentoring slots
         unlocked_icon_alt: Unlocked
-        next_slot_unlocks_at: Next slot unlocks at <strong>%{reputation_amount}</strong> rep.
+        next_slot_unlocks_at_html: Next slot unlocks at <strong>%{reputation_amount}</strong> rep.
         or_text: Or
         donate_to_exercism_link: Donate to Exercism
         to_unlock_all_slots: to unlock all mentoring slots.

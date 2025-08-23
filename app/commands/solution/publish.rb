@@ -44,7 +44,7 @@ class Solution::Publish
   end
 
   def record_activity!
-    User::Activity::Create.(
+    User::Activity::Create.defer(
       :published_exercise,
       user,
       track: solution.track,

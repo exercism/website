@@ -1,11 +1,15 @@
 class Tracks::ConceptsController < ApplicationController
+  skip_before_action :authenticate_user!, only: %i[index show tooltip]
+  skip_before_action :rate_limit_for_user!, only: %i[tooltip] # Scanning over this is a lot
+
+  before_action :cache_public_action!, only: %i[index show tooltip]
+
   before_action :use_track
   before_action :use_concepts, only: :index
   before_action :use_concept, only: %i[show tooltip start complete]
 
   before_action :guard_practice_mode!, only: [:index]
   before_action :guard_course!, only: [:index]
-  skip_before_action :authenticate_user!, only: %i[index show tooltip]
 
   def index
     @concept_map_data = Track::DetermineConceptMapLayout.(@user_track)

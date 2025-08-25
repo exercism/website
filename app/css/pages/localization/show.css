@@ -1,0 +1,143 @@
+body.namespace-localization.controller-originals.action-show {
+    #site-header,
+    #site-footer {
+        display: none !important;
+    }
+}
+
+#page-localization-show {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+
+    header.header {
+        position: sticky;
+        top: 0;
+        @apply border-b-1 border-borderColor5 bg-backgroundColorA;
+        .container {
+            @apply flex flex-row gap-8 items-center;
+        }
+
+        .close-btn {
+            @apply flex p-16;
+            .c-icon {
+                width: 24px;
+                width: 24px;
+            }
+        }
+        .info {
+            @apply flex flex-col;
+            .intro {
+                @apply text-14 leading-140 text-textColor6;
+            }
+            .key {
+                @apply text-15 leading-140 text-textColor1 font-mono font-semibold;
+            }
+        }
+    }
+    .body-container {
+        @apply flex flex-1;
+        @apply bg-backgroundColorA;
+    }
+
+    .lhs {
+        max-width: 800px;
+        @apply border-r-1 border-borderColor6;
+        @apply pr-32;
+        @apply pt-20;
+    }
+    .rhs {
+        max-width: 600px;
+        @apply border-l-1 border-borderColor6;
+        @apply pl-32;
+        @apply pt-20;
+    }
+
+    .locale-value {
+        @apply border-1 border-borderColor5 rounded-8;
+        @apply p-16;
+        @apply text-16 leading-140 whitespace-pre-wrap;
+        @apply bg-backgroundColorE;
+    }
+    .original {
+        p {
+            @apply text-16 leading-140 mb-8;
+        }
+    }
+    .translations {
+        @apply mb-16;
+        .locale {
+            &.unchecked {
+                --locale-background-color: #ffeeee;
+                --locale-border-color: red;
+            }
+            &.proposed {
+                --locale-background-color: #ffefdc;
+                --locale-border-color: darkorange;
+            }
+            &.checked {
+                --locale-background-color: #e4ffe4;
+                --locale-border-color: green;
+            }
+
+            @apply border-1 rounded-8 overflow-hidden;
+            border-color: var(--locale-border-color);
+
+            .header {
+                @apply border-b-1;
+                @apply py-12 px-16;
+                @apply flex items-center gap-8;
+                border-color: var(--locale-border-color);
+                background-color: var(--locale-background-color);
+
+                .status {
+                    @apply text-12 font-semibold uppercase;
+                    @apply text-white py-6 px-8 rounded-16;
+                    @apply flex items-center gap-6;
+                    background: var(--locale-border-color);
+                    img {
+                        height: 16px;
+                        width: 16px;
+                    }
+                }
+                .flag {
+                    @apply ml-auto text-24;
+                }
+            }
+            .body {
+                @apply p-16;
+                .llm-feedback {
+                    &.rejected {
+                        --llm-feedback-bg-color: #ffeeee;
+                        --llm-feedback-border-color: red;
+                    }
+                    &.approved {
+                        --llm-feedback-bg-color: #e4ffe4;
+                        --llm-feedback-border-color: rgb(0, 128, 0, 0.5);
+                    }
+
+                    @apply flex gap-8;
+                    @apply border-1;
+                    @apply p-16 mb-16 rounded-8;
+                    @apply text-16 leading-140;
+
+                    background: var(--llm-feedback-bg-color);
+                    border-color: var(--llm-feedback-border-color);
+
+                    .img {
+                        font-size: 20px;
+                        margin-top: 5px;
+                    }
+                    .byline {
+                        @apply text-14 mt-4 text-textColor6 italic;
+                    }
+                }
+                .buttons {
+                    @apply flex gap-8 items-center justify-between;
+                    @apply text-textColor6;
+                }
+            }
+        }
+    }
+}

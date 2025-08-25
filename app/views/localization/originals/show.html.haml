@@ -1,0 +1,29 @@
+#page-localization-show
+  = render ReactComponents::Localization::OriginalsShow.new(@original)
+-# <%header.header
+    .lg-container.container
+      .close-btn
+        <img src="/assets/icons/close-1ab0c17b710c26fcd4c68de4a55b63ca158d4787.svg" alt="" class="c-icon">
+      .info
+        .intro You are editing translations for
+        .key= @original[:key]
+  .lg-container.body-container
+    .lhs
+      .translations
+        .text-h3.mb-6 Your Locales
+        %p.text-16.mb-16 These are the locales you have opted into help translate. You can change your locales <a href="#" class="c-prominent-link --inline">here</a>.
+        - @original[:translations].each do |translation|
+          = render "localization/originals/show/#{translation[:status]}", translation: translation
+
+    .rhs
+      .original
+        .text-h3.mb-6 Original English
+        %p.text-16.mb-6
+          This is the original English value. Your job is to make the locales as close to this in
+          %strong.font-semibold meaning and tone
+          as possible. Pleae do not change the meaning away from the original English.
+        .locale-value.mb-20
+          #{@original[:value]}
+
+        .text-h4.mb-6 Usage
+        %p.text-16= @original[:context]

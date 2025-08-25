@@ -3,6 +3,8 @@ class ActiveRecord::Base
     self.inheritance_column = 'does_not_have_one'
   end
 
+  def just_created? = id_previously_changed?
+
   def self.find_create_or_find_by!(*args, &block)
     find_by!(*args)
   rescue ActiveRecord::RecordNotFound

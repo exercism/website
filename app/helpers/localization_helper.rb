@@ -6,9 +6,9 @@ module LocalizationHelper
 
     translation = Localization::Content::TranslateExerciseIntroduction.(exercise, locale: I18n.locale)
 
-    maybe_parse_as_markdown(translation, markdown) if translation
+    return maybe_parse_as_markdown(translation, markdown) if translation
 
-    # TODO: Render waiting widget here...
+    render ReactComponents::Common::TranslationPlaceholder.new(locale: I18n.locale)
   end
 
   def translate_exercise_instructions(exercise, markdown: false, solution: nil)
@@ -17,9 +17,9 @@ module LocalizationHelper
     return translation_or_out_of_date_guard(solution.instructions, markdown:) if solution&.out_of_date?
 
     translation = Localization::Content::TranslateExerciseInstructions.(exercise, locale: I18n.locale)
-    maybe_parse_as_markdown(translation, markdown) if translation
+    return maybe_parse_as_markdown(translation, markdown) if translation
 
-    # TODO: Render waiting widget here...
+    render ReactComponents::Common::TranslationPlaceholder.new(locale: I18n.locale)
   end
 
   def translate_text(text, markdown: false)
@@ -28,9 +28,9 @@ module LocalizationHelper
     translation = Localization::Text::Translate.(text, I18n.locale)
     return unless translation.present?
 
-    maybe_parse_as_markdown(translation, markdown)
+    return maybe_parse_as_markdown(translation, markdown) if translation
 
-    # TODO: Render waiting widget here...
+    render ReactComponents::Common::TranslationPlaceholder.new(locale: I18n.locale)
   end
 
   private

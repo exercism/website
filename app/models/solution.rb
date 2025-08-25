@@ -130,10 +130,6 @@ class Solution < ApplicationRecord
     stars.exists?(user:)
   end
 
-  def synced_with_exercise?
-    git_sha == exercise.git_sha
-  end
-
   def published_iterations
     return [] unless published?
     return [published_iteration] if published_iteration && !published_iteration.deleted?

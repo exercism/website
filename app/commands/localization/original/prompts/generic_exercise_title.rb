@@ -1,4 +1,4 @@
-class Localization::Original::Prompts::General
+class Localization::Original::Prompts::GenericExerciseTitle
   include Mandate
 
   initialize_with :original, :locale
@@ -12,11 +12,7 @@ class Localization::Original::Prompts::General
     <<~PROMPT
       ## Context
 
-      This is a string that's rendered on the website.
-
-      #{original.context}
+      You are translating the title of an exercise.
     PROMPT
   end
-
-  def exercise = Exercise.find(original.about_id)
 end

@@ -31,10 +31,22 @@ class Git::SyncConceptExercise < Git::Sync
     Git::SyncExerciseArticles.(exercise)
     ::Exercise::UpdateHasApproaches.(exercise)
     SiteUpdates::ProcessNewExerciseUpdate.(exercise)
+
+    localize!(:exercise_instructions, exercise.instructions, exercise.id)
+    localize!(:exercise_introduction, exercise.introduction, exercise.id)
+    localize!(:exercise_title, exercise.title, exercise.id)
+    localize!(:exercise_blurb, exercise.blurb, exercise.id)
+    localize!(:exercise_source, exercise.source, exercise.id)
   end
 
   private
   attr_reader :exercise, :force_sync
+
+  def localize!(type, content, exercise_id)
+    return unless content.present?
+
+    Localization::Text::AddToLocalization.defer(type, content, exercise_id)
+  end
 
   def exercise_needs_updating?
     track_config_exercise_modified? || exercise_config_modified? || exercise_files_modified?

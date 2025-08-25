@@ -2,9 +2,7 @@ module LocalizationHelper
   def translate_exercise_introduction(exercise, markdown: false, solution: nil)
     # We're not syncing old exercise versions, so if someone
     # has an old version, encourage them to upgrade instead
-    if solution && !solution.synced_with_exercise?
-      return translation_or_out_of_date_guard(:exercise_introduction, solution.introduction, markdown:)
-    end
+    return translation_or_out_of_date_guard(solution.introduction, markdown:) if solution&.out_of_date?
 
     translation = Localization::Content::TranslateExerciseIntroduction.(exercise, locale: I18n.locale)
 
@@ -16,9 +14,7 @@ module LocalizationHelper
   def translate_exercise_instructions(exercise, markdown: false, solution: nil)
     # We're not syncing old exercise versions, so if someone
     # has an old version, encourage them to upgrade instead
-    if solution && !solution.synced_with_exercise?
-      return translation_or_out_of_date_guard(:exercise_instructions, solution.instructions, markdown:)
-    end
+    return translation_or_out_of_date_guard(solution.instructions, markdown:) if solution&.out_of_date?
 
     translation = Localization::Content::TranslateExerciseInstructions.(exercise, locale: I18n.locale)
     maybe_parse_as_markdown(translation, markdown) if translation
@@ -42,8 +38,8 @@ module LocalizationHelper
     (markdown ? Markdown::Parse.(text) : text).html_safe
   end
 
-  def translation_or_out_of_date_guard(type, text, markdown: false)
-    translation = Localization::Text::Retrieve.(type, text, I18n.locale)
+  def translation_or_out_of_date_guard(text, markdown: false)
+    translation = Localization::Text::Retrieve.(text, I18n.locale)
 
     return maybe_parse_as_markdown(translation, markdown) if translation
 

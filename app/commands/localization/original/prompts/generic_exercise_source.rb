@@ -1,4 +1,4 @@
-class Localization::Original::Prompts::General
+class Localization::Original::Prompts::GenericExerciseSource
   include Mandate
 
   initialize_with :original, :locale
@@ -12,9 +12,8 @@ class Localization::Original::Prompts::General
     <<~PROMPT
       ## Context
 
-      This is a string that's rendered on the website.
-
-      #{original.context}
+      You are translating a string describing the source of the #{exercise.title} exercise.
+      This is the short string that is used to explain where the exercise originated from.
     PROMPT
   end
 

@@ -1,4 +1,4 @@
-class Localization::Original::Prompts::General
+class Localization::Original::Prompts::GenericExerciseDescription
   include Mandate
 
   initialize_with :original, :locale
@@ -12,9 +12,9 @@ class Localization::Original::Prompts::General
     <<~PROMPT
       ## Context
 
-      This is a string that's rendered on the website.
-
-      #{original.context}
+      You are translating the introduction/instructions for an Exercism exercise.
+      The title of the exercise is #{exercise.title}.
+      These are the cross-track generic instructions.
     PROMPT
   end
 

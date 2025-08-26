@@ -39,6 +39,11 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_19_141635) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "add_uuid_to_code_tags_samples", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "type", null: false
     t.string "name", null: false
@@ -70,6 +75,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_19_141635) do
     t.index ["slug"], name: "index_blog_posts_on_slug", unique: true
   end
 
+  create_table "bootcamp_chat_messages", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "solution_id", null: false
+    t.integer "author", null: false
+    t.text "content", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["solution_id"], name: "index_bootcamp_chat_messages_on_solution_id"
+  end
+
   create_table "bootcamp_concepts", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "slug", null: false
     t.bigint "parent_id"
@@ -89,8 +103,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_19_141635) do
     t.string "uuid", null: false
     t.bigint "user_id", null: false
     t.boolean "active", default: false, null: false
-    t.text "code", null: false
     t.text "description", null: false
+    t.text "code", null: false
     t.text "tests", size: :long, null: false
     t.string "name", null: false
     t.integer "arity", null: false
@@ -133,6 +147,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_19_141635) do
     t.integer "level_idx", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "uuid"
     t.boolean "has_bonus_tasks", default: false, null: false
     t.boolean "blocks_project_progression", default: true, null: false
     t.boolean "blocks_level_progression", default: true, null: false
@@ -151,6 +166,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_19_141635) do
     t.datetime "updated_at", null: false
     t.string "youtube_id"
     t.string "labs_youtube_id"
+    t.integer "part", default: 1, null: false
   end
 
   create_table "bootcamp_projects", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -161,6 +177,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_19_141635) do
     t.text "introduction_html", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "uuid"
   end
 
   create_table "bootcamp_settings", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -280,6 +297,27 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_19_141635) do
     t.index ["watch_id", "exercise_id"], name: "index_community_videos_on_watch_id_and_exercise_id", unique: true
   end
 
+  create_table "conversations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "course_enrollments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "name", null: false
+    t.string "email", null: false
+    t.string "course_slug", null: false
+    t.string "country_code_2"
+    t.datetime "paid_at"
+    t.string "checkout_session_id"
+    t.string "access_code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "email_status", limit: 1, default: 0, null: false
+    t.string "uuid", null: false
+    t.index ["uuid"], name: "index_course_enrollments_on_uuid", unique: true
+  end
+
   create_table "documents", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "uuid", null: false
     t.bigint "track_id"
@@ -298,22 +336,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_19_141635) do
     t.index ["track_id", "position"], name: "index_documents_on_track_id_and_position"
     t.index ["track_id"], name: "index_documents_on_track_id"
     t.index ["uuid"], name: "index_documents_on_uuid", unique: true
-  end
-
-  create_table "course_enrollments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "user_id"
-    t.string "name", null: false
-    t.string "email", null: false
-    t.string "course_slug", null: false
-    t.string "country_code_2"
-    t.datetime "paid_at"
-    t.string "checkout_session_id"
-    t.string "access_code"
-    t.integer "email_status", limit: 1, default: 0, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "uuid", null: false
-    t.index ["uuid"], name: "index_course_enrollments_on_uuid", unique: true
   end
 
   create_table "donations_payments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -536,9 +558,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_19_141635) do
   end
 
   create_table "exercise_tags", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "exercise_id", null: false
     t.string "tag", null: false
     t.boolean "filterable", default: true, null: false
-    t.bigint "exercise_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["exercise_id", "tag"], name: "index_exercise_tags_on_exercise_id_and_tag", unique: true
@@ -708,6 +730,51 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_19_141635) do
     t.index ["solution_id"], name: "fk_rails_5d9f1bf4bd"
     t.index ["submission_id"], name: "index_iterations_on_submission_id", unique: true
     t.index ["uuid"], name: "iterations_uuid"
+  end
+
+  create_table "localization_originals", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "uuid", null: false
+    t.string "type", null: false
+    t.string "about_type"
+    t.bigint "about_id"
+    t.string "key", null: false
+    t.text "value", null: false
+    t.text "usage_details"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["key"], name: "index_localization_originals_on_key", unique: true
+    t.index ["type", "about_type", "about_id"], name: "idx_on_type_about_type_about_id_13bf9a28f1"
+    t.index ["type"], name: "index_localization_originals_on_type"
+    t.index ["uuid"], name: "index_localization_originals_on_uuid", unique: true
+  end
+
+  create_table "localization_translation_proposals", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "uuid", null: false
+    t.bigint "translation_id", null: false
+    t.bigint "proposer_id", null: false
+    t.bigint "reviewer_id"
+    t.integer "status", default: 0, null: false
+    t.boolean "modified_from_llm", null: false
+    t.text "value", null: false
+    t.text "llm_feedback"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["proposer_id"], name: "index_localization_translation_proposals_on_proposer_id"
+    t.index ["reviewer_id"], name: "index_localization_translation_proposals_on_reviewer_id"
+    t.index ["translation_id"], name: "index_localization_translation_proposals_on_translation_id"
+    t.index ["uuid"], name: "index_localization_translation_proposals_on_uuid", unique: true
+  end
+
+  create_table "localization_translations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "uuid", null: false
+    t.string "locale", null: false
+    t.string "key", null: false
+    t.text "value"
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["key", "locale"], name: "index_localization_translations_on_key_and_locale", unique: true
+    t.index ["uuid"], name: "index_localization_translations_on_uuid", unique: true
   end
 
   create_table "mailshots", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -1062,10 +1129,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_19_141635) do
   end
 
   create_table "solution_tags", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "tag", null: false
     t.bigint "solution_id", null: false
     t.bigint "exercise_id", null: false
     t.bigint "user_id", null: false
+    t.string "tag", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "track_id", null: false
@@ -1111,11 +1178,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_19_141635) do
     t.integer "latest_iteration_head_tests_status", limit: 1, default: 0, null: false
     t.boolean "unlocked_help", default: false, null: false
     t.bigint "published_exercise_representation_id"
-    t.bigint "exercise_approach_id"
     t.index ["approved_by_id"], name: "fk_rails_4cc89d0b11"
     t.index ["created_at", "exercise_id"], name: "mentor_selection_idx_1"
     t.index ["created_at", "exercise_id"], name: "mentor_selection_idx_2"
-    t.index ["exercise_approach_id"], name: "index_solutions_on_exercise_approach_id"
     t.index ["exercise_id", "approved_by_id", "completed_at", "mentoring_requested_at", "id"], name: "mentor_selection_idx_3"
     t.index ["exercise_id", "git_important_files_hash"], name: "index_solutions_on_exercise_id_and_git_important_files_hash"
     t.index ["exercise_id", "status", "num_stars", "updated_at"], name: "solutions_ex_stat_stars_upat"
@@ -1206,6 +1271,11 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_19_141635) do
     t.index ["track_id"], name: "index_submission_representations_on_track_id"
   end
 
+  create_table "submission_tags", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "submission_test_runs", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "uuid", null: false
     t.bigint "submission_id", null: false
@@ -1247,6 +1317,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_19_141635) do
     t.integer "exercise_representer_version", limit: 2, default: 1, null: false
     t.bigint "approach_id"
     t.json "tags"
+    t.index "`exercise_id`, `approach_id`, (json_value(`tags`, _utf8mb4'$[0]' returning char(512) null on empty))", name: "index_submissions_exercise_approach_tags"
     t.index ["approach_id"], name: "index_submissions_on_approach_id"
     t.index ["exercise_id", "git_important_files_hash"], name: "index_submissions_on_exercise_id_and_git_important_files_hash"
     t.index ["git_important_files_hash", "solution_id"], name: "submissions-git-optimiser-2"
@@ -1517,11 +1588,11 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_19_141635) do
     t.boolean "email_about_events", default: true, null: false
     t.boolean "email_about_insiders", default: true, null: false
     t.boolean "email_on_acquired_trophy_notification", default: true, null: false
+    t.boolean "receive_onboarding_emails", default: true, null: false
     t.boolean "email_on_nudge_student_to_reply_in_discussion_notification", default: true, null: false
     t.boolean "email_on_nudge_mentor_to_reply_in_discussion_notification", default: true, null: false
     t.boolean "email_on_mentor_timed_out_discussion_notification", default: true, null: false
     t.boolean "email_on_student_timed_out_discussion_notification", default: true, null: false
-    t.boolean "receive_onboarding_emails", default: true, null: false
     t.index ["token"], name: "index_user_communication_preferences_on_token"
     t.index ["user_id"], name: "fk_rails_65642a5510"
   end
@@ -1585,11 +1656,11 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_19_141635) do
     t.bigint "user_id", null: false
     t.bigint "installation_id", null: false
     t.string "repo_full_name", null: false
-    t.boolean "enabled", null: false, default: true
-    t.boolean "sync_on_iteration_creation", null: false, default: true
-    t.boolean "sync_exercise_files", null: false
-    t.integer "processing_method", null: false, default: 1
-    t.string "main_branch_name", null: false, default: "main"
+    t.boolean "enabled", default: true, null: false
+    t.boolean "sync_on_iteration_creation", default: true, null: false
+    t.boolean "sync_exercise_files", default: false, null: false
+    t.integer "processing_method", default: 1, null: false
+    t.string "main_branch_name", default: "main", null: false
     t.string "commit_message_template", null: false
     t.string "path_template", null: false
     t.datetime "created_at", null: false
@@ -1793,7 +1864,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_19_141635) do
     t.string "video_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "context"
+    t.string "context", default: "0", null: false
     t.index ["context"], name: "index_user_watched_videos_on_context"
     t.index ["user_id", "video_provider", "video_id"], name: "user_watched_videos_uniq", unique: true
     t.index ["user_id"], name: "index_user_watched_videos_on_user_id"
@@ -1837,12 +1908,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_19_141635) do
 
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "blog_posts", "users", column: "author_id"
+  add_foreign_key "bootcamp_chat_messages", "bootcamp_solutions", column: "solution_id"
   add_foreign_key "bootcamp_concepts", "bootcamp_concepts", column: "parent_id"
   add_foreign_key "bootcamp_custom_functions", "users"
   add_foreign_key "bootcamp_drawings", "users"
   add_foreign_key "bootcamp_exercise_concepts", "bootcamp_concepts", column: "concept_id"
   add_foreign_key "bootcamp_exercise_concepts", "bootcamp_exercises", column: "exercise_id"
   add_foreign_key "bootcamp_submissions", "bootcamp_solutions", column: "solution_id"
+  add_foreign_key "bootcamp_user_projects", "bootcamp_projects", column: "project_id"
+  add_foreign_key "bootcamp_user_projects", "users"
   add_foreign_key "cohort_memberships", "cohorts"
   add_foreign_key "cohort_memberships", "users"
   add_foreign_key "cohorts", "tracks"
@@ -1892,6 +1966,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_19_141635) do
   add_foreign_key "github_tasks", "tracks"
   add_foreign_key "github_team_members", "tracks"
   add_foreign_key "github_team_members", "users"
+  add_foreign_key "localization_translation_proposals", "localization_translations", column: "translation_id"
+  add_foreign_key "localization_translation_proposals", "users", column: "proposer_id"
+  add_foreign_key "localization_translation_proposals", "users", column: "reviewer_id"
+  add_foreign_key "localization_translations", "localization_originals", column: "key", primary_key: "key"
   add_foreign_key "mentor_discussion_posts", "iterations"
   add_foreign_key "mentor_discussion_posts", "mentor_discussions", column: "discussion_id"
   add_foreign_key "mentor_discussion_posts", "users"
@@ -1922,7 +2000,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_19_141635) do
   add_foreign_key "solution_tags", "exercises"
   add_foreign_key "solution_tags", "solutions"
   add_foreign_key "solution_tags", "users"
-  add_foreign_key "solutions", "exercise_approaches"
   add_foreign_key "solutions", "exercise_representations", column: "published_exercise_representation_id"
   add_foreign_key "solutions", "exercises"
   add_foreign_key "solutions", "iterations", column: "published_iteration_id"
@@ -1957,6 +2034,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_19_141635) do
   add_foreign_key "user_bootcamp_data", "users"
   add_foreign_key "user_communication_preferences", "users"
   add_foreign_key "user_dismissed_introducers", "users"
+  add_foreign_key "user_github_solution_syncers", "users"
   add_foreign_key "user_mailshots", "mailshots"
   add_foreign_key "user_notifications", "exercises"
   add_foreign_key "user_notifications", "tracks"

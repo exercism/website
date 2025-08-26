@@ -1,0 +1,28 @@
+- require_stylesheet "mentoring"
+
+#page-localization-index
+  = render ViewComponents::Localization::Header.new
+
+  .lg-container= render ReactComponents::Localization::OriginalsList.new(@originals, @originals_params)
+
+
+  -# %table
+     %tbody
+       - @originals.each do |original|
+         %tr
+           %td= original[:uuid]
+           %td= original[:key]
+           %td= original[:value]
+           %td
+             .flex.items-center
+               - original[:translations].each do |translation|
+                 .mr-10
+                   = flag_for_locale(translation[:locale])
+                   - if translation[:status] == "checked"
+                     ✅
+                   - elsif translation[:status] == "unchecked"
+                     ❌
+                   - else
+                     🟠
+
+           %td= link_to "View", localization_original_path(original[:uuid]), class: "btn-m btn-secondary"

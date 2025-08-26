@@ -20,10 +20,21 @@ class Git::SyncConcept < Git::Sync
 
     Git::SyncConceptAuthors.(concept)
     Git::SyncConceptContributors.(concept)
+
+    localize!(:concept_name, concept.name)
+    localize!(:concept_blurb, concept.blurb)
+    localize!(:concept_introduction, concept.introduction)
+    localize!(:concept_about, concept.about)
   end
 
   private
   attr_reader :concept, :force_sync
+
+  def localize!(type, content)
+    return unless content.present?
+
+    Localization::Text::AddToLocalization.defer(type, content, concept.id)
+  end
 
   def concept_needs_updating?
     track_config_concept_modified? || concept_config_modified?

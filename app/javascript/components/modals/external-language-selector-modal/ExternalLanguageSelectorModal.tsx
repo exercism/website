@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import Modal from '../Modal'
 import {
-  getCurrentLocaleFromPath,
+  detectLocaleFromPath,
   getUserPreferredLocale,
   buildNewUrl,
+  buildLocaleChoices,
+  normalizeLocale,
 } from './utils'
+import { EXTERNAL_LANGUAGE_COPY } from './copy'
 
 type Props = {
   supportedLocales: string[]
@@ -15,103 +18,81 @@ const STORAGE_KEY = 'external-locale'
 export default function ExternalLanguageSelectorModal({
   supportedLocales,
 }: Props) {
-  const [preferredLocale, setPreferredLocale] = useState<string | null>(null)
   const [isOpen, setIsOpen] = useState(false)
+  const [choices, setChoices] = useState<string[]>([])
 
   useEffect(() => {
-    const currentLocale = getCurrentLocaleFromPath()
-    if (!currentLocale) return
-
+    const { locale: currentLocale, hasLocaleInPath } =
+      detectLocaleFromPath(supportedLocales)
     const preferred = getUserPreferredLocale(supportedLocales, STORAGE_KEY)
-    if (!preferred) return
 
-    // Don't show modal if preferred locale matches current locale
-    if (
-      preferred === currentLocale ||
-      preferred.split('-')[0] === currentLocale.split('-')[0]
-    ) {
-      return
+    const ordered = buildLocaleChoices({
+      supportedLocales,
+      currentLocale,
+      preferredLocale: preferred,
+      fallbackLocale: 'en',
+    })
+
+    const shouldOpen =
+      !hasLocaleInPath ||
+      (!!currentLocale &&
+        !!preferred &&
+        currentLocale.split('-')[0] !== preferred.split('-')[0])
+
+    if (shouldOpen && ordered.length > 0) {
+      setChoices(ordered)
+      setIsOpen(true)
     }
-
-    setPreferredLocale(preferred)
-    setIsOpen(true)
   }, [supportedLocales])
 
-  const handleAccept = () => {
-    if (!preferredLocale) return
-    localStorage.setItem(STORAGE_KEY, preferredLocale)
-    window.location.assign(buildNewUrl(preferredLocale))
+  const handleChoose = (locale: string) => {
+    const loc = normalizeLocale(locale)
+    localStorage.setItem(STORAGE_KEY, loc)
+    window.location.assign(buildNewUrl(loc, supportedLocales))
   }
 
-  const handleDecline = () => {
-    const currentLocale = getCurrentLocaleFromPath()
-    if (currentLocale) {
-      localStorage.setItem(STORAGE_KEY, currentLocale)
-    }
-    setIsOpen(false)
-  }
+  const handleClose = () => setIsOpen(false)
 
-  if (!isOpen || !preferredLocale) {
-    return null
-  }
-
-  // TODO: make this come from backend
-  const copy =
-    EXTERNAL_LANGUAGE_COPY[preferredLocale] ?? EXTERNAL_LANGUAGE_COPY.en
+  if (!isOpen || choices.length === 0) return null
 
   return (
-    <Modal open={isOpen} onClose={handleDecline}>
-      <div className="flex flex-col gap-4 p-4 max-w-md">
-        <h1 className="text-h3 font-semibold mb-12">{copy.question}</h1>
+    <Modal
+      open={isOpen}
+      onClose={handleClose}
+      shouldCloseOnOverlayClick={false}
+      shouldCloseOnEsc={false}
+    >
+      <div className="flex flex-col gap-6 p-4 max-w-md">
+        <div className="space-y-2">
+          {choices.map((loc) => {
+            const key = normalizeLocale(loc)
+            const copy =
+              EXTERNAL_LANGUAGE_COPY[key] ?? EXTERNAL_LANGUAGE_COPY.en
+            return (
+              <h2 key={`q-${key}`} className="text-h4 font-semibold">
+                {copy.question}
+              </h2>
+            )
+          })}
+        </div>
 
-        <div className="flex gap-4 items-center">
-          <button className="btn btn-primary" onClick={handleAccept}>
-            {copy.accept}
-          </button>
-          <button className="btn btn-default" onClick={handleDecline}>
-            {copy.decline}
-          </button>
+        <div className="flex flex-wrap gap-4 items-center">
+          {choices.map((loc) => {
+            const key = normalizeLocale(loc)
+            const copy =
+              EXTERNAL_LANGUAGE_COPY[key] ?? EXTERNAL_LANGUAGE_COPY.en
+            return (
+              <button
+                key={`btn-${key}`}
+                className="btn btn-primary"
+                onClick={() => handleChoose(key)}
+              >
+                {copy.choice}
+              </button>
+            )
+          })}
         </div>
       </div>
     </Modal>
   )
-}
-
-type Copy = {
-  question: string
-  accept: string
-  decline: string
-}
-
-export const EXTERNAL_LANGUAGE_COPY: Record<string, Copy> = {
-  en: {
-    question: '🏴󠁧󠁢󠁥󠁮󠁧󠁿 Would you rather use Exercism in English?',
-    accept: 'Switch to English',
-    decline: 'No, thanks',
-  },
-  hu: {
-    question: '🇭🇺 Szeretnéd az Exercismet magyarul használni?',
-    accept: 'Váltás magyar nyelvre',
-    decline: 'Nem, köszönöm',
-  },
-  nl: {
-    question: '🇳🇱 Wil je Exercism liever in het Nederlands gebruiken?',
-    accept: 'Overschakelen naar Nederlands',
-    decline: 'Nee, bedankt',
-  },
-  de: {
-    question: '🇩🇪 Möchtest du Exercism lieber auf Deutsch verwenden?',
-    accept: 'Zu Deutsch wechseln',
-    decline: 'Nein, danke',
-  },
-  pt: {
-    question: '🇵🇹 Gostarias de usar o Exercism em português?',
-    accept: 'Mudar para português',
-    decline: 'Não, obrigado',
-  },
-  'pt-br': {
-    question: '🇧🇷 Gostaria de usar o Exercism em português do Brasil?',
-    accept: 'Mudar para português do Brasil',
-    decline: 'Não, obrigado',
-  },
 }

@@ -725,10 +725,11 @@ export const mappings = {
     </Suspense>
   ),
   'external-language-selector-modal': (data: any): JSX.Element => {
-    const supportedLocales = ['en', 'hu', 'nl', 'de', 'pt', 'pt-BR']
     return (
       <Suspense fallback={RenderLoader()}>
-        <ExternalLanguageSelectorModal supportedLocales={supportedLocales} />
+        <ExternalLanguageSelectorModal
+          supportedLocales={data.supported_locales}
+        />
       </Suspense>
     )
   },

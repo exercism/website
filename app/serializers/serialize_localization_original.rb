@@ -8,9 +8,9 @@ class SerializeLocalizationOriginal
       uuid: original.uuid,
       key: original.key,
       value: original.value,
-      title: title,
+      title: original.title,
       type: original.type,
-      pretty_type: original.type.titleize,
+      pretty_type: original.type.to_s.titleize,
       translations: translations.filter_map do |translation|
         next if translation.locale == "en"
 

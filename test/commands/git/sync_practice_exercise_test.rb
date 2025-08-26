@@ -1,6 +1,11 @@
 require "test_helper"
 
 class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
+  setup do
+    # Stub, sometimes unneccesarily
+    Localization::Text::AddToLocalization.define_singleton_method(:defer) { |*args| }
+  end
+
   test "respects force_sync: true" do
     repo = Git::Repository.new(repo_url: TestHelpers.git_repo_url("track"))
     exercise = create :practice_exercise, uuid: '185b964c-1ec1-4d60-b9b9-fa20b9f57b4a', slug: 'allergies', title: 'Allergies', git_sha: repo.head_commit.oid, synced_to_git_sha: repo.head_commit.oid # rubocop:disable Layout/LineLength
@@ -450,5 +455,27 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
     assert_equal "Check out this perf!", article.blurb
     assert_equal [user_1], article.authors
     assert_equal [user_2], article.contributors
+  end
+
+  test "localizes all the content" do
+    exercise = create :practice_exercise, uuid: '70fec82e-3038-468f-96ef-bfb48ce03ef3'
+
+    introduction = "Some intro"
+    instructions = "Some instructions here."
+    source = "Some source"
+    blurb = "Some blurb"
+
+    exercise.stubs(instructions:)
+    exercise.stubs(introduction:)
+    exercise.stubs(source:)
+    exercise.stubs(blurb:)
+
+    Localization::Text::AddToLocalization.expects(:defer).with(:exercise_instructions, instructions, exercise)
+    Localization::Text::AddToLocalization.expects(:defer).with(:exercise_introduction, introduction, exercise)
+    Localization::Text::AddToLocalization.expects(:defer).with(:exercise_title, exercise.title, exercise)
+    Localization::Text::AddToLocalization.expects(:defer).with(:exercise_blurb, exercise.blurb, exercise)
+    Localization::Text::AddToLocalization.expects(:defer).with(:exercise_source, exercise.source, exercise)
+
+    Git::SyncPracticeExercise.(exercise, force_sync: true)
   end
 end

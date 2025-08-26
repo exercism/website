@@ -5,7 +5,7 @@ module ReactComponents
         return if current_user
 
         super("external-language-selector-modal", {
-          something: 'value'
+          supported_locales: I18n.available_locales
         })
       end
     end

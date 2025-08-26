@@ -32,7 +32,7 @@ class Localization::TranslationProposal::VerifyWithLLM
 
       This is information about how it's used:
       ~~~~~~
-      #{original.context}
+      #{original.usage_details}
       ~~~~~~
 
       The proposed translation is:

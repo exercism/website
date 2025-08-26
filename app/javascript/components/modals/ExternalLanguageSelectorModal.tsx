@@ -30,12 +30,12 @@ const findBestMatch = (
   const normalized = normalizeLocale(targetLocale)
   const normalizedSupported = supportedLocales.map(normalizeLocale)
 
-  // Exact match
+  // exact match
   if (normalizedSupported.includes(normalized)) {
     return normalized
   }
 
-  // Language code match (e.g., 'en' matches 'en-us')
+  // language code match (e.g., 'en' matches 'en-us')
   const languageCode = normalized.split('-')[0]
   const languageVariant = normalizedSupported.find(
     (locale) => locale.split('-')[0] === languageCode
@@ -45,13 +45,13 @@ const findBestMatch = (
 }
 
 const getUserPreferredLocale = (supportedLocales: string[]): string | null => {
-  // Check stored preference first
+  // check localStorage
   const stored = localStorage.getItem(STORAGE_KEY)
   if (stored) {
     return findBestMatch(stored, supportedLocales)
   }
 
-  // Check browser languages
+  // check browser languages
   const browserLocales = [
     ...(navigator.languages || []),
     navigator.language,
@@ -112,7 +112,7 @@ export default function ExternalLanguageSelectorModal({
     return null
   }
 
-  // Use copy based on preferred locale; fallback to English
+  // TODO: make this come from backend
   const copy =
     EXTERNAL_LANGUAGE_COPY[preferredLocale] ?? EXTERNAL_LANGUAGE_COPY.en
 

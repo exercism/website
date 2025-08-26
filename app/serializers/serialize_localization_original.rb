@@ -11,6 +11,7 @@ class SerializeLocalizationOriginal
       title: original.title,
       type: original.type,
       pretty_type: original.type.to_s.titleize,
+      usage_details: original.usage_details,
       translations: translations.filter_map do |translation|
         next if translation.locale == "en"
 

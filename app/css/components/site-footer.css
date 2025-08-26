@@ -208,27 +208,22 @@ body.namespace-.controller-insiders {
         }
     }
 
-    & .socials {
-        @apply flex items-center justify-center;
-        & .icon {
-            height: 48px;
-            width: 48px;
-            @apply grid place-items-center;
-            @apply rounded-circle;
-            @apply mx-12;
-            & .c-icon {
-                height: 24px;
-                width: 24px;
-                filter: var(--filter-FFFFFF);
-            }
-            &.twitter {
-                background: #1da1f2;
-            }
-            &.facebook {
-                background: #4267b2;
-            }
-            &.github {
-                background: #6e82aa;
+    .locales {
+        & h3 {
+            @apply text-16 leading-150 font-semibold;
+            @apply text-white;
+            @apply mb-8;
+        }
+        hr {
+            @apply mb-20;
+        }
+    }
+    .locales {
+        .locale {
+            @apply text-16 font-medium leading-150 text-[#c8d5ef];
+            @apply flex items-center;
+            .flag {
+                @apply text-24 mr-6;
             }
         }
     }

@@ -20,4 +20,7 @@
         @apply py-8 px-24;
         background: var(--c-prominent-link-bg);
     }
+    &.--inline {
+        @apply inline-flex;
+    }
 }

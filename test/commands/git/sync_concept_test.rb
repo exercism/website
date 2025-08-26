@@ -1,6 +1,11 @@
 require "test_helper"
 
 class Git::SyncConceptTest < ActiveSupport::TestCase
+  setup do
+    # Stub, sometimes unneccesarily
+    Localization::Text::AddToLocalization.define_singleton_method(:defer) { |*args| }
+  end
+
   test "respects force_sync: true" do
     repo = Git::Repository.new(repo_url: TestHelpers.git_repo_url("track"))
     concept = create :concept, uuid: '3b1da281-7099-4c93-a109-178fc9436d68', slug: 'strings', name: 'Strings', blurb: 'Strings are immutable objects', synced_to_git_sha: repo.head_commit.oid # rubocop:disable Layout/LineLength
@@ -163,5 +168,25 @@ class Git::SyncConceptTest < ActiveSupport::TestCase
     end
 
     assert_equal 1, existing_contributor.reputation_tokens.where(category: "authoring").count
+  end
+
+  test "localizes all the content" do
+    introduction = "Some intro"
+    about = "Some about here."
+    name = "The name"
+    blurb = "Some blurb"
+
+    concept = create :concept, uuid: 'fe345fe6-229b-4b4b-a489-4ed3b77a1d7e', synced_to_git_sha: '45c3bad984cced8a2546a204470ed9b4d80fe4ec' # rubocop:disable Layout/LineLength
+    concept.stubs(introduction:)
+    concept.stubs(about:)
+    concept.stubs(name:)
+    concept.stubs(blurb:)
+
+    Localization::Text::AddToLocalization.expects(:defer).with(:concept_name, name, concept.id)
+    Localization::Text::AddToLocalization.expects(:defer).with(:concept_blurb, blurb, concept.id)
+    Localization::Text::AddToLocalization.expects(:defer).with(:concept_introduction, introduction, concept.id)
+    Localization::Text::AddToLocalization.expects(:defer).with(:concept_about, about, concept.id)
+
+    Git::SyncConcept.(concept)
   end
 end

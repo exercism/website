@@ -204,7 +204,10 @@ const PerksExternalModalButton = lazy(
   () => import('@/components/perks/PerksExternalModalButton')
 )
 const ExternalLanguageSelectorModal = lazy(
-  () => import('@/components/modals/ExternalLanguageSelectorModal')
+  () =>
+    import(
+      '@/components/modals/external-language-selector-modal/ExternalLanguageSelectorModal'
+    )
 )
 
 const Trophies = lazy(() => import('@/components/track/Trophies'))

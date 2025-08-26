@@ -1,68 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import Modal from './Modal'
+import Modal from '../Modal'
+import {
+  getCurrentLocaleFromPath,
+  getUserPreferredLocale,
+  buildNewUrl,
+} from './utils'
 
 type Props = {
   supportedLocales: string[]
 }
 
 const STORAGE_KEY = 'external-locale'
-
-const normalizeLocale = (locale: string): string =>
-  locale.toLowerCase().replace('_', '-')
-
-const getCurrentLocaleFromPath = (): string | null => {
-  const pathSegment = window.location.pathname.split('/')[1]
-  return pathSegment ? normalizeLocale(pathSegment) : null
-}
-
-const buildNewUrl = (locale: string): string => {
-  const parts = window.location.pathname.split('/')
-  parts[1] = locale
-  const newPath = parts.join('/') || `/${locale}`
-  return `${newPath}${window.location.search}${window.location.hash}`
-}
-
-const findBestMatch = (
-  targetLocale: string,
-  supportedLocales: string[]
-): string | null => {
-  const normalized = normalizeLocale(targetLocale)
-  const normalizedSupported = supportedLocales.map(normalizeLocale)
-
-  // exact match
-  if (normalizedSupported.includes(normalized)) {
-    return normalized
-  }
-
-  // language code match (e.g., 'en' matches 'en-us')
-  const languageCode = normalized.split('-')[0]
-  const languageVariant = normalizedSupported.find(
-    (locale) => locale.split('-')[0] === languageCode
-  )
-
-  return languageVariant || null
-}
-
-const getUserPreferredLocale = (supportedLocales: string[]): string | null => {
-  // check localStorage
-  const stored = localStorage.getItem(STORAGE_KEY)
-  if (stored) {
-    return findBestMatch(stored, supportedLocales)
-  }
-
-  // check browser languages
-  const browserLocales = [
-    ...(navigator.languages || []),
-    navigator.language,
-  ].filter(Boolean)
-
-  for (const locale of browserLocales) {
-    const match = findBestMatch(locale, supportedLocales)
-    if (match) return match
-  }
-
-  return null
-}
 
 export default function ExternalLanguageSelectorModal({
   supportedLocales,
@@ -74,7 +22,7 @@ export default function ExternalLanguageSelectorModal({
     const currentLocale = getCurrentLocaleFromPath()
     if (!currentLocale) return
 
-    const preferred = getUserPreferredLocale(supportedLocales)
+    const preferred = getUserPreferredLocale(supportedLocales, STORAGE_KEY)
     if (!preferred) return
 
     // Don't show modal if preferred locale matches current locale

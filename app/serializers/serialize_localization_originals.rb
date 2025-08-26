@@ -25,7 +25,7 @@ class SerializeLocalizationOriginals
   end
 
   def originals_with_includes
-    originals.to_active_relation # .includes(:...)
+    originals.to_active_relation.includes(:about)
   end
 
   memoize

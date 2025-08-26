@@ -84,7 +84,7 @@ export default function ExternalLanguageSelectorModal({
             return (
               <button
                 key={`btn-${key}`}
-                className="btn btn-primary"
+                className="btn btn-default"
                 onClick={() => handleChoose(key)}
               >
                 {copy.choice}

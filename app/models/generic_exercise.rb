@@ -4,6 +4,9 @@ class GenericExercise < ApplicationRecord
   enum status: { active: 0, deprecated: 1 }
 
   delegate :description_html, to: :git
+  delegate :introduction, to: :git
+  delegate :description, to: :git
+  delegate :instructions, to: :git
 
   def status = super.to_sym
 

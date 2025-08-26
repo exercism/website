@@ -1,0 +1,27 @@
+#page-localization-dashboard {
+    .locales {
+        .locale {
+            .progress {
+                width: 500px;
+                height: 20px;
+                @apply relative;
+                & > div {
+                    @apply absolute inset-0;
+
+                    &.generating {
+                        @apply bg-red;
+                    }
+                    &.unchecked {
+                        @apply bg-red;
+                    }
+                    &.proposed {
+                        @apply bg-orange;
+                    }
+                    &.checked {
+                        @apply bg-green-500;
+                    }
+                }
+            }
+        }
+    }
+}

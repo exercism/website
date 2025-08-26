@@ -21,6 +21,7 @@
         background: var(--c-prominent-link-bg);
     }
     &.--inline {
-        @apply inline-flex;
+        @apply inline;
+        @apply leading-[inherit];
     }
 }

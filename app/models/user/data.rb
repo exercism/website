@@ -40,6 +40,7 @@ class User::Data < ApplicationRecord
   def junior? = seniority == :absolute_beginner || seniority == :beginner
 
   def usages = super || (self.usages = {})
+  def translator_locales = (super || []).map(&:to_sym)
 
   def chatgpt_usage
     us = usages['chatgpt'] || {}

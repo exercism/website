@@ -203,6 +203,9 @@ const PerksModalButton = lazy(
 const PerksExternalModalButton = lazy(
   () => import('@/components/perks/PerksExternalModalButton')
 )
+const ExternalLanguageSelectorModal = lazy(
+  () => import('@/components/modals/ExternalLanguageSelectorModal')
+)
 
 const Trophies = lazy(() => import('@/components/track/Trophies'))
 
@@ -718,6 +721,14 @@ export const mappings = {
       <FirstTimeModal links={data.links} />
     </Suspense>
   ),
+  'external-language-selector-modal': (data: any): JSX.Element => {
+    const supportedLocales = ['en', 'hu', 'nl', 'de', 'pt', 'pt-BR']
+    return (
+      <Suspense fallback={RenderLoader()}>
+        <ExternalLanguageSelectorModal supportedLocales={supportedLocales} />
+      </Suspense>
+    )
+  },
   'community-solutions-star-button': (data: any): JSX.Element => (
     <Suspense fallback={RenderLoader()}>
       <StarButton

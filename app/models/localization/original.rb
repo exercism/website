@@ -44,4 +44,45 @@ class Localization::Original < ApplicationRecord
       type.to_s.humanize
     end
   end
+
+  def usage_details
+    return super if super.present?
+
+    case type
+    when :exercise_introduction
+      "This is the introduction text shown on the exercise page. It sets the context of the STORY of the exercise. The instructions are shown next and are translated seperately."
+    when :exercise_instructions
+      "These are the instructions shown on the exercise page. They tell the user what to do to complete the exercise. The introduction is shown before and is translated seperately."
+    when :exercise_title
+      "This is the title of the exercise shown around the site in various places."
+    when :exercise_blurb
+      "This is a short blurb about the exercise, shown as part of an exercise widget (e.g. on the page that lists the exercises for a track)."
+    when :exercise_source
+      "This appears at the bottom of an exercise to show where it originated, and is included in the README downloaded via the CLI."
+    when :generic_exercise_introduction
+      "This is the **programming-language-agnostic** introduction text. Some tracks override it, but it's generally used across most languages. The instructions and an optional append come seperately."
+    when :generic_exercise_instructions
+      "These are the **programming-language-agnostic** instructions. Some tracks override them, but they're generally used across most languages. The introduction and an optional append come seperately."
+    when :generic_exercise_title
+      "This is the **programming-language-agnostic** title of the exercise. It can be overriden by tracks but almost never is."
+    when :generic_exercise_blurb
+      "This is a **programming-language-agnostic** short blurb about the exercise, shown as part of an exercise widget (e.g. on the page that lists the exercises for a track). It can be overriden by tracks but almost never is."
+    when :generic_exercise_source
+      "This appears at the bottom of an exercise to show where it originated, and is included in the README downloaded via the CLI. This is the **programming-language-agnostic** version, which can be overriden by tracks but almost never is."
+    when :concept_name
+      "This is the name of a programming concept for a specific track. It appears throughout the track".
+        when :concept_blurb
+      "This is a short blurb about a programming concept for a specific track. It appears on the concept page and in various places around the site."
+    when :concept_introduction
+      "This is the version of the concept explanation that is shown to students BEFORE they complete the associated exercise."
+    when :concept_about
+      "This is the version of the concept explanation that is shown to students AFTER they complete the associated exercise."
+    when :blog_post_content
+      "This is the content of a blog post shown on the blog."
+    when :docs_content
+      "This is the content of a documentation page shown on the docs."
+    else
+      "No usage details available."
+    end
+  end
 end

@@ -193,6 +193,7 @@ end
 resources :favorites, only: [:index]
 
 namespace :localization do
+  root to: "dashboard#show"
   resources :originals, only: %i[index show] do
   end
 end

@@ -232,6 +232,9 @@ import {
 } from '@/components/github-syncer-widget/GithubSyncerWidget'
 import { BootcampFreeCouponFormProps } from '@/components/settings/BootcampFreeCouponForm'
 import { FavoritesListProps } from '@/components/favorites-list'
+import LocalizationForm, {
+  LocalizationFormProps,
+} from '@/components/settings/LocalizationForm'
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
@@ -476,6 +479,11 @@ initReact({
         defaultUser={camelizeKeysAs<User>(data.user)}
         links={data.links}
       />
+    </Suspense>
+  ),
+  'settings-localization-form': (data: any) => (
+    <Suspense fallback={RenderLoader()}>
+      <LocalizationForm {...camelizeKeysAs<LocalizationFormProps>(data)} />
     </Suspense>
   ),
   'settings-delete-profile-form': (data: any) => (

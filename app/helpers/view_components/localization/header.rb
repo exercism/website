@@ -1,6 +1,8 @@
 module ViewComponents
   module Localization
     class Header < ViewComponent
+      delegate :controller_name, to: :view_context
+
       def to_s
         tag.nav(class: 'c-mentor-header') do
           tag.div(class: 'lg-container container') do
@@ -33,12 +35,21 @@ module ViewComponents
         end
       end
 
-      def tabs = [originals_tab]
+      def tabs = [overview_tab, originals_tab]
+
+      def overview_tab
+        selected = controller_name == "originals" ? "" : " selected"
+        tag.div(class: "c-tab-2 #{selected}") do
+          graphical_icon(:overview) +
+            tag.span("Overview")
+        end
+      end
 
       def originals_tab
-        tag.div(class: "c-tab-2 selected") do
+        selected = controller_name == "originals" ? "selected" : ""
+        tag.div(class: "c-tab-2 #{selected}") do
           graphical_icon(:overview) +
-            tag.span("Originals")
+            tag.span("Translations")
         end
       end
     end

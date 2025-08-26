@@ -60,6 +60,7 @@
 @import "../modals/crop-avatar";
 
 /* Localization */
+@import "../pages/localization/dashboard";
 @import "../pages/localization/show";
 @import "../pages/localization/index";
 

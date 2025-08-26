@@ -7,11 +7,11 @@ class GenericExercise::CreateOrUpdate
     create!.tap do |exercise|
       exercise.update!(attributes)
 
-      localize!(:generic_exercise_instructions, exercise.instructions, exercise.id)
-      localize!(:generic_exercise_introduction, exercise.introduction, exercise.id)
-      localize!(:generic_exercise_title, exercise.title, exercise.id)
-      localize!(:generic_exercise_blurb, exercise.blurb, exercise.id)
-      localize!(:generic_exercise_source, exercise.source, exercise.id)
+      localize!(:generic_exercise_instructions, exercise.instructions, exercise)
+      localize!(:generic_exercise_introduction, exercise.introduction, exercise)
+      localize!(:generic_exercise_title, exercise.title, exercise)
+      localize!(:generic_exercise_blurb, exercise.blurb, exercise)
+      localize!(:generic_exercise_source, exercise.source, exercise)
     end
   end
 
@@ -22,10 +22,10 @@ class GenericExercise::CreateOrUpdate
     end
   end
 
-  def localize!(type, content, exercise_id)
+  def localize!(type, content, exercise)
     return unless content.present?
 
-    Localization::Text::AddToLocalization.defer(type, content, exercise_id)
+    Localization::Text::AddToLocalization.defer(type, content, exercise)
   end
 
   memoize

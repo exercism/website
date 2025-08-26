@@ -75,6 +75,7 @@ class Localization::Original::Prompts::GenericPrompt
       locale: locale,
       original: Localization::Original.where(
         type: original.type,
+        about_type: original.about_type,
         about_id: original.about_id
       ),
       status: :checked

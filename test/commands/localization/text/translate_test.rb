@@ -16,16 +16,16 @@ class Localization::Text::TranslateTest < ActiveSupport::TestCase
 
   test "calles AddToLocalization and returns nil if translation does not exist" do
     text = "Test instructions"
-    exercise_id = 42
+    exercise = create :practice_exercise
     type = :exercise_instructions
     key = Localization::Text::GenerateKey.(text)
 
     create :localization_original, key: key
 
     expected = "Translated value"
-    Localization::Text::AddToLocalization.expects(:call).with(type, text, exercise_id, priority_locale: "nl").returns(expected)
+    Localization::Text::AddToLocalization.expects(:call).with(type, text, exercise, priority_locale: "nl").returns(expected)
 
-    result = Localization::Text::Translate.(type, text, exercise_id, "nl")
+    result = Localization::Text::Translate.(type, text, exercise, "nl")
     assert_nil result
   end
 end

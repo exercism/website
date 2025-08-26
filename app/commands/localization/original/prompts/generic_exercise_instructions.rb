@@ -23,5 +23,6 @@ class Localization::Original::Prompts::GenericExerciseInstructions
     PROMPT
   end
 
-  def exercise = GenericExercise.find(original.about_id)
+  memoize
+  def exercise = original.about
 end

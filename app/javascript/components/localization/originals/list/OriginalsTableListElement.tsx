@@ -16,8 +16,8 @@ export function OriginalsTableListElement({
       className="original"
     >
       <div className="info">
-        <div className="original-key">{original.key}</div>
-        <div className="original-uuid">{original.uuid}</div>
+        <div className="original-key">{original.title}</div>
+        <div className="original-uuid">{original.prettyType}</div>
       </div>
 
       <TranslationsWithStatus translations={original.translations} />

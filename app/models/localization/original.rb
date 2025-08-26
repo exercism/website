@@ -24,6 +24,7 @@ class Localization::Original < ApplicationRecord
   # docs_content ❌ ❌
 
   has_many :translations, dependent: :destroy, foreign_key: :key, primary_key: :key, inverse_of: :original
+  belongs_to :about, polymorphic: true, optional: true
 
   before_create do
     self.uuid = SecureRandom.uuid if uuid.blank?
@@ -31,4 +32,16 @@ class Localization::Original < ApplicationRecord
 
   def to_param = uuid
   def type = super.to_sym
+
+  def title
+    if type.to_s.starts_with?("exercise_")
+      "#{about.track.title} / #{about.title}"
+    elsif type.to_s.starts_with?("concept_")
+      "#{about.track.title} / #{about.title}"
+    elsif type.to_s.starts_with?("generic_exericse_")
+      "#{about.title} (Generic)"
+    else
+      type.to_s.humanize
+    end
+  end
 end

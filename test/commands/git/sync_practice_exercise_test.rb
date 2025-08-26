@@ -470,11 +470,11 @@ class Git::SyncPracticeExerciseTest < ActiveSupport::TestCase
     exercise.stubs(source:)
     exercise.stubs(blurb:)
 
-    Localization::Text::AddToLocalization.expects(:defer).with(:exercise_instructions, instructions, exercise.id)
-    Localization::Text::AddToLocalization.expects(:defer).with(:exercise_introduction, introduction, exercise.id)
-    Localization::Text::AddToLocalization.expects(:defer).with(:exercise_title, exercise.title, exercise.id)
-    Localization::Text::AddToLocalization.expects(:defer).with(:exercise_blurb, exercise.blurb, exercise.id)
-    Localization::Text::AddToLocalization.expects(:defer).with(:exercise_source, exercise.source, exercise.id)
+    Localization::Text::AddToLocalization.expects(:defer).with(:exercise_instructions, instructions, exercise)
+    Localization::Text::AddToLocalization.expects(:defer).with(:exercise_introduction, introduction, exercise)
+    Localization::Text::AddToLocalization.expects(:defer).with(:exercise_title, exercise.title, exercise)
+    Localization::Text::AddToLocalization.expects(:defer).with(:exercise_blurb, exercise.blurb, exercise)
+    Localization::Text::AddToLocalization.expects(:defer).with(:exercise_source, exercise.source, exercise)
 
     Git::SyncPracticeExercise.(exercise, force_sync: true)
   end

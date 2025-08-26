@@ -1,6 +1,6 @@
 - require_stylesheet "mentoring"
 
-#originals-index-page
+#page-localization-index
   = render ViewComponents::Localization::Header.new
 
   .lg-container= render ReactComponents::Localization::OriginalsList.new(@originals, @originals_params)

@@ -17,5 +17,6 @@ class Localization::Original::Prompts::GenericExerciseBlurb
     PROMPT
   end
 
-  def exercise = Exercise.find(original.about_id)
+  memoize
+  def exercise = original.about
 end

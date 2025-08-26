@@ -13,7 +13,7 @@ class Localization::Content::TranslateExerciseIntroduction
     return existing if existing
 
     # If we don't have it, then translate it. We should rarely get here.
-    Localization::Text::Translate.(type, introduction, exercise.id, locale)
+    Localization::Text::Translate.(type, introduction, exercise, locale)
   end
 
   private

@@ -735,14 +735,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_19_141635) do
   create_table "localization_originals", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "uuid", null: false
     t.string "type", null: false
+    t.string "about_type"
+    t.bigint "about_id"
     t.string "key", null: false
     t.text "value", null: false
-    t.string "about_id"
     t.text "usage_details"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["key"], name: "index_localization_originals_on_key", unique: true
-    t.index ["type", "about_id"], name: "index_localization_originals_on_type_and_about_id"
+    t.index ["type", "about_type", "about_id"], name: "idx_on_type_about_type_about_id_13bf9a28f1"
     t.index ["type"], name: "index_localization_originals_on_type"
     t.index ["uuid"], name: "index_localization_originals_on_uuid", unique: true
   end

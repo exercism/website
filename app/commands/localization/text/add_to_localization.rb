@@ -1,7 +1,7 @@
 class Localization::Text::AddToLocalization
   include Mandate
 
-  initialize_with :type, :text, :about_id, priority_locale: nil
+  initialize_with :type, :text, :about, priority_locale: nil
 
   def call
     original.tap do
@@ -36,7 +36,7 @@ class Localization::Text::AddToLocalization
 
   memoize
   def original
-    Localization::Original::Create.(type, key, text, about_id)
+    Localization::Original::Create.(type, key, text, about)
   rescue ActiveRecord::RecordNotUnique
     Localization::Original.find_by!(key: key)
   end

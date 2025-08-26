@@ -34,7 +34,7 @@ class Localization::Content::TranslateExerciseIntroductionTest < ActiveSupport::
     exercise.stubs(introduction: introduction)
 
     expected = "Translated value"
-    Localization::Text::Translate.expects(:call).with(:exercise_introduction, introduction, exercise.id, :nl).returns(expected)
+    Localization::Text::Translate.expects(:call).with(:exercise_introduction, introduction, exercise, :nl).returns(expected)
 
     result = Localization::Content::TranslateExerciseIntroduction.(exercise, locale: :nl)
     assert_equal expected, result

@@ -8,7 +8,7 @@ module LocalizationHelper
 
     return maybe_parse_as_markdown(translation, markdown) if translation
 
-    render ReactComponents::Common::TranslationPlaceholder.new(locale: I18n.locale)
+    render ReactComponents::Common::TranslationPlaceholder.new(I18n.locale)
   end
 
   def translate_exercise_instructions(exercise, markdown: false, solution: nil)
@@ -19,7 +19,7 @@ module LocalizationHelper
     translation = Localization::Content::TranslateExerciseInstructions.(exercise, locale: I18n.locale)
     return maybe_parse_as_markdown(translation, markdown) if translation
 
-    render ReactComponents::Common::TranslationPlaceholder.new(locale: I18n.locale)
+    render ReactComponents::Common::TranslationPlaceholder.new(I18n.locale)
   end
 
   def translate_text(text, markdown: false)
@@ -30,7 +30,7 @@ module LocalizationHelper
 
     return maybe_parse_as_markdown(translation, markdown) if translation
 
-    render ReactComponents::Common::TranslationPlaceholder.new(locale: I18n.locale)
+    render ReactComponents::Common::TranslationPlaceholder.new(I18n.locale)
   end
 
   private

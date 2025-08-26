@@ -17,6 +17,4 @@ class Localization::Original::Prompts::General
       #{original.context}
     PROMPT
   end
-
-  def exercise = Exercise.find(original.about_id)
 end

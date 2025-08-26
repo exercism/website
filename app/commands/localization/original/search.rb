@@ -37,7 +37,7 @@ class Localization::Original::Search
   end
 
   memoize
-  def locales = user.translator_locales
+  def locales = user.translator_locales - [:en]
 
   private
   attr_reader :user, :per, :page, :criteria, :status, :track_slug, :solutions
@@ -51,7 +51,7 @@ class Localization::Original::Search
   def filter_status!
     return if status.blank?
 
-    @translations = @translations.where("localization_translations.status = ?", status)
+    @translations = @translations.where("localization_translations.status": status)
   end
 
   memoize

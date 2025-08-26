@@ -65,6 +65,7 @@ body.namespace-localization.controller-originals.action-show {
             @apply text-16 leading-140 mb-8;
         }
     }
+
     .translations {
         @apply mb-16;
         .locale {

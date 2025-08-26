@@ -4,7 +4,9 @@ module ReactComponents
       def to_s
         return if current_user
 
-        super("external-language-selector-modal", {})
+        super("external-language-selector-modal", {
+          something: 'value'
+        })
       end
     end
   end

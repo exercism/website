@@ -77,10 +77,10 @@ class PagesController < ApplicationController
     # filepath = Rails.root.join('public', 'i18n', 'javascript', "#{locale.to_sym}.js")
     # File.read(filepath)
 
+    data = Localization::Translation.where(locale: :en).joins(:original).
+      where('localization_originals.type': :website_client_side).
+      pluck(:key, :value).to_h
     # TOOD: Pivot on the params[:locale]
-    render json: {
-      'diggingDeeper.editViaGitHub': 'Edit via GitHub',
-      'diggingDeeper.linkOpensInNewTab': 'The link opens in a new window or tab'
-    }
+    render json: data
   end
 end

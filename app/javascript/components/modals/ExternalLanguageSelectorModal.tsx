@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import Modal from './Modal'
-import { useLogger } from '@/hooks'
 
 type Props = {
   supportedLocales: string[]
@@ -70,10 +69,6 @@ export default function ExternalLanguageSelectorModal({
 }: Props) {
   const [preferredLocale, setPreferredLocale] = useState<string | null>(null)
   const [isOpen, setIsOpen] = useState(false)
-
-  useLogger('supportedLocales in ExternalLanguageSelectorModal', {
-    supportedLocales,
-  })
 
   useEffect(() => {
     const currentLocale = getCurrentLocaleFromPath()

@@ -12,8 +12,9 @@ class ExercismI18nBackend
     throw(:exception, I18n::MissingTranslationData.new(locale, key, options))
   end
 
-  def self.available_locales
-    Localization::Translation.distinct.pluck(:locale).map(&:to_sym)
+  def available_locales
+    %i[en hu nl de pt pt-BR]
+    # Localization::Translation.distinct.pluck(:locale).map(&:to_sym)
   end
 end
 
@@ -23,6 +24,6 @@ I18n.backend = I18n::Backend::Chain.new(
 )
 
 # TODO
-Rails.application.config.i18n.available_locales = %i[en hu nl de pt pt-BR]
+# Rails.application.config.i18n.available_locales = %i[en hu nl de pt pt-BR]
 I18n.define_singleton_method(:wip_locales, -> { %i[es] })
 Rails.application.config.i18n.default_locale = :en

@@ -2,6 +2,9 @@ en:
   tracks:
     exercises:
       show:
+        view_track_documentation: View track documentation
+        action_box_solve_locked:
+          title: Solve the exercise
         action_box_locked:
           title: Unlock %{exercise_title}
           description_html: >

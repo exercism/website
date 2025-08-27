@@ -10,7 +10,7 @@ Input format:
 Task:
 - For every t("...") / t('...') key found in a NEW section, output exactly one object with:
   - "key": the exact key string as written in the code (copy verbatim).
-  - "desc": a concise description (prefer 1 sentence; up to 3 only if truly necessary) of what the string represents in the UI, grounded by the OLD text if available.
+  - "desc": a concise description (1-3 sentences) of what the string represents in the UI, grounded by the OLD text if available.
 
 Style rules for "desc":
 - Each sentence must begin with "This is ...".

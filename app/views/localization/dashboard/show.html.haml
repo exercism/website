@@ -1,29 +1,39 @@
+- require_stylesheet "mentoring"
 - require_stylesheet "about"
 - require_stylesheet "track"
 
 #page-localization-dashboard
-  %nav.c-header-with-bg.mb-32
-    .lg-container.flex.mt-24.mb-24
-      .content{ class: "max-w-[720px]" }
-        = graphical_icon "world-colored", css_class: 'w-[32px] h-[32px] mb-12'
-        %h1.text-h1.mb-12 Internationalization
-        %p.text-p-large.mb-16
-          We're making Exercism available in every language people want to learn in.
-          %strong.font-semibold Help us on our mission to help people globally!
+  -#
+    %nav.c-header-with-bg.mb-32
+      .lg-container.flex.mt-24.mb-24
+        .content{ class: "max-w-[720px]" }
+          = graphical_icon "world-colored", css_class: 'w-[32px] h-[32px] mb-12'
+          %h1.text-h1.mb-12 Internationalization
+          %p.text-p-large.mb-16
+            We're making Exercism available in every language people want to learn in.
+            %strong.font-semibold Help us on our mission to help people globally!
 
-      = graphical_icon "world", css_class: "w-[180px] h-[180px] ml-auto hidden md:block", category: :graphics
-      .decorations
+        = graphical_icon "world", css_class: "w-[180px] h-[180px] ml-auto hidden md:block", category: :graphics
+        .decorations
 
+  = render ViewComponents::Localization::Header.new
   .lg-container
+    %h2.text-h2.mb-2 All Locales
+    %p.text-p-large.mb-20
+      Track the progress of all locales.
+      Are we missing your locale?
+      = succeed('.') do
+        = link_to "Open a forum issue", "https://forum.exercism.org/c/exercism/i18n/695", class: "text-primaryLinkColor font-semibold"
     .locales
       - @locale_counts.each do |locale, counts|
         - total = counts.values.sum
-      
+
         .locale
           .flag= flag_for_locale(locale)
+          .code= locale
+          .name= name_for_locale(locale)
           .progress
-            .generating{style: "width: #{counts[:generating].to_f / total * 100}%"}
-            .unchecked{style: "width: #{counts[:unchecked].to_f / total * 100}%"}
-            .proposed{style: "width: #{counts[:proposed].to_f / total * 100}%"}
-            .checked{style: "width: #{counts[:checked].to_f / total * 100}%"}
-          
+            .checked{ style: "width: #{counts[:checked].to_f / total * 100}%" }
+            .proposed{ style: "width: #{counts[:proposed].to_f / total * 100}%" }
+
+          .total #{counts[:checked].to_f / total * 100}%

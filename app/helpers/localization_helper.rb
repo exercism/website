@@ -1,4 +1,24 @@
 module LocalizationHelper
+  def flag_for_locale(locale)
+    country = locale.to_s.split("-").last
+    case country
+    when "en"
+      country = "us"
+    end
+    flag_for_country_code(country)
+  end
+
+  def name_for_locale(locale)
+    case locale.to_s
+    when "en"
+      "English"
+    when "hu"
+      "Hungarian"
+    else
+      I18n.t("locales.#{locale}", default: locale.to_s.upcase)
+    end
+  end
+
   def translate_exercise_introduction(exercise, markdown: false, solution: nil)
     # We're not syncing old exercise versions, so if someone
     # has an old version, encourage them to upgrade instead

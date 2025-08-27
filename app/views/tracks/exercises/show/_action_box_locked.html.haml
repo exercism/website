@@ -2,7 +2,7 @@
   .action-box-content
     %h3= t('.title', exercise_title: exercise.title)
     .leading-160.text-textColor2.text-16.mb-20
-      = t('.description_html', exercise_title: exercise.title, activate_practice_mode: render(ReactComponents::Track::ActivatePracticeMode.new(user_track.track, t('.activate_practice_mode_text'), redirect_to_url: track_exercise_path(user_track.track, exercise)))).html_safe
+      = t('.description_html', exercise_title: content_tag(:span, exercise.title, class: 'font-semibold'), activate_practice_mode: content_tag(:span, render(ReactComponents::Track::ActivatePracticeMode.new(user_track.track, t('.activate_practice_mode_text'), redirect_to_url: track_exercise_path(user_track.track, exercise))), class: 'inline-block')).html_safe
 
     .prereqs
       - prereq_exercises = user_track.enabled_exercises(exercise.prerequisite_exercises)

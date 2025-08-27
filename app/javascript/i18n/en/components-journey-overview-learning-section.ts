@@ -11,8 +11,8 @@ export default {
   'learningStats.aesopFact':
     "That's approximately equivalent to the length of an <fableLink>Aesop's Fable!</fableLink>",
 
-  'tracksEnrolledSummary.trackEnrolled': 'Track enrolled',
-  'tracksEnrolledSummary.tracksEnrolled': 'Tracks enrolled',
+  'tracksEnrolledSummary.tracksEnrolled_one': 'Track enrolled',
+  'tracksEnrolledSummary.tracksEnrolled_other': 'Tracks enrolled',
   'trackSummary.exercisesCompleted':
     '{{completed}} / {{total}} ({{percent}}%) exercises completed',
   'trackSummary.joinedTrack': 'When you joined the {{title}} Track',

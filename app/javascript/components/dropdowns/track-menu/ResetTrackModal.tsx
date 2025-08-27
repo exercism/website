@@ -91,7 +91,9 @@ export const ResetTrackModal = ({
             <li>
               {t('resetTrackModal.listItem2', { trackTitle: track.title })}
             </li>
-            <li>{t('resetTrackModal.listItem3')}</li>
+            <li>
+              {t('resetTrackModal.listItem3', { trackTitle: track.title })}
+            </li>
           </ul>
           <p>
             <strong>{t('resetTrackModal.however')}</strong>

@@ -13,7 +13,7 @@ export default {
   'bootcampAffiliateCouponForm.pleaseShareAffiliateCode':
     'Please share this Affiliate Code with your friends & colleagues, and on social media.',
   'bootcampAffiliateCouponForm.thankYouForBeingInsider':
-    "To thank you for being an Insider and to help increase the amount of people signing up to Exercism's <link>Learn to Code Bootcamp</link>, we are giving all Insiders a <strong>Discount Affiliate code</strong>.",
+    "To thank you for being an Insider and to help increase the amount of people signing up to Exercism's <0>Learn to Code Bootcamp</0>, we are giving all Insiders a <1>Discount Affiliate code</1>.",
   'bootcampAffiliateCouponForm.codeGivesDiscountBootcamp':
     "This code gives a 20% discount for the bootcamp (on top of any geographical discount). And for everyone that signs up, <strong>we'll give you 20%</strong> of whatever they pay.",
   'bootcampAffiliateCouponForm.getStartedHere': 'Get started here',

@@ -145,12 +145,10 @@ export function InfoMessage({
           <Trans
             ns="components/settings/BootcampAffiliateCouponForm.tsx"
             i18nKey="bootcampAffiliateCouponForm.thankYouForBeingInsider"
-            components={{
-              link: (
-                <a href="https://exercism.org/bootcamp?utm_source=exercism&utm_medium=affiliate_settings"></a>
-              ),
-              strong: <strong className="font-semibold" />,
-            }}
+            components={[
+              <a href="https://exercism.org/bootcamp?utm_source=exercism&utm_medium=affiliate_settings"></a>,
+              <strong className="font-semibold" />,
+            ]}
           />
         </p>
         <p className="text-p-base mb-12">

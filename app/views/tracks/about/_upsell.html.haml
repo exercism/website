@@ -1,37 +1,30 @@
 - return unless user_track.external?
-
 %section.upsell-section
   .md-container
     .feature.flex-col.md:flex-row
       .info
         = graphical_icon :logo, css_class: "small-icon"
         %h3= t('.mentoring_section.title', track_title: track.title)
-        %p
-          = t('.mentoring_section.paragraph_html', track_title: track.title).html_safe
+        %p= t('.mentoring_section.paragraph_html', track_title: track.title).html_safe
         = render ViewComponents::ProminentLink.new(t('.mentoring_section.learn_more'), doc_path(:using, 'feedback/mentor'))
       .flex-shrink-0.flex-grow.grid.place-items-center.mt-32.md:mt-0.md:ml-64
         = graphical_icon 'mentoring', category: :graphics, css_class: 'graphic'
-
     .feature.flex-col.md:flex-row-reverse
       .info
         = graphical_icon :mentoring, css_class: "small-icon"
         %h3= t('.exercises_section.title', track_title: track.title)
-
-        - key = if track.course?
-          track.num_concepts == 1 ? '.exercises_section.paragraph_html.one_concept' : '.exercises_section.paragraph_html.many_concepts'
+        - if track.course?
+          - key = track.num_concepts == 1 ? '.exercises_section.paragraph_html.one_concept' : '.exercises_section.paragraph_html.many_concepts'
         - else
-          '.exercises_section.paragraph_html.no_concepts'
-
+          - key = '.exercises_section.paragraph_html.no_concepts'
         %p= t(key, track_title: track.title, num_concepts: track.num_concepts, track_num_exercises: track.num_exercises).html_safe
-
-      = render ViewComponents::ProminentLink.new(t('.exercises_section.see_all_exercises', track_title: track.title), track_exercises_path(track))
+        = render ViewComponents::ProminentLink.new(t('.exercises_section.see_all_exercises', track_title: track.title), track_exercises_path(track))
       .flex-shrink-0.flex-grow.grid.place-items-center.mt-32.md:mt-0.md:mr-64
         = graphical_icon 'community-solutions', category: :graphics, css_class: 'graphic'
-
     .cta
       = track_icon(track)
       %h3= t('.cta.title', track_title: track.title)
-      %p= t('.cta.description')
+      %p= t('.cta.description').html_safe
       - url = user_signed_in? ? join_track_path(track) : User::GenerateNewSessionPath.(request, controller)
       - method = user_signed_in? ? :post : :get
       - elem = user_signed_in? ? :button_to : :link_to

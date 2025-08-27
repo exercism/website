@@ -26,7 +26,7 @@ export function OriginalsTableList() {
         ) : (
           <FilterFallback
             icon="no-result-magnifier"
-            title="No originals found."
+            title="No translations found."
             description="Try changing your filters to find originals that need checking."
           />
         )}

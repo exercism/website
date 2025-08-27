@@ -39,7 +39,7 @@ module ViewComponents
 
       def overview_tab
         selected = controller_name == "originals" ? "" : " selected"
-        tag.div(class: "c-tab-2 #{selected}") do
+        link_to(Exercism::Routes.localization_root_url, class: "c-tab-2 #{selected}") do
           graphical_icon(:overview) +
             tag.span("Overview")
         end
@@ -47,7 +47,7 @@ module ViewComponents
 
       def originals_tab
         selected = controller_name == "originals" ? "selected" : ""
-        tag.div(class: "c-tab-2 #{selected}") do
+        link_to(Exercism::Routes.localization_originals_url, class: "c-tab-2 #{selected}") do
           graphical_icon(:overview) +
             tag.span("Translations")
         end

@@ -2,8 +2,11 @@ import fs from 'node:fs/promises'
 import path from 'node:path'
 import { execFile } from 'node:child_process'
 import { promisify } from 'node:util'
+import { buildPrompt } from './buildPrompt'
+import { runLLM } from '../extract-jsx-copy/runLLM'
 
 const execFileAsync = promisify(execFile)
+const OUTPUT_FILE = './i18n-results.ndjson'
 let ROOT_CACHE: string | null = null
 
 async function findGitRoot(startDir: string): Promise<string | null> {
@@ -79,9 +82,12 @@ export async function getAllFilesAtCommit(
 
 async function* walk(dir: string): AsyncGenerator<string> {
   for (const e of await fs.readdir(dir, { withFileTypes: true })) {
-    const full = path.join(dir, e.name)
-    if (e.isDirectory()) yield* walk(full)
-    else yield full
+    const fullPath = path.join(dir, e.name)
+    if (e.isDirectory()) {
+      yield* walk(fullPath)
+    } else if (e.isFile() && fullPath.toLowerCase().endsWith('.tsx')) {
+      yield fullPath
+    }
   }
 }
 
@@ -125,16 +131,36 @@ async function createBatches(dir: string, commit: string, maxChars = 10_000) {
   return batches
 }
 
+// dummy stand-in for your real LLM call
+// async function runLLM(prompt: string): Promise<string> {
+//   // return NDJSON string
+//   return `{"key":"example.key","desc":"Fake description"}\n`
+// }
+
+async function appendResults(ndjson: string) {
+  await fs.appendFile(OUTPUT_FILE, ndjson.trim() + '\n', 'utf8')
+}
+
 // main
 ;(async () => {
   const inputDir = process.argv[2] || './input'
   const commitSha =
     process.argv[3] || 'ccaebe4d435f235be6e624b72e9a4e1c841c7520'
   const batches = await createBatches(inputDir, commitSha)
+
   for (let i = 0; i < batches.length; i++) {
-    if (i === 0) {
-      console.log(`Batch ${i + 1}: ${batches[i].files.length} files`)
-      console.log(batches[i].content)
+    console.log('started batch', i + 1, 'of', batches.length)
+    const batch = batches[i]
+    const prompt = buildPrompt(batch.content)
+    const ndjson = await runLLM(prompt)
+
+    if (ndjson) {
+      await appendResults(ndjson)
+      console.log(
+        `Appended results from batch ${i + 1} (${batch.files.length} files)`
+      )
+    } else {
+      console.log(`No results from batch ${i + 1}`)
     }
   }
 })()

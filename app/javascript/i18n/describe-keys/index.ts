@@ -8,9 +8,21 @@ import { createBatches } from './createBatches'
 
 export const execFileAsync = promisify(execFile)
 
-const OUTPUT_DIR = process.env.OUTPUT_DIR || './i18n-batches'
+const OUTPUT_DIR = process.env.OUTPUT_DIR || './i18n-descriptions'
 
-async function writeBatchJson(batchIndex: number, data: any[]) {
+const parseLLMOutput = (output: string) => {
+  if (output.trim().startsWith('[')) {
+    return JSON.parse(output)
+  } else {
+    return output
+      .split('\n')
+      .map((l) => l.trim())
+      .filter(Boolean)
+      .map((l) => JSON.parse(l))
+  }
+}
+
+async function writeBatchJson(batchIndex: number, data: string) {
   await fs.mkdir(OUTPUT_DIR, { recursive: true })
   const fileName = `batch-${String(batchIndex + 1).padStart(3, '0')}.json`
   const outPath = path.join(OUTPUT_DIR, fileName)
@@ -29,11 +41,13 @@ async function writeBatchJson(batchIndex: number, data: any[]) {
 
     const batch = batches[i]
     const prompt = buildPrompt(batch.content)
-    const arr = await runLLM(prompt)
+    const llmOutput = await runLLM(prompt)
 
-    if (arr) {
-      const outPath = await writeBatchJson(i, arr)
-      console.log(`Wrote ${arr.length} entries → ${outPath}`)
+    const parsedOutput = llmOutput ? parseLLMOutput(llmOutput) : null
+
+    if (parsedOutput) {
+      const outPath = await writeBatchJson(i, parsedOutput)
+      console.log(`Wrote ${parsedOutput.length} entries → ${outPath}`)
     } else {
       console.log(`No results from batch ${i + 1}`)
     }

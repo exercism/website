@@ -2,23 +2,26 @@ export function buildPrompt(batchContent: string): string {
   return `
 You are an assistant that extracts i18n metadata from TSX React component files.
 
-Task:
-- The batch contains **two versions** of each file:
-  - (OLD) version: before i18n extraction, with literal user-facing text.
-  - (NEW) version: after i18n extraction, using translation calls like \`t("...")\` or \`t('...')\`.
-- For every translation key found in the NEW version, output one JSON object with:
-  - "key": the exact i18n key string used in the code (do not modify, expand, or rename it).
-  - "desc": a short description (1–3 sentences) of what the string represents in the UI.
-- Use the OLD version’s text to ground your description and avoid hallucinations.
+Input format:
+- Each file appears twice in the batch:
+  - OLD: before i18n extraction, with literal user-facing text (or "[not found]").
+  - NEW: after i18n extraction, with calls like t("...") or t('...').
 
-Rules:
-- The "key" must be exactly the same string as in the code, including dots and suffixes (e.g., \`.github.connect_button\` stays exactly that).
-- Each sentence in "desc" must begin with "This is ...".
-- Maximum of 3 sentences if more detail is necessary.
-- Output format must be NDJSON (one JSON object per line).
-- Do not output any explanations, extra text, or Markdown code fences.
-- Keep \`_html\` suffixes in keys if present.
-- Only include keys that actually appear in the NEW version of the files.
+Task:
+- For every t("...") / t('...') key found in a NEW section, output exactly one object with:
+  - "key": the exact key string as written in the code (copy verbatim).
+  - "desc": a concise description (prefer 1 sentence; up to 3 only if truly necessary) of what the string represents in the UI, grounded by the OLD text if available.
+
+Style rules for "desc":
+- Each sentence must begin with "This is ...".
+- Prefer precise UI nouns: "heading", "button label", "menu item", "tooltip", "helper text".
+- Avoid filler like "the text for a button"; be specific and succinct.
+
+Output rules:
+- Output MUST be a single JSON array of objects. Do not return NDJSON, prose, or code fences.
+- Preserve suffixes like "_html" in keys.
+- Include ONLY keys that appear in NEW sections.
+- Do not duplicate keys.
 
 Example:
 OLD:
@@ -26,7 +29,9 @@ OLD:
 NEW:
   <h1>{t('.heading')}</h1>
 Output:
-  {"key":".heading","desc":"This is the main heading for the general settings page."}
+  [
+    {"key":".heading","desc":"This is the main heading for the general settings page."}
+  ]
 
 File batch content:
 ---

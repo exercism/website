@@ -3,10 +3,8 @@ import React from 'react'
 import { OriginalsListContext } from '.'
 
 const TABS = [
-  {
-    value: 'unchecked',
-    label: 'Needs translating',
-  },
+  { value: undefined, label: 'All' },
+  { value: 'unchecked', label: 'Needs translating' },
   { value: 'proposed', label: 'Needs reviewing' },
   { value: 'checked', label: 'Done' },
 ]

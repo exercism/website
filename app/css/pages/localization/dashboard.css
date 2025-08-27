@@ -1,24 +1,41 @@
 #page-localization-dashboard {
     .locales {
+        @apply flex flex-col gap-12;
         .locale {
+            @apply flex items-center gap-20;
+            @apply bg-white rounded-12 px-16 py-8;
+            @apply shadow-sm;
+            .flag {
+                @apply text-[30px];
+            }
+            .code {
+                @apply w-[50px];
+                @apply font-mono text-16 font-semibold;
+                @apply text-textColor6;
+            }
+            .name {
+                @apply w-[150px];
+                @apply text-18;
+            }
+            .total {
+                @apply w-[50px];
+                @apply text-16;
+                @apply font-medium text-textColor2;
+            }
             .progress {
-                width: 500px;
-                height: 20px;
+                height: 15px;
+                @apply flex-grow;
+                @apply bg-darkRed;
+                @apply border-borderColor6;
                 @apply relative;
+                @apply rounded-5 overflow-hidden;
+                @apply flex;
                 & > div {
-                    @apply absolute inset-0;
-
-                    &.generating {
-                        @apply bg-red;
-                    }
-                    &.unchecked {
-                        @apply bg-red;
-                    }
                     &.proposed {
                         @apply bg-orange;
                     }
                     &.checked {
-                        @apply bg-green-500;
+                        @apply bg-darkSuccessGreen;
                     }
                 }
             }

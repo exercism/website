@@ -131,12 +131,6 @@ async function createBatches(dir: string, commit: string, maxChars = 10_000) {
   return batches
 }
 
-// dummy stand-in for your real LLM call
-// async function runLLM(prompt: string): Promise<string> {
-//   // return NDJSON string
-//   return `{"key":"example.key","desc":"Fake description"}\n`
-// }
-
 async function appendResults(ndjson: string) {
   await fs.appendFile(OUTPUT_FILE, ndjson.trim() + '\n', 'utf8')
 }

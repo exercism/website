@@ -4,120 +4,137 @@ import { execFile } from 'node:child_process'
 import { promisify } from 'node:util'
 
 const execFileAsync = promisify(execFile)
-const OUTPUT_FILE = './i18n-results.ndjson'
+let ROOT_CACHE: string | null = null
 
-async function getFileAtCommit(
-  absPath: string,
-  commit: string
-): Promise<string | null> {
+async function findGitRoot(startDir: string): Promise<string | null> {
   try {
-    let dir = path.dirname(absPath)
-    let root: string | null = null
-
-    while (dir !== path.dirname(dir)) {
-      try {
-        await fs.stat(path.join(dir, '.git'))
-        root = dir
-        break
-      } catch {
-        dir = path.dirname(dir)
-      }
-    }
-
-    if (!root) return null
-
-    const relPath = path.relative(root, absPath)
-    const gitPath = relPath.split(path.sep).join('/')
-
-    const { stdout } = await execFileAsync(
-      'git',
-      ['show', `${commit}:${gitPath}`],
-      {
-        cwd: root,
-        maxBuffer: 10 * 1024 * 1024,
-      }
-    )
-
-    return stdout
-  } catch (err) {
-    console.error(`git show failed for ${absPath}:`, err)
+    const { stdout } = await execFileAsync('git', [
+      '-C',
+      startDir,
+      'rev-parse',
+      '--show-toplevel',
+    ])
+    return stdout.trim()
+  } catch {
     return null
   }
 }
 
+function pLimit(n: number) {
+  let active = 0
+  const q: (() => void)[] = []
+  const next = () => {
+    active--
+    q.shift()?.()
+  }
+  return <T>(fn: () => Promise<T>) =>
+    new Promise<T>((res, rej) => {
+      const run = () =>
+        fn().then(
+          (v) => {
+            res(v)
+            next()
+          },
+          (e) => {
+            rej(e)
+            next()
+          }
+        )
+      active < n ? run() : q.push(run)
+    })
+}
+
+export async function getAllFilesAtCommit(
+  filePaths: string[],
+  commit: string,
+  root: string,
+  concurrency = 16
+): Promise<Map<string, string | null>> {
+  const results = new Map<string, string | null>()
+  const limit = pLimit(concurrency)
+
+  await Promise.all(
+    filePaths.map((abs) =>
+      limit(async () => {
+        const rel = path.relative(root, abs).split(path.sep).join('/')
+        try {
+          const { stdout } = await execFileAsync(
+            'git',
+            ['-C', root, 'show', `${commit}:${rel}`],
+            {
+              maxBuffer: 20 * 1024 * 1024,
+              env: { ...process.env, GIT_LFS_SKIP_SMUDGE: '1' },
+            }
+          )
+          results.set(abs, stdout.toString())
+        } catch {
+          results.set(abs, null)
+        }
+      })
+    )
+  )
+
+  return results
+}
+
 async function* walk(dir: string): AsyncGenerator<string> {
-  for (const entry of await fs.readdir(dir, { withFileTypes: true })) {
-    const fullPath = path.join(dir, entry.name)
-    if (entry.isDirectory()) {
-      yield* walk(fullPath)
-    } else {
-      yield fullPath
-    }
+  for (const e of await fs.readdir(dir, { withFileTypes: true })) {
+    const full = path.join(dir, e.name)
+    if (e.isDirectory()) yield* walk(full)
+    else yield full
   }
 }
 
 async function createBatches(dir: string, commit: string, maxChars = 10_000) {
+  const allFiles: string[] = []
+  for await (const f of walk(dir)) allFiles.push(f)
+
+  const startDir = path.dirname(path.resolve(allFiles[0] || dir))
+  const root = ROOT_CACHE ?? (ROOT_CACHE = await findGitRoot(startDir))
+  if (!root) return []
+
+  const oldContentMap = await getAllFilesAtCommit(allFiles, commit, root)
+
   const batches: { files: string[]; content: string }[] = []
-  let currentFiles: string[] = []
-  let currentContent = ''
+  let curFiles: string[] = []
+  let curContent = ''
 
-  for await (const filePath of walk(dir)) {
-    const newContent = await fs.readFile(filePath, 'utf8')
-    const oldContent = await getFileAtCommit(filePath, commit)
-
-    const combined = `
---- ${filePath} (OLD @ ${commit}) ---
-${oldContent ?? '[not found in commit]'}
---- ${filePath} (NEW @ working tree) ---
-${newContent}
-`
+  for (const file of allFiles) {
+    const newContent = await fs.readFile(file, 'utf8')
+    const oldContent = oldContentMap.get(file)
+    const combined = `\n--- ${file} (OLD @ ${commit}) ---\n${
+      oldContent ?? '[not found]'
+    }\n--- ${file} (NEW) ---\n${newContent}\n`
 
     if (
-      currentContent.length + combined.length > maxChars &&
-      currentContent.length > 0
+      curContent.length + combined.length > maxChars &&
+      curContent.length > 0
     ) {
-      batches.push({ files: [...currentFiles], content: currentContent })
-      currentFiles = []
-      currentContent = ''
+      batches.push({ files: [...curFiles], content: curContent })
+      curFiles = []
+      curContent = ''
     }
-
-    currentFiles.push(filePath)
-    currentContent += combined
+    curFiles.push(file)
+    curContent += combined
   }
 
-  if (currentFiles.length > 0) {
-    batches.push({ files: currentFiles, content: currentContent })
+  if (curFiles.length > 0) {
+    batches.push({ files: curFiles, content: curContent })
   }
 
   return batches
 }
 
-async function fakeRunLLM(batch: { files: string[]; content: string }) {
-  return batch.files.map((f, i) => ({
-    key: path.basename(f) + '_' + i,
-    desc: `Fake description for ${path.basename(f)}`,
-  }))
-}
-
-async function appendResults(results: { key: string; desc: string }[]) {
-  const lines = results.map((r) => JSON.stringify(r)).join('\n') + '\n'
-  await fs.appendFile(OUTPUT_FILE, lines, 'utf8')
-}
-
+// main
 ;(async () => {
   const inputDir = process.argv[2] || './input'
-  const commitSha = process.argv[3] || 'HEAD~1'
-
+  const commitSha =
+    process.argv[3] || 'ccaebe4d435f235be6e624b72e9a4e1c841c7520'
   const batches = await createBatches(inputDir, commitSha)
-
-  for (let idx = 0; idx < batches.length; idx++) {
-    const batch = batches[idx]
-    console.log(`Processing batch ${idx + 1} (${batch.files.length} files)`)
-    console.log(batch.content.slice(0, 500) + '\n...')
-
-    const fakeResults = await fakeRunLLM(batch)
-    await appendResults(fakeResults)
-
-    console.log(`→ Appended ${fakeResults.length} results to ${OUTPUT_FILE}`)
+  for (let i = 0; i < batches.length; i++) {
+    if (i === 0) {
+      console.log(`Batch ${i + 1}: ${batches[i].files.length} files`)
+      console.log(batches[i].content)
+    }
   }
 })()

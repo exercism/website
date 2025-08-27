@@ -12,18 +12,20 @@ class ExercismI18nBackend
     throw(:exception, I18n::MissingTranslationData.new(locale, key, options))
   end
 
-  def available_locales
-    %i[en hu nl de pt pt-BR]
-    # Localization::Translation.distinct.pluck(:locale).map(&:to_sym)
-  end
+  # I had this LOC before, but I removed it to hardcode the locales.
+  # We don't actually want to do this as we have WIP ones.
+  # Localization::Translation.distinct.pluck(:locale).map(&:to_sym)
+  def available_locales = %i[en hu nl de pt pt-BR]
+  def wip_locales = %i[es]
+  def default_locale = :en
 end
 
+# Put this in front of the existing backend.
 I18n.backend = I18n::Backend::Chain.new(
   ExercismI18nBackend.new,
   I18n.backend
 )
 
-# TODO
-# Rails.application.config.i18n.available_locales = %i[en hu nl de pt pt-BR]
-I18n.define_singleton_method(:wip_locales, -> { %i[es] })
-Rails.application.config.i18n.default_locale = :en
+module I18n
+  def self.wip_locales = ExercismI18nBackend.new.wip_locales
+end

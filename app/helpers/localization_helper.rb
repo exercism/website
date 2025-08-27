@@ -9,10 +9,10 @@ module LocalizationHelper
   end
 
   def name_for_locale(locale)
-    case locale.to_s
-    when "en"
+    case locale.to_sym
+    when :en
       "English"
-    when "hu"
+    when :hu
       "Hungarian"
     else
       I18n.t("locales.#{locale}", default: locale.to_s.upcase)

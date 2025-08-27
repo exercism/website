@@ -30,9 +30,7 @@ module LocaleRouting
   def maybe_redirect_en_to_naked!
     return unless html_request?             # Only HTML requests.
     return unless request.get?              # Only GETs
-
-    locale = locale_from_path
-    return unless locale == "en"
+    return unless locale_from_path == :en
 
     redirect_to request.fullpath.sub(%r{^/en}, ''), allow_other_host: false, status: :found
   end

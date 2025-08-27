@@ -38,7 +38,7 @@ module LocaleSupport
     return nil unless locale.present?
     return nil if locale == default_locale # English lives at root
 
-    locale
+    locale.to_sym
   end
 
   def locale_from_path
@@ -48,7 +48,7 @@ module LocaleSupport
 
     return unless supported_locales.map(&:to_s).include?(locale)
 
-    locale
+    locale.to_sym
   end
 
   # Build a locale-scoped URL preserving the rest of the path/query

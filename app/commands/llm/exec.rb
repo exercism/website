@@ -9,18 +9,14 @@ class LLM::Exec
     raise "Prompt cannot be nil" if prompt.nil?
     raise "SPI endpoint cannot be nil" if spi_endpoint.nil?
 
-    RestClient.post(
-      proxy_url,
+    LLM::ExecWithPayload.(
       {
         service: service,
         model: model,
-        spi_endpoint: "llm_responses/#{spi_endpoint}",
+        spi_endpoint: "llm/#{spi_endpoint}",
         stream_channel: stream_channel,
         prompt: prompt
-      }.to_json,
-      { content_type: :json, accept: :json }
+      }
     )
   end
-
-  def proxy_url = "http://localhost:8080/exec"
 end

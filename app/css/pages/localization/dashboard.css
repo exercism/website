@@ -3,7 +3,7 @@
         @apply flex flex-col gap-12;
         .locale {
             @apply flex items-center gap-20;
-            @apply bg-white rounded-12 px-16 py-8;
+            @apply bg-white rounded-12 px-20 py-8;
             @apply shadow-sm;
             .flag {
                 @apply text-[30px];
@@ -15,7 +15,7 @@
             }
             .name {
                 @apply w-[150px];
-                @apply text-18;
+                @apply text-16;
             }
             .total {
                 @apply w-[50px];

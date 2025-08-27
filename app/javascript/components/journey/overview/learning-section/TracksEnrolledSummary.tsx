@@ -15,12 +15,7 @@ export const TracksEnrolledSummary = ({
     <div className="box">
       <div className="journey-h3">{tracks.length}</div>
       <div className="journey-label">
-        {t(
-          tracks.length > 1
-            ? 'tracksEnrolledSummary.tracksEnrolled'
-            : 'tracksEnrolledSummary.tracksEnrolled'
-        )}{' '}
-        enrolled
+        {t('tracksEnrolledSummary.tracksEnrolled', { count: tracks.length })}
       </div>
     </div>
   )

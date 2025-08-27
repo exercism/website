@@ -8,7 +8,7 @@
     %header.track-header.c-header-with-bg
       .lg-container.container
         .info.md:mr-64.flex.flex-col
-          %h1= t('.header.title', track_title: @track.title)
+          %h1.text-h1= t('.header.title', track_title: @track.title)
           %p.text-p-xlarge
             - concepts_clause = @track.course? ? "grouped into #{@user_track.num_concepts} #{@track.title} Concepts," : ""
             = t('.header.subtitle_html', track_title: @track.title, num_exercises: @user_track.num_exercises, concepts_clause: concepts_clause).html_safe

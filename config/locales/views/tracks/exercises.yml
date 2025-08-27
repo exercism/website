@@ -4,12 +4,12 @@ en:
       show:
         action_box_locked:
           title: Unlock %{exercise_title}
-          description_html:
+          description_html: >
             This exercise is currently unavailable for you to start.
-            Complete the following exercises to unlock <span
-            class="font-semibold">%{exercise_title}</span> or
+            Complete the following exercises to unlock
+            <span class="font-semibold">%{exercise_title}</span> or
             %{activate_practice_mode}.
-          activate_practice_mode_text: disable learning mode.
+          activate_practice_mode_text: disable learning mode
         action_box_publish_locked:
           title: Publish your solution
         action_solve_locked:

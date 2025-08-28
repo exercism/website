@@ -8,9 +8,7 @@ const OptionComponent = ({ option: track }: { option: Track }) => {
   return (
     <React.Fragment>
       <TrackLogo track={track} />
-      <div className="title">
-        {t('trackDropdown.title', { title: track.title })}
-      </div>
+      <div className="title">{track.title}</div>
     </React.Fragment>
   )
 }

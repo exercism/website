@@ -11,5 +11,5 @@ export default {
   'analyzerFeedback.generatedFeedback':
     'Our <strong>{{trackTitle}} Analyzer</strong> generated this feedback when analyzing your solution.',
   'representerFeedback.gaveFeedbackSimilarSolution':
-    '&nbsp;gave this feedback on a solution very similar to yours',
+    '<0>{{author}}</0>\u00A0gave this feedback on a solution very similar to yours',
 }

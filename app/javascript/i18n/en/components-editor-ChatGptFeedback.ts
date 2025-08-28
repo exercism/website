@@ -1,6 +1,5 @@
 // namespace: components/editor/ChatGptFeedback
 export default {
-  'chatGptTab.chatGpt': 'ChatGPT',
   'chatGptDialog.areYouSureYouWantToAskChatGPT':
     'Are you sure you want to ask ChatGPT?',
   'chatGptDialog.chatGptIsAPowerfulTool':

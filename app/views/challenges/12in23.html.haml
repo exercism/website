@@ -5,29 +5,32 @@
         .mr-auto{ class: 'max-w-[860px]' }
           .font-semibold.leading-150.flex.items-center.mb-4{ style: 'color: var(--colorPurpleToBrightPurple)' }
             %span.emoji.mr-6 📆
-            = t('.top_section.month_intro')
-          %h1.text-h1.mb-8= t('.top_section.title')
+            Month 12 of #12in23
+          %h1.text-h1.mb-8 It's December Diversions! ✨
           %p.text-p-xlarge.mb-20
-            = t('.top_section.description')
+            This month for #12in23 we're exploring these.
+            We're digging into the following languages: ColdFusion, Groovy, Lua, VimScript and Wren, with interviews and live streaming and lots of fun exercises for you to complete!
 
           .shadow-baseZ1.grid.grid-cols-2.gap-20.py-20.px-20.rounded-8.bg-backgroundColorB
             .flex-shrink
-              %h2.text-h4.mb-2= t('.top_section.overview_video.title')
+              %h2.text-h4.mb-2 Start by watching our December Diversions overview video  👉
               %p.text-p-base.mb-8
-                = t('.top_section.overview_video.description')
+                Our introductory video gives a quick overview to the month, explores how these languages are different, looks at where they're useful, and finally gives a quick comparison between the featured languages this month.
               %p.text-p-base
-                = t('.top_section.overview_video.cta')
+                Take a watch and leave a comment!
 
             .rhs
               %div{ class: 'w-[100%] max-w-[500px]' }
                 = render ReactComponents::Common::YoutubePlayer.new('_w5Q3Tc1kqY', 'challenge#show')
 
           - tracks = Track.where(slug: User::Challenges::FeaturedExercisesProgress12In23::DECEMBER_TRACKS)
-          %h2.text-h3.mt-32.mb-2= t('.learn_earn.title')
+          %h2.text-h3.mt-32.mb-2 Learn and Earn (the badge)!
           %p.text-p-large.mb-20
-            = t('.learn_earn.description')
+            Earn the December Diversions badge for completing and publishing 5 exercises in one of the following languages.
             - if tracks.any?(&:course?)
-              = t('.learn_earn.syllabus_hint_html', concepts_icon: graphical_icon("concepts", css_class: 'w-[14px] h-[14px] filter-purple inline mx-[-4px]'))
+              Consider starting with a language with a syllabus (
+              = graphical_icon "concepts", css_class: 'w-[14px] h-[14px] filter-purple inline mx-[-4px]'
+              ).
 
           .grid.grid-cols-6.gap-12.mb-32
             - tracks.each do |track|
@@ -39,46 +42,58 @@
                 .text-h6= track.title
 
           %p.text-p-large.mb-12
-            = t('.recommended_exercises.intro')
+            You can solve any exercises in these tracks to get the badge, but we recommend the following as interesting challenges to approach in these languages:
           %ul.text-p-large.mb-12
 
             %li.mb-2
               = image_tag "#{Exercism.config.website_icons_host}/exercises/all-your-base.svg", class: "w-[25px] inline"
-              %strong.font-semibold= t('.recommended_exercises.all_your_base.title')
-              = t('.recommended_exercises.all_your_base.description')
+              %strong.font-semibold All Your Base:
+              Convert a number, represented as a sequence of digits, to another base.
             %li.mb-2
               = image_tag "#{Exercism.config.website_icons_host}/exercises/flatten-array.svg", class: "w-[25px] inline"
-              %strong.font-semibold= t('.recommended_exercises.flatten_array.title')
-              = t('.recommended_exercises.flatten_array.description')
+              %strong.font-semibold Flatten Array:
+              Take a nested collection and return a single, non-nested collection.
             %li.mb-2
               = image_tag "#{Exercism.config.website_icons_host}/exercises/queen-attack.svg", class: "w-[25px] inline"
-              %strong.font-semibold= t('.recommended_exercises.queen_attack.title')
-              = t('.recommended_exercises.queen_attack.description')
+              %strong.font-semibold Queen Attack:
+              Determine whether two queens on a chess board can attack each other.
             %li.mb-2
               = image_tag "#{Exercism.config.website_icons_host}/exercises/dnd-character.svg", class: "w-[25px] inline"
-              %strong.font-semibold= t('.recommended_exercises.dnd_character.title')
-              = t('.recommended_exercises.dnd_character.description')
+              %strong.font-semibold DND Character:
+              Randomly generate Dungeons & Dragons characters.
             %li.mb-2
               = image_tag "#{Exercism.config.website_icons_host}/exercises/run-length-encoding.svg", class: "w-[25px] inline"
-              %strong.font-semibold= t('.recommended_exercises.run_length_encoding.title')
-              = t('.recommended_exercises.run_length_encoding.description')
+              %strong.font-semibold Run-Length Encoding:
+              Implement run-length encoding and decoding.
 
-          %h2.text-h3.mt-32.mb-4= t('.learn_from_others.title')
+          %h2.text-h3.mt-32.mb-4 Learn from others… 🎥
           %p.text-p-large.mb-12.c-highlight-links
-            = t('.learn_from_others.description_html', twitch_channel_link: link_to(t('.learn_from_others.twitch_channel_link_text'), 'https://twitch.tv/exercismlive', class: 'underline'), youtube_channel_link: link_to(t('.learn_from_others.youtube_channel_link_text'), 'https://www.youtube.com/exercism_videos?sub_confirmation=1', class: 'underline'))
-            = t('.learn_from_others.schedule_hint')
+            Throughout the month we'll have interviews, walkthroughs from Exercism track contributors, and live streams of the community solving exercises. Our streaming team is really growing so definitely check out what's on!
+            Subscribe to our
+            = link_to "Twitch Channel", 'https://twitch.tv/exercismlive', class: 'underline'
+            and
+            = link_to "YouTube Channel", 'https://www.youtube.com/exercism_videos?sub_confirmation=1', class: 'underline'
+            to not miss out!
+            There's also a schedule at the top right of this page.
 
-          %h2.text-h3.mt-32.mb-4= t('.join_conversation.title')
+          %h2.text-h3.mt-32.mb-4 Join the conversation… 💬
           %ul.text-p-large.list-disc.pl-16.c-highlight-links
             %li.mb-4
-              = t('.join_conversation.description_html', forums_link: link_to(t('.join_conversation.forums_link_text'), 'https://forum.exercism.org/tag/12in23'), discord_link: link_to(t('.join_conversation.discord_link_text'), 'https://exercism.org/r/discord'), hashtag: tag.strong(t('.join_conversation.hashtag_text'), class: 'font-semibold'))
+              Join in the conversation by using the
+              #{link_to '#12in23 tag on our forums', 'https://forum.exercism.org/tag/12in23'},
+              chatting on our #{link_to 'Discord Server', 'https://exercism.org/r/discord'},
+              or using the
+              %strong.font-semibold #12in23
+              hashtag around social media!
 
         .ml-80{ class: 'max-w-[450px]' }
           .bg-backgroundColorD.rounded-8.py-16.px-24.mb-24.border-1.border-borderColor7
-            %h2.text-h4.mb-4= t('.side_section.streaming_schedule.title')
+            %h2.text-h4.mb-4 Upcoming Streaming Schedule
             %p.text-p-base.mb-12.c-highlight-links
-              = t('.side_section.streaming_schedule.description_html', twitch_channel_link: link_to(t('.side_section.streaming_schedule.twitch_channel_link_text'), 'https://twitch.tv/exercismlive', class: 'underline'))
-              %strong.font-semibold= t('.side_section.streaming_schedule.utc_notice')
+              This schedule is regularly updated. All events will stream on our
+              = link_to "Twitch Channel", 'https://twitch.tv/exercismlive', class: 'underline'
+              \- subscribe so not to miss out!
+              %strong.font-semibold All times in UTC.
 
             %ul.text-p-base.list-disc.pl-16
               - StreamingEvent.next_5.each do |event|
@@ -89,59 +104,62 @@
 
 
           .bg-backgroundColorD.rounded-8.py-16.px-24.mb-24.border-1.border-borderColor7
-            %h2.text-h4.mb-4= t('.side_section.how_it_works.title')
+            %h2.text-h4.mb-4 How does #12in23 work?
             %p.text-p-base.mb-12
-              = t('.side_section.how_it_works.description')
+              Each month has a different theme and featured languages. Solve exercises in a featured language during that month. Check out our two introductory videos for more details!
             .grid.grid-cols-2.gap-12
               = link_to "https://youtu.be/e15lRHLJQKI", class: 'bg-backgroundColorB p-8 shadow-smZ1 rounded-5 relative' do
                 = graphical_icon "video-play", css_class: '!absolute top-[40px] w-[30px] left-[50%] ml-[-15px]', style: "filter: var(--white-filter) drop-shadow(0px 0px 6px black)"
-                = image_tag "https://assets.exercism.org/images/thumbnails/yt-12in23-feb-update.jpg", alt: t('.side_section.how_it_works.video_thumbnail_alt'), class: 'mb-8 block block w-fill rounded-5'
-                .text-center.text-h6= t('.side_section.how_it_works.video1_title')
+                = image_tag "https://assets.exercism.org/images/thumbnails/yt-12in23-feb-update.jpg", alt: 'A video thumbnail', class: 'mb-8 block block w-fill rounded-5'
+                .text-center.text-h6 How's your #12in23 going?
 
               = link_to "https://youtu.be/2refhxXqePI", class: 'bg-backgroundColorB p-8 shadow-smZ1 rounded-5 relative' do
                 = graphical_icon "video-play", css_class: '!absolute top-[40px] w-[30px] left-[50%] ml-[-15px]', style: "filter: var(--white-filter) drop-shadow(0px 0px 6px black)"
-                = image_tag "https://assets.exercism.org/images/thumbnails/yt-official-12in23-calendar.jpg", alt: t('.side_section.how_it_works.video_thumbnail_alt'), class: 'mb-8 block w-fill rounded-5'
-                .text-center.text-h6= t('.side_section.how_it_works.video2_title')
+                = image_tag "https://assets.exercism.org/images/thumbnails/yt-official-12in23-calendar.jpg", alt: 'A video thumbnail', class: 'mb-8 block w-fill rounded-5'
+                .text-center.text-h6 The Official #12in23 Calendar
 
             %p.text-p-small.text-center.mt-20.bg-backgroundColorA.rounded-8.py-8.px-12.font-medium
-              = t('.side_section.how_it_works.progress_hint')
+              Track your progress at the bottom of the page.
 
-          .bg-backgroundColorD.rounded-8.py-16.px-24.mb-24.border-1.border-borderColor7
-            %h2.text-h4.mb-4= t('.side_section.donate.title')
+          .bg-backgroundColorD.rounded-8.py-16.px-24.border-1.border-borderColor7
+            %h2.text-h4.mb-4 Enjoying #12in23? Please donate 🙏
             %p.text-p-base.mb-12
-              = t('.side_section.donate.description')
-            = link_to t('.side_section.donate.button_text'), donate_path, class: 'btn btn-primary'
+              We keep Exercism free so that anyone can use it. But we rely on the generosity of people that could afford it to make that possible. If you're enjoying #12in23 and are financially able, please consider donating to keep Exercism going!
+            = link_to "Donate now", donate_path, class: 'btn btn-primary'
 
           .bg-backgroundColorD.rounded-8.py-16.px-24.border-1.border-borderColor7.mt-24
-            %h2.text-h4.mb-4= t('.side_section.year_long_badge.title')
+            %h2.text-h4.mb-4 The year-long #12in23 badge
             %p.text-p-base.mb-12
-              = t('.side_section.year_long_badge.description')
+              At the end of the year we'll be awarding an exclusive badge to anyone who completes all the featured exercises in the correct paradigms. You can complete the exercise any time during 2023.
 
-              = t('.side_section.year_long_badge.forum_hint_html', forum_post_link: link_to(t('.side_section.year_long_badge.forum_post_link_text'), 'https://forum.exercism.org/t/new-12in23-badge-for-completing-all-the-things/4183', class: 'font-semibold text-linkColor'))
+              Hover over the exercises below or view
+              = link_to 'this forum post', 'https://forum.exercism.org/t/new-12in23-badge-for-completing-all-the-things/4183', class: 'font-semibold text-linkColor'
+              for more details.
 
             - if @badge_progress_exercises.present?
               %h2.text-h6.mt-20.mb-12
-                = t('.side_section.year_long_badge.published_exercises_title')
-                .inline.text-14= t('.side_section.year_long_badge.published_exercises_count', earned_count: @badge_progress_exercise_earned_count, total_count: @badge_progress_exercise_count)
+                Published Exercises
+                .inline.text-14 (#{@badge_progress_exercise_earned_count} / #{@badge_progress_exercise_count} so far)
               .grid.grid-cols-5.gap-12
                 - @badge_progress_exercises.each do |exercise_progress|
                   - if exercise_progress[:earned_for].present?
                     = link_to track_exercise_path(exercise_progress[:earned_for], exercise_progress[:slug]), class: "relative block" do
-                      = image_tag "#{Exercism.config.website_icons_host}/exercises/#{exercise_progress[:slug]}.svg", class: "w-100", title: t('.side_section.year_long_badge.solved_in_track', track_name: exercise_progress[:earned_for])
-                      = icon "completed-check-circle", t('.side_section.year_long_badge.completed_icon_label'), css_class: "w-[16px] !absolute right-[2px] top-[2px]"
+                      = image_tag "#{Exercism.config.website_icons_host}/exercises/#{exercise_progress[:slug]}.svg", class: "w-100", title: "Solved in #{exercise_progress[:earned_for]}"
+                      = icon "completed-check-circle", "Completed", css_class: "w-[16px] !absolute right-[2px] top-[2px]"
                   - else
-                    = image_tag "#{Exercism.config.website_icons_host}/exercises/#{exercise_progress[:slug]}.svg", class: "w-100 opacity-[0.7] grayscale", title: t('.side_section.year_long_badge.solve_exercise_in_tracks', exercise_slug: exercise_progress[:slug], track_names: exercise_progress[:track_slugs].to_sentence(last_word_connector: ', or ', two_words_connector: ', or '))
+                    = image_tag "#{Exercism.config.website_icons_host}/exercises/#{exercise_progress[:slug]}.svg", class: "w-100 opacity-[0.7] grayscale", title: "Solve #{exercise_progress[:slug]} in #{exercise_progress[:track_slugs].to_sentence(last_word_connector: ', or ', two_words_connector: ', or ')}"
             - else
-              %h2.text-h6.mt-20= t('.side_section.year_long_badge.no_solutions_yet')
+              %h2.text-h6.mt-20 You've not yet submitted any valid solutions.
 
   %article
     .md-container
       .flex.text-center.flex-col.items-center
-        %h1.text-h1.mb-16= t('.progress_section.title')
+        %h1.text-h1.mb-16 Your #12in23 Progress
         %p.text-p-xlarge
-          = t('.progress_section.description1')
+          Below you'll see a list of all the languages you've used during 2023.
+          Aim to complete 12 languages by the end of the year!
         %p.text-p-large.cta
-          = t('.progress_section.description2')
+          Submit 5 exercises (not including "Hello World") in a track to tick off that language!
 
       .grid.grid-cols-4.gap-32.mx-auto
         - @track_counts.each do |track_id, count|
@@ -150,12 +168,12 @@
             = image_tag track.icon_url, alt: '', class: "c-icon c-track-icon h-[48px] w-[48px] mb-8"
             .text-h4.mb-20= track.title
             - if count >= 5
-              = icon "completed-check-circle", t('.progress_section.track_completed_icon_label'), width: 24, height: 24, css_class: "!absolute top-[-12px] right-[-12px]"
+              = icon "completed-check-circle", "Completed", width: 24, height: 24, css_class: "!absolute top-[-12px] right-[-12px]"
               .progress
-              .count= t('.progress_section.exercises_completed', count: count)
+              .count #{count} exercises completed
             - else
               %progress.progress-bar{ value: count, max: 5 }
-              .count= t('.progress_section.exercises_progress', count: count)
+              .count #{count} / 5 exercises completed
 
         - num_placeholders = 12 - @track_counts.size
         - if num_placeholders.positive?

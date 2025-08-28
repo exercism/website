@@ -1,5 +1,5 @@
-- content_for :meta_title, t('.meta_title')
-- content_for :meta_description, t('.meta_description')
+- content_for :meta_title, "Exercism's Hiring!".html_safe
+- content_for :meta_description, "Come and join a passionate team making programming education fun and effective. Here are some of the roles we’re hiring for.".html_safe
 - content_for :canonical_url, hiring_about_url
 - require_stylesheet "about"
 
@@ -9,5 +9,5 @@
   %header
     .lg-container.c-shapes
       = graphical_icon "exercism-face"
-      %h1.text-h1.mb-12= t('.header.title')
-      %p.text-p-2xlarge= t('.header.description')
+      %h1.text-h1.mb-12 We're not currently hiring.
+      %p.text-p-2xlarge Please check back in the future for new roles!

@@ -6,6 +6,7 @@ import { Icon } from '@/components/common'
 import { PaymentIntentType, useStripeForm } from './stripe-form/useStripeForm'
 import { generateStripeButtonText } from './stripe-form/utils'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 export type StripeFormProps = {
   paymentIntentType: PaymentIntentType
@@ -79,31 +80,31 @@ export function StripeForm({
           />
         </div>
       ) : null}
-      {captchaRequired && recaptchaSiteKey ? (
-        <div className="flex items-center mb-16">
-          <ReCAPTCHA
-            sitekey={recaptchaSiteKey}
-            className="g-recaptcha"
-            onChange={handleCaptchaSuccess}
-            onExpired={handleCaptchaFailure}
-            onErrored={handleCaptchaFailure}
+      {/* {captchaRequired && recaptchaSiteKey ? ( */}
+      <div className="flex items-center mb-16">
+        <ReCAPTCHA
+          sitekey={recaptchaSiteKey}
+          className="g-recaptcha"
+          onChange={handleCaptchaSuccess}
+          onExpired={handleCaptchaFailure}
+          onErrored={handleCaptchaFailure}
+        />
+        <div className="ml-16 text-textColor6 leading-tight">
+          <Trans
+            ns="components/donations"
+            i18nKey="stripeForm.attackInfo"
+            components={[
+              <a
+                href="https://stripe.com/docs/disputes/prevention/card-testing"
+                target="_blank"
+                rel="noreferrer"
+                className="underline"
+              />,
+            ]}
           />
-          <div className="ml-16 text-textColor6 leading-tight">
-            {t('stripeForm.dueToFrequent')}{' '}
-            <a
-              href="https://stripe.com/docs/disputes/prevention/card-testing"
-              target="_blank"
-              rel="noreferrer"
-              className="underline"
-            >
-              {t('stripeForm.cardTestingAttacks')}
-            </a>
-            {t(
-              'stripeForm.weNeedToCheckYouAreNotABotBeforeWeCanAcceptADonation'
-            )}
-          </div>
         </div>
-      ) : null}
+      </div>
+      {/* ) : null} */}
 
       <PaymentElement
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment

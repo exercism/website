@@ -18,11 +18,8 @@ export default {
     'are still gratefully received!',
   'stripeForm.yourEmailAddressForReceipts':
     'Your email address (for receipts):',
-  'stripeForm.dueToFrequent': 'Due to frequent',
-  'stripeForm.cardTestingAttacks':
-    '<cardTestingAttacksLink>card testing attacks</cardTestingAttacksLink>',
-  'stripeForm.weNeedToCheckYouAreNotABotBeforeWeCanAcceptADonation':
-    ', we need to check you are not a bot before we can accept a donation.',
+  'stripeForm.attackInfo':
+    'Due to frequent <0>card testing attacks</0>, we need to check you are not a bot before we can accept a donation.',
   'formWithModal.youVeDonatedSuccessfullyThankYou':
     "You've donated {{amount}} successfully - thank you 💙",
   'formWithModal.weTrulyAppreciateYourSupportExercismWouldNotBePossibleWithoutAwesomeContributorsLikeYourselfYouLlBeSentAnEmailShortlyWithYourDonationConfirmationAndReceipt':

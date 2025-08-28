@@ -27,6 +27,7 @@ Rails.application.routes.draw do
     draw :website
   end
 
+  draw :website_en
   draw :special
   draw :bootcamp
 end

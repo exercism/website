@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 require "yaml"
 
-DIR = Rails.root.join("config/locales")
+DIRS = [
+  Rails.root.join("config/locales"),
+  Rails.root.join("config/locales.bk")
+]
 
 # Flatten nested YAML into dot-notation keys
 def flatten_keys(obj, prefix = "")
@@ -28,14 +31,20 @@ def import_file(file_path)
   data = YAML.load_file(file_path) || {}
 
   flatten_keys(data).each do |key, value|
-    next if value.nil? # skip nils
-    Localization::Original::Create.(:website_server_side, key, value, nil, false)
-    # puts " → #{key} = #{value.inspect}"
+    next if value.nil?                      # skip nils
+    next unless key.start_with?("en.")      # only keep English keys
+
+    stripped_key = key.sub(/^en\./, "")     # remove "en." prefix
+
+    Localization::Original::Create.(:website_server_side, stripped_key, value, nil, false)
+    # puts " → #{stripped_key} = #{value.inspect}"
   rescue ActiveRecord::RecordNotUnique
     # Already added
   end
 end
 
-Dir.glob(DIR.join("**/*.yml")).each do |file|
-  import_file(file)
+DIRS.each do |dir|
+  Dir.glob(dir.join("**/*.yml")).each do |file|
+    import_file(file)
+  end
 end

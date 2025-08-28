@@ -1,4 +1,6 @@
 class ChallengesController < ApplicationController
+  before_action :redirect_to_english!
+
   skip_before_action :authenticate_user!, only: %i[show implementation_status]
   before_action :use_challenge_id!, except: %i[implementation_status track_implementation_status]
   before_action :use_track!, only: [:track_implementation_status]

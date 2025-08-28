@@ -1,5 +1,4 @@
 import React from 'react'
-import { useAppTranslation } from '@/i18n/useAppTranslation'
 import LottieAnimation from '@/components/bootcamp/common/LottieAnimation'
 import animation from '@/../animations/finish-lesson-modal-top.json'
 import useTaskStore from '@/components/bootcamp/JikiscriptExercisePage/store/taskStore/taskStore'
@@ -8,7 +7,6 @@ import { useContext, useMemo, useCallback } from 'react'
 import { FinishLessonModalContext } from '../FinishLessonModalContextWrapper'
 
 export function InitialView() {
-  const { t } = useAppTranslation('components/bootcamp/modals')
   const { handleCompleteSolution, setIsFinishLessonModalOpen: setIsOpen } =
     useContext(FinishLessonModalContext)
 
@@ -21,23 +19,18 @@ export function InitialView() {
 
   const bonusTaskInfoText = useMemo(() => {
     return bonusTestSuiteResult && bonusTestSuiteResult.tests.length > 1
-      ? t('finishLessonModal.views.initialView.thereAreBonusTasks', {
-          bonusTaskCount: bonusTestSuiteResult!.tests.length,
-        })
-      : t('finishLessonModal.views.initialView.thereIsABonusTask')
-  }, [bonusTestSuiteResult, t])
+      ? `There are ${
+          bonusTestSuiteResult!.tests.length
+        } bonus tasks on this exercise to complete. Do you want to go back to complete those now?`
+      : `There is a bonus task on this exercise to complete. Do you want to go back to complete it now?`
+  }, [bonusTestSuiteResult])
 
   const handleTweakFurther = useCallback(() => {
     setIsOpen(false)
     if (hasMoreBonusTasks) {
       setShouldShowBonusTasks(true)
     }
-  }, [
-    bonusTestSuiteResult,
-    hasMoreBonusTasks,
-    setIsOpen,
-    setShouldShowBonusTasks,
-  ])
+  }, [bonusTestSuiteResult, hasMoreBonusTasks])
 
   return (
     <>
@@ -46,33 +39,31 @@ export function InitialView() {
         className="confetti"
         style={{ height: '200px', width: '300px' }}
       />
-      <h2 className="text-[25px] mb-12 font-semibold">
-        {t('finishLessonModal.views.initialView.niceWork')}
-      </h2>
+      <h2 className="text-[25px] mb-12 font-semibold">Nice work!</h2>
 
       {hasMoreBonusTasks ? (
         <p className="text-18 leading-140 mb-8">{bonusTaskInfoText}</p>
       ) : (
         <p className="text-18 leading-140 mb-20">
-          {t('finishLessonModal.views.initialView.markAsCompleted')}
+          You can now mark this exercise as completed and move forward, or go
+          back and carry on tweaking your code.
         </p>
       )}
 
       <div className="flex items-center gap-8 self-stretch">
         <button onClick={handleTweakFurther} className="btn-l btn-secondary">
-          {hasMoreBonusTasks
-            ? t('finishLessonModal.views.initialView.tackleBonusTasks')
-            : t('finishLessonModal.views.initialView.tweakFurther')}
+          {hasMoreBonusTasks ? 'Tackle bonus tasks' : 'Tweak further'}
         </button>
         <button
           onClick={handleCompleteSolution}
           className="btn-l btn-primary flex-grow"
         >
-          {t('finishLessonModal.views.initialView.completeExercise')}
+          Complete Exercise
         </button>
       </div>
       <p className="mt-12 text-15 leading-140 text-textColor6 text-balance">
-        {t('finishLessonModal.views.initialView.tweakFurtherInfo')}
+        (If you tweak further, you can complete the exercise using the button at
+        the right when you're done)
       </p>
     </>
   )

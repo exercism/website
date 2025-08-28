@@ -3,10 +3,8 @@ import React from 'react'
 import Modal from 'react-modal'
 import { FinishLessonModalContext } from './FinishLessonModalContext'
 import { useContext } from 'react'
+import { NextExercise } from '../../JikiscriptExercisePage/Tasks/completeSolution'
 import { InitialView } from './views/InitialView'
-import { useAppTranslation } from '@/i18n/useAppTranslation'
-import { NextExercise } from '@/components/bootcamp/JikiscriptExercisePage/Tasks/completeSolution'
-import { Trans } from 'react-i18next'
 
 Modal.setAppElement('body')
 export function FinishLessonModal() {
@@ -57,39 +55,29 @@ function CompletedExerciseView({
 }: {
   nextExerciseData: NextExercise
 }) {
-  const { t } = useAppTranslation(
-    'components/bootcamp/FrontendExercisePage/Header'
-  )
   const { links } = useContext(FinishLessonModalContext)
   return (
     <div>
-      <h2 className="text-[25px] mb-12 font-semibold">
-        {t('finishLessonModal.finishLessonModal.congratulations')}
-      </h2>
+      <h2 className="text-[25px] mb-12 font-semibold">Congratulations!</h2>
 
       <p className="text-18 leading-140 mb-8">
-        <Trans
-          ns="components/bootcamp/FrontendExercisePage/Header"
-          i18nKey="finishLessonModal.finishLessonModal.nextExerciseIs"
-          values={{ exerciseTitle: nextExerciseData.title }}
-          components={[<strong className="font-semibold" />]}
-        />
+        The next exercise is{' '}
+        <strong className="font-semibold">{nextExerciseData.title}.</strong>
       </p>
       <p className="text-18 leading-140 mb-20">
-        {t(
-          'finishLessonModal.finishLessonModal.doYouWantToStartItNowOrWouldYouRatherGoBackToTheDashboard'
-        )}
+        Do you want to start it now, or would you rather go back to the
+        dashboard?
       </p>
 
       <div className="flex items-center gap-8 self-stretch">
         <a href={links.dashboardIndex} className="btn-l btn-secondary">
-          {t('finishLessonModal.finishLessonModal.goToDashboard')}
+          Go to dashboard
         </a>
         <a
           href={nextExerciseData.solve_url}
           className="btn-l btn-primary flex-grow"
         >
-          {t('finishLessonModal.finishLessonModal.startNextExercise')}
+          Start Next Exercise
         </a>
       </div>
     </div>
@@ -97,29 +85,20 @@ function CompletedExerciseView({
 }
 
 function CompletedLevelView({ nextLevelIdx }: { nextLevelIdx: number }) {
-  const { t } = useAppTranslation(
-    'components/bootcamp/FrontendExercisePage/Header'
-  )
   const { completedLevelIdx, links } = useContext(FinishLessonModalContext)
   return (
     <div>
       <h2 className="text-[25px] mb-12 font-semibold">
-        {t('finishLessonModal.finishLessonModal.youveCompletedLevel', {
-          completedLevelIdx,
-        })}
+        You've completed level {completedLevelIdx}!
       </h2>
       <p className="text-18 leading-140 mb-8">
         <strong className="font-semibold">
-          {t(
-            'finishLessonModal.finishLessonModal.congratulationsThatsABigAchievement'
-          )}
+          Congratulations! That's a big achievement 🎉
         </strong>
       </p>
       <p className="text-18 leading-140 mb-20">
-        {t(
-          'finishLessonModal.finishLessonModal.youreNowOntoLevelANewChallengeRememberToWatchTheTeachingVideoInFullBeforeStartingTheExercises',
-          { nextLevelIdx }
-        )}
+        You're now onto Level {nextLevelIdx} - a brand new challenge! Remember
+        to watch the teaching video in full before starting the exercises.
       </p>
 
       <div className="flex items-center gap-8 self-stretch">
@@ -127,9 +106,7 @@ function CompletedLevelView({ nextLevelIdx }: { nextLevelIdx: number }) {
           href={links.bootcampLevelUrl.replace('idx', nextLevelIdx.toString())}
           className="btn-l btn-primary flex-grow"
         >
-          {t('finishLessonModal.finishLessonModal.startLevel', {
-            nextLevelIdx,
-          })}
+          Start Level {nextLevelIdx}
         </a>
       </div>
     </div>
@@ -141,45 +118,36 @@ function CompletedAllLevelsView({
 }: {
   nextExerciseData: NextExercise
 }) {
-  const { t } = useAppTranslation(
-    'components/bootcamp/FrontendExercisePage/Header'
-  )
   const { completedLevelIdx, links } = useContext(FinishLessonModalContext)
   return (
     <div>
       <h2 className="text-[25px] mb-12 font-semibold">
-        {t('finishLessonModal.finishLessonModal.youveCompletedLevel', {
-          completedLevelIdx,
-        })}
+        You've completed level {completedLevelIdx}!
       </h2>
       <p className="text-18 leading-140 mb-8">
         <strong className="font-semibold">
-          {t(
-            'finishLessonModal.finishLessonModal.congratulationsThatsABigAchievement'
-          )}
+          Congratulations! That's a big achievement 🎉
         </strong>
       </p>
       <p className="text-18 leading-140 mb-20">
-        {t(
-          'finishLessonModal.finishLessonModal.youveCompletedAllTheLevelsAvailableToYouRightNowButYouStillHaveSomeExercisesOutstanding'
-        )}
+        You've completed all the levels available to you right now, but you
+        still have some exercises outstanding. The next exercise is{' '}
         <strong className="font-semibold">{nextExerciseData.title}.</strong>
       </p>
       <p className="text-18 leading-140 mb-20">
-        {t(
-          'finishLessonModal.finishLessonModal.doYouWantToStartItNowOrWouldYouRatherGoBackToTheDashboard'
-        )}
+        Do you want to start it now, or would you rather go back to the projects
+        list?
       </p>
 
       <div className="flex items-center gap-8 self-stretch">
         <a href={links.dashboardIndex} className="btn-l btn-secondary">
-          {t('finishLessonModal.finishLessonModal.goToDashboard')}
+          Go to dashboard
         </a>
         <a
           href={nextExerciseData.solve_url}
           className="btn-l btn-primary flex-grow"
         >
-          {t('finishLessonModal.finishLessonModal.startNextExercise')}
+          Start Next Exercise
         </a>
       </div>
     </div>
@@ -187,25 +155,18 @@ function CompletedAllLevelsView({
 }
 
 function CompletedEverythingView() {
-  const { t } = useAppTranslation(
-    'components/bootcamp/FrontendExercisePage/Header'
-  )
   const { links } = useContext(FinishLessonModalContext)
 
   return (
     <div>
-      <h2 className="text-[25px] mb-12 font-semibold">
-        {t('finishLessonModal.finishLessonModal.congratulations')}
-      </h2>
+      <h2 className="text-[25px] mb-12 font-semibold">Congratulations!</h2>
       <p className="text-18 leading-140 mb-20">
-        {t(
-          'finishLessonModal.finishLessonModal.wellDoneYouveFinishedAllTheExercisesAvailableToYouRightNow'
-        )}
+        Well done! You've finished all the exercises available to you right now.
       </p>
 
       <div className="flex flex-col items-stretch self-stretch">
         <a href={links.dashboardIndex} className="btn-l btn-primary">
-          {t('finishLessonModal.finishLessonModal.goToDashboard')}
+          Go to dashboard
         </a>
       </div>
     </div>

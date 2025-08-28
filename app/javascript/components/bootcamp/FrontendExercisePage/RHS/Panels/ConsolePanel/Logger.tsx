@@ -3,12 +3,8 @@ import { renderLog } from '@/components/bootcamp/JikiscriptExercisePage/RHS/Logg
 import { useHighlighting } from '@/utils/highlight'
 import { useFrontendExercisePageStore } from '../../../store/frontendExercisePageStore'
 import { FrontendExercisePageContext } from '../../../FrontendExercisePageContext'
-import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function Logger() {
-  const { t } = useAppTranslation(
-    'components/bootcamp/FrontendExercisePage/RHS'
-  )
   const containerRef = useRef<HTMLDivElement>(null)
 
   const { logs, setLogs } = useFrontendExercisePageStore()
@@ -44,21 +40,21 @@ export function Logger() {
 
   return (
     <div className="c-logger" ref={ref}>
-      <h2>{t('panels.consolePanel.logger.logMessages')}</h2>
+      <h2>Log Messages</h2>
       {logs.length === 0 ? (
         <div className="info-message">
           <p>
-            {t('panels.consolePanel.logger.useTheLogFunction')}
+            Use the <code>log</code> function to log messages to the console.
             e.g.
           </p>
           <pre className="hljs language-javascript">
-            <code>{t('panels.consolePanel.logger.helloWorldExample')}</code>
+            <code>log("Hello World")</code>
           </pre>
         </div>
       ) : (
         <>
           <div className="info-message">
-            <p>{t('panels.consolePanel.logger.theseAreTheLogMessages')}</p>
+            <p>These are the log messages from the running code:</p>
           </div>
           <div className="log-container" ref={containerRef}>
             {logs.map((logArgs, index) => (

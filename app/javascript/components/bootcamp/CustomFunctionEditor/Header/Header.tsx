@@ -7,16 +7,12 @@ import { ActiveToggleButton } from './ActiveToggleButton'
 import { JikiscriptExercisePageContext } from '../../JikiscriptExercisePage/JikiscriptExercisePageContextWrapper'
 import customFunctionEditorStore from '../store/customFunctionEditorStore'
 import { DeleteFunctionButton } from '../DeleteFunctionButton'
-import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export type StudentCodeGetter = () => string | undefined
 
 function _Header({ handleSaveChanges }: { handleSaveChanges: () => void }) {
   const { clearResults, customFunctionName, isPredefined } =
     customFunctionEditorStore()
-  const { t } = useAppTranslation(
-    'components/bootcamp/CustomFunctionEditor/Header'
-  )
 
   const { links } = useContext(JikiscriptExercisePageContext)
   return (
@@ -24,10 +20,7 @@ function _Header({ handleSaveChanges }: { handleSaveChanges: () => void }) {
       <div className="ident">
         <GraphicalIcon icon="logo" category="bootcamp" />
         <div>
-          <strong className="font-semibold">
-            {t('header.exercismBootcamp')}
-          </strong>{' '}
-          Bootcamp
+          <strong className="font-semibold">Exercism</strong> Bootcamp
         </div>
       </div>
 
@@ -43,14 +36,14 @@ function _Header({ handleSaveChanges }: { handleSaveChanges: () => void }) {
           className="btn-primary btn-xxs"
           onClick={handleSaveChanges}
         >
-          {t('header.saveChanges')}
+          Save Changes
         </button>
         <DeleteFunctionButton predefined={isPredefined} />
         <a
           href={links.customFnsDashboard}
           className={assembleClassNames('btn-secondary btn-xxs')}
         >
-          {t('header.close')}
+          Close
         </a>
       </div>
     </div>

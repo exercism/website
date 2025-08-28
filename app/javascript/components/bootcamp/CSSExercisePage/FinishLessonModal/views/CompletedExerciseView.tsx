@@ -1,51 +1,45 @@
-// i18n-key-prefix: views.completedExerciseView
-// i18n-namespace: components/bootcamp/CSSExercisePage/FinishLessonModal
 import React, { useContext } from 'react'
 import { FinishLessonModalContext } from '../FinishLessonModalContext'
-import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function CompletedExerciseView() {
-  const { t } = useAppTranslation(
-    'components/bootcamp/CSSExercisePage/FinishLessonModal'
-  )
   const { nextExerciseData, links } = useContext(FinishLessonModalContext)
   return (
     <div>
-      <h2 className="text-[25px] mb-12 font-semibold">
-        {t('views.completedExerciseView.congratulations')}
-      </h2>
+      <h2 className="text-[25px] mb-12 font-semibold">Congratulations!</h2>
 
       {nextExerciseData ? (
         <>
           <p className="text-18 leading-140 mb-8">
-            {t('views.completedExerciseView.nextExerciseIs')}
+            The next exercise is{' '}
             <strong className="font-semibold">{nextExerciseData.title}.</strong>
           </p>
           <p className="text-18 leading-140 mb-20">
-            {t('views.completedExerciseView.startItNowOrDashboard')}
+            Do you want to start it now, or would you rather go back to the
+            projects list?
           </p>
 
           <div className="flex items-center gap-8 self-stretch">
             <a href={links.dashboardIndex} className="btn-l btn-secondary">
-              {t('views.completedExerciseView.goToDashboard')}
+              Go to dashboard
             </a>
             <a
               href={nextExerciseData.solve_url}
               className="btn-l btn-primary flex-grow"
             >
-              {t('views.completedExerciseView.startNextExercise')}
+              Start Next Exercise
             </a>
           </div>
         </>
       ) : (
         <>
           <p className="text-18 leading-140 mb-20">
-            {t('views.completedExerciseView.finishedAllExercisesAvailable')}
+            Well done! You've finished all the exercises available to you right
+            now.
           </p>
 
           <div className="flex flex-col items-stretch self-stretch">
             <a href={links.dashboardIndex} className="btn-l btn-primary">
-              {t('views.completedExerciseView.goToDashboard')}
+              Go to dashboard
             </a>
           </div>
         </>

@@ -1,12 +1,8 @@
-// i18n-key-prefix: customFunctionTests
-// i18n-namespace: components/bootcamp/CustomFunctionEditor
 import React from 'react'
 import { CustomFunctionTest } from './CustomFunctionTest'
 import customFunctionEditorStore from './store/customFunctionEditorStore'
-import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function CustomFunctionTests() {
-  const { t } = useAppTranslation('components/bootcamp/CustomFunctionEditor')
   const {
     customFunctionName,
     results,
@@ -59,7 +55,7 @@ export function CustomFunctionTests() {
       })}
       {!testBeingEdited && (
         <button onClick={handleAddNewTest} className="btn btn-primary shrink-0">
-          {t('customFunctionTests.addNewTest')}
+          Add new test
         </button>
       )}
     </div>

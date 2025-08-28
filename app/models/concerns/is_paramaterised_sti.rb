@@ -180,10 +180,8 @@ module IsParamaterisedSTI
   end
 
   def latest_i18n_version
-    I18n.backend.send(:init_translations)
-    I18n.backend.send(:translations)[:en][i18n_category][i18n_key].keys.first
-  rescue StandardError
-    raise "Missing i18n key for this notification"
+    v = I18n.t("#{i18n_category}.#{i18n_key}", locale: :en)
+    v.is_a?(Hash) ? v.keys.first : v
   end
 
   def i18n_params = {}

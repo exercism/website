@@ -9,5 +9,3 @@
 ].each do |category|
   I18n.load_path += Dir[Rails.root.join('config', 'locales', category, '*.{rb,yml}')]
 end
-
-I18n.available_locales = %i[en hu nl]

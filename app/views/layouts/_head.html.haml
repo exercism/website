@@ -59,5 +59,10 @@
   = stylesheet_link_tag "internal", "data-turbo-track": "reload"
   = stylesheet_link_tag "signed-in", "data-turbo-track": "reload"
 
+- unless user_signed_in?
+  - supported_locales.each do |locale|
+    %link{ rel: "alternate", hreflang: locale, href: url_for_locale(locale, request.fullpath, add_loop_breaker_query_param: false) }
+  %link{ rel: "alternate", hreflang: "x-default", href: url_for_locale("", request.fullpath, add_loop_breaker_query_param: false) }
+
 - if Rails.env.production?
   <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "1d3f833954d44d6e8d93219676a70d34"}'></script>

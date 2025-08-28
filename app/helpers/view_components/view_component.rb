@@ -8,6 +8,7 @@ module ViewComponents
       :tag, :link_to, :external_link_to, :button_to, :image_tag, :image_url,
       :time_ago_in_words, :pluralize, :number_with_delimiter,
       :graphical_icon, :icon, :track_icon, :exercise_icon, :avatar,
+      :supported_locales, :url_for_locale, :flag_for_locale,
       :capture_haml,
       :showing_modal?, :showing_modal!,
       :javascript_include_tag, :request,

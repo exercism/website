@@ -2,76 +2,106 @@ require "test_helper"
 
 class GenericExercise::CreateOrUpdateTest < ActiveSupport::TestCase
   test "creates new exercise" do
-    slug = 'anagram'
-    title = 'Anagram'
-    blurb = 'Given a word and a list of possible anagrams, select the correct sublist.'
-    source = 'Inspired by the Extreme Startup game'
-    source_url = 'https://github.com/rchatley/extreme_startup'
-    deep_dive_youtube_id = 'yYnqweoy12'
-    deep_dive_blurb = 'Explore 14 different ways to solve Anagram.'
-    status = :active
+    attributes = {
+      slug: 'anagram',
+      title: 'Anagram',
+      blurb: 'Given a word and a list of possible anagrams, select the correct sublist.',
+      source: 'Inspired by the Extreme Startup game',
+      source_url: 'https://github.com/rchatley/extreme_startup',
+      deep_dive_youtube_id: 'yYnqweoy12',
+      deep_dive_blurb: 'Explore 14 different ways to solve Anagram.',
+      deprecated: false
+    }
 
-    exercise = GenericExercise::CreateOrUpdate.(slug, title, blurb, source, source_url, deep_dive_youtube_id, deep_dive_blurb, status)
+    exercise = GenericExercise::CreateOrUpdate.(attributes)
 
     assert_equal 1, GenericExercise.count
     assert_equal GenericExercise.last, exercise
 
-    assert_equal slug, exercise.slug
-    assert_equal title, exercise.title
-    assert_equal blurb, exercise.blurb
-    assert_equal source, exercise.source
-    assert_equal source_url, exercise.source_url
-    assert_equal deep_dive_youtube_id, exercise.deep_dive_youtube_id
-    assert_equal deep_dive_blurb, exercise.deep_dive_blurb
-    assert_equal status, exercise.status
+    attributes.except(:deprecated).each do |key, value|
+      assert_equal value, exercise.public_send(key)
+    end
+    assert_equal :active, exercise.status
   end
 
   test "updates existing exercise" do
-    slug = 'anagram'
-    title = 'Anagram'
-    blurb = 'Given a word and a list of possible anagrams, select the correct sublist.'
-    source = 'Inspired by the Extreme Startup game'
-    source_url = 'https://github.com/rchatley/extreme_startup'
-    deep_dive_youtube_id = 'yYnqweoy12'
-    deep_dive_blurb = 'Explore 14 different ways to solve Anagram.'
-    status = :active
+    attributes = {
+      slug: 'anagram',
+      title: 'Anagram',
+      blurb: 'Given a word and a list of possible anagrams, select the correct sublist.',
+      source: 'Inspired by the Extreme Startup game',
+      source_url: 'https://github.com/rchatley/extreme_startup',
+      deep_dive_youtube_id: 'yYnqweoy12',
+      deep_dive_blurb: 'Explore 14 different ways to solve Anagram.',
+      deprecated: false
+    }
 
-    exercise = create(:generic_exercise, slug:, title:, blurb:, source:, source_url:, deep_dive_youtube_id:, deep_dive_blurb:, status:)
+    exercise = create(:generic_exercise, **attributes.except(:deprecated))
 
-    new_title = 'The Gram'
-    new_blurb = 'Make a selection.'
-    new_status = :deprecated
+    updated_attributes = attributes.merge(
+      title: 'The Gram',
+      blurb: 'Make a selection.',
+      deprecated: true
+    )
 
-    GenericExercise::CreateOrUpdate.(slug, new_title, new_blurb, source, source_url, deep_dive_youtube_id, deep_dive_blurb, new_status)
+    GenericExercise::CreateOrUpdate.(updated_attributes)
 
     assert_equal 1, GenericExercise.count
     assert_equal GenericExercise.last, exercise
 
     exercise.reload
-    assert_equal slug, exercise.slug
-    assert_equal new_title, exercise.title
-    assert_equal new_blurb, exercise.blurb
-    assert_equal source, exercise.source
-    assert_equal source_url, exercise.source_url
-    assert_equal deep_dive_youtube_id, exercise.deep_dive_youtube_id
-    assert_equal deep_dive_blurb, exercise.deep_dive_blurb
-    assert_equal new_status, exercise.status
+    assert_equal "The Gram", exercise.title
+    assert_equal 'Make a selection.', exercise.blurb
+    assert_equal :deprecated, exercise.status
   end
 
   test "idempotent" do
-    slug = 'anagram'
-    title = 'Anagram'
-    blurb = 'Given a word and a list of possible anagrams, select the correct sublist.'
-    source = 'Inspired by the Extreme Startup game'
-    source_url = 'https://github.com/rchatley/extreme_startup'
-    deep_dive_youtube_id = 'yYnqweoy12'
-    deep_dive_blurb = 'Explore 14 different ways to solve Anagram.'
-    status = :active
+    attributes = {
+      slug: 'anagram',
+      title: 'Anagram',
+      blurb: 'Given a word and a list of possible anagrams, select the correct sublist.',
+      source: 'Inspired by the Extreme Startup game',
+      source_url: 'https://github.com/rchatley/extreme_startup',
+      deep_dive_youtube_id: 'yYnqweoy12',
+      deep_dive_blurb: 'Explore 14 different ways to solve Anagram.',
+      deprecated: false
+    }
 
     assert_idempotent_command do
-      GenericExercise::CreateOrUpdate.(slug, title, blurb, source, source_url, deep_dive_youtube_id, deep_dive_blurb, status)
+      GenericExercise::CreateOrUpdate.(attributes)
     end
 
     assert_equal 1, GenericExercise.count
+  end
+
+  test "defers all the localizations correctly" do
+    blurb = 'Given a word and a list of possible anagrams, select the correct sublist.'
+    source = 'Inspired by the Extreme Startup game'
+    title = "Anagram"
+
+    instructions = "Some instructions"
+    introduction = "Some introduction"
+
+    attributes = {
+      slug: 'anagram',
+      title:,
+      blurb:,
+      source:,
+      source_url: 'https://github.com/rchatley/extreme_startup',
+      deep_dive_youtube_id: 'yYnqweoy12',
+      deep_dive_blurb: 'Explore 14 different ways to solve Anagram.',
+      deprecated: false
+    }
+
+    GenericExercise.any_instance.stubs(instructions:)
+    GenericExercise.any_instance.stubs(introduction:)
+
+    Localization::Text::AddToLocalization.expects(:defer).with(:generic_exercise_instructions, instructions, anything)
+    Localization::Text::AddToLocalization.expects(:defer).with(:generic_exercise_introduction, introduction, anything)
+    Localization::Text::AddToLocalization.expects(:defer).with(:generic_exercise_title, title, anything)
+    Localization::Text::AddToLocalization.expects(:defer).with(:generic_exercise_blurb, blurb, anything)
+    Localization::Text::AddToLocalization.expects(:defer).with(:generic_exercise_source, source, anything)
+
+    GenericExercise::CreateOrUpdate.(attributes)
   end
 end

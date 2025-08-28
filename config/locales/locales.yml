@@ -1,0 +1,17 @@
+en:
+  language_version: "English version"
+
+hu:
+  language_version: "Magyar változat"
+
+nl:
+  language_version: "Nederlandse versie"
+
+de:
+  language_version: "Deutsche Version"
+
+pt:
+  language_version: "Versão portuguesa"
+
+pt-BR:
+  language_version: "Versão brasileira"

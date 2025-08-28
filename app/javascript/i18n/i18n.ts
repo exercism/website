@@ -2,22 +2,22 @@ import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
 
-import en from './en'
+import Backend from 'i18next-http-backend'
 
-// Initialize i18n at module load
-if (!i18n.isInitialized) {
-  i18n
-    .use(LanguageDetector)
-    .use(initReactI18next)
-    .init({
-      fallbackLng: 'en',
-      lng: 'en',
-      debug: true,
-      interpolation: {
-        escapeValue: false,
-      },
-      resources: {
-        en,
-      },
-    })
-}
+void i18n
+  .use(Backend)
+  .use(LanguageDetector)
+  .use(initReactI18next)
+  .init({
+    fallbackLng: 'en',
+    debug: true,
+    interpolation: { escapeValue: false },
+    backend: {
+      loadPath: '/javascript-i18n/foo/{{lng}}.js',
+    },
+    react: {
+      useSuspense: true,
+    },
+  })
+
+export default i18n

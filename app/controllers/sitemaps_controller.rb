@@ -127,6 +127,10 @@ class SitemapsController < ApplicationController
             xml.lastmod page[1].xmlschema
             xml.changefreq page[2]
             xml.priority page[3]
+            supported_locales.each do |locale|
+              xml.xhtml(:link, rel: 'alternate', hreflang: locale,
+                href: url_for_locale(locale, page[0], add_loop_breaker_query_param: false))
+            end
           end
         end
       end

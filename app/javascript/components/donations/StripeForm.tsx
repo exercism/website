@@ -80,31 +80,31 @@ export function StripeForm({
           />
         </div>
       ) : null}
-      {/* {captchaRequired && recaptchaSiteKey ? ( */}
-      <div className="flex items-center mb-16">
-        <ReCAPTCHA
-          sitekey={recaptchaSiteKey}
-          className="g-recaptcha"
-          onChange={handleCaptchaSuccess}
-          onExpired={handleCaptchaFailure}
-          onErrored={handleCaptchaFailure}
-        />
-        <div className="ml-16 text-textColor6 leading-tight">
-          <Trans
-            ns="components/donations"
-            i18nKey="stripeForm.attackInfo"
-            components={[
-              <a
-                href="https://stripe.com/docs/disputes/prevention/card-testing"
-                target="_blank"
-                rel="noreferrer"
-                className="underline"
-              />,
-            ]}
+      {captchaRequired && recaptchaSiteKey ? (
+        <div className="flex items-center mb-16">
+          <ReCAPTCHA
+            sitekey={recaptchaSiteKey}
+            className="g-recaptcha"
+            onChange={handleCaptchaSuccess}
+            onExpired={handleCaptchaFailure}
+            onErrored={handleCaptchaFailure}
           />
+          <div className="ml-16 text-textColor6 leading-tight">
+            <Trans
+              ns="components/donations"
+              i18nKey="stripeForm.attackInfo"
+              components={[
+                <a
+                  href="https://stripe.com/docs/disputes/prevention/card-testing"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="underline"
+                />,
+              ]}
+            />
+          </div>
         </div>
-      </div>
-      {/* ) : null} */}
+      ) : null}
 
       <PaymentElement
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment

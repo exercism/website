@@ -24,7 +24,7 @@ def import_file(file_path)
     value = raw_val[1..-2] # strip surrounding quotes
     value = value.gsub("\\'", "'").gsub('\\"', '"')
 
-    Localization::Original::Create.(:website_client_side, key, value, nil)
+    Localization::Original::Create.(:website_client_side, key, value, nil, false)
     # puts " → #{key} = #{value}"
   rescue ActiveRecord::RecordNotUnique 
     # Skip

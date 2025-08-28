@@ -29,8 +29,8 @@ def import_file(file_path)
 
   flatten_keys(data).each do |key, value|
     next if value.nil? # skip nils
-    Localization::Original::Create.(:website_server_side, key, value, nil)
-    puts " → #{key} = #{value.inspect}"
+    Localization::Original::Create.(:website_server_side, key, value, nil, false)
+    # puts " → #{key} = #{value.inspect}"
   rescue ActiveRecord::RecordNotUnique
     # Already added
   end

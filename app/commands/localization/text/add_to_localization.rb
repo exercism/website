@@ -1,12 +1,12 @@
 class Localization::Text::AddToLocalization
   include Mandate
 
-  initialize_with :type, :text, :about, priority_locale: nil
+  initialize_with :type, :text, :about, priority_locale: nil, should_translate: true
 
   def call
     original.tap do
       trigger_priority_locale!
-      queue_all_locales!
+      Localization::Text::TranslateToAllLocales.defer(original)
     end
   end
 
@@ -16,27 +16,18 @@ class Localization::Text::AddToLocalization
   # sure that we do this first! We do this inline to get it to the front
   # of the queue.
   def trigger_priority_locale!
+    return unless original.should_translate?
     return unless priority_locale.present?
 
     Localization::Original::Translate.(original, priority_locale)
-    # rescue StandardError
+  rescue StandardError
     # We catch errors (as this be duplicated in the all
     #  locales below in sidekiq anyway)
   end
 
-  # Then we trigger all locales to be translated.
-  # We don't want to redo any that already exist.
-  def queue_all_locales!
-    (I18n.available_locales + I18n.wip_locales).each do |locale|
-      next if existing_locales.include?(locale.to_sym)
-
-      Localization::Original::Translate.defer(original, locale)
-    end
-  end
-
   memoize
   def original
-    Localization::Original::Create.(type, key, text, about)
+    Localization::Original::Create.(type, key, text, about, should_translate)
   rescue ActiveRecord::RecordNotUnique
     Localization::Original.find_by!(key: key)
   end

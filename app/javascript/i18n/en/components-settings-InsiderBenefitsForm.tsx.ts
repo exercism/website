@@ -9,8 +9,7 @@ export default {
   'insiderBenefits.eligibleToJoin':
     "You're eligible to join Insiders. <link>Get started here.</link>",
   'insiderBenefits.exclusiveOptions':
-    'These are exclusive options for Exercism Insiders.&nbsp;',
-  'insiderBenefits.donateToExercism': 'Donate to Exercism',
-  'insiderBenefits.becomeInsider':
-    'to become an Insider to access benefits such as Dark Mode, ChatGPT integration, an advert-free experience, and more.',
+    'These are exclusive options for Exercism Insiders.',
+  'insiderBenefits.donateToExercism':
+    '<0>Donate to Exercism</0>\u00A0 to become an Insider to access benefits such as Dark Mode, ChatGPT integration, an advert-free experience, and more.',
 }

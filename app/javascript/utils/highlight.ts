@@ -15,6 +15,7 @@ import setupArturo from '@exercism/highlightjs-arturo'
 import setupRoc from 'highlightjs-roc'
 import setupUiua from '@exercism/highlightjs-uiua'
 import setupJikiscript from '@exercism/highlightjs-jikiscript'
+import setupFuthark from '@exercism/highlightjs-futhark'
 
 if (isLookbehindSupported()) {
   highlighter.default.registerLanguage('abap', setupABAP)
@@ -31,6 +32,7 @@ if (isLookbehindSupported()) {
   highlighter.default.registerLanguage('roc', setupRoc)
   highlighter.default.registerLanguage('uiua', setupUiua)
   highlighter.default.registerLanguage('jikiscript', setupJikiscript)
+  highlighter.default.registerLanguage('futhark', setupFuthark)
 }
 
 highlighter.default.configure({

@@ -26,6 +26,7 @@
     "@exercism/codemirror-lang-uiua": "^0.0.4",
     "@exercism/codemirror-lang-wren": "https://github.com/exercism/codemirror-lang-wren",
     "@exercism/highlightjs-arturo": "^0.0.2",
+    "@exercism/highlightjs-futhark": "^0.0.4",
     "@exercism/highlightjs-gdscript": "^0.0.1",
     "@exercism/highlightjs-jikiscript": "^0.0.2",
     "@exercism/highlightjs-uiua": "^0.0.4",

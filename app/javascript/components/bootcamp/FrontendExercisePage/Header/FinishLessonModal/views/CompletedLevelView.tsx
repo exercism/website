@@ -1,35 +1,26 @@
 import React, { useContext } from 'react'
 import { FinishLessonModalContext } from '../FinishLessonModalContext'
-import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function CompletedLevelView() {
-  const { t } = useAppTranslation(
-    'components/bootcamp/FrontendExercisePage/Header'
-  )
   const { nextLevelIdx, completedLevelIdx, links } = useContext(
     FinishLessonModalContext
   )
   return (
     <div>
       <h2 className="text-[25px] mb-12 font-semibold">
-        {t('finishLessonModal.finishLessonModal.youveCompletedLevel', {
-          completedLevelIdx,
-        })}
+        You've completed level {completedLevelIdx}!
       </h2>
       <p className="text-18 leading-140 mb-8">
         <strong className="font-semibold">
-          {t(
-            'finishLessonModal.finishLessonModal.congratulationsThatsABigAchievement'
-          )}
+          Congratulations! That's a big achievement 🎉
         </strong>
       </p>
       {nextLevelIdx ? (
         <>
           <p className="text-18 leading-140 mb-20">
-            {t(
-              'finishLessonModal.finishLessonModal.youreNowOntoLevelANewChallengeRememberToWatchTheTeachingVideoInFullBeforeStartingTheExercises',
-              { nextLevelIdx }
-            )}
+            You're now onto Level {nextLevelIdx} - a brand new challenge!
+            Remember to watch the teaching video in full before starting the
+            exercises.
           </p>
 
           <div className="flex items-center gap-8 self-stretch">
@@ -40,23 +31,20 @@ export function CompletedLevelView() {
               )}
               className="btn-l btn-primary flex-grow"
             >
-              {t('finishLessonModal.finishLessonModal.startLevel', {
-                nextLevelIdx,
-              })}
+              Start Level {nextLevelIdx}
             </a>
           </div>
         </>
       ) : (
         <>
           <p className="text-18 leading-140 mb-20">
-            {t(
-              'finishLessonModal.views.completedLevelView.youveCompletedAllTheLevelsAvailableToYouRightNowGreatJob'
-            )}
+            You've completed all the levels available to you right now. Great
+            job!
           </p>
 
           <div className="flex flex-col items-stretch self-stretch">
             <a href={links.dashboardIndex} className="btn-l btn-primary">
-              {t('finishLessonModal.finishLessonModal.goToDashboard')}
+              Go to dashboard
             </a>
           </div>
         </>

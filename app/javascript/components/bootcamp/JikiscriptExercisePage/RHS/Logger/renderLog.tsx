@@ -1,5 +1,4 @@
 import React from 'react'
-import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function renderLog(logArgs: unknown[]) {
   let line = logArgs
@@ -41,7 +40,7 @@ export function renderLog(logArgs: unknown[]) {
       try {
         return verboseStringify(arg)
       } catch {
-        return `[Unrenderable object] `
+        return '[Unrenderable object]'
       }
     })
     .join(' ')

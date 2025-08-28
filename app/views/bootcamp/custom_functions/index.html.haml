@@ -4,19 +4,20 @@
       .lg-container.container
         .title
           = graphical_icon 'bootcamp-custom-functions'
-          .span= t('.header.your_functions')
+          .span Your Functions
 
     .lg-container.details
-      %h1.font-semibold= t('.header.library_title')
+      %h1.font-semibold Library
       %p.mb-6
-        = t('.header.library_description_p1')
-        = link_to t('.header.watch_video_link'), "https://www.youtube.com/live/00tNx4XCJxY?si=YX67gOYkhnrV0lr2&t=1403", class: "font-semibold text-linkColor"
-        = t('.header.library_description_p2')
+        This is your library of functions.
+        Create and reuse functions throughout your code by creating them here then importing them in the exercises.
+        = link_to "Watch this video", "https://www.youtube.com/live/00tNx4XCJxY?si=YX67gOYkhnrV0lr2&t=1403", class: "font-semibold text-linkColor"
+        to learn more!
 
   .lg-container
     - short_names = @custom_functions.map(&:short_name)
-    %h2= t('.active_functions.title')
-    %p.text-p-large.mb-12= t('.active_functions.description')
+    %h2 Active Functions
+    %p.text-p-large.mb-12 These functions are available for use in your exercises.
     .functions
       - @custom_functions.each do |fn|
         - next unless fn.active?
@@ -27,8 +28,8 @@
 
     %hr.border-borderColor5.mb-32
 
-    %h2= t('.inactive_functions.title')
-    %p.text-p-large.mb-12= t('.inactive_functions.description')
+    %h2 Inactive Functions
+    %p.text-p-large.mb-12 These are functions that are disabled. Get the tests passing to activate them.
     .functions
       - Bootcamp::CustomFunction::CreatePredefinedForUser::DATA.to_a.sort_by(&:first).each do |name, data|
         - next if short_names.include?(name.to_s)
@@ -44,5 +45,5 @@
           %p= fn.description
 
       = button_to bootcamp_custom_functions_path, { id: "new-function-button" } do
-        %h3= t('.new_function.title')
-        %p= t('.new_function.description')
+        %h3 New Function
+        %p Create a new function for whatever reusable code you feel is appropriate!

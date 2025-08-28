@@ -12,7 +12,6 @@ import { Frame } from '@/interpreter/frames'
 import { AnimationTimeline } from '../AnimationTimeline/AnimationTimeline'
 import { TooltipInformation } from './ScrubberTooltipInformation'
 import { JikiscriptExercisePageContext } from '../JikiscriptExercisePageContextWrapper'
-import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 function Scrubber({
   animationTimeline,
@@ -163,9 +162,6 @@ function PlayButton({
   disabled: boolean
   onClick: () => void
 }) {
-  const { t } = useAppTranslation(
-    'components/bootcamp/JikiscriptExercisePage/Scrubber'
-  )
   return (
     <button
       data-ci="play-button"
@@ -173,12 +169,7 @@ function PlayButton({
       className="play-pause-button"
       onClick={onClick}
     >
-      <Icon
-        icon="bootcamp-play"
-        alt={t('scrubber.play')}
-        width={32}
-        height={32}
-      />
+      <Icon icon="bootcamp-play" alt="Play" width={32} height={32} />
     </button>
   )
 }
@@ -189,9 +180,6 @@ function PauseButton({
   disabled: boolean
   onClick: () => void
 }) {
-  const { t } = useAppTranslation(
-    'components/bootcamp/JikiscriptExercisePage/Scrubber'
-  )
   return (
     <button
       data-ci="pause-button"
@@ -199,12 +187,7 @@ function PauseButton({
       className="play-pause-button"
       onClick={onClick}
     >
-      <Icon
-        icon="bootcamp-pause"
-        alt={t('scrubber.pause')}
-        width={32}
-        height={32}
-      />
+      <Icon icon="bootcamp-pause" alt="Pause" width={32} height={32} />
     </button>
   )
 }
@@ -222,9 +205,6 @@ function FrameStepperButtons({
   onPrev: () => void
   disabled: boolean
 }) {
-  const { t } = useAppTranslation(
-    'components/bootcamp/JikiscriptExercisePage/Scrubber'
-  )
   const isPrevFrame = prevFrameExists(timelineTime, frames)
   const isNextFrame = nextFrameExists(timelineTime, frames)
   return (
@@ -232,12 +212,12 @@ function FrameStepperButtons({
       <button disabled={disabled || !isPrevFrame} onClick={onPrev}>
         <Icon
           icon="bootcamp-chevron-right"
-          alt={t('scrubber.previous')}
+          alt="Previous"
           className="rotate-180"
         />
       </button>
       <button disabled={disabled || !isNextFrame} onClick={onNext}>
-        <Icon icon="bootcamp-chevron-right" alt={t('scrubber.next')} />
+        <Icon icon="bootcamp-chevron-right" alt="Next" />
       </button>
     </div>
   )
@@ -256,12 +236,10 @@ function BreakpointStepperButtons({
   onPrev: () => void
   disabled: boolean
 }) {
-  const { breakpoints } = useEditorStore()
-  const { t } = useAppTranslation(
-    'components/bootcamp/JikiscriptExercisePage/Scrubber'
-  )
-  if (breakpoints.length == 0) return null
   if (!currentFrame) return null
+
+  const { breakpoints } = useEditorStore()
+  if (breakpoints.length == 0) return null
 
   const isPrevBreakpoint = prevBreakpointExists(
     currentFrame,
@@ -279,12 +257,12 @@ function BreakpointStepperButtons({
       <button disabled={disabled || !isPrevBreakpoint} onClick={onPrev}>
         <Icon
           icon="bootcamp-chevron-right"
-          alt={t('scrubber.previous')}
+          alt="Previous"
           className="rotate-180"
         />
       </button>
       <button disabled={disabled || !isNextBreakpoint} onClick={onNext}>
-        <Icon icon="bootcamp-chevron-right" alt={t('scrubber.next')} />
+        <Icon icon="bootcamp-chevron-right" alt="Next" />
       </button>
     </div>
   )

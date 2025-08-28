@@ -1,10 +1,10 @@
 .c-admin-page
   .lg-container
-    %h1.text-h1.mb-16= t('.adding_perk_heading', partner_name: @partner.name)
+    %h1.text-h1.mb-16 Adding perk for #{@partner.name}
 
     = form_with(model: @perk, url: admin_partner_perks_path(@partner)) do |f|
       = render "form", f:, partner: @partner, perk: @perk
 
     %br/
     %div
-      = link_to t('.back_to_partner'), [:admin, @partner]
+      = link_to "Back to partner", [:admin, @partner]

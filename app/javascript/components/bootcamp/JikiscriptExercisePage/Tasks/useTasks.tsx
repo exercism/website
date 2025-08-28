@@ -1,5 +1,3 @@
-// i18n-key-prefix: useTasks
-// i18n-namespace: components/bootcamp/JikiscriptExercisePage/Tasks
 import {
   useState,
   useContext,
@@ -14,7 +12,6 @@ import useAnimationTimelineStore from '../store/animationTimelineStore'
 import { launchConfetti } from './launchConfetti'
 import useTestStore from '../store/testStore'
 import useTaskStore from '../store/taskStore/taskStore'
-import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export type FinishLessonModalView =
   | 'initial'
@@ -24,9 +21,6 @@ export type FinishLessonModalView =
   | 'completedEverything'
 
 export function useTasks() {
-  const { t } = useAppTranslation(
-    'components/bootcamp/JikiscriptExercisePage/Tasks'
-  )
   const [isFinishModalOpen, setIsFinishModalOpen] = useState(false)
   const [isCompletedBonusTasksModalOpen, setIsCompletedBonusTasksModalOpen] =
     useState(false)
@@ -140,7 +134,7 @@ export function useTasks() {
         setModalView('completedExercise')
       }
     } catch (e) {
-      console.error(t('useTasks.errorCompletingSolution'), e)
+      console.error('Error completing solution: ', e)
     }
   }, [
     completeSolutionLink,

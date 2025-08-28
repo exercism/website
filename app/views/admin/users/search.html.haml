@@ -1,6 +1,6 @@
 .c-admin-table
   .lg-container
-    %h1.text-h1.mb-8= t('.search_user')
+    %h1.text-h1.mb-8 Search User
 
     = form_with url: search_admin_users_path, method: :get do |form|
       .flex.flex-col
@@ -8,17 +8,17 @@
           = form.label :email, class: "block mb-4"
           = form.email_field :email, class: 'w-fill'
         .mb-12
-          = form.submit t('.search_button'), class: "btn btn-primary"
+          = form.submit "Search", class: "btn btn-primary"
 
     - if @user
-      .text-h6.mb-8= t('.name', name: @user.name)
-      .text-h6.mb-8= t('.handle', handle: @user.handle)
-      .text-h6.mb-8= t('.email', email: @user.email)
-      .text-h6.mb-8= t('.reputation', reputation: @user.reputation)
-      .text-h6.mb-8= t('.joined_at', created_at: @user.created_at)
-      .text-h6.mb-8= t('.last_visited_on', last_visited_on: @user.last_visited_on)
-      .text-h6.mb-8= t('.total_donated', total_donated_in_cents: @user.total_donated_in_cents)
+      .text-h6.mb-8 Name: #{@user.name}
+      .text-h6.mb-8 Handle: #{@user.handle}
+      .text-h6.mb-8 Email: #{@user.email}
+      .text-h6.mb-8 Reputation: #{@user.reputation}
+      .text-h6.mb-8 Joined At: #{@user.created_at}
+      .text-h6.mb-8 Last Visited On: #{@user.last_visited_on}
+      .text-h6.mb-8 Total Donated (in cents): #{@user.total_donated_in_cents}
       - if @user.disabled?
-        .text-h6.mb-8.text-danger= t('.disabled_at', disabled_at: @user.disabled_at)
+        .text-h6.mb-8.text-danger Disabled At: #{@user.disabled_at}
     - elsif @searched
-      .mb-12.text-p-base.font-bold.text-danger= t('.could_not_find_user')
+      .mb-12.text-p-base.font-bold.text-danger Could not find user

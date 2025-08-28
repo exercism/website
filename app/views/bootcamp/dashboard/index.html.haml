@@ -5,71 +5,70 @@
   .lg-container
     .flex.mb-40
       .lhs.mr-48{ class: 'w-full max-w-[780px]' }
-        %h1= t('.level_welcome', level_idx: @level.idx)
+        %h1 Welcome to Level #{@level.idx}!
         .level-content
           = raw @level.content_html
-          = link_to t('.go_to_level_button', level_idx: @level.idx), bootcamp_level_path(@level), class: "btn-l btn-primary mt-20 max-w-[200px]"
+          = link_to "Go to Level #{@level.idx}", bootcamp_level_path(@level), class: "btn-l btn-primary mt-20 max-w-[200px]"
 
         %hr.border-borderColor5.my-20
 
         - if @exercise
           - if @solution
-            %h2.mb-4= t('.continue_exercise.title')
-            .text-18.mb-20= t('.continue_exercise.description')
+            %h2.mb-4 Continue where you left off
+            .text-18.mb-20 You have an exercise in progress.
 
             = render ViewComponents::Bootcamp::ExerciseWidget.new(@exercise, solution: @solution, size: "large")
           - else
-            %h2.mb-4= t('.start_exercise.title')
-            .text-18.mb-20= t('.start_exercise.description')
+            %h2.mb-4 Start new exercise
+            .text-18.mb-20 You have a new exercise available to work on.
             = render ViewComponents::Bootcamp::ExerciseWidget.new(@exercise, size: "large")
         - else
-          %h2.mb-8= t('.all_exercises_completed_title')
-          .text-18.mb-20= t('.all_exercises_completed_description')
+          %h2.mb-8 All exercises completed 🎉
+          .text-18.mb-20 Congratulations - you have completed all the exercises currently available to you.
 
       .rhs.ml-auto{ class: 'max-w-[400px]' }
-        %h2.mb-4= t('.upcoming_live_sessions.title')
+        %h2.mb-4 Upcoming Live Sessions
         %ul.text-16.leading-140.list-disc.ml-16.mb-20.gap-4
           %li.mb-4
-            %strong= t('.upcoming_live_sessions.responsive_design_title')
-            = t('.upcoming_live_sessions.responsive_design_date')
-            = link_to t('.upcoming_live_sessions.responsive_design_link_text'), "https://youtube.com/live/FPWlkB2uL28?feature=share", class: 'text-linkColor font-semibold underline'
+            %strong Responsive Web Design:
+            = link_to "Monday 7th June: 9am UTC", "https://youtube.com/live/FPWlkB2uL28?feature=share", class: 'text-linkColor font-semibold underline'
           %li.mb-4
-            %strong= t('.upcoming_live_sessions.final_session_title')
-            = t('.upcoming_live_sessions.final_session_date')
+            %strong The Final Live Session!
+            Friday 11th June: 9am UTC"
 
-        %h2.mb-2= t('.make_most_of_bootcamp.title')
-        %p.mb-16= t('.make_most_of_bootcamp.description')
+        %h2.mb-2 Make the most of the Bootcamp
+        %p.mb-16 The more you take part in all areas of the Bootcamp, the more you'll learn.
         .flex.flex-col.gap-16
           = link_to bootcamp_level_path(@level), class: "section-link" do
             .level-number= @level.idx
             .text
-              %h4= t('.level_section_link.title', level_idx: @level.idx)
+              %h4 Level #{@level.idx}
               %p= @level.description
 
           = link_to "https://exercism.org/r/discord", class: "section-link" do
             = graphical_icon 'external-site-discord-blue'
             .text
-              %h4= t('.discord_link.title')
-              %p= t('.discord_link.description')
+              %h4 Chat on Discord
+              %p Use the exclusive #bootcamp area on Exercism's Discord server to chat to other Bootcamp students and mentors.
 
           = link_to "https://forum.exercism.org/c/bootcamp/661", class: "section-link" do
             = graphical_icon 'discourser'
             .text
-              %h4= t('.forum_link.title')
+              %h4 Ask questions on the Forum
               %p
-                = t('.forum_link.description_p1')
-                = t('.forum_link.description_p2')
+                Use the Bootcamp Category on the forum to ask questions and get unstuck.
+                Read the pinned post to learn more.
 
         - if current_user.bootcamp_data.enrolled_in_both_parts?
           .mt-32
-            %h2.mb-2= t('.switch_part.title', alternate_part: alternate_part)
+            %h2.mb-2 Switch to Part #{alternate_part}
             %p.mb-8
-              = t('.switch_part.description_p1')
-              = t('.switch_part.description_p2', active_part: active_part)
+              You have access to both parts of the bootcamp.
+              You are currently set to working through Part #{active_part}, which means the content on this dashboard will be tailored for Part #{active_part}.
             %p.mb-8
-              = t('.switch_part.description_p3')
+              You can switch between parts at any time.
             %p.mb-8
-              = button_to t('.switch_part.button', alternate_part: alternate_part), bootcamp_change_part_path(part: alternate_part), method: :post, class: "btn-m btn-primary"
+              = button_to "Switch to Part #{alternate_part}", bootcamp_change_part_path(part: alternate_part), method: :post, class: "btn-m btn-primary"
 
         .mt-32
           = render ReactComponents::Settings::BootcampAffiliateCouponForm.new("bootcamp")

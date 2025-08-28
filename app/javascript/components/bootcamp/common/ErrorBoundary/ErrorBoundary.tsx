@@ -1,21 +1,14 @@
-import React, { Component, type ErrorInfo, type ReactNode } from 'react'
+import React from 'react'
+import { Component, type ErrorInfo, type ReactNode } from 'react'
 
-type ErrorBoundaryProps = {
-  children: ReactNode
-  t: (key: string, options?: Record<string, any>) => string
-}
-
-type ErrorBoundaryState = {
-  hasError: boolean
-  error: Error | null
-  errorInfo: ErrorInfo | null
-}
-
-class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
-  state: ErrorBoundaryState = {
+class ErrorBoundary extends Component<
+  { children: ReactNode },
+  { hasError: boolean; error: Error | null; errorInfo: ErrorInfo | null }
+> {
+  state = {
     hasError: false,
-    error: null,
-    errorInfo: null,
+    error: null as Error | null,
+    errorInfo: null as ErrorInfo | null,
   }
 
   static getDerivedStateFromError() {
@@ -33,19 +26,17 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   }
 
   render() {
-    const { t } = this.props
-
     if (this.state.hasError) {
+      // generic fallback UI
       return (
         <div className="p-8 flex flex-col gap-8">
-          <h1 className="text-lg font-semibold">
-            {t('errorBoundary.somethingWentWrong')}
-          </h1>
+          <h1 className="text-lg font-semibold">Something went wrong.</h1>
           {this.state.error && (
             <p className="text-md text-red-700 font-semibold">
-              {t('errorBoundary.error', { message: this.state.error.message })}
+              Error: {this.state.error.message}
             </p>
           )}
+          {/* probably hide this in prod */}
           {this.state.errorInfo && (
             <details
               className="select-none cursor-pointer"
@@ -56,19 +47,20 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
           )}
           <div className="flex gap-8 [&_button]:p-4 [&_button]:rounded-md">
             <button className="btn-standard" onClick={this.handleReload}>
-              {t('errorBoundary.reloadComponent')}
+              Reload component
             </button>
             <button
               className="btn-standard"
               onClick={() => window.location.reload()}
             >
-              {t('errorBoundary.reloadApp')}
+              Reload App
             </button>
           </div>
         </div>
       )
     }
 
+    // if no error -> render children
     return this.props.children
   }
 }

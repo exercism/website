@@ -1,7 +1,8 @@
 - if perk.errors.any?
   %div{ style: "color: red" }
     %h2
-      = t('.errors_prohibited_saving', count: perk.errors.count)
+      = pluralize(perk.errors.count, "error")
+      prohibited this perk from being saved:
     %ul
       - perk.errors.each do |error|
         %li= error.full_message
@@ -23,38 +24,38 @@
     = f.label :dark_logo, class: 'text-h6 mb-4'
     = f.file_field :dark_logo
 
-  %h2.text-h2.mb-16= t('.general_offer_heading')
+  %h2.text-h2.mb-16 General offer
   .flex.flex-col.mb-16
-    = f.label :general_url, t('.url_label'), class: 'text-h6 mb-4'
+    = f.label :general_url, "URL", class: 'text-h6 mb-4'
     = f.text_field :general_url
   .flex.flex-col.mb-16
-    = f.label :general_offer_summary_markdown, t('.summary_markdown_label'), class: 'text-h6 mb-4'
+    = f.label :general_offer_summary_markdown, "Summary (Markdown)", class: 'text-h6 mb-4'
     = f.text_field :general_offer_summary_markdown
   .flex.flex-col.mb-16
-    = f.label :general_button_text, t('.button_text_label'), class: 'text-h6 mb-4'
+    = f.label :general_button_text, "Button Text", class: 'text-h6 mb-4'
     = f.text_field :general_button_text
   .flex.flex-col.mb-16
-    = f.label :general_offer_details, t('.offer_details_label'), class: 'text-h6 mb-4'
+    = f.label :general_offer_details, "Offer details (appears on perk page)", class: 'text-h6 mb-4'
     = f.text_field :general_offer_details
   .flex.flex-col.mb-16
-    = f.label :general_voucher_code, t('.voucher_code_label'), class: 'text-h6 mb-4'
+    = f.label :general_voucher_code, "Voucher Code (optional)", class: 'text-h6 mb-4'
     = f.text_field :general_voucher_code
 
-  %h2.text-h2.mb-16= t('.insiders_offer_heading')
+  %h2.text-h2.mb-16 Insiders offer
   .flex.flex-col.mb-16
-    = f.label :insiders_url, t('.url_label'), class: 'text-h6 mb-4'
+    = f.label :insiders_url, "URL", class: 'text-h6 mb-4'
     = f.text_field :insiders_url
   .flex.flex-col.mb-16
-    = f.label :insiders_offer_summary_markdown, t('.summary_markdown_label'), class: 'text-h6 mb-4'
+    = f.label :insiders_offer_summary_markdown, "Summary (Markdown)", class: 'text-h6 mb-4'
     = f.text_field :insiders_offer_summary_markdown
   .flex.flex-col.mb-16
-    = f.label :insiders_button_text, t('.button_text_label'), class: 'text-h6 mb-4'
+    = f.label :insiders_button_text, "Button Text", class: 'text-h6 mb-4'
     = f.text_field :insiders_button_text
   .flex.flex-col.mb-16
-    = f.label :insiders_offer_details, t('.offer_details_label'), class: 'text-h6 mb-4'
+    = f.label :insiders_offer_details, "Offer details (appears on perk page)", class: 'text-h6 mb-4'
     = f.text_field :insiders_offer_details
   .flex.flex-col.mb-16
-    = f.label :insiders_voucher_code, t('.voucher_code_label'), class: 'text-h6 mb-4'
+    = f.label :insiders_voucher_code, "Voucher Code (optional)", class: 'text-h6 mb-4'
     = f.text_field :insiders_voucher_code
 
 %div

@@ -1,9 +1,11 @@
 .c-admin-table
   .lg-container
-    %h1.text-h1.mb-8= t('.title')
+    %h1.text-h1.mb-8 Insiders
     %ul.text-p-base
       %li
-        = t('.num_subscribers', count: @num_subscribers)
+        Num Subscribers:
+        = @num_subscribers
 
       %li
-        = t('.total_recurring_donations', amount: number_to_currency(@total_recurring_amount_in_dollars))
+        Total recurring donations:
+        = number_to_currency @total_recurring_amount_in_dollars

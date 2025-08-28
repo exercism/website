@@ -1,6 +1,8 @@
+import React from 'react'
+
 import type { NextExercise } from '@/components/bootcamp/JikiscriptExercisePage/Tasks/completeSolution'
 import { createContext } from 'react'
-import { FinishLessonModalView } from '../useHandleCompletingSolution'
+import { FinishLessonModalView } from '../../JikiscriptExercisePage/Tasks/useTasks'
 
 type FinishLessonModalContextValues = {
   isFinishLessonModalOpen: boolean

@@ -1,23 +1,4 @@
 import aa from './automation-batch'
-import ab from './components-bootcamp-common-ErrorBoundary'
-import ac from './components-bootcamp-CSSExercisePage'
-import ad from './components-bootcamp-CSSExercisePage-FinishLessonModal'
-import ae from './components-bootcamp-CSSExercisePage-Header'
-import af from './components-bootcamp-CSSExercisePage-LHS'
-import ag from './components-bootcamp-CustomFunctionEditor'
-import ah from './components-bootcamp-CustomFunctionEditor-Header'
-import ai from './components-bootcamp-DrawingPage'
-import aj from './components-bootcamp-FrontendExercisePage-Header'
-import ak from './components-bootcamp-FrontendExercisePage-LHS'
-import al from './components-bootcamp-FrontendExercisePage-RHS'
-import am from './components-bootcamp-JikiscriptExercisePage-ControlButtons'
-import an from './components-bootcamp-JikiscriptExercisePage-Header'
-import ao from './components-bootcamp-JikiscriptExercisePage-RHS'
-import ap from './components-bootcamp-JikiscriptExercisePage-Scrubber'
-import aq from './components-bootcamp-JikiscriptExercisePage-TaskPreview'
-import ar from './components-bootcamp-JikiscriptExercisePage-Tasks'
-import as from './components-bootcamp-JikiscriptExercisePage-TestResultsView'
-import at from './components-bootcamp-modals'
 import au from './components-common-exercise-widget'
 import av from './components-common-Loading.tsx'
 import aw from './components-common-markdown-editor-form'
@@ -227,25 +208,6 @@ import gk from './session-batch-3'
 
 export default {
   'automation-batch': aa,
-  'components/bootcamp/common/ErrorBoundary': ab,
-  'components/bootcamp/CSSExercisePage': ac,
-  'components/bootcamp/CSSExercisePage/FinishLessonModal': ad,
-  'components/bootcamp/CSSExercisePage/Header': ae,
-  'components/bootcamp/CSSExercisePage/LHS': af,
-  'components/bootcamp/CustomFunctionEditor': ag,
-  'components/bootcamp/CustomFunctionEditor/Header': ah,
-  'components/bootcamp/DrawingPage': ai,
-  'components/bootcamp/FrontendExercisePage/Header': aj,
-  'components/bootcamp/FrontendExercisePage/LHS': ak,
-  'components/bootcamp/FrontendExercisePage/RHS': al,
-  'components/bootcamp/JikiscriptExercisePage/ControlButtons': am,
-  'components/bootcamp/JikiscriptExercisePage/Header': an,
-  'components/bootcamp/JikiscriptExercisePage/RHS': ao,
-  'components/bootcamp/JikiscriptExercisePage/Scrubber': ap,
-  'components/bootcamp/JikiscriptExercisePage/TaskPreview': aq,
-  'components/bootcamp/JikiscriptExercisePage/Tasks': ar,
-  'components/bootcamp/JikiscriptExercisePage/TestResultsView': as,
-  'components/bootcamp/modals': at,
   'components/common/exercise-widget': au,
   'components/common/Loading.tsx': av,
   'components/common/markdown-editor-form': aw,

@@ -1,8 +1,8 @@
 .lg-container
-  %h1.text-h1= t('.title')
+  %h1.text-h1 Editing streaming event
   = render "form", streaming_event: @streaming_event
   %br/
   %div
-    = link_to t('.show_link'), @astreaming_event
+    = link_to "Show this streaming event", @astreaming_event
     |
-    = link_to t('.back_link'), admin_streaming_events_path
+    = link_to "Back to streaming events", admin_streaming_events_path

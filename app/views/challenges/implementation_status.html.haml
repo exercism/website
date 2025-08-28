@@ -15,18 +15,16 @@
 
 
 .p-32
-  .text-h3.mb-8= t('.title')
-  .text-h5.mb-4= t('.key_to_symbols.title')
+  .text-h3.mb-8 Exercises for #48in24
+  .text-h5.mb-4 Key to Symbols
   .text-16
-    .mb-8= t('.key_to_symbols.featured')
-    .mb-8= t('.key_to_symbols.present')
-    .mb-8
-      = t('.key_to_symbols.missing_html', please_add_it_link: link_to(t('.key_to_symbols.please_add_it'), doc_path(:building, 'tracks/practice-exercises'), class: 'font-semibold text-linkColor'))
-    .mb-16= t('.key_to_symbols.do_not_implement')
+    .mb-8 💜 = Featured in #48in24
+    .mb-8 ✅ = Present on Track
+    .mb-8 ❌ = Missing from Track (#{link_to('Please add it!', doc_path(:building, 'tracks/practice-exercises'), class: 'font-semibold text-linkColor')})
+    .mb-16 ⛔ = Do not implement on this Track
 
-    %p
-      = t('.missing_exercises_cta_html',
-          video_and_docs_link: link_to(t('.missing_exercises_cta_link'), doc_path(:building, 'tracks/practice-exercises'), class: 'font-semibold text-linkColor'))
+    Want to implement one of the missing exercises?
+    Start with #{link_to 'this video and docs', doc_path(:building, 'tracks/practice-exercises'), class: 'font-semibold text-linkColor'}.
   %hr.mt-20.mb-32.border-borderColor5
 
   .flex.items-start{ class: "max-h-[90vh]" }
@@ -44,7 +42,7 @@
           %tr
             - @featured_exercises.each.with_index do |featured_exercises, idx|
               %th.bg-backgroundColorD.align-top{ class: 'h-[100px]' }
-                .text-textColor7.mb-4= t('.week_number', week_num: idx + 1)
+                .text-textColor7.mb-4 W#{idx + 1}
                 = link_to featured_exercises[:slug], approaches_generic_exercise_path(featured_exercises[:slug])
         %tbody
           - @tracks.each do |track|

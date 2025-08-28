@@ -1,14 +1,10 @@
-// i18n-key-prefix: customFunctionDetails
-// i18n-namespace: components/bootcamp/CustomFunctionEditor
 import React, { useMemo } from 'react'
 import { GraphicalIcon } from '@/components/common'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import customFunctionEditorStore from './store/customFunctionEditorStore'
-import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const labelClassName = 'text-16 font-semibold mb-8'
 export function CustomFunctionDetails() {
-  const { t } = useAppTranslation('components/bootcamp/CustomFunctionEditor')
   const {
     customFunctionName,
     isPredefined,
@@ -24,10 +20,10 @@ export function CustomFunctionDetails() {
   return (
     <div className="flex flex-col">
       <label className={labelClassName} htmlFor="fn-name">
-        {t('customFunctionDetails.functionName')}
+        Function name
         {functionNameEmpty && (
           <span className="text-bootcamp-fail-dark ml-4 inline-block">
-            {t('customFunctionDetails.cannotBeEmpty')}
+            - cannot be empty
           </span>
         )}
       </label>
@@ -53,7 +49,7 @@ export function CustomFunctionDetails() {
       </div>
 
       <label className={labelClassName} htmlFor="description">
-        {t('customFunctionDetails.description')}
+        Description
       </label>
       <div className="relative">
         <textarea
@@ -83,7 +79,7 @@ export function CustomFunctionDetails() {
       </div>
 
       <label className={labelClassName} htmlFor="fn-name">
-        {t('customFunctionDetails.tests')}
+        Tests
       </label>
     </div>
   )

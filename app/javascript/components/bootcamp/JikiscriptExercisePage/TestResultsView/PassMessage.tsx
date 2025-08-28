@@ -1,15 +1,9 @@
-// i18n-key-prefix: passMessage
-// i18n-namespace: components/bootcamp/JikiscriptExercisePage/TestResultsView
 import React from 'react'
 import { useContext } from 'react'
 import { JikiscriptExercisePageContext } from '../JikiscriptExercisePageContextWrapper'
 import { GraphicalIcon } from '@/components/common'
-import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function PassMessage({ testIdx }: { testIdx: number }) {
-  const { t } = useAppTranslation(
-    'components/bootcamp/JikiscriptExercisePage/TestResultsView'
-  )
   const {
     exercise: {
       config: { title },
@@ -19,7 +13,7 @@ export function PassMessage({ testIdx }: { testIdx: number }) {
     <div className="success-message">
       <GraphicalIcon icon="bootcamp-completed-check-circle" />
       <div>
-        <strong>{t('passMessage.youDidIt')}</strong>{' '}
+        <strong>You did it.</strong>{' '}
         {congratsMessages[stringToHash(title, testIdx)]}
       </div>
     </div>

@@ -1,6 +1,8 @@
 - if advert.errors.any?
   %div{ style: "color: red" }
-    %h2= t('.errors.header', count: advert.errors.count)
+    %h2
+      = pluralize(advert.errors.count, "error")
+      prohibited this advert from being saved:
     %ul
       - advert.errors.each do |error|
         %li= error.full_message

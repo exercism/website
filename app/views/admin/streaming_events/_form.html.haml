@@ -1,7 +1,9 @@
 = form_with(model: [:admin, streaming_event]) do |form|
   - if streaming_event.errors.any?
     .mb-12.text-red
-      %h2= t('.errors.header', count: streaming_event.errors.count)
+      %h2
+        = pluralize(streaming_event.errors.count, "error")
+        prohibited this streaming_event from being saved:
       %ul
         - streaming_event.errors.each do |error|
           %li= error.full_message

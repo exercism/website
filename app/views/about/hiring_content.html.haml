@@ -1,5 +1,5 @@
-- content_for :meta_title, t('.meta_title').html_safe
-- content_for :meta_description, t('.meta_description').html_safe
+- content_for :meta_title, "Become Exercism's Educational Content Creator!".html_safe
+- content_for :meta_description, "We need someone to create great educational content and support our team of content-creating volunteers as we create one of the best educational resources on the planet. Do you have a passion for programming? Do you enjoy writing engaging content? If so, this role might be perfect for you!".html_safe
 - require_stylesheet "about"
 
 = render ViewComponents::AboutNav.new(:hiring)
@@ -9,112 +9,176 @@
     .md-container
       = link_to hiring_about_path, class: "c-prominent-link" do
         = graphical_icon "arrow-left"
-        = t('.back_to_job_listings')
+        Back to All Job Listings
 
       .role
         = graphical_icon "hiring-content", category: 'graphics', css_class: 'graphic'
         .information
-          %h1.text-h0.mb-12= t('.job_title')
+          %h1.text-h0.mb-12 Educational Content Creator
           .details
             .remote-tag
               = graphical_icon "stars"
-              = t('.remote_tag')
-            .salary= t('.salary')
+              100% remote
+            .salary Salary: £50k (~$68k, ~€60k)
 
   %article
     .sm-container
       %p.text-p-2xlarge.mb-40
-        %strong= t('.intro_strong_part')
-        = t('.intro_paragraph')
+        %strong Become Exercism's Educational Content Creator!
+        We need someone to create great educational content and support our team of content-creating volunteers as we create one of the best educational resources on the planet.
+        Do you have a passion for programming?
+        Do you enjoy writing engaging content?
+        Are you looking for a job that allows you to be creative and innovative?
+        If so, this role might be perfect for you!
 
-      %h2.text-h2.mb-12= t('.summary_heading')
-      %p.text-p-xlarge.mb-16= t('.summary_p1', about_exercism_link: link_to(t('.summary_p1_link_text'), 'https://exercism.org/about', target: '_blank', rel: :noreferrer))
-      %p.text-p-xlarge.mb-16= t('.summary_p2')
-      %p.text-p-xlarge.mb-32= t('.summary_p3')
-
-      %h2.text-h2.mb-12= t('.responsibilities_heading')
-      %p.text-p-xlarge.mb-16= t('.responsibilities_p1')
-      %p.text-p-xlarge.mb-12= t('.responsibilities_p2')
-      %ul.text-p-xlarge.mb-16
-        %li= t('.responsibilities_li1')
-        %li= t('.responsibilities_li2')
-        %li= t('.responsibilities_li3')
-      %p.text-p-xlarge.mb-16= t('.responsibilities_p3')
-      %p.text-p-xlarge.mb-16= t('.responsibilities_p4')
-
-      %h2.text-h2.mb-12= t('.right_for_you_heading')
-      %p.text-p-xlarge.mb-12= t('.right_for_you_p1')
-      %p.text-p-xlarge.mb-12= t('.right_for_you_p2')
-      %p.text-p-xlarge.mb-8= t('.right_for_you_p3')
-      %ul.text-p-xlarge.mb-16
-        %li
-          = link_to t('.example_li1_link_text'), "https://medium.com/basecs/how-to-not-be-stumped-by-trees-5f36208f68a7"
-          = t('.example_li1_description')
-        %li
-          = link_to t('.example_li2_link_text'), "https://maggieappleton.com/fruit-comparison"
-          = t('.example_li2_description')
-        %li
-          = link_to t('.example_li3_link_text'), "https://hacks.mozilla.org/2017/02/a-crash-course-in-just-in-time-jit-compilers"
-          = t('.example_li3_description')
-
-      %p.text-p-xlarge.mb-12= t('.right_for_you_p4')
-
-      %p.text-p-xlarge.mb-12= t('.right_for_you_p5')
-      %p.text-p-xlarge.mb-12= t('.right_for_you_p6')
-      %p.text-p-xlarge.mb-40= t('.right_for_you_p7')
-
-      %h2.text-h2.mb-12= t('.other_requirements_heading')
-      %p.text-p-xlarge.mb-16= t('.other_requirements_p1')
-
-      %p.text-p-xlarge.mb-16= t('.other_requirements_p2')
-
-      %ul.text-p-xlarge.mb-16
-        %li= t('.other_requirements_li1')
-        %li= t('.other_requirements_li2')
-        %li= t('.other_requirements_li3')
-        %li= t('.other_requirements_li4')
-
-      %p.text-p-xlarge.mb-40= t('.under_represented_groups_note').html_safe
-
-      %h2.text-h2.mb-12= t('.benefits_heading')
-      %p.text-p-xlarge.mb-16= t('.benefits_p1')
-
-      %ul.text-p-xlarge.mb-16
-        %li= t('.benefits_li1')
-        %li= t('.benefits_li2')
-        %li= t('.benefits_li3')
-        %li= t('.benefits_li4')
-        %li= t('.benefits_li5')
-        %li= t('.benefits_li6')
-
-      %p.text-p-xlarge.mb-40= t('.benefits_p2')
-
-      %h2.text-h2.mb-12= t('.how_to_apply_heading')
-      %p.text-p-xlarge.mb-16= t('.how_to_apply_p1')
+      %h2.text-h2.mb-12 Summary
       %p.text-p-xlarge.mb-16
-        = t('.how_to_apply_p2_part1')
-        = link_to t('.how_to_apply_email_link_text'), "mailto:jobs@exercism.org"
-        = t('.how_to_apply_p2_part2')
+        Exercism is a not-for-profit organisation providing world-class programming education to anyone for free.
+        Our online platform is centred around self-directed learning and volunteer mentoring, and has nearly one million members.
+        Over the next 5 years, we want to become the defacto programming education platform that anyone, anywhere can use for free.
+        Through our work we aim to improve the global standard of programming and increase participation in tech from under-represented groups.
+        You can learn more about Exercism in our #{link_to '"About Exercism" pages', 'https://exercism.org/about', target: '_blank', rel: :noreferrer}.
+      %p.text-p-xlarge.mb-16
+        At the heart of Exercism is our content.
+        We currently have thousands of programming exercises across over 50 programming languages, designed to teach and enable practice of programming concepts, nearly all of which has been written by our volunteer community.
+        We want to support those exercises with world-class explanations of programming topics, written in an engaging, fun, conversational way.
+        We need someone to lead on this, creating great content and supporting our volunteers in the content they create.
+        This is a hands-on role where you'll be writing and editing content, while also working with our internal and senior community teams to design and plan out our content strategy.
+      %p.text-p-xlarge.mb-32
+        We are building an exceptional team of ambitious, passionate people who love their work, excel at what they do, and have fun doing it.
+        The values of empathy, integrity and personal-growth are core to everything we do.
+        If that sounds exciting to be part of, and you feel you have the skills to help, we'd love for you to apply.
+
+      %h2.text-h2.mb-12 Responsibilities
+      %p.text-p-xlarge.mb-16
+        Your role splits roughly into three areas.
+      %p.text-p-xlarge.mb-12
+        The first is strategic, which has the following key responsibilities:
+      %ul.text-p-xlarge.mb-16
+        %li Work with our senior team to design a content strategy that enables the creation of hundreds of brilliant programming articles.
+        %li Work with our senior maintainers to design and document systems that improve the flow and quality of content.
+        %li Work with our content partners (e.g. Packt Publishing) to determine synergies between their content and ours, and how we can make the most use of their educational portfolio.
+      %p.text-p-xlarge.mb-16
+        The second role is actually writing educational content.
+        As part of our three year plan, we are extending our content beyond content centred on programming languages, to content about programming in general - looking at fundamental programming concepts, design patterns, and the knowledge that makes someone an excellent programmer.
+        You will lead this, planning out and writing the content, supported by both our internal team and our contributor team.
+      %p.text-p-xlarge.mb-16
+        Thirdly we want to bring our content to life with illustrations, animations and video.
+        While we don't expect you to be an artist or great behind the camera, you'll be largely responsible for finding and liasing with partners to make great content.
+        If you are comfortable recording tutorials alongside the content, that will be a huge bonus too.
+
+      %h2.text-h2.mb-12 Is this job right for you?
+      %p.text-p-xlarge.mb-12
+        The right person for this role will be someone who loves programming, is passionate about education, and who shares our values.
+      %p.text-p-xlarge.mb-12
+        Central to this role is seeing content in the same way our founders do.
+        We want to create content that embodies a sense of playfulness, fun, and approachability.
+        We want our content to feel conversational, maybe even chatty - maybe more like a blog post than a formal teaching article.
+        Articles will ideally include a lot of visuals.
+        Everything we do is centred around making programming approachable, empowering, and never making anyone feel stupid.
+      %p.text-p-xlarge.mb-8
+        We’ve pulled out a couple of examples that we feel are aligned to where we want to take Exercism:
+      %ul.text-p-xlarge.mb-16
+        %li
+          = link_to "How not to be stumped by trees", "https://medium.com/basecs/how-to-not-be-stumped-by-trees-5f36208f68a7"
+          \- A great example of conversational content that teaches someone a concept in a fun way.
+        %li
+          = link_to "Fruit comparison", "https://maggieappleton.com/fruit-comparison"
+          \- A nice example of how visuals can make an idea simple.
+        %li
+          = link_to "A crash course on JIT compilers", "https://hacks.mozilla.org/2017/02/a-crash-course-in-just-in-time-jit-compilers"
+          \- A great example of explaining a complex subject without making someone feel stupid.
+
+      %p.text-p-xlarge.mb-12
+        If these pieces of content feel like the sort of things you'd enjoy writing, then we'd love you to apply.
+        We don't expect you to be a programming expert and there will be lots of support around you to help explain topics you're not familiar with, but we do expect you to have some solid programming proficiency for this role.
+
+      %p.text-p-xlarge.mb-12
+        You might be coming from a developer background wanting to use your knowledge in education, or maybe you're an educator and wanting to focus on programming education.
+        Maybe programming has been a hobby for you and you want others to share in that same passion.
+        We're entirely agnostic about your background, and don't require any specific academic qualifications.
+        Our main criteria for hiring will be the belief that you will be able to execute in the role.
+      %p.text-p-xlarge.mb-12
+        At Exercism, we have a shared commitment to kindness, honesty, and curiosity, and strive to build a working environment where everyone can learn, improve and do their best work.
+        We believe that everyone has the right to feel happy, safe and supported at work, and strive to ensure that is the case at Exercism.
+        We celebrate diversity, and do better work because of the different perspectives and insights that different experiences bring.
+        It's important to us that you share these values and want to be part of a team living them out.
+      %p.text-p-xlarge.mb-40
+        Finally, we want someone who can get passionate about Exercism.
+        We are passionate about what we're building - about creating a world-class educational resource that everyone can use for free, and it matters to us that everyone in the team shares that passion.
+
+      %h2.text-h2.mb-12 Other requirements
+      %p.text-p-xlarge.mb-16
+        We are a fully remote team who communicate in English.
+        We aim to mix effective work with a sense of connectedness, so spend some time during the week on video calls sharing ideas and updates, some time doing simpler work while being on Slack, and some time offline focusing on deeper work.
+
+      %p.text-p-xlarge.mb-16
+        These lead to the following extra requirements:
+
+      %ul.text-p-xlarge.mb-16
+        %li To enable you to interact with the rest of the team, you must reside in a country that's base timezone is UTC-2, UTC-1, UTC, UTC+1 or UTC+2 (if you have Daylight saving which moves you into UTC+3 during summer, that's ok).
+        %li You are willing to travel once per year for an in-person meetup.
+        %li You are comfortable speaking English, and could write English to a level similar to the example posts listed above.
+        %li You are excited to work in a diverse, inclusive team that cares about culture and where honest, empathic communication is the norm, and self-improvement is a lived value.
+
+      %p.text-p-xlarge.mb-40
+        %em
+          Research has shown that people from under-represented groups are less likely to apply for jobs if they don't feel they fit
+          %strong all
+          of the criteria.
+          If you think you'd enjoy the role and could do a good job, but are not sure if you're fully qualified, please apply anyway!
+
+      %h2.text-h2.mb-12 Benefits
+      %p.text-p-xlarge.mb-16
+        Treating each other fairly is at the core of our individual and company values, and we want the pay and benefits of Exercism to reflect that.
+        We offer the same benefits to all Exercism employees.
+
+      %ul.text-p-xlarge.mb-16
+        %li A truly flexible, remote-first, working culture.
+        %li A collaborative, creative and inspiring working environment. No shouty bosses, presenteeism or unexpected deadlines.
+        %li £50k starting salary, which increases each year (inflation + 2%).
+        %li Matched pension contributions up to 3%.
+        %li 35 days holiday.
+        %li We will pay for access to a local co-working space (if desired).
+
+      %p.text-p-xlarge.mb-40
+        The role is full time, but you may choose to work either 5 days (~40 hours) per week or 4 days (~32 hours) per week. If you opt for the shorter working week, salary and holiday will be prorated accordingly.
+
+      %h2.text-h2.mb-12 How to apply
+      %p.text-p-xlarge.mb-16
+        Firstly, if you're about to apply, thank you!
+        We're grateful and excited that you're taking the time to do so 🙂
+      %p.text-p-xlarge.mb-16
+        To apply send an email to
+        = link_to "jobs@exercism.org", "mailto:jobs@exercism.org"
+        with:
 
       %ul.text-p-xlarge.mb-24
-        %li= t('.apply_li1')
-        %li= t('.apply_li2')
-        %li= t('.apply_li3', loom_link: link_to(t('.apply_li3_loom_text'), 'https://www.loom.com')).html_safe
+        %li Subject of "Educational Content Creator"
+        %li A couple of paragraphs introducing yourself and providing some brief background.
         %li
-          = t('.apply_li4_p1', note_text: t('.apply_li4_p1_note')).html_safe
+          A link to a short video introducing yourself in more detail, telling us why you're interested joining Exercism, and giving us some more information on your experience and why you're right for the role.
+          Don't worry about the quality of the video itself! Try and keep it around 5-10 minutes long. We use #{link_to 'Loom', 'https://www.loom.com'} for easy recording and sharing.
+        %li
+          A sample article on a programming topic you have written that embeds the values and style we list above
+          %em.text-italic (we will not use the article on Exercism unless we hire you).
+          Everyone applying for this job will be required to write a sample article on one of the topics listed below.
+          However, if you want to link us to a post you've previously written on any programming topic for this stage, that is fine.
+          If you are writing something from scratch, please use one of the following topics:
           %ul.mt-4
-            %li= t('.apply_li4_topic1')
-            %li= t('.apply_li4_topic2')
-            %li= t('.apply_li4_topic3')
-            %li= t('.apply_li4_topic4')
+            %li Types of numbers (e.g. integers, big ints, tiny ints, floating points, decimals)
+            %li Bit manipulation
+            %li Exceptions
+            %li Testing Randomness
 
-      %p.text-p-xlarge.mb-8= t('.application_process_heading')
+      %p.text-p-xlarge.mb-8
+        The application process will run as follows:
 
       %ul.text-p-xlarge.mb-16
-        %li= t('.application_step1')
-        %li= t('.application_step2')
-        %li= t('.application_step3')
-        %li= t('.application_step4')
-        %li= t('.application_step5')
-        %li= t('.application_step6')
-        %li= t('.application_step7')
+        %li You send in your application.
+        %li We'll get in touch to acknowledge receipt of your application (generally within 2 working days)
+        %li We'll review your application and let you know whether we wish to continue the process with you (generally within 7 working days).
+        %li We will send you a questionnaire to try and understand more about your experience, then we will review those answers.
+        %li If you have not written an article on one of the four topics above, we will ask you to do so, then we will review that article.
+        %li We'll invite a final set of applicants to have a video interview with members of the team.
+        %li We hope to make a final decision on who we offer the role during June.

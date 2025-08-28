@@ -6,6 +6,7 @@ import { BadgeRarity } from '../types'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 import currency from 'currency.js'
+import { Trans } from 'react-i18next'
 
 const badge = { rarity: 'rare' as BadgeRarity, iconName: 'supporter' }
 
@@ -37,11 +38,11 @@ export default function ({
       <div className="badge-container">
         <BadgeMedallion badge={badge} />
         <div className="text-textColor2 text-18 leading-150">
-          {t('formWithModal.youVeEarnedTheBadge')}{' '}
-          <strong className="font-medium">
-            {t('formWithModal.supporter')}
-          </strong>{' '}
-          {t('formWithModal.badge')}
+          <Trans
+            ns="components/donations"
+            i18nKey="formWithModal.youVeEarnedTheBadge"
+            components={[<strong className="font-medium" />]}
+          />
         </div>
       </div>
 

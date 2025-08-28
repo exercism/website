@@ -20,9 +20,8 @@ export default {
     "You've donated {{amount}} successfully - thank you 💙",
   'formWithModal.weTrulyAppreciateYourSupportExercismWouldNotBePossibleWithoutAwesomeContributorsLikeYourselfYouLlBeSentAnEmailShortlyWithYourDonationConfirmationAndReceipt':
     "We truly appreciate your support. Exercism would not be possible without awesome contributors like yourself. You'll be sent an email shortly with your donation confirmation and receipt.",
-  'formWithModal.youVeEarnedTheBadge': "You've earned the",
-  'formWithModal.supporter': ' Supporter',
-  'formWithModal.badge': ' badge!',
+  'formWithModal.youVeEarnedTheBadge':
+    "You've earned the <0>Supporter</0> badge!",
   'formWithModal.happyToHelpImDoneHere': "Happy to help! I'm done here 👍",
   'footerForm.customAmount': 'Custom amount',
   'footerForm.continue': 'Continue',

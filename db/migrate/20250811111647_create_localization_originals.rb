@@ -10,6 +10,7 @@ class CreateLocalizationOriginals < ActiveRecord::Migration[7.1]
       t.string :key, null: false
       t.text :value, null: false
       t.text :usage_details, null: true
+      t.boolean :should_translate, null: false, default: true
       t.timestamps
 
       t.index :uuid, unique: true

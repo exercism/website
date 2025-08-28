@@ -718,6 +718,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_19_141635) do
     t.string "key", null: false
     t.text "value", null: false
     t.text "usage_details"
+    t.boolean "should_translate", null: false, default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["key"], name: "index_localization_originals_on_key", unique: true

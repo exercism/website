@@ -18,7 +18,7 @@ module Flows
         sign_in!
         visit mentoring_request_path(request)
 
-        assert_text "Iteration 1was submitted 7d ago"
+        assert_text "Iteration 1 was submitted 7d ago"
       end
     end
 

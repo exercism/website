@@ -62,7 +62,7 @@ module Flows
         click_on "Accept invitation"
 
         sleep(1)
-        assert_text "Iteration 1was submitted"
+        assert_text "Iteration 1 was submitted"
         assert_text "Who you're mentoring"
       end
     end

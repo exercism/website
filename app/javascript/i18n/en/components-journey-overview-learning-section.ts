@@ -19,9 +19,9 @@ export default {
   'trackSummary.startedTrackAgo':
     'You started working through the {{title}} Track <strong>{{since}}</strong>.',
   'trackSummary.none': 'none',
-  'trackSummary.mentoringSessionsCompleted_one': 'mentoring session completed',
+  'trackSummary.mentoringSessionsCompleted_one': 'Mentoring session completed',
   'trackSummary.mentoringSessionsCompleted_other':
-    'mentoring sessions completed',
+    'Mentoring sessions completed',
   'trackSummary.mentoringStatus':
     'You have <strong>{{inProgress}}</strong> in progress and <strong>{{queued}}</strong> in the queue.',
   'trackSummary.mentoring.discussion_one': '{{count}} discussion',

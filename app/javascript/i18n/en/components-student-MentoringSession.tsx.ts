@@ -6,5 +6,4 @@ export default {
   'discussionActions.exercise': 'Exercise',
   'iterationView.discussion': 'Discussion',
   'mentoringRequest.trackObjectives': 'Track Objectives',
-  'splitPane.mentoringSession': 'mentoring-session',
 }

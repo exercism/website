@@ -24,6 +24,7 @@ export function WhoIsThisTrackForRHS(): JSX.Element {
               ns="components/modals/track-welcome-modal/RHS"
               i18nKey="whoIsThisTrackFor.courseName"
               components={{ strong: <strong className="font-semibold" /> }}
+              parent="span"
             />
           </div>
         </div>
@@ -43,6 +44,7 @@ export function WhoIsThisTrackForRHS(): JSX.Element {
                 ns="components/modals/track-welcome-modal/RHS"
                 i18nKey="whoIsThisTrackFor.courseOffers.expertTeaching"
                 components={{ strong: <strong className="font-semibold" /> }}
+                parent="span"
               />
             </li>
             <li className="flex items-start">
@@ -55,6 +57,7 @@ export function WhoIsThisTrackForRHS(): JSX.Element {
                 ns="components/modals/track-welcome-modal/RHS"
                 i18nKey="whoIsThisTrackFor.courseOffers.handsOnProjects"
                 components={{ strong: <strong className="font-semibold" /> }}
+                parent="span"
               />
             </li>
             <li className="flex items-start">
@@ -67,6 +70,7 @@ export function WhoIsThisTrackForRHS(): JSX.Element {
                 ns="components/modals/track-welcome-modal/RHS"
                 i18nKey="whoIsThisTrackFor.courseOffers.completeSyllabus"
                 components={{ strong: <strong className="font-semibold" /> }}
+                parent="span"
               />
             </li>
             <li className="flex items-start">
@@ -79,6 +83,7 @@ export function WhoIsThisTrackForRHS(): JSX.Element {
                 ns="components/modals/track-welcome-modal/RHS"
                 i18nKey="whoIsThisTrackFor.courseOffers.certificate"
                 components={{ strong: <strong className="font-semibold" /> }}
+                parent="span"
               />
             </li>
           </ul>

@@ -11,6 +11,4 @@ export default {
   'utilityTabs.guidance': 'Guidance',
   'representationFeedbackEditor.previewAndSubmit': 'Preview & Submit',
   'howImportant.howImportantIsThis': 'How important is this?',
-  'infoTooltip.title': 'Title',
-  'infoTooltip.body': 'Body',
 }

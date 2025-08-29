@@ -139,10 +139,7 @@ export function Settings({
     {
       title: t('settings.keybindings'),
       value: localKeybindings,
-      options: KEYBINDINGS.map((keybinding) => ({
-        ...keybinding,
-        label: t(`settings.${keybinding.label.toLowerCase()}`),
-      })),
+      options: KEYBINDINGS,
       set: (keybinding) => setLocalKeybindings(keybinding as Keybindings),
     },
     {

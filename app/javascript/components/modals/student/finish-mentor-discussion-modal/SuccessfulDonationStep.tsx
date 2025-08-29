@@ -4,6 +4,7 @@ import { GraphicalIcon } from '@/components/common'
 import { BadgeMedallion } from '@/components/common/BadgeMedallion'
 import type { BadgeRarity } from '@/components/types'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 const badge = { rarity: 'rare' as BadgeRarity, iconName: 'supporter' }
 
@@ -36,11 +37,11 @@ export function SuccessfulDonationStep({
       <div className="badge-container">
         <BadgeMedallion badge={badge} />
         <div className="text-textColor2 text-18 leading-150">
-          {t('successfulDonationStep.youveEarnedBadge')}
-          <strong className="font-medium">
-            {t('successfulDonationStep.supporter')}
-          </strong>
-          {t('successfulDonationStep.badge')}
+          <Trans
+            ns="components/donations"
+            i18nKey="successfulDonationStep.youVeEarnedTheBadge"
+            components={[<strong className="font-medium" />]}
+          />
         </div>
       </div>
 

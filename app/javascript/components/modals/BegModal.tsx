@@ -11,6 +11,7 @@ import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 const Form = lazy(() => import('@/components/donations/Form'))
 
 export default function ({
@@ -162,13 +163,12 @@ export function PreviousDonorContent() {
         {t('begModal.previousDonorContent.thankYou')}
       </p>
       <p className="text-p-large mb-12">
-        {t('begModal.previousDonorContent.hateToAskAgain')}
-        <strong className="font-medium">
-          {t('begModal.previousDonorContent.pleaseConsiderDonating')}
-        </strong>
-        {t('begModal.previousDonorContent.toSupportUs')}
+        <Trans
+          ns="components/modals/BegModal.tsx"
+          i18nKey="begModal.previousDonorContent.hateToAskAgain"
+          components={[<strong className="font-medium" />]}
+        />
       </p>
-
       <p className="text-p-large">
         {t('begModal.previousDonorContent.monthlyDonationHelpful')}
       </p>
@@ -184,11 +184,11 @@ export function NonDonorContent() {
         {t('begModal.nonDonorContent.exercismReliesOnDonations')}
       </p>
       <p className="text-p-large mb-12">
-        {t('begModal.nonDonorContent.mostPeopleCantAfford')}
-        <strong className="font-medium">
-          {t('begModal.nonDonorContent.pleaseConsiderDonating')}
-        </strong>
-        {t('begModal.nonDonorContent.soThatWeCanKeepItFree')}
+        <Trans
+          ns="components/modals/BegModal.tsx"
+          i18nKey="begModal.nonDonorContent.mostPeopleCantAfford"
+          components={[<strong className="font-medium" />]}
+        />
       </p>
       <p className="text-p-large">
         {t('begModal.nonDonorContent.only1Percent')}

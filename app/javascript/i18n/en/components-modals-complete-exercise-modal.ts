@@ -34,18 +34,17 @@ export default {
     'Publish your code and share your knowledge',
   'publishSolutionModal.publishHelpOthers':
     "By publishing your code, you'll help others learn from your work. You can choose which iterations you publish, add more iterations once it's published, and unpublish it at any time.",
-  'tutorialCompletedModal.youHaveCompleted':
-    "You've completed “{{exerciseTitle}}”",
-  'tutorialCompletedModal.journeyStart':
+  'tutorialCompletedModal.heading': "You've completed “{{exerciseTitle}}”.",
+  'tutorialCompletedModal.subheading':
     'This is just the start of your journey on the {{trackTitle}} track 🚀',
-  'tutorialCompletedModal.readyToGetStuck':
-    "You're now ready to get stuck into some ",
-  'tutorialCompletedModal.realExercises': 'real exercises',
-  'tutorialCompletedModal.weHaveAlsoRevealed':
-    "We've also revealed {{trackTitle}}'s {{conceptCount}} concepts for you to take a look at.",
+  'tutorialCompletedModal.body.noCourse':
+    "You're now ready to get stuck into some <0>real exercises</0>.",
+  'tutorialCompletedModal.body.withCourse':
+    "You're now ready to get stuck into some <0>real exercises</0>. We've also revealed {{trackTitle}}'s {{conceptCount}} concepts for you to take a look at.",
   'tutorialCompletedModal.accessToMentoring':
     "Once you start your next exercise, you'll have access to the mentoring section on your track too.",
   'tutorialCompletedModal.showMeConcepts': 'Show me the Concepts',
+  'tutorialCompletedModal.showMoreExercises': 'Show me more exercises',
   'tutorialCompletedModal.returnToTutorial': 'Return to “{{exerciseTitle}}”',
   'publishSolutionForm.yesShareSolution':
     "Yes, I'd like to share my solution with the community.",

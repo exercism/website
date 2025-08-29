@@ -1,6 +1,6 @@
 // namespace: components/editor/testComponents
 export default {
-  'testsList.name': 'name',
+  'testsList.details': 'name: {{name}}, status: {{status}}, output: {{output}}',
   'testRunSummary.noTestResults': 'No test results',
   'testRunSummary.trackNotSupportTests':
     'This track does not support automatically running exercise tests.',

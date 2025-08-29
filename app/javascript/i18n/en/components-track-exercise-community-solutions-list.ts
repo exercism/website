@@ -5,10 +5,7 @@ export default {
   'orderSelect.sortByOldest': 'Sort by Oldest',
   'orderSelect.sortByFewestLines': 'Sort by Fewest Lines',
   'orderSelect.sortByHighestRepUser': 'Sort by Highest Rep User',
-  'layoutSelect.gridLayoutButton': 'grid-layout-button',
-  'layoutSelect.linesLayoutButton': 'lines-layout-button',
   'exerciseTagFilter.exerciseTagFilterGroup.filterBy':
     'Filter by {{groupName}}',
   'exerciseTagFilter.exerciseTagFilter.filter': 'Filter',
-  'exerciseTagFilter.exerciseTagFilter.selectedTagsCount': ' ({{length}})',
 }

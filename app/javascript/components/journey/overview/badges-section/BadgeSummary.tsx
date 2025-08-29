@@ -1,9 +1,7 @@
 // i18n-key-prefix: badgeSummary
 // i18n-namespace: components/journey/overview/badges-section
-import pluralize from 'pluralize'
 import React from 'react'
 import { BadgeList, BadgeRarity } from '../../../types'
-import { toSentence } from '../../../../utils/toSentence'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const BADGE_RARITIES: BadgeRarity[] = [
@@ -18,27 +16,23 @@ export const BadgeSummary = ({
 }: {
   badges: BadgeList
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/journey/overview/badges-section')
-
-  const parts = BADGE_RARITIES.map<string>((rarity: BadgeRarity) => {
-    const badgesWithRarity = badges.filter(rarity)
-
-    return badgesWithRarity.length > 0
-      ? `${badgesWithRarity.length} ${rarity} ${pluralize(
-          t('badgeSummary.badge'),
-          badgesWithRarity.length
-        )}`
-      : ''
-  }).filter((part) => part.length > 0)
-
-  return (
-    <p className="text-p-large">
-      {t(
-        parts.length == 0
-          ? 'badgeSummary.youHaveNoBadges'
-          : 'badgeSummary.badgesSummary',
-        { badges: toSentence(parts) }
-      )}
-    </p>
+  const { t, i18n } = useAppTranslation(
+    'components/journey/overview/badges-section'
   )
+
+  const parts = BADGE_RARITIES.map((rarity) => {
+    const count = badges.filter(rarity).length
+    return count > 0 ? t(`badgeSummary.rarity.${rarity}`, { count }) : null
+  }).filter(Boolean) as string[]
+
+  if (parts.length === 0) {
+    return <p className="text-p-large">{t('badgeSummary.none')}</p>
+  }
+
+  const list = new Intl.ListFormat(i18n.language || 'en', {
+    style: 'long',
+    type: 'conjunction',
+  }).format(parts)
+
+  return <p className="text-p-large">{t('badgeSummary.summary', { list })}</p>
 }

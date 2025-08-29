@@ -78,12 +78,16 @@ export function DisabledThemeSelectorTooltip({
   const { t } = useAppTranslation('components/common/ThemeToggleButton.tsx')
   return (
     <div className="flex text-14 font-medium">
-      <a className="text-14 text-[#F7B000] underline" href={insidersLink}>
-        {t('themeToggleButton.joinInsiders')}
-      </a>
-      <Trans i18nKey="themeToggleButton.enableDarkMode">
-        &nbsp;to enable Dark Mode
-      </Trans>
+      <Trans
+        i18nKey="themeToggleButton.joinInsiders"
+        ns="components/common/ThemeToggleButton.tsx"
+        components={[
+          <a
+            className="text-14 text-[#F7B000] underline"
+            href={insidersLink}
+          />,
+        ]}
+      />
     </div>
   )
 }

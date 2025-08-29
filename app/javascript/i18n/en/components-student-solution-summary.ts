@@ -12,25 +12,9 @@ export default {
   'mentoring.onAverageStudentsIterate':
     'On average, students iterate a further 3.5 times when mentored on a solution.',
   'mentoring.learnMore': 'Learn more',
-  'header.yourSolutionLooksGood': 'Your solution looks good!',
-  'header.testsPassed': 'Tests Passed',
-  'header.testsFailed': 'Tests Failed',
-  'header.weveAnalysedYourSolutionAndNotFundAnythingThatNeedsChanging':
-    'We’ve analysed your solution and not found anything that needs changing. We do have <comments>{{commentCount}} additional {commentPlural}</comments> that you might like to check. {{mentorOffer}} <strong>Great Job! 🎉</strong>',
-  'header.comment_one': 'comment',
-  'header.comment_other': 'comments',
-  'header.weveAnalysedYourSolutionAndHaveComments':
-    'We’ve analysed your solution and have {{comments}}. You can either continue or address the {recommendationPlural} first - your choice!',
-  'header.recommendation_one': 'recommendation',
-  'header.recommendation_other': 'recommendations',
-  'header.weSuggestAddressingTheRecommendations':
-    'We suggest addressing the {recommendationPlural} before proceeding.',
-  'header.improvement_one': 'improvement',
-  'header.improvement_other': 'improvements',
-  'header.recommendationPlural_one': 'recommendation',
-  'header.recommendationPlural_other': 'recommendations',
 
   header: {
+    yourSolutionLooksGood: 'Your solution looks good!',
     goodJobYourSolutionHasPassedAllTests:
       '<strong>Good job.</strong> Your solution to “{{exerciseTitle}}!” has passed all the tests 😊',
     yourSolutionIsBeingProcessed: 'Your solution is being processed…',

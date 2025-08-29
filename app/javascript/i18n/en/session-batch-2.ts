@@ -15,8 +15,8 @@ export default {
   'components.mentoring.session.iterationButton.comments': 'comments',
   'components.mentoring.session.iterationButton.goToIteration':
     'Go to iteration {{idx}}',
-  'components.mentoring.session.iterationMarker.wasSubmitted': 'was submitted',
-  'components.mentoring.session.iterationMarker.iteration': 'Iteration {{idx}}',
+  'components.mentoring.session.iterationMarker.iterationWasSubmitted':
+    '<0>Iteration {{idx}}</0> was submitted',
   'components.mentoring.session.iterationsList.goToPreviousIteration':
     'Go to previous iteration',
   'components.mentoring.session.iterationsList.previous': 'Previous',

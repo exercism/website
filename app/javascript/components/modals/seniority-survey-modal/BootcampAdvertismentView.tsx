@@ -182,7 +182,7 @@ export function BootcampAdvertismentView() {
           <div className="person">
             <div className="flex flex-row items-center justify-end gap-8">
               <div className="text">
-                <div className="name">{t('bootcampAd.quote.name')}</div>
+                <div className="name">Shaun</div>
                 <div className="description">
                   {t('bootcampAd.quote.description')}
                 </div>

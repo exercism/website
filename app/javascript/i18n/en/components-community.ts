@@ -14,5 +14,4 @@ export default {
   'videoGrid.index.checkBackLater': 'Check back here later for more!',
   'videoGrid.trackFilterList.openTrackFilter': 'Open the track filter',
   'videoGrid.trackFilterList.clickToChange': 'Click to change',
-  'videoGrid.useVideoGrid.video': 'video',
 }

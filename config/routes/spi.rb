@@ -11,7 +11,8 @@ namespace :spi do
     rate_limited
     errored
 
-    localization_verify_llm_proposal
+    localization_verify_translation_proposal
+    localization_verify_glossary_entry_proposal
     localization_translated
   ].each do |action|
     post "llm/#{action}" => "llm_responses##{action}", as: action

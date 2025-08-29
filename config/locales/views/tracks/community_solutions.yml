@@ -42,8 +42,8 @@ en:
             We automatically group similar solutions and generate statistics
             about how popular they are.
           submissions:
-            one: 1 Submission
-            other: "%{count} Submissions"
+            one: Submission
+            other: Submissions
           first_submitted_ago: "%{time} ago"
           first_submitted: First submitted
           reputation_alt_text: Reputation

@@ -4,8 +4,7 @@
   .inner-box.completed
     .inner-box-content
       .text-h6.mb-2= t('.code_review_finished.title')
-      %p
-        = t('.code_review_finished.description_html', mentor_handle: discussion.mentor.handle, link: link_to(t('code_review_finished.link_text'), track_exercise_mentor_discussions_path(track, exercise), class: 'text-linkColor border-b-1')).html_safe
+      %p= t('.code_review_finished.description_html', mentor_handle: discussion.mentor.handle, link: link_to(t('.code_review_finished.link_text'), track_exercise_mentor_discussions_path(track, exercise), class: 'text-linkColor border-b-1')).html_safe
 
 - elsif solution.mentoring_in_progress?
   - discussion = solution.in_progress_mentor_discussion

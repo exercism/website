@@ -8,6 +8,6 @@
         %h2= t('.welcome_check_email_title')
         %p= t('.welcome_message')
         %p= t('.validation_explanation_message')
-        %p= t('.resend_link_message', resend_link: (link_to t('.resend_it_link'), new_confirmation_path(resource_name)))
+        %p= t('.resend_link_message_html', resend_link: (link_to t('.resend_it_link'), new_confirmation_path(resource_name)))
 
   = render "devise/shared/information"

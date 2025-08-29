@@ -10,7 +10,7 @@ en:
           addresses are valid. If you check your email now, it should already be
           there. If you can't see it, check spam, and then give it 10 minutes in
           case things are running slowly.
-        resend_link_message: If it's not turned up soon, %{resend_link}.
+        resend_link_message_html: If it's not turned up soon, %{resend_link}.
         resend_it_link: we can resend it
       new:
         exercism_logo_alt: Exercism's Logo

@@ -16,8 +16,8 @@ export const TrackInfo = ({ track }: Pick<Task, 'track'>): JSX.Element => {
         values={{ trackTitle: track.title }}
         components={[
           <div className="for" />,
-          <TrackIcon iconUrl={track.iconUrl} title={track.title} />,
           <div className="title" />,
+          <TrackIcon iconUrl={track.iconUrl} title={track.title} />,
         ]}
       />
     </div>

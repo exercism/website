@@ -1,5 +1,4 @@
 import React from 'react'
-import pluralize from 'pluralize'
 import { Trans } from 'react-i18next'
 import { timeFormat, fromNow } from '@/utils/time'
 import { GraphicalIcon } from '@/components/common'
@@ -20,6 +19,20 @@ export const TrackSummary = ({
   const { t } = useAppTranslation(
     'components/journey/overview/learning-section'
   )
+
+  const inProgressLabel =
+    track.numInProgressMentoringDiscussions === 0
+      ? t('trackSummary.none')
+      : t('trackSummary.mentoring.discussion', {
+          count: track.numInProgressMentoringDiscussions,
+        })
+
+  const queuedLabel =
+    track.numQueuedMentoringRequests === 0
+      ? t('trackSummary.none')
+      : t('trackSummary.mentoring.solution', {
+          count: track.numQueuedMentoringRequests,
+        })
 
   return (
     <details className="c-details track" open={expanded}>
@@ -83,13 +96,8 @@ export const TrackSummary = ({
             <Trans
               ns="components/journey/overview/learning-section"
               i18nKey="trackSummary.mentoringSessionsCompleted"
-              values={{
-                count: track.numCompletedMentoringDiscussions,
-                label: pluralize(
-                  'session',
-                  track.numCompletedMentoringDiscussions
-                ),
-              }}
+              count={track.numCompletedMentoringDiscussions}
+              values={{ count: track.numCompletedMentoringDiscussions }}
             />
           </h5>
           <p>
@@ -97,24 +105,10 @@ export const TrackSummary = ({
               ns="components/journey/overview/learning-section"
               i18nKey="trackSummary.mentoringStatus"
               values={{
-                inProgress:
-                  track.numInProgressMentoringDiscussions === 0
-                    ? t('trackSummary.none')
-                    : `${track.numInProgressMentoringDiscussions} ${pluralize(
-                        'discussion',
-                        track.numInProgressMentoringDiscussions
-                      )}`,
-                queued:
-                  track.numQueuedMentoringRequests === 0
-                    ? t('trackSummary.none')
-                    : `${track.numQueuedMentoringRequests} ${pluralize(
-                        'solution',
-                        track.numQueuedMentoringRequests
-                      )}`,
+                inProgress: inProgressLabel,
+                queued: queuedLabel,
               }}
-              components={{
-                strong: <strong />,
-              }}
+              components={{ strong: <strong /> }}
             />
           </p>
         </div>

@@ -68,7 +68,7 @@ export function CommunityVideosFooter({
   )
   return (
     <footer className="text-p-small text-textColor6">
-      {t('communityVideoFooter.wantYourVideoFeatured')}&nbsp;
+      {t('communityVideoFooter.wantYourVideoFeatured')}{" "}
       <button onClick={onClick} className="underline">
         {t('communityVideoFooter.submitItHere')}
       </button>

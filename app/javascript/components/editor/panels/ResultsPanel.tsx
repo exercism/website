@@ -4,6 +4,7 @@ import { Submission, TestRun, TestRunner } from '../types'
 import { GraphicalIcon, Tab } from '../../common'
 import { TabsContext } from '../../Editor'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 export const ResultsPanel = ({
   submission,
@@ -49,14 +50,17 @@ export const ResultsPanel = ({
         <section className="run-tests-prompt">
           <GraphicalIcon icon="run-tests-prompt" />
           <h2>
-            <button
-              className="btn-keyboard-shortcut"
-              type="button"
-              onClick={onRunTests}
-            >
-              <span>{t('resultsPanel.runTestsToCheck')} </span>
-            </button>{' '}
-            {t('resultsPanel.toCheckYourCode')}
+            <Trans
+              ns="components/editor/panels"
+              i18nKey="resultsPanel.runTestsToCheckYourCode"
+              components={[
+                <button
+                  className="btn-keyboard-shortcut"
+                  type="button"
+                  onClick={onRunTests}
+                />,
+              ]}
+            />
           </h2>
           <p>{t('resultsPanel.wellRunYourCode')}</p>
         </section>

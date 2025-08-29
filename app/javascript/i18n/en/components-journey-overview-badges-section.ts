@@ -1,11 +1,8 @@
 // namespace: components/journey/overview/badges-section
 export default {
-  // Whole-sentence shells
   'badgeSummary.none': 'You have no badges.',
   'badgeSummary.summary': 'You have {{list}}.',
 
-  // Per-rarity phrases (use i18next plural forms).
-  // Translators can change adjective/noun order and add extra forms (few/many) if their language uses them.
   'badgeSummary.rarity.legendary_one': '{{count}} legendary badge',
   'badgeSummary.rarity.legendary_other': '{{count}} legendary badges',
 

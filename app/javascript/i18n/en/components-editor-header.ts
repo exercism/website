@@ -15,4 +15,5 @@ export default {
   'more.revertToExerciseStart': 'Revert to exercise start',
   'more.revertToLastIteration': 'Revert to last iteration',
   'more.reportABug': 'Report a bug',
+  backToExercise: 'Back to Exercise',
 }

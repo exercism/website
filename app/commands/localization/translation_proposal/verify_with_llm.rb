@@ -8,7 +8,7 @@ class Localization::TranslationProposal::VerifyWithLLM
   end
 
   def endpoint
-    "localization_verify_llm_proposal?proposal_uuid=#{proposal.uuid}"
+    "localization_verify_translation_proposal?proposal_uuid=#{proposal.uuid}"
   end
 
   def prompt

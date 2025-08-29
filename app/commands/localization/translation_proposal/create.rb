@@ -13,7 +13,7 @@ class Localization::TranslationProposal
           modified_from_llm: true
         )
       end.tap do |proposal| # rubocop:disable Style/MultilineBlockChain
-        VerifyWithLLM.(proposal)
+        VerifyWithLLM.defer(proposal)
       end
     end
   end

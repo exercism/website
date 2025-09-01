@@ -67,5 +67,4 @@
             %h3.text-h5.mb-4= t('.no_donations.heading')
             %p.text-p-base.mb-4
               = t('.no_donations.info_1')
-            %p.text-p-base
-              = t('.no_donations.info_2_html', email_link: link_to(t('.no_donations.jeremy_email'), "mailto:jeremy@exercism.org")).html_safe
+            %p.text-p-base= t('.no_donations.info_2_html', email_url: "mailto:jeremy@exercism.org").html_safe

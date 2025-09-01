@@ -30,8 +30,7 @@ en:
         info_1:
           Once you've donated, you'll be able to see a history of all donations
           here.
-        info_2_html:
+        info_2_html: >
           If you've donated to Exercism, but do not see your donations here
           or have not been awarded the Supporter badge, please email
-          %{email_link} and he'll sort it for you.
-        jeremy_email: Jeremy
+          <a href="%{email_url}">Jeremy</a> and he'll sort it for you.

@@ -22,10 +22,10 @@
             - case update
             - when SiteUpdates::NewExerciseUpdate
               %td= t('.update_type.exercise')
-              %td= t('.exercise_update_details', track_title: update.track&.title, exercise_title: update.exercise&.title)
+              %td #{update.track&.title} / #{update.exercise&.title}
             - when SiteUpdates::NewConceptUpdate
               %td= t('.update_type.concept')
-              %td= t('.concept_update_details', track_title: update.track&.title, concept_name: update.concept&.name)
+              %td #{update.track&.title} / #{update.concept&.name}
             - when SiteUpdates::ArbitraryUpdate
               %td= t('.update_type.arbitrary')
               %td= update.track&.title

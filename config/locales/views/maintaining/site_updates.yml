@@ -17,8 +17,6 @@ en:
           exercise: Exercise
           concept: Concept
           arbitrary: Arbitrary
-        exercise_update_details: "%{track_title} / %{exercise_title}"
-        concept_update_details: "%{track_title} / %{concept_name}"
         edit_link: Edit
         new_site_update_button: New site update
       form:

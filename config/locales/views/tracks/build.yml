@@ -67,7 +67,6 @@ en:
         total_analyzer_runs_label: Total Analyzer Runs
         total_analysis_comments_made_label: Total Analysis Comments Made
         feedback_given_frequency_label: Feedback Given Frequency
-        percentage_value: "%{percentage}%"
       show_practice_exercises:
         practice_exercises_heading: Practice Exercises
         learn_more_button: Learn More
@@ -227,7 +226,6 @@ en:
         total_analyzer_runs_label: Total Analyzer Runs
         total_analysis_comments_made_label: Total Analysis Comments Made
         feedback_given_frequency_label: Feedback Given Frequency
-        percentage_value: "%{percentage}%"
       index_representer:
         representer_heading: Representer
         learn_more_button: Learn More
@@ -242,7 +240,6 @@ en:
         total_representer_runs_label: Total Representer Runs
         total_representation_comments_made_label: Total Representation Comments Made
         feedback_given_frequency_label: Feedback Given Frequency
-        percentage_value: "%{percentage}%"
       show_representer:
         representer_heading: "Representer"
         learn_more_button: "Learn More"
@@ -256,7 +253,6 @@ en:
         total_representer_runs_label: "Total Representer Runs"
         total_representation_comments_made_label: "Total Representation Comments Made"
         feedback_given_frequency_label: "Feedback Given Frequency"
-        percentage_value: "%{percentage}%"
       show_test_runner:
         test_runner_heading: Test Runner
         learn_more_button: Learn More

@@ -27,6 +27,6 @@
         .record-value= number_with_delimiter(status.analyzer.num_comments)
       .record-row
         .record-name= t('.feedback_given_frequency_label')
-        .record-value= t('.percentage_value', percentage: status.analyzer.display_rate_percentage)
+        .record-value #{status.analyzer.display_rate_percentage}%
 
   = render ReactComponents::Common::Credits.new(status.analyzer.volunteers.users, status.analyzer.volunteers.num_users, 'contributor', 0, '', css_class: 'font-semibold')

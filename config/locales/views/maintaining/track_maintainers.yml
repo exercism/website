@@ -40,8 +40,6 @@ en:
           candidates: Candidates
           contributors: Contributors
           unlinked: Unlinked
-        maintainer_info_html: "%{handle} (%{reputation} rep)"
-        commits_link_parenthetical_html: (%{commits_link})
         commits_text: commits
         clear_cache_button: Clear cache
         clear_cache_confirm: Are you sure? This is an expensive operation

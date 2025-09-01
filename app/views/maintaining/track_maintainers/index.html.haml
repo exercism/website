@@ -74,36 +74,36 @@
             %ul
               - maintainers[:active].each do |maintainer|
                 %li
-                  = t('.maintainer_info_html', handle: maintainer[:handle], reputation: maintainer[:reputation])
+                  = `#{maintainer[:handle]} (#{maintainer[:reputation]} rep)`
                   - if maintainer[:github_username]
-                    = t('.commits_link_parenthetical_html', commits_link: link_to(t('.commits_text'), "#{track.repo_url}/commits?author=#{maintainer[:github_username]}"))
+                    = "(#{link_to(t('.commits_text'), "#{track.repo_url}/commits?author=#{maintainer[:github_username]}")})"
           %td
             %ul
               - maintainers[:inactive].each do |maintainer|
                 %li
-                  = t('.maintainer_info_html', handle: maintainer[:handle], reputation: maintainer[:reputation])
+                  = `#{maintainer[:handle]} (#{maintainer[:reputation]} rep)`
                   - if maintainer[:github_username]
-                    = t('.commits_link_parenthetical_html', commits_link: link_to(t('.commits_text'), "#{track.repo_url}/commits?author=#{maintainer[:github_username]}"))
+                    = "(#{link_to(t('.commits_text'), "#{track.repo_url}/commits?author=#{maintainer[:github_username]}")})"
           %td
             %ul
               - maintainers[:candidates].each do |maintainer|
                 %li
-                  = t('.maintainer_info_html', handle: maintainer[:handle], reputation: maintainer[:reputation])
+                  = `#{maintainer[:handle]} (#{maintainer[:reputation]} rep)`
                   - if maintainer[:github_username]
-                    = t('.commits_link_parenthetical_html', commits_link: link_to(t('.commits_text'), "#{track.repo_url}/commits?author=#{maintainer[:github_username]}"))
+                    = "(#{link_to(t('.commits_text'), "#{track.repo_url}/commits?author=#{maintainer[:github_username]}")})"
           %td
             %ul
               - maintainers[:contributors].each do |maintainer|
                 %li
-                  = t('.maintainer_info_html', handle: maintainer[:handle], reputation: maintainer[:reputation])
+                  = `#{maintainer[:handle]} (#{maintainer[:reputation]} rep)`
                   - if maintainer[:github_username]
-                    = t('.commits_link_parenthetical_html', commits_link: link_to(t('.commits_text'), "#{track.repo_url}/commits?author=#{maintainer[:github_username]}"))
+                    = "(#{link_to(t('.commits_text'), "#{track.repo_url}/commits?author=#{maintainer[:github_username]}")})"
           %td
             %ul
               - maintainers[:unlinked].each do |maintainer|
                 %li
                   = link_to maintainer[:github_username], "https://github.com/#{maintainer[:github_username]}"
-                  = t('.commits_link_parenthetical_html', commits_link: link_to(t('.commits_text'), "#{track.repo_url}/commits?author=#{maintainer[:github_username]}"))
+                  = "(#{link_to(t('.commits_text'), "#{track.repo_url}/commits?author=#{maintainer[:github_username]}")})"
 
   %p.mb-16
     = button_to t('.clear_cache_button'), maintaining_track_maintainers_path, method: :post, form: { data: { turbo_confirm: t('.clear_cache_confirm') } }, class: 'btn btn-warning'

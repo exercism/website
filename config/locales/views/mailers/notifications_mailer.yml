@@ -28,8 +28,7 @@ en:
       thank_you_message:
         Thanks so much for being part of Exercism's story. I really
         hope you enjoy Insiders!
-      signature_name: Jeremy Walker
-      signature_title: Exercism's Co-founder &amp; CEO
+      signature_title: Exercism's Co-founder & CEO
       activate_button_text: Activate Insiders
     mentor_finished_discussion:
       greeting: Hi %{user_handle},
@@ -89,7 +88,6 @@ en:
       closing_thanks:
         Thanks so much for being part of Exercism's story. I really hope
         you enjoy Insiders!
-      signature_name: Jeremy Walker
       signature_title: Exercism's Co-founder & CEO
       button_activate_insiders: Activate Insiders
       benefits_intro: "Insiders gives you three main benefits:"
@@ -146,7 +144,6 @@ en:
         mean the world to us. You can set up a new regular donation on the
         Insiders page: %{insiders_page_link}"
       farewell: Have a great day!
-      signature_name: Jeremy Walker
       signature_title: Exercism's Co-founder & CEO
       visit_exercism_link: "Visit Exercism: %{root_url}"
       access_expired_message_html: Your access to %{insiders_link} has now expired.
@@ -191,7 +188,6 @@ en:
         our social mission. We look forward to seeing all the amazing things
         you will achieve with Exercism.
       best_regards: Best regards,
-      signature_name: Jeremy Walker
       signature_title: Exercism Co-founder & CEO
       button_text: Visit Exercism
       intro_message:
@@ -246,7 +242,6 @@ en:
         starting out, there is a place for you here. So don't be shy, come say
         hello and get involved!
       best_regards: Best regards,
-      signature_name: Jeremy Walker
       signature_title: Exercism Co-founder & CEO
       button_text: Visit Exercism
       intro_message:
@@ -298,7 +293,6 @@ en:
       final_reminder_message: And as a final a reminder, Exercism is 100% free,
         open-source and not for profit. Enjoy!
       best_regards: Best regards,
-      signature_name: Jeremy Walker
       signature_title: Exercism Co-founder & CEO
       button_text: Visit Exercism
       intro_message:
@@ -370,7 +364,6 @@ en:
       message_three:
         Congratulations on passing the Lifetime threshold and thanks
         again for being part of Exercism 🙂
-      signature_name: Jeremy Walker
       signature_title: Exercism Co-founder & CEO
       visit_exercism: "Visit Exercism: %{root_url}"
       message_one_html: I'm excited to let you know that you've been upgraded to
@@ -438,7 +431,6 @@ en:
       farewell_message:
         Thanks for being part of our journey. I'm excited for what
         comes next 🙂
-      signature_name: Jeremy Walker
       signature_title: Exercism's Co-founder &amp; CEO
       button_text: Visit Exercism
       welcome_message_text:
@@ -479,7 +471,6 @@ en:
         your learning journey even more enjoyable.
       youtube_channel_link_text: YouTube channel
       closing_wish: Have a great day!
-      signature_name: Jeremy Walker
       signature_title: Exercism's Co-founder &amp; CEO
       button_text: Visit Exercism
       video_introduction_text:
@@ -518,7 +509,6 @@ en:
       discord_channel_link_text: "#insiders channel on Discord"
       farewell_message: Thanks again for being part of Exercism. I'm excited for
         what's next! 🙂
-      signature_name: Jeremy Walker
       signature_title: Exercism's Co-founder &amp; CEO
       button_text: Visit Exercism
       welcome_message_one_text: Welcome to Exercism Insiders (%{exercism_insiders_link})!

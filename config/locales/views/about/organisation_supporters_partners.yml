@@ -18,9 +18,8 @@ en:
         chicago_alt: University of Chicago
       cta:
         title: Want to discuss how you can help Exercism?
-        description: Get in touch with <strong>%{jeremy_walker_name}</strong>,
+        description: Get in touch with <strong>Jeremy Walker</strong>,
           Exercism's CEO.
-        jeremy_walker_name_text: Jeremy Walker
         email_label: jeremy@exercism.org
       support_goals:
         title: Support from our funders is crucial to achieving Exercism's goals
@@ -124,9 +123,8 @@ en:
           chicago_alt: University of Chicago
         cta:
           title: Want to discuss how you can help Exercism?
-          description: Get in touch with <strong>%{jeremy_walker_name}</strong>,
+          description: Get in touch with <strong>Jeremy Walker</strong>,
             Exercism's CEO.
-          jeremy_walker_name_text: Jeremy Walker
           email_label: jeremy@exercism.org
         support_goals:
           title: Support from our funders is crucial to achieving Exercism's goals

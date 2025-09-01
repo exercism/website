@@ -269,7 +269,6 @@ en:
           %{version} Test Runner."
         total_test_runner_runs_label: Total Test Runner Runs
         test_run_pass_rate_label: Test Run Pass Rate
-        percentage_with_count_value: "%{percentage}% (%{count})"
         test_run_fail_rate_label: Test Run Fail Rate
         test_run_error_rate_label: Test Run Error Rate
       index_test_runner:
@@ -288,7 +287,6 @@ en:
           %{version} Test Runner."
         total_test_runner_runs_label: Total Test Runner Runs
         test_run_pass_rate_label: Test Run Pass Rate
-        percentage_with_count_value: "%{percentage}% (%{count})"
         test_run_fail_rate_label: Test Run Fail Rate
         test_run_error_rate_label: Test Run Error Rate
     shared:

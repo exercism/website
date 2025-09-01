@@ -19,9 +19,6 @@
     %li= link_to t('.see_all_link'), contributing_contributors_path(track_slug: track.slug), class: "all", "aria-label": t('.see_all_contributors_aria_label') # TODO
 
   .cta
-    %h3
-      = t('.cta.we_love_contributors')
-      %span{ 'aria-label': t('.cta.love_emoji_aria_label') } 💙
-      = t('.cta.our_contributors')
+    %h3= t('.cta.we_love_contributors_html').html_safe
     %p= t('.cta.exercism_relies_on_open_source')
     = link_to t('.cta.contribute_link', track_title: track.title), contributing_tasks_path(track_slug: track.slug)

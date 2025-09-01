@@ -42,10 +42,9 @@
               .record-element{ data: { record_label: t('.attempts_column') } }
                 %strong= t('.attempts_value', num_submitted: number_with_delimiter(exercise.num_submitted), avg_submitted: exercise.num_submitted_average)
               .record-element{ data: { record_label: t('.completions_column') } }
-                %strong= t('.completions_value', num_completed: number_with_delimiter(exercise.num_completed), percentage: exercise.num_completed_percentage)
+                %strong #{number_with_delimiter(exercise.num_completed)} (#{exercise.num_completed_percentage}%)
               .record-element{ data: { record_label: t('.mentoring_requests_column') } }
-                %strong= t('.mentoring_requests_value', num_requests: number_with_delimiter(exercise.num_mentoring_requests), percentage: exercise.num_mentoring_requests_percentage)
-
+                %strong #{number_with_delimiter(exercise.num_mentoring_requests)} (#{exercise.num_mentoring_requests_percentage}%)
 
     - if status.practice_exercises.deprecated.size.positive?
       %details.mt-10
@@ -70,9 +69,9 @@
               .record-element{ data: { record_label: t('.attempts_column') } }
                 %strong= t('.attempts_value', num_submitted: number_with_delimiter(exercise.num_submitted), avg_submitted: exercise.num_submitted_average)
               .record-element{ data: { record_label: t('.completions_column') } }
-                %strong= t('.completions_value', num_completed: number_with_delimiter(exercise.num_completed), percentage: exercise.num_completed_percentage)
+                %strong #{number_with_delimiter(exercise.num_completed)} (#{exercise.num_completed_percentage}%)
               .record-element{ data: { record_label: t('.mentoring_requests_column') } }
-                %strong= t('.mentoring_requests_value', num_requests: number_with_delimiter(exercise.num_mentoring_requests), percentage: exercise.num_mentoring_requests_percentage)
+                %strong #{number_with_delimiter(exercise.num_mentoring_requests)} (#{exercise.num_mentoring_requests_percentage}%)
 
     - if status.practice_exercises.unimplemented.size.positive?
       %details.mt-10

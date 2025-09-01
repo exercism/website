@@ -85,8 +85,6 @@ en:
         completions_column: Completions
         mentoring_requests_column: Mentoring requests
         attempts_value: "%{num_submitted} (avg. %{avg_submitted})"
-        completions_value: "%{num_completed} (%{percentage}%)"
-        mentoring_requests_value: "%{num_requests} (%{percentage}%)"
         deprecated_exercises_summary: "%{count} deprecated practice exercises"
         unimplemented_exercises_summary:
           one: 1 unimplemented practice exercise
@@ -114,8 +112,6 @@ en:
         completions_column: Completions
         mentoring_requests_column: Mentoring requests
         attempts_value: "%{num_submitted} (avg. %{avg_submitted})"
-        completions_value: "%{num_completed} (%{percentage}%)"
-        mentoring_requests_value: "%{num_requests} (%{percentage}%)"
         deprecated_learning_exercises_summary: "%{count} deprecated learning exercises"
       show_tags:
         programming_tags_heading: Programming Tags
@@ -154,8 +150,6 @@ en:
         completions_label: Completions
         mentoring_requests_label: Mentoring requests
         attempts_value: "%{num_submitted} (avg. %{num_submitted_average})"
-        completions_value: "%{num_completed} (%{num_completed_percentage}%)"
-        mentoring_requests_value: "%{num_mentoring_requests} (%{num_mentoring_requests_percentage}%)"
         deprecated_exercises_summary:
           one: 1 deprecated practice exercise
           other: "%{count} deprecated practice exercises"
@@ -219,8 +213,6 @@ en:
         completions_label: Completions
         mentoring_requests_label: Mentoring requests
         attempts_value: "%{num_submitted} (avg. %{num_submitted_average})"
-        completions_value: "%{num_completed} (%{num_completed_percentage}%)"
-        mentoring_requests_value: "%{num_mentoring_requests} (%{num_mentoring_requests_percentage}%)"
         deprecated_learning_exercises_summary: "%{count} deprecated learning exercises"
       index_analyzer:
         analyzer_heading: Analyzer
@@ -311,5 +303,3 @@ en:
       completions: Completions
       mentoring_requests: Mentoring requests
       attempts_value: "%{num_submitted} (avg. %{avg_submitted})"
-      completions_value: "%{num_completed} (%{percentage}%)"
-      mentoring_requests_value: "%{num_requests} (%{percentage}%)"

@@ -60,7 +60,8 @@
           .flex.flex-col
             .text-h4.mb-4= t('.info_section.donate_card.title')
             .text-prose.text-textColor5
-              = t('.info_section.donate_card.description', to_the_right_or_above: content_tag(:span, t('.info_section.to_the_right'), class: 'hidden lg:inline') + content_tag(:span, t('.info_section.above'), class: 'inline lg:hidden')).html_safe
+              %span.hidden.lg:inline= t('.info_section.donate_card.description_right_html', tail: t('.info_section.donate_card.tail_html')).html_safe
+              %span.inline.lg:hidden= t('.info_section.donate_card.description_above_html', tail: t('.info_section.donate_card.tail_html')).html_safe
 
         .flex.md:flex-row.flex-col.gap-20.shadow-base.p-24.rounded-16.bg-backgroundColorA.mb-16
           = graphical_icon "organisation-contribution", category: :graphics, css_class: "h-[96px] w-[96px]"

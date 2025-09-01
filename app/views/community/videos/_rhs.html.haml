@@ -4,14 +4,16 @@
       .animate-pulse.bg-alert.rounded-circle.mr-6{ class: "w-[10px] h-[10px]" }
       .font-bold.leading-150.flex.items-center.text-textColor2.text-12.uppercase= t('.live_event.status')
     %h3.text-h4= live_event.title
+    - twitch_url = "https://www.twitch.tv/exercismlive"
+    - youtube_url = "https://www.youtube.com/watch?v=#{live_event.youtube_id}" if live_event.youtube?
+
     %p.text-p-base.mb-12
       = live_event.description
-      = t('.live_event.watch_on')
-      = link_to "Twitch", "https://www.twitch.tv/exercismlive"
       - if live_event.youtube?
-        = t('.live_event.or')
-        = link_to "YouTube", "https://www.youtube.com/watch?v=#{live_event.youtube_id}"
-      = t('.live_event.arrow')
+        = t('.watch_on_both_html', twitch_link: link_to("Twitch", twitch_url), youtube_link: link_to("YouTube", youtube_url)).html_safe
+      - else
+        = t('.watch_on_one_html', twitch_link: link_to("Twitch", twitch_url)).html_safe
+      👇🏽
 
     .rounded-8.shadow-baseZ1.w-fill.overflow-hidden
       - if live_event.youtube?

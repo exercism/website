@@ -3,10 +3,9 @@ en:
     videos:
       rhs:
         live_event:
-          status: Live now
-          watch_on: Watch on
-          or: or
-          arrow: 👇🏽
+          status: "Live now"
+        watch_on_one_html: "Watch on %{twitch_link}"
+        watch_on_both_html: "Watch on %{twitch_link} or %{youtube_link}"
         featured_event:
           status: Coming soon
           live_at: Live at

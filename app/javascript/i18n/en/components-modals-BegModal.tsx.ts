@@ -14,20 +14,13 @@ export default {
   'begModal.previousDonorContent.thankYou':
     "You're one of the few people who have donated to Exercism. Thank you so much for supporting us 💙",
   'begModal.previousDonorContent.hateToAskAgain':
-    "I hate to ask you again (😔), but we really need your support. Exercism isn't covering its costs and we really need your help. If you're enjoying Exercism and can afford it, ",
-  'begModal.previousDonorContent.pleaseConsiderDonating':
-    'please consider donating a few more dollars ',
-  'begModal.previousDonorContent.toSupportUs': 'to support us.',
+    "I hate to ask you again (😔), but we really need your support. Exercism isn't covering its costs and we really need your help. If you're enjoying Exercism and can afford it, <0>please consider donating a few more dollars</0> to support us.",
   'begModal.previousDonorContent.monthlyDonationHelpful':
     'If possible, a monthly donation would be extra helpful! It takes 30 seconds to setup using the form on the right 👉',
   'begModal.nonDonorContent.exercismReliesOnDonations':
     "Exercism relies on donations. But right now we don't have enough 😔",
   'begModal.nonDonorContent.mostPeopleCantAfford':
-    "Most people who use Exercism can't afford to donate. But if you can, and you're finding Exercism useful, ",
-  'begModal.nonDonorContent.pleaseConsiderDonating':
-    'please consider donating a few dollars ',
-  'begModal.nonDonorContent.soThatWeCanKeepItFree':
-    "so that we can keep it free for those who can't afford it.",
+    "Most people who use Exercism can't afford to donate. But if you can, and you're finding Exercism useful, <0>please consider donating a few dollars</0> so that we can keep it free for those who can't afford it.",
   'begModal.nonDonorContent.only1Percent':
     "If only 1% of our users support us regularly, we'll be able to cover our costs. It takes 30 seconds to donate, using the form on the right 👉",
 }

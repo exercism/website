@@ -18,10 +18,16 @@ export default {
   'trackSummary.joinedTrack': 'When you joined the {{title}} Track',
   'trackSummary.startedTrackAgo':
     'You started working through the {{title}} Track <strong>{{since}}</strong>.',
-  'trackSummary.mentoringSessionsCompleted': 'Mentoring {{label}} completed',
+  'trackSummary.none': 'none',
+  'trackSummary.mentoringSessionsCompleted_one': 'Mentoring session completed',
+  'trackSummary.mentoringSessionsCompleted_other':
+    'Mentoring sessions completed',
   'trackSummary.mentoringStatus':
     'You have <strong>{{inProgress}}</strong> in progress and <strong>{{queued}}</strong> in the queue.',
-  'trackSummary.none': 'none',
+  'trackSummary.mentoring.discussion_one': '{{count}} discussion',
+  'trackSummary.mentoring.discussion_other': '{{count}} discussions',
+  'trackSummary.mentoring.solution_one': '{{count}} solution',
+  'trackSummary.mentoring.solution_other': '{{count}} solutions',
   'trackSummary.progressionVelocity': 'Progression Velocity',
   'trackSummary.avgVelocity': 'Avg. on Exercism = {{avg}}',
   'trackSummary.velocityExplanation':

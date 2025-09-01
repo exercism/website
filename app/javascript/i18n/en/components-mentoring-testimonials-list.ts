@@ -3,7 +3,6 @@ export default {
   'orderSelect.sortByUnrevealedFirst': 'Sort by Unrevealed First',
   'orderSelect.sortByNewestFirst': 'Sort by Newest First',
   'orderSelect.sortByOldestFirst': 'Sort by Oldest First',
-  'trackDropdown.title': '{{title}}',
   'revealedTestimonial.new': 'New',
   'revealedTestimonial.onExerciseInTrack':
     'on {{exerciseTitle}} in {{trackTitle}}',

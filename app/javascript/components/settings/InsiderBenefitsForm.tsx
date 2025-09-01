@@ -153,12 +153,16 @@ export function InfoMessage({
             {t('insiderBenefits.exclusiveOptions')}
           </p>
           <p className="text-p-base mb-12">
-            <strong>
-              <a className="text-prominentLinkColor" href={insidersPath}>
-                {t('insiderBenefits.donateToExercism')}
-              </a>
-            </strong>{' '}
-            {t('insiderBenefits.becomeInsider')}
+            <Trans
+              ns="components/settings/InsiderBenefitsForm.tsx"
+              i18nKey="insiderBenefits.donateToExercism"
+              components={[
+                <a
+                  className="text-prominentLinkColor font-semibold"
+                  href={insidersPath}
+                />,
+              ]}
+            />
           </p>
         </>
       )

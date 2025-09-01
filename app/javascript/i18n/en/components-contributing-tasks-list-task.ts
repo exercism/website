@@ -5,7 +5,7 @@ export default {
   'sizeTag.m': 'm',
   'sizeTag.l': 'l',
   'sizeTag.xl': 'xl',
-  'trackInfo.for': 'for',
+  'trackInfo.for': '<0>for</0>\u00A0<2/>\u00A0<1>{{trackTitle}}</1>',
   'newTag.new': 'New',
   'moduleTag.analyzer': 'Analyzer',
   'moduleTag.representer': 'Representer',

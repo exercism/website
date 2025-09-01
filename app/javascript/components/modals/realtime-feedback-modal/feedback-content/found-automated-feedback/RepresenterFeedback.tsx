@@ -29,11 +29,10 @@ export const RepresenterFeedback = ({
           className="place-self-start"
         />
         <div className="info">
-          <strong className="inline-block">{author.name}</strong>
           <Trans
             ns="components/modals/realtime-feedback-modal/feedback-content/found-automated-feedback"
             i18nKey="representerFeedback.gaveFeedbackSimilarSolution"
-            components={{ strong: <strong className="inline-block" /> }}
+            components={[<strong className="inline-block" />]}
           />
           <EditedBy editor={editor} author={author} />.
         </div>

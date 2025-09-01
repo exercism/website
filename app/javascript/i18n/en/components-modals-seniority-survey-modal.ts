@@ -16,7 +16,6 @@ export default {
   'bootcampAd.feature.mentors': 'Helpful <strong>mentors</strong>',
   'bootcampAd.quote':
     'I was brand new to coding and this course <strong>exceeded my wildest expectations</strong>. In my humble opinion, it will be <strong>one of the best choices you will ever make!</strong>',
-  'bootcampAd.quote.name': 'Shaun',
   'bootcampAd.quote.description': 'Absolute Beginner',
   'senioritySurveyModal.inner': 'Inner',
   'initialView.heyThere': 'Hey there 👋',

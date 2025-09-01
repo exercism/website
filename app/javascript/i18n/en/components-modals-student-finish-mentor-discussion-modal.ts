@@ -29,9 +29,8 @@ export default {
     "You've donated {{amount}} successfully - thank you 💙",
   'successfulDonationStep.trulyAppreciateSupport':
     "We truly appreciate your support. Exercism would not be possible without awesome contributors like yourself. You'll be sent an email shortly with your donation confirmation and receipt.",
-  'successfulDonationStep.youveEarnedBadge': "You've earned the ",
-  'successfulDonationStep.supporter': 'Supporter',
-  'successfulDonationStep.badge': ' badge!',
+  'successfulDonationStep.youVeEarnedTheBadge':
+    "You've earned the <0>Supporter</0> badge!",
   'successfulDonationStep.continueToExercise': 'Continue to Exercise',
   'requeuedStep.solutionRequeued': 'Your solution has been requeued.',
   'requeuedStep.requedExplanation':

@@ -5,6 +5,7 @@ import { Iteration } from '../../types'
 import { AutomatedFeedbackSummary } from './AutomatedFeedbackSummary'
 import { iterationId } from '../session/useIterationScrolling'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 type Props = {
   iteration: Iteration
@@ -22,12 +23,13 @@ export const IterationMarker = forwardRef<HTMLDivElement, Props>(
         <div className="timeline-content">
           <div className="timeline-entry-header" ref={ref}>
             <div className="info">
-              <strong>
-                {t('components.mentoring.session.iterationMarker.iteration', {
-                  idx: iteration.idx,
-                })}
-              </strong>
-              {t('components.mentoring.session.iterationMarker.wasSubmitted')}
+              {/* Iteration {{IDX}} was submitted [e.g. 2 days ago]  */}
+              <Trans
+                ns="session-batch-2"
+                i18nKey="components.mentoring.session.iterationMarker.iterationWasSubmitted"
+                values={{ idx: iteration.idx }}
+                components={[<strong />]}
+              />
             </div>
             <time>{shortFromNow(iteration.createdAt)}</time>
           </div>

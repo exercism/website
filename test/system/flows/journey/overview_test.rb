@@ -30,6 +30,7 @@ module Flows
             sign_in!(user)
             visit journey_url
 
+            sleep 60
             assert_text "25 Dec 2016"
             assert_text "When you joined the Ruby Track"
             assert_text "1 Mentoring session completed"

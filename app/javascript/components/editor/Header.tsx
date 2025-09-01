@@ -3,6 +3,7 @@ import { GraphicalIcon } from '../common/GraphicalIcon'
 import { Icon } from '../common/Icon'
 import { Settings } from './header/Settings'
 import { More } from './header/More'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const Header = ({
   children,
@@ -10,12 +11,15 @@ export const Header = ({
   children: React.ReactNode
 }): JSX.Element => <div className="header">{children}</div>
 
-Header.Back = ({ exercisePath }: { exercisePath: string }) => (
-  <a href={exercisePath} className="close-btn">
-    <GraphicalIcon icon="arrow-left" />
-    Back to Exercise
-  </a>
-)
+Header.Back = ({ exercisePath }: { exercisePath: string }) => {
+  const { t } = useAppTranslation('components/editor/header')
+  return (
+    <a href={exercisePath} className="close-btn">
+      <GraphicalIcon icon="arrow-left" />
+      {t('backToExercise')}
+    </a>
+  )
+}
 
 Header.Title = ({
   trackTitle,

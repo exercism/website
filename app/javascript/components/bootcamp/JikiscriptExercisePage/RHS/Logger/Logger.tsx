@@ -2,13 +2,8 @@ import React, { useRef, useEffect } from 'react'
 import useTestStore from '../../store/testStore'
 import { useHighlighting } from '@/hooks/use-syntax-highlighting'
 import { renderLog } from './renderLog'
-import { useAppTranslation } from '@/i18n/useAppTranslation'
-import { Trans } from 'react-i18next'
 
 export function Logger({ height }: { height: number | string }) {
-  const { t } = useAppTranslation(
-    'components/bootcamp/JikiscriptExercisePage/RHS'
-  )
   const { inspectedTestResult } = useTestStore()
 
   const containerRef = useRef<HTMLDivElement>(null)
@@ -25,16 +20,13 @@ export function Logger({ height }: { height: number | string }) {
 
   return (
     <div style={{ height }} className="c-logger" ref={ref}>
-      <h2>{t('logger.logger.logMessages')}</h2>
+      <h2>Log Messages</h2>
       {!inspectedTestResult ||
       inspectedTestResult?.logMessages?.length === 0 ? (
         <div className="info-message">
           <p>
-            <Trans
-              i18nKey="logger.logger.useTheLogFunctionToLogMessagesToTheConsoleEg"
-              ns="components/bootcamp/JikiscriptExercisePage/RHS"
-              components={[<code className="hljs language-javascript" />]}
-            />
+            Use the <code>log</code> function to log messages to the console.
+            e.g.
           </p>
           <pre className="hljs language-javascript">
             <code>log("Hello World")</code>
@@ -44,7 +36,7 @@ export function Logger({ height }: { height: number | string }) {
         <>
           <div className="info-message">
             <p>
-              {t('logger.logger.theseAreTheLogMessagesForScenario')}{' '}
+              These are the log messages for scenario{' '}
               {inspectedTestResult.testIndex + 1}:
             </p>
           </div>

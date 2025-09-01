@@ -2,7 +2,8 @@
   - if partner.errors.any?
     %div{ style: "color: red" }
       %h2
-        = t('.errors_prohibited_saving_partner', count: partner.errors.count)
+        = pluralize(partner.errors.count, "error")
+        prohibited this partner from being saved:
       %ul
         - partner.errors.each do |error|
           %li= error.full_message
@@ -20,7 +21,7 @@
     = f.text_field :website_url
 
   .flex.flex-col.mb-16
-    = f.label :headline, t('.headline_label'), class: 'text-h6 mb-4'
+    = f.label :headline, "Headline (appears on Perks page)", class: 'text-h6 mb-4'
     = f.text_field :headline
 
   .flex.flex-col.mb-16
@@ -32,11 +33,11 @@
     = f.file_field :dark_logo
 
   .flex.flex-col.mb-16
-    = f.label :description_markdown, t('.description_label'), class: 'text-h6 mb-4'
+    = f.label :description_markdown, "Description (Markdown. Appears on Perks page)", class: 'text-h6 mb-4'
     = f.text_area :description_markdown, class: 'h-[400px]'
 
   .flex.flex-col.mb-16
-    = f.label :support_markdown, t('.support_info_label'), class: 'text-h6 mb-4'
+    = f.label :support_markdown, "Support info (Optional. Markdown. Appears on Perks page)", class: 'text-h6 mb-4'
     = f.text_area :support_markdown, class: 'h-[200px]'
 
   %div

@@ -1,32 +1,26 @@
-// i18n-key-prefix: views.completedLevelView
-// i18n-namespace: components/bootcamp/CSSExercisePage/FinishLessonModal
 import React, { useContext } from 'react'
 import { FinishLessonModalContext } from '../FinishLessonModalContext'
-import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function CompletedLevelView() {
-  const { t } = useAppTranslation(
-    'components/bootcamp/CSSExercisePage/FinishLessonModal'
-  )
   const { nextLevelIdx, completedLevelIdx, links } = useContext(
     FinishLessonModalContext
   )
   return (
     <div>
       <h2 className="text-[25px] mb-12 font-semibold">
-        {t('views.completedLevelView.youveCompletedLevel', {
-          completedLevelIdx,
-        })}
+        You've completed level {completedLevelIdx}!
       </h2>
       <p className="text-18 leading-140 mb-8">
         <strong className="font-semibold">
-          {t('views.completedLevelView.thatsBigAchievement')}
+          Congratulations! That's a big achievement 🎉
         </strong>
       </p>
       {nextLevelIdx ? (
         <>
           <p className="text-18 leading-140 mb-20">
-            {t('views.completedLevelView.youreNowOntoLevel', { nextLevelIdx })}
+            You're now onto Level {nextLevelIdx} - a brand new challenge!
+            Remember to watch the teaching video in full before starting the
+            exercises.
           </p>
 
           <div className="flex items-center gap-8 self-stretch">
@@ -37,19 +31,20 @@ export function CompletedLevelView() {
               )}
               className="btn-l btn-primary flex-grow"
             >
-              {t('views.completedLevelView.startLevel', { nextLevelIdx })}
+              Start Level {nextLevelIdx}
             </a>
           </div>
         </>
       ) : (
         <>
           <p className="text-18 leading-140 mb-20">
-            {t('views.completedLevelView.youveCompletedAllLevelsAvailable')}
+            You've completed all the levels available to you right now. Great
+            job!
           </p>
 
           <div className="flex flex-col items-stretch self-stretch">
             <a href={links.dashboardIndex} className="btn-l btn-primary">
-              {t('views.completedLevelView.goToDashboard')}
+              Go to dashboard
             </a>
           </div>
         </>

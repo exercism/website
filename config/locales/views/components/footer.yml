@@ -59,15 +59,7 @@ en:
           add_language_forum_link: in the forum
           add_language_discussion_text: and let's discuss it.
         legals:
-          company_info_part1: Exercism is a not-for-profit organisation
-          company_info_link_text: registered in the UK
-          company_info_part2: . Its trustees are
-          katrina_owen_link: Katrina Owen
-          jeremy_walker_link_separator: ","
-          jeremy_walker_link: Jeremy Walker
-          erik_schierboom_link_separator: " and"
-          erik_schierboom_link: Erik Schierboom
-          company_info_part3: .
+          company_info_html: "Exercism is a not-for-profit organisation %{company_link_open}registered in the UK%{company_link_close}. Its trustees are %{katrina_owen_link}, %{jeremy_walker_link} and %{erik_schierboom_link}."
           copyright: © %{year} Exercism
       external:
         title: Code practice and mentorship for everyone

@@ -101,15 +101,6 @@
           = t('.tracks_section.add_language_discussion_text')
   %hr
   .legals.mt-24.md:mt-32.mb-32.md:mb-40.flex.md:items-center.flex-col.md:flex-row
-    .company.mb-16.md:mb-0.md:mr-32
-      = t('.legals.company_info_part1')
-      = link_to t('.legals.company_info_link_text'), 'https://find-and-update.company-information.service.gov.uk/company/11733062'
-      = t('.legals.company_info_part2')
-      = link_to t('.legals.katrina_owen_link'), 'https://exercism.github.io/kytrinyx/'
-      = t('.legals.jeremy_walker_link_separator')
-      = link_to t('.legals.jeremy_walker_link'), 'https://ihid.info/'
-      = t('.legals.erik_schierboom_link_separator')
-      = link_to t('.legals.erik_schierboom_link'), 'https://erikschierboom.com/'
-      = t('.legals.company_info_part3')
+    .company.mb-16.md:mb-0.md:mr-32= t('.legals.company_info_html', company_link_open: '<a href="https://find-and-update.company-information.service.gov.uk/company/11733062" rel="noopener" target="_blank">'.html_safe, company_link_close: '</a>'.html_safe, katrina_owen_link: link_to('Katrina Owen', 'https://exercism.github.io/kytrinyx/'), jeremy_walker_link: link_to('Jeremy Walker', 'https://ihid.info/'), erik_schierboom_link: link_to('Erik Schierboom', 'https://erikschierboom.com/'))
     .copyright.md:ml-auto
       = t('.legals.copyright', year: Date.current.year)

@@ -7,8 +7,10 @@ en:
         over a million people. Learn more in our impact report!
       header:
         title: Exercism Impact Report
-        provided_text_prefix: We've provided
-        provided_text_suffix: of free education.
+        provided_text_html: >
+          We've provided %{highlight_open}%{count}%{highlight_close}
+          %{highlight_unit_open}minutes%{highlight_unit_close}
+          of free education.
         daily_minutes_provided: And we provide another ~285,340 minutes every day!
         funding_info: All on a free, open source project funded by people like you.
       stats:

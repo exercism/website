@@ -12,10 +12,7 @@
       = graphical_icon "report", css_class: 'h-[26px] w-[26px] filter-textColor6 mr-16'
       = t('.header.title')
     %h2.text-h0.mb-12.text-center{ class: 'max-w-[800px]' }
-      = t('.header.provided_text_prefix')
-      %strong{ class: 'pl-8 pr-12 font-bold bg-[url(graphics/impact-highlight.svg)] bg-[length:100%_100%] text-textColor1NoDark' } 310,569,762
-      %strong{ class: 'pl-8 pr-8 mr-[-8px] font-bold bg-[url(graphics/impact-highlight.svg)] bg-[length:100%_100%] text-textColor1NoDark' } minutes
-      = t('.header.provided_text_suffix')
+      = t('.header.provided_text_html', count: number_with_delimiter(310_569_762), highlight_open: '<strong class="pl-8 pr-12 font-bold bg-[url(graphics/impact-highlight.svg)] bg-[length:100%_100%] text-textColor1NoDark">'.html_safe, highlight_close: '</strong>'.html_safe, highlight_unit_open: '<strong class="pl-8 pr-8 mr-[-8px] font-bold bg-[url(graphics/impact-highlight.svg)] bg-[length:100%_100%] text-textColor1NoDark">'.html_safe, highlight_unit_close: '</strong>'.html_safe).html_safe
     %p.font-medium.text-textColor6.text-24.leading-160.text-center{ class: 'max-w-[780px]' }
       = t('.header.daily_minutes_provided')
       %br

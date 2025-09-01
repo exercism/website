@@ -53,11 +53,10 @@ en:
             installing_cli_link: Installing the CLI
             cli_walkthrough_link: Interactive CLI Walkthrough
         tracks_section:
-          title: Our programming language tracks
-          add_language_title: Want to add a language track to Exercism?
-          add_language_description: Start a new topic
-          add_language_forum_link: in the forum
-          add_language_discussion_text: and let's discuss it.
+          title: "Our programming language tracks"
+          add_language_title: "Want to add a language track to Exercism?"
+          add_language_description_html: >
+            Start a new topic in the <a href="%{forum_url}">forum</a> and let's discuss it.
         legals:
           company_info_html: "Exercism is a not-for-profit organisation %{company_link_open}registered in the UK%{company_link_close}. Its trustees are %{katrina_owen_link}, %{jeremy_walker_link} and %{erik_schierboom_link}."
       external:

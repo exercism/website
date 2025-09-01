@@ -95,10 +95,7 @@
 
       .col.hidden.md:block.mt-32.xl:mt-0
         %h3.text-h6= t('.tracks_section.add_language_title')
-        %p.text-p-base
-          = t('.tracks_section.add_language_description')
-          = link_to t('.tracks_section.add_language_forum_link'), "https://forum.exercism.org/c/exercism/4"
-          = t('.tracks_section.add_language_discussion_text')
+        %p.text-p-base= t('.tracks_section.add_language_description_html', forum_url: "https://forum.exercism.org/c/exercism/4").html_safe
   %hr
   .legals.mt-24.md:mt-32.mb-32.md:mb-40.flex.md:items-center.flex-col.md:flex-row
     .company.mb-16.md:mb-0.md:mr-32= t('.legals.company_info_html', company_link_open: '<a href="https://find-and-update.company-information.service.gov.uk/company/11733062" rel="noopener" target="_blank">'.html_safe, company_link_close: '</a>'.html_safe, katrina_owen_link: link_to('Katrina Owen', 'https://exercism.github.io/kytrinyx/'), jeremy_walker_link: link_to('Jeremy Walker', 'https://ihid.info/'), erik_schierboom_link: link_to('Erik Schierboom', 'https://erikschierboom.com/'))

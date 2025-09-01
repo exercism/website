@@ -120,9 +120,7 @@
       = icon "gobridge", t('.partners_section.gobridge_alt'), category: :partners, css_class: "gobridge h-[80px]"
       = icon "chicago", t('.partners_section.chicago_alt'), category: :partners, css_class: "chicago h-48"
       = icon "packt", t('.partners_section.packt_alt'), category: :partners, css_class: 'h-48'
-    .text-center.text-18.leading-150.text-textColor6.font-semibold
-      = t('.partners_section.donors_prefix')
-      = link_to t('.partners_section.individual_donors_link'), individual_supporters_about_path, class: 'underline hover:text-lightBlue'
+    .text-center.text-18.leading-150.text-textColor6.font-semibold= t('.partners_section.donors_sentence_html', donors_url: individual_supporters_about_path).html_safe
 
   - num_users_display = number_to_human(Metrics.num_users, units: { million: "M" }, precision: 1, significant: false, format: "%n%u")
   .impact-chart-container.bg-repeat.overflow-hidden{ class: 'bg-[#221E31] bg-[length:90px] bg-[url(photos/chart-bg.jpg)]' }

@@ -55,8 +55,8 @@ en:
         gobridge_alt: GoBridge
         chicago_alt: University of Chicago
         packt_alt: Packt Publishing
-        donors_prefix: And over
-        individual_donors_link: 700 individuals donors!
+        donors_sentence_html: >
+          And over <a href="%{donors_url}" class="underline hover:text-lightBlue">700 individual donors!</a>
       growth_section:
         title: We've grown to over %{num_users} students entirely by word of mouth.
         description:

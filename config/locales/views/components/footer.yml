@@ -60,7 +60,6 @@ en:
           add_language_discussion_text: and let's discuss it.
         legals:
           company_info_html: "Exercism is a not-for-profit organisation %{company_link_open}registered in the UK%{company_link_close}. Its trustees are %{katrina_owen_link}, %{jeremy_walker_link} and %{erik_schierboom_link}."
-          copyright: © %{year} Exercism
       external:
         title: Code practice and mentorship for everyone
         description:

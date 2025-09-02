@@ -11,10 +11,6 @@ en:
         description:
           Partner with us or donate to support our mission to bringing free
           code learning and practice to the world.
-        mozilla_alt: Mozilla
-        packt_alt: Packt Publishing
-        gobridge_alt: GoBridge
-        chicago_alt: University of Chicago
       cta:
         title: Want to discuss how you can help Exercism?
         description: Get in touch with <strong>Jeremy Walker</strong>,
@@ -115,10 +111,6 @@ en:
           description:
             Partner with us or donate to support our mission to bringing free
             code learning and practice to the world.
-          mozilla_alt: Mozilla
-          packt_alt: Packt Publishing
-          gobridge_alt: GoBridge
-          chicago_alt: University of Chicago
         cta:
           title: Want to discuss how you can help Exercism?
           description: Get in touch with <strong>Jeremy Walker</strong>,

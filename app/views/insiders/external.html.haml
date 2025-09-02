@@ -46,6 +46,7 @@
             Exercism is an independent, registered not-for-profit organisation
             (UK #11733062) with a tiny team. All donations are used to run and
             improve the platform.
+
   .gradient-container.py-32
     .sm-container
       %h2.text-center.text-h2= t('.sustainability_section.title')
@@ -119,8 +120,7 @@
       .flex.flex-col.gap-24.mx-auto{ class: "max-w-[940px]" }
         %details{ open: true }
           %summary= t('.faq_section.q1.summary')
-          %p.mb-12
-            = t('.faq_section.q1.p1_html', codebase_link: link_to(t('.faq_section.q1.codebase_link_text'), 'https://github.com/exercism/website/tree/main/app/commands/user/insiders_status/determine_eligibility_status.rb'))
+          %p.mb-12= t('.faq_section.q1.p1_html')
           %p.mb-4= t('.faq_section.q1.p2')
           %ul.mb-16
             %li= t('.faq_section.q1.li1')
@@ -138,13 +138,12 @@
             %li= t('.faq_section.q1.li10')
 
           %p
-            = t('.faq_section.q1.p4_html', forum_link: link_to(t('.faq_section.q1.forum_link_text'), 'https://forum.exercism.org'))
+            = t('.faq_section.q1.p4_html')
             = t('.faq_section.q1.p5')
 
         %details
           %summary= t('.faq_section.q2.summary')
-          %p
-            = t('.faq_section.q2.description_html', forum_link: link_to(t('.faq_section.q2.forum_link_text'), 'https://forum.exercism.org'))
+          %p= t('.faq_section.q2.description_html')
 
         %details
           %summary= t('.faq_section.q3.summary')
@@ -157,5 +156,5 @@
         %details
           %summary= t('.faq_section.q5.summary')
           %p
-            = t('.faq_section.q5.p1_html', docs_link: link_to(t('.faq_section.q5.docs_link_text'), 'https://exercism.org/docs/using/product/reputation#h-acquisition-of-reputation'))
-            = t('.faq_section.q5.p2_html', journey_link: link_to(t('.faq_section.q5.journey_link_text'), journey_path))
+            = t('.faq_section.q5.p1_html')
+            = t('.faq_section.q5.p2_html', journey_path: journey_path)

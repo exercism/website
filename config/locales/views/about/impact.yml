@@ -51,10 +51,6 @@ en:
         support_button: See how you can support us
       partners_section:
         title: A special thanks to these organisations…
-        mozilla_alt: Mozilla
-        gobridge_alt: GoBridge
-        chicago_alt: University of Chicago
-        packt_alt: Packt Publishing
         donors_sentence_html: >
           And over <a href="%{donors_url}" class="underline hover:text-lightBlue">700 individual donors!</a>
       growth_section:

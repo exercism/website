@@ -1,6 +1,0 @@
-en:
-  insiders:
-    paypal_cancelled:
-      title: Exercism Insiders
-      message: Your Paypal payment was cancelled. Please try again.
-      return_link: Return to Insiders

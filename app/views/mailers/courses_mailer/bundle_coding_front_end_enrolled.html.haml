@@ -1,4 +1,8 @@
-%p= t('.greeting', user_handle: @user&.handle || t('.default_user_handle'))
+%p
+  - if @user&.handle.present?
+    = t('.greeting', user_handle: @user.handle)
+  - else
+    = t('.greeting_no_user')
 %p= t('.welcome_message')
 
 - if @user

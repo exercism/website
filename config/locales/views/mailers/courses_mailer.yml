@@ -2,8 +2,8 @@ en:
   mailers:
     courses_mailer:
       front_end_fundamentals_enrolled:
-        default_user_handle: there
         greeting: Hi %{user_handle},
+        greeting_no_user: Hi there,
         welcome_message:
           Thank you so much for choosing Front-End Fundamentals! We're
           really excited to have you on board!
@@ -39,8 +39,8 @@ en:
         reply_prompt: Please reply to this email and say hello!
         closing_thank_you: Thank you again!
       bundle_coding_front_end_enrolled:
-        default_user_handle: there
         greeting: Hi %{user_handle},
+        greeting_no_user: Hi there,
         welcome_message:
           Thank you so much for joining the Exercism Bootcamp! We're so
           excited to have you on board!
@@ -76,8 +76,8 @@ en:
         reply_prompt: Please reply to this email and say hello! 🙂
         closing_thank_you: Thank you again!
       coding_fundamentals_enrolled:
-        default_user_handle: there
         greeting: Hi %{user_handle},
+        greeting_no_user: Hi there,
         welcome_message:
           Thank you so much for choosing Coding Fundamentals! We're so
           excited to have you on board!

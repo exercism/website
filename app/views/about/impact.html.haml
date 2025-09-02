@@ -113,10 +113,10 @@
   .md-container.mb-64
     %h3.text-h3.text-center.mb-16= t('.partners_section.title')
     .logos.flex.items-center.justify-center.flex-wrap.gap-64.mb-24
-      = icon "mozilla", t('.partners_section.mozilla_alt'), category: :partners, css_class: "mozilla h-48 filter-textColor1"
-      = icon "gobridge", t('.partners_section.gobridge_alt'), category: :partners, css_class: "gobridge h-[80px]"
-      = icon "chicago", t('.partners_section.chicago_alt'), category: :partners, css_class: "chicago h-48"
-      = icon "packt", t('.partners_section.packt_alt'), category: :partners, css_class: 'h-48'
+      = icon "mozilla", "Mozilla", category: :partners, css_class: "mozilla h-48 filter-textColor1"
+      = icon "gobridge", "GoBridge", category: :partners, css_class: "gobridge h-[80px]"
+      = icon "chicago", "University of Chicago", category: :partners, css_class: "chicago h-48"
+      = icon "packt", "Packt", category: :partners, css_class: 'h-48'
     .text-center.text-18.leading-150.text-textColor6.font-semibold= t('.partners_section.donors_sentence_html', donors_url: individual_supporters_about_path).html_safe
 
   - num_users_display = number_to_human(Metrics.num_users, units: { million: "M" }, precision: 1, significant: false, format: "%n%u")

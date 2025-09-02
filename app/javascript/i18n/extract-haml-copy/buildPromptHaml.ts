@@ -121,7 +121,7 @@ This allows Rails to automatically handle singular and plural forms based on the
 
 ---
 
-## Important: Preserve full sentences and phrases
+## VERY VERY Important: Preserve full sentences and phrases
 
 Always keep complete sentences or coherent phrases in a **single translation key**, even if the HAML breaks the sentence across multiple tags for styling.
 
@@ -167,6 +167,25 @@ en:
           blend of learning, practice and mentoring. Exercism is fun, effective and
           <strong>100% free, forever.</strong>
 \`\`\`
+
+VERY IMPORTANT!!!!!!!!!!!
+If there is a link, use inline html and preserve full sentences! For example:
+
+
+  Original HAML:  
+   %p.text-p-base
+     Start a new topic
+     = link_to "in the forum", "https://forum.exercism.org/c/exercism/4"
+     and let's discuss it.
+
+  NEW HAML:
+  %p.text-p-base= t('.tracks_section.add_language_description_html', forum_url: "https://forum.exercism.org/c/exercism/4").html_safe
+
+  YML:
+  add_language_description_html: >
+    Start a new topic in the <a href="%{forum_url}">forum</a> and let's discuss it.
+
+
 
 ---
 

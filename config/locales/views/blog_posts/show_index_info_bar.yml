@@ -19,10 +19,6 @@ en:
         title: Community Blog
         description_prefix: Videos and articles from the
         description_link: Exercism community
-        socials:
-          github: GitHub
-          twitter: Twitter
-          youtube: YouTube
       highlighted_post:
         view_more: View More
         read_more: Read more

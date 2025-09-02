@@ -7,8 +7,7 @@ en:
           Can your organisation help Exercism grow? Become rocket fuel for
           our mission!
       header:
-        title: Become <strong>%{rocket_fuel}</strong> for our mission
-        rocket_fuel_text: rocket fuel
+        title: Become <strong>rocket fuel</strong> for our mission
         description:
           Partner with us or donate to support our mission to bringing free
           code learning and practice to the world.
@@ -112,8 +111,7 @@ en:
             Can your organisation help Exercism grow? Become rocket fuel for
             our mission!
         header:
-          title: Become <strong>%{rocket_fuel}</strong> for our mission
-          rocket_fuel_text: rocket fuel
+          title: Become <strong>rocket fuel</strong> for our mission
           description:
             Partner with us or donate to support our mission to bringing free
             code learning and practice to the world.

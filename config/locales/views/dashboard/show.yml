@@ -24,8 +24,8 @@ en:
         title: New on Exercism
       live_event:
         live_now: Live now
-        watch_on: Watch on
-        or: or
+      watch_on_one_html: "Watch on %{twitch_link}"
+      watch_on_both_html: "Watch on %{twitch_link} or %{youtube_link}"
       featured_event:
         coming_soon: Coming soon
         live_at: Live at

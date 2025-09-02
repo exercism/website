@@ -35,10 +35,7 @@
 
           .info
             .next-slot
-              = t('.or_text')
-              = link_to t('.donate_to_exercism_link'), insiders_path, class: 'text-prominentLinkColor font-semibold'
-              = t('.to_unlock_all_slots')
-
+              = t('.donate_to_exercism_html', insiders_path: insiders_path)
               = link_to t('.learn_more_link'), doc_path(:using, "product/reputation"), class: 'font-semibold'
 
   .lg-container.container

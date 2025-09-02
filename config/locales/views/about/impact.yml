@@ -23,8 +23,6 @@ en:
         practicing, and mentoring.
       everything_is_free: Everything on Exercism is 100% free.
       live_activity: Live activity on Exercism
-      social_media:
-        twitter: Twitter
       testimonials:
         dapritchard_html: >-
           %{twitter_handle} is really incredible. My submission was failing its tests…

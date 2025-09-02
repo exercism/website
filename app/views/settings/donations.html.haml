@@ -51,11 +51,11 @@
                 %td
                   - case payment.provider
                   - when :stripe
-                    = t('.payments_table.provider_stripe')
+                    Stripe
                   - when :paypal
-                    = t('.payments_table.provider_paypal')
+                    PayPal
                   - when :github
-                    = t('.payments_table.provider_github')
+                    GitHub
                 %td
                   - if payment.external_receipt_url
                     = link_to payment.external_receipt_url, class: 'btn-enhanced btn-xs' do

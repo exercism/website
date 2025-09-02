@@ -53,6 +53,3 @@ en:
           description_html: Follow us on %{twitter_link}, %{github_link} and
             %{linkedin_link} then share our posts, and create your own! We try
             to share everything we see 🙂
-          twitter: Twitter
-          github: GitHub
-          linkedin: LinkedIn

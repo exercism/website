@@ -21,9 +21,6 @@ en:
         via_header: Via
         recurring_donation: Recurring donation
         one_time_donation: One-time donation
-        provider_stripe: Stripe
-        provider_paypal: PayPal
-        provider_github: GitHub
         view_receipt_button: View Receipt
       no_donations:
         heading: Your donations will appear here

@@ -13,126 +13,103 @@ ${content}
     .join('\n\n')
 
   const instructions = `
-You are given one or more Ruby on Rails view files written in HAML, along with their full file paths (starting from the "views/" directory).
+You are given one or more Ruby on Rails view files written in HAML (under "views/…").
 
-Your job is to **internationalize the user-facing copy** using Rails’ I18n system, saving all user-visible text as **Markdown blocks** in the YAML file. Prefer **one file → one key → one big Markdown block**.
+Your job: **internationalize all user-facing copy** with Rails I18n, saving it as **Markdown** in YAML. **One file → one key → one big Markdown block**.
 
 ---
 
 ## What to do
 
-1. **Extract all user-facing text** (headings, paragraphs, button/link labels, placeholders, etc.).
-   - Preserve full sentences/phrases.
-   - When a sentence contains inline styles or links, merge them into a single **Markdown** string (\`**bold**\`, \`*italic*\`, \`[text](url)\`).
+1) **Extract user-visible text** (headings, paragraphs, labels, placeholders, etc.). Keep **full sentences/phrases**. Merge styled/linked fragments into a single **Markdown** string (\`**bold**\`, \`*italic*\`, \`[text](url)\`).
 
-2. **Replace text in HAML**:
-   - **HTML templates**: wrap with \`Markdown.parse(t('.body_markdown', vars...))\`
-     \`= Markdown.parse(t('.body_markdown', vars...))\`
-   - **TEXT templates**: plain \`= t('.body_markdown', vars...)\` (no parsing).
-   - **Both HTML and TEXT must reference the SAME key** (single source of truth).
+2) **Replace text in HAML**:
+   - **HTML templates** → \`= Markdown.parse(t('.body_markdown', vars...))\`
+   - **TEXT templates** → \`= t('.body_markdown', vars...)\` (no parsing)
+   - **HTML+TEXT pair must reference the SAME key** (\`.body_markdown\`).
 
-3. **Generate a YAML translation file**:
+3) **Generate YAML**:
    - Must start with \`en:\`
-   - Nest keys from the path **after** \`views/\` (use folder names; **ignore filenames**).
-   - Store the extracted content as a **single block scalar** using \`|\`.
+   - Keys nest from the path **after** \`views/\` using folder names (**ignore filenames**).
+   - Store content as a **single block scalar** using \`|\` under the key \`body_markdown\`.
 
-4. **CRITICAL RULE — one key per file (default)**:
-   - Collapse the entire file into one single Markdown string (e.g. \`body_markdown\`).
-   - Do **not** split into greeting/intro/outro/button text keys.
-   - Only split if **absolutely unavoidable** (true pluralization, mutually exclusive branches, or content reused across unrelated emails).
+4) **CRITICAL — one key per file/pair (default)**:
+   - Collapse the entire body into **one** key: \`body_markdown\`.
+   - Do **NOT** split into greeting/intro/outro/button/cta keys.
+   - Only split if **truly unavoidable** (real pluralization or mutually exclusive branches). Otherwise, one key is mandatory.
 
-5. **Buttons and links**
-   - Do **NOT** create separate keys like \`button_text\`.
-   - Represent buttons/links **inside the main Markdown** block as \`[label](%{url})\`.
-   - Remove \`email_button_to "Label", url\` in HAML and rely on the Markdown link rendered by \`Markdown.parse\`.
+5) **Buttons & links**
+   - Do **NOT** create keys like \`button_text\`.
+   - Represent buttons/CTAs as Markdown links **inside** \`body_markdown\`: \`[Label](%{url})\`.
+   - Remove \`email_button_to "Label", url\` and rely on the Markdown link rendered by \`Markdown.parse\`.
 
-6. **YAML Scalar Safety (avoid "Unexpected scalar at node end")**
-   - Use a **block scalar**: \`key: |\\n  <content>\`
-   - **Indent every line** of the Markdown content by **at least two spaces** relative to the key.
-   - **Never outdent** within the block; the block ends only when a **new key** at the same indentation as the key appears.
-   - **Always include a final newline** at the end of the block scalar.
-   - **Lists**: When emitting Markdown lists (\`- item\`, \`1. item\`), **insert a blank line before the list**, and keep list lines at the **same indentation** as the rest of the block content.
-   - **No stray lines after the block**: Do not emit any unindented text after the YAML block; any additional content must be part of the same block (properly indented) or a **new key**.
-   - **Spaces only** (no tabs).
+6) **YAML Scalar Safety (no stray scalars)**
+   - Use a block scalar: \`key: |\\n  <content>\`
+   - **Every single line** inside the block must start with **at least two spaces** relative to the key.
+   - **Never outdent** inside the block; the block ends only when a **new key** appears at the key’s indentation.
+   - **Always end the block with a newline**.
+   - **Lists**: Insert a **blank line before** any Markdown list (\`- item\`, \`1. item\`), and keep list items at the **same 2-space indent** as the rest of the block.
+   - **After a list, keep subsequent paragraphs at the same indent** (still inside the block).
+   - **No lines at column 1** after starting the block unless you are starting a new YAML key.
 
-   **Correct (note indentation & blank line before list):**
+   **Correct (note blank line before list and concluding line still indented):**
    \`\`\`yaml
    body_markdown: |
      Hey!
 
-     I'm excited to let you know you're eligible...
+     Intro paragraph.
 
-     Insiders gives you a few extra benefits:
+     Here are the benefits:
 
-     1. Access to our Dark Mode
-     2. ChatGPT Integration
+     1. First
+     2. Second
 
-     [See the feedback](%{feedback_url})
+     We hope you enjoy this!
    \`\`\`
 
-   **Incorrect (leaks a stray scalar / dedents inside block):**
+   **Incorrect (concluding line leaked outside the block — starts at column 1):**
    \`\`\`yaml
    body_markdown: |
      Hey!
-   [See the feedback](%{feedback_url})   # ❌ dedented, outside block
+
+     Here are the benefits:
+
+     1. First
+     2. Second
+   We hope you enjoy this!   # ❌ dedented, outside the block
    \`\`\`
 
-7. **Pluralization**
-   - If true pluralization is required, use Rails plural forms under one key:
+7) **Pluralization (only if needed)**
+   - Use Rails forms under **one** pluralization key, keeping surrounding prose together when practical:
      \`\`\`yaml
-     items_count:
-       one: "1 item"
-       other: "%{count} items"
+     things_count:
+       one: "1 thing"
+       other: "%{count} things"
      \`\`\`
-   - In HAML: \`= Markdown.parse(t('.items_count', count: count))\`
-   - Keep any surrounding sentence in the same Markdown key **when practical**.
+     HAML: \`= Markdown.parse(t('.things_count', count: count))\`
 
 ---
 
-## Example (HTML + TEXT mailer pair)
-
-**Original**
-
-\`\`\`haml
-# views/mailers/notifications_mailer/student_timed_out_discussion_student.text.haml
-Hi \#{@user.handle},
-New feedback has been added to iteration (\#\#{@iteration.idx})...
-Go to the iteration: \#{track_exercise_iterations_url(@track, @exercise)}
-\`\`\`
-
-\`\`\`haml
-# views/mailers/notifications_mailer/student_timed_out_discussion_student.html.haml
-%p Hi \#{@user.handle},
-%p New feedback has been added to iteration (\#\#{@iteration.idx})...
-= email_button_to "See the feedback", track_exercise_iterations_url(@track, @exercise)
-\`\`\`
+## Example (HTML + TEXT pair)
 
 **Modified HAML**
-
 \`\`\`haml
-# text.haml
+/ text.haml
 = t('.body_markdown',
   user_handle: @user.handle,
-  iteration_idx: @iteration.idx,
-  exercise_title: @exercise.title,
-  track_title: @track.title,
   feedback_url: track_exercise_iterations_url(@track, @exercise)
 )
 
-# html.haml
+/ html.haml
 = Markdown.parse(
     t('.body_markdown',
       user_handle: @user.handle,
-      iteration_idx: @iteration.idx,
-      exercise_title: @exercise.title,
-      track_title: @track.title,
       feedback_url: track_exercise_iterations_url(@track, @exercise)
     )
   )
 \`\`\`
 
 **YAML**
-
 \`\`\`yaml
 en:
   mailers:
@@ -141,20 +118,24 @@ en:
         body_markdown: |
           Hi %{user_handle},
 
-          New feedback has been added to iteration (%{iteration_idx}) of your solution to %{exercise_title} on the %{track_title} track.
+          New feedback has been added to your iteration.
 
           [See the feedback](%{feedback_url})
 \`\`\`
 
 ---
 
-## Output format
+## Output format (strict)
 
-Return exactly two parts in this order:
-
-1. The modified HAML files, each introduced by:
+1) List the **modified HAML files**, each introduced by:
    \`# file: path/to/file.html.haml\`
-2. Then one YAML block starting with \`en:\`, containing all extracted Markdown translations.
+2) Then output **one** YAML block starting with \`en:\`.
+
+**Hard checks before you output** (must all be true):
+- Exactly **one** translation key per file/HTML+TEXT pair: \`body_markdown\`.
+- Inside every \`|\` block, **every line** begins with **≥ 2 spaces**.
+- If you include a list, there is a **blank line before it**, and any **concluding paragraph is still indented** (inside the block).
+- The block scalar **ends with a newline** and there are **no stray lines** at column 1 after it.
 
 No explanations. No extra commentary.
 

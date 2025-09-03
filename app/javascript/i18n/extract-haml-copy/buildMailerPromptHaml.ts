@@ -35,6 +35,8 @@ Your job is to **internationalize the user-facing copy** using Rails’ I18n sys
    - Nest keys based on the path after \`views/\`, using folder names, then dot-separated keys.  
    - **Ignore filenames** when building YAML hierarchy.  
    - Store each extracted string as a **Markdown block** (\`|\` for multi-line).  
+   - **When including Markdown lists inside YAML (like \`- item\` or \`1. item\`), ALWAYS insert a blank line before the list.**  
+     This ensures YAML parsers don’t misinterpret list markers as YAML structure. 
 
 4. **CRITICAL RULE — one key per file**  
    - The **entire file’s content should be collapsed into one single Markdown string**.  
@@ -82,8 +84,9 @@ en:
 
 - Always use Markdown (not inline HTML) inside translation strings.  
 - **Default rule: one file = one key = one big Markdown block.**  
-- Inline Markdown (links, bold, italics) is preferred over splitting into multiple keys.  
+- Inline Markdown (links, bold, italics, lists) is preferred over splitting into multiple keys.  
 - Always render with \`Markdown.parse(t(...))\` in HAML.  
+- **Always insert a blank line before Markdown lists in YAML.**  
 - Ensure all keys are unique.  
 
 ---

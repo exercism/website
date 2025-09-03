@@ -1,1 +1,1 @@
-= t('.body_markdown', user_handle: @user.handle, student_handle: @discussion.student.handle, exercise_title: @exercise.title, track_title: @track.title, mentoring_discussion_url: mentoring_discussion_url(@discussion))
+= t('.body_markdown', user_handle: @user.handle, student_handle: @discussion.student.handle, exercise_title: @exercise.title, track_title: @track.title, discussion_url: mentoring_discussion_url(@discussion)).html_safe

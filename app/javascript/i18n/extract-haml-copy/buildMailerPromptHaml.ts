@@ -1,3 +1,5 @@
+import path from 'path'
+
 export function buildMailerPrompt(
   files: Record<string, string>,
   rootFolder: string
@@ -13,81 +15,99 @@ ${content}
   const instructions = `
 You are given one or more Ruby on Rails view files written in HAML, along with their full file paths (starting from the "views/" directory).
 
-Your job is to **internationalize the user-facing copy** using Rails’ I18n system, saving all user-visible text as **Markdown blocks** in the YAML file.
+Your job is to **internationalize the user-facing copy** using Rails’ I18n system, saving all user-visible text as **Markdown blocks** in the YAML file. Prefer **one file → one key → one big Markdown block**.
 
 ---
 
 ## What to do
 
-1. **Extract all user-facing text** (headings, paragraphs, button/link labels, placeholders, etc.).  
-   - Always preserve full sentences or phrases.  
-   - When a sentence contains inline styles (\`%strong\`, \`%em\`) or links (\`link_to\`), merge them into a single Markdown string.  
-   - Use Markdown formatting (\`**bold**\`, \`*italic*\`, \`[link text](url)\`) inside the translation string.  
+1. **Extract all user-facing text** (headings, paragraphs, button/link labels, placeholders, etc.).
+   - Preserve full sentences/phrases.
+   - When a sentence contains inline styles or links, merge them into a single **Markdown** string (\`**bold**\`, \`*italic*\`, \`[text](url)\`).
 
-2. **Replace the text in the HAML** with calls to translations:  
-   - In **HTML templates**, wrap in \`Markdown.parse(...)\` like this:  
-     \`= Markdown.parse(t('.body_markdown', vars...))\`  
-   - In **TEXT templates**, just call \`= t('.body_markdown', vars...)\` (no parsing).  
-   - Both must point to the **same translation key**.  
+2. **Replace text in HAML**:
+   - **HTML templates**: wrap with \`Markdown.parse(t('.body_markdown', vars...))\`
+     \`= Markdown.parse(t('.body_markdown', vars...))\`
+   - **TEXT templates**: plain \`= t('.body_markdown', vars...)\` (no parsing).
+   - **Both HTML and TEXT must reference the SAME key** (single source of truth).
 
-3. **Generate a YAML translation file**:  
-   - Must start with \`en:\`  
-   - Nest keys based on the path after \`views/\`, using folder names, then dot-separated keys.  
-   - **Ignore filenames** when building YAML hierarchy.  
-   - Store each extracted string as a **Markdown block** (\`|\` for multi-line).  
-   - **When there is both a \`*.text.haml\` and \`*.html.haml\` file with the same content, extract only ONE Markdown key** and reuse it in both files.  
+3. **Generate a YAML translation file**:
+   - Must start with \`en:\`
+   - Nest keys from the path **after** \`views/\` (use folder names; **ignore filenames**).
+   - Store the extracted content as a **single block scalar** using \`|\`.
 
-4. **CRITICAL RULE — one key per file**  
-   - The **entire file’s content should be collapsed into one single Markdown string**.  
-   - Do **not** split into greeting, intro, outro, buttons, etc. — those must all stay inside the same Markdown block.  
-   - Use inline Markdown links or bold text to keep everything in one key.  
-   - Only split into multiple keys if **absolutely unavoidable** (e.g. pluralization, dynamic conditionals, or reusable buttons across multiple unrelated emails).  
+4. **CRITICAL RULE — one key per file (default)**:
+   - Collapse the entire file into one single Markdown string (e.g. \`body_markdown\`).
+   - Do **not** split into greeting/intro/outro/button text keys.
+   - Only split if **absolutely unavoidable** (true pluralization, mutually exclusive branches, or content reused across unrelated emails).
 
-5. **YAML list safety**  
-   - If the Markdown contains a list (numbered or bulleted), **always insert a blank line before the list** so it parses correctly as YAML.  
-  6. **Buttons and links**
-   - Do NOT create a separate YAML key for button labels (e.g. \`button_text\`).
-   - All buttons or links must be represented inside the main Markdown block as \`[link text](%{url})\`.
-   - In the HAML, remove \`email_button_to "Text", url\` and instead rely on \`Markdown.parse(t(...))\` rendering the Markdown link.
-   - Example:
+5. **Buttons and links**
+   - Do **NOT** create separate keys like \`button_text\`.
+   - Represent buttons/links **inside the main Markdown** block as \`[label](%{url})\`.
+   - Remove \`email_button_to "Label", url\` in HAML and rely on the Markdown link rendered by \`Markdown.parse\`.
 
-     Original HAML:
-     \`\`\`haml
-     = email_button_to "See the feedback", track_exercise_iterations_url(@track, @exercise)
-     \`\`\`
+6. **YAML Scalar Safety (avoid "Unexpected scalar at node end")**
+   - Use a **block scalar**: \`key: |\\n  <content>\`
+   - **Indent every line** of the Markdown content by **at least two spaces** relative to the key.
+   - **Never outdent** within the block; the block ends only when a **new key** at the same indentation as the key appears.
+   - **Always include a final newline** at the end of the block scalar.
+   - **Lists**: When emitting Markdown lists (\`- item\`, \`1. item\`), **insert a blank line before the list**, and keep list lines at the **same indentation** as the rest of the block content.
+   - **No stray lines after the block**: Do not emit any unindented text after the YAML block; any additional content must be part of the same block (properly indented) or a **new key**.
+   - **Spaces only** (no tabs).
 
-     Modified HAML:
-     \`\`\`haml
-     = Markdown.parse(t('.body_markdown', feedback_url: track_exercise_iterations_url(@track, @exercise)))
-     \`\`\`
+   **Correct (note indentation & blank line before list):**
+   \`\`\`yaml
+   body_markdown: |
+     Hey!
 
-     YAML:
+     I'm excited to let you know you're eligible...
+
+     Insiders gives you a few extra benefits:
+
+     1. Access to our Dark Mode
+     2. ChatGPT Integration
+
+     [See the feedback](%{feedback_url})
+   \`\`\`
+
+   **Incorrect (leaks a stray scalar / dedents inside block):**
+   \`\`\`yaml
+   body_markdown: |
+     Hey!
+   [See the feedback](%{feedback_url})   # ❌ dedented, outside block
+   \`\`\`
+
+7. **Pluralization**
+   - If true pluralization is required, use Rails plural forms under one key:
      \`\`\`yaml
-     body_markdown: |
-       [See the feedback](%{feedback_url})
+     items_count:
+       one: "1 item"
+       other: "%{count} items"
      \`\`\`
+   - In HAML: \`= Markdown.parse(t('.items_count', count: count))\`
+   - Keep any surrounding sentence in the same Markdown key **when practical**.
 
 ---
 
 ## Example (HTML + TEXT mailer pair)
 
-Original files:
+**Original**
 
 \`\`\`haml
 # views/mailers/notifications_mailer/student_timed_out_discussion_student.text.haml
 Hi \#{@user.handle},
-New feedback has been added to iteration (\#\#{@iteration.idx}) of your solution to \#{@exercise.title} on the \#{@track.title} track.
+New feedback has been added to iteration (\#\#{@iteration.idx})...
 Go to the iteration: \#{track_exercise_iterations_url(@track, @exercise)}
 \`\`\`
 
 \`\`\`haml
 # views/mailers/notifications_mailer/student_timed_out_discussion_student.html.haml
 %p Hi \#{@user.handle},
-%p New feedback has been added to iteration (\#\#{@iteration.idx}) of your solution to \#{@exercise.title} on the \#{@track.title} track.
+%p New feedback has been added to iteration (\#\#{@iteration.idx})...
 = email_button_to "See the feedback", track_exercise_iterations_url(@track, @exercise)
 \`\`\`
 
-Modified HAML:
+**Modified HAML**
 
 \`\`\`haml
 # text.haml
@@ -111,7 +131,7 @@ Modified HAML:
   )
 \`\`\`
 
-YAML:
+**YAML**
 
 \`\`\`yaml
 en:
@@ -128,17 +148,6 @@ en:
 
 ---
 
-## Summary Rules
-
-- Always use Markdown (not inline HTML) inside translation strings.  
-- **Default rule: one file = one key = one big Markdown block.**  
-- When both HTML + TEXT versions exist, **reuse the same Markdown key**.  
-- HTML uses \`Markdown.parse(t(...))\`, TEXT uses \`t(...)\`.  
-- Always insert a blank line before Markdown lists in YAML.  
-- Ensure all keys are unique.  
-
----
-
 ## Output format
 
 Return exactly two parts in this order:
@@ -150,7 +159,6 @@ Return exactly two parts in this order:
 No explanations. No extra commentary.
 
 ---
-
 `.trim()
 
   return `${instructions}\n\n${fileSections}`

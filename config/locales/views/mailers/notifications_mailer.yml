@@ -157,7 +157,7 @@ en:
         Congratulations! You've unlocked a new badge at Exercism.
         Visit your Exercism Journey page to see what you earned.
 
-        Reveal it here: %{journey_url}
+        [Show me what I unlocked!](%{journey_url})
     onboarding_community:
       body_markdown: >
         Hello there!
@@ -493,36 +493,32 @@ en:
 
         [Go to the discussion](%{track_exercise_mentor_discussion_url})
     joined_lifetime_insiders:
-      body_markdown: >
+      body_markdown: |
         Hey!
 
+        Welcome to [Exercism Insiders](%{insiders_url})!  
+        Thank you for being part of our story and helping make Exercism the huge success that it is.  
+        As a **Lifetime Insider**, you're one of the few people who have had a huge impact on the platform and shaped it into what it is today.  
+        You've helped thousands of people and made a huge difference – thank you.  
+        Insiders is a tiny way of us saying thank you for all you've done.
 
-        Welcome to Exercism Insiders (%{exercism_insiders_url})!
+        To learn about what's in Insiders, please check out the dedicated page, or watch our introductory video below 👇
 
-        Thank you for being part of our story and helping making Exercism the
-        huge success that it is. Insiders is a small way of us saying thank
-        you for your support.
+        <p style="margin-bottom: 24px">
+          <a href="%{youtube_video_url}" style="display:block; box-shadow: 0px 2px 4px #0F0923">
+            <img src="%{youtube_thumbnail_url}" style="width:100%; display:block" />
+          </a>
+        </p>
 
+        I'd love to hear all your thoughts and ideas on our dedicated [#insiders channel on Discord](%{discord_channel_url}).  
+        So come along and say hello!
 
-        To learn about what's in Insiders, please check out the dedicated
-        page, or watch our introductory vlog: %{intro_vlog_url}
+        Thanks again for being part of Exercism. I'm excited for what's next! 🙂
 
+        Jeremy Walker  
+        Exercism’s Co-founder & CEO
 
-        I'd love to hear all your thoughts and ideas on our dedicated
-        #insiders channel on Discord (%{discord_channel_url}). So come along
-        and say hello!
-
-
-        Thanks for being part of our journey. I'm excited for what comes next
-        🙂
-
-
-        Jeremy Walker
-
-        Exercism Co-founder & CEO
-
-
-        Visit Exercism: %{root_url}
+        [Visit Exercism](%{root_url})
     student_replied_to_discussion:
       body_markdown: >
         Hi %{user_handle},

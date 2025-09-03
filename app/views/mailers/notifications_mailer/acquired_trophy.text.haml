@@ -1,5 +1,6 @@
-= t('.greeting', user_handle: @user.handle)
+Hi #{@user.handle},
 \
-= t('.congratulations_message', track_title: @track.title)
+Congratulations! You've unlocked a new trophy on the #{@track.title} Track.
+Visit the #{@track.title} track page and check the trophy cabinet to see what you earned.
 \
-= t('.reveal_link', track_url: track_url(@track, anchor: 'trophy-cabinet'))
+Reveal it here: #{track_url(@track, anchor: 'trophy-cabinet')}

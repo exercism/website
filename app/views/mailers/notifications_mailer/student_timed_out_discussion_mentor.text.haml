@@ -1,5 +1,5 @@
-= t('.greeting', user_handle: @user.handle)
+Hi #{@user.handle},
 \
-= t('.timeout_message', student_handle: @discussion.student.handle, exercise_title: @exercise.title, track_title: @track.title)
+The discussion with your student (#{@discussion.student.handle}) on their solution to #{@exercise.title} on the #{@track.title} track has timed out.
 \
-= t('.go_to_discussion_link', discussion_url: mentoring_discussion_url(@discussion))
+Go to the discussion: #{mentoring_discussion_url(@discussion)}

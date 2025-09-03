@@ -1,5 +1,5 @@
-= t('.greeting', user_handle: @user.handle)
+Hi #{@user.handle},
 \
-= t('.notification_message', student_handle: @discussion.student.handle, iteration_idx: @iteration.idx, exercise_title: @exercise.title, track_title: @track.title)
+Your student (#{@discussion.student.handle}) has submitted a new iteration (##{@iteration.idx}) on your discussion about #{@exercise.title} on the #{@track.title} track.
 \
-= t('.go_to_discussion_link', discussion_url: mentoring_discussion_url(@discussion))
+Go to the discussion: #{mentoring_discussion_url(@discussion)}

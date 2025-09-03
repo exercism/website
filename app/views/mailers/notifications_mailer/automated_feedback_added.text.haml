@@ -1,5 +1,5 @@
-= t('.greeting', user_handle: @user.handle)
+Hi #{@user.handle},
 \
-= t('.feedback_message', iteration_idx: @iteration.idx, exercise_title: @exercise.title, track_title: @track.title, emphasis: @emphasis)
+New feedback has been added to iteration (##{@iteration.idx}) of your solution to #{@exercise.title} on the #{@track.title} track. We #{@emphasis}recommend taking a look and seeing how you can improve your solution!
 \
-= t('.go_to_iteration_link', iterations_url: track_exercise_iterations_url(@track, @exercise))
+Go to the iteration: #{track_exercise_iterations_url(@track, @exercise)}

@@ -1,6 +1,6 @@
-%p= t('.greeting', user_handle: @user.handle)
+%p Hi #{@user.handle},
 %p
-  = t('.congratulations', track_title: @track.title)
+  Congratulations! You've unlocked a new trophy on the #{@track.title} track.
   %br
-  = t('.visit_page', track_title: @track.title)
-= email_button_to t('.button_text'), track_url(@track, anchor: "trophy-cabinet")
+  Visit the #{@track.title} track page and check the trophy cabinet to see what you earned.
+= email_button_to "Show me what I unlocked!", track_url(@track, anchor: "trophy-cabinet")

@@ -1,9 +1,9 @@
-= t('.greeting', user_handle: @user.handle)
+Hi #{@user.handle},
 \
-= t('.nudge_message', student_handle: @discussion.student.handle, num_days_waiting: @num_days_waiting, exercise_title: @exercise.title, track_title: @track.title)
+This is a friendly reminder that your student (#{@discussion.student.handle}) has been waiting #{@num_days_waiting} days for you to reply in the discussion on their solution to #{@exercise.title} on the #{@track.title} track.
 \
-= t('.waiting_on_student_message')
+If it's not your turn and you're waiting on the student, please use the "It's the student's turn…" button in the mentoring UI.
 \
-= t('.timeout_warning', num_days_to_time_out: @num_days_to_time_out)
+The discussion will time out in #{@num_days_to_time_out} days if you do not reply.
 \
-= t('.discussion_link', discussion_url: mentoring_discussion_url(@discussion))
+Go to the discussion: #{mentoring_discussion_url(@discussion)}

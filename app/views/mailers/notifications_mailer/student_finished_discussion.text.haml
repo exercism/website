@@ -1,5 +1,5 @@
-= t('.greeting', user_handle: @user.handle)
+Hi #{@user.handle},
 \
-= t('.discussion_finished_message', student_handle: @discussion.student.handle, exercise_title: @exercise.title, track_title: @track.title)
+Your student (#{@discussion.student.handle}) has finished the discussion you are mentoring for #{@exercise.title} on the #{@track.title} track.
 \
-= t('.discussion_link', discussion_url: mentoring_discussion_url(@discussion))
+Go to the discussion: #{mentoring_discussion_url(@discussion)}

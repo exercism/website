@@ -1,5 +1,1 @@
-%p Hi #{@user.handle},
-%p Your student (#{@discussion.student.handle}) has finished the discussion you are mentoring for #{@exercise.title} on the #{@track.title} track.
-
-= email_button_to "Go to the discussion", mentoring_discussion_url(@discussion)
-
+= Markdown.parse(t('.body_markdown', user_handle: @user.handle, student_handle: @discussion.student.handle, exercise_title: @exercise.title, track_title: @track.title, discussion_url: mentoring_discussion_url(@discussion)))

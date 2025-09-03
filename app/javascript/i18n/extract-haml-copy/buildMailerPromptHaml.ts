@@ -43,7 +43,19 @@ Your job: **internationalize all user-facing copy** with Rails I18n, saving it a
    - Represent buttons/CTAs as Markdown links **inside** \`body_markdown\`: \`[Label](%{url})\`.
    - Remove \`email_button_to "Label", url\` and rely on the Markdown link rendered by \`Markdown.parse\`.
 
-6) **YAML Scalar Safety (no stray scalars)**
+6) **Complex styling (IMPORTANT)**
+   - **Do not change or simplify the styling.**
+   - If an element has inline styles, complex layout, or requires attributes (e.g. thumbnail images, styled anchors), **preserve the original HTML directly inside the Markdown block**.
+   - Example:
+     \`\`\`markdown
+     <p style="margin-bottom: 24px">
+       <a href="%{youtube_video_url}" style="display:block; box-shadow: 0px 2px 4px #0F0923">
+         <img src="%{youtube_thumbnail_url}" style="width:100%; display:block" />
+       </a>
+     </p>
+     \`\`\`
+
+7) **YAML Scalar Safety (no stray scalars)**
    - Use a block scalar: \`key: |\\n  <content>\`
    - **Every single line** inside the block must start with **at least two spaces** relative to the key.
    - **Never outdent** inside the block; the block ends only when a **new key** appears at the key’s indentation.
@@ -79,7 +91,7 @@ Your job: **internationalize all user-facing copy** with Rails I18n, saving it a
    We hope you enjoy this!   # ❌ dedented, outside the block
    \`\`\`
 
-7) **Pluralization (only if needed)**
+8) **Pluralization (only if needed)**
    - Use Rails forms under **one** pluralization key, keeping surrounding prose together when practical:
      \`\`\`yaml
      things_count:
@@ -87,6 +99,8 @@ Your job: **internationalize all user-facing copy** with Rails I18n, saving it a
        other: "%{count} things"
      \`\`\`
      HAML: \`= Markdown.parse(t('.things_count', count: count))\`
+
+  MOST IMPORTANT: NEVER CHANGE CONTENT! NEVER! NEVER CHANGE BUTTON TEXT!!!!!!!!
 
 ---
 
@@ -136,6 +150,8 @@ en:
 - Inside every \`|\` block, **every line** begins with **≥ 2 spaces**.
 - If you include a list, there is a **blank line before it**, and any **concluding paragraph is still indented** (inside the block).
 - The block scalar **ends with a newline** and there are **no stray lines** at column 1 after it.
+- You must not rewrite or simplify the content.  
+- Where inline styling or HTML structure is present, preserve it **verbatim inside the Markdown block**.
 
 No explanations. No extra commentary.
 

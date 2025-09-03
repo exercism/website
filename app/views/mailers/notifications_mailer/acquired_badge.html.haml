@@ -1,1 +1,1 @@
-= Markdown.parse(t('.body_markdown', user_handle: @user.handle, badges_journey_url: badges_journey_url))
+= raw Markdown::Parse.(t('.body_markdown', user_handle: @user.handle, badges_journey_url: badges_journey_url))

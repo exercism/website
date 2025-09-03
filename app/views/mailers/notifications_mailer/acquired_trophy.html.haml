@@ -1,1 +1,1 @@
-= Markdown.parse(t('.body_markdown', user_handle: @user.handle, track_title: @track.title, track_url: track_url(@track, anchor: "trophy-cabinet")))
+= raw Markdown::Parse.(t('.body_markdown', user_handle: @user.handle, track_title: @track.title, track_url: track_url(@track, anchor: "trophy-cabinet")))

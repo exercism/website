@@ -1,1 +1,1 @@
-= Markdown.parse(t('.body_markdown', user_handle: @user.handle, iteration_idx: @iteration.idx, exercise_title: @exercise.title, track_title: @track.title, emphasis: @emphasis, feedback_url: track_exercise_iterations_url(@track, @exercise)))
+= raw Markdown::Parse.(t('.body_markdown', user_handle: @user.handle, iteration_idx: @iteration.idx, exercise_title: @exercise.title, track_title: @track.title, emphasis: @emphasis, feedback_url: track_exercise_iterations_url(@track, @exercise)))

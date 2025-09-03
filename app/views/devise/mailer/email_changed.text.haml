@@ -1,10 +1,1 @@
-Hey @#{@user.handle},
-\
-- if @resource.try(:unconfirmed_email?)
-  We're contacting you to notify you that your email is being changed to #{@resource.unconfirmed_email}.
-  You'll get a confirmation email to your new address to complete the process.
-  \
-  If you haven't started this process, please email us at support@exercism.io immediately.
-- else
-  We're contacting you to notify you that your email has been changed to #{@resource.email}.
-
+= t('.body_markdown', user_handle: @user.handle, unconfirmed_email: @resource.try(:unconfirmed_email?), resource_unconfirmed_email: @resource.unconfirmed_email, resource_email: @resource.email).html_safe

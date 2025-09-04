@@ -74,11 +74,10 @@
           %h3.text-h4= @live_event.title
           %p.text-p-base.mb-12
             = @live_event.description
-            = t('.live_event.watch_on')
-            = link_to "Twitch", "https://www.twitch.tv/exercismlive"
-            - if @live_event.youtube?
-              = t('.live_event.or')
-              = link_to "YouTube", "https://www.youtube.com/watch?v=#{@live_event.youtube_id}"
+            - if live_event.youtube?
+              = t('.watch_on_both_html', twitch_link: link_to("Twitch", twitch_url), youtube_link: link_to("YouTube", youtube_url)).html_safe
+            - else
+              = t('.watch_on_one_html', twitch_link: link_to("Twitch", twitch_url)).html_safe
             👇🏽
 
           .rounded-8.shadow-baseZ1.w-fill.overflow-hidden
@@ -109,9 +108,7 @@
         .mb-24
           %h2.text-h4.mb-4= t('.scheduled_events.title')
           %p.text-p-base.mb-12
-            = t('.scheduled_events.description')
-            = link_to t('.scheduled_events.twitch_channel'), 'https://twitch.tv/exercismlive', class: 'underline'
-            = t('.scheduled_events.subscribe_message')
+            = t('.scheduled_events.full_message_html', twitch_channel_link: link_to(t('.scheduled_events.twitch_channel'), 'https://twitch.tv/exercismlive', class: 'underline'))
             %strong.font-semibold= t('.scheduled_events.all_times_utc')
 
           %ul.text-p-base.list-disc.pl-16

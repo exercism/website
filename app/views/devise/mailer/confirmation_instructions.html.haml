@@ -1,3 +1,1 @@
-%p= t('.welcome_message')
-%p= t('.confirmation_message')
-= email_button_to t('.confirm_account_button'), confirmation_url(@resource, confirmation_token: @token)
+= raw Markdown::Parse.(t('.body_markdown', confirmation_url: confirmation_url(@resource, confirmation_token: @token)))

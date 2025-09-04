@@ -1,14 +1,1 @@
-= t('.greeting')
-\
-= t('.access_expired_message')
-\
-= t('.thanks_for_support_message')
-\
-= t('.continue_support_message', insiders_page_link: 'https://exercism.org/insiders')
-\
-= t('.farewell')
-\
-= t('.signature_name')
-= t('.signature_title')
-\
-= t('.visit_exercism_link', root_url: root_url)
+= t('.body_markdown', insiders_url: 'https://exercism.org/insiders', root_url: root_url).html_safe

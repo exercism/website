@@ -1,9 +1,1 @@
-%p= t('.greeting', user_handle: @user.handle)
-
-%p= t('.nudge_message_html', student_handle: @discussion.student.handle, num_days_waiting: @num_days_waiting, discussion_link: link_to(t('.discussion_link_text'), mentoring_discussion_url(@discussion)), exercise_title: @exercise.title, track_title: @track.title).html_safe
-
-%p= t('.waiting_on_student_message')
-
-%p= t('.timeout_warning', num_days_to_time_out: @num_days_to_time_out)
-
-= email_button_to t('.button_text'), mentoring_discussion_url(@discussion)
+= raw Markdown::Parse.(t('.body_markdown', user_handle: @user.handle, student_handle: @discussion.student.handle, num_days_waiting: @num_days_waiting, discussion_url: mentoring_discussion_url(@discussion), exercise_title: @exercise.title, track_title: @track.title, num_days_to_time_out: @num_days_to_time_out))

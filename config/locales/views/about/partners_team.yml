@@ -47,8 +47,6 @@ en:
           contributions from thousands of individuals. Beyond these
           contributions to our product, tens of thousands of members of our
           community have contributed by giving feedback and help to others.
-      github_link: GitHub
-      twitter_link: Twitter
       leadership_team:
         title: Leadership Team
         description:
@@ -57,7 +55,6 @@ en:
           and maintaining our values.
         katrina_owen:
           image_alt: An image of Katrina
-          name: Katrina Owen
           handle: Co-founder & Director
           bio_html: >-
             Katrina is the original creator of Exercism. She is co-author of
@@ -68,14 +65,12 @@ en:
           personal_site_link: Katrina's Personal Site
         jeremy_walker:
           image_alt: An image of Jeremy Walker
-          name: Jeremy Walker
           handle: Co-founder & CEO
           bio_html: >-
             Jeremy is an entrepreneur and software developer, who's passionate about
             equality and opportunity. He has co-founded various organisations,
             including Meducation, Wondr Medical, and %{kaido_link}, and holds a
             patent for AI used in heart surgery.
-          kaido_link_text: Kaido
           personal_site_link: Jeremy's Personal Site
       staff_team:
         title: Staff
@@ -85,7 +80,6 @@ en:
           everyone using Exercism.
         erik_schierboom:
           image_alt: An image of Erik Schierboom
-          name: Erik Schierboom
           handle: Head of Open Source
           bio_html: >-
             Erik is a polyglot developer who loves learning new languages. He builds
@@ -95,7 +89,6 @@ en:
           personal_site_link: Erik's personal site
         aron_demeter:
           image_alt: An image of Aron Demeter
-          name: Áron Demeter
           handle: Front-end Developer
           bio_html: >-
             Áron is a self-taught developer who gets excited about discovering
@@ -109,15 +102,12 @@ en:
           moved onto new adventures. Their legacies are gratefully remembered!
         nicole_chalmers:
           image_alt: An image of Nicole Chalmers
-          name: Nicole Chalmers
           bio_html: >-
             Nicole is the Head of Product at %{kaido_link}. She spent two years as Head
             of Product for Exercism, guiding us from v1 to v2, and helping set
             the principles and ideas that still drive Exercism today.
-          kaido_link_text: Kaido
         charles_care:
           image_alt: An image of Charles Care
-          name: Charles Care
           bio:
             Charles was part of the team that built Exercism v2, working specifically
             on the server-side code and infrastructure. He helped build out the
@@ -125,20 +115,17 @@ en:
             integration.
         karlo_soriano:
           image_alt: An image of Karlo Soriano
-          name: Karlo Soriano
           bio:
             Karlo worked on the website part of Exercism. He created most of the
             website's interactive frontend for v3, and contributed to much of
             the Rails backend platform.
         taiyab_raja:
           image_alt: An image of Taiyab Raja
-          name: Taiyab Raja
           bio:
             Taiyab is designer behind the beautiful visuals and UX of Exercism v3. He
             enjoys all things startups, design and entrepreneurship.
         loretta_murray:
           image_alt: An image of Loretta Murray
-          name: Loretta Murray
           bio:
             Loretta was Exercism's Head of Fundraising during 2022-2023. She's
             motivated by the transformational power of fundraising and is a
@@ -146,7 +133,6 @@ en:
             fundraisers' skills.
         jonathan_middleton:
           image_alt: An image of Jonathan Middleton
-          name: Jonathan Middleton
           bio:
             Jonathan was Exercism's Community Manager during 2022-2023. He loves
             connecting with people and hearing stories of how people are where

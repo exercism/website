@@ -1,5 +1,1 @@
-%p= t('.greeting', user_handle: @user.handle)
-
-%p= t('.timeout_message', student_handle: @discussion.student.handle, exercise_title: @exercise.title, track_title: @track.title)
-
-= email_button_to t('.button_text'), mentoring_discussion_url(@discussion)
+= raw Markdown::Parse.(t('.body_markdown', user_handle: @user.handle, student_handle: @discussion.student.handle, exercise_title: @exercise.title, track_title: @track.title, discussion_url: mentoring_discussion_url(@discussion)))

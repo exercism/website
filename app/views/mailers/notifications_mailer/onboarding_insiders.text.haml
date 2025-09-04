@@ -1,17 +1,1 @@
-= t('.greeting')
-\
-= t('.intro_message', exercism_link: 'Exercism')
-\
-= t('.donations_reliance_message')
-= t('.video_link', insiders_url: 'https://exercism.org/insiders')
-\
-= t('.support_request_message')
-\
-= t('.community_support_message')
-\
-= t('.closing_thanks')
-\
-= t('.best_regards')
-\
-= t('.signature_name')
-= t('.signature_title')
+= t('.body_markdown', video_url: "https://exercism.org/insiders", video_thumbnail_url: "https://assets.exercism.org/images/thumbnails/why-donate-to-exercise-with-play-icon.jpg", root_url: root_url).html_safe

@@ -7,8 +7,10 @@ en:
         over a million people. Learn more in our impact report!
       header:
         title: Exercism Impact Report
-        provided_text_prefix: We've provided
-        provided_text_suffix: of free education.
+        provided_text_html: >
+          We've provided %{highlight_open}%{count}%{highlight_close}
+          %{highlight_unit_open}minutes%{highlight_unit_close}
+          of free education.
         daily_minutes_provided: And we provide another ~285,340 minutes every day!
         funding_info: All on a free, open source project funded by people like you.
       stats:
@@ -21,8 +23,6 @@ en:
         practicing, and mentoring.
       everything_is_free: Everything on Exercism is 100% free.
       live_activity: Live activity on Exercism
-      social_media:
-        twitter: Twitter
       testimonials:
         dapritchard_html: >-
           %{twitter_handle} is really incredible. My submission was failing its tests…
@@ -51,12 +51,8 @@ en:
         support_button: See how you can support us
       partners_section:
         title: A special thanks to these organisations…
-        mozilla_alt: Mozilla
-        gobridge_alt: GoBridge
-        chicago_alt: University of Chicago
-        packt_alt: Packt Publishing
-        donors_prefix: And over
-        individual_donors_link: 700 individuals donors!
+        donors_sentence_html: >
+          And over <a href="%{donors_url}" class="underline hover:text-lightBlue">700 individual donors!</a>
       growth_section:
         title: We've grown to over %{num_users} students entirely by word of mouth.
         description:

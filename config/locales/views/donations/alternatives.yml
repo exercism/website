@@ -2,9 +2,10 @@ en:
   donations:
     alternatives:
       heading: Looking for another payment provider?
-      text_html: We currently support Paypal and GitHub Sponsors as alternative
-        payment providers. Please contact %{link_to_jeremy} if there is another
-        provider you feel we should add.
+      text_html: >
+        We currently support Paypal and GitHub Sponsors as alternative
+        payment providers. Please contact <a href="%{jeremy_url}">Jeremy</a>
+        if there is another provider you feel we should add.
       jeremy: Jeremy
       paypal_button: Donate with Paypal
       github_sponsors_button: Donate via GitHub Sponsors

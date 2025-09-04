@@ -14,13 +14,13 @@
       .socials.flex.items-center.md:ml-24
         = link_to "https://github.com/exercism", class: 'c-social-icon' do
           = graphical_icon 'external-site-github', css_class: 'filter-textColor1'
-          = t('.header.socials.github')
+          GitHub
         = link_to "https://twitter.com/exercism_io", class: 'c-social-icon twitter' do
           = graphical_icon 'external-site-twitter'
-          = t('.header.socials.twitter')
+          Twitter
         = link_to "https://www.youtube.com/c/Exercism-videos", class: 'c-social-icon' do
           = graphical_icon 'external-site-youtube'
-          = t('.header.socials.youtube')
+          YouTube
 
   .lg-container
     - main_post = @posts.first

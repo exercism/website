@@ -1,19 +1,20 @@
-%p= t('.greeting', user_handle: @user&.handle || t('.default_user_handle'))
-%p= t('.welcome_message')
+%p Hi #{@user&.handle || "there"},
+%p Thank you so much for joining the Exercism Bootcamp! We're so excited to have you on board!
 
 - if @user
   %p
-    = t('.account_access_message_html', bootcamp_dashboard_link: link_to("https://exercism.org/bootcamp/dashboard", bootcamp_dashboard_url))
-- else
+    Your Exercism account has been granted access to the Bootcamp.
+    You can access it here: #{link_to "https://exercism.org/bootcamp/dashboard", bootcamp_dashboard_url} (you might want to bookmark this link!)
+-else
   %p
-    %strong= t('.unlogged_in_warning')
-    = t('.create_account_prompt_html', create_account_link: link_to(t('.create_account_link_text'), 'https://exercism.org/users/sign_up', class: 'text-primary-blue font-semibold'), enrollment_email: @enrollment.email)
+    %strong As you were not logged into your Exercism account when purchasing the course, we need to connect things up for you.
+    The easiest way is to #{link_to 'create an exercism account', 'https://exercism.org/users/sign_up', class: 'text-primary-blue font-semibold'} with the email address #{@enrollment.email}. That will automatically give you access.
   %p
-    = t('.different_email_prompt', enrollment_email: @enrollment.email)
+    If you create your account with a different email address, please reply to this email with your Exercism username/handle and the email address you've enrolled with (#{@enrollment.email}) and we'll give you access manually.
 
-%p= t('.discord_invitation_html', discord_server_link: link_to(t('.discord_server_link_text'), "https://exercism.org/r/discord"), integrations_link: link_to(t('.integrations_link_text'), "https://exercism.org/settings/integrations"))
+%p We'd love you to join our #{link_to "Discord server", "https://exercism.org/r/discord"} and say hello. Becoming part of the community is a great way to keep motivated when things feel tough! Connect your Exercism and Discord accounts #{link_to "here", "https://exercism.org/settings/integrations"} and then you should be able to see the #bootcamp channel. Any problems, just post in the public #bootcamp-onboarding channel and someone will help you out!
 
 %p
-  = t('.connect_message')
-  %strong= t('.reply_prompt')
-%p= t('.closing_thank_you')
+  Finally, it would be great to connect and I'd love to hear about your goals with coding, and why you chose the course.
+  %strong Please reply to this email and say hello! 🙂
+%p Thank you again!

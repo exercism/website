@@ -1,8 +1,1 @@
-%p= t('.greeting', user_handle: @user.handle)
-%p= t('.completion_message')
-%p
-  = t('.feedback_value')
-%p
-  = t('.action_prompt')
-
-= email_button_to t('.button_html'), @notification.url
+= raw Markdown::Parse.(t('.body_markdown', user_handle: @user.handle, notification_url: @notification.url))

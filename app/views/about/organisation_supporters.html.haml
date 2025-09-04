@@ -9,20 +9,20 @@
   %header.pb-56.c-header-with-bg
     .md-container.flex.flex-col.items-center.c-shapes.c-shapes-1.text-center
       = graphical_icon "rocket", category: "graphics", css_class: "rocket mb-8"
-      %h1.text-h0.mb-16= raw t('.header.title', rocket_fuel: t('.header.rocket_fuel_text'))
+      %h1.text-h0.mb-16= raw t('.header.title')
       %p.text-p-2xlarge.text-textColor6.font-medium.mb-32= t('.header.description')
       .logos.flex.items-center.justify-center.flex-wrap.mb-44
-        = icon "mozilla", t('.header.mozilla_alt'), category: :partners, css_class: "mozilla"
-        = icon "packt", t('.header.packt_alt'), category: :partners, css_class: "packt"
-        = icon "gobridge", t('.header.gobridge_alt'), category: :partners, css_class: "gobridge"
-        = icon "chicago", t('.header.chicago_alt'), category: :partners, css_class: "chicago"
+        = icon "mozilla", "Mozilla", category: :partners, css_class: "mozilla"
+        = icon "packt", "Packt", category: :partners, css_class: "packt"
+        = icon "gobridge", "GoBridge", category: :partners, css_class: "gobridge"
+        = icon "chicago", "University of Chicago", category: :partners, css_class: "chicago"
 
   .md-container.mb-48
     .cta.top-cta.flex.flex-col.lg:flex-row.lg:items-center.border-gradient.py-24.px-24.lg:px-40
       = image_tag "team/jeremy-walker.jpg", alt: "Photo of Jeremy Walker", class: 'mb-12 md:mb-0 md:mr-24 rounded-100'
       .text
         %h2.text-h4.mb-4= t('.cta.title')
-        %p.text-p-large= raw t('.cta.description', jeremy_walker_name: t('.cta.jeremy_walker_name_text'))
+        %p.text-p-large= raw t('.cta.description')
 
       = link_to "mailto:jeremy@exercism.org", class: 'btn-primary btn-m mt-16 lg:mt-0 lg:ml-auto md:px-80' do
         = graphical_icon "email"
@@ -88,7 +88,7 @@
       = image_tag "team/jeremy-walker.jpg", alt: "Photo of Jeremy Walker", class: 'mb-12 md:mb-0 md:mr-24 rounded-100'
       .text
         %h2.text-h4.mb-4= t('.cta.title')
-        %p.text-p-large= raw t('.cta.description', jeremy_walker_name: t('.cta.jeremy_walker_name_text'))
+        %p.text-p-large= raw t('.cta.description')
 
       = link_to "mailto:jeremy@exercism.org", class: 'btn-primary btn-m mt-16 lg:mt-0 lg:ml-auto md:px-80' do
         = graphical_icon "email"

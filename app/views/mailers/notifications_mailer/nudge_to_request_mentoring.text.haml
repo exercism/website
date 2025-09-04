@@ -1,9 +1,1 @@
-= t('.greeting', user_handle: @user.handle)
-\
-= t('.completion_message')
-\
-= t('.feedback_value')
-\
-= t('.action_prompt')
-\
-= t('.button_text', notification_url: @notification.url)
+= t('.body_markdown', user_handle: @user.handle, notification_url: @notification.url).html_safe

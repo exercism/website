@@ -1,6 +1,1 @@
-= t('.greeting', user_handle: @user.handle)
-\
-= t('.congratulations_message')
-= t('.journey_page_prompt')
-\
-= t('.reveal_link', badges_journey_url: badges_journey_url)
+= t('.body_markdown', user_handle: @user.handle, journey_url: badges_journey_url).html_safe

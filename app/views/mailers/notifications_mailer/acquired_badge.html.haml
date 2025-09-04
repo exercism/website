@@ -1,6 +1,1 @@
-%p= t('.greeting', user_handle: @user.handle)
-%p
-  = t('.congratulations_message')
-  %br
-  = t('.journey_page_prompt')
-= email_button_to t('.button_text'), badges_journey_url
+= raw Markdown::Parse.(t('.body_markdown', user_handle: @user.handle, journey_url: badges_journey_url))

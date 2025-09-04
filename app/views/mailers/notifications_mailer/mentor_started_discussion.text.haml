@@ -1,5 +1,1 @@
-= t('.greeting', user_handle: @user.handle)
-\
-= t('.discussion_started_message', mentor_handle: @discussion.mentor.handle, exercise_title: @exercise.title, track_title: @track.title)
-\
-= t('.discussion_link', discussion_url: track_exercise_mentor_discussion_url(@track, @exercise, @discussion))
+= t('.body_markdown', user_handle: @user.handle, mentor_handle: @discussion.mentor.handle, exercise_title: @exercise.title, track_title: @track.title, discussion_url: track_exercise_mentor_discussion_url(@track, @exercise, @discussion)).html_safe

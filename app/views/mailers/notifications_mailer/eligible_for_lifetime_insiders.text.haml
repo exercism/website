@@ -1,18 +1,1 @@
-= t('.greeting')
-\
-= t('.body', insiders_url: insiders_url)
-\
-= t('.benefits_intro')
-1. = t('.benefit_premium_feature')
-2. = t('.benefit_behind_the_scenes')
-3. = t('.benefit_discord_access')
-\
-= t('.more_details')
-= t('.lifetime_status')
-\
-= t('.closing_thanks')
-\
-= t('.signature_name')
-= t('.signature_title')
-\
-= t('.activate_insiders_link', insiders_url: insiders_url)
+= t('.body_markdown', insiders_url: insiders_url).html_safe

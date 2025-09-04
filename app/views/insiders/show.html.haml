@@ -7,79 +7,69 @@
       .top.grid.grid-cols-1.md:grid-cols-2.gap-48
         .top-lhs
           %h1.text-h1.flex.items-center.gap-20.mb-0.sm:mb-8.lg:text-48.text-30.sm:text-32
-            = t('.hero_section.title')
+            = t('.insiders_title')
             = graphical_icon "insiders", css_class: 'h-[32px] md:h-[60px] w-[32px] md:w-[60px]'
-          %p.text-h3.mb-24
-            = t('.hero_section.subtitle')
-          %p.text-p-xlarge.mb-8
-            = t('.hero_section.paragraph_1')
-          %p.text-p-large.mb-8
-            = t('.hero_section.paragraph_2')
-            = t('.hero_section.paragraph_2_discord_forum_prompt')
-          %p.text-p-large.mb-8
-            = t('.hero_section.paragraph_3')
+          %p.text-h3.mb-24= t('.thank_you_message')
+          %p.text-p-xlarge.mb-8= t('.support_message')
+          %p.text-p-large.mb-8= t('.feature_and_video_info_html', discord_channel_link: "https://discord.com/channels/854117591135027261/1103737555490447460").html_safe
+          %p.text-p-large.mb-8= t('.latest_video_prompt')
 
         .top-rhs
           = video_embed(@videos.first.first, @videos.first.second)
 
   .gradient-container.py-48
     .lg-container
-      %h2.text-h2.mb-32= t('.videos_section.title')
+      %h2.text-h2.mb-32= t('.behind_the_scenes_videos_heading')
       .grid.grid-cols-3.gap-32
         - @videos.each do |type, id|
           = video_embed(type, id)
 
   .gradient-container.py-48
     .lg-container
-      %h2.text-h2.mb-32= t('.benefits_section.title')
+      %h2.text-h2.mb-32= t('.your_insider_benefits_heading')
       .features
         .feature
           = graphical_icon :'feature-youtube', css_class: "filter-yellowPrompt"
-          %h4= t('.benefits_section.exclusive_content.title')
-          %p= t('.benefits_section.exclusive_content.description')
+          %h4= t('.exclusive_content.title')
+          %p= t('.exclusive_content.description')
 
         .feature
           = graphical_icon :'feature-discord', css_class: "filter-yellowPrompt"
-          %h4= t('.benefits_section.private_discord.title')
-          %p
-            = t('.benefits_section.private_discord.description_html', discord_channel_link: link_to(t('.benefits_section.private_discord.discord_channel_link_text'), 'https://discord.com/channels/854117591135027261/1103737555490447460'), integrations_link: link_to(t('.benefits_section.private_discord.integrations_link_text'), integrations_settings_path))
+          %h4= t('.private_discord_channel.title')
+          %p= t('.private_discord_channel.description_html', insiders_channel_link: 'https://discord.com/channels/854117591135027261/1103737555490447460', integrations_page_link: integrations_settings_path).html_safe
 
         .feature
           = graphical_icon :megaphone, css_class: "filter-yellowPrompt"
-          %h4= t('.benefits_section.community_calls.title')
-          %p
-            = t('.benefits_section.community_calls.description_html', discord_link: link_to(t('.benefits_section.community_calls.discord_link_text'), 'https://exercism.org/r/discord'))
+          %h4= t('.contribute_on_community_calls.title')
+          %p= t('.contribute_on_community_calls.description_html', discord_events_link: 'https://exercism.org/r/discord').html_safe
 
         .feature
           = graphical_icon :moon, css_class: "filter-yellowPrompt"
-          %h4= t('.benefits_section.dark_theme.title')
-          %p
-            = t('.benefits_section.dark_theme.description_html', user_preferences_link: link_to(t('.benefits_section.dark_theme.user_preferences_link_text'), user_preferences_settings_path))
+          %h4= t('.dark_theme.title')
+          %p= t('.dark_theme.description_html', user_preferences_link: user_preferences_settings_path).html_safe
 
         .feature
           = graphical_icon :robot, css_class: "filter-yellowPrompt"
-          %h4= t('.benefits_section.chatgpt.title')
-          %p= t('.benefits_section.chatgpt.description')
+          %h4= t('.chatgpt.title')
+          %p= t('.chatgpt.description')
 
         .feature
           = graphical_icon :insiders
-          %h4= t('.benefits_section.name_tag_flair.title')
-          %p
-            = t('.benefits_section.name_tag_flair.description_html', insiders_icon: icon("insiders", t('.benefits_section.name_tag_flair.icon_alt_text'), style: "all:unset;display:inline;width:20px;height:20px"), public_profile_link: link_to(t('.benefits_section.name_tag_flair.public_profile_link_text'), profile_path(current_user.handle)))
+          %h4= t('.name_tag_flair_and_badges.title')
+          %p= t('.name_tag_flair_and_badges.description_html', icon: icon("insiders", t('.name_tag_flair_and_badges.icon_alt_text'), style: "all:unset;display:inline;width:20px;height:20px"), profile_link: profile_path(current_user.handle)).html_safe
 
         .feature
           = graphical_icon :mentoring, css_class: "filter-yellowPrompt"
-          %h4= t('.benefits_section.extra_mentoring_slots.title')
-          %p= t('.benefits_section.extra_mentoring_slots.description')
+          %h4= t('.extra_mentoring_slots.title')
+          %p= t('.extra_mentoring_slots.description')
 
         .feature
           = graphical_icon :badges, css_class: "filter-yellowPrompt"
-          %h4= t('.benefits_section.exclusive_badges.title')
+          %h4= t('.exclusive_badges.title')
           %p
-            = t('.benefits_section.exclusive_badges.description_html', my_journey_link: link_to(t('.benefits_section.exclusive_badges.my_journey_link_text'), badges_journey_path))
+            = t('.exclusive_badges.description_html', my_journey_link: badges_journey_path).html_safe
 
         .feature
           = graphical_icon :perks, css_class: "filter-yellowPrompt"
-          %h4= t('.benefits_section.exclusive_perks.title')
-          %p
-            = t('.benefits_section.exclusive_perks.description')
+          %h4= t('.exclusive_perks.title')
+          %p= t('.exclusive_perks.description')

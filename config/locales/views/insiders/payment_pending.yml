@@ -1,0 +1,5 @@
+en:
+  insiders:
+    payment_pending:
+      insiders_title: Exercism Insiders
+      payment_pending_message: Waiting for confirmation from your payment provider.

@@ -1,6 +1,1 @@
-%p= t('.greeting', user_handle: @user.handle)
-- if @resource.try(:unconfirmed_email?)
-  %p= t('.email_change_pending_notification', unconfirmed_email: @resource.unconfirmed_email)
-  %p= t('.email_change_pending_contact_support', support_link: (link_to 'support@exercism.io', 'mailto:support@exercism.io'))
-- else
-  %p= t('.email_changed_notification', email: @resource.email)
+= raw Markdown::Parse.(t('.body_markdown', user_handle: @user.handle, unconfirmed_email: @resource.try(:unconfirmed_email?), resource_unconfirmed_email: @resource.unconfirmed_email, resource_email: @resource.email))

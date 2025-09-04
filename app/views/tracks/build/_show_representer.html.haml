@@ -27,4 +27,4 @@
         .record-value= number_with_delimiter(status.representer.num_comments)
       .record-row
         .record-name= t('.feedback_given_frequency_label')
-        .record-value= t('.percentage_value', percentage: status.representer.display_rate_percentage)
+        .record-value #{status.representer.display_rate_percentage}%

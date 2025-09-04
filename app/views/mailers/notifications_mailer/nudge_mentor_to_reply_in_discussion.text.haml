@@ -1,9 +1,1 @@
-= t('.greeting', user_handle: @user.handle)
-\
-= t('.nudge_message', student_handle: @discussion.student.handle, num_days_waiting: @num_days_waiting, exercise_title: @exercise.title, track_title: @track.title)
-\
-= t('.waiting_on_student_message')
-\
-= t('.timeout_warning', num_days_to_time_out: @num_days_to_time_out)
-\
-= t('.discussion_link', discussion_url: mentoring_discussion_url(@discussion))
+= t('.body_markdown', user_handle: @user.handle, student_handle: @discussion.student.handle, num_days_waiting: @num_days_waiting, exercise_title: @exercise.title, track_title: @track.title, num_days_to_time_out: @num_days_to_time_out, discussion_url: mentoring_discussion_url(@discussion)).html_safe

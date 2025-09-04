@@ -51,11 +51,11 @@
                 %td
                   - case payment.provider
                   - when :stripe
-                    = t('.payments_table.provider_stripe')
+                    Stripe
                   - when :paypal
-                    = t('.payments_table.provider_paypal')
+                    PayPal
                   - when :github
-                    = t('.payments_table.provider_github')
+                    GitHub
                 %td
                   - if payment.external_receipt_url
                     = link_to payment.external_receipt_url, class: 'btn-enhanced btn-xs' do
@@ -67,5 +67,4 @@
             %h3.text-h5.mb-4= t('.no_donations.heading')
             %p.text-p-base.mb-4
               = t('.no_donations.info_1')
-            %p.text-p-base
-              = t('.no_donations.info_2_html', email_link: link_to(t('.no_donations.jeremy_email'), "mailto:jeremy@exercism.org")).html_safe
+            %p.text-p-base= t('.no_donations.info_2_html', email_url: "mailto:jeremy@exercism.org").html_safe

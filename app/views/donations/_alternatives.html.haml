@@ -1,6 +1,6 @@
 .mt-28{ class: 'max-w-[550px]' }
   %h2.text-h5.mb-4= t('.heading')
-  %p.text-p-base.mb-8= t('.text_html', link_to_jeremy: (link_to t('.jeremy'), 'mailto:jeremy@exercism.org'))
+  %p.text-p-base.mb-8= t('.text_html', jeremy_url: 'mailto:jeremy@exercism.org').html_safe
   .flex.flex-col.items-start.gap-12
     = link_to "#{Exercism.config.paypal_url}/donate/?hosted_button_id=#{Exercism.secrets.paypal_donation_hosted_button_id}&custom=#{current_user&.id}", class: "btn-m btn-secondary" do
       = graphical_icon "paypal", category: :graphics, css_class: "!filter-none"

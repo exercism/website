@@ -1,6 +1,1 @@
-%p= t('.greeting', user_handle: @user.handle)
-%p
-  = t('.congratulations', track_title: @track.title)
-  %br
-  = t('.visit_page', track_title: @track.title)
-= email_button_to t('.button_text'), track_url(@track, anchor: "trophy-cabinet")
+= raw Markdown::Parse.(t('.body_markdown', user_handle: @user.handle, track_title: @track.title, track_url: track_url(@track, anchor: "trophy-cabinet")))

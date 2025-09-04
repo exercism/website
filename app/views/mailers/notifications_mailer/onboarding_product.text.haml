@@ -1,14 +1,1 @@
-= t('.greeting')
-\
-= t('.intro_message', exercism_link: 'Exercism')
-\
-= t('.stuck_message', discord_link: 'Discord', forum_link: 'Forum')
-\
-= t('.language_exploration_message')
-\
-= t('.final_reminder_message')
-\
-= t('.best_regards')
-\
-= t('.signature_name')
-= t('.signature_title')
+= t('.body_markdown', root_url: root_url).html_safe

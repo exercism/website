@@ -12,10 +12,7 @@
       = graphical_icon "report", css_class: 'h-[26px] w-[26px] filter-textColor6 mr-16'
       = t('.header.title')
     %h2.text-h0.mb-12.text-center{ class: 'max-w-[800px]' }
-      = t('.header.provided_text_prefix')
-      %strong{ class: 'pl-8 pr-12 font-bold bg-[url(graphics/impact-highlight.svg)] bg-[length:100%_100%] text-textColor1NoDark' } 310,569,762
-      %strong{ class: 'pl-8 pr-8 mr-[-8px] font-bold bg-[url(graphics/impact-highlight.svg)] bg-[length:100%_100%] text-textColor1NoDark' } minutes
-      = t('.header.provided_text_suffix')
+      = t('.header.provided_text_html', count: number_with_delimiter(310_569_762), highlight_open: '<strong class="pl-8 pr-12 font-bold bg-[url(graphics/impact-highlight.svg)] bg-[length:100%_100%] text-textColor1NoDark">'.html_safe, highlight_close: '</strong>'.html_safe, highlight_unit_open: '<strong class="pl-8 pr-8 mr-[-8px] font-bold bg-[url(graphics/impact-highlight.svg)] bg-[length:100%_100%] text-textColor1NoDark">'.html_safe, highlight_unit_close: '</strong>'.html_safe).html_safe
     %p.font-medium.text-textColor6.text-24.leading-160.text-center{ class: 'max-w-[780px]' }
       = t('.header.daily_minutes_provided')
       %br
@@ -59,7 +56,7 @@
           .flex.flex-col
             .label-large David Pritchard
             .text-p-base.text-textColor6 @dapritchard_
-          = link_to icon('external-site-twitter', t('.social_media.twitter'), css_class: 'filter-twitter h-[16px] w-[16px]'), "https://twitter.com/dapritchard_/status/1549978935995338753", class: 'ml-auto p-8'
+          = link_to icon('external-site-twitter', "Twitter", css_class: 'filter-twitter h-[16px] w-[16px]'), "https://twitter.com/dapritchard_/status/1549978935995338753", class: 'ml-auto p-8'
         %p.text-p-large
           = t('.testimonials.dapritchard_html', twitter_handle: tag.em('@exercism_io', class: 'not-italic font-medium text-purple'))
 
@@ -69,7 +66,7 @@
           .flex.flex-col
             .label-large Karl 🇺🇦
             .text-p-base.text-textColor6 @zippcode
-          = link_to icon('external-site-twitter', t('.social_media.twitter'), css_class: 'filter-twitter h-[16px] w-[16px]'), "https://twitter.com/zippkode/status/1561075536834838530", class: 'ml-auto p-8'
+          = link_to icon('external-site-twitter', "Twitter", css_class: 'filter-twitter h-[16px] w-[16px]'), "https://twitter.com/zippkode/status/1561075536834838530", class: 'ml-auto p-8'
         %p.text-p-large
           = t('.testimonials.zippkode_html', twitter_handle: tag.em('@exercism_io', class: 'not-italic font-medium text-purple'))
 
@@ -79,7 +76,7 @@
           .flex.flex-col
             .label-large Alessandro Baffa
             .text-p-base.text-textColor6 @alebaffa
-          = link_to icon('external-site-twitter', t('.social_media.twitter'), css_class: 'filter-twitter h-[16px] w-[16px]'), "https://twitter.com/alebaffa/status/1545972418497302528", class: 'ml-auto p-8'
+          = link_to icon('external-site-twitter', "Twitter", css_class: 'filter-twitter h-[16px] w-[16px]'), "https://twitter.com/alebaffa/status/1545972418497302528", class: 'ml-auto p-8'
         %p.text-p-large
           = t('.testimonials.alebaffa_html', twitter_handle: tag.em('@exercism_io', class: 'not-italic font-medium text-purple'))
 
@@ -116,13 +113,11 @@
   .md-container.mb-64
     %h3.text-h3.text-center.mb-16= t('.partners_section.title')
     .logos.flex.items-center.justify-center.flex-wrap.gap-64.mb-24
-      = icon "mozilla", t('.partners_section.mozilla_alt'), category: :partners, css_class: "mozilla h-48 filter-textColor1"
-      = icon "gobridge", t('.partners_section.gobridge_alt'), category: :partners, css_class: "gobridge h-[80px]"
-      = icon "chicago", t('.partners_section.chicago_alt'), category: :partners, css_class: "chicago h-48"
-      = icon "packt", t('.partners_section.packt_alt'), category: :partners, css_class: 'h-48'
-    .text-center.text-18.leading-150.text-textColor6.font-semibold
-      = t('.partners_section.donors_prefix')
-      = link_to t('.partners_section.individual_donors_link'), individual_supporters_about_path, class: 'underline hover:text-lightBlue'
+      = icon "mozilla", "Mozilla", category: :partners, css_class: "mozilla h-48 filter-textColor1"
+      = icon "gobridge", "GoBridge", category: :partners, css_class: "gobridge h-[80px]"
+      = icon "chicago", "University of Chicago", category: :partners, css_class: "chicago h-48"
+      = icon "packt", "Packt", category: :partners, css_class: 'h-48'
+    .text-center.text-18.leading-150.text-textColor6.font-semibold= t('.partners_section.donors_sentence_html', donors_url: individual_supporters_about_path).html_safe
 
   - num_users_display = number_to_human(Metrics.num_users, units: { million: "M" }, precision: 1, significant: false, format: "%n%u")
   .impact-chart-container.bg-repeat.overflow-hidden{ class: 'bg-[#221E31] bg-[length:90px] bg-[url(photos/chart-bg.jpg)]' }

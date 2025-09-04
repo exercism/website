@@ -67,7 +67,6 @@ en:
         total_analyzer_runs_label: Total Analyzer Runs
         total_analysis_comments_made_label: Total Analysis Comments Made
         feedback_given_frequency_label: Feedback Given Frequency
-        percentage_value: "%{percentage}%"
       show_practice_exercises:
         practice_exercises_heading: Practice Exercises
         learn_more_button: Learn More
@@ -85,8 +84,6 @@ en:
         completions_column: Completions
         mentoring_requests_column: Mentoring requests
         attempts_value: "%{num_submitted} (avg. %{avg_submitted})"
-        completions_value: "%{num_completed} (%{percentage}%)"
-        mentoring_requests_value: "%{num_requests} (%{percentage}%)"
         deprecated_exercises_summary: "%{count} deprecated practice exercises"
         unimplemented_exercises_summary:
           one: 1 unimplemented practice exercise
@@ -114,8 +111,6 @@ en:
         completions_column: Completions
         mentoring_requests_column: Mentoring requests
         attempts_value: "%{num_submitted} (avg. %{avg_submitted})"
-        completions_value: "%{num_completed} (%{percentage}%)"
-        mentoring_requests_value: "%{num_requests} (%{percentage}%)"
         deprecated_learning_exercises_summary: "%{count} deprecated learning exercises"
       show_tags:
         programming_tags_heading: Programming Tags
@@ -154,8 +149,6 @@ en:
         completions_label: Completions
         mentoring_requests_label: Mentoring requests
         attempts_value: "%{num_submitted} (avg. %{num_submitted_average})"
-        completions_value: "%{num_completed} (%{num_completed_percentage}%)"
-        mentoring_requests_value: "%{num_mentoring_requests} (%{num_mentoring_requests_percentage}%)"
         deprecated_exercises_summary:
           one: 1 deprecated practice exercise
           other: "%{count} deprecated practice exercises"
@@ -219,8 +212,6 @@ en:
         completions_label: Completions
         mentoring_requests_label: Mentoring requests
         attempts_value: "%{num_submitted} (avg. %{num_submitted_average})"
-        completions_value: "%{num_completed} (%{num_completed_percentage}%)"
-        mentoring_requests_value: "%{num_mentoring_requests} (%{num_mentoring_requests_percentage}%)"
         deprecated_learning_exercises_summary: "%{count} deprecated learning exercises"
       index_analyzer:
         analyzer_heading: Analyzer
@@ -235,7 +226,6 @@ en:
         total_analyzer_runs_label: Total Analyzer Runs
         total_analysis_comments_made_label: Total Analysis Comments Made
         feedback_given_frequency_label: Feedback Given Frequency
-        percentage_value: "%{percentage}%"
       index_representer:
         representer_heading: Representer
         learn_more_button: Learn More
@@ -250,7 +240,6 @@ en:
         total_representer_runs_label: Total Representer Runs
         total_representation_comments_made_label: Total Representation Comments Made
         feedback_given_frequency_label: Feedback Given Frequency
-        percentage_value: "%{percentage}%"
       show_representer:
         representer_heading: "Representer"
         learn_more_button: "Learn More"
@@ -264,7 +253,6 @@ en:
         total_representer_runs_label: "Total Representer Runs"
         total_representation_comments_made_label: "Total Representation Comments Made"
         feedback_given_frequency_label: "Feedback Given Frequency"
-        percentage_value: "%{percentage}%"
       show_test_runner:
         test_runner_heading: Test Runner
         learn_more_button: Learn More
@@ -281,7 +269,6 @@ en:
           %{version} Test Runner."
         total_test_runner_runs_label: Total Test Runner Runs
         test_run_pass_rate_label: Test Run Pass Rate
-        percentage_with_count_value: "%{percentage}% (%{count})"
         test_run_fail_rate_label: Test Run Fail Rate
         test_run_error_rate_label: Test Run Error Rate
       index_test_runner:
@@ -300,7 +287,6 @@ en:
           %{version} Test Runner."
         total_test_runner_runs_label: Total Test Runner Runs
         test_run_pass_rate_label: Test Run Pass Rate
-        percentage_with_count_value: "%{percentage}% (%{count})"
         test_run_fail_rate_label: Test Run Fail Rate
         test_run_error_rate_label: Test Run Error Rate
     shared:
@@ -311,5 +297,3 @@ en:
       completions: Completions
       mentoring_requests: Mentoring requests
       attempts_value: "%{num_submitted} (avg. %{avg_submitted})"
-      completions_value: "%{num_completed} (%{percentage}%)"
-      mentoring_requests_value: "%{num_requests} (%{percentage}%)"

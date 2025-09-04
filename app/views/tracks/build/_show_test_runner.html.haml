@@ -30,10 +30,10 @@
         .record-value= number_with_delimiter(status.test_runner.num_runs)
       .record-row
         .record-name= t('.test_run_pass_rate_label')
-        .record-value= t('.percentage_with_count_value', percentage: status.test_runner.num_passed_percentage, count: status.test_runner.num_passed)
+        .record-value #{status.test_runner.num_passed_percentage}% (#{status.test_runner.num_passed})
       .record-row
         .record-name= t('.test_run_fail_rate_label')
-        .record-value= t('.percentage_with_count_value', percentage: status.test_runner.num_failed_percentage, count: status.test_runner.num_failed)
+        .record-value #{status.test_runner.num_failed_percentage}% (#{status.test_runner.num_failed})
       .record-row
         .record-name= t('.test_run_error_rate_label')
-        .record-value= t('.percentage_with_count_value', percentage: status.test_runner.num_errored_percentage, count: status.test_runner.num_errored)
+        .record-value #{status.test_runner.num_errored_percentage}% (#{status.test_runner.num_errored})

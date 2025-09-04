@@ -7,34 +7,14 @@
       .top.grid.grid-cols-1.md:grid-cols-2.gap-48
         .top-lhs
           %h1.text-h1.flex.items-center.gap-12.mb-4.sm:mb-8.lg:text-48.text-30.sm:text-32
-            = t('.hero_section.title')
+            = t('.insiders_title')
             = graphical_icon "insiders", css_class: 'h-[32px] md:h-[60px] w-[32px] md:w-[60px]'
           %h3.text-h3.mb-16.leading-140
-            %span.font-bold Donate to Exercism
-            and get
-            %span.underline bonus features
-            and
-            %span.underline behind-the-scenes content.
+            = t('.hero_subtitle_html').html_safe
           %p.text-p-xlarge.mb-12
-            %span.text-textColor1
-              We rely on donations from
-              %strong people like you
-              to survive &amp; grow!
-              Insiders is our way of thanking you for supporting us!
+            = t('.donations_message_html').html_safe
           %p.text-p-xlarge.mb-24
-            Get behind-the-scenes access,
-            %strong Dark Mode,
-            exclusive badges,
-            %strong advanced GitHub Sync and Favorites,
-            ChatGPT integration,
-            %strong extra mentoring slots,
-            private Discord channel,
-            %strong an ad-free experience,
-            and more when you donate to Exercism 🎉
-            = t('.hero_section.subtitle_html')
-          %p.text-p-xlarge.mb-24
-            %strong.text-textColor1
-              = t('.hero_section.description_html')
+            = t('.features_summary_html').html_safe
 
           - if current_user.present?
             = render ReactComponents::Insiders::InsidersStatus.new
@@ -43,34 +23,12 @@
           = vimeo_embed("855534271?h=97d3a4c8c2")
 
           %p.text-p-base.italic.mt-8
-            Exercism is an independent, registered not-for-profit organisation
-            (UK #11733062) with a tiny team. All donations are used to run and
-            improve the platform.
-  .gradient-container.py-32
-    .sm-container
-      %h2.text-center.text-h2= t('.sustainability_section.title')
-      %p.text-center.text-p-large.mb-16
-        = t('.sustainability_section.description_html', target_amount: "$25,000")
-      .border-1.border-borderColor6.shadow-smZ1.rounded-8.p-32.w-100.mb-32
-        .c-progress
-          - target = 25_000.0
-          - actual = Payments::Subscription.active_total_per_month_in_dollars
-          - progress = [1, actual / target].min * 100
-          .bar{ style: "width:#{progress}%" }
-
-          .current-icon{ style: "left:calc(#{progress.round}% - 18px)" }
-          .actual-number.hidden{ class: "md:block", style: "left:calc(#{progress.round}% - 160px)" }
-            = t('.sustainability_section.monthly_donations', amount: number_to_currency(actual.round, precision: 0))
-
-          .target-icon
-            = graphical_icon "party-popper"
-          .goal
-            = t('.sustainability_section.goal_html', target_amount: "$25,000")
+            = t('.non_profit_info')
 
   .gradient-container.py-56
     .lg-container
-      %h2.text-h2.mb-4.text-center= t('.insider_benefits_section.title')
-      %p.text-p-large.mb-32.text-center= t('.insider_benefits_section.description')
+      %h2.text-h2.mb-4.text-center= t('.benefits_heading')
+      %p.text-p-large.mb-32.text-center= t('.benefits_tagline')
       .features
         - @features.each do |feature|
           .feature
@@ -80,21 +38,19 @@
 
   .gradient-container.py-56
     .lg-container
-      %h2.text-h2.mb-4.text-center= t('.exclusive_content_section.title')
-      %p.text-p-large.mb-32.text-center= t('.exclusive_content_section.description')
+      %h2.text-h2.mb-4.text-center= t('.exclusive_content_heading')
+      %p.text-p-large.mb-32.text-center= t('.exclusive_content_tagline')
       .grid.grid-cols-3.gap-32
         - @videos.each do |_, _, img|
           = image_tag "https://assets.exercism.org/images/thumbnails/#{img}", class: 'block w-100 shadow-md rounded-8 border-1 border-purple'
 
   .gradient-container.py-32
     .sm-container
-      %h2.text-center.text-h2 Help Support Exercism
+      %h2.text-center.text-h2= t('.support_exercism_heading')
       %p.text-center.text-p-large.mb-2
-        We need
-        %span.font-medium.text-white $25,000 in donations
-        each month to become sustainable.
+        = t('.donations_needed_html', amount: "$25,000").html_safe
       %p.text-p-large.text-center.font-medium.text-white.mb-16
-        Please help us get there by joining Insiders!
+        = t('.join_insiders_call_to_action')
       .border-1.border-borderColor6.shadow-smZ1.rounded-8.p-32.w-100.mb-32
         .c-progress
           - target = 25_000.0
@@ -104,58 +60,51 @@
 
           .current-icon{ style: "left:calc(#{progress.round}% - 18px)" }
           .actual-number.hidden{ class: "md:block", style: "left:calc(#{progress.round}% - 160px)" }
-            Monthly donations:
-            %span.font-semibold= number_to_currency(actual.round, precision: 0)
+            = t('.monthly_donations', amount: number_to_currency(actual.round, precision: 0))
 
           .target-icon
             = graphical_icon "party-popper"
           .goal
-            Sustainable at
-            %span.font-semibold $25,000
+            = t('.sustainable_goal', amount: "$25,000")
 
   .gradient-container.faqs.py-56
     .lg-container
-      %h2.text-h1.mb-40.text-center= t('.faq_section.title')
+      %h2.text-h1.mb-40.text-center= t('.faqs_heading')
       .flex.flex-col.gap-24.mx-auto{ class: "max-w-[940px]" }
         %details{ open: true }
-          %summary= t('.faq_section.q1.summary')
+          %summary= t('.faq_access.question')
           %p.mb-12
-            = t('.faq_section.q1.p1_html', codebase_link: link_to(t('.faq_section.q1.codebase_link_text'), 'https://github.com/exercism/website/tree/main/app/commands/user/insiders_status/determine_eligibility_status.rb'))
-          %p.mb-4= t('.faq_section.q1.p2')
+            = t('.faq_access.answer_part1_html', codebase_link: 'https://github.com/exercism/website/tree/main/app/commands/user/insiders_status/determine_eligibility_status.rb').html_safe
+          %p.mb-4= t('.faq_access.lifetime_access_intro')
           %ul.mb-16
-            %li= t('.faq_section.q1.li1')
-            %li= t('.faq_section.q1.li2')
-            %li= t('.faq_section.q1.li3')
-            %li= t('.faq_section.q1.li4')
+            %li= t('.faq_access.lifetime_criterion_founder')
+            %li= t('.faq_access.lifetime_criterion_supermentor')
+            %li= t('.faq_access.lifetime_criterion_reputation')
+            %li= t('.faq_access.lifetime_criterion_donation')
 
-          %p.mb-4= t('.faq_section.q1.p3')
+          %p.mb-4= t('.faq_access.temporary_access_intro')
           %ul.mb-16
-            %li= t('.faq_section.q1.li5')
-            %li= t('.faq_section.q1.li6')
-            %li= t('.faq_section.q1.li7')
-            %li= t('.faq_section.q1.li8')
-            %li= t('.faq_section.q1.li9')
-            %li= t('.faq_section.q1.li10')
+            %li= t('.faq_access.temporary_criterion_monthly_donation')
+            %li= t('.faq_access.temporary_criterion_maintainer')
+            %li= t('.faq_access.temporary_criterion_recent_reputation')
+            %li= t('.faq_access.temporary_criterion_legacy_donation')
+            %li= t('.faq_access.temporary_criterion_one_off_donation')
 
           %p
-            = t('.faq_section.q1.p4_html', forum_link: link_to(t('.faq_section.q1.forum_link_text'), 'https://forum.exercism.org'))
-            = t('.faq_section.q1.p5')
+            = t('.faq_access.support_html', forum_issue_link: 'https://forum.exercism.org').html_safe
 
         %details
-          %summary= t('.faq_section.q2.summary')
-          %p
-            = t('.faq_section.q2.description_html', forum_link: link_to(t('.faq_section.q2.forum_link_text'), 'https://forum.exercism.org'))
+          %summary= t('.faq_paypal_github.question')
+          = t('.faq_paypal_github.answer_html', forum_issue_link: 'https://forum.exercism.org').html_safe
 
         %details
-          %summary= t('.faq_section.q3.summary')
-          %p= t('.faq_section.q3.description')
+          %summary= t('.faq_cost.question')
+          %p= t('.faq_cost.answer')
 
         %details
-          %summary= t('.faq_section.q4.summary')
-          %p= t('.faq_section.q4.description')
+          %summary= t('.faq_premium.question')
+          %p= t('.faq_premium.answer')
 
         %details
-          %summary= t('.faq_section.q5.summary')
-          %p
-            = t('.faq_section.q5.p1_html', docs_link: link_to(t('.faq_section.q5.docs_link_text'), 'https://exercism.org/docs/using/product/reputation#h-acquisition-of-reputation'))
-            = t('.faq_section.q5.p2_html', journey_link: link_to(t('.faq_section.q5.journey_link_text'), journey_path))
+          %summary= t('.faq_reputation.question')
+          %p= t('.faq_reputation.answer_html', docs_link: 'https://exercism.org/docs/using/product/reputation#h-acquisition-of-reputation', journey_link: journey_path).html_safe

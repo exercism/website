@@ -1,84 +1,76 @@
 en:
   insiders:
     show:
-      hero_section:
-        title: Exercism Insiders
-        subtitle: Thanks for making Exercism the success it is.
-        paragraph_1:
-          Exercism exists because people like you come together to build,
-          fund and support it. Thank you so much!
-        paragraph_2:
-          Below you'll find information about the different features you can
-          now access through Insiders, along with behind the scenes videos.
-        paragraph_2_discord_forum_prompt:
-          "If you have ideas for extra features or extra
-          behind-the-scenes content, please post on our #insiders channel on
-          Discord, or open a thread on the forum."
-        paragraph_3: Why not start with the latest behind the scenes Insiders video 👉
-      videos_section:
-        title: Behind-the-scenes videos
-      benefits_section:
-        title: Your Insider Benefits
-        exclusive_content:
-          title: Exclusive content
-          description:
-            Keep up to date with what we're planning and building with private
-            Insiders livestreams, vlogs, and technical deep dives. Check out the
-            videos above. We'll email you when there's a new one.
-        private_discord:
-          title: Private Discord channel
-          description_html: You should now have access to an exclusive
-            %{discord_channel_link} where you can hang out with me and other
-            staff and Insiders. Check the %{integrations_link} if you don't see
-            it.
-          discord_channel_link_text: "#insiders channel on Discord"
-          integrations_link_text: integrations page
-        community_calls:
-          title: Contribute on community calls
-          description_html:
-            Our community calls are watchable by anyone, but only Insiders
-            join in the conversation. Jump on stage and make your voice heard.
-            Check Events on %{discord_link} for the next call.
-          discord_link_text: Discord
-        dark_theme:
-          title: Dark theme
-          description_html:
-            We've put together a lovely Dark Theme for you to enjoy. Give
-            your eyes a break while coding at night and enjoy Exercism in its
-            darkest glory. You can toggle your theme in your
-            %{user_preferences_link}.
-          user_preferences_link_text: User Preferences
-        chatgpt:
-          title: ChatGPT
-          description:
-            Our ChatGPT integration will help you get unstuck directly in our
-            online editor. You get 3x v4.0 requests and 30x v3.5 requests per
-            calendar month. Let us know how you get on!
-        name_tag_flair:
-          title: Name tag flair & Badges
-          description_html:
-            You'll now see a shiny little %{insiders_icon} next to your
-            name around the site and a new tag on %{public_profile_link}. At
-            some point soon, we'll be letting you customise which icon you'd
-            like!
-          icon_alt_text: purple heart icon signifying Insiders
-          public_profile_link_text: your public profile
-        extra_mentoring_slots:
-          title: Extra Mentoring Slots
-          description:
-            You now have the maximum amount of simultaneous mentoring slots
-            available per track. Check half way down a track page to check your
-            active sessions.
-        exclusive_badges:
-          title: Exclusive Badges
-          description_html:
-            You should also have a new very exclusive badge (or two!).
-            Check your %{my_journey_link} badges to reveal them. There are also
-            new extra hidden badges for you to unlock as you solve exercises.
-          my_journey_link_text: My Journey
-        exclusive_perks:
-          title: Exclusive Perks
-          description:
-            In the next few weeks, we'll be revealing exclusive Perks from our
-            partners. As an Insider, you'll get exclusive bonuses offers and
-            discounts.
+      insiders_title: Exercism Insiders
+      thank_you_message: Thanks for making Exercism the success it is.
+      support_message:
+        Exercism exists because people like you come together to build,
+        fund and support it. Thank you so much!
+      feature_and_video_info_html: >
+        Below you'll find information about the different features you can now
+        access through Insiders, along with behind the scenes videos. If you
+        have ideas for extra features or extra behind-the-scenes content, please
+        post on our #insiders channel on Discord, or open a thread on the forum.
+      latest_video_prompt: Why not start with the latest behind the scenes Insiders video 👉
+      behind_the_scenes_videos_heading: Behind-the-scenes videos
+      your_insider_benefits_heading: Your Insider Benefits
+      exclusive_content:
+        title: Exclusive content
+        description:
+          Keep up to date with what we're planning and building with private
+          Insiders livestreams, vlogs, and technical deep dives. Check out the
+          videos above. We'll email you when there's a new one.
+      private_discord_channel:
+        title: Private Discord channel
+        description_html: You should now have access to an exclusive <a
+          href="%{insiders_channel_link}">#insiders channel on Discord</a> where
+          you can hang out with me and other staff and Insiders. Check the <a
+          href="%{integrations_page_link}">integrations page</a> if you don't
+          see it.
+      contribute_on_community_calls:
+        title: Contribute on community calls
+        description_html:
+          Our community calls are watchable by anyone, but only Insiders
+          join in the conversation. Jump on stage and make your voice heard.
+          Check Events on <a href="%{discord_events_link}">Discord</a> for the
+          next call.
+      dark_theme:
+        title: Dark theme
+        description_html:
+          We've put together a lovely Dark Theme for you to enjoy. Give
+          your eyes a break while coding at night and enjoy Exercism in its
+          darkest glory. You can toggle your theme in your <a
+          href="%{user_preferences_link}">User Preferences</a>.
+      chatgpt:
+        title: ChatGPT
+        description:
+          Our ChatGPT integration will help you get unstuck directly in our
+          online editor. You get 3x v4.0 requests and 30x v3.5 requests per
+          calendar month. Let us know how you get on!
+      name_tag_flair_and_badges:
+        title: Name tag flair & Badges
+        description_html:
+          You'll now see a shiny little %{icon} next to your name around
+          the site and a new tag on <a href="%{profile_link}">your public
+          profile</a>. At some point soon, we'll be letting you customise which
+          icon you'd like!
+        icon_alt_text: purple heart icon signifying Insiders
+      extra_mentoring_slots:
+        title: Extra Mentoring Slots
+        description:
+          You now have the maximum amount of simultaneous mentoring slots
+          available per track. Check half way down a track page to check your
+          active sessions.
+      exclusive_badges:
+        title: Exclusive Badges
+        description_html:
+          You should also have a new very exclusive badge (or two!).
+          Check your <a href="%{my_journey_link}">My Journey</a> badges to
+          reveal them. There are also new extra hidden badges for you to unlock
+          as you solve exercises.
+      exclusive_perks:
+        title: Exclusive Perks
+        description:
+          In the next few weeks, we'll be revealing exclusive Perks from our
+          partners. As an Insider, you'll get exclusive bonuses offers and
+          discounts.

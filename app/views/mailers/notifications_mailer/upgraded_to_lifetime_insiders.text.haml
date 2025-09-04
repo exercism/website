@@ -1,13 +1,1 @@
-= t('.greeting')
-\
-= t('.message_one', exercism_insiders_link: link_to(t('.exercism_insiders_link_text'), 'https://exercism.org/insiders'))
-\
-= t('.message_two')
-\
-= t('.message_three')
-\
-= t('.signature_name')
-
-= t('.signature_title')
-\
-= t('.visit_exercism', root_url: root_url)
+= t('.body_markdown', root_url: root_url).html_safe

@@ -1,4 +1,1 @@
-%p= t('.greeting', user_handle: @user.handle)
-%p= t('.confirmation_message')
-%p= t('.thank_you_message')
-= email_button_to t('.button_text'), contributing_contributors_url
+= raw Markdown::Parse.(t('.body_markdown', user_handle: @user.handle, contributors_url: contributing_contributors_url))

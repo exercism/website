@@ -1,102 +1,101 @@
 en:
   insiders:
     external:
-      hero_section:
-        title: Exercism Insiders
-        subtitle_html:
-          Enjoying Exercism?<br>We rely on donations from people like you
-          to survive &amp; grow!
-        description_html:
-          <strong>Insiders is our way of saying thank you for supporting
-          us.</strong><br>Get behind-the-scenes access, Dark Mode, exclusive
-          badges, ChatGPT integration, extra mentoring slots, private Discord
-          channel, and more when you donate to Exercism 🎉
-      sustainability_section:
-        title: Road to Sustainability
-        description_html:
-          We need <span class="font-medium text-white">%{target_amount}
-          in donations</span> each month to become sustainable. <span
-          class="font-medium text-white">Please help us get there.</span>
-        monthly_donations: "Monthly donations: %{amount}"
-        goal_html: Sustainable at <span class="font-semibold">%{target_amount}</span>
-      insider_benefits_section:
-        title: Insider Benefits
-        description: Here are some of the ways we say thank you for supporting us.
-      exclusive_content_section:
-        title: Exclusive Insider Content
-        description:
-          Join Insiders to get behind-the-scenes content as we grow and
-          evolve Exercism.
-      faq_section:
-        title: The Nitty Gritty & FAQs
-        q1:
-          summary: Is the only way to access Insiders through donating?
-          p1_html:
-            The most common way to access insiders is through a regular donation.
-            Regular contributors get Insiders access for free, and it's also
-            possible to get Lifetime Insiders membership for significant
-            donations or contributions. You can check the exact algorithm
-            %{codebase_link} but it's also reproduced here.
-          codebase_link_text: in our codebase
-          p2: "To gain lifetime access you need one of the following:"
-          li1: To be a founder or staff member
-          li2:
-            To be a supermentor (100+ solutions mentored on a track with a 95% positive
-            rating)
-          li3: To have a reputation equal or greater than 1,000
-          li4: To have donated $499 (in one chunk or many parts)
-          p3:
-            "For those without lifetime access, to gain access you need one of the
-            following:"
-          li5: To have a recurring monthly donation of $10 or more.
-          li6: To be a maintainer
-          li7:
-            To have earned 30 reputation in the last 30 days, or 200 reputation in the
-            last 365 days (not including reputation for publishing solutions)
-          li8:
-            To have had a recurring donation at the point that Insiders launched (May
-            30th 2023), and it still to be active.
-          li9:
-            For donations before we launched Insiders, you get one month of Insiders
-            for every $9.99 donated, from the date that Insiders launched, plus
-            one extra bonus month. So if you donated $35 before Insiders
-            launched, you'd get Insiders access through June, July, August and
-            September 2023.
-          li10: One off donations of $10 or more give 1 months access.
-          p4_html:
-            If you think you meet these criteria but don't have access, please
-            %{forum_link} and someone will help you out!
-          forum_link_text: open a forum issue
-          p5:
-            If you've donated via Paypal or GitHub Sponsors but don't have access,
-            please see the next question.
-        q2:
-          summary: I've donated via Paypal or GitHub Sponsors but don't have access.
-          description_html:
-            Sometimes the tech breaks down and we don't get webhook
-            notifications from GitHub or Paypal. If you have issues, please
-            %{forum_link} and someone will help you out!
-          forum_link_text: open a forum issue
-        q3:
-          summary: What does Insiders cost?
-          description:
-            Insiders isn't a product that you can buy - it's our way of saying
-            thank you for those who contribute, mentor or donate. The easiest
-            way to get Insiders access is by setting up a regular monthly
-            donation of $10 or more.
-        q4:
-          summary: Is Insiders the same as Premium?
-          description:
-            Exercism Premium was discontinued in August 2023. All Premium
-            members were migrated to have Exercism Insider status and their
-            monthly payments converted to recurring donations.
-        q5:
-          summary: How do I earn reputation?
-          p1_html:
-            Reputation is earned by mentoring or contributing to Exercism. You can
-            also earn reputation by publishing your solutions, but that does not
-            count towards Insiders access. You can check what actions result in
-            what reputation by consulting %{docs_link}.
-          docs_link_text: our docs
-          p2_html: Check your %{journey_link} to see where you're earning reputation.
-          journey_link_text: journey page
+      insiders_title: Exercism Insiders
+      hero_subtitle_html: <strong>Donate to Exercism</strong> and get <span
+        class="underline">bonus features</span> and <span
+        class="underline">behind-the-scenes content.</span>
+      donations_message_html: We rely on donations from <strong>people like
+        you</strong> to survive &amp; grow! Insiders is our way of thanking you
+        for supporting us!
+      features_summary_html:
+        Get behind-the-scenes access, <strong>Dark Mode,</strong>
+        exclusive badges, <strong>advanced GitHub Sync and Favorites,</strong>
+        ChatGPT integration, <strong>extra mentoring slots,</strong> private
+        Discord channel, <strong>an ad-free experience,</strong> and more when
+        you donate to Exercism 🎉
+      non_profit_info: "Exercism is an independent, registered not-for-profit
+        organisation (UK #11733062) with a tiny team. All donations are used to
+        run and improve the platform."
+      benefits_heading: Insider Benefits
+      benefits_tagline: Here are some of the ways we say thank you for supporting us.
+      exclusive_content_heading: Exclusive Insiders Content
+      exclusive_content_tagline:
+        Join Insiders to get behind-the-scenes content as we
+        grow and evolve Exercism.
+      support_exercism_heading: Help Support Exercism
+      donations_needed_html:
+        We need <span class="font-medium text-white">%{amount} in
+        donations</span> each month to become sustainable.
+      join_insiders_call_to_action: Please help us get there by joining Insiders!
+      monthly_donations: "Monthly donations: %{amount}"
+      sustainable_goal: Sustainable at %{amount}
+      faqs_heading: The Nitty Gritty & FAQs
+      faq_access:
+        question: Is the only way to access Insiders through donating?
+        answer_part1_html:
+          The most common way to access insiders is through a regular
+          donation. Regular contributors get Insiders access for free, and it's
+          also possible to get Lifetime Insiders membership for significant
+          donations or contributions. You can check the exact algorithm <a
+          href="%{codebase_link}">in our codebase</a> but it's also reproduced
+          here.
+        lifetime_access_intro: "To gain lifetime access you need one of the following:"
+        lifetime_criterion_founder: To be a founder or staff member
+        lifetime_criterion_supermentor:
+          To be a supermentor (100+ solutions mentored on
+          a track with a 95% positive rating)
+        lifetime_criterion_reputation: To have a reputation equal or greater than 1,000
+        lifetime_criterion_donation: To have donated $499 (in one chunk or many parts)
+        temporary_access_intro:
+          "For those without lifetime access, to gain access you
+          need one of the following:"
+        temporary_criterion_monthly_donation: To have a recurring monthly donation of $10 or more.
+        temporary_criterion_maintainer: To be a maintainer
+        temporary_criterion_recent_reputation:
+          To have earned 30 reputation in the last
+          30 days, or 200 reputation in the last 365 days (not including
+          reputation for publishing solutions)
+        temporary_criterion_legacy_donation:
+          To have had a recurring donation at the
+          point that Insiders launched (May 30th 2023), and it still to be
+          active.
+        temporary_criterion_one_off_donation:
+          For donations before we launched Insiders,
+          you get one month of Insiders for every $9.99 donated, from the date
+          that Insiders launched, plus one extra bonus month. So if you donated
+          $35 before Insiders launched, you'd get Insiders access through June,
+          July, August and September 2023.
+        support_html:
+          If you think you meet these criteria but don't have access, please
+          <a href="%{forum_issue_link}">open a forum issue</a> and someone will
+          help you out! If you've donated via Paypal or GitHub Sponsors but
+          don't have access, please see the next question.
+      faq_paypal_github:
+        question: I've donated via Paypal or GitHub Sponsors but don't have access.
+        answer_html: Sometimes the tech breaks down and we don't get webhook
+          notifications from GitHub or Paypal. If you have issues, please <a
+          href="%{forum_issue_link}">open a forum issue</a> and someone will
+          help you out!
+      faq_cost:
+        question: What does Insiders cost?
+        answer:
+          Insiders isn't a product that you can buy - it's our way of saying thank
+          you for those who contribute, mentor or donate. The easiest way to get
+          Insiders access is by setting up a regular monthly donation of $10 or
+          more.
+      faq_premium:
+        question: Is Insiders the same as Premium?
+        answer:
+          Exercism Premium was discontinued in August 2023. All Premium members
+          were migrated to have Exercism Insider status and their monthly
+          payments converted to recurring donations.
+      faq_reputation:
+        question: How do I earn reputation?
+        answer_html:
+          Reputation is earned by mentoring or contributing to Exercism. You
+          can also earn reputation by publishing your solutions, but that does
+          not count towards Insiders access. You can check what actions result
+          in what reputation by consulting <a href="%{docs_link}">our docs</a>.
+          Check your <a href="%{journey_link}">journey page</a> to see where
+          you're earning reputation.

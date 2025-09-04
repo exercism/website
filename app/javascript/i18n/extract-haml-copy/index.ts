@@ -1,10 +1,10 @@
 import fs from 'fs/promises'
 import path from 'path'
 import { runLLM } from '../extract-jsx-copy/runLLM'
-import { buildPrompt } from './buildPromptHaml'
 import { parseLLMOutput } from './parseLLMOutputHaml'
+import { buildMailerPrompt } from './buildMailerPromptHaml'
 
-const MAX_CHARS = 16000
+const MAX_CHARS = 5000
 const TMP_DIR = './tmp/i18n-extraction'
 const QUEUE_PATH = path.join(TMP_DIR, 'queue.json')
 
@@ -125,7 +125,7 @@ if (require.main === module) {
         } files, ${totalChars} chars)`
       )
 
-      const prompt = buildPrompt(batch, inputPath || '.')
+      const prompt = buildMailerPrompt(batch, inputPath || '.')
       const result = await runLLMWithRetry(prompt)
 
       await fs.writeFile(debugPath, result, 'utf8')

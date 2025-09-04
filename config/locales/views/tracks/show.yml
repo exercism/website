@@ -35,9 +35,8 @@ en:
         max_mentoring_slots: You have the maximum available mentoring slots
         unlocked_icon_alt: Unlocked
         next_slot_unlocks_at_html: Next slot unlocks at <strong>%{reputation_amount}</strong> rep.
-        or_text: Or
-        donate_to_exercism_link: Donate to Exercism
-        to_unlock_all_slots: to unlock all mentoring slots.
+        donate_to_exercism_html: >
+          Or <a href="%{insiders_path}" class="text-prominentLinkColor font-semibold">Donate to Exercism</a> to unlock all mentoring slots.
         learn_more_link: Learn More.
         mentor_discussion_with: with
         your_turn_to_respond: Your turn to respond
@@ -56,9 +55,8 @@ en:
         see_all_link: See all
         see_all_contributors_aria_label: See all contributors for this track
         cta:
-          we_love_contributors: We
-          love_emoji_aria_label: love
-          our_contributors: our contributors
+          we_love_contributors_html: >
+            We <span aria-label="love">💙</span> our contributors
           exercism_relies_on_open_source:
             Exercism relies on open-source contributors to
             build our language tracks and mentor students.

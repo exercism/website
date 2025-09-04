@@ -33,12 +33,13 @@ en:
         heading_two: Here's what you can do to support us.
         donate_card:
           title: "Donate"
-          description: >
-            Support us financially using the donation box %{to_the_right_or_above}.
+          description_right_html: >
+            Support us financially using the donation box to the right. %{tail}
+          description_above_html: >
+            Support us financially using the donation box above. %{tail}
+          tail_html: >
             Every dollar helps us keep us independent, advert-free and able to grow,
             so please support us if you can! 💜
-        to_the_right: "to the right"
-        above: "above"
         company_card:
           title: Get your company involved
           description_html:
@@ -52,6 +53,3 @@ en:
           description_html: Follow us on %{twitter_link}, %{github_link} and
             %{linkedin_link} then share our posts, and create your own! We try
             to share everything we see 🙂
-          twitter: Twitter
-          github: GitHub
-          linkedin: LinkedIn

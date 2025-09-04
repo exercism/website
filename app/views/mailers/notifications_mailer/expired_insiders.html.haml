@@ -1,18 +1,1 @@
-%p= t('.greeting')
-
-%p
-  = t('.access_expired_message_html', insiders_link: link_to(t('.insiders_link_text'), 'https://exercism.org/insiders')).html_safe
-
-%p
-  = t('.thanks_for_support_message')
-%p
-  = t('.continue_support_message_html', insiders_page_link: link_to(t('.insiders_page_link_text'), 'https://exercism.org/insiders')).html_safe
-
-%p= t('.farewell')
-
-%p
-  = t('.signature_name')
-  %br
-  = t('.signature_title')
-
-= email_button_to t('.button_text'), root_url
+= raw Markdown::Parse.(t('.body_markdown', insiders_url: 'https://exercism.org/insiders', root_url: root_url))

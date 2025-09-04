@@ -1,3 +1,1 @@
-%p= t('.greeting', user_handle: @user.handle)
-%p= t('.feedback_message', iteration_idx: @iteration.idx, exercise_title: @exercise.title, track_title: @track.title, emphasis: @emphasis)
-= email_button_to t('.button_text'), track_exercise_iterations_url(@track, @exercise)
+= raw Markdown::Parse.(t('.body_markdown', user_handle: @user.handle, iteration_idx: @iteration.idx, exercise_title: @exercise.title, track_title: @track.title, emphasis: @emphasis, iteration_url: track_exercise_iterations_url(@track, @exercise)))

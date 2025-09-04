@@ -7,20 +7,14 @@ en:
           Can your organisation help Exercism grow? Become rocket fuel for
           our mission!
       header:
-        title: Become <strong>%{rocket_fuel}</strong> for our mission
-        rocket_fuel_text: rocket fuel
+        title: Become <strong>rocket fuel</strong> for our mission
         description:
           Partner with us or donate to support our mission to bringing free
           code learning and practice to the world.
-        mozilla_alt: Mozilla
-        packt_alt: Packt Publishing
-        gobridge_alt: GoBridge
-        chicago_alt: University of Chicago
       cta:
         title: Want to discuss how you can help Exercism?
-        description: Get in touch with <strong>%{jeremy_walker_name}</strong>,
+        description: Get in touch with <strong>Jeremy Walker</strong>,
           Exercism's CEO.
-        jeremy_walker_name_text: Jeremy Walker
         email_label: jeremy@exercism.org
       support_goals:
         title: Support from our funders is crucial to achieving Exercism's goals
@@ -113,20 +107,14 @@ en:
             Can your organisation help Exercism grow? Become rocket fuel for
             our mission!
         header:
-          title: Become <strong>%{rocket_fuel}</strong> for our mission
-          rocket_fuel_text: rocket fuel
+          title: Become <strong>rocket fuel</strong> for our mission
           description:
             Partner with us or donate to support our mission to bringing free
             code learning and practice to the world.
-          mozilla_alt: Mozilla
-          packt_alt: Packt Publishing
-          gobridge_alt: GoBridge
-          chicago_alt: University of Chicago
         cta:
           title: Want to discuss how you can help Exercism?
-          description: Get in touch with <strong>%{jeremy_walker_name}</strong>,
+          description: Get in touch with <strong>Jeremy Walker</strong>,
             Exercism's CEO.
-          jeremy_walker_name_text: Jeremy Walker
           email_label: jeremy@exercism.org
         support_goals:
           title: Support from our funders is crucial to achieving Exercism's goals

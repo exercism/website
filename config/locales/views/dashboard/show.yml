@@ -24,15 +24,14 @@ en:
         title: New on Exercism
       live_event:
         live_now: Live now
-        watch_on: Watch on
-        or: or
+      watch_on_one_html: "Watch on %{twitch_link}"
+      watch_on_both_html: "Watch on %{twitch_link} or %{youtube_link}"
       featured_event:
         coming_soon: Coming soon
         live_at: Live at
         save_the_date: Save the date!
       scheduled_events:
         title: Upcoming Streaming Schedule
-        description: This schedule is regularly updated. All events will stream on our
+        full_message_html: "This schedule is regularly updated, and all events will stream on our %{twitch_channel_link} — subscribe so not to miss out!"
         twitch_channel: Twitch Channel
-        subscribe_message: "- subscribe so not to miss out!"
         all_times_utc: All times in UTC.

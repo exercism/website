@@ -1,15 +1,1 @@
-%p= t('.greeting')
-
-%p
-  = t('.message_one_html', exercism_insiders_link: link_to(t('.exercism_insiders_link_text'), 'https://exercism.org/insiders')).html_safe
-%p
-  = t('.message_two')
-
-%p= t('.message_three')
-
-%p
-  = t('.signature_name')
-  %br
-  = t('.signature_title')
-
-= email_button_to t('.button_text'), root_url
+= raw Markdown::Parse.(t('.body_markdown', root_url: root_url))

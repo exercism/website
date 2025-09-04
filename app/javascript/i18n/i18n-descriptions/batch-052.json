@@ -1,0 +1,6 @@
+{
+  "trophy.awardedOn": "**Functional Purpose**: Label indicating when a trophy was awarded\n**UI Location**: Trophy modal, below the trophy name\n**When Users See This**: When viewing the details of a revealed trophy in the modal\n**Technical Context**: Precedes a dynamically formatted date; no special formatting\n**Current English**: \"Awarded on\"\n",
+  "trophy.clickToReveal": "**Functional Purpose**: Call to action for unrevealed trophies\n**UI Location**: Trophy card for an unrevealed trophy\n**When Users See This**: When viewing an unrevealed trophy on the Trophies page\n**Technical Context**: Standard text; no variables\n**Current English**: \"Click to Reveal\"\n",
+  "trophy.failedToReveal": "**Functional Purpose**: Error message when a trophy fails to reveal\n**UI Location**: Trophy card for an unrevealed trophy\n**When Users See This**: When a user clicks to reveal a trophy and the reveal process fails\n**Technical Context**: Standard error message; no variables\n**Current English**: \"Failed to reveal trophy\"\n",
+  "trophy.locked": "**Functional Purpose**: Status label for a trophy that has not yet been earned\n**UI Location**: Trophy card for a not-earned trophy\n**When Users See This**: When viewing an unearned trophy on the Trophies page\n**Technical Context**: Standard text; no variables\n**Current English**: \"Locked\""
+}

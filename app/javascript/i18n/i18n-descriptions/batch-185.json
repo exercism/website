@@ -1,0 +1,5 @@
+{
+  "previewUnavailable": "**Functional Purpose**: Message indicating that the markdown preview functionality is not available.\n**UI Location**: Markdown editor preview pane.\n**When Users See This**: When the URL for parsing markdown is not provided, preventing the preview from loading.\n**Technical Context**: Displays in the preview pane if `url` is falsy.\n**Current English**: \"Preview unavailable\"",
+  "unableToParseMarkdown": "**Functional Purpose**: Error message indicating that markdown could not be parsed.\n**UI Location**: Markdown editor preview pane.\n**When Users See This**: When the fetch request to parse markdown fails.\n**Technical Context**: Displays in the preview pane if the `fetch` promise rejects.\n**Current English**: \"Unable to parse markdown\"",
+  "loading": "**Functional Purpose**: Loading indicator text for the markdown preview.\n**UI Location**: Markdown editor preview pane.\n**When Users See This**: While the markdown content is being sent to the server for parsing and before the response is received.\n**Technical Context**: Shown during the `fetch` request for markdown parsing.\n**Current English**: \"Loading...\""
+}

@@ -1,0 +1,3 @@
+{
+  "maintainingContributionsList.generic": "**Functional Purpose**: Label for a contribution that is not associated with a specific track.\n**UI Location**: User Profile → Contributions List → Individual Contribution Item (under track name)\n**When Users See This**: When a contribution in the maintaining list does not belong to a specific track.\n**Technical Context**: This text replaces the hardcoded 'Generic' string.\n**Current English**: \"Generic\""
+}

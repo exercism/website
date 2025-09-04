@@ -1,0 +1,5 @@
+{
+  "analyzerFeedback.learnMore": "**Functional Purpose**: Link text to learn more about automated feedback\n**UI Location**: Solution page → Analyzer Feedback section → Explanation text\n**When Users See This**: When reviewing automated feedback on their solution\n**Technical Context**: Standard text\n**Current English**: \"Learn more\"\n",
+  "comment.essential": "**Functional Purpose**: Tag indicating essential feedback\n**UI Location**: Solution page → Analyzer Feedback section → Individual comment tag\n**When Users See This**: When an analyzer comment is categorized as essential\n**Technical Context**: Standard text\n**Current English**: \"Essential\"\n",
+  "comment.recommended": "**Functional Purpose**: Tag indicating recommended feedback\n**UI Location**: Solution page → Analyzer Feedback section → Individual comment tag\n**When Users See This**: When an analyzer comment is categorized as recommended\n**Technical Context**: Standard text\n**Current English**: \"Recommended\""
+}

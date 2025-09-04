@@ -1,0 +1,3 @@
+{
+  "shareButton.share": "**Functional Purpose**: Text for the share button\n**UI Location**: Components -> Common -> ShareButton\n**When Users See This**: Always visible on components that allow sharing\n**Technical Context**: Standard text; no special formatting\n**Current English**: \"Share\""
+}

@@ -1,0 +1,5 @@
+{
+  "orderSelect.sortByNewestFirst": "**Functional Purpose**: Option to sort solutions by newest first.\n**UI Location**: Profile → Community Solutions List (Sort dropdown menu).\n**When Users See This**: When opening the sort order dropdown.\n**Technical Context**: Option text within a select component. No variables.\n**Current English**: \"Sort by Newest First\"",
+  "orderSelect.sortByOldestFirst": "**Functional Purpose**: Option to sort solutions by oldest first.\n**UI Location**: Profile → Community Solutions List (Sort dropdown menu).\n**When Users See This**: When opening the sort order dropdown.\n**Technical Context**: Option text within a select component. No variables.\n**Current English**: \"Sort by Oldest First\"",
+  "orderSelect.sortByMostStarred": "**Functional Purpose**: Option to sort solutions by most starred.\n**UI Location**: Profile → Community Solutions List (Sort dropdown menu).\n**When Users See This**: When opening the sort order dropdown.\n**Technical Context**: Option text within a select component. No variables.\n**Current English**: \"Sort by Most Starred\""
+}

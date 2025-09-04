@@ -1,0 +1,5 @@
+{
+  "tagsFilter.filterBy": "**Functional Purpose**: Label for the filter button\n**UI Location**: Tracks list page, above the tracks list\n**When Users See This**: Always visible on the tracks list page\n**Technical Context**: Standard text\n**Current English**: \"Filter by\"\n",
+  "tagsFilter.showingAll": "**Functional Purpose**: Status message indicating how many tracks are shown based on filters\n**UI Location**: Tracks list page, below the filter button and above the tracks list\n**When Users See This**: Always visible on the tracks list page\n**Technical Context**: The variable `count` must remain unchanged and represents the number of tracks. Pluralization will be handled by i18n based on `count`.\n**Current English**: \"Showing {{count}} tracks\"",
+  "tagsFilter.resetFilters": "**Functional Purpose**: Button text to clear all applied filters\n**UI Location**: Tracks list page, below the filter button and above the tracks list\n**When Users See This**: Only visible when one or more filters are applied\n**Technical Context**: Standard text\n**Current English**: \"Reset filters\""
+}

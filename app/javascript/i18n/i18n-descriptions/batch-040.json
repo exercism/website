@@ -1,0 +1,5 @@
+{
+  "videoCredits.exercismProfile": "**Functional Purpose**: Link to the author's Exercism profile\n**UI Location**: Video Credits component (within Community Video Modal)\n**When Users See This**: When viewing a community video modal that has author information with an Exercism profile link.\n**Technical Context**: Standard text; no special formatting\n**Current English**: \"Exercism Profile\"",
+  "videoCredits.youTubeChannel": "**Functional Purpose**: Link to the author's YouTube channel\n**UI Location**: Video Credits component (within Community Video Modal)\n**When Users See This**: When viewing a community video modal that has author information with a YouTube channel link.\n**Technical Context**: Standard text; no special formatting\n**Current English**: \"YouTube Channel\"",
+  "communityVideoModal.postedBy": "**Functional Purpose**: Label indicating who submitted the video\n**UI Location**: Community Video Modal (below the video player and credits)\n**When Users See This**: When viewing any community video in the modal.\n**Technical Context**: This text precedes a dynamic `@handle` and a date.\n**Current English**: \"Posted by\""
+}

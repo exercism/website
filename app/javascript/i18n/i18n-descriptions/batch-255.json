@@ -1,0 +1,3 @@
+{
+  "exerciseTooltip.unableToLoadInformation": "**Functional Purpose**: Error message when exercise information cannot be loaded.\n**UI Location**: Exercise tooltip\n**When Users See This**: When the application fails to fetch exercise details for the tooltip.\n**Technical Context**: Displays when the `data` object is null after a request query. Must remain unchanged.\n**Current English**: \"Unable to load information\""
+}

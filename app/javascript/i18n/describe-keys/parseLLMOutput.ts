@@ -1,3 +1,5 @@
+import { jsonrepair } from 'jsonrepair'
+
 type LLMJson = Record<string, string> | unknown[] // object (your new format) or array (old)
 const CODE_FENCE_RE = /^```(?:json)?\s*([\s\S]*?)\s*```$/i
 
@@ -12,6 +14,14 @@ export function parseLLMOutput(raw: string): LLMJson {
   try {
     return JSON.parse(unwrapped)
   } catch {
+    // 1a) Try to repair the whole thing
+    try {
+      const repaired = jsonrepair(unwrapped)
+      return JSON.parse(repaired)
+    } catch {
+      // continue
+    }
+
     // 2) Try to salvage by extracting the first top-level JSON object/array
     const firstBrace = unwrapped.indexOf('{')
     const lastBrace = unwrapped.lastIndexOf('}')
@@ -30,10 +40,17 @@ export function parseLLMOutput(raw: string): LLMJson {
       : null
 
     if (candidate) {
+      // 2a) Parse candidate directly
       try {
         return JSON.parse(candidate)
       } catch {
-        // fall through to NDJSON attempt
+        // 2b) Repair candidate if still broken
+        try {
+          const repairedCandidate = jsonrepair(candidate)
+          return JSON.parse(repairedCandidate)
+        } catch {
+          // fall through to NDJSON attempt
+        }
       }
     }
 
@@ -43,8 +60,16 @@ export function parseLLMOutput(raw: string): LLMJson {
       .map((l) => l.trim())
       .filter(Boolean)
 
-    // If it's NDJSON, all lines must be valid JSON
-    const parsedLines = lines.map((l) => JSON.parse(l)) // will throw if any line isn't JSON
+    // If it's NDJSON, all lines must be valid JSON (possibly after repair)
+    const parsedLines = lines.map((l) => {
+      try {
+        return JSON.parse(l)
+      } catch {
+        const repairedLine = jsonrepair(l)
+        return JSON.parse(repairedLine)
+      }
+    })
+
     return parsedLines
   }
 }

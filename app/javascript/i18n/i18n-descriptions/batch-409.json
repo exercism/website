@@ -1,0 +1,4 @@
+{
+  "unrevealedTestimonial.someoneLeftYouATestimonial": "**Functional Purpose**: Notification that a new testimonial has been received.\n**UI Location**: Mentoring → Testimonials list (unrevealed testimonial card, student section)\n**When Users See This**: When a new testimonial has been submitted but not yet viewed/revealed by the user.\n**Technical Context**: Standard text; no special formatting.\n**Current English**: \"Someone left you a testimonial… 😲\"",
+  "unrevealedTestimonial.clickTapToReveal": "**Functional Purpose**: Instruction to the user on how to view the testimonial.\n**UI Location**: Mentoring → Testimonials list (unrevealed testimonial card, exercise section)\n**When Users See This**: When a new testimonial has been submitted but not yet viewed/revealed by the user.\n**Technical Context**: Standard text; no special formatting.\n**Current English**: \"Click / tap to reveal\""
+}

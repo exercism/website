@@ -1,0 +1,3 @@
+{
+  "finishMentorDiscussionModal.reportShouldNotBeNull": "**Functional Purpose**: Error message when a report object is unexpectedly null.\n**UI Location**: Finish Mentor Discussion Modal → Unhappy step (developer console/internal error handling).\n**When Users See This**: If an internal error occurs where the report state is missing when it should be present.\n**Technical Context**: This string is used within an `Error` thrown when the `report` variable is falsy. The string provides context for the error message.\n**Current English**: \"Report should not be null\""
+}

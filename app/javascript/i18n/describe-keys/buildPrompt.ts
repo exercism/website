@@ -58,7 +58,7 @@ Respond with a single JSON object only. Do not include code fences, comments, or
 
 File batch content:
 ---
-\${batchContent}
+${batchContent}
 ---
 `.trim()
 }

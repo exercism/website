@@ -4,14 +4,16 @@ const THEMES = [
   'theme-system',
   'theme-sepia',
   'theme-accessibility-dark',
+  'theme-matrix',
 ] as const
 export interface ThemeData {
-  theme: typeof THEMES[number]
+  theme: (typeof THEMES)[number]
   explicitTheme:
     | 'theme-dark'
     | 'theme-light'
     | 'theme-sepia'
     | 'theme-accessibility-dark'
+    | 'theme-matrix'
 }
 
 export function getExplicitTheme(

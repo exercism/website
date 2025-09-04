@@ -32,4 +32,10 @@ export const THEMES: Theme[] = [
     background: '#222',
     icon: 'exercism-face-light',
   },
+  {
+    label: 'Matrix',
+    value: 'matrix',
+    background: '#000000',
+    icon: 'exercism-face-light',
+  },
 ]

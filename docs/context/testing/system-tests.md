@@ -1,6 +1,7 @@
 # System Tests
 
 System tests verify end-to-end user workflows using browser automation. They should:
+
 - **Test complete user journeys**: From login to task completion
 - **Verify UI interactions**: Button clicks, form submissions, navigation
 - **Check visual feedback**: Success messages, error states, loading indicators
@@ -10,24 +11,24 @@ System tests verify end-to-end user workflows using browser automation. They sho
 
 ```ruby
 class UserRegistrationTest < ApplicationSystemTestCase
-  test "user registers successfully" do
+  test 'user registers successfully' do
     visit new_user_registration_path
-    fill_in "Email", with: "user@exercism.org"
-    fill_in "Username", with: "user22"
-    fill_in "Password", with: "password"
-    fill_in "Password confirmation", with: "password"
+    fill_in 'Email', with: 'user@exercism.org'
+    fill_in 'Username', with: 'user22'
+    fill_in 'Password', with: 'password'
+    fill_in 'Password confirmation', with: 'password'
 
-    click_on "Sign Up", class: "test-sign-up-btn"
+    click_on 'Sign Up', class: 'test-sign-up-btn'
 
-    assert_text "Check your email"
+    assert_text 'Check your email'
   end
 
-  test "user sees validation errors" do
+  test 'user sees validation errors' do
     visit new_user_registration_path
-    fill_in "Email", with: "invalid-email"
-    click_on "Sign Up"
+    fill_in 'Email', with: 'invalid-email'
+    click_on 'Sign Up'
 
-    assert_text "Email is invalid"
+    assert_text 'Email is invalid'
   end
 end
 ```
@@ -52,7 +53,7 @@ end
 ## System Test Guidelines
 
 - Use descriptive test names that explain the user action
-- Include both success and failure scenarios  
+- Include both success and failure scenarios
 - Use `wait` parameters for dynamic content loading
 - Test accessibility and responsive behavior when relevant
 - Use data attributes like `class: "test-sign-up-btn"` for reliable element selection

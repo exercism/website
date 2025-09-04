@@ -37,7 +37,7 @@ module ReactComponents
       css_classes << "c-react-wrapper-#{id}-#{wrapper_class_modifier}" if wrapper_class_modifier.present?
       css_classes << '--fitted' if fitted
       css_classes << css_class if css_class
-      
+
       tag.div(
         content.presence,
         class: css_classes.join(" "),
@@ -57,12 +57,12 @@ end
 React components generate HTML like this:
 
 ```html
-<div 
+<div
   class="c-react-component c-react-wrapper-common-copy-to-clipboard-button"
   data-react-id="common-copy-to-clipboard-button"
   data-react-data='{"text_to_copy":"Hello World"}'
-  data-react-hydrate="false">
-</div>
+  data-react-hydrate="false"
+></div>
 ```
 
 ## Client-Side Integration
@@ -88,6 +88,7 @@ React components are rendered like standard view components:
 ## Component Examples
 
 **Simple data passing**:
+
 ```ruby
 module ReactComponents
   module Student
@@ -107,6 +108,7 @@ end
 ```
 
 **Complex data assembly**:
+
 ```ruby
 module ReactComponents
   module Editor
@@ -148,40 +150,55 @@ export default function CopyToClipboardButton({ text_to_copy }: Props) {
 }
 
 // Component registration
-registerReactComponent("common-copy-to-clipboard-button", CopyToClipboardButton);
+registerReactComponent(
+  "common-copy-to-clipboard-button",
+  CopyToClipboardButton
+);
 ```
 
 ## Common Patterns
 
 **API endpoints**: Pass endpoints for client-side data fetching:
+
 ```ruby
 def to_s
-  super("component-id", {
-    initial_data: initial_data,
-    api_endpoint: api_path,
-    update_endpoint: update_path
-  })
+  super(
+    'component-id',
+    {
+      initial_data: initial_data,
+      api_endpoint: api_path,
+      update_endpoint: update_path
+    }
+  )
 end
 ```
 
 **User context**: Include authentication and permissions:
+
 ```ruby
 def to_s
-  super("component-id", {
-    current_user_id: current_user&.id,
-    can_edit: current_user&.can_edit?(resource),
-    csrf_token: view_context.form_authenticity_token
-  })
+  super(
+    'component-id',
+    {
+      current_user_id: current_user&.id,
+      can_edit: current_user&.can_edit?(resource),
+      csrf_token: view_context.form_authenticity_token
+    }
+  )
 end
 ```
 
 **Serialized data**: Use existing serializers for consistency:
+
 ```ruby
 def to_s
-  super("component-id", {
-    exercise: SerializeExercise.(exercise),
-    solution: solution ? SerializeSolution.(solution) : nil
-  })
+  super(
+    'component-id',
+    {
+      exercise: SerializeExercise.call(exercise),
+      solution: solution ? SerializeSolution.call(solution) : nil
+    }
+  )
 end
 ```
 

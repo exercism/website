@@ -16,6 +16,7 @@ SPI endpoints serve as the bridge between Exercism's main application and its di
 ## Security Model
 
 ### Infrastructure-Level Security
+
 Unlike API endpoints, SPI routes are secured at the AWS infrastructure level rather than application-level authentication:
 
 - **No application-level authentication required**: Endpoints trust that infrastructure controls access
@@ -24,7 +25,9 @@ Unlike API endpoints, SPI routes are secured at the AWS infrastructure level rat
 - **Service mesh authentication**: Mutual TLS and service identity verification at infrastructure layer
 
 ### Trust Model
+
 SPI endpoints operate under a **trusted internal services** model:
+
 - Services posting to SPI endpoints are assumed to be legitimate and authorized
 - Data validation focuses on format and business logic, not authentication
 - Audit logging tracks all SPI requests for security monitoring

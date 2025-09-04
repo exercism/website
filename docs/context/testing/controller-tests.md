@@ -12,23 +12,22 @@ Controller tests verify HTTP request handling and integration with command objec
 ### Example
 
 ```ruby
-class API::SolutionsControllerTest < API::BaseTestCase
-  # Test authentication requirements for all endpoints
+class API::SolutionsControllerTest < API::BaseTestCase # Test authentication requirements for all endpoints
   guard_incorrect_token! :api_solutions_path
   guard_incorrect_token! :api_solution_path, args: 1, method: :patch
 
-  test "create solution successfully" do
+  test 'create solution successfully' do
     setup_user
     exercise = create :exercise
     mock_solution = mock('solution')
-    
-    Solution::Create.expects(:call).with(@current_user, exercise).returns(mock_solution)
-    
-    post api_solutions_path, 
-         params: { exercise_id: exercise.id },
-         headers: @headers,
-         as: :json
-    
+
+    Solution::Create.expects(:call).with(@current_user, exercise).returns(
+      mock_solution
+    )
+
+    post api_solutions_path,
+         params: { exercise_id: exercise.id }, headers: @headers, as: :json
+
     assert_response :created
   end
 end

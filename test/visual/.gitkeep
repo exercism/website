@@ -1,0 +1,7 @@
+# Visual tests directory
+# These tests generate screenshots for ad-hoc visual verification
+# They are NOT part of the regular test suite and don't run with test:system
+# 
+# Usage:
+#   bundle exec rake screenshot:generate[test_name]
+#   bundle exec rake screenshot:generate  # runs all visual tests

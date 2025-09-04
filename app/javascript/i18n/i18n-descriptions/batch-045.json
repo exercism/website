@@ -1,0 +1,3 @@
+{
+  "exerciseTagFilter.exerciseTagFilter.filter": "**Functional Purpose**: Label for the tag filter dropdown button.\n**UI Location**: Track page → Community Solutions List → Exercise Tag Filter component\n**When Users See This**: When the component is rendered, this is the default text on the filter button before any tags are selected.\n**Technical Context**: This text is for the filter button. If tags are selected, a count will be appended to this string, like `Filter (2)`.\n**Current English**: \"Filter\""
+}

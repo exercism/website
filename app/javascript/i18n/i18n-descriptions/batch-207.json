@@ -1,0 +1,3 @@
+{
+  "loading": "**Functional Purpose**: Screen reader text for a loading indicator\n**UI Location**: Any component that uses the `Loading` component\n**When Users See This**: While content is being loaded or processed\n**Technical Context**: This text is for screen readers only and is not visible on screen. No variables.\n**Current English**: \"Loading\""
+}

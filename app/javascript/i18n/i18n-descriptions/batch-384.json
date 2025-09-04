@@ -1,0 +1,4 @@
+{
+  "solution.favoriteStudent": "**Functional Purpose**: Alternative text for an icon indicating a favorited student\n**UI Location**: Mentoring Queue → Solution card → Student handle\n**When Users See This**: When viewing a solution card from a student who is marked as a favorite\n**Technical Context**: Used as the `alt` attribute for an `Icon` component. Must remain unchanged.\n**Current English**: \"Favorite student\"\n",
+  "solution.mentoredPreviously": "**Functional Purpose**: Alternative text for an icon indicating previous mentorship\n**UI Location**: Mentoring Queue → Solution card → Student handle\n**When Users See This**: When viewing a solution card from a student the user has mentored before\n**Technical Context**: Used as the `alt` attribute for an `Icon` component. Must remain unchanged.\n**Current English**: \"Mentored previously\"\n"
+}

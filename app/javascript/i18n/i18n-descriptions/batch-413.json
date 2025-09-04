@@ -1,0 +1,3 @@
+{
+  "sessionInfoModal.onExerciseInTrack": "**Functional Purpose**: Displays the exercise title and track title for a student's session.\n**UI Location**: Mobile code panel → Session Info Modal → Student Info section.\n**When Users See This**: When the Session Info Modal is open, showing details about the student and their current exercise.\n**Technical Context**: Displays the exercise title using `%{exerciseTitle}` and the track title using `%{trackTitle}`. These variables must remain unchanged.\n**Current English**: \"on %{exerciseTitle} in %{trackTitle}\""
+}

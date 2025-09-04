@@ -1,0 +1,5 @@
+{
+  "removeFavoriteButton.unfavorite": "**Functional Purpose**: Confirmation text for removing a student from favorites\n**UI Location**: Mentoring session, Favorite button (hover state)\n**When Users See This**: When hovering over a favorited student's 'Favorited' button\n**Technical Context**: This text is shown conditionally on hover.\n**Current English**: \"Unfavorite?\"",
+  "removeFavoriteButton.favorited": "**Functional Purpose**: Label indicating a student is favorited\n**UI Location**: Mentoring session, Favorite button\n**When Users See This**: When a student has been marked as a favorite\n**Technical Context**: Appears next to a star icon.\n**Current English**: \"Favorited\"",
+  "addFavoriteButton.addToFavorites": "**Functional Purpose**: Label for adding a student to favorites\n**UI Location**: Mentoring session, Add Favorite button\n**When Users See This**: When a student is not yet marked as a favorite\n**Technical Context**: Appears next to a plus icon.\n**Current English**: \"Add to favorites\""
+}

@@ -1,0 +1,4 @@
+{
+  "statusSection.status": "**Functional Purpose**: Displays the current status of the GitHub Syncer.\n**UI Location**: Settings → GitHub Syncer → Connected section → Status section heading\n**When Users See This**: Always visible when the GitHub Syncer is connected.\n**Technical Context**: Interpolates `status` which can be 'Active' or 'Paused'. The `status` variable must remain unchanged.\n**Current English**: \"Status: <span style=\\\"color: #2E8C70;\\\">Active</span>\" or \"Status: <span style=\\\"color: rgb(229, 138, 0);\\\">Paused</span>\"",
+  "statusSection.enableSyncer": "**Functional Purpose**: Button to enable the GitHub Syncer.\n**UI Location**: Settings → GitHub Syncer → Connected section → Status section\n**When Users See This**: When the GitHub Syncer is paused.\n**Technical Context**: Standard button text.\n**Current English**: \"Enable Syncer\""
+}

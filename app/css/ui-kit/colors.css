@@ -741,6 +741,283 @@ body.namespace-.controller-insiders.theme-light,
     filter: sepia(1);
 }
 
+/* =============== MATRIX =============== */
+
+.theme-matrix {
+    color-scheme: dark;
+
+    /* Matrix color palette - black background with green accents */
+    --backgroundColorA: #000000; /* Pure black main background */
+    --backgroundColorA-RGB: 0 0 0;
+    --backgroundColorB: #001100; /* Very dark green background */
+    --backgroundColorC: #002200; /* Slightly lighter green background */
+    --backgroundColorD: #003300; /* Medium dark green background */
+    --backgroundColorE: #001100; /* Very dark green background alt */
+    --backgroundColorF: #000000; /* Pure black for panels */
+    --backgroundColorG: #001100; /* Dark green for sections */
+    --backgroundColorH: #00ff00; /* Bright matrix green for highlights */
+    --backgroundColorI: #000000; /* Pure black for overlays */
+    --backgroundColorITransparent: rgba(0, 0, 0, 0);
+    --backgroundColorJ: #001100; /* Dark green background alt */
+    --backgroundColorBorderGradientLightPurple: #004400; /* Green border gradient */
+    --backgroundColorNotifications: #000000; /* Black notifications */
+    --backgroundColorNotificationsCount: #00ff00; /* Bright green count */
+    --backgroundColorAnnouncementBar: #003300; /* Dark green announcement */
+    --backgroundColorSiteFooter: #000000; /* Black footer */
+    --backgroundColorTracksListState: #00cc00; /* Matrix green status */
+    --backgroundColorMentoringRequestedStatusInfo: #004400; /* Dark green info */
+    --backgroundColorCAlert: none;
+    --backgroundColorTextblockCautonContent: none;
+    --textColorCAlert: #00ff00; /* Bright green alert text */
+    --textColorCAlertLabel: #00cc00; /* Medium green labels */
+    --backgroundColorTracksListJoined: #004400; /* Dark green joined */
+    --backgroundColorTracksListNew: none;
+    --backgroundColorIterationCommentsUnread: #00ff00; /* Bright green unread */
+    --borderColorIterationCommentsUnread: #00ff00; /* Bright green border */
+    --textColorIterationCommentsUnread: #000000; /* Black text on green */
+    --borderColorIterationActive: #00ff00; /* Bright green active border */
+    --textColorIterationActive: #00ff00; /* Bright green active text */
+    --backgroundColorEDAvailable: #000000; /* Black available background */
+    --backgroundColorEDIterated: #004400; /* Dark green iterated */
+    --backgroundColorMentorTrackSelectorSelected: none;
+    --backgroundColorExerciseStatusTagInProgress: #003300; /* Dark green in progress */
+    --backgroundColorExerciseStatusTagLocked: none;
+    --backgroundColorConceptMastered: none;
+    --backgroundColorConceptLocked: #001100; /* Very dark green locked */
+    --backgroundColorCompletedHeading: none;
+    --backgroundColorCReputation: #000000; /* Black reputation background */
+    --backgroundColorEditorActiveLine: #00220088; /* Translucent dark green active line */
+    --backgroundColorTeamHeader: #004400; /* Dark green team header */
+    --backgroundColorTeamInfoBox: #000000; /* Black info boxes */
+    --backgroundColorImpactPage: #000000; /* Black impact page */
+    --backgroundColorNotificationsUnreadDot: #00ff00; /* Bright green unread dot */
+    --backgroundColorBuildToolingStatus: none;
+    --backgroundColorBtnSecondary: #002200; /* Dark green secondary buttons */
+    --backgroundColorBtnSecondaryHover: #003300; /* Medium green hover */
+    --backgroundColorMentorTestimonialsNew: #00ff00; /* Bright green new testimonials */
+    --backgroundColorExternalCTA: none;
+    --backgroundColorEasyTag: none;
+    --backgroundColorMediumTag: none;
+    --backgroundColorHardTag: none;
+    --backgroundColorDangerSection: none;
+    --backgroundColorDonationsFormSelected: none;
+    --backgroundColorContributingAdvanced: none;
+    --backgroundColorSummaryStatusFailed: #ff330026; /* Red tint for failures */
+    --backgroundColorSummaryStatusFailedBar: #ff3300; /* Red failure bar */
+    --backgroundColorReputationInfo: #002200; /* Dark green reputation info */
+    --backgroundColorNavDropdown: #000000; /* Black nav dropdown */
+    --backgroundColorDonationFormCover: rgba(0, 0, 0, 0.7); /* Black overlay */
+    --backgroundColorHoverMenuTrack: #003300; /* Dark green menu hover */
+    --backgroundColorPerkContainer: #001100; /* Dark green perk container */
+    --backgroundColorStarButtonStarred: #004400; /* Dark green starred */
+
+    --backgroundImpactPageHeader: #000000; /* Black impact header */
+
+    /* Matrix hex pattern background */
+    --backgroundImageHex: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDkiIGhlaWdodD0iNDkiIHZpZXdCb3g9IjAgMCA0OSA0OSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIxLjI5MDUgMi4xMzk4QzIzLjEzMTEgMS4wNzcxIDI1LjM5ODkgMS4wNzcxIDI3LjIzOTYgMi4xMzk4TDQxLjg5ODggMTAuNjAzM0M0My43Mzk1IDExLjY2NiA0NC44NzM0IDEzLjYzIDQ0Ljg3MzQgMTUuNzU1NFYzMi42ODI0QzQ0Ljg3MzQgMzQuODA3OCA0My43Mzk1IDM2Ljc3MTggNDEuODk4OCAzNy44MzQ1TDI3LjIzOTYgNDYuMjk4QzI1LjM5ODkgNDcuMzYwNyAyMy4xMzExIDQ3LjM2MDcgMjEuMjkwNSA0Ni4yOThMNi42MzEyNCAzNy44MzQ1QzQuNzkwNTggMzYuNzcxOCAzLjY1NjY4IDM0LjgwNzggMy42NTY2OCAzMi42ODI0VjE1Ljc1NTRDMy42NTY2OCAxMy42MyA0Ljc5MDU4IDExLjY2NiA2LjYzMTI0IDEwLjYwMzNMMjEuMjkwNSAyLjEzOThaIiBmaWxsPSIjMDAxMTAwIi8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNNDAuNzgzMyAxMi41MzUzTDI2LjEyNDEgNC4wNzE4NEMyNC45NzM3IDMuNDA3NjQgMjMuNTU2MyAzLjQwNzY0IDIyLjQwNTkgNC4wNzE4M0w3Ljc0NjcgMTIuNTM1M0M2LjU5NjI5IDEzLjE5OTUgNS44ODc2IDE0LjQyNyA1Ljg4NzYgMTUuNzU1NFYzMi42ODI0QzUuODg3NiAzNC4wMTA4IDYuNTk2MjkgMzUuMjM4MyA3Ljc0NjcgMzUuOTAyNUwyMi40MDU5IDQ0LjM2NkMyMy41NTYzIDQ1LjAzMDIgMjQuOTczNyA0NS4wMzAyIDI2LjEyNDEgNDQuMzY2TDQwLjc4MzMgMzUuOTAyNUM0MS45MzM4IDM1LjIzODMgNDIuNjQyNCAzNC4wMTA4IDQyLjY0MjQgMzIuNjgyNFYxNS43NTU0QzQyLjY0MjQgMTQuNDI3IDQxLjkzMzggMTMuMTk5NSA0MC43ODMzIDEyLjUzNTNaTTI3LjIzOTYgMi4xMzk4QzI1LjM5ODkgMS4wNzcxIDIzLjEzMTEgMS4wNzcxIDIxLjI5MDUgMi4xMzk4TDYuNjMxMjQgMTAuNjAzM0M0Ljc5MDU4IDExLjY2NiAzLjY1NjY4IDEzLjYzIDMuNjU2NjggMTUuNzU1NFYzMi42ODI0QzMuNjU2NjggMzQuODA3OCA0Ljc5MDU4IDM2Ljc3MTggNi42MzEyNCAzNy44MzQ1TDIxLjI5MDUgNDYuMjk4QzIzLjEzMTEgNDcuMzYwNyAyNS4zOTg5IDQ3LjM2MDcgMjcuMjM5NiA0Ni4yOThMNDEuODk4OCAzNy44MzQ1QzQzLjczOTUgMzYuNzcxOCA0NC44NzM0IDM0LjgwNzggNDQuODczNCAzMi42ODI0VjE1Ljc1NTRDNDQuODczNCAxMy42MyA0My43Mzk1IDExLjY2NiA0MS44OTg4IDEwLjYwMzNMMjcuMjM5NiAyLjEzOThaIiBmaWxsPSIjMDAyMjAwIi8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMzkuNTk1IDE0LjA4TDI1LjM4MDUgNS44NzMzMUMyNC42OTAyIDUuNDc0NzkgMjMuODM5OCA1LjQ3NDc5IDIzLjE0OTYgNS44NzMzMUw4LjkzNTEgMTQuMDhDOC4yNDQ4NSAxNC40Nzg2IDcuODE5NjQgMTUuMjE1IDcuODE5NjQgMTYuMDEyMVYzMi40MjU1QzcuODE5NjQgMzMuMjIyNiA4LjI0NDg1IDMzLjk1OSA4LjkzNTEgMzQuMzU3NkwyMy4xNDk2IDQyLjU2NDNDMjMuODM5OCA0Mi45NjI4IDI0LjY5MDIgNDIuOTYyOCAyNS4zODA1IDQyLjU2NDNMMzkuNTk1IDM0LjM1NzZDNDAuMjg1MiAzMy45NTkgNDAuNzEwNCAzMy4yMjI2IDQwLjcxMDQgMzIuNDI1NVYxNi4wMTIxQzQwLjcxMDQgMTUuMjE1IDQwLjI4NTIgMTQuNDc4NiAzOS41OTUgMTQuMDhaTTI2LjQ5NTkgMy45NDEyOEMyNS4xMTU0IDMuMTQ0MjUgMjMuNDE0NiAzLjE0NDI1IDIyLjAzNDEgMy45NDEyOEw3LjgxOTY0IDEyLjE0OEM2LjQzOTE0IDEyLjk0NSA1LjU4ODcyIDE0LjQxOCA1LjU4ODcyIDE2LjAxMjFWMzIuNDI1NUM1LjU4ODcyIDM0LjAxOTYgNi40MzkxNCAzNS40OTI2IDcuODE5NjQgMzYuMjg5NkwyMi4wMzQxIDQ0LjQ5NjNDMjMuNDE0NiA0NS4yOTMzIDI1LjExNTQgNDUuMjkzMyAyNi40OTU5IDQ0LjQ5NjNMNDAuNzEwNCAzNi4yODk2QzQyLjA5MDkgMzUuNDkyNiA0Mi45NDEzIDM0LjAxOTYgNDIuOTQxMyAzMi40MjU1VjE2LjAxMjFDNDIuOTQxMyAxNC40MTggNDIuMDkwOSAxMi45NDUgNDAuNzEwNCAxMi4xNDhMMjYuNDk1OSAzLjk0MTI4WiIgZmlsbD0iIzAwMzMwMCIvPgo8L3N2Zz4K");
+    --textColorCReputation: #00cc00; /* Medium matrix green */
+
+    --cmCursorColor: #00ff00; /* Bright green cursor */
+
+    /* Matrix green prominent links */
+    --c-prominent-link-bg: #004400; /* Dark green link background */
+
+    --newBadgeIcon: url("icons/new-badge-dark.svg"); /* Use dark icons */
+    --newTestimonialIcon: url("icons/new-testimonial-dark.svg");
+
+    --colorPurpleToBrightPurple: #00ff00; /* Convert purple to bright green */
+    --purple-to-bright-purple-filter: invert(68%) sepia(100%) saturate(5000%)
+        hue-rotate(90deg) brightness(120%) contrast(100%);
+
+    /* Matrix green gradient */
+    --fillColorProgress: linear-gradient(to right, #003300 0%, #00ff00 100%);
+    --borderColor3: #004400; /* Dark green border */
+    --borderColor5: #002200; /* Very dark green border */
+    --borderColor6: #002200;
+    --borderColor7: #002200;
+    --borderColor8: #003300; /* Medium dark green border */
+    --borderColorContributionTasksTag: #00cc00; /* Medium green tag border */
+    --borderColorContributorCreditBlock: #00cc00; /* Medium green block border */
+    --borderColorExerciseStatusTagInProgress: #004400; /* Dark green status border */
+    --borderColorDocsDashed: #00cc00; /* Medium green dashed border */
+    --borderColorTracksListV3: transparent;
+
+    /* Matrix text colors - various shades of green */
+    --textColor1: #00ff00; /* Bright matrix green for primary text */
+    --textColor1-no-dark: #003300; /* Dark green alternative */
+    --textColor2: #00ff00; /* Bright matrix green */
+    --textColor3: #00cc00; /* Medium matrix green */
+    --textColor5: #00cc00; /* Medium matrix green for secondary text */
+    --textColor6: #009900; /* Darker matrix green */
+    --textColor7: #006600; /* Even darker matrix green */
+    --textColor9: #000000; /* Black for high contrast */
+    --textColorExerciseStatusTagInProgress: #00ff00; /* Bright green status text */
+    --textColorTracksListState: #000000; /* Black text on green backgrounds */
+    --textColorTracksListJoined: #00ff00; /* Bright green joined text */
+    --textColorTracksListNew: #00ff00; /* Bright green new text */
+    --textColorTrackBreadcrumbs: #00cc00; /* Medium green breadcrumbs */
+    --textColorLastNavElement: #00cc00; /* Medium green nav */
+    --textColorCommentsCount: #00ff00; /* Bright green comments */
+    --textColorMentorTestimonialsNew: #000000; /* Black on green background */
+    --textColorMentoringRequestedStatusInfo: #00ff00; /* Bright green info text */
+    --textColorMentorTrackSelectorSelected: #00ff00; /* Bright green selected */
+    --textColorProgressTextCompleted: #00ff00; /* Bright green completed */
+    --textGradientStart: #003300; /* Dark green gradient start */
+    --textGradientEnd: #00ff00; /* Bright green gradient end */
+    --textColorSoftEmphasis: #00cc00; /* Medium green emphasis */
+    --textColorPerkCTA: #000000; /* Black CTA text on green */
+
+    --c-prominent-link-color: #00ff00; /* Bright matrix green links */
+    --color22: #002200; /* Very dark green */
+
+    /* Matrix shadows with green tint */
+    --shadowColorED: 0, 20, 0; /* Dark green shadow */
+    --shadowColorMain: 0, 10, 0; /* Very dark green shadow */
+    --shadowColorSecondary: #001100; /* Very dark green secondary shadow */
+    --shadowColorNotificationBell: 0, 255, 0; /* Bright green notification shadow */
+    --shadowColorKeystroke: 0, 20, 0; /* Dark green keystroke shadow */
+
+    --linkColor: #00ff00; /* Bright matrix green links */
+    --buttonBorderColor1: #00cc00; /* Medium green button borders */
+    --buttonBorderColor2: #009900; /* Darker green button borders */
+    --inputBackgroundColor: #001100; /* Very dark green input background */
+    --inputBorderColorFocus: #00ff00; /* Bright green input focus */
+    --tabBackgroundColorSelected: #004400; /* Dark green selected tab */
+    --tabBackgroundColorSelectedLocked: #003300; /* Medium dark green locked tab */
+    --successColor: #00ff00; /* Bright matrix green for success */
+    --chartBorderColor: #009900; /* Darker green chart borders */
+
+    --paginationCurrentBorderColor: #009900; /* Darker green pagination border */
+    --paginationCurrentBackgroundColor: #003300; /* Medium dark green pagination bg */
+
+    --modalBackgroundColor: rgba(0, 17, 0, 0.8); /* Dark green modal overlay */
+    --box-shadow-sm: 0px 4px 16px 0px rgba(var(--shadowColorMain), 0.3);
+    --box-shadow-base: 0px 4px 24px 0px rgba(var(--shadowColorMain), 0.5);
+    --box-shadow-lg: 0px 4px 42px 0px rgba(var(--shadowColorMain), 0.7);
+    --box-shadow-lgZ1: 0px 4px 42px 0px rgba(var(--shadowColorMain), 1);
+
+    /* Matrix syntax highlighting - green monospace theme */
+    --hljs-base: transparent;
+    --hljs-mono-1: #00cc00; /* Medium matrix green for basic text */
+    --hljs-mono-2: #009900; /* Darker green for comments */
+    --hljs-mono-3: #00ff00; /* Bright green for emphasis */
+    --hljs-hue-1: #00ff00; /* Bright green for keywords */
+    --hljs-hue-2: #00cc00; /* Medium green for types */
+    --hljs-hue-3: #009900; /* Darker green for strings */
+    --hljs-hue-4: #00ff00; /* Bright green for functions */
+    --hljs-hue-5: #006600; /* Dark green for errors */
+    --hljs-hue-5-2: #004400; /* Very dark green */
+    --hljs-hue-6: #00aa00; /* Medium-dark green for numbers */
+    --hljs-hue-6-2: #00ee00; /* Bright-medium green */
+
+    --diffDarkGreen: #00ff0030; /* Matrix green diff background */
+    --diffLightGreen: #00ff0030; /* Matrix green diff background */
+    --diffDarkRed: #ff000030; /* Red diff background for deletions */
+    --diffLightRed: #ff000030; /* Red diff background */
+
+    /* Badge colors adapted for matrix theme */
+    --commonBadge-RGB: 0, 255, 0; /* Bright matrix green */
+    --commonBadgeFill-RGB: 0, 50, 0; /* Dark green fill */
+    --commonBadgeShadow-RGB: 0, 100, 0; /* Medium green shadow */
+    --rareBadge-RGB: 0, 255, 0; /* Bright matrix green for rare */
+    --rareBadgeFill-RGB: 0, 30, 0; /* Very dark green fill */
+    --rareBadgeShadow-RGB: 0, 200, 0; /* Medium-bright green shadow */
+    --ultimateBadge-RGB: 0, 255, 0; /* Bright matrix green for ultimate */
+    --ultimateBadgeFill-RGB: 0, 40, 0; /* Dark green fill */
+    --ultimateBadgeShadow-RGB: 0, 255, 0; /* Bright green shadow */
+    --legendaryBadge-RGB: 0, 255, 0; /* Bright matrix green for legendary */
+    --legendaryBadgeFill-RGB: 0, 35, 0; /* Very dark green fill */
+    --legendaryBadgeShadow-RGB: 0, 255, 0; /* Bright green shadow */
+
+    /* Matrix green filters */
+    --white-filter: invert(100%) sepia(100%) saturate(5000%) hue-rotate(90deg)
+        brightness(1) contrast(1);
+    --white-filter-when-dark: invert(100%) sepia(100%) saturate(5000%)
+        hue-rotate(90deg) brightness(1) contrast(1);
+    --svg-darkmode-filter: invert(50%) sepia(100%) saturate(5000%)
+        hue-rotate(90deg) brightness(1.2) contrast(1);
+
+    /* Green filters for various elements */
+    --orange-filter: invert(50%) sepia(100%) saturate(5000%) hue-rotate(90deg)
+        brightness(1.2) contrast(1);
+    --processing-orange-filter: invert(50%) sepia(100%) saturate(5000%)
+        hue-rotate(90deg) brightness(1.2) contrast(1);
+    --another-purple-filter: invert(50%) sepia(100%) saturate(5000%)
+        hue-rotate(90deg) brightness(1.2) contrast(1);
+    --tracks-list-joined-filter: invert(50%) sepia(100%) saturate(5000%)
+        hue-rotate(90deg) brightness(1.2) contrast(1);
+    --red-filter: invert(20%) sepia(100%) saturate(5000%) hue-rotate(0deg)
+        brightness(2) contrast(1);
+
+    --notifications-active-filter: invert(50%) sepia(100%) saturate(5000%)
+        hue-rotate(90deg) brightness(1.2) contrast(1);
+    --notifications-inactive-filter: invert(30%) sepia(100%) saturate(5000%)
+        hue-rotate(90deg) brightness(1) contrast(1);
+
+    /* Text color filters adapted to matrix green */
+    --textColor1-filter: invert(50%) sepia(100%) saturate(5000%)
+        hue-rotate(90deg) brightness(1.5) contrast(1);
+    --textColor2-filter: invert(50%) sepia(100%) saturate(5000%)
+        hue-rotate(90deg) brightness(1.5) contrast(1);
+    --textColor3-filter: invert(40%) sepia(100%) saturate(5000%)
+        hue-rotate(90deg) brightness(1.2) contrast(1);
+    --textColor5-filter: invert(40%) sepia(100%) saturate(5000%)
+        hue-rotate(90deg) brightness(1.2) contrast(1);
+    --textColor6-filter: invert(30%) sepia(100%) saturate(5000%)
+        hue-rotate(90deg) brightness(1) contrast(1);
+    --textColor7-filter: invert(25%) sepia(100%) saturate(5000%)
+        hue-rotate(90deg) brightness(1) contrast(1);
+    --buttonBorderColor1-filter: invert(40%) sepia(100%) saturate(5000%)
+        hue-rotate(90deg) brightness(1.2) contrast(1);
+    --primary-reputation-filter: invert(50%) sepia(100%) saturate(5000%)
+        hue-rotate(90deg) brightness(1.2) contrast(1);
+    --light-gold-filter: invert(50%) sepia(100%) saturate(5000%)
+        hue-rotate(90deg) brightness(1.3) contrast(1);
+    --dark-green-filter: invert(30%) sepia(100%) saturate(5000%)
+        hue-rotate(90deg) brightness(1) contrast(1);
+    --c-prominent-link-icon-filter: invert(50%) sepia(100%) saturate(5000%)
+        hue-rotate(90deg) brightness(1.3) contrast(1);
+    --linkColor-filter: invert(50%) sepia(100%) saturate(5000%)
+        hue-rotate(90deg) brightness(1.5) contrast(1);
+    --link-blue-filter: invert(50%) sepia(100%) saturate(5000%)
+        hue-rotate(90deg) brightness(1.5) contrast(1);
+    --purple-filter: invert(50%) sepia(100%) saturate(5000%) hue-rotate(90deg)
+        brightness(1.2) contrast(1);
+
+    --purple-light-white-dark-filter: invert(50%) sepia(100%) saturate(5000%)
+        hue-rotate(90deg) brightness(1.5) contrast(1);
+    --selected-tab-icon-filter: invert(50%) sepia(100%) saturate(5000%)
+        hue-rotate(90deg) brightness(1.5) contrast(1);
+    --iconFilterMentorDiscussionWidget: invert(50%) sepia(100%) saturate(5000%)
+        hue-rotate(90deg) brightness(1.5) contrast(1);
+    --iconFilterCommentsCount: invert(50%) sepia(100%) saturate(5000%)
+        hue-rotate(90deg) brightness(1.3) contrast(1);
+    --iconFilterNotificationsProminentLink: invert(50%) sepia(100%)
+        saturate(5000%) hue-rotate(90deg) brightness(1.3) contrast(1);
+    --iconFilterEDConcept: invert(50%) sepia(100%) saturate(5000%)
+        hue-rotate(90deg) brightness(1.3) contrast(1);
+    --iconFilterCaution: brightness(1.5) sepia(1) hue-rotate(90deg) saturate(3);
+
+    @apply text-textColor5 bg-backgroundColorB;
+
+    /* Concept map colors for matrix theme */
+    --c-concept-map-line-complete: #00ff00; /* Bright green completed */
+    --c-concept-map-line-available: #00cc0077; /* Semi-transparent medium green available */
+    --c-concept-map-line-locked: #006600; /* Dark green locked */
+    --c-concept-map-line-faded: #00440077; /* Semi-transparent very dark green faded */
+
+    --lockedColor: var(--backgroundColorEDAvailable);
+
+    /* Image inversions for matrix theme */
+    img.c-img-invertible {
+        filter: invert(50%) sepia(100%) saturate(5000%) hue-rotate(90deg)
+            brightness(1.2) contrast(1);
+    }
+    img.c-img-light-theme {
+        display: none;
+    }
+}
+
 /* =============== ACCESSIBILITY DARK =============== */
 
 html {

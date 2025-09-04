@@ -5,8 +5,9 @@ namespace :screenshot do
 
     Rails.env = 'test'
 
-    require_relative '../../test/test_helper'
-    require_relative '../../test/application_system_test_case'
+    # Load the Rails test environment
+    require Rails.root.join('test', 'test_helper')
+    require Rails.root.join('test', 'application_system_test_case')
 
     visual_test_files = Dir.glob("test/visual/#{test_name}.rb").select { |f| File.file?(f) }
 

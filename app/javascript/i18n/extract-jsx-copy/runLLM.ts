@@ -8,7 +8,6 @@ export async function runLLM(prompt: string): Promise<string | undefined> {
     model: 'gemini-2.5-flash',
     contents: prompt,
     config: {
-      responseMimeType: 'application/json',
       thinkingConfig: {
         thinkingBudget: 0,
       },

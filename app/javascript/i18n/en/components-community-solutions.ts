@@ -3,7 +3,8 @@ export default {
   'commentsList.reminder.rememberComments':
     'Remember! Comments are for asking questions or applauding a solution. <0>Do not use them</0> for mentoring or giving feedback.',
   'commentsList.commentView.edit': 'Edit',
-  'commentsList.count.numberOfComments': '{{number}} {{pluralize}}',
+  'commentsList.comment_one': '{{count}} comment',
+  'commentsList.comment_other': '{{count}} comments',
   'commentsList.emptyList.noComments': 'No one has commented on this solution.',
   'commentsList.emptyList.beFirst': 'Be the first to add your comment!',
   'commentsList.options.disableComments': 'Disable comments…',

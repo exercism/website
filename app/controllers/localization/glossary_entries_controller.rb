@@ -1,4 +1,4 @@
-class Localization::Controller < ApplicationController
+class Localization::GlossaryEntriesController < ApplicationController
   def index
     @glossary_entries = AssembleLocalizationGlossaryEntries.(current_user, params)[:results]
     @glossary_entries_params = params.permit(:criteria, :status, :page)

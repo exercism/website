@@ -116,6 +116,11 @@ rm -rf .built-assets/              # Clear asset cache if needed
 4. Add appropriate tests (see testing docs)
 5. Run pre-commit validation commands
 
+**Code Style:**
+
+- **Always use symbol key syntax (`key:`) in hashes** - Use `{ name: "value" }` not `{ "name" => "value" }` unless there's a specific reason to use string keys (like when the key contains special characters or spaces)
+- This applies to serializers, API responses, and all Ruby hash structures
+
 ## Reference Documentation
 
 - `docs/context/overview.md` - Complete codebase documentation and setup guide

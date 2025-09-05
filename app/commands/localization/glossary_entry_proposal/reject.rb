@@ -11,6 +11,4 @@ class Localization::GlossaryEntryProposal::Reject
       )
     end
   end
-
-  delegate :glossary_entry, to: :proposal
 end

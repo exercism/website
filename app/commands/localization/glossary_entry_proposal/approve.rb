@@ -30,16 +30,16 @@ class Localization::GlossaryEntryProposal::Approve
   end
 
   def handle_modification!
-    raise "No glossary entry to modify" if glossary_entry.nil?
+    raise "No glossary entry to modify" if proposal.glossary_entry.nil?
 
-    glossary_entry.update!(
+    proposal.glossary_entry.update!(
       translation: proposal.translation,
       llm_instructions: proposal.llm_instructions
     )
   end
 
   def handle_deletion!
-    raise "No glossary entry to delete" if glossary_entry.nil?
+    raise "No glossary entry to delete" if proposal.glossary_entry.nil?
 
     # Retrieve this before destroying else we have a race
     glossary_entry = proposal.glossary_entry
@@ -48,6 +48,4 @@ class Localization::GlossaryEntryProposal::Approve
     proposal.update!(glossary_entry: nil)
     glossary_entry.destroy!
   end
-
-  delegate :glossary_entry, to: :proposal
 end

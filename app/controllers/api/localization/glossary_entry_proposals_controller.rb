@@ -6,24 +6,23 @@ class API::Localization::GlossaryEntryProposalsController < API::BaseController
     Localization::GlossaryEntryProposal::Create.(@glossary_entry, current_user, params[:value])
 
     render json: {
-      glossary_entry: SerializeLocalizationGlossaryEntry.(@glossary_entry)
-
+      glossary_entry: SerializeLocalizationGlossaryEntry.(@glossary_entry, current_user)
     }, status: :created
   end
 
   def approve
-    Localization::GlossaryEntryProposal::Approve.(@glossary_entry, current_user)
+    Localization::GlossaryEntryProposal::Approve.(@proposal, current_user)
 
     render json: {
-      glossary_entry: SerializeLocalizationGlossaryEntry.(@glossary_entry)
+      glossary_entry: SerializeLocalizationGlossaryEntry.(@glossary_entry, current_user)
     }
   end
 
   def reject
-    Localization::GlossaryEntryProposal::Reject.(@glossary_entry, current_user)
+    Localization::GlossaryEntryProposal::Reject.(@proposal, current_user)
 
     render json: {
-      glossary_entry: SerializeLocalizationGlossaryEntry.(@glossary_entry)
+      glossary_entry: SerializeLocalizationGlossaryEntry.(@glossary_entry, current_user)
     }
   end
 
@@ -36,7 +35,7 @@ class API::Localization::GlossaryEntryProposalsController < API::BaseController
     end
 
     render json: {
-      glossary_entry: SerializeLocalizationGlossaryEntry.(@glossary_entry)
+      glossary_entry: SerializeLocalizationGlossaryEntry.(@glossary_entry, current_user)
     }
   end
 

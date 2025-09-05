@@ -56,6 +56,7 @@ The `Assembler` base class provides common functionality:
 ```ruby
 class Assembler
   protected
+
   def sideload?(item)
     return false unless params[:sideload]
 
@@ -67,35 +68,40 @@ end
 ## Key Responsibilities
 
 **Data Aggregation**: Assemblers combine multiple serializers and data sources:
+
 - Primary entity serialization (e.g., exercise)
 - Related entity serialization (e.g., track, solution)
 - Additional metadata and links
 - Configuration flags for rendering options
 
 **Consistency Guarantee**: The same assembler used for:
+
 1. **Initial page render**: Server-side data injection into HTML
 2. **API responses**: Client-side data fetching and updates
 
 ## Usage Patterns
 
 **In Controllers**: Assemblers are called using the `.()` syntax:
+
 ```ruby
 class API::ExercisesController < API::BaseController
   def widget_data
-    render json: AssembleExerciseWidget.(
-      exercise,
-      current_user_track,
-      with_tooltip: true,
-      render_blurb: params[:show_blurb],
-      render_track: params[:include_track],
-      recommended: false,
-      skinny: params[:compact]
-    )
+    render json:
+             AssembleExerciseWidget.call(
+               exercise,
+               current_user_track,
+               with_tooltip: true,
+               render_blurb: params[:show_blurb],
+               render_track: params[:include_track],
+               recommended: false,
+               skinny: params[:compact]
+             )
   end
 end
 ```
 
 **In Views**: For initial page data:
+
 ```ruby
 # In a view file
 <div data-react-data="<%= AssembleExerciseWidget.(exercise, user_track, options).to_json %>">
@@ -104,27 +110,29 @@ end
 ## Common Assembler Patterns
 
 **Configuration via parameters**: Use keyword arguments for rendering options:
+
 ```ruby
 def initialize(entity, user_context, with_tooltip:, render_detail:, skinny: false)
 ```
 
 **Conditional serialization**: Include related data based on flags:
+
 ```ruby
 def call
   {
-    primary_data: SerializePrimary.(entity),
-    related_data: render_detail ? SerializeRelated.(entity.related) : nil,
+    primary_data: SerializePrimary.call(entity),
+    related_data: render_detail ? SerializeRelated.call(entity.related) : nil,
     metadata: build_metadata
   }.compact
 end
 ```
 
 **Links and navigation**: Provide URLs for client-side navigation:
+
 ```ruby
 def links
   {
-    api_endpoint: api_path,
-    tooltip: with_tooltip? ? tooltip_path : nil
+    api_endpoint: api_path, tooltip: with_tooltip? ? tooltip_path : nil
   }.compact
 end
 ```

@@ -1,6 +1,7 @@
 # Model Tests
 
 Model tests focus on testing every public method with small, focused tests. Tests should cover:
+
 - **Happy path behavior**: Normal usage scenarios
 - **Edge cases**: Boundary conditions and error states
 - **Validations**: Ensure all model validations work correctly
@@ -15,7 +16,7 @@ class UserTest < ActiveSupport::TestCase
     user = create :user
     track = create :track
     create :user_arbitrary_reputation_token, user:, track:, params: { arbitrary_value: 20 }
-    
+
     assert_equal 20, user.reputation_for_track(track)
   end
 

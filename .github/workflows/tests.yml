@@ -124,7 +124,7 @@ jobs:
         env:
           FILES_PER_BATCH: 50
         run: |
-          tests=$(find test -name '*_test.rb' -not -path 'test/system/*' | xargs -n ${{ env.FILES_PER_BATCH }} | xargs -I {} echo '"{}"' | tr '\n' ',')
+          tests=$(find test -name '*_test.rb' -not -path 'test/system/*' -not -path 'test/visual/*' | xargs -n ${{ env.FILES_PER_BATCH }} | xargs -I {} echo '"{}"' | tr '\n' ',')
           echo "matrix={\"tests\":[${tests}]}" >> $GITHUB_OUTPUT
 
   ruby-tests:

@@ -1,6 +1,7 @@
 # Command Tests
 
 Command tests follow the pattern: **setup, execute command, assert**. Focus on:
+
 - **Happy path test**: One test for the main successful scenario
 - **Edge case tests**: Every possible failure condition and boundary case
 - **Idempotency**: Ensure commands can be run multiple times safely when applicable
@@ -16,7 +17,7 @@ class Solution::CreateTest < ActiveSupport::TestCase
     UserTrack.any_instance.expects(:exercise_unlocked?).returns(true)
 
     solution = Solution::Create.(user, exercise)
-    
+
     assert solution.is_a?(ConceptSolution)
     assert_equal user, solution.user
     assert_equal exercise, solution.exercise

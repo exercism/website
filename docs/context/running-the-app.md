@@ -21,6 +21,7 @@
 ## Database and Services Setup
 
 - Configure MySQL database:
+
   ```sql
   CREATE USER 'exercism'@'localhost' IDENTIFIED BY 'exercism';
   CREATE DATABASE exercism_development;
@@ -32,6 +33,7 @@
   ```
 
 - Start required Docker services:
+
   ```bash
   docker run -dp 3042:8080 -p 3040:4566 -p 3041:4566 localstack/localstack:2.3.2
   docker run -dp 9200:9200 -e "discovery.type=single-node" opensearchproject/opensearch:2.11.0
@@ -46,7 +48,7 @@
 
 ## Build Assets
 
-- Build CSS: `yarn build:css` 
+- Build CSS: `yarn build:css`
   - **TIMING: Initial build ~2-3 minutes, watch mode for development**
 - Build JavaScript: `yarn build`
   - **TIMING: Initial build ~3-5 minutes, watch mode for development**
@@ -80,6 +82,7 @@ Use `./bin/dev` to orchestrate all services:
 ```
 
 This script automatically:
+
 - Clears built assets
 - Starts required Docker services (LocalStack and OpenSearch)
 - Installs JavaScript dependencies
@@ -88,6 +91,7 @@ This script automatically:
 ### Manual startup (all platforms)
 
 **NOTE: This is very rarely necessary - use `./bin/dev` instead.**
+
 ```bash
 # Terminal 1: Rails server
 bundle exec rails server -p 3020

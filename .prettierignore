@@ -3,3 +3,5 @@
 stub.html
 stub.js
 stub.css
+lib/tasks/screenshot.rake
+test/visual/*

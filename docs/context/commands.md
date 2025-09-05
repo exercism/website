@@ -3,6 +3,7 @@
 > **Related Documentation**: See [`API.md`](./API.md) and [`SPI.md`](./SPI.md) for how commands are used in API and SPI controllers.
 
 The `/app/commands` directory contains command objects that encapsulate business logic using the Mandate gem. This pattern promotes:
+
 - Single Responsibility Principle
 - Testable business logic separation from controllers
 - Consistent error handling and callbacks
@@ -41,6 +42,7 @@ end
 ```
 
 **Key principles:**
+
 - The `call` method should be short and rely on memoized values and private methods
 - Use `tap` to always return the created object when appropriate
 - Use bang methods (`foobar!`) for anything that performs actions
@@ -53,10 +55,10 @@ Commands are invoked using the `.()` syntax:
 
 ```ruby
 # Simple call
-result = User::Update.(current_user, params)
+result = User::Update.call(current_user, params)
 
 # With callbacks (common in API controllers)
-cmd = User::Update.(current_user, params)
+cmd = User::Update.call(current_user, params)
 cmd.on_success { render json: {} }
 cmd.on_failure { |errors| render_400(:failed_validations, errors: errors) }
 ```

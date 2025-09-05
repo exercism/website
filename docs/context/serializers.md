@@ -21,7 +21,7 @@ class SerializeExercise
   def call
     {
       slug: exercise.slug,
-      type: exercise.tutorial? ? "tutorial" : exercise.git_type,
+      type: exercise.tutorial? ? 'tutorial' : exercise.git_type,
       title: exercise.title,
       icon_url: exercise.icon_url,
       difficulty: exercise.difficulty_category,
@@ -34,6 +34,7 @@ class SerializeExercise
   end
 
   private
+
   attr_reader :exercise, :user_track, :recommended
 
   def unlocked?
@@ -41,9 +42,7 @@ class SerializeExercise
   end
 
   def links
-    {
-      self: Exercism::Routes.track_exercise_path(exercise.track, exercise)
-    }
+    { self: Exercism::Routes.track_exercise_path(exercise.track, exercise) }
   end
 end
 ```
@@ -76,6 +75,7 @@ end
 ```
 
 **Key benefits:**
+
 - **Eager loading**: Collections preload associations to prevent N+1 queries
 - **Consistent format**: Single and collection serializers produce compatible output
 - **Performance**: Database queries are optimized at the collection level
@@ -87,11 +87,13 @@ Serializers are called directly in controllers using the `.()` syntax:
 ```ruby
 class API::ExercisesController < API::BaseController
   def show
-    render json: SerializeExercise.(exercise, user_track: current_user_track)
+    render json:
+             SerializeExercise.call(exercise, user_track: current_user_track)
   end
 
   def index
-    render json: SerializeExercises.(exercises, user_track: current_user_track)
+    render json:
+             SerializeExercises.call(exercises, user_track: current_user_track)
   end
 end
 ```
@@ -99,25 +101,28 @@ end
 ## Common Patterns
 
 **Optional parameters**: Use keyword arguments with defaults for optional context:
+
 ```ruby
 def initialize(exercise, user_track: nil, recommended: false)
 ```
 
 **Links section**: Include related resource URLs for API navigation:
+
 ```ruby
 def links
   {
     self: Exercism::Routes.track_exercise_path(exercise.track, exercise),
-    solutions: Exercism::Routes.track_exercise_solutions_path(exercise.track, exercise)
+    solutions:
+      Exercism::Routes.track_exercise_solutions_path(exercise.track, exercise)
   }
 end
 ```
 
 **Context-dependent data**: Adjust output based on user permissions or state:
+
 ```ruby
-def call
+def call # ... base data
   {
-    # ... base data
     is_unlocked: user_track.exercise_unlocked?(exercise),
     personal_data: user_track.external? ? nil : personal_progress
   }

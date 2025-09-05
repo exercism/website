@@ -40,7 +40,6 @@ export const Photo = ({
         {user.hasAvatar ? (
           <div className="deleting">
             <Trans
-              ns="components/profile/avatar-selector"
               i18nKey="photo.youCanAlso"
               components={{
                 deleteButton: (

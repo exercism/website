@@ -164,7 +164,6 @@ export function PreviousDonorContent() {
       </p>
       <p className="text-p-large mb-12">
         <Trans
-          ns="components/modals/BegModal.tsx"
           i18nKey="begModal.previousDonorContent.hateToAskAgain"
           components={[<strong className="font-medium" />]}
         />
@@ -185,7 +184,6 @@ export function NonDonorContent() {
       </p>
       <p className="text-p-large mb-12">
         <Trans
-          ns="components/modals/BegModal.tsx"
           i18nKey="begModal.nonDonorContent.mostPeopleCantAfford"
           components={[<strong className="font-medium" />]}
         />

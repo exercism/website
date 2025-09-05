@@ -22,7 +22,6 @@ const TutorialHeader = ({ exercise }: { exercise: Exercise }) => {
         <h2>{t('header.yourSolutionLooksGood')}</h2>
         <p>
           <Trans
-            ns="components/student/solution-summary"
             i18nKey="header.goodJobYourSolutionHasPassedAllTests"
             values={{ exerciseTitle: exercise.title }}
             components={{ strong: <strong /> }}
@@ -69,7 +68,6 @@ export const Header = ({
             <h2>{t('header.yourSolutionFailedTheTests')}</h2>
             <p>
               <Trans
-                ns="components/student/solution-summary"
                 i18nKey="header.hmmmItLooksLikeYourSolutionIsntWorking"
                 components={{
                   articleLink: (
@@ -172,7 +170,6 @@ export const Header = ({
             <h2>{t('header.yourSolutionLooksGreat')}</h2>
             <p>
               <Trans
-                ns="components/student/solution-summary"
                 i18nKey="header.weveAnalysedYourSolutionAndNotFoundAnythingThatNeedsChanging"
                 values={{ count, mentorOffer }}
                 components={{ comments: <span className="non-actionable" /> }}

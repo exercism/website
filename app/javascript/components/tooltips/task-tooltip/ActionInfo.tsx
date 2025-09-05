@@ -29,7 +29,6 @@ const ActionDetails = ({ action }: { action: TaskAction }): JSX.Element => {
         <>
           <h3>
             <Trans
-              ns={transNs}
               i18nKey="actionInfo.createNew"
               components={transComponents}
             />
@@ -42,7 +41,6 @@ const ActionDetails = ({ action }: { action: TaskAction }): JSX.Element => {
         <>
           <h3>
             <Trans
-              ns={transNs}
               i18nKey="actionInfo.fixBroken"
               components={transComponents}
             />
@@ -55,7 +53,6 @@ const ActionDetails = ({ action }: { action: TaskAction }): JSX.Element => {
         <>
           <h3>
             <Trans
-              ns={transNs}
               i18nKey="actionInfo.improveSomething"
               components={transComponents}
             />
@@ -68,7 +65,6 @@ const ActionDetails = ({ action }: { action: TaskAction }): JSX.Element => {
         <>
           <h3>
             <Trans
-              ns={transNs}
               i18nKey="actionInfo.proofread"
               components={transComponents}
             />
@@ -81,7 +77,6 @@ const ActionDetails = ({ action }: { action: TaskAction }): JSX.Element => {
         <>
           <h3>
             <Trans
-              ns={transNs}
               i18nKey="actionInfo.syncContent"
               components={transComponents}
             />

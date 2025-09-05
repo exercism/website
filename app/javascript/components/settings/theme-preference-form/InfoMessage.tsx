@@ -29,7 +29,6 @@ export function InfoMessage({
         <p className="text-p-base mb-16">
           <Trans
             i18nKey="infoMessage.eligibleToJoinInsiders"
-            ns="components/settings/theme-preference-form"
             components={{ 0: <a href={insidersPath}></a> }}
           />
         </p>
@@ -39,7 +38,6 @@ export function InfoMessage({
         <p className="text-p-base mb-16">
           <Trans
             i18nKey="infoMessage.darkModeOnlyAvailableToInsiders"
-            ns="components/settings/theme-preference-form"
             components={{
               0: (
                 <a className="text-prominentLinkColor" href={insidersPath}></a>

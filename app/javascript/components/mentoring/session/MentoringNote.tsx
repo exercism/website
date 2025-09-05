@@ -12,7 +12,6 @@ export const MentoringNote = ({ links }: { links: Links }): JSX.Element => {
     <div className="note">
       <Trans
         i18nKey="components.mentoring.session.mentoringNote.mentoringDocs"
-        ns="session-batch-3"
         components={{
           a: <a href={links.mentoringDocs} target="_blank" rel="noreferrer" />,
         }}

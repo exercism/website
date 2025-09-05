@@ -62,7 +62,6 @@ export default function TrackMenu({
                 <GraphicalIcon icon="external-site-github" />
                 <Trans
                   i18nKey="trackMenu.seeTrackOnGithub"
-                  ns="components/dropdowns"
                   values={{ trackTitle: track.title }}
                   components={{
                     icon: (

@@ -65,7 +65,6 @@ export const DeleteAccountModal = ({
           </p>
           <p>
             <Trans
-              ns="components/modals/DeleteAccountModal.tsx"
               i18nKey="deleteAccount.irreversible"
               components={{ em: <em /> }}
             />

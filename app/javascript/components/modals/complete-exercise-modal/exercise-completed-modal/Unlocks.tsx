@@ -22,7 +22,6 @@ export const Unlocks = ({
         <div className="unlocked-concepts">
           <h3>
             <Trans
-              ns="components/modals/complete-exercise-modal/exercise-completed-modal/Unlocks.tsx"
               i18nKey="unlocks.conceptsUnlocked"
               count={unlockedConcepts.length}
               values={{ count: unlockedConcepts.length }}
@@ -42,7 +41,6 @@ export const Unlocks = ({
         <div className="unlocked-exercises">
           <h3>
             <Trans
-              ns="components/modals/complete-exercise-modal/exercise-completed-modal/Unlocks.tsx"
               i18nKey="unlocks.exercisesUnlocked"
               count={unlockedExercises.length}
               values={{ count: unlockedExercises.length }}

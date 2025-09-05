@@ -74,7 +74,6 @@ export const SummaryDetails = ({ task }: { task: Task }) => {
     <h3>
       <Trans
         i18nKey="summary.workingOn"
-        ns="components/tooltips/task-tooltip"
         values={{
           verb: verb || 'working on',
           module,

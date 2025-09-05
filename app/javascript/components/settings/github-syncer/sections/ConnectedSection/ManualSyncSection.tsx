@@ -65,7 +65,6 @@ export function ManualSyncSection() {
       <p className="text-16 leading-150 mb-16">
         <Trans
           i18nKey="notePleaseUseThisSparing"
-          ns="components/settings/github-syncer/sections/ConnectedSection/ManualSyncSection.tsx"
           components={{ strong: <strong className="font-medium" /> }}
         />
       </p>
@@ -109,7 +108,6 @@ export function ManualSyncSection() {
 
       <p className="text-16 leading-150 mb-16">
         <Trans
-          ns="components/settings/github-syncer/sections/ConnectedSection/ManualSyncSection.tsx"
           components={{ strong: <strong className="font-medium" /> }}
           i18nKey="notePleaseUseThisSparingForExampleWhenYouWantToBootstrapANewRepoThisIsNotDesignedToBePartOfYourNormalWorkflow"
         />

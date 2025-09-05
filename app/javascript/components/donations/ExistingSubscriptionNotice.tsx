@@ -22,14 +22,12 @@ export const ExistingSubscriptionNotice = ({
       <div className="existing-subscription">
         <Trans
           i18nKey="existingSubscriptionNotice.youAlreadyDonate"
-          ns="components/donations"
           values={{ amount: amount.format() }}
           components={[<strong />, <a href={links.settings} />]}
         />
       </div>
       <div className="extra-cta">
         <Trans
-          ns="components/donations"
           i18nKey="existingSubscriptionNotice.extra"
           components={[<button type="button" onClick={onExtraDonation} />]}
         />

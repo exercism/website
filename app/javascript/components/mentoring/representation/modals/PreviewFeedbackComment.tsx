@@ -28,7 +28,6 @@ export function PreviewFeedbackComment({
         <div className="text-15 text-textColor6 font-medium">
           <Trans
             i18nKey="previewFeedbackComment.gaveThisFeedback"
-            ns="components/mentoring/representation/modals"
             values={{ mentorName: mentor.name }}
             components={[<span className="text-textColor1" />]}
           />

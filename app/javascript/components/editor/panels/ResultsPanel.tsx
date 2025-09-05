@@ -51,7 +51,6 @@ export const ResultsPanel = ({
           <GraphicalIcon icon="run-tests-prompt" />
           <h2>
             <Trans
-              ns="components/editor/panels"
               i18nKey="resultsPanel.runTestsToCheckYourCode"
               components={[
                 <button

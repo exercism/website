@@ -63,7 +63,6 @@ export const MentoringRequestForm = ({
             <p>
               <Trans
                 i18nKey="mentoringRequestForm.startMentoringDiscussion"
-                ns="components/student/mentoring-session/mentoring-request"
                 values={{ exerciseTitle: exercise.title }}
                 components={{ strong: <strong /> }}
               />

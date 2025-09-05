@@ -65,16 +65,11 @@ export const ResetAccountModal = ({
             <strong>{t('pleaseReadCarefully')}</strong>
           </p>
           <p>
-            <Trans
-              ns="components/modals/ResetAccountModal.tsx"
-              i18nKey="thisIsIrreversible"
-              components={{ em: <em /> }}
-            />
+            <Trans i18nKey="thisIsIrreversible" components={{ em: <em /> }} />
           </p>
           <hr />
           <p>
             <Trans
-              ns="components/modals/ResetAccountModal.tsx"
               i18nKey="byResettingAccount"
               components={{ strong: <strong /> }}
             />
@@ -90,7 +85,6 @@ export const ResetAccountModal = ({
         <label htmlFor="confirmation">
           <Trans
             i18nKey="toConfirmWriteHandle"
-            ns="components/modals/ResetAccountModal.tsx"
             values={{ handle: handle }}
             components={{ pre: <pre /> }}
           />

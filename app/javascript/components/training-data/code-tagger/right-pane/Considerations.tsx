@@ -11,7 +11,6 @@ export default function Considerations(): JSX.Element | null {
     <p className="flex items-center justify-center font-medium text-16 leading-[24px] py-8 px-16 border-2 border-orange rounded-8 bg-bgCAlert text-textCAlert whitespace-nowrap my-16">
       <Trans
         i18nKey="rightPane.considerations.pleaseReadDocs"
-        ns="components/training-data/code-tagger"
         components={[
           <a
             href="/docs/building/tooling/analyzers/tags"

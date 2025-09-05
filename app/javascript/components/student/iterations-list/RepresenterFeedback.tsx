@@ -24,7 +24,6 @@ export const RepresenterFeedback = ({
         <div className="info">
           <Trans
             i18nKey="representerFeedback.gaveFeedback"
-            ns="components/student/iterations-list"
             values={{ authorName: author.name }}
             components={{
               strong: <strong className="inline-block" />,
@@ -56,7 +55,6 @@ export function EditedBy({
       &nbsp;(
       <Trans
         i18nKey="representerFeedback.editedBy"
-        ns="components/student/iterations-list"
         values={{ editorName: editor.name }}
         components={{ strong: <strong /> }}
       />

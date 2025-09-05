@@ -56,7 +56,6 @@ export const FinishButton = ({
         }}
       >
         <Trans
-          ns="discussion-batch"
           i18nKey="components.mentoring.discussion.finishButton.endDiscussion"
           components={{ hint: <div className="--hint" /> }}
         />

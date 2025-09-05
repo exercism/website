@@ -70,7 +70,6 @@ export const DeleteIterationModal = ({
       <p>
         <Trans
           i18nKey="deleteIterationModal.deletedIterationsRemoved"
-          ns="components/student/iterations-list"
           components={{ strong: <strong /> }}
         />
       </p>

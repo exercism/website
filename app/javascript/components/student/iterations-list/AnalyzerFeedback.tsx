@@ -29,7 +29,6 @@ export const AnalyzerFeedback = ({
         <div className="info">
           <Trans
             i18nKey="analyzerFeedback.analyzerGeneratedFeedback"
-            ns="components/student/iterations-list"
             values={{ trackTitle: track.title }}
             components={{ strong: <strong /> }}
           />

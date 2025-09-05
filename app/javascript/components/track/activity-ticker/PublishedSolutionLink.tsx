@@ -13,7 +13,6 @@ export function PublishedSolutionLink({
   return (
     <span className="inline-flex">
       <Trans
-        ns="components/track/activity-ticker"
         i18nKey="publishedSolutionLink.newSolution"
         components={[
           <a

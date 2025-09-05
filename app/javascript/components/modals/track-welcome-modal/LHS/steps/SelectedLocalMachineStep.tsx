@@ -19,7 +19,6 @@ export function SelectedLocalMachineStep({
       <ol className="list-decimal pl-16 mb-16">
         <li>
           <Trans
-            ns="components/modals/track-welcome-modal/LHS/steps"
             i18nKey="selectedLocalMachineStep.step1"
             components={{
               cliLink: (
@@ -34,7 +33,6 @@ export function SelectedLocalMachineStep({
         </li>
         <li>
           <Trans
-            ns="components/modals/track-welcome-modal/LHS/steps"
             i18nKey="selectedLocalMachineStep.step2"
             values={{ trackTitle: track.title }}
             components={{
@@ -56,7 +54,6 @@ export function SelectedLocalMachineStep({
 
       <div className="text-17 leading-huge mb-16">
         <Trans
-          ns="components/modals/track-welcome-modal/LHS/steps"
           i18nKey="selectedLocalMachineStep.doneMessage"
           components={{
             strong: <strong className="font-semibold" />,

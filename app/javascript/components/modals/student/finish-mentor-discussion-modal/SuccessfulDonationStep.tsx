@@ -36,7 +36,6 @@ export function SuccessfulDonationStep({
         <BadgeMedallion badge={badge} />
         <div className="text-textColor2 text-18 leading-150">
           <Trans
-            ns="components/donations"
             i18nKey="successfulDonationStep.youVeEarnedTheBadge"
             components={[<strong className="font-medium" />]}
           />

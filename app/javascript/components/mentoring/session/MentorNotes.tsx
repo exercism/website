@@ -26,7 +26,6 @@ export const MentorNotes = ({
     return (
       <p className="text-p-base">
         <Trans
-          ns="session-batch-3"
           i18nKey="components.mentoring.session.mentorNotes.noNotesYet"
           components={[
             <a href={improveUrl} target="_blank" rel="noreferrer" />,
@@ -49,7 +48,6 @@ export const MentorNotes = ({
       </h3>
       <p className="text-p-base">
         <Trans
-          ns="session-batch-3"
           i18nKey="components.mentoring.session.mentorNotes.communityNotes"
           components={[
             <a href={improveUrl} target="_blank" rel="noreferrer" />,

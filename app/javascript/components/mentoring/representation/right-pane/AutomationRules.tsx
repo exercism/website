@@ -12,7 +12,6 @@ export default function AutomationRules({
     return (
       <p className="px-24 mb-16 text-p-base">
         <Trans
-          ns="components/mentoring/representation/right-pane"
           i18nKey="automationRules.noGuidance"
           components={[
             <a

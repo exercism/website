@@ -80,7 +80,6 @@ export const DeleteTestimonialModal = ({
       <h3>{t('deleteTestimonialModal.areYouSure')}</h3>
       <p>
         <Trans
-          ns="components/mentoring/testimonials-list/revealed-testimonial"
           i18nKey="deleteTestimonialModal.deletingWillHide"
           components={{ strong: <strong /> }}
         />

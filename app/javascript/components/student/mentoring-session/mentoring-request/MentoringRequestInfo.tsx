@@ -95,7 +95,6 @@ export const MentoringRequestInfo = ({
           <p>
             {t('mentoringRequestInfo.mentoringRelies')}{' '}
             <Trans
-              ns="components/student/mentoring-session/mentoring-request"
               i18nKey="mentoringRequestInfo.readOurGuide"
               components={[
                 <a

@@ -21,7 +21,6 @@ export function WhoIsThisTrackForRHS(): JSX.Element {
           />
           <div>
             <Trans
-              ns="components/modals/track-welcome-modal/RHS"
               i18nKey="whoIsThisTrackFor.courseName"
               components={{ strong: <strong className="font-semibold" /> }}
               parent="span"
@@ -41,7 +40,6 @@ export function WhoIsThisTrackForRHS(): JSX.Element {
                 className="mr-8 w-[20px]"
               />
               <Trans
-                ns="components/modals/track-welcome-modal/RHS"
                 i18nKey="whoIsThisTrackFor.courseOffers.expertTeaching"
                 components={{ strong: <strong className="font-semibold" /> }}
                 parent="span"
@@ -54,7 +52,6 @@ export function WhoIsThisTrackForRHS(): JSX.Element {
                 className="mr-8 w-[20px]"
               />
               <Trans
-                ns="components/modals/track-welcome-modal/RHS"
                 i18nKey="whoIsThisTrackFor.courseOffers.handsOnProjects"
                 components={{ strong: <strong className="font-semibold" /> }}
                 parent="span"
@@ -67,7 +64,6 @@ export function WhoIsThisTrackForRHS(): JSX.Element {
                 className="mr-8 w-[20px]"
               />
               <Trans
-                ns="components/modals/track-welcome-modal/RHS"
                 i18nKey="whoIsThisTrackFor.courseOffers.completeSyllabus"
                 components={{ strong: <strong className="font-semibold" /> }}
                 parent="span"
@@ -80,7 +76,6 @@ export function WhoIsThisTrackForRHS(): JSX.Element {
                 className="mr-8 w-[20px]"
               />
               <Trans
-                ns="components/modals/track-welcome-modal/RHS"
                 i18nKey="whoIsThisTrackFor.courseOffers.certificate"
                 components={{ strong: <strong className="font-semibold" /> }}
                 parent="span"

@@ -58,7 +58,6 @@ export default function CommentsPreferenceForm({
         <p className="text-p-base mb-12">
           <Trans
             i18nKey="commentsPreferenceForm.settingToControlComments"
-            ns="components/settings/comments-preference-form"
             components={[<span className="font-medium" />]}
           />
         </p>

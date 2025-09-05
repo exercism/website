@@ -32,7 +32,6 @@ const ProfileTestimonial = ({
         <div className="exercise">
           <Trans
             i18nKey="exerciseTrack"
-            ns="components/profile/testimonials-list"
             values={{
               exerciseTitle: testimonial.exercise.title,
               trackTitle: testimonial.track.title,

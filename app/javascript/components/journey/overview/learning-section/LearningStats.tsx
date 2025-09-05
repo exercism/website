@@ -25,7 +25,6 @@ export const LearningStats = ({
       <div className="stat">
         <Trans
           i18nKey="learningStats.linesOfCodeStat"
-          ns="components/journey/overview/learning-section"
           values={{
             numLines: tracks.numLines.toLocaleString(),
             lineLabel: pluralize('line', tracks.numLines),
@@ -42,7 +41,6 @@ export const LearningStats = ({
       <div className="stat">
         <Trans
           i18nKey="learningStats.aesopFact"
-          ns="components/journey/overview/learning-section"
           components={{
             fableLink: <a href={links.fable} />,
           }}

@@ -34,7 +34,6 @@ export const Info = ({
         {track && !isSkinny ? (
           <div className="--track">
             <Trans
-              ns="components/common/exercise-widget"
               i18nKey="info.titleInTrack"
               values={{ trackTitle: track.title }}
               components={[

@@ -8,7 +8,6 @@ export const Reminder = (): JSX.Element => {
     <p className="text-p-small text-text-textColor6 mt-16 mb-32">
       <Trans
         i18nKey="commentsList.reminder.rememberComments"
-        ns="components/community-solutions"
         components={[<strong />]}
       />
     </p>

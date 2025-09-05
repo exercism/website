@@ -48,7 +48,6 @@ export const TrackSummary = ({
             <h4>{track.progressChart.period}</h4>
             <p>
               <Trans
-                ns="components/journey/overview/learning-section"
                 i18nKey="trackSummary.exercisesCompleted"
                 values={{
                   completed: track.numCompletedExercises,
@@ -67,14 +66,12 @@ export const TrackSummary = ({
           </h4>
           <h5 className="text-h6">
             <Trans
-              ns="components/journey/overview/learning-section"
               i18nKey="trackSummary.joinedTrack"
               values={{ title: track.title }}
             />
           </h5>
           <p>
             <Trans
-              ns="components/journey/overview/learning-section"
               i18nKey="trackSummary.startedTrackAgo"
               values={{
                 title: track.title,
@@ -92,7 +89,6 @@ export const TrackSummary = ({
           </h4>
           <h5 className="text-h6">
             <Trans
-              ns="components/journey/overview/learning-section"
               i18nKey="trackSummary.mentoringSessionsCompleted"
               count={track.numCompletedMentoringDiscussions}
               values={{ count: track.numCompletedMentoringDiscussions }}
@@ -100,7 +96,6 @@ export const TrackSummary = ({
           </h5>
           <p>
             <Trans
-              ns="components/journey/overview/learning-section"
               i18nKey="trackSummary.mentoringStatus"
               values={{
                 inProgress: inProgressLabel,
@@ -119,7 +114,6 @@ export const TrackSummary = ({
             {avgVelocity ? (
               <div className="note">
                 <Trans
-                  ns="components/journey/overview/learning-section"
                   i18nKey="trackSummary.avgVelocity"
                   values={{ avg: avgVelocity }}
                 />

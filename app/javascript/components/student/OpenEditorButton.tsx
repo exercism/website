@@ -123,7 +123,6 @@ const DropdownPanel = ({
 
       <p>
         <Trans
-          ns="components/student/OpenEditorButton.tsx"
           i18nKey="openEditor.firstTimeUsingSetup"
           components={{
             link: <a href={links.local} target="_blank" rel="noreferrer" />,

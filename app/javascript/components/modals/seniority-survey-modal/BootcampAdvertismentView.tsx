@@ -18,7 +18,6 @@ export function BootcampAdvertismentView() {
         <header>
           <h1 className="!font-medium">
             <Trans
-              ns="components/modals/seniority-survey-modal"
               i18nKey="bootcampAd.heading"
               components={{ strong: <strong className="font-semibold" /> }}
             />
@@ -26,7 +25,6 @@ export function BootcampAdvertismentView() {
 
           <p className="mb-8">
             <Trans
-              ns="components/modals/seniority-survey-modal"
               i18nKey="bootcampAd.description"
               components={{
                 strong: <strong className="!font-semibold text-black" />,
@@ -65,7 +63,6 @@ export function BootcampAdvertismentView() {
 
           <p className="mb-8">
             <Trans
-              ns="components/modals/seniority-survey-modal"
               i18nKey="bootcampAd.punchline"
               components={{
                 strong: <strong className="text-black font-semibold" />,
@@ -126,7 +123,6 @@ export function BootcampAdvertismentView() {
             <Icon category="bootcamp" alt="wave-icon" icon="video-tutorial" />
             <div className="text">
               <Trans
-                ns="components/modals/seniority-survey-modal"
                 i18nKey="bootcampAd.feature.video"
                 components={{ strong: <strong /> }}
               />
@@ -137,7 +133,6 @@ export function BootcampAdvertismentView() {
             <Icon category="bootcamp" alt="fun-icon" icon="fun" />
             <div className="text">
               <Trans
-                ns="components/modals/seniority-survey-modal"
                 i18nKey="bootcampAd.feature.fun"
                 components={{ strong: <strong /> }}
               />
@@ -148,7 +143,6 @@ export function BootcampAdvertismentView() {
             <Icon category="bootcamp" alt="help-icon" icon="help" />
             <div className="text">
               <Trans
-                ns="components/modals/seniority-survey-modal"
                 i18nKey="bootcampAd.feature.mentors"
                 components={{ strong: <strong /> }}
               />
@@ -166,7 +160,6 @@ export function BootcampAdvertismentView() {
             <span>
               <p>
                 <Trans
-                  ns="components/modals/seniority-survey-modal"
                   i18nKey="bootcampAd.quote"
                   components={{ strong: <strong /> }}
                 />

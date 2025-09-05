@@ -49,7 +49,6 @@ export function ConnectModal({
         </p>
         <p className="!text-18 leading-140 mb-16 text-balance text-center">
           <Trans
-            ns="components/settings/github-syncer/sections/ConnectToGithubSection"
             i18nKey="connectModal.permissionWarning"
             components={{ strong: <strong /> }}
           />

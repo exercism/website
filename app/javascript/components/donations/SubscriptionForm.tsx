@@ -71,7 +71,6 @@ export function ExternalDonationManagement({
     <p className="text-p-base">
       <Trans
         i18nKey="externalDonationManagement.yourRegularDonationIsManagedByToModifyOrCancelYourRecurringDonationPleaseUseDashboard"
-        ns="components/donations"
         values={{ displayName }}
         components={[
           <a className="text-prominentLinkColor" href={updateLink} />,

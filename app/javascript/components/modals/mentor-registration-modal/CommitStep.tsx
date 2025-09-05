@@ -80,7 +80,6 @@ export const CommitStep = ({
 
           <Checkbox onChange={handleChange}>
             <Trans
-              ns="components/modals/mentor-registration-modal"
               i18nKey="commitStep.codeOfConduct"
               components={{
                 a: (
@@ -99,7 +98,6 @@ export const CommitStep = ({
 
           <Checkbox onChange={handleChange}>
             <Trans
-              ns="components/modals/mentor-registration-modal"
               i18nKey="commitStep.intellectualHumility"
               components={{
                 a: (

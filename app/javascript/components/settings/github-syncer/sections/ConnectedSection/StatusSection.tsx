@@ -62,7 +62,6 @@ export function StatusSection() {
       />
       <p className="text-18 leading-140">
         <Trans
-          ns="components/settings/github-syncer/sections/ConnectedSection"
           i18nKey="statusSection.githubSyncerLinked"
           components={{ strong: <strong />, code: <code /> }}
           values={{ repoFullName: syncer?.repoFullName }}

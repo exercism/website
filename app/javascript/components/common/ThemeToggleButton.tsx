@@ -80,7 +80,6 @@ export function DisabledThemeSelectorTooltip({
     <div className="flex text-14 font-medium">
       <Trans
         i18nKey="themeToggleButton.joinInsiders"
-        ns="components/common/ThemeToggleButton.tsx"
         components={[
           <a
             className="text-14 text-[#F7B000] underline"

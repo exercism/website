@@ -21,14 +21,12 @@ export function JuniorView() {
 
           <p className="mb-8">
             <Trans
-              ns="components/modals/welcome-modal"
               i18nKey="juniorView.codingFundamentalsDesigned"
               components={{ strong: <strong /> }}
             />
           </p>
           <p className="mb-8">
             <Trans
-              ns="components/modals/welcome-modal"
               i18nKey="juniorView.itWillTeach"
               components={{ strong: <strong /> }}
             />
@@ -61,7 +59,6 @@ export function JuniorView() {
           </div>
           <p>
             <Trans
-              ns="components/modals/welcome-modal"
               i18nKey="juniorView.thisIsCourseAnyone"
               components={{
                 strong: (
@@ -82,7 +79,6 @@ export function JuniorView() {
             }}
           >
             <Trans
-              ns="components/modals/welcome-modal"
               i18nKey="juniorView.learnMore"
               components={{
                 strong: (
@@ -121,7 +117,6 @@ export function JuniorView() {
             <div>
               {' '}
               <Trans
-                ns="components/modals/welcome-modal"
                 i18nKey="juniorView.exercismsCodingFundamentals"
                 components={{
                   strong: (
@@ -148,7 +143,6 @@ export function JuniorView() {
                 />
                 <span>
                   <Trans
-                    ns="components/modals/welcome-modal"
                     i18nKey="juniorView.expertTeaching"
                     components={{
                       strong: (
@@ -167,7 +161,6 @@ export function JuniorView() {
                 <span>
                   {' '}
                   <Trans
-                    ns="components/modals/welcome-modal"
                     i18nKey="juniorView.overHoursHandsOn"
                     components={{
                       strong: (
@@ -186,7 +179,6 @@ export function JuniorView() {
                 <span>
                   {' '}
                   <Trans
-                    ns="components/modals/welcome-modal"
                     i18nKey="juniorView.aCompleteCoding"
                     components={{
                       strong: (
@@ -205,7 +197,6 @@ export function JuniorView() {
                 <span>
                   {' '}
                   <Trans
-                    ns="components/modals/welcome-modal"
                     i18nKey="juniorView.aFormalCertificate"
                     components={{
                       strong: (

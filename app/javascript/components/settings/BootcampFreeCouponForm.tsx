@@ -52,7 +52,6 @@ export default function BootcampFreeCouponForm({
       <p className="text-p-base mb-12">
         <Trans
           i18nKey="bootcampFreeCouponForm.lifetimeInsiderEligible"
-          ns="components/settings/BootcampFreeCouponForm.tsx"
           components={[
             <a
               href="https://exercism.org/bootcamp?utm_source=exercism&utm_medium=free_settings"

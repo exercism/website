@@ -11,7 +11,6 @@ export const TrackInfo = ({ track }: Pick<Task, 'track'>): JSX.Element => {
   return (
     <div className="track">
       <Trans
-        ns="components/contributing/tasks-list/task"
         i18nKey="trackInfo.for"
         values={{ trackTitle: track.title }}
         components={[

@@ -19,14 +19,12 @@ export default function AutomationRules(): JSX.Element | null {
         <li className="mb-2">
           <Trans
             i18nKey="rightPane.automationRules.ifUnclearAskOnForum"
-            ns="components/training-data/code-tagger"
             components={[<a href="https://forum.exercism.org" />]}
           />
         </li>
         <li>
           <Trans
             i18nKey="rightPane.automationRules.stickToOfficialList"
-            ns="components/training-data/code-tagger"
             components={[<a href="https://forum.exercism.org" />]}
           />
         </li>

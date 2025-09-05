@@ -28,11 +28,7 @@ const SizeDetails = ({ size }: { size: TaskSize }): JSX.Element => {
       return (
         <>
           <h3>
-            <Trans
-              ns={transNs}
-              i18nKey="sizeInfo.tinyTask"
-              components={transComponents}
-            />
+            <Trans i18nKey="sizeInfo.tinyTask" components={transComponents} />
           </h3>
           <p>{t('sizeInfo.completeInMinutes')}</p>
         </>
@@ -41,11 +37,7 @@ const SizeDetails = ({ size }: { size: TaskSize }): JSX.Element => {
       return (
         <>
           <h3>
-            <Trans
-              ns={transNs}
-              i18nKey="sizeInfo.smallTask"
-              components={transComponents}
-            />
+            <Trans i18nKey="sizeInfo.smallTask" components={transComponents} />
           </h3>
           <p>{t('sizeInfo.completeInHour')}</p>
         </>
@@ -55,7 +47,6 @@ const SizeDetails = ({ size }: { size: TaskSize }): JSX.Element => {
         <>
           <h3>
             <Trans
-              ns={transNs}
               i18nKey="sizeInfo.mediumSizedTask"
               components={transComponents}
             />
@@ -67,11 +58,7 @@ const SizeDetails = ({ size }: { size: TaskSize }): JSX.Element => {
       return (
         <>
           <h3>
-            <Trans
-              ns={transNs}
-              i18nKey="sizeInfo.largeTask"
-              components={transComponents}
-            />
+            <Trans i18nKey="sizeInfo.largeTask" components={transComponents} />
           </h3>
           <p>{t('sizeInfo.bigContribution')}</p>
         </>
@@ -80,11 +67,7 @@ const SizeDetails = ({ size }: { size: TaskSize }): JSX.Element => {
       return (
         <>
           <h3>
-            <Trans
-              ns={transNs}
-              i18nKey="sizeInfo.project"
-              components={transComponents}
-            />
+            <Trans i18nKey="sizeInfo.project" components={transComponents} />
           </h3>
           <p>{t('sizeInfo.daysToComplete')}</p>
         </>

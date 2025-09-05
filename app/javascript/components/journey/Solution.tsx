@@ -98,7 +98,6 @@ export const Solution = ({
             <div className="extra">
               <div className="track">
                 <Trans
-                  ns="components/journey"
                   i18nKey="solution.inTrack"
                   values={{ track: track.title }}
                   components={[

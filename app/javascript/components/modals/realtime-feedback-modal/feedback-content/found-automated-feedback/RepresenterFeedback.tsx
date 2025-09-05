@@ -28,7 +28,6 @@ export const RepresenterFeedback = ({
         />
         <div className="info">
           <Trans
-            ns="components/modals/realtime-feedback-modal/feedback-content/found-automated-feedback"
             i18nKey="representerFeedback.gaveFeedbackSimilarSolution"
             components={[<strong className="inline-block" />]}
           />

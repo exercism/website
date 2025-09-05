@@ -17,7 +17,6 @@ export function UploadVideoModalHeader({
       </h2>
       <p className="text-prose mb-24">
         <Trans
-          ns="components/modals/upload-video/elements"
           i18nKey="uploadVideoModalHeader.producedAVideoOfWorkingThroughThisExerciseYourselfWantToShareItWithTheExercismCommunity"
           components={[<strong className="font-medium text" />]}
         />

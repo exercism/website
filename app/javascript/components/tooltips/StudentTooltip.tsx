@@ -60,7 +60,6 @@ const StudentTooltip = React.forwardRef<
             {data.student.numTotalDiscussions > 0 ? (
               <div className="previous-sessions">
                 <Trans
-                  ns="components/tooltips/student-tooltip"
                   i18nKey={previousSessionsKey(
                     data.student.numTotalDiscussions,
                     data.student.numDiscussionsWithMentor
@@ -77,7 +76,6 @@ const StudentTooltip = React.forwardRef<
               <div className="previous-sessions">
                 <Trans
                   i18nKey="firstSession"
-                  ns="components/tooltips/student-tooltip"
                   components={{ strong: <strong /> }}
                 />
               </div>

@@ -39,7 +39,6 @@ export const TutorialCompletedModal = ({
 
       <p>
         <Trans
-          ns="components/modals/complete-exercise-modal"
           i18nKey={
             hasCourse
               ? 'tutorialCompletedModal.body.withCourse'

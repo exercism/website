@@ -19,7 +19,6 @@ export function BootcampRecommendationView() {
 
       <p className="mb-8">
         <Trans
-          ns="components/modals/track-welcome-modal/LHS"
           i18nKey="bootcampRecommendation.tracksAudience"
           components={{
             strong: <strong className="font-semibold text-black" />,
@@ -29,7 +28,6 @@ export function BootcampRecommendationView() {
 
       <p className="mb-8">
         <Trans
-          ns="components/modals/track-welcome-modal/LHS"
           i18nKey="bootcampRecommendation.codingJourney"
           components={{
             strong: <strong className="font-semibold text-black" />,
@@ -68,7 +66,6 @@ export function BootcampRecommendationView() {
 
       <p className="mb-12">
         <Trans
-          ns="components/modals/track-welcome-modal/LHS"
           i18nKey="bootcampRecommendation.selfPaced"
           components={{
             strong: <strong />,

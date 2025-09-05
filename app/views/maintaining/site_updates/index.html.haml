@@ -2,32 +2,32 @@
 
 #maintaining-site-updates.c-admin-page
   .lg-container
-    %h1.text-h1.mb-16.mt-32= t('.site_updates_heading')
+    %h1.text-h1.mb-16.mt-32 Site updates
     - if flash[:site_updates_notice]
       .mb-12.text-p-base.font-bold.text-darkSuccessGreen= flash[:site_updates_notice]
     %table.mb-16.c-admin-table
       %thead
         %tr
-          %th= t('.table_headers.type')
-          %th= t('.table_headers.about')
+          %th Type
+          %th About
           %th.flex.items-center.gap-8
-            = t('.table_headers.published_at')
-            = icon('question-circle', t('.published_at_icon_alt'), css_class: 'filter-textColor5', height: 16, width: 16, title: t('.published_at_icon_title'))
-          %th= t('.table_headers.expanded_details')
-          %th= t('.table_headers.pull_request')
+            Published At
+            = icon('question-circle', 'Icon of a question mark', css_class: 'filter-textColor5', height: 16, width: 16, title: 'Site updates are published a few hours after the exercises are put live ')
+          %th Expanded Details
+          %th Pull Request
           %th
       %tbody
         - @updates.each do |update|
           %tr
             - case update
             - when SiteUpdates::NewExerciseUpdate
-              %td= t('.update_type.exercise')
+              %td Exercise
               %td #{update.track&.title} / #{update.exercise&.title}
             - when SiteUpdates::NewConceptUpdate
-              %td= t('.update_type.concept')
+              %td Concept
               %td #{update.track&.title} / #{update.concept&.name}
             - when SiteUpdates::ArbitraryUpdate
-              %td= t('.update_type.arbitrary')
+              %td Arbitrary
               %td= update.track&.title
 
             %td= update.published_at
@@ -39,9 +39,9 @@
             %td= update.pull_request&.title
             %td
               - if update.editable_by?(current_user)
-                = link_to t('.edit_link'), edit_maintaining_site_update_path(update), class: 'text-prominentLinkColor font-bold'
+                = link_to "Edit", edit_maintaining_site_update_path(update), class: 'text-prominentLinkColor font-bold'
 
     .flex
-      = link_to t('.new_site_update_button'), new_maintaining_site_update_path, class: 'btn btn-primary btn-base'
+      = link_to "New site update", new_maintaining_site_update_path, class: 'btn btn-primary btn-base'
 
     = paginate @updates

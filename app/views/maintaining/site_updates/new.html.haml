@@ -1,5 +1,5 @@
 - require_stylesheet "maintaining"
 
 #maintaining-site-update-form.c-site-updates-form
-  %h2.text-h3= t('.new_site_update_heading')
-  = render "form", update: @update, url: %i[maintaining site_updates], button_label: t('.create_button_label'), tracks: @tracks
+  %h2.text-h3 New Site Update
+  = render "form", update: @update, url: %i[maintaining site_updates], button_label: "Create Site Update", tracks: @tracks

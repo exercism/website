@@ -2,7 +2,7 @@
 
 :css
   #maintaining-track-maintainers {
-    padding: 25px 5%;
+    padding:25px 5%;
     font-size: 16px;
   }
   h2 {
@@ -17,54 +17,54 @@
     border: 1px solid #ddd;
     border-bottom: 1px solid #888;
     padding: 10px;
-    text-align: left;
-    font-weight: 600;
+    text-align:left;
+    font-weight:600px;
   }
   td {
     border: 1px solid #ddd;
     border-bottom: 1px solid #aaa;
     padding: 10px;
-    font: monospace;
-    vertical-align: top;
+    white-space: pre;
+    font:monospace;
+    vertical-align:top;
     white-space: pre-wrap;
   }
 
 #maintaining-track-maintainers
-  %h2.text-h3= t('.track_maintainers_heading')
+  %h2.text-h3 Track Maintainers
 
-  .text-h5.mb-4= t('.legend_heading')
+  .text-h5.mb-4 Legend
   .text-16
     .mb-8
-      = t('.active_description.text')
-      %strong= t('.active_description.emphasis')
+      Active = Member of track team and their building reputation meets the member minimum threshold.
+      %strong Shows the user's Exercism login.
     .mb-8
-      = t('.inactive_description.text')
-      %strong= t('.inactive_description.emphasis')
+      Inactive = Member of track team but their building reputation does not meet the member minimum threshold.
+      %strong Shows the user's Exercism login.
     .mb-8
-      = t('.candidates_description.text')
-      %strong= t('.candidates_description.emphasis')
+      Candidates = Not member of track team but their building reputation meet the candidate minimum threshold.
+      %strong Shows the user's Exercism login.
     .mb-8
-      = t('.contributors_description.text')
-      %strong= t('.contributors_description.emphasis')
+      Contributors = Not member of track team and their building reputation does not meet the candidate minimum threshold.
+      %strong Shows the user's Exercism login.
     .mb-16
-      = t('.unlinked_description.text')
-      %strong= t('.unlinked_description.emphasis')
-
-  .text-h5.mb-4= t('.cutoff_values_heading')
+      Unlinked = Member of track team but no user found linked to that GitHub username.
+      %strong Shows the user's GitHub username.
+  .text-h5.mb-4 Cutoff values used
   .text-16
-    .mb-8= t('.min_rep_member_html', min_rep: Track::RetrieveMaintainersStatus::MIN_REP_FOR_MEMBER)
-    .mb-8= t('.min_rep_candidate_html', min_rep: Track::RetrieveMaintainersStatus::MIN_REP_FOR_CANDIDATE)
-    .mb-8= t('.last_months_rep_html', num_months: Track::RetrieveMaintainersStatus::LAST_NUMBER_OF_MONTHS_FOR_REP)
+    .mb-8 Minimum reputation for member: #{Track::RetrieveMaintainersStatus::MIN_REP_FOR_MEMBER}
+    .mb-8 Minimum reputation for candidate: #{Track::RetrieveMaintainersStatus::MIN_REP_FOR_CANDIDATE}
+    .mb-8 Last number of months for reputation: #{Track::RetrieveMaintainersStatus::LAST_NUMBER_OF_MONTHS_FOR_REP}
 
   %table.mb-16.c-admin-table
     %thead
       %tr
-        %th= t('.table_headers.track')
-        %th= t('.table_headers.active')
-        %th= t('.table_headers.inactive')
-        %th= t('.table_headers.candidates')
-        %th= t('.table_headers.contributors')
-        %th= t('.table_headers.unlinked')
+        %th Track
+        %th Active
+        %th Inactive
+        %th Candidates
+        %th Contributors
+        %th Unlinked
 
     %tbody
       - @track_maintainers_status.each do |track, maintainers|
@@ -72,38 +72,36 @@
           %td= track.title
           %td
             %ul
-              - maintainers[:active].each do |maintainer|
-                %li
-                  = `#{maintainer[:handle]} (#{maintainer[:reputation]} rep)`
-                  - if maintainer[:github_username]
-                    = "(#{link_to(t('.commits_text'), "#{track.repo_url}/commits?author=#{maintainer[:github_username]}")})"
+            - maintainers[:active].each do |maintainer|
+              %li
+                #{maintainer[:handle]} (#{maintainer[:reputation]} rep)
+                - if maintainer[:github_username]
+                  (#{link_to 'commits', "#{track.repo_url}/commits?author=#{maintainer[:github_username]}"})
           %td
             %ul
-              - maintainers[:inactive].each do |maintainer|
-                %li
-                  = `#{maintainer[:handle]} (#{maintainer[:reputation]} rep)`
-                  - if maintainer[:github_username]
-                    = "(#{link_to(t('.commits_text'), "#{track.repo_url}/commits?author=#{maintainer[:github_username]}")})"
+            - maintainers[:inactive].each do |maintainer|
+              %li
+                #{maintainer[:handle]} (#{maintainer[:reputation]} rep)
+                - if maintainer[:github_username]
+                  (#{link_to 'commits', "#{track.repo_url}/commits?author=#{maintainer[:github_username]}"})
           %td
             %ul
-              - maintainers[:candidates].each do |maintainer|
-                %li
-                  = `#{maintainer[:handle]} (#{maintainer[:reputation]} rep)`
-                  - if maintainer[:github_username]
-                    = "(#{link_to(t('.commits_text'), "#{track.repo_url}/commits?author=#{maintainer[:github_username]}")})"
+            - maintainers[:candidates].each do |maintainer|
+              %li
+                #{maintainer[:handle]} (#{maintainer[:reputation]} rep)
+                - if maintainer[:github_username]
+                  (#{link_to 'commits', "#{track.repo_url}/commits?author=#{maintainer[:github_username]}"})
           %td
             %ul
-              - maintainers[:contributors].each do |maintainer|
-                %li
-                  = `#{maintainer[:handle]} (#{maintainer[:reputation]} rep)`
-                  - if maintainer[:github_username]
-                    = "(#{link_to(t('.commits_text'), "#{track.repo_url}/commits?author=#{maintainer[:github_username]}")})"
+            - maintainers[:contributors].each do |maintainer|
+              %li
+                #{maintainer[:handle]} (#{maintainer[:reputation]} rep)
+                - if maintainer[:github_username]
+                  (#{link_to 'commits', "#{track.repo_url}/commits?author=#{maintainer[:github_username]}"})
           %td
             %ul
-              - maintainers[:unlinked].each do |maintainer|
-                %li
-                  = link_to maintainer[:github_username], "https://github.com/#{maintainer[:github_username]}"
-                  = "(#{link_to(t('.commits_text'), "#{track.repo_url}/commits?author=#{maintainer[:github_username]}")})"
+            - maintainers[:unlinked].each do |maintainer|
+              %li #{link_to maintainer[:github_username], "https://github.com/#{maintainer[:github_username]}"} (#{link_to 'commits', "#{track.repo_url}/commits?author=#{maintainer[:github_username]}"})
 
   %p.mb-16
-    = button_to t('.clear_cache_button'), maintaining_track_maintainers_path, method: :post, form: { data: { turbo_confirm: t('.clear_cache_confirm') } }, class: 'btn btn-warning'
+    = button_to "Clear cache", maintaining_track_maintainers_path, method: :post, form: { data: { turbo_confirm: "Are you sure? This is an expensive operation" } }, class: 'btn btn-warning'

@@ -36,7 +36,7 @@ export default ({
   links,
   provider,
 }: SubscriptionFormProps): JSX.Element => {
-  const { t } = useAppTranslation('components/donations')
+  const { t } = useAppTranslation()
   return (
     <React.Fragment>
       <h2>
@@ -66,7 +66,7 @@ export function ExternalDonationManagement({
   displayName,
   updateLink,
 }: ProviderInfoEntry): JSX.Element {
-  const { t } = useAppTranslation('components/donations')
+  const { t } = useAppTranslation()
   return (
     <p className="text-p-base">
       <Trans

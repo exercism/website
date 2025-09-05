@@ -25,7 +25,7 @@ export const ResetAccountModal = ({
   handle: string
   endpoint: string
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/modals/ResetAccountModal.tsx')
+  const { t } = useAppTranslation()
   const {
     mutate: mutation,
     status,

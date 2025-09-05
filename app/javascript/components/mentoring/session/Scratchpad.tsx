@@ -30,7 +30,7 @@ export const Scratchpad = ({
   track: Track | RepresentationTrack
   exercise: Exercise | RepresentationExercise
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/mentoring/session/Scratchpad.tsx')
+  const { t } = useAppTranslation()
   const [content, setContent] = useState('')
   const [error, setError] = useState('')
   const [page, setPage] = useState<ScratchpadPage | null>(null)
@@ -202,7 +202,7 @@ function UnsavedWidget({
   isUnchanged,
   isBelowLgWidth,
 }: Record<'isUnchanged' | 'isBelowLgWidth', boolean>): JSX.Element | null {
-  const { t } = useAppTranslation('components/mentoring/session/Scratchpad.tsx')
+  const { t } = useAppTranslation()
   if (isUnchanged) return null
   if (isBelowLgWidth)
     return (

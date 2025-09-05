@@ -18,7 +18,7 @@ export const TagsFilter = ({
   value: string[]
   numTracks: number
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/student/tracks-list')
+  const { t } = useAppTranslation()
   const [expanded, setExpanded] = useState(false)
   const [selectedTags, setSelectedTags] = useState<string[]>(value)
   const [hasExpandedEver, markAsExpanded] = useState(false)

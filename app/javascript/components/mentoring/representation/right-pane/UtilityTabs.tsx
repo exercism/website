@@ -17,9 +17,7 @@ export function UtilityTabs({
 }: {
   data: CompleteRepresentationData
 }): JSX.Element {
-  const { t } = useAppTranslation(
-    'components/mentoring/representation/right-pane'
-  )
+  const { t } = useAppTranslation()
   const [tab, setTab] = useState<RepresentationTabIndex>('information')
 
   return (

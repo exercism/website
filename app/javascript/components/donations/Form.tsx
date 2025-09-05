@@ -62,7 +62,7 @@ export const Form = ({
   onSettled = () => null,
   id,
 }: Props): JSX.Element => {
-  const { t } = useAppTranslation('components/donations')
+  const { t } = useAppTranslation()
   const queryClient = useQueryClient()
   const { data, status, error } = useRequestQuery<{
     subscription: Subscription

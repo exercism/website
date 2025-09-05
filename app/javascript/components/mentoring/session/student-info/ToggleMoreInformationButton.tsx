@@ -12,7 +12,7 @@ export function ToggleMoreInformationButton({
   onClick: () => void
   rotate?: boolean
 }) {
-  const { t } = useAppTranslation('components/mentoring/session/student-info')
+  const { t } = useAppTranslation()
   return (
     <button
       className="self-stretch flex justify-center items-center mt-8 -mx-24 -mb-16 py-4 bg-backgroundColorD"

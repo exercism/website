@@ -7,7 +7,7 @@ type Links = {
 }
 
 export const MentoringNote = ({ links }: { links: Links }): JSX.Element => {
-  useAppTranslation('session-batch-3')
+  useAppTranslation()
   return (
     <div className="note">
       <Trans

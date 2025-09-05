@@ -13,7 +13,7 @@ export function InfoMessage({
   insidersPath: string
   isInsider: boolean
 }): JSX.Element {
-  const { t } = useAppTranslation('components/settings/theme-preference-form')
+  const { t } = useAppTranslation()
   if (isInsider) {
     return (
       <p className="text-p-base mb-16">

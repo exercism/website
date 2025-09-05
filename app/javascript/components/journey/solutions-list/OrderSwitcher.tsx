@@ -4,7 +4,7 @@ import { Order } from '../SolutionsList'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const OptionComponent = ({ option: order }: { option: Order }) => {
-  const { t } = useAppTranslation('components/journey/solutions-list')
+  const { t } = useAppTranslation()
   switch (order) {
     case 'oldest_first':
       return <>{t('orderSwitcher.oldestFirst')}</>

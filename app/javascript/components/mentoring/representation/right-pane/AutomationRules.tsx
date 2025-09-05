@@ -6,9 +6,7 @@ import { Trans } from 'react-i18next'
 export default function AutomationRules({
   guidance,
 }: Pick<CompleteRepresentationData, 'guidance'>): JSX.Element | null {
-  const { t } = useAppTranslation(
-    'components/mentoring/representation/right-pane'
-  )
+  const { t } = useAppTranslation()
 
   if (!guidance.representations) {
     return (

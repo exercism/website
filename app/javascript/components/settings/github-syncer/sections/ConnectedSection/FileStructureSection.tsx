@@ -12,9 +12,7 @@ import { useAppTranslation } from '@/i18n/useAppTranslation'
 import { Trans } from 'react-i18next'
 
 export function FileStructureSection() {
-  const { t } = useAppTranslation(
-    'components/settings/github-syncer/sections/ConnectedSection'
-  )
+  const { t } = useAppTranslation()
   const { links, isUserInsider, syncer, defaultPathTemplate } =
     React.useContext(GitHubSyncerContext)
 

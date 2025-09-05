@@ -14,7 +14,7 @@ export function AskChatGpt({
 }: Pick<useChatGptFeedbackProps, 'helpRecord' | 'status'> & {
   children: React.ReactNode
 }): JSX.Element {
-  const { t } = useAppTranslation('components/editor/ChatGptFeedback')
+  const { t } = useAppTranslation()
   let content
   switch (status) {
     case 'fetching': {
@@ -37,7 +37,7 @@ export function AskChatGpt({
 }
 
 function ChatGptResponse({ helpRecord }: { helpRecord: HelpRecord }) {
-  const { t } = useAppTranslation('components/editor/ChatGptFeedback')
+  const { t } = useAppTranslation()
 
   return (
     <div className="response">
@@ -68,7 +68,7 @@ function ChatGptResponse({ helpRecord }: { helpRecord: HelpRecord }) {
 }
 
 function AskingChatGpt() {
-  const { t } = useAppTranslation('components/editor/ChatGptFeedback')
+  const { t } = useAppTranslation()
 
   return (
     <div role="status" className="running">
@@ -86,7 +86,7 @@ function AskingChatGpt() {
 }
 
 function Unfetched({ children }: { children: React.ReactNode }): JSX.Element {
-  const { t } = useAppTranslation('components/editor/ChatGptFeedback')
+  const { t } = useAppTranslation()
 
   return (
     <section className="run-tests-prompt">

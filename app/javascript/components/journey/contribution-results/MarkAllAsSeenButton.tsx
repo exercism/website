@@ -8,7 +8,7 @@ export const MarkAllAsSeenButton = ({
   unseenTotal: number
   onClick: () => void
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/journey/contribution-results')
+  const { t } = useAppTranslation()
   return (
     <button
       type="button"

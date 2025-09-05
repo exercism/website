@@ -26,7 +26,7 @@ export default function ({
   const [isModalOpen, setIsModalOpen] = useState(true)
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false)
   const [paymentAmount, setPaymentAmount] = useState<currency | null>(null)
-  const { t } = useAppTranslation('components/modals/BegModal.tsx')
+  const { t } = useAppTranslation()
 
   const handleSuccess = useCallback(
     (_type: PaymentIntentType, amount: currency) => {
@@ -156,7 +156,7 @@ export default function ({
 }
 
 export function PreviousDonorContent() {
-  const { t } = useAppTranslation('components/modals/BegModal.tsx')
+  const { t } = useAppTranslation()
   return (
     <>
       <p className="text-p-large mb-12">
@@ -177,7 +177,7 @@ export function PreviousDonorContent() {
 }
 
 export function NonDonorContent() {
-  const { t } = useAppTranslation('components/modals/BegModal.tsx')
+  const { t } = useAppTranslation()
   return (
     <>
       <p className="text-p-large mb-12">

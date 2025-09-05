@@ -27,7 +27,7 @@ export default function HandleForm({
   defaultHandle: string
   links: Links
 }): JSX.Element {
-  const { t } = useAppTranslation('components/settings/HandleForm.tsx')
+  const { t } = useAppTranslation()
   const [state, setState] = useState({ handle: defaultHandle, password: '' })
   const { mutation, status, error } = useSettingsMutation<RequestBody>({
     endpoint: links.update,
@@ -95,7 +95,7 @@ export default function HandleForm({
 }
 
 const SuccessMessage = () => {
-  const { t } = useAppTranslation('components/settings/HandleForm.tsx')
+  const { t } = useAppTranslation()
   return (
     <div className="status success">
       <Icon icon="completed-check-circle" alt="Success" />

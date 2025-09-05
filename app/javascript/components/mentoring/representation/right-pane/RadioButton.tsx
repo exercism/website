@@ -25,9 +25,7 @@ export default function RadioButton({
   labelClassName?: string
   className?: string
 }): JSX.Element {
-  const { t } = useAppTranslation(
-    'components/mentoring/representation/right-pane'
-  )
+  const { t } = useAppTranslation()
   return (
     <label className={`c-radio-wrapper mb-8 hover:cursor-pointer ${className}`}>
       <input

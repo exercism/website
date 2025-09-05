@@ -10,7 +10,7 @@ const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
 export function BootcampAdvertismentView() {
   const { patchCloseModal, links } = useContext(SenioritySurveyModalContext)
-  const { t } = useAppTranslation('components/modals/seniority-survey-modal')
+  const { t } = useAppTranslation()
 
   return (
     <>

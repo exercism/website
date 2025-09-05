@@ -25,7 +25,7 @@ export const DeleteAccountModal = ({
   handle: string
   endpoint: string
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/modals/DeleteAccountModal.tsx')
+  const { t } = useAppTranslation()
   const {
     mutate: mutation,
     status,

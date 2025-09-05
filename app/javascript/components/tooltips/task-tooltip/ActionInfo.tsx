@@ -18,7 +18,7 @@ export const ActionInfo = ({ action }: { action: TaskAction }): JSX.Element => {
 }
 
 const ActionDetails = ({ action }: { action: TaskAction }): JSX.Element => {
-  const { t } = useAppTranslation('components/tooltips/task-tooltip')
+  const { t } = useAppTranslation()
 
   const transComponents = { strong: <strong /> }
   const transNs = 'components/tooltips/task-tooltip'

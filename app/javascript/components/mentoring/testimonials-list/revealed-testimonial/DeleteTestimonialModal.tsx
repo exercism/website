@@ -20,9 +20,7 @@ export const DeleteTestimonialModal = ({
   testimonial: Testimonial
   cacheKey: QueryKey
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/mentoring/testimonials-list/revealed-testimonial'
-  )
+  const { t } = useAppTranslation()
   const queryClient = useQueryClient()
   const {
     mutate: mutation,

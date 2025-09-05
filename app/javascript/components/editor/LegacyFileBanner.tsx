@@ -9,7 +9,7 @@ export const LegacyFileBanner = ({
   onDelete: () => void
 }): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false)
-  const { t } = useAppTranslation('components/editor/LegacyFileBanner.tsx')
+  const { t } = useAppTranslation()
 
   const handleOpen = useCallback(() => {
     setIsOpen(true)

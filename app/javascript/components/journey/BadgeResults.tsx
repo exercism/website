@@ -15,7 +15,7 @@ export const BadgeResults = ({
   data: PaginatedResult<BadgeProps[]>
   cacheKey: QueryKey
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/journey')
+  const { t } = useAppTranslation()
   return (
     <div>
       <div className="results-title-bar">

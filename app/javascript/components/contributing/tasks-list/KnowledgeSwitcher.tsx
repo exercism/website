@@ -12,7 +12,7 @@ const KnowledgeOption = ({
 }: {
   option: TaskKnowledge
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/contributing')
+  const { t } = useAppTranslation()
   switch (knowledge) {
     case 'none':
       return (
@@ -84,7 +84,7 @@ const SelectedComponent = ({
 }: {
   value: TaskKnowledge[]
 }) => {
-  const { t } = useAppTranslation('components/contributing')
+  const { t } = useAppTranslation()
   if (knowledge.length > 1) {
     return <>Multiple</>
   }
@@ -104,7 +104,7 @@ const SelectedComponent = ({
 }
 
 const ResetComponent = () => {
-  const { t } = useAppTranslation('components/contributing')
+  const { t } = useAppTranslation()
   return (
     <React.Fragment>
       <GraphicalIcon

@@ -77,7 +77,7 @@ const Component = ({
   setValue,
   countText,
 }: Props): JSX.Element | null => {
-  const { t } = useAppTranslation('components/community')
+  const { t } = useAppTranslation()
   const changeTracksRef = useRef<HTMLButtonElement>(null)
   const {
     buttonAttributes,

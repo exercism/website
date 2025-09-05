@@ -22,7 +22,7 @@ export const DeleteIterationModal = ({
   iteration: Iteration
   onSuccess: (iteration: Iteration) => void
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/student/iterations-list')
+  const { t } = useAppTranslation()
   const {
     mutate: mutation,
     status,

@@ -20,7 +20,7 @@ export const AnalyzerFeedback = ({
   track: Pick<Track, 'title' | 'iconUrl'>
   automatedFeedbackInfoLink: string
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/student/iterations-list')
+  const { t } = useAppTranslation()
 
   return (
     <div className="c-automated-feedback analyzer-feedback">
@@ -73,7 +73,7 @@ export const Comment = ({
 }
 
 const CommentTag = ({ type }: Pick<AnalyzerFeedbackComment, 'type'>) => {
-  const { t } = useAppTranslation('components/student/iterations-list')
+  const { t } = useAppTranslation()
 
   switch (type) {
     case 'essential':

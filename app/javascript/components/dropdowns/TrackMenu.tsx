@@ -29,7 +29,7 @@ export default function TrackMenu({
   links: Links
   ariaHideApp?: boolean
 }): JSX.Element {
-  const { t } = useAppTranslation('components/dropdowns')
+  const { t } = useAppTranslation()
   const [modal, setModal] = useState<ModalType | null>(null)
   const {
     buttonAttributes,

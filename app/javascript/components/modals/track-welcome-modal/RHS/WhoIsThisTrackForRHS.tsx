@@ -6,7 +6,7 @@ import { useAppTranslation } from '@/i18n/useAppTranslation'
 import { Trans } from 'react-i18next'
 
 export function WhoIsThisTrackForRHS(): JSX.Element {
-  const { t } = useAppTranslation('components/modals/track-welcome-modal/RHS')
+  const { t } = useAppTranslation()
 
   return (
     <div className="rhs" data-capy-element="who-is-this-track-for-rhs">

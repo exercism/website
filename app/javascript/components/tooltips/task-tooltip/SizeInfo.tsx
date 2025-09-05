@@ -18,7 +18,7 @@ export const SizeInfo = ({ size }: { size: TaskSize }): JSX.Element => {
 }
 
 const SizeDetails = ({ size }: { size: TaskSize }): JSX.Element => {
-  const { t } = useAppTranslation('components/tooltips/task-tooltip')
+  const { t } = useAppTranslation()
 
   const transComponents = { strong: <strong /> }
   const transNs = 'components/tooltips/task-tooltip'

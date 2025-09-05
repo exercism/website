@@ -2,7 +2,7 @@ import React from 'react'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const EmptyList = (): JSX.Element => {
-  const { t } = useAppTranslation('components/community-solutions')
+  const { t } = useAppTranslation()
   return (
     <div className="flex flex-col lg:items-center lg:center">
       <h3 className="text-h5 text-textColor6 mb-2">

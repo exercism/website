@@ -33,7 +33,7 @@ export function StripeForm({
   confirmParamsReturnUrl,
   onSettled = () => null,
 }: StripeFormProps): JSX.Element {
-  const { t } = useAppTranslation('components/donations')
+  const { t } = useAppTranslation()
   const {
     cardValid,
     error,

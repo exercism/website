@@ -19,7 +19,7 @@ export const FinishButton = ({
   modalProps?: ModalProps
   onSuccess: (discussion: Discussion) => void
 }): JSX.Element => {
-  const { t } = useAppTranslation('discussion-batch')
+  const { t } = useAppTranslation()
   const [open, setOpen] = useState(false)
   const {
     mutate: mutation,

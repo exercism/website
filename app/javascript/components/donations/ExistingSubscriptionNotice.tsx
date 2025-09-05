@@ -16,7 +16,7 @@ export const ExistingSubscriptionNotice = ({
   onExtraDonation: () => void
   links: Links
 }): JSX.Element => {
-  useAppTranslation('components/donations')
+  useAppTranslation()
   return (
     <React.Fragment>
       <div className="existing-subscription">

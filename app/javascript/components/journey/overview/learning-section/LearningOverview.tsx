@@ -9,9 +9,7 @@ export const LearningOverview = ({
 }: {
   tracks: TrackProgressList
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/journey/overview/learning-section'
-  )
+  const { t } = useAppTranslation()
   return (
     <div className="overview">
       <h3>

@@ -7,7 +7,7 @@ import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const GetHelpTab = (): JSX.Element => {
-  const { t } = useAppTranslation('components/editor/GetHelp')
+  const { t } = useAppTranslation()
   return (
     <Tab id="get-help" context={TabsContext}>
       <GraphicalIcon icon="help" />

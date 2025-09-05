@@ -12,7 +12,7 @@ export const TestimonialModal = ({
 }: Omit<ModalProps, 'className'> & {
   testimonial: Testimonial
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/profile/testimonials-list')
+  const { t } = useAppTranslation()
 
   return (
     <Modal cover={true} celebratory className="m-testimonial" {...props}>

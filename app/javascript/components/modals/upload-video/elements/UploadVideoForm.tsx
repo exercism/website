@@ -39,7 +39,7 @@ export function UploadVideoForm({
   onSuccess,
 }: UploadVideoFormProps): JSX.Element {
   const { links, track, exercise } = useContext(DigDeeperDataContext)
-  const { t } = useAppTranslation('components/modals/upload-video/elements')
+  const { t } = useAppTranslation()
 
   async function UploadVideo(body: string) {
     const { fetch } = sendRequest({

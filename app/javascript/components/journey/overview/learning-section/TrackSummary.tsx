@@ -16,9 +16,7 @@ export const TrackSummary = ({
   expanded: boolean
   avgVelocity: number | null
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/journey/overview/learning-section'
-  )
+  const { t } = useAppTranslation()
 
   const inProgressLabel =
     track.numInProgressMentoringDiscussions === 0

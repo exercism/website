@@ -8,7 +8,7 @@ export function PausedSync({
 }: {
   settingsLink: string
 }): JSX.Element {
-  const { t } = useAppTranslation('components/github-syncer-widget')
+  const { t } = useAppTranslation()
   return (
     <div className="flex flex-col items-center py-24">
       <h6 className="font-semibold text-16 mb-16">

@@ -21,7 +21,7 @@ export const CancellingOption = ({
   cancelLink: string
   onClose: () => void
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/donations/subscription-form')
+  const { t } = useAppTranslation()
   const {
     mutate: mutation,
     status,

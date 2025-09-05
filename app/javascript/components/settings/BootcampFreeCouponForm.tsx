@@ -19,9 +19,7 @@ export default function BootcampFreeCouponForm({
   bootcampFreeCouponCode,
   links,
 }: BootcampFreeCouponFormProps): JSX.Element {
-  const { t } = useAppTranslation(
-    'components/settings/BootcampFreeCouponForm.tsx'
-  )
+  const { t } = useAppTranslation()
   const [couponCode, setCouponCode] = useState(bootcampFreeCouponCode)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)

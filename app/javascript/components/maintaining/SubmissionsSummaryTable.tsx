@@ -42,7 +42,7 @@ export function SubmissionsSummaryTable({
 }: {
   submissions: readonly Submission[]
 }): JSX.Element {
-  const { t } = useAppTranslation('components/maintaining')
+  const { t } = useAppTranslation()
   const [stateSubmissions, setSubmissions] = useState(submissions)
 
   useEffect(() => {

@@ -42,7 +42,7 @@ export const Solution = ({
   track,
   isOutOfDate,
 }: SolutionProps): JSX.Element => {
-  const { t } = useAppTranslation('components/journey')
+  const { t } = useAppTranslation()
   return (
     <a href={privateUrl} className="solution">
       <div className="main">

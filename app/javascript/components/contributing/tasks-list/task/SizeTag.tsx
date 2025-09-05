@@ -5,7 +5,7 @@ import { TaskSize } from '../../../types'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const SizeTag = ({ size }: { size?: TaskSize }): JSX.Element => {
-  const { t } = useAppTranslation('components/contributing/tasks-list/task')
+  const { t } = useAppTranslation()
 
   switch (size) {
     case 'tiny':

@@ -5,7 +5,7 @@ import { useAppTranslation } from '@/i18n/useAppTranslation'
 import { Trans } from 'react-i18next'
 
 export default function AutomationRules(): JSX.Element | null {
-  const { t } = useAppTranslation('components/training-data/code-tagger')
+  const { t } = useAppTranslation()
 
   return (
     <>

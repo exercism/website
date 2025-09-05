@@ -12,7 +12,7 @@ export const TutorialCompletedModal = ({
   open: boolean
   completion: ExerciseCompletion
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/modals/complete-exercise-modal')
+  const { t } = useAppTranslation()
 
   const hasCourse = Boolean(completion.track.course)
 

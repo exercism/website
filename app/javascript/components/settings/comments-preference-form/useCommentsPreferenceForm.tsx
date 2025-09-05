@@ -28,9 +28,7 @@ export function useCommentsPreferenceForm({
   CommentsPreferenceFormProps,
   'label'
 >): useCommentPreferencesFormReturns {
-  const { t } = useAppTranslation(
-    'components/settings/comments-preference-form'
-  )
+  const { t } = useAppTranslation()
   const [allowCommentsByDefault, setAllowCommentsByDefault] =
     useState(currentPreference)
   const [numPublished, setNumPublished] = useState(numPublishedSolutions)

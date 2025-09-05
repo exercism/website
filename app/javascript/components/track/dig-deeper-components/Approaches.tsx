@@ -11,7 +11,7 @@ export function Approaches({
   approaches: Approach[]
 }): JSX.Element {
   const { exercise } = useContext(DigDeeperDataContext)
-  const { t } = useAppTranslation('components/track/dig-deeper-components')
+  const { t } = useAppTranslation()
 
   return (
     <div className="lg:flex lg:flex-col mb-24">

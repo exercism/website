@@ -32,9 +32,7 @@ const Component = ({
   setIsRemoveButtonHoverable,
   ...props
 }: ComponentProps): JSX.Element | null => {
-  const { t } = useAppTranslation(
-    'components/mentoring/session/favorite-button'
-  )
+  const { t } = useAppTranslation()
   const [isHovering, setIsHovering] = useState(false)
 
   const {

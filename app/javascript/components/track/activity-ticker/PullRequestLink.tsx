@@ -8,7 +8,7 @@ export function PullRequestLink({
 }: {
   pullRequest: Record<'htmlUrl', string>
 }) {
-  const { t } = useAppTranslation('components/track/activity-ticker')
+  const { t } = useAppTranslation()
   return (
     <span className="inline-flex">
       &nbsp;

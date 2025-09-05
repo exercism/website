@@ -97,7 +97,7 @@ export const ChatGptDialog = ({
   error,
   exceededLimit,
 }: ChatGptDialogModalProps): JSX.Element => {
-  const { t } = useAppTranslation('components/editor/ChatGptFeedback')
+  const { t } = useAppTranslation()
 
   return (
     <Modal

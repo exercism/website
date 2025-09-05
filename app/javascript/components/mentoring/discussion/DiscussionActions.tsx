@@ -18,7 +18,7 @@ export const DiscussionActions = ({
   session: SessionProps
   setSession: (session: SessionProps) => void
 }): JSX.Element => {
-  const { t } = useAppTranslation('discussion-batch')
+  const { t } = useAppTranslation()
   const handleSuccess = useCallback(
     (discussion) => {
       const { student, ...discussionProps } = discussion

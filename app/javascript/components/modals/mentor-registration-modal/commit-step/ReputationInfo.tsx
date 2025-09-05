@@ -5,9 +5,7 @@ import { GraphicalIcon } from '../../../common'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const ReputationInfo = (): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/modals/mentor-registration-modal/commit-step'
-  )
+  const { t } = useAppTranslation()
   return (
     <div className="reputation-info">
       <div className="inner">

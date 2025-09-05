@@ -14,7 +14,7 @@ type Props = {
 
 export const IterationMarker = forwardRef<HTMLDivElement, Props>(
   ({ iteration, userIsStudent }, ref) => {
-    const { t } = useAppTranslation('session-batch-2')
+    const { t } = useAppTranslation()
     return (
       <a id={iterationId(iteration)} className="timeline-entry iteration-entry">
         <div className="timeline-marker">

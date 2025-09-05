@@ -7,9 +7,7 @@ export const TracksEnrolledSummary = ({
 }: {
   tracks: TrackProgressList
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/journey/overview/learning-section'
-  )
+  const { t } = useAppTranslation()
 
   return (
     <div className="box">

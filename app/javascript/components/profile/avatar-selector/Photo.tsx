@@ -20,7 +20,7 @@ export const Photo = ({
   onDelete: (user: User) => void
   links: Links
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/profile/avatar-selector')
+  const { t } = useAppTranslation()
 
   return (
     <div className="c-avatar-selector">

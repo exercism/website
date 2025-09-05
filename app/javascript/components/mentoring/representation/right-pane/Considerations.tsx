@@ -6,9 +6,7 @@ import { Trans } from 'react-i18next'
 export default function Considerations({
   guidance,
 }: Pick<CompleteRepresentationData, 'guidance'>): JSX.Element | null {
-  const { t } = useAppTranslation(
-    'components/mentoring/representation/right-pane'
-  )
+  const { t } = useAppTranslation()
 
   return (
     <p className="flex items-center justify-center font-medium text-16 leading-[24px] py-8 px-16 border-2 border-orange rounded-8 bg-bgCAlert text-textCAlert whitespace-nowrap my-16 mx-24">

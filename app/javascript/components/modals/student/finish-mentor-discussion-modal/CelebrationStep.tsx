@@ -13,9 +13,7 @@ export const CelebrationStep = ({
   mentorHandle: string
   links: Links
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/modals/student/finish-mentor-discussion-modal'
-  )
+  const { t } = useAppTranslation()
   return (
     <section className="celebrate-step neon-cat">
       <img src="https://i.gifer.com/17xo.gif" className="gif" />

@@ -14,7 +14,7 @@ export function RequestMentoring({
   FeedbackPanelProps,
   'exercise' | 'track' | 'mentorDiscussionsLink'
 >): JSX.Element {
-  const { t } = useAppTranslation('components/editor/FeedbackPanel')
+  const { t } = useAppTranslation()
 
   return (
     <section className="pt-10">

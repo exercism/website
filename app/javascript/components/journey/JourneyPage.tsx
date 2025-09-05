@@ -36,7 +36,7 @@ export default function JourneyPage({
   defaultCategory: CategoryId
   categories: readonly Category[]
 }): JSX.Element {
-  const { t } = useAppTranslation('components/journey')
+  const { t } = useAppTranslation()
   const isMounted = useRef(false)
   const [currentCategory, setCurrentCategory] = useState<Category>(() => {
     const category = categories.find((c) => c.id === defaultCategory)

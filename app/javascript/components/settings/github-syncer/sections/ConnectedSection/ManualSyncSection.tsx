@@ -14,9 +14,7 @@ type Track = {
 }
 
 export function ManualSyncSection() {
-  const { t } = useAppTranslation(
-    'components/settings/github-syncer/sections/ConnectedSection/ManualSyncSection.tsx'
-  )
+  const { t } = useAppTranslation()
   const { tracks, links, isSyncingEnabled } = useContext(GitHubSyncerContext)
   const [track, setTrack] = useState<Track>({} as Track)
 
@@ -145,9 +143,7 @@ export function handleSyncEverything({
 }: {
   syncEverythingEndpoint: string
 }) {
-  const { t } = useAppTranslation(
-    'components/settings/github-syncer/sections/ConnectedSection/ManualSyncSection.tsx'
-  )
+  const { t } = useAppTranslation()
   fetchWithParams({
     url: syncEverythingEndpoint,
   })

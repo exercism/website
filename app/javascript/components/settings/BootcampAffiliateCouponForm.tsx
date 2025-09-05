@@ -22,9 +22,7 @@ export default function BootcampAffiliateCouponForm({
   bootcampAffiliateCouponCode: string
   links: Links
 }): JSX.Element {
-  const { t } = useAppTranslation(
-    'components/settings/BootcampAffiliateCouponForm.tsx'
-  )
+  const { t } = useAppTranslation()
   const [couponCode, setCouponCode] = useState(bootcampAffiliateCouponCode)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
@@ -135,9 +133,7 @@ export function InfoMessage({
   insidersPath: string
   isInsider: boolean
 }): JSX.Element {
-  const { t } = useAppTranslation(
-    'components/settings/BootcampAffiliateCouponForm.tsx'
-  )
+  const { t } = useAppTranslation()
   if (isInsider) {
     return (
       <>

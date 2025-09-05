@@ -13,7 +13,7 @@ export default function DeleteProfileForm({
 }: {
   links: Links
 }): JSX.Element {
-  const { t } = useAppTranslation('components/settings/DeleteProfileForm.tsx')
+  const { t } = useAppTranslation()
   const [modalOpen, setModalOpen] = useState(false)
 
   const handleModalOpen = useCallback(() => {

@@ -34,7 +34,7 @@ export const Concept = ({
   exercisesData,
   isActive,
 }: ConceptProps): JSX.Element => {
-  const { t } = useAppTranslation('components/concept-map')
+  const { t } = useAppTranslation()
   const isLocked = status === 'locked'
   // sets the initial visibility, to avoid the flash of unstyled content
   const [visibility, setVisibility] = useState<Visibility>('hidden')

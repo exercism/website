@@ -28,7 +28,7 @@ export const ExerciseUpdateForm = ({
   onCancel: () => void
 }): JSX.Element => {
   const [tab, setTab] = useState(diff.files[0].relativePath)
-  const { t } = useAppTranslation('components/modals/exercise-update-modal')
+  const { t } = useAppTranslation()
 
   const {
     mutate: mutation,

@@ -15,7 +15,7 @@ export const TestimonialModal = ({
   testimonial: Testimonial
   platforms: readonly SharePlatform[]
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/modals/TestimonialModal.tsx')
+  const { t } = useAppTranslation()
 
   return (
     <Modal

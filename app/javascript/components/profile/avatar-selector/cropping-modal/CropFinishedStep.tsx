@@ -29,9 +29,7 @@ export const CropFinishedStep = ({
   links: Links
   onUpload: (user: User) => void
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/profile/avatar-selector/cropping-modal'
-  )
+  const { t } = useAppTranslation()
 
   const {
     mutate: submit,

@@ -14,7 +14,7 @@ export type Exercise = {
   type: ExerciseType
 }
 const TutorialHeader = ({ exercise }: { exercise: Exercise }) => {
-  const { t } = useAppTranslation('components/student/solution-summary')
+  const { t } = useAppTranslation()
 
   return (
     <header>
@@ -43,7 +43,7 @@ export const Header = ({
   exercise: Exercise
   links: SolutionSummaryLinks
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/student/solution-summary')
+  const { t } = useAppTranslation()
 
   switch (iteration.status) {
     case IterationStatus.DELETED:

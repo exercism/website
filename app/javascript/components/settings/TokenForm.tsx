@@ -23,7 +23,7 @@ export default function TokenForm({
   links: Links
 }): JSX.Element {
   const [token, setToken] = useState(defaultToken)
-  const { t } = useAppTranslation('components/settings/TokenForm.tsx')
+  const { t } = useAppTranslation()
 
   const { mutation, status, error } = useSettingsMutation<
     { token: string },
@@ -69,7 +69,7 @@ export default function TokenForm({
 }
 
 const SuccessMessage = () => {
-  const { t } = useAppTranslation('components/settings/TokenForm.tsx')
+  const { t } = useAppTranslation()
   return (
     <div className="status success">
       <Icon icon="completed-check-circle" alt="Success" />

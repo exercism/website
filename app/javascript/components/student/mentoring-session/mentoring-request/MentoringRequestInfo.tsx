@@ -43,9 +43,7 @@ export const MentoringRequestInfo = ({
   request: Request
   iteration: Iteration
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/student/mentoring-session/mentoring-request'
-  )
+  const { t } = useAppTranslation()
   if (!request.comment) {
     throw 'Request comment expected'
   }
@@ -130,9 +128,7 @@ export const MentoringRequestInfo = ({
 }
 
 const Video = ({ title, date, thumb, url }: VideoProps) => {
-  const { t } = useAppTranslation(
-    'components/student/mentoring-session/mentoring-request'
-  )
+  const { t } = useAppTranslation()
   return (
     <a href={url} target="_blank" rel="noreferrer" className="video">
       <div

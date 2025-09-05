@@ -11,7 +11,7 @@ export function ExerciseStatusChart({
   exercisesData: { [slug: string]: [string, string] }
   links: { exercise: string; tooltip: string }
 }): JSX.Element {
-  const { t } = useAppTranslation('components/student/ExerciseStatusChart.tsx')
+  const { t } = useAppTranslation()
   return (
     <div className="exercises">
       {Object.keys(exercisesData).map((key) => {

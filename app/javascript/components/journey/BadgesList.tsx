@@ -22,7 +22,7 @@ export const BadgesList = ({
   request: Request
   isEnabled: boolean
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/journey')
+  const { t } = useAppTranslation()
   const {
     request,
     setPage,

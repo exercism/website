@@ -19,7 +19,7 @@ export function PreviewFeedbackComment({
   feedbackType,
 }: PreviewFeedbackCommentProps): JSX.Element {
   const htmlRef = useHighlighting<HTMLDivElement>(html)
-  const { t } = useAppTranslation('components/mentoring/representation/modals')
+  const { t } = useAppTranslation()
 
   return (
     <div className="px-24 py-16 leading-160 overflow-auto">

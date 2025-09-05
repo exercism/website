@@ -17,9 +17,7 @@ export function ManageExistingSolution({
   enableAllMutation,
   numCommentsEnabled,
 }: ManageExistingSolutionProps): JSX.Element | null {
-  const { t } = useAppTranslation(
-    'components/settings/comments-preference-form'
-  )
+  const { t } = useAppTranslation()
   if (numPublished === 0) return null
   return (
     <div className="form-footer">

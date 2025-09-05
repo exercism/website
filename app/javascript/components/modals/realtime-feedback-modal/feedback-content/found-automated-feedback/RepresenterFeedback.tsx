@@ -11,9 +11,7 @@ export const RepresenterFeedback = ({
   author,
   editor,
 }: Props): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/modals/realtime-feedback-modal/feedback-content/found-automated-feedback'
-  )
+  const { t } = useAppTranslation()
   return (
     <div className="c-automated-feedback representer-feedback">
       <div className={`comment ${BLOCKQUOTE}`}>

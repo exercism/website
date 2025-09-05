@@ -14,9 +14,7 @@ export const Unlocks = ({
   unlockedConcepts: Concept[]
   unlockedExercises: Exercise[]
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/modals/complete-exercise-modal/exercise-completed-modal/Unlocks.tsx'
-  )
+  const { t } = useAppTranslation()
 
   return (
     <div className="unlocks" data-testid="unlocks">

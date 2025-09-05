@@ -13,7 +13,7 @@ export const NewFormFooter = ({
   value: string
   onCancel?: (e: React.FormEvent) => void
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/common/markdown-editor-form')
+  const { t } = useAppTranslation()
 
   if (onCancel && value.length === 0) {
     return (

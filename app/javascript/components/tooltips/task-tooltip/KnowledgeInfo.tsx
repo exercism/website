@@ -31,7 +31,7 @@ const KnowledgeDetails = ({
   knowledge: TaskKnowledge
   module?: TaskModule
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/tooltips/task-tooltip')
+  const { t } = useAppTranslation()
   const desc = descriptionForModule(module)
 
   const transComponents = { strong: <strong /> }

@@ -14,7 +14,7 @@ export const AddDiscussionPost = ({
   discussion: MentorDiscussion
   onSuccess?: () => void
 }>): JSX.Element => {
-  const { t } = useAppTranslation('discussion-batch')
+  const { t } = useAppTranslation()
   const [stillPosting, setStillPosting] = useState(!discussion.isFinished)
 
   const handleSuccess = useCallback(() => {

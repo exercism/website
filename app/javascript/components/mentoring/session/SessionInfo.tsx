@@ -21,9 +21,7 @@ export const SessionInfo = ({
   exercise: Exercise
   links: Links
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/mentoring/session/SessionInfo.tsx'
-  )
+  const { t } = useAppTranslation()
 
   return (
     <>

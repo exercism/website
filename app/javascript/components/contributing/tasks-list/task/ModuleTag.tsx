@@ -6,7 +6,7 @@ import { TaskModule } from '../../../types'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const ModuleTag = ({ module }: { module?: TaskModule }): JSX.Element => {
-  const { t } = useAppTranslation('components/contributing/tasks-list/task')
+  const { t } = useAppTranslation()
   switch (module) {
     case 'analyzer':
       return (

@@ -21,7 +21,7 @@ export default function ({
   closeLink?: string
   handleCloseModal?: () => void
 }): JSX.Element {
-  const { t } = useAppTranslation('components/donations')
+  const { t } = useAppTranslation()
   return (
     <Modal open={open} onClose={() => null} className="m-donation-confirmation">
       <GraphicalIcon icon="completed-check-circle" className="main-icon" />

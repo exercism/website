@@ -10,7 +10,7 @@ const OptionComponent = ({
 }: {
   option: TasksListOrder
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/contributing')
+  const { t } = useAppTranslation()
   switch (order) {
     case 'newest':
       return <div>{t('tasksList.sorter.sortByMostRecent')}</div>

@@ -23,7 +23,7 @@ export const DiscussionList = ({
   links: Links
   refetch: () => Promise<UseQueryResult<APIResponse, unknown>>
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/mentoring/inbox')
+  const { t } = useAppTranslation()
 
   return (
     <div>

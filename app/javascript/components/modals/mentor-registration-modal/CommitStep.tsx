@@ -51,7 +51,7 @@ export const CommitStep = ({
     },
   })
 
-  const { t } = useAppTranslation('components/modals/mentor-registration-modal')
+  const { t } = useAppTranslation()
 
   const [numChecked, setNumChecked] = useState(0)
   const handleChange = useCallback(

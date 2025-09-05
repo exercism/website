@@ -36,9 +36,7 @@ export const PreviousMentoringSessionsModal = ({
   student: Student
   setStudent: (student: Student) => void
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/modals/PreviousMentoringSessionsModal.tsx'
-  )
+  const { t } = useAppTranslation()
   const { request, setPage } = useList({
     endpoint: student.links.previousSessions,
     options: {},

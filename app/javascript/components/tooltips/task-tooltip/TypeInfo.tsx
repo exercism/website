@@ -18,7 +18,7 @@ export const TypeInfo = ({ type }: { type: TaskType }): JSX.Element => {
 }
 
 const TypeDetails = ({ type }: { type: TaskType }): JSX.Element => {
-  const { t } = useAppTranslation('components/tooltips/task-tooltip')
+  const { t } = useAppTranslation()
 
   switch (type) {
     case 'ci':

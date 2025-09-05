@@ -3,7 +3,7 @@ import { useAppTranslation } from '@/i18n/useAppTranslation'
 import { Trans } from 'react-i18next'
 
 function PrLink({ improveUrl }: { improveUrl: string }): JSX.Element {
-  const { t } = useAppTranslation('session-batch-3')
+  const { t } = useAppTranslation()
   return (
     <a href={improveUrl} target="_blank" rel="noreferrer">
       {t('components.mentoring.session.mentorNotes.pullRequestOnGithub')}
@@ -20,7 +20,7 @@ export const MentorNotes = ({
   improveUrl: string
   guidanceType: 'track' | 'exercise' | 'representer'
 }): JSX.Element => {
-  const { t } = useAppTranslation('session-batch-3')
+  const { t } = useAppTranslation()
 
   if (!notes) {
     return (

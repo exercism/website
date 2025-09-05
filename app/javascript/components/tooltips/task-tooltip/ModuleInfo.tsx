@@ -18,7 +18,7 @@ export const ModuleInfo = ({ module }: { module: TaskModule }): JSX.Element => {
 }
 
 const ModuleDetails = ({ module }: { module: TaskModule }): JSX.Element => {
-  const { t } = useAppTranslation('components/tooltips/task-tooltip')
+  const { t } = useAppTranslation()
 
   const transComponents = { strong: <strong /> }
   const transNs = 'components/tooltips/task-tooltip'

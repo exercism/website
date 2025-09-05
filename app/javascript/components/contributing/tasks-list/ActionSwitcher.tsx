@@ -11,7 +11,7 @@ const ActionOption = ({
 }: {
   option: TaskAction
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/contributing')
+  const { t } = useAppTranslation()
   switch (action) {
     case 'create':
       return (
@@ -73,7 +73,7 @@ const ActionOption = ({
 }
 
 const SelectedComponent = ({ value: action }: { value: TaskAction[] }) => {
-  const { t } = useAppTranslation('components/contributing')
+  const { t } = useAppTranslation()
   if (action.length > 1) {
     return <>Multiple</>
   }
@@ -95,7 +95,7 @@ const SelectedComponent = ({ value: action }: { value: TaskAction[] }) => {
 }
 
 const ResetComponent = () => {
-  const { t } = useAppTranslation('components/contributing')
+  const { t } = useAppTranslation()
   return (
     <React.Fragment>
       <GraphicalIcon icon="task-action" className="task-icon" />

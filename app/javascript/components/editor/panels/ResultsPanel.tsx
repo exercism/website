@@ -25,7 +25,7 @@ export const ResultsPanel = ({
   testRunner: TestRunner
   hasCancelled: boolean
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/editor/panels')
+  const { t } = useAppTranslation()
   return (
     <Tab.Panel id="results" context={TabsContext}>
       {hasCancelled ? (

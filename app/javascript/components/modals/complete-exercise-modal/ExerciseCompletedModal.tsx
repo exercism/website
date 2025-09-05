@@ -18,7 +18,7 @@ export const ExerciseCompletedModal: React.FC<Props> = ({
   completion,
   ...props
 }) => {
-  const { t } = useAppTranslation('components/modals/complete-exercise-modal')
+  const { t } = useAppTranslation()
   const {
     track,
     exercise,

@@ -23,7 +23,7 @@ export const DiscussionActions = ({
   links,
   donation,
 }: DiscussionActionsProps): JSX.Element => {
-  const { t } = useAppTranslation('components/student/mentoring-session')
+  const { t } = useAppTranslation()
   const timedOut =
     discussion.finishedBy &&
     ['mentor_timed_out', 'student_timed_out'].includes(discussion.finishedBy)

@@ -16,9 +16,7 @@ export function ConnectModal({
   ...props
 }: ConfirmationModalProps): JSX.Element {
   const { links } = useContext(GitHubSyncerContext)
-  const { t } = useAppTranslation(
-    'components/settings/github-syncer/sections/ConnectToGithubSection'
-  )
+  const { t } = useAppTranslation()
 
   return (
     <Modal className="m-generic-confirmation" onClose={onClose} {...props}>

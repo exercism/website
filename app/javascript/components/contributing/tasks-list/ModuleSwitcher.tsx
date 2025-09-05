@@ -11,7 +11,7 @@ const ModuleOption = ({
 }: {
   option: TaskModule
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/contributing')
+  const { t } = useAppTranslation()
 
   switch (module) {
     case 'generator':
@@ -93,7 +93,7 @@ const ModuleOption = ({
 }
 
 const SelectedComponent = ({ value: action }: { value: TaskModule[] }) => {
-  const { t } = useAppTranslation('components/contributing')
+  const { t } = useAppTranslation()
 
   if (action.length > 1) {
     return <>{t('tasksList.moduleSwitcher.multiple')}</> // You can localize this if needed
@@ -120,7 +120,7 @@ const SelectedComponent = ({ value: action }: { value: TaskModule[] }) => {
 }
 
 const ResetComponent = () => {
-  const { t } = useAppTranslation('components/contributing')
+  const { t } = useAppTranslation()
   return (
     <React.Fragment>
       <GraphicalIcon icon="task-module" className="task-icon" />

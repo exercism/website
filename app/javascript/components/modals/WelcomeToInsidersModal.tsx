@@ -17,9 +17,7 @@ export default function WelcomeToInsidersModal({
   endpoint: string
 }): JSX.Element {
   const [open, setOpen] = useState(true)
-  const { t } = useAppTranslation(
-    'components/modals/WelcomeToInsidersModal.tsx'
-  )
+  const { t } = useAppTranslation()
   const {
     mutate: mutation,
     status,

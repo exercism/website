@@ -17,7 +17,7 @@ export const SessionInfo = ({
   track: Track
   exercise: Exercise
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/student/mentoring-session')
+  const { t } = useAppTranslation()
   return (
     <>
       <TrackIcon title={track.title} iconUrl={track.iconUrl} />

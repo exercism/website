@@ -30,7 +30,7 @@ export default function PronounsForm({
   defaultPronounParts: readonly string[]
   links: Links
 }): JSX.Element {
-  const { t } = useAppTranslation('components/settings/PronounsForm.tsx')
+  const { t } = useAppTranslation()
   const [pronounParts, setPronounParts] = useState<readonly string[]>(
     defaultPronounParts || ['', '', '']
   )
@@ -152,7 +152,7 @@ export default function PronounsForm({
 }
 
 const SuccessMessage = () => {
-  const { t } = useAppTranslation('components/settings/PronounsForm.tsx')
+  const { t } = useAppTranslation()
   return (
     <div className="status success">
       <Icon icon="completed-check-circle" alt="Success" />

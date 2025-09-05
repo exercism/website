@@ -8,7 +8,7 @@ export function UploadVideoModalHeader({
 }: {
   videoRetrieved?: boolean
 }): JSX.Element {
-  const { t } = useAppTranslation('components/modals/upload-video/elements')
+  const { t } = useAppTranslation()
 
   return (
     <>

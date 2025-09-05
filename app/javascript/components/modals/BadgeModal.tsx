@@ -15,7 +15,7 @@ export const BadgeModal = ({
   badge: BadgeProps
   wasUnrevealed?: boolean
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/modals/BadgeModal.tsx')
+  const { t } = useAppTranslation()
   const classNames = ['m-badge', `--${badge.rarity}`, 'theme-dark']
 
   return (

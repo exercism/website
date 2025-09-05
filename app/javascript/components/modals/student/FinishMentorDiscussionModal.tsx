@@ -57,7 +57,7 @@ const Inner = ({
   links: DiscussionActionsLinks
   donation: MentoringSessionDonation
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/modals/student')
+  const { t } = useAppTranslation()
   const [currentStep, send] = useMachine(modalStepMachine)
   const [report, setReport] = useState<MentorReport | null>(null)
   const [donatedAmount, setDonatedAmount] = useState<currency>(currency(0))

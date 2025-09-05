@@ -9,9 +9,7 @@ export function SelectedLocalMachineStep({
   onContinueToLocalMachine,
 }: Record<'onContinueToLocalMachine', () => void>): JSX.Element {
   const { track, send, links } = useContext(TrackContext)
-  const { t } = useAppTranslation(
-    'components/modals/track-welcome-modal/LHS/steps'
-  )
+  const { t } = useAppTranslation()
 
   return (
     <>

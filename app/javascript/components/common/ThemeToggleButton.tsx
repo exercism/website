@@ -18,7 +18,7 @@ export default function ThemeToggleButton({
   disabled,
   defaultTheme,
 }: ThemeToggleButtonProps): JSX.Element {
-  const { t } = useAppTranslation('components/common/ThemeToggleButton.tsx')
+  const { t } = useAppTranslation()
   const { explicitTheme } = useThemeObserver(links.update)
   const { handleThemeUpdate } = useTheme(defaultTheme, links)
 
@@ -75,7 +75,7 @@ export function DisabledThemeSelectorTooltip({
 }: {
   insidersLink: string
 }): JSX.Element {
-  const { t } = useAppTranslation('components/common/ThemeToggleButton.tsx')
+  const { t } = useAppTranslation()
   return (
     <div className="flex text-14 font-medium">
       <Trans

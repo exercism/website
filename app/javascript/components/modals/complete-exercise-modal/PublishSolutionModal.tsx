@@ -19,7 +19,7 @@ export const PublishSolutionModal = ({
   endpoint: string
   onSuccess: (data: ExerciseCompletion) => void
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/modals/complete-exercise-modal')
+  const { t } = useAppTranslation()
   const ariaObject = generateAriaFieldIds('publish-code')
   return (
     <Modal

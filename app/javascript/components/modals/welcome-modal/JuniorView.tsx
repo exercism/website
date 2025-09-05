@@ -11,7 +11,7 @@ import { Trans } from 'react-i18next'
 const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
 export function JuniorView() {
-  const { t } = useAppTranslation('components/modals/welcome-modal')
+  const { t } = useAppTranslation()
   const { patchCloseModal, links } = useContext(WelcomeModalContext)
   return (
     <>

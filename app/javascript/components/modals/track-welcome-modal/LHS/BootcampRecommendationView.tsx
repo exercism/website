@@ -6,7 +6,7 @@ import { Trans } from 'react-i18next'
 
 export function BootcampRecommendationView() {
   const { hideBootcampRecommendationView, links } = useContext(TrackContext)
-  const { t } = useAppTranslation('components/modals/track-welcome-modal/LHS')
+  const { t } = useAppTranslation()
 
   return (
     <>

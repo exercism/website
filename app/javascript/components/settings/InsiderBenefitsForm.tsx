@@ -29,7 +29,7 @@ export default function InsiderBenefitsForm({
   insidersStatus: string
   links: Links
 }): JSX.Element {
-  const { t } = useAppTranslation('components/settings/InsiderBenefitsForm.tsx')
+  const { t } = useAppTranslation()
   const [hideAdverts, setHideAdverts] = useState(
     defaultPreferences.hideWebsiteAdverts
   )
@@ -106,7 +106,7 @@ export default function InsiderBenefitsForm({
 }
 
 const SuccessMessage = () => {
-  const { t } = useAppTranslation('components/settings/InsiderBenefitsForm.tsx')
+  const { t } = useAppTranslation()
   return (
     <div className="status success">
       <Icon icon="completed-check-circle" alt="Success" />
@@ -124,7 +124,7 @@ export function InfoMessage({
   insidersPath: string
   isInsider: boolean
 }): JSX.Element {
-  const { t } = useAppTranslation('components/settings/InsiderBenefitsForm.tsx')
+  const { t } = useAppTranslation()
 
   if (isInsider) {
     return (

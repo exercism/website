@@ -16,7 +16,7 @@ export default function DeleteAccountButton({
   links: Links
 }): JSX.Element {
   const [open, setOpen] = useState(false)
-  const { t } = useAppTranslation('components/settings/DeleteAccountButton.tsx')
+  const { t } = useAppTranslation()
 
   return (
     <React.Fragment>

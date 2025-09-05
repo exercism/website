@@ -20,7 +20,7 @@ export const AnalysisInformation = ({
   track: Track
   links: Links
 }): JSX.Element | null => {
-  const { t } = useAppTranslation('components/student/iterations-list')
+  const { t } = useAppTranslation()
 
   switch (iteration.status) {
     case IterationStatus.DELETED:

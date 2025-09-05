@@ -17,7 +17,7 @@ const ProfileTestimonial = ({
   onClick: () => void
   onClose: () => void
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/profile/testimonials-list')
+  const { t } = useAppTranslation()
 
   return (
     <React.Fragment>

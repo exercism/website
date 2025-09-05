@@ -4,7 +4,7 @@ import { useAppTranslation } from '@/i18n/useAppTranslation'
 const INVALID_INPUT_STYLES = '!border-1 !border-orange mb-8'
 
 export function useInvalidField() {
-  const { t } = useAppTranslation('components/settings/useInvalidField.tsx')
+  const { t } = useAppTranslation()
   const [invalidMessage, setInvalidMessage] = useState<string>('')
 
   const isInvalid = invalidMessage.length > 0

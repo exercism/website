@@ -17,7 +17,7 @@ export const TrackCheckbox = ({
   checked: boolean
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/mentoring/track-selector')
+  const { t } = useAppTranslation()
 
   return (
     <div className="track">

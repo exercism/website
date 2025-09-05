@@ -36,7 +36,7 @@ export default function CommunitySolutionsList({
   request: Request
   tracks: TrackData[]
 }): JSX.Element {
-  const { t } = useAppTranslation('components/profile')
+  const { t } = useAppTranslation()
   const {
     request,
     setCriteria: setRequestCriteria,

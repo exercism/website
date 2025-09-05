@@ -20,7 +20,7 @@ export const SolutionFilter = ({
     headTestsStatus: HeadTestsStatus
   ) => void
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/journey/solutions-list')
+  const { t } = useAppTranslation()
 
   const [status, setStatus] = useState<ExerciseStatus>(request.query.status)
   const [mentoringStatus, setMentoringStatus] = useState<MentoringStatus>(

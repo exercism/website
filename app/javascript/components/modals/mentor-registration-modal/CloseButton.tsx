@@ -9,7 +9,7 @@ export const CloseButton = ({
 }: {
   onClick: () => void
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/modals/mentor-registration-modal')
+  const { t } = useAppTranslation()
   return (
     <button type="button" className="close-btn" onClick={onClick}>
       <Icon

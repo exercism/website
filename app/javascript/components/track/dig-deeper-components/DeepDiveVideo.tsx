@@ -7,7 +7,7 @@ import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function DeepDiveVideo() {
   const { exercise } = useContext(DigDeeperDataContext)
-  const { t } = useAppTranslation('components/track/dig-deeper-components')
+  const { t } = useAppTranslation()
 
   if (!exercise || !exercise.deepDiveYoutubeId) {
     return null

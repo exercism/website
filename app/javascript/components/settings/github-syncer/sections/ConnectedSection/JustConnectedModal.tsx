@@ -6,9 +6,7 @@ import { handleSyncEverything } from './ManualSyncSection'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function JustConnectedModal(): JSX.Element {
-  const { t } = useAppTranslation(
-    'components/settings/github-syncer/sections/ConnectedSection'
-  )
+  const { t } = useAppTranslation()
   const { links } = React.useContext(GitHubSyncerContext)
   const [isModalOpen, setIsModalOpen] = React.useState(false)
 

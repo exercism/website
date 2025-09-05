@@ -15,7 +15,7 @@ export default function ShareLink({
   shareLink: string
   platforms: readonly SharePlatform[]
 }): JSX.Element {
-  const { t } = useAppTranslation('components/common/ShareLink.tsx')
+  const { t } = useAppTranslation()
   const { open, setOpen, buttonAttributes, panelAttributes } = usePanel({
     placement: 'bottom-end',
     modifiers: [

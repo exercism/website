@@ -24,7 +24,7 @@ export const TaggableCodeList = ({
     options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
   ) => Promise<QueryObserverResult<TrainingDataRequestAPIResponse, unknown>>
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/training-data/dashboard')
+  const { t } = useAppTranslation()
   const noResults = resolvedData && resolvedData.results.length === 0
 
   const SuccessContent = () => {
@@ -73,7 +73,7 @@ export const TaggableCodeList = ({
 
 // TODO: Turn this into a common/global component
 function SomethingWentWrongWithRefetch({ refetch }) {
-  const { t } = useAppTranslation('components/training-data/dashboard')
+  const { t } = useAppTranslation()
   return (
     <div className="flex flex-col gap-32 p-32 place-items-center">
       <h3 className="text-h3">

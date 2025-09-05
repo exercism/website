@@ -5,7 +5,7 @@ import { Icon } from '../..'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const Outdated = (): JSX.Element => {
-  const { t } = useAppTranslation('components/common/exercise-widget')
+  const { t } = useAppTranslation()
   return (
     <Icon
       className="--out-of-date"

@@ -7,7 +7,7 @@ import { useAppTranslation } from '@/i18n/useAppTranslation'
 const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
 export function SeniorView() {
-  const { t } = useAppTranslation('components/modals/welcome-modal')
+  const { t } = useAppTranslation()
   const { numTracks, patchCloseModal } = useContext(WelcomeModalContext)
 
   return (

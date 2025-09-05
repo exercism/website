@@ -10,7 +10,7 @@ const OptionComponent = ({
 }: {
   option: Category
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/contributing')
+  const { t } = useAppTranslation()
   switch (category) {
     case 'authoring':
       return (
@@ -66,7 +66,7 @@ const OptionComponent = ({
 }
 
 const SelectedComponent = ({ option: category }: { option: Category }) => {
-  const { t } = useAppTranslation('components/contributing')
+  const { t } = useAppTranslation()
   switch (category) {
     case 'authoring':
       return <>{t('contributorsList.categorySwitcher.authoring')}</>

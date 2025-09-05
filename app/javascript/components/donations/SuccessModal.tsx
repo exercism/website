@@ -21,7 +21,7 @@ export default function ({
   closeLink?: string
   handleCloseModal?: () => void
 }): JSX.Element {
-  const { t } = useAppTranslation('components/donations')
+  const { t } = useAppTranslation()
   return (
     <Modal open={open} onClose={() => null} className="m-donation-confirmation">
       <GraphicalIcon icon="completed-check-circle" className="main-icon" />
@@ -39,7 +39,6 @@ export default function ({
         <BadgeMedallion badge={badge} />
         <div className="text-textColor2 text-18 leading-150">
           <Trans
-            ns="components/donations"
             i18nKey="formWithModal.youVeEarnedTheBadge"
             components={[<strong className="font-medium" />]}
           />

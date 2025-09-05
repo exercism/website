@@ -16,7 +16,7 @@ export const ContributionResults = ({
   cacheKey: QueryKey
   data: APIResult
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/journey')
+  const { t } = useAppTranslation()
   const queryClient = useQueryClient()
   const [modalOpen, setModalOpen] = useState(false)
 

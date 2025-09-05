@@ -9,9 +9,7 @@ import { useAppTranslation } from '@/i18n/useAppTranslation'
 import { Trans } from 'react-i18next'
 
 export function SyncBehaviourSection() {
-  const { t } = useAppTranslation(
-    'components/settings/github-syncer/sections/ConnectedSection/SyncBehaviourSection.tsx'
-  )
+  const { t } = useAppTranslation()
   const { links, isUserInsider, syncer } = React.useContext(GitHubSyncerContext)
 
   const [shouldSyncOnIterationCreation, setShouldSyncOnInterationCreation] =
@@ -48,7 +46,6 @@ export function SyncBehaviourSection() {
           <SectionHeader title={t('syncBehaviour.syncBehaviour')} />
           <p className="text-16 leading-150 mb-16">
             <Trans
-              ns="components/settings/github-syncer/sections/ConnectedSection/SyncBehaviourSection.tsx"
               i18nKey="syncBehaviour.syncingOptionDescription"
               components={{
                 strong: <strong />,

@@ -63,7 +63,7 @@ export function IterationSummary({
   OutOfDateNotice,
   showTimeStamp = true,
 }: IterationSummaryProps): JSX.Element {
-  const { t } = useAppTranslation('components/track/IterationSummary.tsx')
+  const { t } = useAppTranslation()
   const { isBelowLgWidth = false } = useContext(ScreenSizeContext) || {}
   return (
     <div className={`c-iteration-summary ${className ?? ''}`}>

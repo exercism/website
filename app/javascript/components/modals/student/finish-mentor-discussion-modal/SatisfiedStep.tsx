@@ -19,9 +19,7 @@ export const SatisfiedStep = ({
   onNotRequeued: () => void
   onBack: () => void
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/modals/student/finish-mentor-discussion-modal'
-  )
+  const { t } = useAppTranslation()
   const {
     mutate: finish,
     status,

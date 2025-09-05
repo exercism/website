@@ -15,9 +15,7 @@ export const UnpublishSolutionModal = ({
   endpoint,
   ...props
 }: ModalProps & { endpoint: string }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/modals/UnpublishSolutionModal.tsx'
-  )
+  const { t } = useAppTranslation()
   const {
     mutate: mutation,
     status,

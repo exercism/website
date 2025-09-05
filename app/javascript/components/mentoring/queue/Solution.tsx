@@ -21,7 +21,7 @@ export const Solution = ({
   url,
   tooltipUrl,
 }: MentoringRequest): JSX.Element => {
-  const { t } = useAppTranslation('components/mentoring/queue')
+  const { t } = useAppTranslation()
   return (
     <ExercismTippy content={<StudentTooltip endpoint={tooltipUrl} />}>
       <a href={url} className="--solution">

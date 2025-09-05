@@ -10,9 +10,7 @@ export const FinishStep = ({
   student: Student
   onReset: () => void
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/mentoring/discussion/finished-wizard'
-  )
+  const { t } = useAppTranslation()
   return (
     <div>
       {student.isFavorited ? (

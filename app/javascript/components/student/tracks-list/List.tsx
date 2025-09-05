@@ -13,7 +13,7 @@ export const List = ({
   data: StudentTrack[]
   onReset: () => void
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/student/tracks-list')
+  const { t } = useAppTranslation()
 
   if (data.length === 0) {
     return (

@@ -9,9 +9,7 @@ export function VideoCredits({
   author,
   links,
 }: Pick<CommunityVideoType, 'author' | 'links'>): JSX.Element {
-  const { t } = useAppTranslation(
-    'components/track/dig-deeper-components/community-videos'
-  )
+  const { t } = useAppTranslation()
   return (
     <div className="mb-24 py-16 px-32 text-textColor6 flex justify-between items-center border-1 border-borderLight2 rounded-16 shadow-sm md:flex-row flex-col">
       <div className="grid grid-rows-[24px_24px] grid-cols-[48px_auto] place-items-start gap-x-16">

@@ -33,7 +33,7 @@ export function StripeForm({
   confirmParamsReturnUrl,
   onSettled = () => null,
 }: StripeFormProps): JSX.Element {
-  const { t } = useAppTranslation('components/donations')
+  const { t } = useAppTranslation()
   const {
     cardValid,
     error,
@@ -91,7 +91,6 @@ export function StripeForm({
           />
           <div className="ml-16 text-textColor6 leading-tight">
             <Trans
-              ns="components/donations"
               i18nKey="stripeForm.attackInfo"
               components={[
                 <a

@@ -14,7 +14,7 @@ export const OptionsDropdown = ({
   iteration: Iteration
   onDelete: (iteration: Iteration) => void
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/student/iterations-list')
+  const { t } = useAppTranslation()
   const {
     buttonAttributes,
     panelAttributes,

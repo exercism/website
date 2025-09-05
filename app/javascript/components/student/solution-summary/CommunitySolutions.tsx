@@ -9,7 +9,7 @@ export const CommunitySolutions = ({
   link: string
   isTutorial: boolean
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/student/solution-summary')
+  const { t } = useAppTranslation()
   return (
     <div className="community-solutions">
       <GraphicalIcon

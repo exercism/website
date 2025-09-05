@@ -20,9 +20,7 @@ export const StudentInfo = ({
   student: Student
   setStudent: (student: Student) => void
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/mentoring/session/StudentInfo.tsx'
-  )
+  const { t } = useAppTranslation()
   const { isBelowLgWidth = false } = useContext(ScreenSizeContext) || {}
   const [showMoreInformation, setShowMoreInformation] = useState(false)
 

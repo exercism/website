@@ -44,9 +44,7 @@ export function SimpleIterationHeader({
   lastOccurred: string
   appearsFrequently: boolean
 }): JSX.Element {
-  const { t } = useAppTranslation(
-    'components/mentoring/representation/left-pane'
-  )
+  const { t } = useAppTranslation()
   return (
     <header className="iteration-header">
       <div>

@@ -20,7 +20,7 @@ type Links = {
 }
 
 export const LearningSection = ({ tracks, links }: Props): JSX.Element => {
-  const { t } = useAppTranslation('components/journey/overview')
+  const { t } = useAppTranslation()
   if (tracks.length === 0) {
     return (
       <section className="empty-section">

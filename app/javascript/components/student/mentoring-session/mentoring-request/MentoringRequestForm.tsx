@@ -32,9 +32,7 @@ export const MentoringRequestForm = ({
   links: DiscussionLinks
   onSuccess: (mentorRequest: Request) => void
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/student/mentoring-session/mentoring-request'
-  )
+  const { t } = useAppTranslation()
   const {
     error,
     handleSubmit,
@@ -65,7 +63,6 @@ export const MentoringRequestForm = ({
             <p>
               <Trans
                 i18nKey="mentoringRequestForm.startMentoringDiscussion"
-                ns="components/student/mentoring-session/mentoring-request"
                 values={{ exerciseTitle: exercise.title }}
                 components={{ strong: <strong /> }}
               />

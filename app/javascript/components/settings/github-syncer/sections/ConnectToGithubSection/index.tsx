@@ -8,9 +8,7 @@ import { Trans } from 'react-i18next'
 
 export function ConnectToGithubSection() {
   const [isModalOpen, setIsModalOpen] = React.useState(false)
-  const { t } = useAppTranslation(
-    'components/settings/github-syncer/sections/ConnectToGithubSection'
-  )
+  const { t } = useAppTranslation()
 
   return (
     <section>

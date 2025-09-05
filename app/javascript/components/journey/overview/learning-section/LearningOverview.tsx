@@ -9,9 +9,7 @@ export const LearningOverview = ({
 }: {
   tracks: TrackProgressList
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/journey/overview/learning-section'
-  )
+  const { t } = useAppTranslation()
   return (
     <div className="overview">
       <h3>
@@ -21,7 +19,6 @@ export const LearningOverview = ({
               ? 'learningOverview.youReThroughMultiple'
               : 'learningOverview.youReThroughSingle'
           }
-          ns="components/journey/overview/learning-section"
           values={{ percentage: tracks.completion.toFixed(2) }}
           components={{
             em: <em className="text-gradient" />,

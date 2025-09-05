@@ -20,9 +20,7 @@ export const DeleteTestimonialModal = ({
   testimonial: Testimonial
   cacheKey: QueryKey
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/mentoring/testimonials-list/revealed-testimonial'
-  )
+  const { t } = useAppTranslation()
   const queryClient = useQueryClient()
   const {
     mutate: mutation,
@@ -82,7 +80,6 @@ export const DeleteTestimonialModal = ({
       <h3>{t('deleteTestimonialModal.areYouSure')}</h3>
       <p>
         <Trans
-          ns="components/mentoring/testimonials-list/revealed-testimonial"
           i18nKey="deleteTestimonialModal.deletingWillHide"
           components={{ strong: <strong /> }}
         />

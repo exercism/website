@@ -22,7 +22,7 @@ export function PreviewFooter({
   onClose: () => void
   onSubmit: () => void
 }): JSX.Element {
-  const { t } = useAppTranslation('components/mentoring/representation/modals')
+  const { t } = useAppTranslation()
 
   return (
     <div className="flex flex-row justify-between items-center h-[70px] border-t-1 border-borderColor6 px-24 flex-shrink-0">

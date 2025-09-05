@@ -11,7 +11,7 @@ export const RepresenterFeedback = ({
   author,
   editor,
 }: Props): JSX.Element => {
-  const { t } = useAppTranslation('components/student/iterations-list')
+  const { t } = useAppTranslation()
 
   return (
     <div className="c-automated-feedback representer-feedback">
@@ -24,7 +24,6 @@ export const RepresenterFeedback = ({
         <div className="info">
           <Trans
             i18nKey="representerFeedback.gaveFeedback"
-            ns="components/student/iterations-list"
             values={{ authorName: author.name }}
             components={{
               strong: <strong className="inline-block" />,
@@ -47,7 +46,7 @@ export function EditedBy({
   author,
   editor,
 }: Pick<Props, 'author' | 'editor'>): JSX.Element | null {
-  const { t } = useAppTranslation('components/student/iterations-list')
+  const { t } = useAppTranslation()
 
   if (!editor || editor.name === author.name) return null
 
@@ -56,7 +55,6 @@ export function EditedBy({
       &nbsp;(
       <Trans
         i18nKey="representerFeedback.editedBy"
-        ns="components/student/iterations-list"
         values={{ editorName: editor.name }}
         components={{ strong: <strong /> }}
       />

@@ -22,7 +22,7 @@ export const ActivateLearningModeModal = ({
   onClose,
   ...props
 }: Omit<ModalProps, 'className'> & { endpoint: string }): JSX.Element => {
-  const { t } = useAppTranslation('components/dropdowns/track-menu')
+  const { t } = useAppTranslation()
   const {
     mutate: mutation,
     status,

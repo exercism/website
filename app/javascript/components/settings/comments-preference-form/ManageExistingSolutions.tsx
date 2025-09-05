@@ -17,9 +17,7 @@ export function ManageExistingSolution({
   enableAllMutation,
   numCommentsEnabled,
 }: ManageExistingSolutionProps): JSX.Element | null {
-  const { t } = useAppTranslation(
-    'components/settings/comments-preference-form'
-  )
+  const { t } = useAppTranslation()
   if (numPublished === 0) return null
   return (
     <div className="form-footer">
@@ -29,7 +27,6 @@ export function ManageExistingSolution({
         </h3>
         <p className="text-p-base mb-12">
           <Trans
-            ns="components/settings/comments-preference-form"
             i18nKey="manageExistingSolutions.canCommentOnPublishedSolutions"
             values={{ commentStatusPhrase }}
             components={[<span className="font-medium" />]}

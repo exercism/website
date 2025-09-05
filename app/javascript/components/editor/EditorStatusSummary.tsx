@@ -9,7 +9,7 @@ export const EditorStatusSummary = ({
   status: EditorStatus
   error?: string
 }): JSX.Element | null => {
-  const { t } = useAppTranslation('components/editor/EditorStatusSummary.tsx')
+  const { t } = useAppTranslation()
   switch (status) {
     case EditorStatus.CREATE_SUBMISSION_FAILED:
       return (

@@ -29,7 +29,7 @@ export const ExerciseUpdateModal = ({
   endpoint,
   ...props
 }: Omit<ModalProps, 'className'> & { endpoint: string }): JSX.Element => {
-  const { t } = useAppTranslation('components/modals/ExerciseUpdateModal.tsx')
+  const { t } = useAppTranslation()
   const { data, status, error } = useRequestQuery<{ diff: ExerciseDiff }>(
     ['exercise-update', endpoint],
     { endpoint: endpoint, options: {} }
@@ -51,7 +51,7 @@ export const ExerciseUpdateModal = ({
 }
 
 const LoadingComponent = () => {
-  const { t } = useAppTranslation('components/modals/ExerciseUpdateModal.tsx')
+  const { t } = useAppTranslation()
   return (
     <Icon icon="spinner" alt={t('exerciseUpdateModal.loadingExerciseDiff')} />
   )

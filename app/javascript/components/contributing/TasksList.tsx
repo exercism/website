@@ -68,7 +68,7 @@ export default function TasksList({
   request: Request
   tracks: readonly Track[]
 }): JSX.Element {
-  const { t } = useAppTranslation('components/contributing')
+  const { t } = useAppTranslation()
   const { request, setPage, setQuery, setOrder } = useList(initialRequest)
   const {
     status,

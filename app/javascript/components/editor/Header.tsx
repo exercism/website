@@ -12,7 +12,7 @@ export const Header = ({
 }): JSX.Element => <div className="header">{children}</div>
 
 Header.Back = ({ exercisePath }: { exercisePath: string }) => {
-  const { t } = useAppTranslation('components/editor/header')
+  const { t } = useAppTranslation()
   return (
     <a href={exercisePath} className="close-btn">
       <GraphicalIcon icon="arrow-left" />

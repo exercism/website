@@ -9,7 +9,7 @@ const shareLink = ({ url }: { url: string }) => {
 }
 
 export const FacebookButton = ({ url }: { url: string }): JSX.Element => {
-  const { t } = useAppTranslation('components/common/share-panel')
+  const { t } = useAppTranslation()
   return (
     <a
       href={shareLink({ url })}

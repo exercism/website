@@ -82,7 +82,7 @@ const Component = ({
   cacheKey,
   links,
 }: Props): JSX.Element | null => {
-  const { t } = useAppTranslation('components/mentoring/queue')
+  const { t } = useAppTranslation()
   const changeTracksRef = useRef<HTMLButtonElement>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const {

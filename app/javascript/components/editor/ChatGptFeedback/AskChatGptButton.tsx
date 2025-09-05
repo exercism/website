@@ -29,7 +29,7 @@ export const AskChatGptButton = forwardRef<HTMLButtonElement, Props>(
     },
     ref
   ) => {
-    const { t } = useAppTranslation('components/editor/ChatGptFeedback')
+    const { t } = useAppTranslation()
 
     const isDisabled =
       isProcessing ||

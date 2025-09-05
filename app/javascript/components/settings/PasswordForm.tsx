@@ -24,7 +24,7 @@ export default function PasswordForm({ links }: { links: Links }): JSX.Element {
     password: '',
     passwordConfirmation: '',
   })
-  const { t } = useAppTranslation('components/settings/PasswordForm.tsx')
+  const { t } = useAppTranslation()
   const { mutation, status, error } = useSettingsMutation<RequestBody>({
     endpoint: links.update,
     method: 'PATCH',

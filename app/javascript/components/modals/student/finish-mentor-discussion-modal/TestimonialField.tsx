@@ -14,9 +14,7 @@ export const TestimonialField = ({
   value: string
   onChange: (e: ChangeEvent) => void
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/modals/student/finish-mentor-discussion-modal'
-  )
+  const { t } = useAppTranslation()
   return (
     <>
       <textarea

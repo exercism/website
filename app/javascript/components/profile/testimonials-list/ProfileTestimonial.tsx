@@ -17,7 +17,7 @@ const ProfileTestimonial = ({
   onClick: () => void
   onClose: () => void
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/profile/testimonials-list')
+  const { t } = useAppTranslation()
 
   return (
     <React.Fragment>
@@ -32,7 +32,6 @@ const ProfileTestimonial = ({
         <div className="exercise">
           <Trans
             i18nKey="exerciseTrack"
-            ns="components/profile/testimonials-list"
             values={{
               exerciseTitle: testimonial.exercise.title,
               trackTitle: testimonial.track.title,

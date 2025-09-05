@@ -11,7 +11,7 @@ export function DashboardHeader({
   criteria,
   setCriteria,
 }: DashboardHeaderProps) {
-  const { t } = useAppTranslation('components/training-data/dashboard')
+  const { t } = useAppTranslation()
   return (
     <header className="c-search-bar inbox-header">
       <div className="c-track-filter">

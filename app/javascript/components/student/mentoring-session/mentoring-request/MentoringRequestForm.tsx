@@ -51,7 +51,6 @@ export const MentoringRequestForm = ({
           <a href={links.learnMoreAboutPrivateMentoring}>
             {t('mentoringRequestForm.learnMore')}
           </a>
-          .
         </h3>
         <CopyToClipboardButton textToCopy={links.privateMentoring} />
       </div>

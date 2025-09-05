@@ -1,6 +1,6 @@
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import React from 'react'
-import { OriginalsListContext } from '.'
+import { GlossaryEntriesListContext } from '.'
 
 const TABS = [
   { value: undefined, label: 'All' },
@@ -10,7 +10,7 @@ const TABS = [
 ]
 
 export function Tabs() {
-  const { request, setQuery } = React.useContext(OriginalsListContext)
+  const { request, setQuery } = React.useContext(GlossaryEntriesListContext)
   return (
     <div className="flex items-center tabs mb-16">
       {TABS.map((tab) => (

@@ -1,0 +1,6 @@
+- require_stylesheet "mentoring"
+
+#page-localization-index
+  = render ViewComponents::Localization::Header.new
+
+  .lg-container= render ReactComponents::Localization::GlossaryEntriesList.new(@glossary_entries, @glossary_entries_params)

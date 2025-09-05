@@ -732,4 +732,24 @@ initReact({
       </Suspense>
     )
   },
+  'localization-glossary-entries-list': (data: any): JSX.Element => {
+    const GlossaryEntriesList = lazy(
+      () => import('@/components/localization/glossary-entries/list')
+    )
+    return (
+      <Suspense fallback={RenderLoader()}>
+        <GlossaryEntriesList {...camelizeKeysAs<OriginalsListProps>(data)} />
+      </Suspense>
+    )
+  },
+  'localization-glossary-entries-show': (data: any): JSX.Element => {
+    const GlossaryEntriesShow = lazy(
+      () => import('@/components/localization/glossary-entries/show')
+    )
+    return (
+      <Suspense fallback={RenderLoader()}>
+        <GlossaryEntriesShow {...camelizeKeysAs<OriginalsShowProps>(data)} />
+      </Suspense>
+    )
+  },
 })

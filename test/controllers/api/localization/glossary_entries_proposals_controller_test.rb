@@ -22,7 +22,7 @@ class API::Localization::GlossaryEntriesProposalsControllerTest < API::BaseTestC
     glossary_entry = create :localization_glossary_entry
     proposal = create :localization_glossary_entry_proposal, :modification, glossary_entry: glossary_entry, proposer: @current_user
 
-    Localization::GlossaryEntryProposal::Approve.expects(:call).with(glossary_entry, @current_user)
+    Localization::GlossaryEntryProposal::Approve.expects(:call).with(proposal, @current_user)
 
     patch approve_api_localization_glossary_entry_proposal_path(glossary_entry, proposal), headers: @headers, as: :json
 
@@ -36,7 +36,7 @@ class API::Localization::GlossaryEntriesProposalsControllerTest < API::BaseTestC
     glossary_entry = create :localization_glossary_entry
     proposal = create :localization_glossary_entry_proposal, :modification, glossary_entry: glossary_entry, proposer: @current_user
 
-    Localization::GlossaryEntryProposal::Reject.expects(:call).with(glossary_entry, @current_user)
+    Localization::GlossaryEntryProposal::Reject.expects(:call).with(proposal, @current_user)
 
     patch reject_api_localization_glossary_entry_proposal_path(glossary_entry, proposal), headers: @headers, as: :json
 

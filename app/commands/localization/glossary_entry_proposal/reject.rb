@@ -1,7 +1,7 @@
 class Localization::GlossaryEntryProposal::Reject
   include Mandate
 
-  initialize_with :glossary_entry, :user
+  initialize_with :proposal, :user
 
   def call
     ActiveRecord::Base.transaction do
@@ -10,10 +10,5 @@ class Localization::GlossaryEntryProposal::Reject
         reviewer: user
       )
     end
-  end
-
-  memoize
-  def proposal
-    glossary_entry.proposals.pending.first
   end
 end

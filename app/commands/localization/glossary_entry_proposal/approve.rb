@@ -1,7 +1,7 @@
 class Localization::GlossaryEntryProposal::Approve
   include Mandate
 
-  initialize_with :proposal, :user
+  initialize_with :glossary_entry, :user
 
   def call
     ActiveRecord::Base.transaction do
@@ -49,5 +49,8 @@ class Localization::GlossaryEntryProposal::Approve
     glossary_entry.destroy!
   end
 
-  delegate :glossary_entry, to: :proposal
+  memoize
+  def proposal
+    glossary_entry.proposals.pending.first
+  end
 end

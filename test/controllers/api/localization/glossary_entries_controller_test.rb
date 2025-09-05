@@ -24,8 +24,7 @@ class API::Localization::GlossaryEntriesControllerTest < API::BaseTestCase
   test "show returns a localization glossary entry with proposals" do
     setup_user
     glossary_entry = create :localization_glossary_entry
-    translation = create :localization_translation, key: glossary_entry.key, locale: "en"
-    create(:localization_translation_proposal, translation:)
+    create :localization_glossary_entry_proposal, :modification, glossary_entry: glossary_entry, proposer: @current_user
 
     get api_localization_glossary_entry_path(glossary_entry.uuid), headers: @headers, as: :json
 

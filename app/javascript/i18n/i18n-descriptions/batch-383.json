@@ -1,0 +1,3 @@
+{
+  "solutionList.noDiscussionsFound": "**Functional Purpose**: Message displayed when no discussions (solutions) are found in the mentoring queue.\n**UI Location**: Mentoring Queue page, within the solution list area.\n**When Users See This**: When a mentor is viewing the queue and there are no solutions matching the current filter/criteria.\n**Technical Context**: Replaces hardcoded string 'No discussions found'.\n**Current English**: \"No discussions found\""
+}

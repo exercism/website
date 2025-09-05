@@ -1,0 +1,3 @@
+{
+  "iterationReport.thisIterationHasBeenDeleted": "**Functional Purpose**: Message indicating that an iteration has been deleted\n**UI Location**: Student Iterations List → Individual Iteration Report (main content area)\n**When Users See This**: When viewing a deleted iteration report\n**Technical Context**: Appears conditionally when `iteration.status` is `IterationStatus.DELETED`\n**Current English**: \"This iteration has been deleted\""
+}

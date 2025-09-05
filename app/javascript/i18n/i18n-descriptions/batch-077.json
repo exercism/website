@@ -1,0 +1,4 @@
+{
+  "list.noResultsFound": "**Functional Purpose**: Message displayed when no tracks match the current search or filters.\n**UI Location**: Student Tracks List (empty state).\n**When Users See This**: After applying search/filters that yield no results.\n**Technical Context**: Standard text; no special formatting.\n**Current English**: \"No results found\"",
+  "list.resetSearchAndFilters": "**Functional Purpose**: Button text to clear search queries and applied filters.\n**UI Location**: Student Tracks List (empty state).\n**When Users See This**: When no results are found, offering a way to reset the view.\n**Technical Context**: Standard text; no special formatting.\n**Current English**: \"Reset search and filters\""
+}

@@ -1,0 +1,4 @@
+{
+  "unlockHelpButton.defaultError": "**Functional Purpose**: Default error message for unlocking help\n**UI Location**: Track page, within the help unlock section\n**When Users See This**: If an unexpected error occurs during the 'unlock help' process.\n**Technical Context**: Used as the default message for the ErrorBoundary.\n**Current English**: \"There was an error unlocking help, please try again!\"",
+  "unlockHelpButton.unlockThisTab": "**Functional Purpose**: Button text for unlocking a help tab\n**UI Location**: Track page, in the help unlock section\n**When Users See This**: When viewing a locked help tab and needing to unlock it\n**Technical Context**: Standard text on a button\n**Current English**: \"Unlock this tab\""
+}

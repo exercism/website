@@ -1,0 +1,5 @@
+{
+  "totalReputation.addressHas": "**Functional Purpose**: Introduces the total reputation count for a specific user.\n**UI Location**: User Profile → Contributions Summary → Total Reputation section.\n**When Users See This**: When viewing another user's profile.\n**Technical Context**: Uses variable `handle` for the user's name, which must remain unchanged.\n**Current English**: \"%{handle} has\"\n",
+  "totalReputation.youHave": "**Functional Purpose**: Introduces the total reputation count for the current user.\n**UI Location**: User Profile → Contributions Summary → Total Reputation section.\n**When Users See This**: When viewing their own profile.\n**Technical Context**: No variables.\n**Current English**: \"You have\"\n",
+  "totalReputation.reputation": "**Functional Purpose**: Label for the reputation count.\n**UI Location**: User Profile → Contributions Summary → Total Reputation section.\n**When Users See This**: When viewing a user's profile, next to their reputation number.\n**Technical Context**: Appears after the numerical reputation value.\n**Current English**: \"Reputation\""
+}

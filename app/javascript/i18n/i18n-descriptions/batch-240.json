@@ -1,0 +1,4 @@
+{
+  "reputationMenu.seeHowYouEarned": "**Functional Purpose**: Link to view all reputation tokens\n**UI Location**: Reputation dropdown menu (bottom link)\n**When Users See This**: When the reputation dropdown menu is open\n**Technical Context**: Standard text. No special formatting.\n**Current English**: \"See how you earned all your reputation\"",
+  "reputationIcon.reputationAriaLabel": "**Functional Purpose**: ARIA label for the reputation icon button\n**UI Location**: Global navigation header (reputation icon)\n**When Users See This**: When the reputation icon button is present in the header\n**Technical Context**: The variable `%{reputation}` must remain unchanged. This label is for accessibility.\n**Current English**: \"%{reputation} reputation\""
+}

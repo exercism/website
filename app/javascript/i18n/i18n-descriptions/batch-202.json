@@ -1,0 +1,3 @@
+{
+  "medianWaitTime.avgWaitTime": "**Functional Purpose**: Displays the average wait time for an action.\n**UI Location**: Potentially in dashboards or summary views where wait times are relevant.\n**When Users See This**: When information on average wait times is presented.\n**Technical Context**: This string is part of a sentence including a dynamic time value.\n**Current English**: \"Avg. wait time: ~\""
+}

@@ -1,0 +1,3 @@
+{
+  "components.mentoring.automation.mostPopularTag.mostPopular": "**Functional Purpose**: Label indicating a filter option is the most popular.\n**UI Location**: Automation Batch page, next to the filter option it refers to.\n**When Users See This**: When viewing filter options on the automation batch page.\n**Technical Context**: Standard text; no special formatting.\n**Current English**: \"Most Popular\""
+}

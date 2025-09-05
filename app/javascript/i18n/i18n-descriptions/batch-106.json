@@ -1,0 +1,4 @@
+{
+  "sharePanel.title": "**Functional Purpose**: Title for the testimonial sharing panel\n**UI Location**: Testimonial Modal (share panel header)\n**When Users See This**: When a testimonial is displayed and the user is offered to share it\n**Technical Context**: Standard text; no special formatting\n**Current English**: \"Share your testimonial with the world\"",
+  "sharePanel.shareTitle": "**Functional Purpose**: Title used when sharing the testimonial link\n**UI Location**: Testimonial Modal (share panel link title)\n**When Users See This**: When the user clicks to share the testimonial on various platforms\n**Technical Context**: Standard text; no special formatting\n**Current English**: \"View this testimonial on Exercism\""
+}

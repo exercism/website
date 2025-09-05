@@ -1,0 +1,4 @@
+{
+  "footerForm.customAmount": "**Functional Purpose**: Placeholder text for a custom donation amount input field.\n**UI Location**: Donations → Footer Form → Custom Amount Input\n**When Users See This**: When they interact with the donation form in the footer, specifically when they want to enter an amount not covered by the preset buttons.\n**Technical Context**: This is a placeholder for an input field. The input `value` is `customAmount`.\n**Current English**: \"Custom amount\"",
+  "footerForm.continue": "**Functional Purpose**: Button text to proceed with the donation.\n**UI Location**: Donations → Footer Form → Continue Button\n**When Users See This**: After selecting or entering a donation amount.\n**Technical Context**: Standard button text; no special formatting.\n**Current English**: \"Continue\""
+}

@@ -1,0 +1,3 @@
+{
+  "startExerciseButton.startInEditor": "**Functional Purpose**: Button text to initiate an exercise in the editor.\n**UI Location**: Student exercise view (button within `StartExerciseButton` component).\n**When Users See This**: When viewing an exercise and deciding to start it in the editor.\n**Technical Context**: Standard text for a button; no special formatting.\n**Current English**: \"Start in editor\""
+}

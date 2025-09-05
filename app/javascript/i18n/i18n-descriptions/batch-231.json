@@ -1,0 +1,3 @@
+{
+  "buildingContributionsList.generic": "**Functional Purpose**: Text indicating a generic contribution type when no specific track is associated.\n**UI Location**: Profile → Contributions List → Individual Contribution Item → Extra Information section\n**When Users See This**: When viewing a contribution that is not linked to a specific exercise track.\n**Technical Context**: Displays 'Generic' for contributions without a track.\n**Current English**: \"Generic\""
+}

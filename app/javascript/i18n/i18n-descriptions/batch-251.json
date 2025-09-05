@@ -1,0 +1,4 @@
+{
+  "storiesGrid.index.moreStories": "**Functional Purpose**: Heading for the 'More Stories' section.\n**UI Location**: Community → Stories Grid (section header)\n**When Users See This**: When viewing the community stories grid.\n**Technical Context**: Standard text; no special formatting\n**Current English**: \"More Stories from our community\"",
+  "storiesGrid.index.listenLearn": "**Functional Purpose**: Sub-heading/description for the 'More Stories' section.\n**UI Location**: Community → Stories Grid (section sub-header)\n**When Users See This**: When viewing the community stories grid.\n**Technical Context**: Standard text; no special formatting\n**Current English**: \"Listen, learn and be inspired by our community members.\""
+}

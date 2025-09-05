@@ -1,0 +1,4 @@
+{
+  "videoGrid.trackFilterList.openTrackFilter": "**Functional Purpose**: Label for a button that opens a track filter dropdown.\n**UI Location**: Video Grid → Track Filter List (button aria-label)\n**When Users See This**: When the track filter dropdown is closed and the user hovers over or focuses on the button.\n**Technical Context**: Used as an `aria-label` for accessibility.\n**Current English**: \"Open the track filter\"",
+  "videoGrid.trackFilterList.clickToChange": "**Functional Purpose**: Alternative text for an icon indicating the dropdown's functionality.\n**UI Location**: Video Grid → Track Filter List (chevron-down icon alt text)\n**When Users See This**: When the track filter dropdown is displayed and the user encounters the chevron icon.\n**Technical Context**: Used as an `alt` attribute for an `Icon` component.\n**Current English**: \"Click to change\""
+}

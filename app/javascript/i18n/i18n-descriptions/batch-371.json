@@ -1,0 +1,6 @@
+{
+  "session.code": "**Functional Purpose**: Tab title for the code panel in a mentoring session.\n**UI Location**: Mentoring Session UI (right-hand panel tabs)\n**When Users See This**: When viewing a mentoring session on a mobile or narrow screen.\n**Technical Context**: Standard text; no special formatting\n**Current English**: \"Code\"",
+  "session.discussion": "**Functional Purpose**: Tab title for the discussion panel in a mentoring session.\n**UI Location**: Mentoring Session UI (right-hand panel tabs)\n**When Users See This**: When viewing a mentoring session.\n**Technical Context**: Standard text; no special formatting\n**Current English**: \"Discussion\"",
+  "session.scratchpad": "**Functional Purpose**: Tab title for the scratchpad panel in a mentoring session.\n**UI Location**: Mentoring Session UI (right-hand panel tabs)\n**When Users See This**: When viewing a mentoring session.\n**Technical Context**: Standard text; no special formatting\n**Current English**: \"Scratchpad\"",
+  "session.guidance": "**Functional Purpose**: Tab title for the guidance panel in a mentoring session.\n**UI Location**: Mentoring Session UI (right-hand panel tabs)\n**When Users See This**: When viewing a mentoring session.\n**Technical Context**: Standard text; no special formatting\n**Current English**: \"Guidance\""
+}

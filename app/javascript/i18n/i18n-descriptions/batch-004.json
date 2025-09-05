@@ -1,0 +1,4 @@
+{
+  "commentsList.listDisabled.disabledCommentsAuthor": "**Functional Purpose**: Inform the author that they have disabled comments.\n**UI Location**: Community Solutions → Comments list (when comments are disabled by author)\n**When Users See This**: When the author views a solution where they have disabled comments.\n**Technical Context**: Standard text; no special formatting\n**Current English**: \"You have disabled comments on this solution. Use the \\\"Options\\\" cog above to toggle this option.\"",
+  "commentsList.listDisabled.disabledComments": "**Functional Purpose**: Inform a non-author user that comments are disabled.\n**UI Location**: Community Solutions → Comments list (when comments are disabled)\n**When Users See This**: When a user who is not the author views a solution where comments have been disabled.\n**Technical Context**: Standard text; no special formatting\n**Current English**: \"Comments have been disabled\""
+}

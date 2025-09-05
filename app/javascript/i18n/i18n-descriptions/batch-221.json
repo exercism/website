@@ -1,0 +1,5 @@
+{
+  "croppingStep.cropYourPhoto": "**Functional Purpose**: Heading for the image cropping step\n**UI Location**: Avatar selector → Cropping modal (header)\n**When Users See This**: After selecting an image for avatar and entering the cropping interface\n**Technical Context**: Standard text; no special formatting\n**Current English**: \"Crop your photo\"",
+  "croppingStep.cancel": "**Functional Purpose**: Button to cancel the image cropping process\n**UI Location**: Avatar selector → Cropping modal (footer button)\n**When Users See This**: While cropping an image, user decides not to proceed with the crop\n**Technical Context**: Standard button label\n**Current English**: \"Cancel\"",
+  "croppingStep.crop": "**Functional Purpose**: Button to confirm and apply the image crop\n**UI Location**: Avatar selector → Cropping modal (footer button)\n**When Users See This**: User has adjusted the crop area and is ready to save it\n**Technical Context**: Standard button label\n**Current English**: \"Crop\""
+}

@@ -1,0 +1,3 @@
+{
+  "notifications.seeAllYourNotifications": "**Functional Purpose**: Link to view all notifications\n**UI Location**: Notifications dropdown (bottom link)\n**When Users See This**: When the notifications dropdown is open\n**Technical Context**: Standard text; no special formatting\n**Current English**: \"See all your notifications\""
+}

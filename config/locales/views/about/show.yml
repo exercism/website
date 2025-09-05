@@ -1,0 +1,95 @@
+en:
+  about:
+    hiring:
+      meta_title: Exercism's Hiring!
+      meta_description:
+        Come and join a passionate team making programming education
+        fun and effective. Here are some of the roles we’re hiring for.
+      header:
+        title: We're not currently hiring.
+        description: Please check back in the future for new roles!
+    show:
+      meta_title: About Exercism
+      meta_description: "Learn about Exercism: our vision, mission, and strategy."
+      header:
+        title: Exercism
+        slogan:
+          We’re building a place where anyone can learn and master programming for
+          free, without ever feeling lost or stupid.
+        donate_button: Donate to Exercism
+      purpose_section:
+        title: Purpose
+        description: We're here to help everyone get really good at programming,
+          regardless of their background. We want to share our love of
+          programming, and help people upskill as part of their upward social
+          mobility.
+      goals_section:
+        goal_1:
+          title: Attain mastery
+          description:
+            We want people to experience the joy of programming — the deep
+            satisfaction from being a fluent programmer.
+        goal_2:
+          title: Have Fun
+          description:
+            Developing programming skills should be empowering and fun, not
+            competitive, frustrating or stressful.
+        goal_3:
+          title: Social Mobility
+          description:
+            We want everyone, especially the economically deprived, to achieve
+            upward mobility through learning to code.
+      principles_section:
+        title: Principles
+        principle_1: Exercism should be enjoyable, challenging and valuable.
+        principle_2:
+          Exercism should encourage a growth-mindset, clear and empathetic
+          communication, and emphasize the value in learning together.
+        principle_3: Exercism should feel safe and nurturing.
+        principle_4:
+          Exercism focusses on the learning journey, not the destination. The
+          process and enjoyment of learning is more important than absolute
+          factual correctness.
+      leadership_section:
+        title: How Exercism is run
+        description:
+          Exercism is developed through a mixture of top-down leadership and
+          a collaborative community. We believe that most decisions are worth
+          their taking time over, and so we think hard before we act.
+        reflective:
+          title: Reflective
+          description:
+            We focus on being strategy-driven and product-driven, looking to
+            the long term, not just the immediate impact, and considering the
+            holistic impact of decisions. We work closely with key volunteer
+            contributors to canvas opinions and knowledge, understanding our
+            strengths and weaknesses and trying to improve Exercism daily, while
+            also staying focussed on our long-term vision.
+        small_team:
+          title: A small team with a big vision
+          description:
+            We also place a high focus on quality. We want what we do to be
+            good - to work well, be accessible to all, and to be innovative. We
+            have a tiny core team who take responsibility for ensuring that
+            Exercism grows and evolves in line with its vision. Through
+            donations from our community, philanthropists and philanthropic
+            foundations, we are expanding our team in a sustainable and
+            responsible way. We have funding milestones that we publicize and
+            fundraise towards, which allow us to hire more people to develop
+            further.
+        ethics:
+          title: Grounded in ethics
+          description:
+            We try to pay fairly, respecting and considering both the time and
+            value of our staff and the generosity of our donors. We act
+            ethically as a company and as an employer, treating our team with
+            respect and never asking something of them that we wouldn’t do
+            ourselves, and not using techniques or technologies that we wouldn't
+            want used on us.
+      donate_section:
+        title: Help us bring the joy of programming to everyone, everywhere ✨
+        description:
+          We rely on open-source contributions and cash donations to achieve
+          our mission. Can you spare some time or money to support our mission?
+        donate_button: Donate to Exercism
+        tasks_button: See tasks that need help

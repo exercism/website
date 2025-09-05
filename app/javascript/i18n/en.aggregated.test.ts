@@ -382,6 +382,7 @@ export const resources = {
         "A mentor will (hopefully) provide you with feedback soon. You'll recieve a notification and email when this happens.",
       'feedbackPanelMentoringDiscussion.pendingMentoringRequest.viewYourRequest':
         'View your request',
+      loading: 'Loading',
       'feedbackPanelMentoringDiscussion.feedbackPanelMentoringDiscussion.loading':
         'Loading…',
       'feedbackPanelMentoringDiscussion.feedbackPanelMentoringDiscussion.latestCodeReviewSessionDescription':
@@ -996,6 +997,7 @@ export const resources = {
       'deleteAccount.cancel': 'Cancel',
       'deleteAccount.deleteAccount': 'Delete account',
       'deleteAccount.unableToDeleteAccount': 'Unable to delete account',
+      deleteAccount: 'Delete account',
       'disableSolutionCommentsModal.confirmationTitle':
         'Do you want to disable comments?',
       'disableSolutionCommentsModal.confirmationDescription':
@@ -2348,6 +2350,32 @@ export const resources = {
         'Opens in modal',
       'components.mentoring.session.previousSessionsLink.seePreviousSessions':
         'See {{numPrevious}} previous {{sessions}}',
+      unableToParseMarkdown: 'Unable to parse markdown',
+      processingStatus: 'Processing status',
+      processing: 'Processing',
+      youAreAboutToReset: "You're about to reset your Exercism account",
+      pleaseReadCarefully:
+        'Please read this carefully before commiting to reset your account.',
+      thisIsIrreversible:
+        'This is <em>irreversible</em> and will mean you’ll lose everything you’ve done on your account.',
+      byResettingAccount:
+        '<strong>By resetting your account, you will lose:</strong>',
+      allSolutionsSubmitted: 'All solutions you have submitted',
+      allMentoringReceived: 'All mentoring you have received',
+      allMentoringGiven:
+        'All mentoring you have given and any testimonials received.',
+      anyReputationEarned:
+        'Any reputation you have earned through mentoring or publishing solutions.',
+      toConfirmWriteHandle:
+        'To confirm, write your handle <pre>{{handle}}</pre> in the box below:',
+      cancel: 'Cancel',
+      resetAccount: 'Reset account',
+      unableToResetAccount: 'Unable to reset account',
+      failed: 'Failed',
+      passed: 'Passed',
+      selectedTracks_one: '{{count}} track selected',
+      selectedTracks_other: '{{count}} tracks selected',
+      selectedTracks_zero: 'No tracks selected',
     },
   },
 } as const

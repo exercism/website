@@ -37,7 +37,7 @@ export function HandleWithFlair({
   iconClassName?: string
   className?: string
 }): JSX.Element | null {
-  const { t } = useAppTranslation('components/common/HandleWithFlair.tsx')
+  const { t } = useAppTranslation()
 
   return (
     <span className={assembleClassNames('flex items-center', className)}>

@@ -42,7 +42,7 @@ export const Solution = ({
   track,
   isOutOfDate,
 }: SolutionProps): JSX.Element => {
-  const { t } = useAppTranslation('components/journey')
+  const { t } = useAppTranslation()
   return (
     <a href={privateUrl} className="solution">
       <div className="main">
@@ -98,7 +98,6 @@ export const Solution = ({
             <div className="extra">
               <div className="track">
                 <Trans
-                  ns="components/journey"
                   i18nKey="solution.inTrack"
                   values={{ track: track.title }}
                   components={[

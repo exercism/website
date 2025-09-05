@@ -29,7 +29,7 @@ export default function EmailForm({
   defaultEmail: string
   links: Links
 }): JSX.Element {
-  const { t } = useAppTranslation('components/settings/EmailForm.tsx')
+  const { t } = useAppTranslation()
   const [state, setState] = useState({ email: defaultEmail, password: '' })
   const { mutation, status, error } = useSettingsMutation<RequestBody>({
     endpoint: links.update,
@@ -97,7 +97,7 @@ export default function EmailForm({
 }
 
 const SuccessMessage = ({ email }: { email: string }) => {
-  const { t } = useAppTranslation('components/settings/EmailForm.tsx')
+  const { t } = useAppTranslation()
   return (
     <div className="status success">
       <Icon icon="completed-check-circle" alt="Success" />

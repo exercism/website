@@ -13,9 +13,7 @@ export function LearningEnvironmentSelectorStep({
 >): JSX.Element {
   const { track, shouldShowBootcampRecommendationView } =
     useContext(TrackContext)
-  const { t } = useAppTranslation(
-    'components/modals/track-welcome-modal/LHS/steps'
-  )
+  const { t } = useAppTranslation()
 
   if (shouldShowBootcampRecommendationView) {
     return <BootcampRecommendationView />

@@ -6,7 +6,7 @@ import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 // Syncer enabled + manual: Say "You have automatic syncs disabled. Click to back up your solution".
 export function ActiveManualSync({ sync }: { sync: SyncObj }) {
-  const { t } = useAppTranslation('components/github-syncer-widget')
+  const { t } = useAppTranslation()
   return (
     <div className="flex flex-col items-center py-24">
       <h6 className="font-semibold text-16 mb-16">

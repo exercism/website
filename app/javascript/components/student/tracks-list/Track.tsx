@@ -10,7 +10,7 @@ import { StudentTrack } from '@/components/types'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const Track = ({ track }: { track: StudentTrack }): JSX.Element => {
-  const { t } = useAppTranslation('components/student/tracks-list')
+  const { t } = useAppTranslation()
 
   return (
     <a className="--track e-hover-grow" href={track.webUrl}>

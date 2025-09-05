@@ -20,7 +20,7 @@ export const InstructionsPanel = ({
   debuggingInstructions?: string
   tutorial?: boolean
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/editor/panels')
+  const { t } = useAppTranslation()
   const ref = useHighlighting<HTMLDivElement>()
 
   return (
@@ -38,7 +38,7 @@ export const InstructionsPanel = ({
 }
 
 function HelloWorldVideo() {
-  const { t } = useAppTranslation('components/editor/panels')
+  const { t } = useAppTranslation()
   return (
     <>
       <h2>{t('instructionsPanel.introduction')}</h2>
@@ -49,7 +49,7 @@ function HelloWorldVideo() {
 }
 
 const Introduction = ({ introduction }: { introduction: string }) => {
-  const { t } = useAppTranslation('components/editor/panels')
+  const { t } = useAppTranslation()
   if (
     introduction === undefined ||
     introduction === null ||
@@ -70,7 +70,7 @@ const Introduction = ({ introduction }: { introduction: string }) => {
 }
 
 const Instructions = ({ assignment }: { assignment: Assignment }) => {
-  const { t } = useAppTranslation('components/editor/panels')
+  const { t } = useAppTranslation()
 
   return (
     <div className="instructions">
@@ -94,7 +94,7 @@ const Task = ({ task, idx }: { task: AssignmentTask; idx: number }) => {
   const detailsProps =
     (current === null && idx === 0) || current === task.id ? { open: true } : {}
   const reducedMotion = useReducedMotion()
-  const { t } = useAppTranslation('components/editor/panels')
+  const { t } = useAppTranslation()
 
   useEffect(() => {
     if (detailsRef?.current && current === task.id) {
@@ -147,7 +147,7 @@ const Debug = ({
 }: {
   debuggingInstructions?: string
 }) => {
-  const { t } = useAppTranslation('components/editor/panels')
+  const { t } = useAppTranslation()
 
   if (
     debuggingInstructions === undefined ||

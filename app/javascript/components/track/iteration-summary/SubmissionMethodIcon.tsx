@@ -10,7 +10,7 @@ export function SubmissionMethodIcon({
 }: {
   submissionMethod: SubmissionMethod
 }) {
-  const { t } = useAppTranslation('components/track/iteration-summary')
+  const { t } = useAppTranslation()
   switch (submissionMethod) {
     case SubmissionMethod.CLI:
       return (

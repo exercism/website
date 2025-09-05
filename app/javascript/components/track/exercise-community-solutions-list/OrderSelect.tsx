@@ -4,9 +4,7 @@ import { Order } from '../ExerciseCommunitySolutionsList'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const OptionComponent = ({ option: order }: { option: Order }) => {
-  const { t } = useAppTranslation(
-    'components/track/exercise-community-solutions-list'
-  )
+  const { t } = useAppTranslation()
   switch (order) {
     case 'most_popular':
       return (

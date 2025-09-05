@@ -30,9 +30,7 @@ export function FoundAutomatedFeedback({
 > & {
   onContinue: () => void
 }): JSX.Element {
-  const { t } = useAppTranslation(
-    'components/modals/realtime-feedback-modal/feedback-content/found-automated-feedback'
-  )
+  const { t } = useAppTranslation()
   const celebratory =
     latestIteration?.status === 'celebratory_automated_feedback'
   return (

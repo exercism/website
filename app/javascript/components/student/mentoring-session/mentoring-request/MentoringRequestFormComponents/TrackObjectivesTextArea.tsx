@@ -8,9 +8,7 @@ export const TrackObjectivesTextArea = React.forwardRef<
   HTMLTextAreaElement,
   { defaultValue: string; track: Pick<MentorSessionTrack, 'title'> }
 >(({ track, defaultValue }, ref) => {
-  const { t } = useAppTranslation(
-    'components/student/mentoring-session/mentoring-request/MentoringRequestFormComponents'
-  )
+  const { t } = useAppTranslation()
   return (
     <div className="question">
       <label htmlFor="request-mentoring-form-track-objectives">

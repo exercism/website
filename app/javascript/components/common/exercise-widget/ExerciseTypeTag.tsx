@@ -12,7 +12,7 @@ export const ExerciseTypeTag = ({
   type: ExerciseType
   size?: Size
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/common/exercise-widget')
+  const { t } = useAppTranslation()
   const sizeClassName = size ? `--${size}` : ''
 
   switch (type) {

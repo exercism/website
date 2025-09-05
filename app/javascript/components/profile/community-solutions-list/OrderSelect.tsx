@@ -6,7 +6,7 @@ import { Order } from '../CommunitySolutionsList'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const OptionComponent = ({ option: order }: { option: Order }) => {
-  const { t } = useAppTranslation('components/profile/community-solutions-list')
+  const { t } = useAppTranslation()
 
   switch (order) {
     case 'newest_first':

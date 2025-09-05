@@ -24,9 +24,7 @@ export const CancelRequestModal = ({
 }: Omit<ModalProps, 'className'> & {
   request: MentorSessionRequest
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/student/mentoring-session/mentoring-request'
-  )
+  const { t } = useAppTranslation()
   const {
     mutate: mutation,
     status,

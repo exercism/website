@@ -22,7 +22,7 @@ export const DevToButton = ({
   url: string
   title: string
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/common/share-panel')
+  const { t } = useAppTranslation()
   return (
     <a
       href={shareLink({ url, title })}

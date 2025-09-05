@@ -13,7 +13,7 @@ export const TrackFilter = ({
   value: string | null
   setTrack: (track: string | null) => void
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/mentoring/inbox')
+  const { t } = useAppTranslation()
 
   const {
     isLoading,

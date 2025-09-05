@@ -34,7 +34,7 @@ export type TrophiesProps = {
 }
 
 export default function Trophies({ trophies }: TrophiesProps): JSX.Element {
-  const { t } = useAppTranslation('components/track/Trophies.tsx')
+  const { t } = useAppTranslation()
   const [modalOpen, setModalOpen] = useState(false)
   const [highlightedTrophy, setHighlightedTrophy] = useState<Trophy | null>(
     null
@@ -182,7 +182,7 @@ const UnrevealedTrophy = ({
   setModalOpen: Dispatch<SetStateAction<boolean>>
   updateTrophy: (trophy: Trophy) => void
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/track/Trophies.tsx')
+  const { t } = useAppTranslation()
   const [showError, setShowError] = useState(false)
   const { mutate: mutation } = useMutation({
     mutationFn: async () => {
@@ -227,7 +227,7 @@ const UnrevealedTrophy = ({
 }
 
 const NotEarnedTrophy = ({ trophy }: { trophy: Trophy }): JSX.Element => {
-  const { t } = useAppTranslation('components/track/Trophies.tsx')
+  const { t } = useAppTranslation()
   return (
     <GenericTooltip content={trophy.criteria}>
       <div className="trophy not-acquired">

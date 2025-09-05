@@ -21,9 +21,7 @@ export default function CommunicationPreferencesForm({
   defaultPreferences: CommunicationPreferences
   links: Links
 }): JSX.Element {
-  const { t } = useAppTranslation(
-    'components/settings/CommunicationPreferencesForm.tsx'
-  )
+  const { t } = useAppTranslation()
   const [preferences, setPreferences] = useState(defaultPreferences)
   const { mutation, status, error } = useSettingsMutation({
     endpoint: links.update,
@@ -115,9 +113,7 @@ export default function CommunicationPreferencesForm({
 }
 
 const SuccessMessage = () => {
-  const { t } = useAppTranslation(
-    'components/settings/CommunicationPreferencesForm.tsx'
-  )
+  const { t } = useAppTranslation()
   return (
     <div className="status success">
       <Icon icon="completed-check-circle" alt="Success" />

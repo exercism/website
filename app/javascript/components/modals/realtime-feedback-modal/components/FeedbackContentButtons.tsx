@@ -7,9 +7,7 @@ import React from 'react'
 type ReactButton = React.ButtonHTMLAttributes<HTMLButtonElement>
 
 export function GoBackToExercise({ ...props }: ReactButton): JSX.Element {
-  const { t } = useAppTranslation(
-    'components/modals/realtime-feedback-modal/components'
-  )
+  const { t } = useAppTranslation()
   return (
     <button {...props} className="btn-s btn-primary">
       {t('feedbackContentButtons.goBackToEditor')}

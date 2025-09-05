@@ -19,7 +19,7 @@ export function RightPane({
   allEnabledTrackTags,
   links,
 }: RightPaneProps): JSX.Element {
-  const { t } = useAppTranslation('components/training-data/code-tagger')
+  const { t } = useAppTranslation()
   const { confirmTags, setSelectedTags, error } = useSelectTag({
     links,
     defaultSelectedTags: tags,

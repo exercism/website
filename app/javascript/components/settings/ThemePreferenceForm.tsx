@@ -32,7 +32,7 @@ export default function ThemePreferenceForm({
   insidersStatus: string
   links: ThemePreferenceLinks
 }): JSX.Element {
-  const { t } = useAppTranslation('components/settings/ThemePreferenceForm.tsx')
+  const { t } = useAppTranslation()
   const { handleThemeUpdate } = useTheme(defaultThemePreference, links)
   const { theme } = useThemeObserver()
 

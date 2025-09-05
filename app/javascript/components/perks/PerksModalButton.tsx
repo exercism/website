@@ -46,7 +46,7 @@ type PerkModalProps = Pick<PerksModalButtonProps, 'perk' | 'partner'> & {
 }
 
 function PerkModal({ perk, partner, onClose }: PerkModalProps) {
-  const { t } = useAppTranslation('components/perks')
+  const { t } = useAppTranslation()
 
   return (
     <div className="max-w-[500px]">

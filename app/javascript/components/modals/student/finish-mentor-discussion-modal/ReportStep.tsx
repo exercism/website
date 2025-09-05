@@ -20,9 +20,7 @@ export const ReportStep = ({
   onBack: () => void
   discussion: MentorDiscussion
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/modals/student/finish-mentor-discussion-modal'
-  )
+  const { t } = useAppTranslation()
   const [state, setState] = useState<MentorReport>({
     requeue: true,
     report: false,

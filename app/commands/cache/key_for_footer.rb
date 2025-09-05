@@ -9,7 +9,8 @@ class Cache::KeyForFooter
     parts << ::Track.num_active
     parts << user_part
     parts << stripe_version
-    parts << "v3"
+    parts << I18n.available_locales.count
+    parts << "3" # Basic expiry key
 
     parts.join(':')
   end

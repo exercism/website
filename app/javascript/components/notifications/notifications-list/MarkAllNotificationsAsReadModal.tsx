@@ -19,7 +19,7 @@ export const MarkAllNotificationsAsReadModal = ({
   }
   onSubmit: () => void
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/notifications/notifications-list')
+  const { t } = useAppTranslation()
   const handleClose = useCallback(() => {
     if (mutation.status === 'pending') {
       return

@@ -63,7 +63,7 @@ const DropdownContent = ({
   status: QueryStatus
   error: unknown
 } & Pick<DropdownAttributes, 'listAttributes' | 'itemAttributes'>) => {
-  const { t } = useAppTranslation('components/dropdowns')
+  const { t } = useAppTranslation()
   if (data) {
     return (
       <ReputationMenu
@@ -100,7 +100,7 @@ export default function Reputation({
   defaultIsSeen: boolean
   endpoint: string
 }): JSX.Element {
-  const { t } = useAppTranslation('components/dropdowns')
+  const { t } = useAppTranslation()
   const [isStale, setIsStale] = useState(false)
   const [reputation, setReputation] = useState(defaultReputation)
   const [isSeen, setIsSeen] = useState(defaultIsSeen)

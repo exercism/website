@@ -4,7 +4,7 @@ import { Order } from '../BadgeResults'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const OptionComponent = ({ option: order }: { option: Order }) => {
-  const { t } = useAppTranslation('components/journey/badges-list')
+  const { t } = useAppTranslation()
 
   switch (order) {
     case 'unrevealed_first':

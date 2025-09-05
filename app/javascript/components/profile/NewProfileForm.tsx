@@ -40,7 +40,7 @@ export default function NewProfileForm({
   defaultFields: Fields
   links: Links
 }): JSX.Element {
-  const { t } = useAppTranslation('components/profile')
+  const { t } = useAppTranslation()
   const [fields, setFields] = useState<Fields>(defaultFields)
   const {
     mutate: mutation,

@@ -8,9 +8,7 @@ import { GraphicalIcon } from '@/components/common'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function IterationFilesSection() {
-  const { t } = useAppTranslation(
-    'components/settings/github-syncer/sections/ConnectedSection'
-  )
+  const { t } = useAppTranslation()
   const { links, isUserInsider, syncer } = React.useContext(GitHubSyncerContext)
   const [shouldSyncExerciseFiles, setShouldSyncExerciseFiles] =
     useState<boolean>(syncer?.syncExerciseFiles ?? true)

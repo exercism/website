@@ -54,9 +54,7 @@ export const MobileIterationView = ({
   student,
   track,
 }: MobileIterationViewProps): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/mentoring/session/mobile-code-panel/MobileIterationView.tsx'
-  )
+  const { t } = useAppTranslation()
   /* TODO: (required) Don't do this if currentIteration.links.files is null */
   const {
     data: resolvedData,

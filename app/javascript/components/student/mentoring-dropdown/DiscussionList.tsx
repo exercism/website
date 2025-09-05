@@ -8,7 +8,7 @@ export const DiscussionList = ({
 }: {
   discussions: readonly MentorDiscussion[]
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/student/mentoring-dropdown')
+  const { t } = useAppTranslation()
   if (discussions.length === 0) {
     return (
       <div className="no-discussions">

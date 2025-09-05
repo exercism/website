@@ -9,9 +9,7 @@ export const SessionRatioSummary = ({
 }: {
   tracks: MentoredTrackProgressList
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/journey/overview/mentoring-section'
-  )
+  const { t } = useAppTranslation()
   return (
     <div className="box">
       <div className="journey-h3">{tracks.sessionRatio.toFixed(2)}</div>

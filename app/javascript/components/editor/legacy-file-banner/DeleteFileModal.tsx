@@ -9,7 +9,7 @@ export const DeleteFileModal = ({
 }: Omit<ModalProps, 'className'> & {
   onDelete: () => void
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/editor/legacy-file-banner')
+  const { t } = useAppTranslation()
 
   const handleClose = useCallback(() => {
     onClose()

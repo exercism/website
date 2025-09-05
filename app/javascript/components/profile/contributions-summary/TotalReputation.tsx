@@ -9,7 +9,7 @@ export const TotalReputation = ({
   handle?: string
   reputation: number
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/profile/contributions-summary')
+  const { t } = useAppTranslation()
   const address = handle
     ? t('totalReputation.addressHas', { handle })
     : t('totalReputation.youHave')

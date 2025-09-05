@@ -57,6 +57,8 @@ en:
           add_language_title: "Want to add a language track to Exercism?"
           add_language_description_html: >
             Start a new topic in the <a href="%{forum_url}">forum</a> and let's discuss it.
+        locales:
+          title: "Switch to a Different Language"
         legals:
           company_info_html: "Exercism is a not-for-profit organisation %{company_link_open}registered in the UK%{company_link_close}. Its trustees are %{katrina_owen_link}, %{jeremy_walker_link} and %{erik_schierboom_link}."
       external:

@@ -5,7 +5,7 @@ import { GraphicalIcon } from '@/components/common'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const ChatGptUpsellContent = (): JSX.Element => {
-  const { t } = useAppTranslation('components/editor/ChatGptFeedback')
+  const { t } = useAppTranslation()
   return (
     <div className="  px-24 pt-16 pb-24 text-center">
       <div className="border-gradient-lightPurple border-2 rounded-8 px-24 py-16 flex flex-col items-center">

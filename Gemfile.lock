@@ -665,6 +665,7 @@ DEPENDENCIES
   haml_lint
   hamlit
   humanize
+  i18n (>= 0.5.0)
   image_processing (~> 1.2)
   jsbundling-rails
   kaminari

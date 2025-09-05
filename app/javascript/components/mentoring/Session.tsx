@@ -98,7 +98,7 @@ export const TabsContext = createContext<TabContext>({
 })
 
 export default function Session(props: SessionProps): JSX.Element {
-  const { t } = useAppTranslation('components/mentoring/Session.tsx')
+  const { t } = useAppTranslation()
   const [session, setSession] = useState(props)
   const {
     student,

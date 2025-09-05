@@ -28,7 +28,7 @@ export const ExerciseUpdateForm = ({
   onCancel: () => void
 }): JSX.Element => {
   const [tab, setTab] = useState(diff.files[0].relativePath)
-  const { t } = useAppTranslation('components/modals/exercise-update-modal')
+  const { t } = useAppTranslation()
 
   const {
     mutate: mutation,
@@ -56,7 +56,6 @@ export const ExerciseUpdateForm = ({
       <header className="header">
         <h2>
           <Trans
-            ns="components/modals/exercise-update-modal"
             i18nKey={'exerciseUpdateForm.header'}
             components={{
               icon: <ExerciseIcon iconUrl={diff.exercise.iconUrl} />,

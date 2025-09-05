@@ -27,9 +27,7 @@ export function RepresentationFeedbackEditor({
   expanded: boolean
   onPreviewClick: () => void
 }): JSX.Element {
-  const { t } = useAppTranslation(
-    'components/mentoring/representation/right-pane'
-  )
+  const { t } = useAppTranslation()
   const [editor, setEditor] = useState<MarkdownEditorHandle | null>(null)
 
   const handleEditorDidMount = useCallback((editor) => {

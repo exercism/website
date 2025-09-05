@@ -16,9 +16,7 @@ export function CommunityVideoModal({
   onClose: () => void
   video: CommunityVideoType
 }): JSX.Element {
-  const { t } = useAppTranslation(
-    'components/track/dig-deeper-components/community-videos'
-  )
+  const { t } = useAppTranslation()
 
   return (
     <Modal

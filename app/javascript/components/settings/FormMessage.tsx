@@ -8,7 +8,7 @@ import { Icon } from '../common'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const ErrorMessage = ({ error }: FallbackProps): JSX.Element => {
-  const { t } = useAppTranslation('components/settings/FormMessage.tsx')
+  const { t } = useAppTranslation()
   return (
     <div className="status error">
       <Icon icon="failed-cross-circle" alt={t('formMessage.error')} />

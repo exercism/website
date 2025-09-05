@@ -11,7 +11,7 @@ export const SolutionStatusTag = ({
   status: SolutionStatus
   size: Size
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/common/exercise-widget')
+  const { t } = useAppTranslation()
   const sizeClassName = size ? `--${size}` : ''
 
   switch (status) {

@@ -9,9 +9,7 @@ import { useAppTranslation } from '@/i18n/useAppTranslation'
 import { Trans } from 'react-i18next'
 
 export function StatusSection() {
-  const { t } = useAppTranslation(
-    'components/settings/github-syncer/sections/ConnectedSection'
-  )
+  const { t } = useAppTranslation()
   const { links, isSyncingEnabled, setIsSyncingEnabled, syncer } =
     React.useContext(GitHubSyncerContext)
 
@@ -64,7 +62,6 @@ export function StatusSection() {
       />
       <p className="text-18 leading-140">
         <Trans
-          ns="components/settings/github-syncer/sections/ConnectedSection"
           i18nKey="statusSection.githubSyncerLinked"
           components={{ strong: <strong />, code: <code /> }}
           values={{ repoFullName: syncer?.repoFullName }}

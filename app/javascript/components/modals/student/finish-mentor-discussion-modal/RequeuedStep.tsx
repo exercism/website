@@ -6,9 +6,7 @@ type Links = {
 }
 
 export const RequeuedStep = ({ links }: { links: Links }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/modals/student/finish-mentor-discussion-modal'
-  )
+  const { t } = useAppTranslation()
   return (
     <section className="acceptable-final-step">
       <h2>{t('requeuedStep.solutionRequeued')}</h2>

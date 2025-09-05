@@ -42,7 +42,7 @@ export default function ProfileForm({
 }): JSX.Element {
   const [user, setUser] = useState<User>(defaultUser)
   const [profile, setProfile] = useState<Profile | null>(defaultProfile)
-  const { t } = useAppTranslation('components/settings/ProfileForm.tsx')
+  const { t } = useAppTranslation()
 
   const { mutation, status, error } = useSettingsMutation<{
     user: User
@@ -179,7 +179,7 @@ export default function ProfileForm({
 }
 
 const SuccessMessage = () => {
-  const { t } = useAppTranslation('components/settings/ProfileForm.tsx')
+  const { t } = useAppTranslation()
   return (
     <div className="status success">
       <Icon icon="completed-check-circle" alt="Success" />
@@ -189,7 +189,7 @@ const SuccessMessage = () => {
 }
 
 function OptionComponent({ option }: { option: SeniorityLevel }): JSX.Element {
-  const { t } = useAppTranslation('components/settings/ProfileForm.tsx')
+  const { t } = useAppTranslation()
   switch (option) {
     case 'absolute_beginner':
       return <div>{t('profileForm.absoluteBeginner')}</div>

@@ -3,7 +3,7 @@
   - if introduction.present?
     .border-b-1.border-borderColor5{ class: "!pb-8 !mb-32" }
       %h2= t('.introduction_heading')
-      .mb-32= raw Markdown::Parse.(introduction)
+      .mb-32= translate_exercise_introduction(exercise, solution:, markdown: true)
 
   - if exercise.tutorial?
     %h2= t('.introduction_heading')
@@ -16,8 +16,7 @@
       = vimeo_embed("853440496?h=6abbdfc68f")
 
   %h2= t('.instructions_heading')
-  - instructions = solution ? solution.instructions : exercise.instructions
-  = raw Markdown::Parse.(instructions)
+  = translate_exercise_instructions(exercise, solution:, markdown: true)
 
   - if exercise.source.present? || exercise.source_url.present?
     .source

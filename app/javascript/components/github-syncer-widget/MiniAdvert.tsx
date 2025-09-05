@@ -3,7 +3,7 @@ import Icon from '../common/Icon'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function MiniAdvert({ settingsLink }: { settingsLink: string }) {
-  const { t } = useAppTranslation('components/github-syncer-widget')
+  const { t } = useAppTranslation()
   return (
     <div className="flex flex-col items-stretch py-24 text-center px-40">
       <div className="flex gap-20 items-center mb-12 mx-auto">

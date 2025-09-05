@@ -19,7 +19,7 @@ export const DeletePhotoModal = ({
   endpoint: string
   onSuccess: (user: User) => void
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/profile/avatar-selector/photo')
+  const { t } = useAppTranslation()
   const {
     mutate: mutation,
     status,

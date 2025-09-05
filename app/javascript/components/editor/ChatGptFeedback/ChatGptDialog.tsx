@@ -97,7 +97,7 @@ export const ChatGptDialog = ({
   error,
   exceededLimit,
 }: ChatGptDialogModalProps): JSX.Element => {
-  const { t } = useAppTranslation('components/editor/ChatGptFeedback')
+  const { t } = useAppTranslation()
 
   return (
     <Modal
@@ -128,7 +128,6 @@ export const ChatGptDialog = ({
       <div className="text-textColor6 text-p-small mt-12">
         <Trans
           i18nKey="chatGptDialog.noteChatGPT4IsSignificantlyBetter"
-          ns="components/editor/ChatGptFeedback"
           components={{
             bold: <strong className="font-semibold" />,
           }}

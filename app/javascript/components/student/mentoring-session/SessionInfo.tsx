@@ -17,7 +17,7 @@ export const SessionInfo = ({
   track: Track
   exercise: Exercise
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/student/mentoring-session')
+  const { t } = useAppTranslation()
   return (
     <>
       <TrackIcon title={track.title} iconUrl={track.iconUrl} />
@@ -26,7 +26,6 @@ export const SessionInfo = ({
         {mentor ? (
           <React.Fragment>
             <Trans
-              ns="components/student/mentoring-session"
               i18nKey="sessionInfo.youreBeingMentoredByOn"
               values={{ exerciseTitle: exercise.title }}
               components={{
@@ -50,7 +49,6 @@ export const SessionInfo = ({
           <React.Fragment>
             <Trans
               i18nKey="sessionInfo.getMentoringOn"
-              ns="components/student/mentoring-session"
               values={{ exerciseTitle: exercise.title }}
               components={{
                 divExerciseTitle: <div className="exercise-title" />,

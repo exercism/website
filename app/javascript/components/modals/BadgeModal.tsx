@@ -15,7 +15,7 @@ export const BadgeModal = ({
   badge: BadgeProps
   wasUnrevealed?: boolean
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/modals/BadgeModal.tsx')
+  const { t } = useAppTranslation()
   const classNames = ['m-badge', `--${badge.rarity}`, 'theme-dark']
 
   return (
@@ -40,7 +40,6 @@ export const BadgeModal = ({
       <div className="num-awardees text-p-base">
         <GraphicalIcon icon="students" />
         <Trans
-          ns="components/modals/BadgeModal.tsx"
           values={{ count: badge.numAwardees }}
           i18nKey="badgeModal.membersHaveEarned"
           components={[<strong />]}

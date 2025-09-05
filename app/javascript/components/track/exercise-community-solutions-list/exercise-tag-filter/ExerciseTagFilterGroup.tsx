@@ -15,9 +15,7 @@ export function ExerciseTagFilterGroup({
   handleToggleTag: (tagName: string, isChecked: boolean) => void
   groupName: string
 }) {
-  const { t } = useAppTranslation(
-    'components/track/exercise-community-solutions-list'
-  )
+  const { t } = useAppTranslation()
   return (
     <div className="flex flex-col gap-8">
       <h3 className="text-16 font-semibold mb-2">

@@ -9,9 +9,7 @@ export function PendingMentoringRequest({
   mentoringRequestLink: string
   onContinue: () => void
 }): JSX.Element {
-  const { t } = useAppTranslation(
-    'components/modals/realtime-feedback-modal/feedback-content/no-automated-feedback'
-  )
+  const { t } = useAppTranslation()
   return (
     <div className="flex flex-col items-start">
       <h3 className="text-h4 mb-12">{t('index.youveSubmittedSolution')}</h3>

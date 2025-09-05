@@ -15,7 +15,7 @@ export default function PaymentPending({
   endpoint,
   insidersRedirectPath,
 }: PaymentPendingProps): JSX.Element {
-  const { t } = useAppTranslation('components/insiders')
+  const { t } = useAppTranslation()
   const fetchPaymentPending = async () => {
     const response = await fetch(endpoint)
     if (!response.ok) {

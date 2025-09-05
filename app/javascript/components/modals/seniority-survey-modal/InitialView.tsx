@@ -46,7 +46,7 @@ export const SENIORITIES: {
 ]
 
 export function InitialView() {
-  const { t } = useAppTranslation('components/modals/seniority-survey-modal')
+  const { t } = useAppTranslation()
   const { links, setCurrentView, patchCloseModal } = useContext(
     SenioritySurveyModalContext
   )

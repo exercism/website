@@ -13,9 +13,7 @@ export default function RepresentationInfo({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   exercise: any
 }): JSX.Element {
-  const { t } = useAppTranslation(
-    'components/mentoring/representation/left-pane'
-  )
+  const { t } = useAppTranslation()
 
   return (
     <>

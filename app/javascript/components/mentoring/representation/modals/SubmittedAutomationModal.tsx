@@ -12,7 +12,7 @@ export function SubmittedAutomationModal({
   onClose,
   goBackLink,
 }: AutomationModalProps & { goBackLink: string }): JSX.Element {
-  const { t } = useAppTranslation('components/mentoring/representation/modals')
+  const { t } = useAppTranslation()
 
   return (
     <Modal ReactModalClassName="!rounded-24" open={isOpen} onClose={onClose}>

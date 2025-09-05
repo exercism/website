@@ -14,7 +14,7 @@ export const DeletePhotoButton = ({
   onDelete: (user: User) => void
   links: Links
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/profile/avatar-selector/photo')
+  const { t } = useAppTranslation()
   const [modalOpen, setModalOpen] = useState(false)
 
   const handleModalOpen = useCallback(() => {

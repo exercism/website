@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   include Turbo::Redirection
   include Turbo::CustomFrameRequest
   include BodyClassConcern
+  include LocaleRouting
   include UserRateLimitConcern
 
   # around_action :set_log_level
@@ -12,6 +13,7 @@ class ApplicationController < ActionController::Base
   before_action :ensure_onboarded!
   around_action :switch_locale!
   around_action :mark_notifications_as_read!
+  around_action :switch_locale!
   before_action :set_request_context
   after_action :set_user_id_cookie
   after_action :skip_empty_session_cookie
@@ -49,11 +51,6 @@ class ApplicationController < ActionController::Base
       end
   end
   # rubocop:enable Naming/MemoizedInstanceVariableName
-
-  def switch_locale!(&action)
-    locale = params[:locale] || I18n.default_locale
-    I18n.with_locale(locale, &action)
-  end
 
   def ensure_onboarded!
     return unless user_signed_in?

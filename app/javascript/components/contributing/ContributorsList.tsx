@@ -40,7 +40,7 @@ export default function ContributorsList({
   request: Request
   tracks: readonly Track[]
 }): JSX.Element {
-  const { t } = useAppTranslation('components/contributing')
+  const { t } = useAppTranslation()
 
   const { request, setPage, setQuery } = useList(initialRequest)
   const {

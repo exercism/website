@@ -16,7 +16,7 @@ export const Contribution = ({
 }: ContributionProps): JSX.Element => {
   const url = internalUrl || externalUrl
   const linkIcon = url === internalUrl ? 'chevron-right' : 'external-link'
-  const { t } = useAppTranslation('components/journey')
+  const { t } = useAppTranslation()
 
   return (
     <a href={url} className="reputation-token">

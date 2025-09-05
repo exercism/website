@@ -7,7 +7,7 @@ import { useAppTranslation } from '@/i18n/useAppTranslation'
 export function PendingMentoringRequest({
   mentoringRequestLink,
 }: Pick<FeedbackPanelProps, 'mentoringRequestLink'>): JSX.Element {
-  const { t } = useAppTranslation('components/editor/FeedbackPanel')
+  const { t } = useAppTranslation()
 
   return (
     <div className="flex flex-col">

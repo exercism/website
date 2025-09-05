@@ -10,7 +10,7 @@ export const LinkButton = ({
   value: boolean
   setValue: (settings: boolean) => void
 }): JSX.Element => {
-  const { t } = useAppTranslation('session-batch-3')
+  const { t } = useAppTranslation()
   const classNames = ['link-button btn-enhanced', value ? 'linked' : 'unlinked']
 
   const content = value ? (

@@ -4,6 +4,17 @@ Exercism Website is a comprehensive Ruby on Rails application with React/TypeScr
 
 Always reference these instructions first and fallback to search or bash commands only when you encounter unexpected information that does not match the info here.
 
+## Internationalization (i18n) System
+
+The application uses a custom database-backed i18n system instead of standard Rails YAML files:
+
+- **Database Storage**: Translations are stored in `Localization::Translation` and `Localization::Original` models
+- **Custom Backend**: `config/initializers/i18n.rb` defines `I18n::Backend::Exercism` that loads translations from the database
+- **Translation Loading**: The backend loads all translations via `Localization::Translation.pluck(:locale, :key, :value)` and builds nested hashes
+- **Key Structure**: Uses dot-notation keys (e.g., `"tracks.index.header.title"`) that get converted to nested hashes
+- **Loading Process**: During tests, use `LoadLocaleIntoDB.call` to import locale data from `config/locale.yaml` into the database
+- **Locale Files**: Source files are in `config/locales.bk/` and get merged into `config/locale.yaml` with "en:" prefix removed
+
 ## Documentation
 
 There is a subdirectory called `docs/context` which contains detailed information that an LLM might find useful on different areas of the application. When working with specific components, always reference the RELEVANT docs in that directory first:

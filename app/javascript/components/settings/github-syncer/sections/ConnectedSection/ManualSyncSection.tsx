@@ -14,9 +14,7 @@ type Track = {
 }
 
 export function ManualSyncSection() {
-  const { t } = useAppTranslation(
-    'components/settings/github-syncer/sections/ConnectedSection/ManualSyncSection.tsx'
-  )
+  const { t } = useAppTranslation()
   const { tracks, links, isSyncingEnabled } = useContext(GitHubSyncerContext)
   const [track, setTrack] = useState<Track>({} as Track)
 
@@ -67,7 +65,6 @@ export function ManualSyncSection() {
       <p className="text-16 leading-150 mb-16">
         <Trans
           i18nKey="notePleaseUseThisSparing"
-          ns="components/settings/github-syncer/sections/ConnectedSection/ManualSyncSection.tsx"
           components={{ strong: <strong className="font-medium" /> }}
         />
       </p>
@@ -111,7 +108,6 @@ export function ManualSyncSection() {
 
       <p className="text-16 leading-150 mb-16">
         <Trans
-          ns="components/settings/github-syncer/sections/ConnectedSection/ManualSyncSection.tsx"
           components={{ strong: <strong className="font-medium" /> }}
           i18nKey="notePleaseUseThisSparingForExampleWhenYouWantToBootstrapANewRepoThisIsNotDesignedToBePartOfYourNormalWorkflow"
         />
@@ -145,9 +141,7 @@ export function handleSyncEverything({
 }: {
   syncEverythingEndpoint: string
 }) {
-  const { t } = useAppTranslation(
-    'components/settings/github-syncer/sections/ConnectedSection/ManualSyncSection.tsx'
-  )
+  const { t } = useAppTranslation()
   fetchWithParams({
     url: syncEverythingEndpoint,
   })

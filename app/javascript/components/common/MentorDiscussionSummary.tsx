@@ -13,9 +13,7 @@ export const MentorDiscussionSummary = ({
   postsCount,
   createdAt,
 }: MentorDiscussion): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/common/MentorDiscussionSummary.tsx'
-  )
+  const { t } = useAppTranslation()
   const commentsClass = ['comments', isUnread ? 'unread' : '']
 
   return (

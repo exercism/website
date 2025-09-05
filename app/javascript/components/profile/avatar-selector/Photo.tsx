@@ -20,7 +20,7 @@ export const Photo = ({
   onDelete: (user: User) => void
   links: Links
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/profile/avatar-selector')
+  const { t } = useAppTranslation()
 
   return (
     <div className="c-avatar-selector">
@@ -40,7 +40,6 @@ export const Photo = ({
         {user.hasAvatar ? (
           <div className="deleting">
             <Trans
-              ns="components/profile/avatar-selector"
               i18nKey="photo.youCanAlso"
               components={{
                 deleteButton: (

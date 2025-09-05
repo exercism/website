@@ -15,9 +15,7 @@ export const RateMentorStep = ({
   onSatisfied: () => void
   onUnhappy: () => void
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/modals/student/finish-mentor-discussion-modal'
-  )
+  const { t } = useAppTranslation()
   const timedOut =
     discussion.finishedBy &&
     ['mentor_timed_out', 'student_timed_out'].includes(discussion.finishedBy)

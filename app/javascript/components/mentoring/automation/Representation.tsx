@@ -44,9 +44,7 @@ export function Representations({
   trackCacheKey,
   isIntroducerHidden,
 }: AutomationProps): JSX.Element {
-  const { t } = useAppTranslation(
-    'components/mentoring/automation/Representation.tsx'
-  )
+  const { t } = useAppTranslation()
   const withFeedback = selectedTab === 'with_feedback'
   const trackCountText = ['with_feedback', 'admin'].includes(selectedTab)
     ? 'submission'

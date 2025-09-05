@@ -11,9 +11,7 @@ export function NoContentYet({
   contentType,
   children,
 }: NoContentYetProps): JSX.Element {
-  const { t } = useAppTranslation(
-    'components/track/dig-deeper-components/no-content-yet'
-  )
+  const { t } = useAppTranslation()
   return (
     <div className="text-textColor6 flex flex-col items-left bg-backgroundColorB rounded-8">
       <div className="text-label-timestamp text-16 mb-4 font-semibold">

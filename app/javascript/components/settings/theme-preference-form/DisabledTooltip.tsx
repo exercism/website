@@ -5,12 +5,11 @@ import React from 'react'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 import { Trans } from 'react-i18next'
 export function DisabledTooltip(): JSX.Element {
-  const { t } = useAppTranslation('components/settings/theme-preference-form')
+  const { t } = useAppTranslation()
   return (
     <div className="flex items-center bg-russianViolet rounded-16 py-8 px-12 text-p-base text-aliceBlue">
       <Trans
         i18nKey="disabledTooltip.mustBeExercismInsider"
-        ns="components/settings/theme-preference-form"
         components={{
           0: (
             <strong

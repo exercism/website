@@ -20,7 +20,7 @@ export function MentoringDiscussion({
 > & {
   open?: boolean
 }): JSX.Element | null {
-  const { t } = useAppTranslation('components/editor/FeedbackPanel')
+  const { t } = useAppTranslation()
 
   const { data, status } = useRequestQuery<{ items: DiscussionPostProps[] }>(
     [`posts-discussion-${discussion?.uuid}`],
@@ -40,7 +40,6 @@ export function MentoringDiscussion({
             <p className="text-p-base">
               <Trans
                 i18nKey="feedbackPanelMentoringDiscussion.feedbackPanelMentoringDiscussion.latestCodeReviewSessionDescription"
-                ns="components/editor/FeedbackPanel"
                 components={{
                   link: (
                     <a

@@ -14,7 +14,7 @@ export const PeriodButton = ({
   current: Period
   setPeriod: (period: Period) => void
 }>): JSX.Element => {
-  const { t } = useAppTranslation('components/contributing')
+  const { t } = useAppTranslation()
   const classNames = ['c-tab-2', period === current ? 'selected' : ''].filter(
     (className) => className.length > 0
   )

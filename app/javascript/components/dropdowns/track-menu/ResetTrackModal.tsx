@@ -27,7 +27,7 @@ export const ResetTrackModal = ({
   endpoint: string
   track: Track
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/dropdowns/track-menu')
+  const { t } = useAppTranslation()
   const confirmation = `reset ${track.slug}`
   const {
     mutate: mutation,

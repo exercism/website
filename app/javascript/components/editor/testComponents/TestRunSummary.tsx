@@ -24,7 +24,7 @@ export const TestRunSummary = ({
   onCancel?: () => void
   showSuccessBox: boolean
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/editor/testComponents')
+  const { t } = useAppTranslation()
 
   if (testRun) {
     return (
@@ -99,7 +99,7 @@ const TestRunSummaryStatus = ({
 }
 
 const TestRunSummaryHeader = ({ testRun }: { testRun: TestRun }) => {
-  const { t } = useAppTranslation('components/editor/testComponents')
+  const { t } = useAppTranslation()
 
   const hasTasks =
     testRun.version >= 3 &&
@@ -198,7 +198,7 @@ const TestRunSummaryContent = ({
   onCancel?: () => void
   showSuccessBox: boolean
 }) => {
-  const { t } = useAppTranslation('components/editor/testComponents')
+  const { t } = useAppTranslation()
 
   switch (testRun.status) {
     case TestRunStatus.PASS: {

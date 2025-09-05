@@ -17,7 +17,7 @@ export const Discussion = ({
 }: {
   discussion: MentorDiscussion
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/mentoring/inbox')
+  const { t } = useAppTranslation()
 
   return (
     <ExercismTippy

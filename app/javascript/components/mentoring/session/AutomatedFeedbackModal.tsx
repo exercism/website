@@ -30,7 +30,7 @@ export const AutomatedFeedbackModal = ({
   iteration,
   ...props
 }: Omit<ModalProps, 'className'> & { iteration: Iteration }): JSX.Element => {
-  const { t } = useAppTranslation('session-batch-1')
+  const { t } = useAppTranslation()
   const { data, status, error } = useRequestQuery<APIResponse>(
     ['automated-feedback', iteration.links.automatedFeedback],
     { endpoint: iteration.links.automatedFeedback, options: {} }
@@ -81,7 +81,7 @@ export const AutomatedFeedbackModal = ({
 }
 
 const LoadingComponent = (): JSX.Element => {
-  const { t } = useAppTranslation('session-batch-1')
+  const { t } = useAppTranslation()
   return (
     <Icon
       icon="spinner"

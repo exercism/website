@@ -11,9 +11,7 @@ export const HeaderSummary = ({
 }: {
   tracks: TrackProgressList
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/journey/overview/learning-section'
-  )
+  const { t } = useAppTranslation()
   const tracksToDisplay = tracks.sort().items.slice(0, MAX_TRACKS)
 
   return (

@@ -15,7 +15,7 @@ export const EditFormFooter = ({
   onCancel?: (e: React.FormEvent) => void
   onDelete?: (e: React.FormEvent) => void
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/common/markdown-editor-form')
+  const { t } = useAppTranslation()
   return (
     <footer className="editor-footer">
       {onCancel ? (

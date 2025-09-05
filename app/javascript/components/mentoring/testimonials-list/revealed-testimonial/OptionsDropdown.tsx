@@ -13,9 +13,7 @@ export const OptionsDropdown = ({
   testimonial: Testimonial
   cacheKey: QueryKey
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/mentoring/testimonials-list/revealed-testimonial'
-  )
+  const { t } = useAppTranslation()
   const {
     buttonAttributes,
     panelAttributes,

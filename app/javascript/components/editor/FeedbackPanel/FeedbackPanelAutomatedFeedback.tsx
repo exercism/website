@@ -16,7 +16,7 @@ export function AutomatedFeedback({
   FeedbackPanelProps,
   'iteration' | 'automatedFeedbackInfoLink' | 'track'
 > & { open?: boolean }): JSX.Element | null {
-  const { t } = useAppTranslation('components/editor/FeedbackPanel')
+  const { t } = useAppTranslation()
 
   if (
     iteration &&

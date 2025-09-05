@@ -33,7 +33,7 @@ export default function TestimonialsList({
     }>
   >
 }): JSX.Element {
-  const { t } = useAppTranslation('components/profile')
+  const { t } = useAppTranslation()
   const [selected, setSelected] = useState<string | null>(defaultSelected)
 
   const { request, setPage } = useList(initialRequest)

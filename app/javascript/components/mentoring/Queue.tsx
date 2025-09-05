@@ -39,7 +39,7 @@ export default function Queue({
   sortOptions: SortOption[]
   links: Links
 }): JSX.Element {
-  const { t } = useAppTranslation('components/mentoring/Queuetsx')
+  const { t } = useAppTranslation()
   const isMounted = useRef(false)
   const {
     tracks,

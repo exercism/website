@@ -30,7 +30,7 @@ export const PublishSettings = ({
   links: Links
 }): JSX.Element => {
   const [openedModal, setOpenedModal] = useState<ModalId | null>(null)
-  const { t } = useAppTranslation('components/student/published-solution')
+  const { t } = useAppTranslation()
   const {
     buttonAttributes,
     panelAttributes,

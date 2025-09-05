@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_08_19_141635) do
+ActiveRecord::Schema[7.1].define(version: 2025_08_28_143607) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -708,6 +708,52 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_19_141635) do
     t.index ["solution_id"], name: "fk_rails_5d9f1bf4bd"
     t.index ["submission_id"], name: "index_iterations_on_submission_id", unique: true
     t.index ["uuid"], name: "iterations_uuid"
+  end
+
+  create_table "localization_originals", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "uuid", null: false
+    t.string "type", null: false
+    t.string "about_type"
+    t.bigint "about_id"
+    t.string "key", null: false
+    t.text "value", null: false
+    t.text "usage_details"
+    t.boolean "should_translate", null: false, default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["key"], name: "index_localization_originals_on_key", unique: true
+    t.index ["type", "about_type", "about_id"], name: "idx_on_type_about_type_about_id_13bf9a28f1"
+    t.index ["type"], name: "index_localization_originals_on_type"
+    t.index ["uuid"], name: "index_localization_originals_on_uuid", unique: true
+  end
+
+  create_table "localization_translation_proposals", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "uuid", null: false
+    t.bigint "translation_id", null: false
+    t.bigint "proposer_id", null: false
+    t.bigint "reviewer_id"
+    t.integer "status", default: 0, null: false
+    t.boolean "modified_from_llm", null: false
+    t.text "value", null: false
+    t.text "llm_feedback"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["proposer_id"], name: "index_localization_translation_proposals_on_proposer_id"
+    t.index ["reviewer_id"], name: "index_localization_translation_proposals_on_reviewer_id"
+    t.index ["translation_id"], name: "index_localization_translation_proposals_on_translation_id"
+    t.index ["uuid"], name: "index_localization_translation_proposals_on_uuid", unique: true
+  end
+
+  create_table "localization_translations", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "uuid", null: false
+    t.string "locale", null: false
+    t.string "key", null: false
+    t.text "value"
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["key", "locale"], name: "index_localization_translations_on_key_and_locale", unique: true
+    t.index ["uuid"], name: "index_localization_translations_on_uuid", unique: true
   end
 
   create_table "mailshots", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -1892,6 +1938,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_19_141635) do
   add_foreign_key "github_tasks", "tracks"
   add_foreign_key "github_team_members", "tracks"
   add_foreign_key "github_team_members", "users"
+  add_foreign_key "localization_translation_proposals", "localization_translations", column: "translation_id"
+  add_foreign_key "localization_translation_proposals", "users", column: "proposer_id"
+  add_foreign_key "localization_translation_proposals", "users", column: "reviewer_id"
+  add_foreign_key "localization_translations", "localization_originals", column: "key", primary_key: "key"
   add_foreign_key "mentor_discussion_posts", "iterations"
   add_foreign_key "mentor_discussion_posts", "mentor_discussions", column: "discussion_id"
   add_foreign_key "mentor_discussion_posts", "users"

@@ -1,10 +1,11 @@
 import React from 'react'
-import { useTranslation, Trans } from 'react-i18next'
+import { Trans } from 'react-i18next'
 import { Student } from '../types'
 import { useRequestQuery } from '../../hooks/request-query'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { Avatar, GraphicalIcon, Icon, Reputation } from '../common'
 import { StudentTooltipSkeleton } from '../common/skeleton/skeletons/StudentTooltipSkeleton'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DEFAULT_ERROR = new Error('Unable to load information')
 
@@ -12,7 +13,7 @@ const StudentTooltip = React.forwardRef<
   HTMLDivElement,
   React.HTMLProps<HTMLDivElement> & { endpoint: string }
 >(({ endpoint, ...props }, ref) => {
-  const { t } = useTranslation('components/tooltips/student-tooltip')
+  const { t } = useAppTranslation()
   const { data, error, status } = useRequestQuery<{ student: Student }>(
     [endpoint],
     { endpoint: endpoint, options: {} }
@@ -60,7 +61,6 @@ const StudentTooltip = React.forwardRef<
             {data.student.numTotalDiscussions > 0 ? (
               <div className="previous-sessions">
                 <Trans
-                  ns="components/tooltips/student-tooltip"
                   i18nKey={previousSessionsKey(
                     data.student.numTotalDiscussions,
                     data.student.numDiscussionsWithMentor
@@ -77,7 +77,6 @@ const StudentTooltip = React.forwardRef<
               <div className="previous-sessions">
                 <Trans
                   i18nKey="firstSession"
-                  ns="components/tooltips/student-tooltip"
                   components={{ strong: <strong /> }}
                 />
               </div>

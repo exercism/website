@@ -11,7 +11,7 @@ export default function CodeInfo({
   track: any
   exercise: any
 }): JSX.Element {
-  const { t } = useAppTranslation('components/training-data/code-tagger')
+  const { t } = useAppTranslation()
 
   return (
     <>

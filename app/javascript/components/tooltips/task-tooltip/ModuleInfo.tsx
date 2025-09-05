@@ -18,7 +18,7 @@ export const ModuleInfo = ({ module }: { module: TaskModule }): JSX.Element => {
 }
 
 const ModuleDetails = ({ module }: { module: TaskModule }): JSX.Element => {
-  const { t } = useAppTranslation('components/tooltips/task-tooltip')
+  const { t } = useAppTranslation()
 
   const transComponents = { strong: <strong /> }
   const transNs = 'components/tooltips/task-tooltip'
@@ -29,7 +29,6 @@ const ModuleDetails = ({ module }: { module: TaskModule }): JSX.Element => {
         <>
           <h3>
             <Trans
-              ns={transNs}
               i18nKey="moduleInfo.analyzers"
               components={transComponents}
             />
@@ -41,11 +40,7 @@ const ModuleDetails = ({ module }: { module: TaskModule }): JSX.Element => {
       return (
         <>
           <h3>
-            <Trans
-              ns={transNs}
-              i18nKey="moduleInfo.concepts"
-              components={transComponents}
-            />
+            <Trans i18nKey="moduleInfo.concepts" components={transComponents} />
           </h3>
           <p>{t('moduleInfo.conceptsDescription')}</p>
         </>
@@ -55,7 +50,6 @@ const ModuleDetails = ({ module }: { module: TaskModule }): JSX.Element => {
         <>
           <h3>
             <Trans
-              ns={transNs}
               i18nKey="moduleInfo.learningExercises"
               components={transComponents}
             />
@@ -68,7 +62,6 @@ const ModuleDetails = ({ module }: { module: TaskModule }): JSX.Element => {
         <>
           <h3>
             <Trans
-              ns={transNs}
               i18nKey="moduleInfo.generators"
               components={transComponents}
             />
@@ -81,7 +74,6 @@ const ModuleDetails = ({ module }: { module: TaskModule }): JSX.Element => {
         <>
           <h3>
             <Trans
-              ns={transNs}
               i18nKey="moduleInfo.practiceExercises"
               components={transComponents}
             />
@@ -94,7 +86,6 @@ const ModuleDetails = ({ module }: { module: TaskModule }): JSX.Element => {
         <>
           <h3>
             <Trans
-              ns={transNs}
               i18nKey="moduleInfo.representers"
               components={transComponents}
             />
@@ -107,7 +98,6 @@ const ModuleDetails = ({ module }: { module: TaskModule }): JSX.Element => {
         <>
           <h3>
             <Trans
-              ns={transNs}
               i18nKey="moduleInfo.testRunners"
               components={transComponents}
             />

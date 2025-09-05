@@ -9,7 +9,7 @@ export const CategorySummary = ({
 }: {
   category: ContributionCategory
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/profile/contributions-summary')
+  const { t } = useAppTranslation()
   return (
     <div className="category">
       <GraphicalIcon icon={CATEGORY_ICONS[category.id]} hex />

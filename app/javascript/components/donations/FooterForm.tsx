@@ -26,7 +26,7 @@ const FooterForm = ({
   captchaRequired,
   recaptchaSiteKey,
 }: FooterFormProps): JSX.Element => {
-  const { t } = useAppTranslation('components/donations')
+  const { t } = useAppTranslation()
   const [currentAmount, setCurrentAmount] = useState(DEFAULT_AMOUNT)
   const [customAmount, setCustomAmount] = useState('')
   const [modalOpen, setModalOpen] = useState(false)

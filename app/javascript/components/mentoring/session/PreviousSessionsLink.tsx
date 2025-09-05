@@ -12,7 +12,7 @@ export const PreviousSessionsLink = ({
   student: Student
   setStudent: (student: Student) => void
 }): JSX.Element | null => {
-  const { t } = useAppTranslation('session-batch-3')
+  const { t } = useAppTranslation()
   const [open, setOpen] = useState(false)
 
   if (student.numDiscussionsWithMentor < 2) {

@@ -31,7 +31,7 @@ const KnowledgeDetails = ({
   knowledge: TaskKnowledge
   module?: TaskModule
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/tooltips/task-tooltip')
+  const { t } = useAppTranslation()
   const desc = descriptionForModule(module)
 
   const transComponents = { strong: <strong /> }
@@ -43,7 +43,6 @@ const KnowledgeDetails = ({
         <>
           <h3>
             <Trans
-              ns={transNs}
               i18nKey="knowledgeInfo.noExistingKnowledge"
               components={transComponents}
             />
@@ -56,7 +55,6 @@ const KnowledgeDetails = ({
         <>
           <h3>
             <Trans
-              ns={transNs}
               i18nKey="knowledgeInfo.elementaryKnowledge"
               components={transComponents}
             />
@@ -69,7 +67,6 @@ const KnowledgeDetails = ({
         <>
           <h3>
             <Trans
-              ns={transNs}
               i18nKey="knowledgeInfo.intermediateKnowledge"
               components={transComponents}
             />
@@ -86,7 +83,6 @@ const KnowledgeDetails = ({
         <>
           <h3>
             <Trans
-              ns={transNs}
               i18nKey="knowledgeInfo.advancedKnowledge"
               components={transComponents}
             />

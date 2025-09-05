@@ -11,7 +11,7 @@ export function GetHelpPanelCommunityHelp({
   'links',
   Record<'forumRedirectPath' | 'discordRedirectPath', string>
 >): JSX.Element {
-  const { t } = useAppTranslation('components/editor/GetHelp')
+  const { t } = useAppTranslation()
   return (
     <GetHelpAccordionSkeleton title="Community help" iconSlug="support">
       <div className="pt-8 flex flex-col gap-2">

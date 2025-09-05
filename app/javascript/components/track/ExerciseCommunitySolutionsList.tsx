@@ -47,9 +47,7 @@ export function ExerciseCommunitySolutionsList({
   request: Request
   tags: any
 }): JSX.Element {
-  const { t } = useAppTranslation(
-    'components/track/ExerciseCommunitySolutionsList.tsx'
-  )
+  const { t } = useAppTranslation()
   const {
     request,
     setPage,

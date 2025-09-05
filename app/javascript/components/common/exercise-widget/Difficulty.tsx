@@ -11,7 +11,7 @@ export const Difficulty = ({
   difficulty: ExerciseDifficulty
   size?: Size
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/common/exercise-widget')
+  const { t } = useAppTranslation()
   const sizeClassName = size ? `--${size}` : ''
 
   switch (difficulty) {

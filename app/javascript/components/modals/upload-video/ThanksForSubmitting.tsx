@@ -6,7 +6,7 @@ export function ThanksForSubmitting({
 }: {
   onClick: () => void
 }): JSX.Element {
-  const { t } = useAppTranslation('components/modals/upload-video')
+  const { t } = useAppTranslation()
   return (
     <>
       <h2 className="text-h2 mb-12">

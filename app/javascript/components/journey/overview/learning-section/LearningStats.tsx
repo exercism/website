@@ -16,9 +16,7 @@ export const LearningStats = ({
   tracks: TrackProgressList
   links: Links
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/journey/overview/learning-section'
-  )
+  const { t } = useAppTranslation()
 
   return (
     <div className="stats">
@@ -27,7 +25,6 @@ export const LearningStats = ({
       <div className="stat">
         <Trans
           i18nKey="learningStats.linesOfCodeStat"
-          ns="components/journey/overview/learning-section"
           values={{
             numLines: tracks.numLines.toLocaleString(),
             lineLabel: pluralize('line', tracks.numLines),
@@ -44,7 +41,6 @@ export const LearningStats = ({
       <div className="stat">
         <Trans
           i18nKey="learningStats.aesopFact"
-          ns="components/journey/overview/learning-section"
           components={{
             fableLink: <a href={links.fable} />,
           }}

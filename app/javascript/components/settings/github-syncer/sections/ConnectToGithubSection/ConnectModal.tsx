@@ -16,9 +16,7 @@ export function ConnectModal({
   ...props
 }: ConfirmationModalProps): JSX.Element {
   const { links } = useContext(GitHubSyncerContext)
-  const { t } = useAppTranslation(
-    'components/settings/github-syncer/sections/ConnectToGithubSection'
-  )
+  const { t } = useAppTranslation()
 
   return (
     <Modal className="m-generic-confirmation" onClose={onClose} {...props}>
@@ -51,7 +49,6 @@ export function ConnectModal({
         </p>
         <p className="!text-18 leading-140 mb-16 text-balance text-center">
           <Trans
-            ns="components/settings/github-syncer/sections/ConnectToGithubSection"
             i18nKey="connectModal.permissionWarning"
             components={{ strong: <strong /> }}
           />

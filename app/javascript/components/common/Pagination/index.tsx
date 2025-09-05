@@ -17,7 +17,7 @@ export function Pagination({
   setPage,
   around = 2,
 }: PaginationProps): JSX.Element | null {
-  const { t } = useAppTranslation('components/common/Pagination.tsx')
+  const { t } = useAppTranslation()
 
   const {
     valid,

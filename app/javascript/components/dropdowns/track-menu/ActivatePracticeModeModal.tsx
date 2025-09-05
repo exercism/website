@@ -26,7 +26,7 @@ export const ActivatePracticeModeModal = ({
   endpoint: string
   redirectToOnSuccessUrl?: string
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/dropdowns/track-menu')
+  const { t } = useAppTranslation()
   const {
     mutate: mutation,
     status,

@@ -13,7 +13,7 @@ const Step = ({
   label: string
   selected: boolean
 }) => {
-  const { t } = useAppTranslation('components/modals/mentor-registration-modal')
+  const { t } = useAppTranslation()
   const srText = t('stepIndicator.step', { num: num, label: label })
 
   const classNames = ['step', selected ? 'selected' : '']

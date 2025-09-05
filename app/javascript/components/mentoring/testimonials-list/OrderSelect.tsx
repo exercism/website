@@ -4,7 +4,7 @@ import { Order } from '../TestimonialsList'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const OptionComponent = ({ option: order }: { option: Order }) => {
-  const { t } = useAppTranslation('components/mentoring/testimonials-list')
+  const { t } = useAppTranslation()
 
   switch (order) {
     case 'unrevealed':

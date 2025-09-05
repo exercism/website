@@ -11,7 +11,7 @@ export const DownloadButton = ({
 }: {
   command: string
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/mentoring/session/iteration-view')
+  const { t } = useAppTranslation()
   const [isPanelOpen, setIsPanelOpen] = useState(false)
 
   const handlePanelToggle = useCallback(() => {
@@ -48,7 +48,7 @@ export const DownloadButton = ({
   /*TODO: Style dropdown */
 }
 const DownloadPanel = ({ command }: { command: string }): JSX.Element => {
-  const { t } = useAppTranslation('components/mentoring/session/iteration-view')
+  const { t } = useAppTranslation()
   return (
     <div className="z-tooltip bg-backgroundColorA shadow-lgZ1 py-24 px-24 rounded-8">
       <h3 className="text-h5 mb-8">

@@ -10,7 +10,7 @@ export const Pronouns = ({
   handle: string
   pronouns?: string[]
 }): JSX.Element | null => {
-  const { t } = useAppTranslation('components/common/Pronouns.tsx')
+  const { t } = useAppTranslation()
   if (!pronouns || pronouns.length === 0) return null
 
   const useHandle = handle.toLowerCase() !== pronouns[0].toLowerCase()
@@ -38,7 +38,7 @@ export const Pronouns = ({
 }
 
 function createExample(handle: string, pronouns: string[]) {
-  const { t } = useAppTranslation('components/common/Pronouns.tsx')
+  const { t } = useAppTranslation()
   const pronounsString = pronouns.join(' / ')
   return (
     <>

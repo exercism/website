@@ -34,7 +34,7 @@ export const SolutionList = ({
 }
 
 const Component = ({ resolvedData, page, setPage }: Props) => {
-  const { t } = useAppTranslation('components/mentoring/queue')
+  const { t } = useAppTranslation()
   return (
     <>
       {resolvedData && resolvedData.results.length > 0 ? (

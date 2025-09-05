@@ -9,7 +9,7 @@ const OptionComponent = ({
 }: {
   option: SyncStatus
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/journey/solutions-list')
+  const { t } = useAppTranslation()
   switch (status) {
     case 'up_to_date':
       return <>{t('syncStatusSelect.upToDate')}</>
@@ -21,7 +21,7 @@ const OptionComponent = ({
 }
 
 const SelectedComponent = ({ option }: { option: SyncStatus }) => {
-  const { t } = useAppTranslation('components/journey/solutions-list')
+  const { t } = useAppTranslation()
   switch (option) {
     case undefined:
       return <>{t('syncStatusSelect.syncStatus')}</>

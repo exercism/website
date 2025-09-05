@@ -33,9 +33,7 @@ export const HeaderSummary = ({
 }: {
   tracks: readonly TrackContribution[]
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/journey/overview/contributing-section'
-  )
+  const { t } = useAppTranslation()
   const allTrack = tracks.find((track) => track.slug === null)
 
   if (!allTrack) {
@@ -67,9 +65,7 @@ const TrackSummary = ({
 }: {
   track: TrackContributionWithPercentage
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/journey/overview/contributing-section'
-  )
+  const { t } = useAppTranslation()
   if (!track.slug) {
     throw new Error(t('headerSummary.noSummaryForTrack'))
   }

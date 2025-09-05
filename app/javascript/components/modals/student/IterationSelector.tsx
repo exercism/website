@@ -15,7 +15,7 @@ export const IterationSelector = ({
   iterationIdx: number | null
   setIterationIdx: (idx: number | null) => void
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/modals/student')
+  const { t } = useAppTranslation()
   const { selected, onSelected } = useIterationSelector({
     iterationIdx,
     setIterationIdx,

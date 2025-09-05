@@ -4,7 +4,7 @@ import { Track } from '../TestimonialsList'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const OptionComponent = ({ option: track }: { option: Track }) => {
-  const { t } = useAppTranslation('components/mentoring/testimonials-list')
+  const { t } = useAppTranslation()
   return (
     <React.Fragment>
       <TrackLogo track={track} />

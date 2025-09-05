@@ -16,9 +16,7 @@ export const AnalyzerFeedback = ({
   track: Pick<Track, 'title' | 'iconUrl'>
   automatedFeedbackInfoLink: string
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/modals/realtime-feedback-modal/feedback-content/found-automated-feedback'
-  )
+  const { t } = useAppTranslation()
   return (
     <div className="c-automated-feedback analyzer-feedback">
       <div className={BLOCKQUOTE}>
@@ -31,7 +29,6 @@ export const AnalyzerFeedback = ({
         <TrackIcon iconUrl={track.iconUrl} title={track.title} />
         <div className="info">
           <Trans
-            ns="components/modals/realtime-feedback-modal/feedback-content/found-automated-feedback"
             i18nKey="analyzerFeedback.generatedFeedback"
             values={{ trackTitle: track.title }}
             components={{ strong: <strong /> }}

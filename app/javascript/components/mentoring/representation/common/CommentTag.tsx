@@ -9,7 +9,7 @@ export const CommentTag = ({
 }: {
   type: RepresentationFeedbackType
 }): JSX.Element | null => {
-  const { t } = useAppTranslation('components/mentoring/representation/common')
+  const { t } = useAppTranslation()
   switch (type) {
     case 'essential':
       return (

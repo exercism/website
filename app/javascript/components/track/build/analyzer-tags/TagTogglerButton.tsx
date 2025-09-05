@@ -20,7 +20,7 @@ export function TagTogglerButton({
   onClick: () => void
   readOnly: boolean
 }) {
-  const { t } = useAppTranslation('components/track/build/analyzer-tags')
+  const { t } = useAppTranslation()
   return (
     <button
       onClick={onClick}

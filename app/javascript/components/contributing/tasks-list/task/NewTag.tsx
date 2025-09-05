@@ -5,7 +5,7 @@ import { GraphicalIcon } from '../../../common'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const NewTag = (): JSX.Element => {
-  const { t } = useAppTranslation('components/contributing/tasks-list/task')
+  const { t } = useAppTranslation()
   return (
     <div className="new">
       <GraphicalIcon icon="stars" />

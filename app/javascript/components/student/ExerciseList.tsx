@@ -74,7 +74,7 @@ const Tab = ({
   onClick: () => void
   selected: boolean
 }) => {
-  const { t } = useAppTranslation('components/student/ExerciseList.tsx')
+  const { t } = useAppTranslation()
   const classNames = ['c-tab', selected ? 'selected' : null]
 
   return (
@@ -101,7 +101,7 @@ export default ({
   request: Request
   defaultStatus?: string
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/student/ExerciseList.tsx')
+  const { t } = useAppTranslation()
   const { request, setCriteria: setRequestCriteria } = useList(initialRequest)
   const [criteria, setCriteria] = useState(request.query?.criteria)
   const [statusFilter, setStatusFilter] = useState<StatusFilter>(

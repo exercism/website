@@ -22,7 +22,7 @@ export const ReputationMenu = ({
   DropdownAttributes,
   'listAttributes' | 'itemAttributes'
 >): JSX.Element => {
-  const { t } = useAppTranslation('components/dropdowns/reputation')
+  const { t } = useAppTranslation()
   const queryClient = useQueryClient()
   const { mutate: markAsSeen } = useMutation<
     ReputationToken,

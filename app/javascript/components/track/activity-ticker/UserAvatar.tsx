@@ -10,7 +10,7 @@ export function UserAvatar({
 }: {
   user?: MetricUser
 }): JSX.Element | null {
-  const { t } = useAppTranslation('components/track/activity-ticker')
+  const { t } = useAppTranslation()
   if (!user)
     return (
       <div className="w-[36px] h-[36px] mr-12 mt-6">

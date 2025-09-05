@@ -6,7 +6,7 @@ import { FetchingBoundary } from '../../FetchingBoundary'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const NoTracksFoundMessage = () => {
-  const { t } = useAppTranslation('components/mentoring/track-selector')
+  const { t } = useAppTranslation()
   return <p>{t('tracksList.noTracksFound')}</p>
 }
 

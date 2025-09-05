@@ -1,0 +1,121 @@
+#page-localization-index {
+    .originals-table {
+        .tabs {
+            @apply mb-20;
+
+            @apply flex items-center;
+            @apply flex-grow;
+
+            .c-tab {
+                line-height: 40px;
+            }
+        }
+        .container {
+            @apply shadow-lg bg-backgroundColorA rounded-8;
+
+            header.c-search-bar {
+                @apply py-16 px-24;
+                @apply border-backgroundColorC border-b-1;
+
+                .c-track-filter {
+                    @apply mr-16;
+                }
+                .search {
+                    @apply mr-16;
+                    width: 60%;
+                    max-width: 450px;
+                }
+            }
+
+            .no-results {
+                @apply flex flex-col items-center;
+                @apply py-48;
+                .c-icon {
+                    height: 128px;
+                    width: 128px;
+                    @apply mb-12;
+                }
+                h3 {
+                    @apply text-18 leading-150 font-medium;
+                    @apply mb-20;
+                }
+            }
+            footer {
+                .c-pagination {
+                    @apply px-24 py-16;
+                }
+                @apply border-lightGray border-t-1;
+            }
+        }
+
+        .original {
+            @apply border-backgroundColorC border-t-1;
+            @apply flex items-center gap-20;
+            @apply py-8 px-20;
+
+            &:hover {
+                @apply bg-backgroundColorE;
+            }
+            &:first-child {
+                @apply border-t-0;
+            }
+
+            .translations-statuses {
+                @apply flex items-center;
+                @apply gap-16;
+            }
+            .translation-status {
+                @apply border-2 rounded-8;
+                @apply text-[25px];
+                @apply p-4 items-center;
+
+                &.generating {
+                    @apply border-blue-400 bg-blue-300;
+                }
+                &.unchecked {
+                    @apply border-red bg-red-100;
+                }
+
+                &.proposed {
+                    @apply border-launchingYellow bg-yellowPrompt;
+                }
+
+                &.done {
+                    @apply border-green-400 bg-green-100;
+                }
+            }
+
+            .info {
+                .original-key {
+                    @apply flex items-center;
+                    @apply font-medium text-16 text-textColor2 leading-160;
+                    width: 300px;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                }
+                .original-uuid {
+                    @apply text-14 text-textColor6 leading-150;
+                }
+            }
+
+            .rhs {
+                width: 50%;
+                @apply ml-auto;
+                @apply flex items-center;
+                .translation-glimpse {
+                    @apply flex items-center h-48;
+                    @apply text-right leading-150 text-textColor6;
+                    @apply truncate;
+                }
+
+                .action-icon {
+                    @apply ml-36 text-textColor6;
+
+                    height: 16px;
+                    width: 16px;
+                }
+            }
+        }
+    }
+}

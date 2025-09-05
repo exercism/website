@@ -14,7 +14,7 @@ const NavigationButtons = ({
   current: Iteration
   onClick: (iteration: Iteration) => void
 }) => {
-  const { t } = useAppTranslation('session-batch-2')
+  const { t } = useAppTranslation()
   const currentIndex = iterations.findIndex((i) => i.idx === current.idx)
 
   return (

@@ -35,9 +35,7 @@ export const HeaderSummary = ({
 }: {
   tracks: MentoredTrackProgressList
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/journey/overview/mentoring-section'
-  )
+  const { t } = useAppTranslation()
   const tracksToDisplay = tracks
     .sort()
     .items.slice(0, MAX_TRACKS)

@@ -20,7 +20,7 @@ export const ContributingSection = ({
   handle,
   links,
 }: Props): JSX.Element => {
-  const { t } = useAppTranslation('components/journey/overview')
+  const { t } = useAppTranslation()
   const allTrack = tracks.find((track) => track.slug === null)
 
   if (!allTrack) {

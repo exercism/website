@@ -770,6 +770,12 @@ export const mappings = {
     </Suspense>
   ),
 
+  'common-translation-placeholder': (data: TranslationPlaceholderProps) => (
+    <Suspense fallback={RenderLoader()}>
+      <TranslationPlaceholder {...data} />
+    </Suspense>
+  ),
+
   'impact-stat': (data: any): JSX.Element => (
     <Suspense fallback={RenderLoader()}>
       <ImpactStat metricType={data.type} initialValue={data.value} />
@@ -844,6 +850,9 @@ import { UserMenuDropdownSkeleton } from '@/components/common/skeleton/skeletons
 import { initializeFullscreenChangeListeners } from '@/utils/handle-accessibility-fullscreen'
 import { NOTIFICATIONS_CACHE_KEY } from '@/components/dropdowns/Notifications'
 import { REPUTATION_CACHE_KEY } from '@/components/dropdowns/Reputation'
+import TranslationPlaceholder, {
+  TranslationPlaceholderProps,
+} from '@/components/common/TranslationPlaceholder'
 
 // clear localStorage on logout..
 document.addEventListener('submit', function (event: SubmitEvent) {

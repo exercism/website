@@ -30,8 +30,10 @@ class BlogPost < ApplicationRecord
   # TODO: Guarantee all posts have descriptions instead
   def description = super.presence || marketing_copy
 
+  def content = Git::Blog.post_content_for(slug)
+
+  # TODO: Delete this as we should be going via i18n
   def content_html
-    markdown = Git::Blog.post_content_for(slug)
-    Markdown::Parse.(markdown.to_s, lower_heading_levels_by: 0)
+    Markdown::Parse.(content.to_s, lower_heading_levels_by: 0)
   end
 end

@@ -31,7 +31,7 @@ export default function MarkdownEditor({
   onChange?: (value: string) => void
   options?: EasyMDE.Options
 }): JSX.Element {
-  const { t } = useAppTranslation('components/common/MarkdownEditor.tsx')
+  const { t } = useAppTranslation()
   const getInstance = useCallback(
     (editor) => {
       if (!editorDidMount) {

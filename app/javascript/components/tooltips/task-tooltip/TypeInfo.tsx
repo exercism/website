@@ -18,7 +18,7 @@ export const TypeInfo = ({ type }: { type: TaskType }): JSX.Element => {
 }
 
 const TypeDetails = ({ type }: { type: TaskType }): JSX.Element => {
-  const { t } = useAppTranslation('components/tooltips/task-tooltip')
+  const { t } = useAppTranslation()
 
   switch (type) {
     case 'ci':
@@ -26,16 +26,12 @@ const TypeDetails = ({ type }: { type: TaskType }): JSX.Element => {
         <>
           <h3>
             <Trans
-              ns="components/tooltips/task-tooltip"
               i18nKey="typeInfo.continuousIntegration"
               components={{ storng: <strong /> }}
             />
           </h3>
           <p>
-            <Trans
-              ns="components/tooltips/task-tooltip"
-              i18nKey="typeInfo.githubActions"
-            />
+            <Trans i18nKey="typeInfo.githubActions" />
           </p>
         </>
       )
@@ -44,16 +40,12 @@ const TypeDetails = ({ type }: { type: TaskType }): JSX.Element => {
         <>
           <h3>
             <Trans
-              ns="components/tooltips/task-tooltip"
               i18nKey="typeInfo.codingTask"
               components={{ storng: <strong /> }}
             />
           </h3>
           <p>
-            <Trans
-              ns="components/tooltips/task-tooltip"
-              i18nKey="typeInfo.productionLevelCode"
-            />
+            <Trans i18nKey="typeInfo.productionLevelCode" />
           </p>
         </>
       )
@@ -62,16 +54,12 @@ const TypeDetails = ({ type }: { type: TaskType }): JSX.Element => {
         <>
           <h3>
             <Trans
-              ns="components/tooltips/task-tooltip"
               i18nKey="typeInfo.studentFacingContent"
               components={{ strong: <strong /> }}
             />
           </h3>
           <p>
-            <Trans
-              ns="components/tooltips/task-tooltip"
-              i18nKey="typeInfo.writingInMarkdown"
-            />
+            <Trans i18nKey="typeInfo.writingInMarkdown" />
           </p>
         </>
       )
@@ -80,16 +68,12 @@ const TypeDetails = ({ type }: { type: TaskType }): JSX.Element => {
         <>
           <h3>
             <Trans
-              ns="components/tooltips/task-tooltip"
               i18nKey="typeInfo.writingDockerfiles"
               components={{ storng: <strong /> }}
             />
           </h3>
           <p>
-            <Trans
-              ns="components/tooltips/task-tooltip"
-              i18nKey="typeInfo.improveDockerfiles"
-            />
+            <Trans i18nKey="typeInfo.improveDockerfiles" />
           </p>
         </>
       )
@@ -98,16 +82,12 @@ const TypeDetails = ({ type }: { type: TaskType }): JSX.Element => {
         <>
           <h3>
             <Trans
-              ns="components/tooltips/task-tooltip"
               i18nKey="typeInfo.writingDocs"
               components={{ storng: <strong /> }}
             />
           </h3>
           <p>
-            <Trans
-              ns="components/tooltips/task-tooltip"
-              i18nKey="typeInfo.docsImportant"
-            />
+            <Trans i18nKey="typeInfo.docsImportant" />
           </p>
         </>
       )

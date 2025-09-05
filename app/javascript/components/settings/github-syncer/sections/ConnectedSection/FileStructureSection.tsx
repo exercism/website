@@ -12,9 +12,7 @@ import { useAppTranslation } from '@/i18n/useAppTranslation'
 import { Trans } from 'react-i18next'
 
 export function FileStructureSection() {
-  const { t } = useAppTranslation(
-    'components/settings/github-syncer/sections/ConnectedSection'
-  )
+  const { t } = useAppTranslation()
   const { links, isUserInsider, syncer, defaultPathTemplate } =
     React.useContext(GitHubSyncerContext)
 
@@ -81,35 +79,30 @@ export function FileStructureSection() {
       <ul className="text-16 leading-150 mb-16">
         <li>
           <Trans
-            ns="components/settings/github-syncer/sections/ConnectedSection"
             i18nKey="fileStructureSection.trackSlug"
             components={{ code: <code /> }}
           />
         </li>
         <li>
           <Trans
-            ns="components/settings/github-syncer/sections/ConnectedSection"
             i18nKey="fileStructureSection.trackTitle"
             components={{ code: <code /> }}
           />
         </li>
         <li>
           <Trans
-            ns="components/settings/github-syncer/sections/ConnectedSection"
             i18nKey="fileStructureSection.exerciseSlug"
             components={{ code: <code /> }}
           />
         </li>
         <li>
           <Trans
-            ns="components/settings/github-syncer/sections/ConnectedSection"
             i18nKey="fileStructureSection.exerciseTitle"
             components={{ code: <code /> }}
           />
         </li>
         <li>
           <Trans
-            ns="components/settings/github-syncer/sections/ConnectedSection"
             i18nKey="fileStructureSection.iterationIdx"
             components={{ code: <code /> }}
           />
@@ -131,7 +124,6 @@ export function FileStructureSection() {
       <p className="text-16 leading-150 mb-12">
         <Trans
           i18nKey="fileStructureSection.note1YourPath"
-          ns="components/settings/github-syncer/sections/ConnectedSection"
           components={{
             code: <code />,
             strong: <strong className="font-medium" />,
@@ -141,7 +133,6 @@ export function FileStructureSection() {
       <p className="text-16 leading-150 mb-16">
         <Trans
           i18nKey="fileStructureSection.note2Iteration"
-          ns="components/settings/github-syncer/sections/ConnectedSection"
           components={{
             code: <code />,
             strong: <strong className="font-medium" />,

@@ -17,9 +17,7 @@ export const EnableSolutionCommentsModal = ({
   endpoint: string
   onSuccess: () => void
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/modals/EnableSolutionCommentsModal.tsx'
-  )
+  const { t } = useAppTranslation()
   const {
     mutate: mutation,
     status,

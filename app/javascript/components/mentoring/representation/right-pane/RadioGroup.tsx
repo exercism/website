@@ -41,9 +41,7 @@ export default function RadioGroup({
   feedbackType,
   setFeedbackType,
 }: HowImportantProps): JSX.Element {
-  const { t } = useAppTranslation(
-    'components/mentoring/representation/right-pane/RadioGroup.tsx'
-  )
+  const { t } = useAppTranslation()
   const handleRadioCheck = useCallback(
     (e) => {
       setFeedbackType(e.target.value)

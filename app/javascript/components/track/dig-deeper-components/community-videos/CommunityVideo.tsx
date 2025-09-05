@@ -12,9 +12,7 @@ export function CommunityVideo({
   video: CommunityVideoType
 }): JSX.Element {
   const [isOpen, setIsOpen] = useState(false)
-  const { t } = useAppTranslation(
-    'components/track/dig-deeper-components/community-videos'
-  )
+  const { t } = useAppTranslation()
 
   return (
     <div className="flex">
@@ -63,12 +61,10 @@ export function CommunityVideosFooter({
 }: {
   onClick: () => void
 }): JSX.Element {
-  const { t } = useAppTranslation(
-    'components/track/dig-deeper-components/community-videos'
-  )
+  const { t } = useAppTranslation()
   return (
     <footer className="text-p-small text-textColor6">
-      {t('communityVideoFooter.wantYourVideoFeatured')}{" "}
+      {t('communityVideoFooter.wantYourVideoFeatured')}{' '}
       <button onClick={onClick} className="underline">
         {t('communityVideoFooter.submitItHere')}
       </button>

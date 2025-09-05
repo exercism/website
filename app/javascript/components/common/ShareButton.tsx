@@ -16,7 +16,7 @@ export default function ShareButton({
   shareLink: string
   platforms: readonly SharePlatform[]
 }): JSX.Element {
-  const { t } = useAppTranslation('components/common/ShareButton.tsx')
+  const { t } = useAppTranslation()
   const { open, setOpen, buttonAttributes, panelAttributes } = usePanel({
     placement: 'bottom-end',
     modifiers: [

@@ -6,7 +6,7 @@ import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 // Syncer enabled + automatic: Say "Your solution will auto-backup to GitHub. If it does not for some reason, please click this button to manually start the backup."
 export function ActiveAutomaticSync({ sync }: { sync: SyncObj }): JSX.Element {
-  const { t } = useAppTranslation('components/github-syncer-widget')
+  const { t } = useAppTranslation()
   return (
     <div className="flex gap-24 items-start py-32 px-24">
       <GraphicalIcon icon="github-syncer" className="w-[72px]" />

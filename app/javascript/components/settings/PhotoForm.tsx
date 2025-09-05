@@ -17,7 +17,7 @@ export default function PhotoForm({
   defaultUser: User
   links: Links
 }): JSX.Element {
-  const { t } = useAppTranslation('components/settings/PhotoForm.tsx')
+  const { t } = useAppTranslation()
   return (
     <div className="c-settings-photo-form">
       <h2>{t('photoForm.changeYourPhoto')}</h2>

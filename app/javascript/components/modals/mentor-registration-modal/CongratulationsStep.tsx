@@ -14,7 +14,7 @@ export const CongratulationsStep = ({
 }: {
   links: Links
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/modals/mentor-registration-modal')
+  const { t } = useAppTranslation()
   return (
     <section className="celebrate-section">
       <GraphicalIcon icon="confetti" category="graphics" />

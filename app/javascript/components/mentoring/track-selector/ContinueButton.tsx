@@ -4,7 +4,7 @@ import { useAppTranslation } from '@/i18n/useAppTranslation'
 export const ContinueButton = (
   props: React.ButtonHTMLAttributes<HTMLButtonElement>
 ): JSX.Element => {
-  const { t } = useAppTranslation('components/mentoring/track-selector')
+  const { t } = useAppTranslation()
 
   return (
     <button className="btn-primary btn-m" {...props}>

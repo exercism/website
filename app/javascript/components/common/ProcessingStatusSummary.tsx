@@ -4,9 +4,7 @@ import { GraphicalIcon } from '.'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 function Content({ status }: { status: string }) {
-  const { t } = useAppTranslation(
-    'components/common/ProcessingStatusSummary.tsx'
-  )
+  const { t } = useAppTranslation()
 
   switch (status) {
     case 'processing':
@@ -53,9 +51,7 @@ export function ProcessingStatusSummary({
 }: {
   iterationStatus: IterationStatus
 }): JSX.Element {
-  const { t } = useAppTranslation(
-    'components/common/ProcessingStatusSummary.tsx'
-  )
+  const { t } = useAppTranslation()
 
   if (
     iterationStatus == IterationStatus.DELETED ||

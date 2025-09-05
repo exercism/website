@@ -361,6 +361,8 @@ class User < ApplicationRecord
 
   def flair = super&.to_sym
 
+  def locale = super&.to_sym
+
   def automator?(track = nil)
     return true if staff?
 

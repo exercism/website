@@ -8,7 +8,7 @@ const OptionComponent = ({
 }: {
   option: ContributionCategoryId | undefined
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/journey/contributions-list')
+  const { t } = useAppTranslation()
 
   switch (category) {
     case 'authoring':
@@ -59,7 +59,7 @@ const OptionComponent = ({
 }
 
 const SelectedComponent = () => {
-  const { t } = useAppTranslation('components/journey/contributions-list')
+  const { t } = useAppTranslation()
   return <>{t('categorySelect.category')}</>
 }
 

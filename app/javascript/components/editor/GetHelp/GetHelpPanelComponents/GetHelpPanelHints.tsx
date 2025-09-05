@@ -9,7 +9,7 @@ import { useAppTranslation } from '@/i18n/useAppTranslation'
 export function GetHelpPanelHints({
   assignment,
 }: Pick<GetHelpPanelProps, 'assignment'>): JSX.Element | null {
-  const { t } = useAppTranslation('components/editor/GetHelp')
+  const { t } = useAppTranslation()
   if (assignment.generalHints.length === 0 && assignment.tasks.length === 0) {
     return null
   }

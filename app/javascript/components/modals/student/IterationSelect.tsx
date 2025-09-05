@@ -6,7 +6,7 @@ import { Iteration } from '../../types'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const OptionComponent = ({ option: idx }: { option: number }) => {
-  const { t } = useAppTranslation('components/modals/student')
+  const { t } = useAppTranslation()
   return (
     <React.Fragment>{t('iterationSelect.iteration', { idx })}</React.Fragment>
   )

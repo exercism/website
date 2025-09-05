@@ -25,7 +25,7 @@ export const Mentoring = ({
   isTutorial: boolean
   trackTitle: string
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/student/solution-summary')
+  const { t } = useAppTranslation()
   return (
     <div className="mentoring">
       <GraphicalIcon

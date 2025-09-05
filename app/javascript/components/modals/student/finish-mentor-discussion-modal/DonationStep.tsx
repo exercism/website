@@ -17,9 +17,7 @@ export function DonationStep({
   links: DiscussionActionsLinks
   onSuccessfulDonation: (type: PaymentIntentType, amount: currency) => void
 }): JSX.Element {
-  const { t } = useAppTranslation(
-    'components/modals/student/finish-mentor-discussion-modal'
-  )
+  const { t } = useAppTranslation()
 
   return (
     <div id="a11y-finish-mentor-discussion" className="flex flex-row">

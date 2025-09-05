@@ -10,9 +10,7 @@ import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function CommunityVideos({ videos }: CommunityVideosProps): JSX.Element {
   const [uploadModalOpen, setUploadModalOpen] = useState(false)
-  const { t } = useAppTranslation(
-    'components/track/dig-deeper-components/community-videos'
-  )
+  const { t } = useAppTranslation()
 
   const { exercise } = useContext(DigDeeperDataContext)
   return (

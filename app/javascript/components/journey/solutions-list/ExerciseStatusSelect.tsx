@@ -14,7 +14,7 @@ const OptionComponent = ({
 }: {
   option: ExerciseStatus
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/journey/solutions-list')
+  const { t } = useAppTranslation()
   switch (status) {
     case 'started':
       return <>{t('exerciseStatusSelect.started')}</>
@@ -30,7 +30,7 @@ const OptionComponent = ({
 }
 
 const SelectedComponent = ({ option }: { option: ExerciseStatus }) => {
-  const { t } = useAppTranslation('components/journey/solutions-list')
+  const { t } = useAppTranslation()
 
   switch (option) {
     case undefined:

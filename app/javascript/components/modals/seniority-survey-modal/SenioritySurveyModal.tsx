@@ -57,7 +57,7 @@ export default function SenioritySurveyModal({
 }: Omit<ModalProps, 'className' | 'open' | 'onClose'> & {
   links: Links
 }): JSX.Element {
-  const { t } = useAppTranslation('components/modals/seniority-survey-modal')
+  const { t } = useAppTranslation()
   const [open, setOpen] = useState(true)
   const [currentView, setCurrentView] = useState<ViewVariant>(DEFAULT_VIEW)
 
@@ -114,7 +114,7 @@ export default function SenioritySurveyModal({
 }
 
 function Inner() {
-  const { t } = useAppTranslation('components/modals/seniority-survey-modal')
+  const { t } = useAppTranslation()
   const { currentView } = useContext(SenioritySurveyModalContext)
   switch (currentView) {
     case 'initial':

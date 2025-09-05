@@ -17,7 +17,7 @@ type Links = {
 const MAX_BADGES = 4
 
 export const BadgesSection = ({ badges, links }: Props): JSX.Element => {
-  const { t } = useAppTranslation('components/journey/overview')
+  const { t } = useAppTranslation()
   const badgesToShow = badges.sort().items.slice(0, MAX_BADGES)
 
   return (

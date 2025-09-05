@@ -15,7 +15,7 @@ export const More = ({
   trackSlug: string
   exerciseSlug: string
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/editor/header')
+  const { t } = useAppTranslation()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const {
     buttonAttributes,

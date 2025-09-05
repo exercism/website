@@ -16,9 +16,7 @@ export const BadgeSummary = ({
 }: {
   badges: BadgeList
 }): JSX.Element => {
-  const { t, i18n } = useAppTranslation(
-    'components/journey/overview/badges-section'
-  )
+  const { t, i18n } = useAppTranslation()
 
   const parts = BADGE_RARITIES.map((rarity) => {
     const count = badges.filter(rarity).length

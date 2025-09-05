@@ -10,7 +10,7 @@ export const Header = ({
   mentoringStatus: SolutionMentoringStatus
   shareLink: string
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/student/mentoring-dropdown')
+  const { t } = useAppTranslation()
 
   return mentoringStatus === 'in_progress' ? (
     <div className="discussion-in-progress">

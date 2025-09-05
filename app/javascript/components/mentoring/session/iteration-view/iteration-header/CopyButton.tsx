@@ -20,7 +20,7 @@ export const CopyButton = ({
 }: {
   files: readonly File[]
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/mentoring/session/iteration-view')
+  const { t } = useAppTranslation()
   const [justCopied, setJustCopied] = useState(false)
   const textToCopy = formatForClipboard(files)
   const classNames = [

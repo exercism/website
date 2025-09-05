@@ -12,9 +12,7 @@ export const SessionsMentoredSummary = ({
   tracks: MentoredTrackProgressList
   rank?: number
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/journey/overview/mentoring-section'
-  )
+  const { t } = useAppTranslation()
 
   return (
     <div className="box">

@@ -22,7 +22,7 @@ const AllExerciseFilter = ({
   checked: boolean
   onChange: (e: React.ChangeEvent) => void
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/mentoring/queue')
+  const { t } = useAppTranslation()
   return (
     <label className="c-radio-wrapper">
       <input type="radio" onChange={onChange} checked={checked} />
@@ -79,7 +79,7 @@ export const ExerciseFilterList = ({
 }
 
 const Component = ({ exercises, value, setValue }: Props): JSX.Element => {
-  const { t } = useAppTranslation('components/mentoring/queue')
+  const { t } = useAppTranslation()
   const [searchQuery, setSearchQuery] = useState('')
   const [isShowingExercisesToMentor, setIsShowingExercisesToMentor] =
     useState(true)

@@ -35,7 +35,7 @@ export const Information = ({
   syncer: GithubSyncerSettings | null
 }): JSX.Element | null => {
   const [tab, setTab] = useState<TabIndex>('analysis')
-  const { t } = useAppTranslation('components/student/iterations-list')
+  const { t } = useAppTranslation()
 
   return (
     <TabsContext.Provider

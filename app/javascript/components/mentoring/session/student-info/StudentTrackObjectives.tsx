@@ -10,7 +10,7 @@ export function StudentTrackObjectives({
 }: {
   student: Student
 }): JSX.Element | null {
-  const { t } = useAppTranslation('components/mentoring/session/student-info')
+  const { t } = useAppTranslation()
   if (!student.trackObjectives) return null
 
   return (

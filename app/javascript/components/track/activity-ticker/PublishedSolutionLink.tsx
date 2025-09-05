@@ -9,11 +9,10 @@ export function PublishedSolutionLink({
 }: {
   publishedSolutionUrl: string
 }) {
-  const { t } = useAppTranslation('components/track/activity-ticker')
+  const { t } = useAppTranslation()
   return (
     <span className="inline-flex">
       <Trans
-        ns="components/track/activity-ticker"
         i18nKey="publishedSolutionLink.newSolution"
         components={[
           <a

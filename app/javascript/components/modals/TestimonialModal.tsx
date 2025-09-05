@@ -15,7 +15,7 @@ export const TestimonialModal = ({
   testimonial: Testimonial
   platforms: readonly SharePlatform[]
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/modals/TestimonialModal.tsx')
+  const { t } = useAppTranslation()
 
   return (
     <Modal
@@ -35,7 +35,6 @@ export const TestimonialModal = ({
 
         <div className="student">
           <Trans
-            ns="components/modals/TestimonialModal.tsx"
             i18nKey="byLine"
             values={{ handle: testimonial.student.handle }}
             components={[
@@ -51,7 +50,6 @@ export const TestimonialModal = ({
 
         <div className="exercise">
           <Trans
-            ns="components/modals/TestimonialModal.tsx"
             i18nKey="exerciseLine"
             values={{
               exercise: testimonial.exercise.title,

@@ -11,9 +11,7 @@ export const TrackSummary = ({
 }: {
   track: MentoredTrackProgress
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/journey/overview/mentoring-section'
-  )
+  const { t } = useAppTranslation()
 
   return (
     <div className="track">

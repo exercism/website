@@ -63,7 +63,7 @@ export const MarkdownEditorForm = ({
     expanded ? '--expanded' : '--compressed',
   ].filter((className) => className.length > 0)
   const { isBelowLgWidth = false } = useContext(ScreenSizeContext) || {}
-  const { t } = useAppTranslation('components/common/MarkdownEditorForm.tsx')
+  const { t } = useAppTranslation()
 
   const handleSubmit = useCallback(
     (e) => {

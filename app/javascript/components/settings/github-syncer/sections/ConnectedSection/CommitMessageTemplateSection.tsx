@@ -17,9 +17,7 @@ export function CommitMessageTemplateSection() {
     syncer?.commitMessageTemplate || defaultCommitMessageTemplate
   )
 
-  const { t } = useAppTranslation(
-    'components/settings/github-syncer/sections/ConnectedSection'
-  )
+  const { t } = useAppTranslation()
 
   const [
     isRevertCommitMessageTemplateModalOpen,

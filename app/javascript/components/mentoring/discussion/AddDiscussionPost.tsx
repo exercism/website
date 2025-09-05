@@ -14,7 +14,7 @@ export const AddDiscussionPost = ({
   discussion: MentorDiscussion
   onSuccess?: () => void
 }>): JSX.Element => {
-  const { t } = useAppTranslation('discussion-batch')
+  const { t } = useAppTranslation()
   const [stillPosting, setStillPosting] = useState(!discussion.isFinished)
 
   const handleSuccess = useCallback(() => {
@@ -43,7 +43,6 @@ export const AddDiscussionPost = ({
         type="button"
       >
         <Trans
-          ns="discussion-batch"
           i18nKey="components.mentoring.discussion.addDiscussionPost.thisDiscussionHasEnded"
           components={{ em: <em /> }}
         />

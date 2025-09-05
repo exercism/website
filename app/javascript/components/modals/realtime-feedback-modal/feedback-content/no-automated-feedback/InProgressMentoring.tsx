@@ -9,9 +9,7 @@ export function InProgressMentoring({
   mentorDiscussionLink: string
   onContinue: () => void
 }): JSX.Element {
-  const { t } = useAppTranslation(
-    'components/modals/realtime-feedback-modal/feedback-content/no-automated-feedback'
-  )
+  const { t } = useAppTranslation()
   return (
     <div className="flex flex-col items-start">
       <h3 className="text-h4 mb-8">{t('index.youHaveMentoringSession')}</h3>

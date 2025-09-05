@@ -14,7 +14,7 @@ const OptionComponent = ({
 }: {
   option: TestsStatus
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/journey/solutions-list')
+  const { t } = useAppTranslation()
 
   switch (status) {
     case 'passed':
@@ -31,7 +31,7 @@ const OptionComponent = ({
 }
 
 const SelectedComponent = ({ option }: { option: TestsStatus }) => {
-  const { t } = useAppTranslation('components/journey/solutions-list')
+  const { t } = useAppTranslation()
 
   switch (option) {
     case undefined:

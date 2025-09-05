@@ -26,7 +26,7 @@ export function VideoGrid({
   itemsPerRow,
   request,
 }: VideoGridProps): JSX.Element {
-  const { t } = useAppTranslation('components/community')
+  const { t } = useAppTranslation()
   const {
     resolvedData,
     page,
@@ -184,7 +184,7 @@ function Video({ video }: VideoProps): JSX.Element {
 }
 
 function NoResultsOfQuery() {
-  const { t } = useAppTranslation('components/community')
+  const { t } = useAppTranslation()
   return (
     <div className="col-span-4">
       <FilterFallback
@@ -197,7 +197,7 @@ function NoResultsOfQuery() {
 }
 
 function NoResultsYet() {
-  const { t } = useAppTranslation('components/community')
+  const { t } = useAppTranslation()
   return (
     <div className="col-span-4">
       <FilterFallback

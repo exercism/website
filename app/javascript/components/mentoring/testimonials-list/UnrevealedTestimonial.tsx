@@ -29,7 +29,7 @@ export const UnrevealedTestimonial = ({
   const [open, setOpen] = useState(false)
   const [revealedTestimonial, setRevealedTestimonial] =
     useState<Testimonial | null>(null)
-  const { t } = useAppTranslation('components/mentoring/testimonials-list')
+  const { t } = useAppTranslation()
   const {
     mutate: reveal,
     status,

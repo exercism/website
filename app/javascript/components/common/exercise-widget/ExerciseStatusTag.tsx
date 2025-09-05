@@ -11,7 +11,7 @@ export const ExerciseStatusTag = ({
   exercise: Exercise
   size?: Size
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/common/exercise-widget')
+  const { t } = useAppTranslation()
   if (exercise.isExternal) {
     return <></>
   }

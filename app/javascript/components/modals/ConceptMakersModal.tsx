@@ -56,7 +56,7 @@ const Content = ({
   contributors,
   links,
 }: APIResponse): JSX.Element => {
-  const { t } = useAppTranslation('components/modals/ConceptMakersModal.tsx')
+  const { t } = useAppTranslation()
 
   return (
     <>

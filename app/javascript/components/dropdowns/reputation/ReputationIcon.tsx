@@ -11,7 +11,7 @@ export const ReputationIcon = forwardRef<
   HTMLButtonElement,
   ReputationIconProps
 >((props, ref) => {
-  const { t } = useAppTranslation('components/dropdowns/reputation')
+  const { t } = useAppTranslation()
   const { reputation, isSeen, ...buttonProps } = props
 
   return (

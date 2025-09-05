@@ -50,9 +50,7 @@ const ModalBody = ({
   onBack: () => void
 }): JSX.Element => {
   const [selected, setSelected] = useState<string[]>([])
-  const { t } = useAppTranslation(
-    'components/modals/MentorRegistrationModal.tsx'
-  )
+  const { t } = useAppTranslation()
 
   switch (currentStep) {
     case 'CHOOSE_TRACK':
@@ -84,9 +82,7 @@ export const MentorRegistrationModal = ({
   ...props
 }: Omit<ModalProps, 'className'> & { links: Links }): JSX.Element => {
   const [currentStep, setCurrentStep] = useState<ModalStep>('CHOOSE_TRACK')
-  const { t } = useAppTranslation(
-    'components/modals/MentorRegistrationModal.tsx'
-  )
+  const { t } = useAppTranslation()
 
   const moveForward = useCallback(() => {
     const nextStep = STEPS.findIndex((step) => step.id === currentStep) + 1

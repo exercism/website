@@ -26,9 +26,7 @@ export const ChangePublishedIterationModal = ({
   defaultIterationIdx: number | null
   iterations: readonly Iteration[]
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/modals/ChangePublishedIterationModal.tsx'
-  )
+  const { t } = useAppTranslation()
   const [iterationIdx, setIterationIdx] = useState<number | null>(
     defaultIterationIdx
   )

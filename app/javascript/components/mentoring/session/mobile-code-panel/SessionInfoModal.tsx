@@ -24,9 +24,7 @@ export function SessionInfoModal({
   session,
   setSession,
 }: SessionInfoModalProps) {
-  const { t } = useAppTranslation(
-    'components/mentoring/session/mobile-code-panel/SessionInfoModal.tsx'
-  )
+  const { t } = useAppTranslation()
   return (
     <Modal open={open} onClose={onClose} className="m-session-info">
       <div className="session-info-header">

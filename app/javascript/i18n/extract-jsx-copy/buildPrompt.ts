@@ -42,7 +42,7 @@ ${content}
    - Do **not** use nested objects in the output. All translation keys must be flat strings.
    - This key prefix should be CONCISE!!! and SHORT!!! and DESCRIPTIVE, like \`info.outdated\`, \`difficulty.easy\`, or \`exerciseTypeTag.learningExercise\`. Don't concatenate the whole text into one string as use it as a key!!
 
-4. Use the \`i18n-namespace\` comment above each file for the \`useAppTranslation('<namespace>')\` call.
+4. Use the \`i18n-namespace\` comment above each file for the \`useAppTranslation()\` call.
    - You MUST import it like this at the top of the file:
      \`\`\`ts
      import { useAppTranslation } from '@/i18n/useAppTranslation'
@@ -229,14 +229,14 @@ export default {
 **Correct:**
 \`\`\`tsx
 export const MyComponent = () => {
-  const { t } = useAppTranslation('<i18n-namespace>')
+  const { t } = useAppTranslation()
   return <div>{t('key')}</div>
 }
 \`\`\`
 
 **WRONG - Never do this:**
 \`\`\`tsx
-const { t } = useAppTranslation('<i18n-namespace>') // ← WRONG: Outside component
+const { t } = useAppTranslation() // ← WRONG: Outside component
 export const MyComponent = () => {
   return <div>{t('key')}</div>
 }
@@ -260,7 +260,7 @@ export const OutdatedComponent = () => {
 **Should become:**
 \`\`\`tsx
 export const OutdatedComponent = () => {
-  const { t } = useAppTranslation('components/common/exercise-widget')
+  const { t } = useAppTranslation()
   return <Icon alt={t('info.outdated.solutionWasSolved')} />
 }
 \`\`\`

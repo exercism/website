@@ -5,7 +5,7 @@ import { Pronouns } from '@/components/common/Pronouns'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const MentorInfo = ({ mentor }: { mentor: Mentor }): JSX.Element => {
-  const { t } = useAppTranslation('components/student/mentoring-session')
+  const { t } = useAppTranslation()
   return (
     <div className="mentor-info">
       <div className="flex mb-8">

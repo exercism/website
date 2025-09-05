@@ -6,7 +6,7 @@ import { Order } from '../TracksList'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const OptionComponent = ({ option: order }: { option: Order }) => {
-  const { t } = useAppTranslation('components/student/tracks-list')
+  const { t } = useAppTranslation()
   switch (order) {
     case 'last_touched_first':
       return (

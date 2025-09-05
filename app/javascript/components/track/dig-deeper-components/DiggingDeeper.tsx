@@ -24,7 +24,7 @@ export function DiggingDeeper({
 }: {
   introduction: ApproachIntroduction
 }): JSX.Element {
-  const { t } = useAppTranslation('components/track/dig-deeper-components')
+  const { t } = useAppTranslation()
 
   return (
     <div className="mb-48">
@@ -52,7 +52,7 @@ function DiggingDeeperFooter({
 }: {
   introduction: ApproachIntroduction
 }): JSX.Element {
-  const { t } = useAppTranslation('components/track/dig-deeper-components')
+  const { t } = useAppTranslation()
 
   return (
     <footer className="flex items-center justify-between text-textColor6 py-12 mb-48">

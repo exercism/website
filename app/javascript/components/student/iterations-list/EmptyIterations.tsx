@@ -32,7 +32,7 @@ export const EmptyIterations = ({
   exercise: Exercise
   links: Links
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/student/iterations-list')
+  const { t } = useAppTranslation()
   const isMountedRef = useIsMounted()
   const {
     mutate: mutation,

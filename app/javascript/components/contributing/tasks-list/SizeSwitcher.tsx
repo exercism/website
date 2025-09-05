@@ -7,7 +7,7 @@ import { SizeTag } from './task/SizeTag'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const SizeOption = ({ option: size }: { option: TaskSize }): JSX.Element => {
-  const { t } = useAppTranslation('components/contributing')
+  const { t } = useAppTranslation()
 
   switch (size) {
     case 'tiny':
@@ -84,7 +84,7 @@ const SizeOption = ({ option: size }: { option: TaskSize }): JSX.Element => {
 }
 
 const SelectedComponent = ({ value: sizes }: { value: TaskSize[] }) => {
-  const { t } = useAppTranslation('components/contributing')
+  const { t } = useAppTranslation()
 
   if (sizes.length > 1) {
     return <>{t('tasksList.sizeSwitcher.multiple')}</>
@@ -107,7 +107,7 @@ const SelectedComponent = ({ value: sizes }: { value: TaskSize[] }) => {
 }
 
 const ResetComponent = () => {
-  const { t } = useAppTranslation('components/contributing')
+  const { t } = useAppTranslation()
 
   return (
     <React.Fragment>

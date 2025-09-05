@@ -3,7 +3,7 @@ import { WelcomeModalContext } from './WelcomeModal'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function InitialView() {
-  const { t } = useAppTranslation('components/modals/welcome-modal')
+  const { t } = useAppTranslation()
   const { setCurrentView, patchUserSeniority } = useContext(WelcomeModalContext)
   return (
     <div className="lhs">

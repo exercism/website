@@ -23,7 +23,7 @@ export const Options = ({
   onCommentsEnabled: () => void
   onCommentsDisabled: () => void
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/community-solutions')
+  const { t } = useAppTranslation()
   const [openedModal, setOpenedModal] = useState<ModalId | null>(null)
   const {
     buttonAttributes,

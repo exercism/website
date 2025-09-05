@@ -25,9 +25,7 @@ export const FavoriteStep = ({
   onFavorite: (student: FavoritableStudent) => void
   onSkip: () => void
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/mentoring/discussion/finished-wizard'
-  )
+  const { t } = useAppTranslation()
   const {
     mutate: handleFavorite,
     status,

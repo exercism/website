@@ -9,7 +9,7 @@ export const ResetButton = ({
 }: {
   onClick: () => void
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/contributing')
+  const { t } = useAppTranslation()
   return (
     <button
       type="button"

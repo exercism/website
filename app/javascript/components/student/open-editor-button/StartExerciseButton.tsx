@@ -15,7 +15,7 @@ export const StartExerciseButton = ({
   endpoint: string
   className?: string
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/student/open-editor-button')
+  const { t } = useAppTranslation()
   const {
     mutate: mutation,
     status,

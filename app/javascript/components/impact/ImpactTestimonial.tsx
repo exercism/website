@@ -16,7 +16,7 @@ const ImpactTestimonial = ({
   onClick: () => void
   onClose: () => void
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/impact/ImpactTestimonial.tsx')
+  const { t } = useAppTranslation()
   return (
     <React.Fragment>
       <button className="testimonial" type="button" onClick={onClick}>

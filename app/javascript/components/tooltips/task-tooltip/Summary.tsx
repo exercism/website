@@ -17,12 +17,12 @@ export const Summary = ({ task }: { task: Task }): JSX.Element => {
 }
 
 const SummaryTag = () => {
-  const { t } = useAppTranslation('components/tooltips/task-tooltip')
+  const { t } = useAppTranslation()
   return <div className="task-icon">{t('summary.task')}</div>
 }
 
 export function verbForAction(action?: TaskAction) {
-  const { t } = useAppTranslation('components/tooltips/task-tooltip')
+  const { t } = useAppTranslation()
 
   switch (action) {
     case 'create':
@@ -41,7 +41,7 @@ export function verbForAction(action?: TaskAction) {
 }
 
 export function descriptionForModule(module?: TaskModule) {
-  const { t } = useAppTranslation('components/tooltips/task-tooltip')
+  const { t } = useAppTranslation()
 
   switch (module) {
     case 'analyzer':
@@ -64,7 +64,7 @@ export function descriptionForModule(module?: TaskModule) {
 }
 
 export const SummaryDetails = ({ task }: { task: Task }) => {
-  const { t } = useAppTranslation('components/tooltips/task-tooltip')
+  const { t } = useAppTranslation()
 
   let module = descriptionForModule(task.tags.module)
   module = module ? module.replace(/s$/, '') : 'Exercism'
@@ -74,7 +74,6 @@ export const SummaryDetails = ({ task }: { task: Task }) => {
     <h3>
       <Trans
         i18nKey="summary.workingOn"
-        ns="components/tooltips/task-tooltip"
         values={{
           verb: verb || 'working on',
           module,

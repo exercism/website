@@ -21,7 +21,7 @@ export const LeaveTrackForm = ({
   track: Track
   onCancel: () => void
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/dropdowns/track-menu')
+  const { t } = useAppTranslation()
   const {
     mutate: mutation,
     status,

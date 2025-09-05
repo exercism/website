@@ -100,6 +100,13 @@ rm -rf .built-assets/              # Clear asset cache if needed
 - `app/controllers/spi/` - Internal service endpoints
 - `test/` - All test files
 - `docs/context/` - Detailed component documentation
+- `scripts/llm/` - Helper scripts created by AI agents
+
+**Script Organization:**
+
+- **Always create new scripts in `scripts/llm/`** - This keeps AI-generated scripts organized and separate from core application scripts
+- Use descriptive names like `merge_locales.rb` or `fix_data.rb`
+- Include comments explaining what the script does and when to use it
 
 **When editing:**
 

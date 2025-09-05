@@ -33,7 +33,7 @@ export default function TestimonialsSummary({
   testimonials,
   links,
 }: Props): JSX.Element {
-  const { t } = useAppTranslation('components/profile')
+  const { t } = useAppTranslation()
   const [currentTestimonial, setCurrentTestimonial] = useState(testimonials[0])
 
   return (

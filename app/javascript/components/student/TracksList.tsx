@@ -30,7 +30,7 @@ export default ({
   tagOptions: readonly TagOption[]
   request: Request
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/student/TracksList.tsx')
+  const { t } = useAppTranslation()
   const {
     request,
     setCriteria: setRequestCriteria,

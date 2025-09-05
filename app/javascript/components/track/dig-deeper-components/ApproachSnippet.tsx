@@ -12,7 +12,7 @@ export function ApproachSnippet({
   approach: Approach
 }): JSX.Element {
   const codeBlockRef = useHighlighting<HTMLPreElement>(approach.snippet)
-  const { t } = useAppTranslation('components/track/dig-deeper-components')
+  const { t } = useAppTranslation()
 
   const { track } = useContext(DigDeeperDataContext)
 

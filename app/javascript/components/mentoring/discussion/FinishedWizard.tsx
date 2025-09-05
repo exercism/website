@@ -63,9 +63,7 @@ export const FinishedWizard = ({
   defaultStep,
   timelineContent,
 }: Props): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/mentoring/discussion/FinishedWizard.tsx'
-  )
+  const { t } = useAppTranslation()
   const finishedWizardRef = useRef<HTMLDivElement>(null)
   const [state, dispatch] = useReducer(reducer, {
     student: student,

@@ -16,7 +16,7 @@ export const TransactionForm = ({
   onAmountChange,
   children,
 }: React.PropsWithChildren<Props>): JSX.Element => {
-  const { t } = useAppTranslation('components/donations')
+  const { t } = useAppTranslation()
   const [customAmount, setCustomAmount] = useState(
     presetAmounts.map((a) => a.value).includes(currentAmount.value)
       ? ''

@@ -7,9 +7,7 @@ export const SolutionCommentTextArea = React.forwardRef<
   HTMLTextAreaElement,
   unknown
 >((_, ref) => {
-  const { t } = useAppTranslation(
-    'components/student/mentoring-session/mentoring-request/MentoringRequestFormComponents'
-  )
+  const { t } = useAppTranslation()
   return (
     <div className="question">
       <label htmlFor="request-mentoring-form-solution-comment">

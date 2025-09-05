@@ -26,9 +26,7 @@ export const StartMentoringPanel = ({
   request: Request
   onLock: (request: Request) => void
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/mentoring/request/StartMentoringPanel.tsx'
-  )
+  const { t } = useAppTranslation()
   const {
     mutate: lock,
     status,

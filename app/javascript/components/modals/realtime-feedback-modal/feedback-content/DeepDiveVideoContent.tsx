@@ -16,9 +16,7 @@ export function DeepDiveVideoContent({
   onContinue,
   links,
 }: DeepDiveVideoContentProps) {
-  const { t } = useAppTranslation(
-    'components/modals/realtime-feedback-modal/feedback-content'
-  )
+  const { t } = useAppTranslation()
   return (
     <>
       <h3 className="text-h3 mb-8">

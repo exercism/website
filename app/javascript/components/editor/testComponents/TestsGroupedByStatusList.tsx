@@ -36,7 +36,7 @@ const Title = ({
   status: string
   tests: TestWithToggle[]
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/editor/testComponents')
+  const { t } = useAppTranslation()
 
   return (
     <>

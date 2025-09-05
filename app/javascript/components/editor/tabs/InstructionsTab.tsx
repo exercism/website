@@ -4,7 +4,7 @@ import { TabsContext } from '@/components/Editor'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const InstructionsTab = () => {
-  const { t } = useAppTranslation('components/editor/tabs')
+  const { t } = useAppTranslation()
   return (
     <Tab id="instructions" context={TabsContext}>
       <GraphicalIcon icon="instructions" />

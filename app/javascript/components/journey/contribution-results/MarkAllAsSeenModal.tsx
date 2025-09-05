@@ -20,7 +20,7 @@ export const MarkAllAsSeenModal = ({
   onSuccess: (response: APIResult) => void
   unseenTotal: number
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/journey/contribution-results')
+  const { t } = useAppTranslation()
   const {
     mutate: mutation,
     status,

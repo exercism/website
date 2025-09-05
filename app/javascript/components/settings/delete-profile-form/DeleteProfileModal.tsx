@@ -16,7 +16,7 @@ export const DeleteProfileModal = ({
 }: Omit<ModalProps, 'className'> & {
   endpoint: string
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/settings/delete-profile-form')
+  const { t } = useAppTranslation()
   const {
     mutate: mutation,
     status,

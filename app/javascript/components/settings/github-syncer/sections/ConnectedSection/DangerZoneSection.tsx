@@ -9,9 +9,7 @@ import { GraphicalIcon } from '@/components/common'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function DangerZoneSection() {
-  const { t } = useAppTranslation(
-    'components/settings/github-syncer/sections/ConnectedSection'
-  )
+  const { t } = useAppTranslation()
   const { links, isSyncingEnabled, setIsSyncingEnabled, setIsUserConnected } =
     React.useContext(GitHubSyncerContext)
 

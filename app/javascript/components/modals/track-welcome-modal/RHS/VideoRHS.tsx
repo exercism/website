@@ -6,7 +6,7 @@ import { Track } from '@/components/types'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function VideoRHS({ track }: { track: Track }): JSX.Element {
-  const { t } = useAppTranslation('components/modals/track-welcome-modal/RHS')
+  const { t } = useAppTranslation()
 
   return (
     <div className="rhs">

@@ -16,9 +16,7 @@ export const DiscussionPostView = ({
   className = '',
   itemRef,
 }: ViewingComponentType<DiscussionPostProps>): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/mentoring/discussion/discussion-post'
-  )
+  const { t } = useAppTranslation()
   const isEditable = post.links.edit
 
   const classNames = [

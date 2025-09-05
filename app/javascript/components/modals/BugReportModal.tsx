@@ -30,7 +30,7 @@ export const BugReportModal = ({
   const [status, setStatus] = useState(BugReportModalStatus.INITIALIZED)
   const [content, setContent] = useState('')
 
-  const { t } = useAppTranslation('components/modals/BugReportModal.tsx')
+  const { t } = useAppTranslation()
 
   const { mutate: mutation } = useMutation({
     mutationFn: async () => {

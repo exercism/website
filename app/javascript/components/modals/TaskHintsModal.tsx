@@ -16,7 +16,7 @@ export const TaskHintsModal = ({
   open: boolean
   onClose: () => void
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/modals/TaskHintsModal.tsx')
+  const { t } = useAppTranslation()
   return (
     <Modal
       open={open}

@@ -14,9 +14,7 @@ export const AutomationListElement = ({
   representation: Representation
   selectedTab: SelectedTab
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/mentoring/automation/AutomationListElement.tsx'
-  )
+  const { t } = useAppTranslation()
   const withFeedback = selectedTab === 'with_feedback'
   const isAdminTab = selectedTab === 'admin'
   const ELEMENT_LABELS = useMemo(() => {

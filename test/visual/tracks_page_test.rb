@@ -10,7 +10,17 @@ class TracksPageVisualTest < ApplicationSystemTestCase
     create :track, :random_slug, title: "JavaScript", blurb: "The language of the web"
     create :track, :random_slug, title: "Python", blurb: "A powerful programming language"
 
+    # Verify i18n is working for tracks page title
+    translation = Localization::Translation.find_by(locale: "en", key: "tracks.index.header.title")
+    assert translation.present?, "Translation for tracks.index.header.title should exist"
+    assert_includes translation.value, "%<num_tracks>s languages", "Translation should contain expected text"
+
     visit tracks_path
+
+    # Verify the translation is actually rendered (should contain "3 languages" not "Title")
+    assert_no_text "Title"
+    assert_no_text "Description HTML"
+    assert_text "3 languages for you to master"
 
     # Take screenshot
     page.save_screenshot('tmp/screenshots/visual_tracks_page.png')

@@ -79,7 +79,7 @@ const Contribution = ({
   createdAt,
   track,
 }: ContributionProps): JSX.Element => {
-  const { t } = useAppTranslation('components/profile/contributions-list')
+  const { t } = useAppTranslation()
   const url = internalUrl || externalUrl
   const linkIcon = url === internalUrl ? 'chevron-right' : 'external-link'
 

@@ -6,7 +6,7 @@ type Props = React.ButtonHTMLAttributes<HTMLButtonElement>
 
 export const SubmitButton = forwardRef<HTMLButtonElement, Props>(
   ({ disabled, ...props }, ref) => {
-    const { t } = useAppTranslation('components/editor/SubmitButton.tsx')
+    const { t } = useAppTranslation()
     return (
       <GenericTooltip
         disabled={!disabled}

@@ -11,7 +11,7 @@ export function Handle({
   user?: MetricUser
   countryName: string
 }) {
-  const { t } = useAppTranslation('components/track/activity-ticker')
+  const { t } = useAppTranslation()
   if (!user)
     return countryName
       ? t('handle.someoneInCountry', { countryName })

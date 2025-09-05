@@ -25,9 +25,7 @@ export const MentoringChart = ({
 }: {
   tracks: MentoredTrackProgressList
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/journey/overview/mentoring-section'
-  )
+  const { t } = useAppTranslation()
   const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(null)
   const [chart, setChart] = useState<Chart<'doughnut'> | null>(null)
 

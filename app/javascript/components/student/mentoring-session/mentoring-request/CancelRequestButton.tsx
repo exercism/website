@@ -8,9 +8,7 @@ export const CancelRequestButton = ({
 }: {
   request: MentorSessionRequest
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/student/mentoring-session/mentoring-request'
-  )
+  const { t } = useAppTranslation()
   const [modalOpen, setModalOpen] = useState(false)
 
   const handleModalOpen = useCallback(() => {

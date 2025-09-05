@@ -22,9 +22,7 @@ export const MarkAsNothingToDoButton = (props: ComponentProps): JSX.Element => {
 const DEFAULT_ERROR = new Error('Unable to mark discussion as nothing to do')
 
 const Component = ({ endpoint }: ComponentProps): JSX.Element | null => {
-  const { t } = useAppTranslation(
-    'components/mentoring/discussion/MarkAsNothingToDoButton.tsx'
-  )
+  const { t } = useAppTranslation()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const {
     mutate: mutation,
@@ -82,9 +80,7 @@ function ConfirmationModal({
   onClose: () => void
   onConfirm: () => void
 }) {
-  const { t } = useAppTranslation(
-    'components/mentoring/discussion/MarkAsNothingToDoButton.tsx'
-  )
+  const { t } = useAppTranslation()
 
   return (
     <Modal open={isOpen} onClose={onClose}>

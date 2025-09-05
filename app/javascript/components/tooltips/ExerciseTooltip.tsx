@@ -14,7 +14,7 @@ const ExerciseTooltip = React.forwardRef<
   HTMLDivElement,
   React.HTMLProps<HTMLDivElement> & { endpoint: string }
 >(({ endpoint, ...props }, ref) => {
-  const { t } = useAppTranslation('components/tooltips/ExerciseTooltip.tsx')
+  const { t } = useAppTranslation()
   const { data, error, status } = useRequestQuery<{
     track: Track
     exercise: Exercise

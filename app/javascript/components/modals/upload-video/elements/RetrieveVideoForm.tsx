@@ -19,7 +19,7 @@ export function RetrieveVideoForm({
   onSuccess,
 }: RetrieveVideoForm): JSX.Element {
   const { links } = useContext(DigDeeperDataContext)
-  const { t } = useAppTranslation('components/modals/upload-video/elements')
+  const { t } = useAppTranslation()
 
   async function VerifyVideo(link: string) {
     const URL = `${links.video.lookup}?video_url=${link}`

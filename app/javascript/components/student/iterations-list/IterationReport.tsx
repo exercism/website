@@ -32,7 +32,7 @@ export const IterationReport = ({
   onDelete: (iteration: Iteration) => void
   syncer: GithubSyncerSettings | null
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/student/iterations-list')
+  const { t } = useAppTranslation()
 
   return (
     <details open={isOpen} className="iteration c-details">

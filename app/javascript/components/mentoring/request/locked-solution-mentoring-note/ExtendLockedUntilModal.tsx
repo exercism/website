@@ -16,9 +16,7 @@ export function ExtendLockedUntilModal({
   diffMinutes: string
   adjustOpenModalAt: () => void
 }): JSX.Element {
-  const { t } = useAppTranslation(
-    'components/mentoring/request/locked-solution-mentoring-note'
-  )
+  const { t } = useAppTranslation()
 
   return (
     <Modal

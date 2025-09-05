@@ -8,7 +8,7 @@ export function CancelButton({
 }: {
   onClick: () => void
 }): JSX.Element {
-  const { t } = useAppTranslation('components/mentoring/representation/common')
+  const { t } = useAppTranslation()
   return (
     <button
       onClick={onClick}

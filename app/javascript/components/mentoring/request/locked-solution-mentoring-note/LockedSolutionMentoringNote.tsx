@@ -16,9 +16,7 @@ export const LockedSolutionMentoringNote = ({
   links: Links
   request: MentorSessionRequest
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/mentoring/request/locked-solution-mentoring-note'
-  )
+  const { t } = useAppTranslation()
   const {
     lockedUntil,
     diff,
@@ -35,7 +33,6 @@ export const LockedSolutionMentoringNote = ({
       <div className="note">
         <Trans
           i18nKey={diff > 0 ? 'locked.stillLocked' : 'locked.unlocked'}
-          ns="components/mentoring/request/locked-solution-mentoring-note"
           values={{ lockedUntil, diffMins }}
           components={{
             a: (

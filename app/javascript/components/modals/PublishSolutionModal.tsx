@@ -20,7 +20,7 @@ export const PublishSolutionModal = ({
   iterations: readonly Iteration[]
 }): JSX.Element => {
   const [iterationIdx, setIterationIdx] = useState<number | null>(null)
-  const { t } = useAppTranslation('components/modals/PublishSolutionModal.tsx')
+  const { t } = useAppTranslation()
 
   const {
     mutate: mutation,

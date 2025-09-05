@@ -6,7 +6,7 @@ export const ListDisabled = ({
 }: {
   isAuthor: boolean
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/community-solutions')
+  const { t } = useAppTranslation()
   if (isAuthor) {
     return (
       <p className="text-16 leading-150 text-textColor6">

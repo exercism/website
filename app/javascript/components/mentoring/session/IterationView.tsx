@@ -39,7 +39,7 @@ export const IterationView = ({
   discussion?: MentorDiscussion
   downloadCommand: string
 }): JSX.Element => {
-  const { t } = useAppTranslation('session-batch-3')
+  const { t } = useAppTranslation()
   /* TODO: (required) Don't do this if currentIteration.links.files is null */
   const {
     data: resolvedData,

@@ -30,7 +30,7 @@ export const FilePanel = ({
   testFiles?: readonly TestFile[]
   showCopyButton?: boolean
 }): JSX.Element | null => {
-  const { t } = useAppTranslation('session-batch-1')
+  const { t } = useAppTranslation()
   const [tab, setTab] = useState<string>('')
 
   useEffect(() => {

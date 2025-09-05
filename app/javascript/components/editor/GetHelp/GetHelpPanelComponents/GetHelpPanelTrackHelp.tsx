@@ -10,7 +10,7 @@ export function GetHelpPanelTrackHelp({
   helpHtml,
   track,
 }: Pick<GetHelpPanelProps, 'helpHtml' | 'track'>): JSX.Element {
-  const { t } = useAppTranslation('components/editor/GetHelp')
+  const { t } = useAppTranslation()
   return (
     <GetHelpAccordionSkeleton
       title={t('getHelpPanelComponents.getHelpPanelTrackHelp.trackHelp', {

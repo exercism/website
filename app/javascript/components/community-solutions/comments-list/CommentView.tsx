@@ -9,7 +9,7 @@ export const CommentView = ({
   item: comment,
   onEdit,
 }: ViewingComponentType<SolutionComment>): JSX.Element => {
-  const { t } = useAppTranslation('components/community-solutions')
+  const { t } = useAppTranslation()
   const isEditable = comment.links.edit
 
   return (

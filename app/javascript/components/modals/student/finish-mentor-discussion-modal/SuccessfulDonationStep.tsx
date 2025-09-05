@@ -15,9 +15,7 @@ export function SuccessfulDonationStep({
   amount: currency | null
   closeLink: string
 }): JSX.Element {
-  const { t } = useAppTranslation(
-    'components/modals/student/finish-mentor-discussion-modal'
-  )
+  const { t } = useAppTranslation()
   return (
     <div className="successful-donation-step flex flex-col items-center text-center">
       <GraphicalIcon
@@ -38,7 +36,6 @@ export function SuccessfulDonationStep({
         <BadgeMedallion badge={badge} />
         <div className="text-textColor2 text-18 leading-150">
           <Trans
-            ns="components/donations"
             i18nKey="successfulDonationStep.youVeEarnedTheBadge"
             components={[<strong className="font-medium" />]}
           />

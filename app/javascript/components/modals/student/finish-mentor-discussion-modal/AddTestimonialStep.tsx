@@ -21,9 +21,7 @@ export const AddTestimonialStep = ({
   onBack: () => void
   discussion: MentorDiscussion
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/modals/student/finish-mentor-discussion-modal'
-  )
+  const { t } = useAppTranslation()
   const [value, setValue] = useState('')
   const {
     mutate: mutation,

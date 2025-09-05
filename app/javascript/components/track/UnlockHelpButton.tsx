@@ -12,7 +12,7 @@ export function UnlockHelpButton({
 }: {
   unlockUrl: string
 }): JSX.Element {
-  const { t } = useAppTranslation('components/track/UnlockHelpButton.tsx')
+  const { t } = useAppTranslation()
   function UnlockHelp() {
     const { fetch } = sendRequest({
       endpoint: unlockUrl,

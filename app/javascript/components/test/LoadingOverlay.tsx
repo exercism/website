@@ -5,7 +5,7 @@ import { useAppTranslation } from '@/i18n/useAppTranslation'
 import { redirectTo } from '../../utils/redirect-to'
 
 export const LoadingOverlay = ({ url }: { url: string }): JSX.Element => {
-  const { t } = useAppTranslation('components/test')
+  const { t } = useAppTranslation()
   const handleClick = useCallback(() => {
     redirectTo(url)
   }, [url])

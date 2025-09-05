@@ -7,7 +7,7 @@ import { GraphicalIcon } from '../../common'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const TypeOption = ({ option: type }: { option: TaskType }): JSX.Element => {
-  const { t } = useAppTranslation('components/contributing')
+  const { t } = useAppTranslation()
   switch (type) {
     case 'docs':
       return (
@@ -65,7 +65,7 @@ const TypeOption = ({ option: type }: { option: TaskType }): JSX.Element => {
 }
 
 const SelectedComponent = ({ value: action }: { value: TaskType[] }) => {
-  const { t } = useAppTranslation('components/contributing')
+  const { t } = useAppTranslation()
   if (action.length > 1) {
     return <>Multiple</>
   }
@@ -87,7 +87,7 @@ const SelectedComponent = ({ value: action }: { value: TaskType[] }) => {
 }
 
 const ResetComponent = () => {
-  const { t } = useAppTranslation('components/contributing')
+  const { t } = useAppTranslation()
   return (
     <React.Fragment>
       <GraphicalIcon icon="task-type" className="task-icon" />

@@ -62,7 +62,7 @@ export default function Status({
   status,
   userSignedIn,
 }: InsidersStatusData): JSX.Element {
-  const { t } = useAppTranslation('components/insiders')
+  const { t } = useAppTranslation()
   const [insidersStatus, setInsidersStatus] = useState(status)
   const [stripeModalOpen, setStripeModalOpen] = useState(false)
 
@@ -211,7 +211,7 @@ export default function Status({
 }
 
 function ModalHeader(): JSX.Element {
-  const { t } = useAppTranslation('components/insiders')
+  const { t } = useAppTranslation()
   return (
     <>
       <div className="flex flex-row items-center gap-32 mb-12">
@@ -237,7 +237,7 @@ function ModalHeader(): JSX.Element {
 }
 
 function ModalFooter(): JSX.Element {
-  const { t } = useAppTranslation('components/insiders')
+  const { t } = useAppTranslation()
   return (
     <p className="text-p-small mt-20">
       {t('insidersStatus.donationsImprovePlatform')}

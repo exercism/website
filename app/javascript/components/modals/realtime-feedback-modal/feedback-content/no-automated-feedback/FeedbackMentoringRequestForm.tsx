@@ -24,9 +24,7 @@ export const FeedbackMentoringRequestForm = ({
   onContinue: () => void
   onSuccess: () => void
 } & Pick<RealtimeFeedbackModalProps, 'links'>): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/modals/realtime-feedback-modal/feedback-content/no-automated-feedback'
-  )
+  const { t } = useAppTranslation()
   const {
     handleSubmit,
     error,

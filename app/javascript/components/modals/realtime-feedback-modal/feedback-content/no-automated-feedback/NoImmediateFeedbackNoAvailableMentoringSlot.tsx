@@ -5,9 +5,7 @@ import { useAppTranslation } from '@/i18n/useAppTranslation'
 export function NoImmediateFeedbackNoAvailableMentoringSlot({
   onContinue,
 }: Record<'onContinue', () => void>): JSX.Element {
-  const { t } = useAppTranslation(
-    'components/modals/realtime-feedback-modal/feedback-content/no-automated-feedback'
-  )
+  const { t } = useAppTranslation()
   return (
     <div className="flex flex-col items-start self-stretch">
       <h3 className="text-h4 mb-12">{t('index.noImmediateFeedbackNoSlot')}</h3>

@@ -4,9 +4,7 @@ import { ReportReason } from '../FinishMentorDiscussionModal'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const OptionComponent = ({ option: reason }: { option: ReportReason }) => {
-  const { t } = useAppTranslation(
-    'components/modals/student/finish-mentor-discussion-modal'
-  )
+  const { t } = useAppTranslation()
   switch (reason) {
     case 'coc':
       return (

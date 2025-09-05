@@ -29,7 +29,7 @@ export default function TrackMenu({
   links: Links
   ariaHideApp?: boolean
 }): JSX.Element {
-  const { t } = useAppTranslation('components/dropdowns')
+  const { t } = useAppTranslation()
   const [modal, setModal] = useState<ModalType | null>(null)
   const {
     buttonAttributes,
@@ -62,7 +62,6 @@ export default function TrackMenu({
                 <GraphicalIcon icon="external-site-github" />
                 <Trans
                   i18nKey="trackMenu.seeTrackOnGithub"
-                  ns="components/dropdowns"
                   values={{ trackTitle: track.title }}
                   components={{
                     icon: (

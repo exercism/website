@@ -7,7 +7,7 @@ import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function Articles({ articles }: { articles: Article[] }): JSX.Element {
   const { exercise } = useContext(DigDeeperDataContext)
-  const { t } = useAppTranslation('components/track/dig-deeper-components')
+  const { t } = useAppTranslation()
 
   return (
     <div className="flex flex-col">

@@ -8,7 +8,7 @@ import { useAppTranslation } from '@/i18n/useAppTranslation'
 export function ReadonlyIterationMarker({
   idx,
 }: Pick<Iteration, 'idx'>): JSX.Element {
-  const { t } = useAppTranslation('components/editor/FeedbackPanel')
+  const { t } = useAppTranslation()
 
   return (
     <div className="timeline-entry iteration-entry">

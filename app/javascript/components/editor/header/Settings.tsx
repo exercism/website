@@ -102,7 +102,7 @@ export function Settings({
   settings: EditorSettings
   setSettings: (settings: EditorSettings) => void
 }): JSX.Element {
-  const { t } = useAppTranslation('components/editor/header')
+  const { t } = useAppTranslation()
   const features = useContext(FeaturesContext)
   const [localKeybindings, setLocalKeybindings] = useState(settings.keybindings)
   const handleThemeChange = useCallback(

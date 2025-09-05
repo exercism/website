@@ -50,7 +50,7 @@ export default function TestimonialsList({
   tracks: readonly Track[]
   platforms: readonly SharePlatform[]
 }): JSX.Element {
-  const { t } = useAppTranslation('components/mentoring/TestimonialsList.tsx')
+  const { t } = useAppTranslation()
   const {
     request,
     setQuery,

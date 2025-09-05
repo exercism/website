@@ -13,9 +13,7 @@ export const UnhappyStep = ({
   report: MentorReport
   links: Links
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/modals/student/finish-mentor-discussion-modal'
-  )
+  const { t } = useAppTranslation()
   return (
     <section className="unhappy-final-step">
       {report.report ? (

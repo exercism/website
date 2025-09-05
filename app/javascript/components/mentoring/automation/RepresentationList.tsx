@@ -72,9 +72,7 @@ function Component({ resolvedData, page, setPage, selectedTab }: Props) {
 }
 
 function NoResultsOfQuery() {
-  const { t } = useAppTranslation(
-    'components/mentoring/automation/RepresentationList.tsx'
-  )
+  const { t } = useAppTranslation()
   return (
     <FilterFallback
       icon="no-result-magnifier"
@@ -85,9 +83,7 @@ function NoResultsOfQuery() {
 }
 
 function NoResultsYet() {
-  const { t } = useAppTranslation(
-    'components/mentoring/automation/RepresentationList.tsx'
-  )
+  const { t } = useAppTranslation()
   return (
     <FilterFallback
       icon="automation"

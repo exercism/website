@@ -14,7 +14,7 @@ export function TopLearningCountries({
 }: {
   data: LearningCountry[]
 }): JSX.Element {
-  const { t } = useAppTranslation('components/impact/TopLearningCountries.tsx')
+  const { t } = useAppTranslation()
   return (
     <div>
       <h6 className="text-h6 mb-8">

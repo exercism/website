@@ -29,9 +29,7 @@ export default function CommentsPreferenceForm({
   numPublishedSolutions,
   numSolutionsWithCommentsEnabled,
 }: CommentsPreferenceFormProps): JSX.Element {
-  const { t } = useAppTranslation(
-    'components/settings/comments-preference-form'
-  )
+  const { t } = useAppTranslation()
   const {
     handleSubmit,
     commentStatusPhrase,
@@ -60,7 +58,6 @@ export default function CommentsPreferenceForm({
         <p className="text-p-base mb-12">
           <Trans
             i18nKey="commentsPreferenceForm.settingToControlComments"
-            ns="components/settings/comments-preference-form"
             components={[<span className="font-medium" />]}
           />
         </p>
@@ -103,9 +100,7 @@ export default function CommentsPreferenceForm({
 }
 
 const SuccessMessage = () => {
-  const { t } = useAppTranslation(
-    'components/settings/comments-preference-form'
-  )
+  const { t } = useAppTranslation()
   return (
     <div className="status success">
       <Icon icon="completed-check-circle" alt="Success" />

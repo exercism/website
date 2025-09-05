@@ -26,9 +26,7 @@ export const MentorChangeTracksModal = ({
   cacheKey: QueryKey
   onSuccess: () => void
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/modals/MentorChangeTracksModal.tsx'
-  )
+  const { t } = useAppTranslation()
   const queryClient = useQueryClient()
   const [selected, setSelected] = useState<string[]>(tracks.map((t) => t.slug))
 

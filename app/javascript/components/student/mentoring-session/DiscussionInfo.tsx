@@ -96,7 +96,7 @@ function DiscussionMentorFinished({
   links: DiscussionActionsLinks
   donation: MentoringSessionDonation
 }) {
-  const { t } = useAppTranslation('components/student/mentoring-session')
+  const { t } = useAppTranslation()
   return (
     <div className="student-review timeline-entry">
       <GraphicalIcon
@@ -141,7 +141,7 @@ function DiscussionMentorTimedOut({
   links: DiscussionActionsLinks
   donation: MentoringSessionDonation
 }) {
-  const { t } = useAppTranslation('components/student/mentoring-session')
+  const { t } = useAppTranslation()
   return (
     <div className="student-review timeline-entry">
       <GraphicalIcon

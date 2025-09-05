@@ -18,7 +18,7 @@ export function DashboardTabs({
   currentStatus: TrainingDataStatus
   statuses: TrainingDataStatuses
 }) {
-  const { t } = useAppTranslation('components/training-data/dashboard')
+  const { t } = useAppTranslation()
   return (
     <div className="tabs">
       {statuses.map((status) => {

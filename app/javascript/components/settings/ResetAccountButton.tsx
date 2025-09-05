@@ -14,7 +14,7 @@ export default function ResetAccountButton({
   links: Links
 }): JSX.Element {
   const [open, setOpen] = useState(false)
-  const { t } = useAppTranslation('components/settings/ResetAccountButton.tsx')
+  const { t } = useAppTranslation()
 
   return (
     <React.Fragment>

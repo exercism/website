@@ -29,7 +29,7 @@ export const FinishMentorDiscussionModal = ({
   onFinish: () => void
   onCancel: () => void
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/modals/mentor')
+  const { t } = useAppTranslation()
 
   return (
     <Modal

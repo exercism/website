@@ -7,7 +7,7 @@ type StoriesGridProps = {
 }
 
 export function StoriesGrid({ data }: StoriesGridProps): JSX.Element | null {
-  const { t } = useAppTranslation('components/community')
+  const { t } = useAppTranslation()
   const [page, setPage] = useState<number>(1)
 
   if (data.request.options.initialData.meta.totalCount === 0) {

@@ -128,6 +128,13 @@ namespace :api do
           patch :reject, on: :member
         end
       end
+
+      resources :glossary_entries, only: %i[index show] do
+        resources :proposals, only: %i[create update], controller: "glossary_entry_proposals" do
+          patch :approve, on: :member
+          patch :reject, on: :member
+        end
+      end
     end
 
     get "/scratchpad/:category/:title" => "scratchpad_pages#show", as: :scratchpad_page

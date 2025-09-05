@@ -26,7 +26,7 @@ class Localization::TranslationProposal::CreateTest < ActiveSupport::TestCase
     original = create :localization_original
     translation = create :localization_translation, key: original.key, locale: "hu"
 
-    Localization::TranslationProposal::VerifyWithLLM.expects(:call)
+    Localization::TranslationProposal::VerifyWithLLM.expects(:defer)
 
     Localization::TranslationProposal::Create.(translation, user, "New value")
   end

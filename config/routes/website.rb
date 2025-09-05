@@ -196,6 +196,8 @@ namespace :localization do
   root to: "dashboard#show"
   resources :originals, only: %i[index show] do
   end
+  resources :glossary_entries, only: %i[index show] do
+  end
 end
 
 resource :user_onboarding, only: %i[show create], controller: "user_onboarding"

@@ -738,7 +738,9 @@ initReact({
     )
     return (
       <Suspense fallback={RenderLoader()}>
-        <GlossaryEntriesList {...camelizeKeysAs<OriginalsListProps>(data)} />
+        <GlossaryEntriesList
+          {...camelizeKeysAs<GlossaryEntriesListProps>(data)}
+        />
       </Suspense>
     )
   },
@@ -748,7 +750,9 @@ initReact({
     )
     return (
       <Suspense fallback={RenderLoader()}>
-        <GlossaryEntriesShow {...camelizeKeysAs<OriginalsShowProps>(data)} />
+        <GlossaryEntriesShow
+          {...camelizeKeysAs<GlossaryEntriesShowProps>(data)}
+        />
       </Suspense>
     )
   },

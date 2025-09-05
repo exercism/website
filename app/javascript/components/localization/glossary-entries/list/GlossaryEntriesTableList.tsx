@@ -28,7 +28,7 @@ export function GlossaryEntriesTableList() {
           <FilterFallback
             icon="no-result-magnifier"
             title="No translations found."
-            description="Try changing your filters to find originals that need checking."
+            description="Try changing your filters to find glossary entries that need checking."
           />
         )}
       </div>

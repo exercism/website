@@ -21,8 +21,11 @@ export function GlossaryEntriesTableList() {
         {resolvedData &&
         resolvedData.results &&
         resolvedData.results.length > 0 ? (
-          resolvedData.results.map((original, key) => (
-            <GlossaryEntriesTableListElement original={original} key={key} />
+          resolvedData.results.map((glossaryEntry, key) => (
+            <GlossaryEntriesTableListElement
+              glossaryEntry={glossaryEntry}
+              key={key}
+            />
           ))
         ) : (
           <FilterFallback

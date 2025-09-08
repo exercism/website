@@ -5,25 +5,25 @@ import { assembleClassNames } from '@/utils/assemble-classnames'
 import { flagForLocale } from '@/utils/flag-for-locale'
 
 export function GlossaryEntriesTableListElement({
-  original,
+  glossaryEntry,
 }: {
-  original: Original
+  glossaryEntry: GlossaryEntry
 }) {
   const { links } = React.useContext(GlossaryEntriesListContext)
   return (
     <a
-      href={links?.localizationGlossaryEntriesPath + '/' + original.uuid}
-      className="original"
+      href={links?.localizationGlossaryEntriesPath + '/' + glossaryEntry.uuid}
+      className="glossary-entry"
     >
       <div className="info">
-        <div className="original-key">{original.title}</div>
-        <div className="original-uuid">{original.prettyType}</div>
+        <div className="glossary-entry-key">{glossaryEntry.key}</div>
+        <div className="glossary-entry-uuid">{glossaryEntry.prettyType}</div>
       </div>
 
-      <TranslationsWithStatus translations={original.translations} />
+      <TranslationsWithStatus translations={glossaryEntry.translations} />
 
       <div className="rhs">
-        <div className="translation-glimpse">{original.value}</div>
+        <div className="translation-glimpse">{glossaryEntry.value}</div>
         <GraphicalIcon
           icon="chevron-right"
           className="action-icon filter-textColor6"

@@ -13,8 +13,8 @@ en:
         intro_video_text: Watch our "Introduction to Hello, World" video to get started 👇
       source_section:
         title: Source
-        explore_source: Explore the %{source_link}.
-        source_link_text: source of this exercise
+        explore_source_html: >
+          Explore the <a href="%{source_url}" target="_blank" rel="noopener noreferrer">source of this exercise</a>.
       featured_in_2024_section:
         challenge_title: "Part of #48in24"
         challenge_text_html: "%{exercise_title} is featured as part of

@@ -32,6 +32,7 @@ export const RepresenterFeedback = ({
           <Trans
             ns="components/modals/realtime-feedback-modal/feedback-content/found-automated-feedback"
             i18nKey="representerFeedback.gaveFeedbackSimilarSolution"
+            values={{ author: author.name }}
             components={[<strong className="inline-block" />]}
           />
           <EditedBy editor={editor} author={author} />.

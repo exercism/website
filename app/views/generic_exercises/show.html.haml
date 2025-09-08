@@ -43,7 +43,7 @@
                 - elsif source.present?
                   = source
                 - else
-                  = t('.source_section.explore_source', source_link: external_link_to(t('.source_section.source_link_text'), source_url))
+                  %p= t('.source_section.explore_source_html', source_url: source_url).html_safe
 
       .flex-shrink-0{ class: "md:w-[33%]" }
         - if @featured_in_2024_languages

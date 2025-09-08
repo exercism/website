@@ -30,7 +30,7 @@
       - elsif source.present?
         = source
       - else
-        = t('.explore_source_html', link: external_link_to(t('explore_source_link_text'), source_url)).html_safe
+        %p= t('.explore_source_html', source_url: source_url).html_safe
 
 %section.extra-info
   = render ReactComponents::Track::ExerciseMakersButton.new(exercise)

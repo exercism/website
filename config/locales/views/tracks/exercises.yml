@@ -117,8 +117,8 @@ en:
           watch_video_prompt: 'Watch our "Introduction to Hello, World" video to get started 👇'
           instructions_heading: "Instructions"
           source_heading: "Source"
-          explore_source_html: "Explore the %{link}."
-          explore_source_link_text: "source of this exercise"
+          explore_source_html: >
+            Explore the <a href="%{source_url}" target="_blank" rel="noopener noreferrer">source of this exercise</a>.
           edit_via_github: "Edit via GitHub"
           new_window_icon_alt: "The link opens in a new window or tab"
         action_box_complete:

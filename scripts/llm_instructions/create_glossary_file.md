@@ -1,10 +1,10 @@
 # Instructions for Creating a Glossary Translation File
 
-You are tasked with creating a translation file for the Exercism glossary. You will be provided with the source glossary file (`i18n_GLOSSARY.tsv`) and need to create a translated version for a specific locale.
+You are tasked with creating a translation file for the Exercism glossary. You will be provided with the source glossary file (`i18n/glossary_base.tsv`) and need to create a translated version for a specific locale.
 
 ## Input
 
-- Source file: `i18n_GLOSSARY.tsv`
+- Source file: `i18n/glossary_base.tsv`
 - Target locale: [LOCALE_CODE] (e.g., `hu` for Hungarian, `es` for Spanish, `fr` for French, etc.)
 
 ## Output

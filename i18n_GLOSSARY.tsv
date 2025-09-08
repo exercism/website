@@ -1,0 +1,46 @@
+term	llm_instructions
+track	Exercism uses 'track' to mean a pathway through content for a specific programming language. Each track contains exercises and concepts for that language. Use the word for "pathway" or "course" in the target language. If "track" translates naturally and is commonly used for learning paths, use that. Otherwise use the equivalent of "course" or "learning path"
+exercise	A coding problem that students solve to practice programming skills. These are like homework exercises in school. Translate as a practice problem or training task. Avoid translations that mean physical exercise
+solution	The code submitted by a student to solve an exercise. This is their answer to the problem. Use the term commonly used for code submissions or homework answers in educational contexts
+iteration	Each time a student submits updated code for an exercise, it creates a new iteration. This is a version of their solution. Use the term for version, revision, or iteration that is commonly used in software development contexts
+mentor	An experienced volunteer who provides feedback on student solutions to help them improve. Use the standard translation for mentor/tutor/coach who guides learning. Choose the term most commonly used for someone who provides educational guidance
+mentoring	The process of providing guidance and feedback to students on their solutions. Use the verb form of mentor/tutor/coach. This should be consistent with how you translate 'mentor'
+student	A person learning programming through Exercism exercises. Use the standard term for student or learner in educational contexts
+discussion	A conversation between a mentor and student about a solution, where feedback is given and questions are answered. Use the term for educational discussion or dialogue
+feedback	Comments and suggestions provided by mentors or automated systems to help improve solutions. Use the standard term for constructive feedback in educational contexts
+testimonial	A review or recommendation written by a student about their mentor. Use the term for testimonial, review, or recommendation that is commonly used for endorsements
+contributor	Someone who helps build and improve Exercism by creating exercises, fixing bugs, or improving content. Use the standard term for contributor or collaborator in open-source projects
+contribution	Work done to improve Exercism, such as creating exercises or fixing bugs. Use the noun form that matches your translation of 'contributor'
+maintainer	Someone who has responsibility for managing and overseeing a track or part of Exercism. Use the term commonly used for project maintainers in software development
+author	Someone who creates original content like exercises, concepts, or approaches. Use the standard term for author or creator of educational content
+reputation	Reputation points are awarded to contributors for improving Exercism. Someone's total points are known as their 'reputation'. Use the standard term for reputation, standing, or prestige in the community. Avoid terms that only mean "points" or "score"
+badge	An achievement badge earned for accomplishments on Exercism like completing exercises or contributing. Use the term for achievement badge or award commonly used in gamification or educational achievement systems
+trophy	Special achievements earned within a specific track for completing challenges. Similar to badges but track-specific. Use a term that distinguishes these from general badges, perhaps using the word for trophy or special achievement
+concept	A fundamental programming idea or principle that is taught through exercises (like loops, recursion, or classes). Use the educational term for concept or fundamental principle
+approach	Different ways to solve an exercise, showing various techniques and patterns. Use the term for approach, method, or technique in problem-solving contexts
+article	Educational content that provides deeper learning about programming topics related to exercises. Use the standard term for educational article or written lesson
+syllabus	The structured learning path showing the order of concepts and exercises in a track. Use the standard educational term for syllabus or curriculum
+community	The collective group of students, mentors, and contributors who make up Exercism. Use the standard term for community or collective in online contexts
+submission	The act of sending your solution to Exercism for testing and feedback. Use the term for submission or turning in work in educational contexts
+complete	To finish an exercise successfully by passing all tests. Use the verb for completing or finishing a task successfully
+unlock	To gain access to new exercises or features by meeting certain requirements. Use the term for unlocking or gaining access that is commonly used in gamified systems
+progress	Advancement through exercises and tracks, measuring learning achievement. Use the standard term for progress or advancement in educational contexts
+fluency	The goal of developing natural, confident programming ability in a language. Use the term for fluency or proficiency in language learning contexts
+journey	A user's personal learning path and history on Exercism. Use a term that conveys personal progression or learning journey
+analyzer	An automated tool that analyzes code and provides feedback on common patterns and improvements. Use a technical term that conveys automated code analysis
+representer	A tool that normalizes code to identify common patterns across solutions. Use a technical term that conveys code representation or normalization
+test runner	The system that executes tests against submitted solutions to check if they work correctly. Use the technical term for test execution system or test runner
+automated feedback	Feedback generated automatically by the analyzer tool rather than by human mentors. Use terms that clearly indicate this is machine-generated feedback
+practice exercise	An exercise designed to practice skills, not tied to teaching specific concepts. Use terms that distinguish practice/training from concept-teaching exercises
+learning exercise	An exercise specifically designed to teach a new concept. Use terms that emphasize the educational/teaching aspect
+CLI	The command-line interface tool used to download exercises and submit solutions. Keep as CLI or use the standard translation for command-line interface
+dashboard	The main page showing your progress, current exercises, and mentoring activity. Use the standard term for dashboard or control panel in web applications
+forum	The discussion board where the community can ask questions and share knowledge. Use the standard term for online forum or discussion board
+blog	Articles and posts about Exercism updates, features, and community stories. Use the standard term for blog if commonly used, otherwise use online journal or news section
+profile	Your public page showing your solutions, contributions, and achievements. Use the standard term for user profile in web applications
+settings	The page where you configure your account preferences and options. Use the standard term for settings or preferences in software applications
+notification	Messages alerting you to new feedback, replies, or other activity. Use the standard term for notifications or alerts in web applications
+request help	To ask for a mentor to review your solution and provide guidance. Use the phrase for requesting assistance or asking for help in educational contexts
+publish	To make your solution publicly visible for others to learn from. Use the term for publishing or making public in online contexts
+comment	To leave feedback or thoughts on someone's published solution. Use the verb for commenting or leaving feedback on online content
+approve	When a mentor marks a solution as good enough to complete the exercise. Use the term for approval or validation in educational assessment

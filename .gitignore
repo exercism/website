@@ -58,3 +58,6 @@ config/settings.local.yml
 
 app/javascript/i18n/.env
 vendor/bundle/
+
+# Claude files
+.claude/

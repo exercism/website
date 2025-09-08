@@ -7,6 +7,8 @@ class CreateLocalizationGlossaryEntries < ActiveRecord::Migration[7.1]
       t.text :llm_instructions, null: false
 
       t.timestamps
+      
+      t.index [:locale, :term], unique: true
     end
   end
 end

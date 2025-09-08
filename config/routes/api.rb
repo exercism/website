@@ -129,7 +129,7 @@ namespace :api do
         end
       end
 
-      resources :glossary_entries, only: %i[index show] do
+      resources :glossary_entries, only: %i[index show create] do
         resources :proposals, only: %i[create update], controller: "glossary_entry_proposals" do
           patch :approve, on: :member
           patch :reject, on: :member

@@ -6,7 +6,7 @@ class Localization::Text::AddToLocalization
   def call
     original.tap do
       trigger_priority_locale!
-      Localization::Text::TranslateToAllLocales.defer(original)
+      Localization::Original::TranslateToAllLocales.defer(original)
     end
   end
 

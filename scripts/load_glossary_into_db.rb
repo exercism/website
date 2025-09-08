@@ -2,7 +2,7 @@
 
 require "csv"
 
-TSV_FILE = Rails.root.join("i18n_GLOSSARY.tsv")
+TSV_FILE = Rails.root.join("i18n/glossary_base.tsv")
 
 def import_glossary
   puts "📂 Importing glossary terms from #{TSV_FILE}"

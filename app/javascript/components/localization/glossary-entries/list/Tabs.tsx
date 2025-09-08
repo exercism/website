@@ -12,7 +12,7 @@ const TABS = [
 export function Tabs() {
   const { request, setQuery } = React.useContext(GlossaryEntriesListContext)
   return (
-    <div className="flex items-center tabs mb-16">
+    <div className="flex items-center tabs mb-0">
       {TABS.map((tab) => (
         <button
           key={tab.label}

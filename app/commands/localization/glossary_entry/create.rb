@@ -10,5 +10,7 @@ class Localization::GlossaryEntry::Create
       translation:,
       llm_instructions:
     )
+  rescue ActiveRecord::RecordNotUnique
+    Localization::GlossaryEntry.find_by!(locale:, term:)
   end
 end

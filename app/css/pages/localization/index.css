@@ -1,8 +1,6 @@
 #page-localization-index {
     .originals-table {
         .tabs {
-            @apply mb-20;
-
             @apply flex items-center;
             @apply flex-grow;
 
@@ -48,7 +46,8 @@
             }
         }
 
-        .original {
+        .original,
+        .glossary-entry {
             @apply border-backgroundColorC border-t-1;
             @apply flex items-center gap-20;
             @apply py-8 px-20;
@@ -86,7 +85,8 @@
             }
 
             .info {
-                .original-key {
+                .original-key,
+                .glossary-entry-key {
                     @apply flex items-center;
                     @apply font-medium text-16 text-textColor2 leading-160;
                     width: 300px;
@@ -94,7 +94,8 @@
                     white-space: nowrap;
                     text-overflow: ellipsis;
                 }
-                .original-uuid {
+                .original-uuid,
+                .glossary-entry-uuid {
                     @apply text-14 text-textColor6 leading-150;
                 }
             }

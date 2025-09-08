@@ -19,7 +19,11 @@ export function Table() {
 
   return (
     <div className="originals-table">
-      <Tabs />
+      <div className="flex items-center justify-between mb-16">
+        <Tabs />
+        <AddTermButton />
+      </div>
+
       <div className="container">
         <header className="c-search-bar">
           <SearchInput
@@ -32,4 +36,8 @@ export function Table() {
       </div>
     </div>
   )
+}
+
+function AddTermButton({}) {
+  return <button className="btn btn-primary btn-m">+ Add Term</button>
 }

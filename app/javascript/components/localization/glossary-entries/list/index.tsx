@@ -4,18 +4,21 @@ import { usePaginatedRequestQuery } from '@/hooks/request-query'
 import { useList } from '@/hooks/use-list'
 import { removeEmpty, useHistory } from '@/hooks/use-history'
 import { Table } from './Table'
+import { useLogger } from '@/hooks'
 
 export const GlossaryEntriesListContext =
   createContext<GlossaryEntriesListContextType>(
     {} as GlossaryEntriesListContextType
   )
-const CACHE_KEY = 'localization-originals-list'
+const CACHE_KEY = 'localization-glossary-entries-list'
 export default function GlossaryEntriesList({
-  originals,
+  glossaryEntries,
   links,
-  request: originalsRequest,
+  request: glossaryEntriesRequest,
 }: GlossaryEntriesListProps) {
-  const { request, setCriteria, setPage, setQuery } = useList(originalsRequest)
+  const { request, setCriteria, setPage, setQuery } = useList(
+    glossaryEntriesRequest
+  )
   const {
     status,
     error,
@@ -25,12 +28,14 @@ export default function GlossaryEntriesList({
     request
   )
 
+  useLogger('data', resolvedData)
+
   useHistory({ pushOn: removeEmpty(request.query) })
 
   return (
     <GlossaryEntriesListContext.Provider
       value={{
-        originals,
+        glossaryEntries,
         request,
         setQuery,
         resolvedData,

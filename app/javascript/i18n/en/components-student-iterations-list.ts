@@ -23,7 +23,7 @@ export default {
   'information.backup': 'Backup',
   'representerFeedback.gaveFeedback':
     '<strong>{{authorName}}</strong> gave this feedback on a solution very similar to yours',
-  'representerFeedback.editedBy': '(edited by <strong>{{editorName}}</strong>)',
+  'representerFeedback.editedBy': 'edited by <strong>{{editorName}}</strong>',
   'testsInformation.unableToFetchTestRun': 'Unable to fetch test run',
   'emptyIterations.noIterations': "You haven't submitted any iterations yet.",
   'emptyIterations.iterationsWillAppear':

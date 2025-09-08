@@ -68,10 +68,10 @@ export default function PronounsForm({
         <Trans
           i18nKey="pronounsForm.instructions"
           ns="components/settings/PronounsForm.tsx"
-          components={{
-            strong: <strong />,
-            link: <a href={links.info} target="_blank" rel="noreferrer" />,
-          }}
+          components={[
+            <strong />,
+            <a href={links.info} target="_blank" rel="noreferrer" />,
+          ]}
         />
       </div>
       <div className="testimonial">

@@ -43,7 +43,6 @@ export const CommitStep = ({
           accept_terms: true,
         }),
       })
-
       return fetch
     },
     onSuccess: () => {
@@ -54,16 +53,10 @@ export const CommitStep = ({
   const { t } = useAppTranslation('components/modals/mentor-registration-modal')
 
   const [numChecked, setNumChecked] = useState(0)
-  const handleChange = useCallback(
-    (e) => {
-      if (e.target.checked) {
-        setNumChecked(numChecked + 1)
-      } else {
-        setNumChecked(numChecked - 1)
-      }
-    },
-    [numChecked]
-  )
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const { checked } = e.target
+    setNumChecked((prev) => (checked ? prev + 1 : prev - 1))
+  }, [])
 
   const handleSubmit = useCallback(() => {
     mutation()
@@ -75,47 +68,60 @@ export const CommitStep = ({
         <h2>{t('commitStep.title')}</h2>
         <p>{t('commitStep.description')}</p>
         <ReputationInfo />
+
         <div className="commitment">
           <h3>{t('commitStep.youAgreeTo')}</h3>
 
           <Checkbox onChange={handleChange}>
-            <Trans
-              ns="components/modals/mentor-registration-modal"
-              i18nKey="commitStep.codeOfConduct"
-              components={{
-                a: (
+            <span>
+              <Trans
+                ns="components/modals/mentor-registration-modal"
+                i18nKey="commitStep.codeOfConduct"
+                components={[
                   <a
+                    key="link"
                     href={links.codeOfConduct}
                     target="_blank"
                     rel="noreferrer"
-                  />
-                ),
-                icon: <Icon icon="external-link" alt="Opens in a new tab" />,
-              }}
-            />
+                  />,
+                  <Icon
+                    key="icon"
+                    icon="external-link"
+                    alt="Opens in a new tab"
+                  />,
+                ]}
+              />
+            </span>
           </Checkbox>
 
-          <Checkbox onChange={handleChange}>{t('commitStep.beKind')}</Checkbox>
+          <Checkbox onChange={handleChange}>
+            <span>{t('commitStep.beKind')}</span>
+          </Checkbox>
 
           <Checkbox onChange={handleChange}>
-            <Trans
-              ns="components/modals/mentor-registration-modal"
-              i18nKey="commitStep.intellectualHumility"
-              components={{
-                a: (
+            <span>
+              <Trans
+                ns="components/modals/mentor-registration-modal"
+                i18nKey="commitStep.intellectualHumility"
+                components={[
                   <a
+                    key="link"
                     href={links.intellectualHumility}
                     target="_blank"
                     rel="noreferrer"
-                  />
-                ),
-                icon: <Icon icon="external-link" alt="Opens in a new tab" />,
-              }}
-            />
+                  />,
+                  <Icon
+                    key="icon"
+                    icon="external-link"
+                    alt="Opens in a new tab"
+                  />,
+                ]}
+              />
+            </span>
           </Checkbox>
 
           <Checkbox onChange={handleChange}>
-            {t('commitStep.noAgendas')}
+            <span>{t('commitStep.noAgendas')}</span>
           </Checkbox>
         </div>
 
@@ -137,10 +143,12 @@ export const CommitStep = ({
             <GraphicalIcon icon="arrow-right" />
           </FormButton>
         </div>
+
         <ErrorBoundary>
           <ErrorMessage error={error} defaultError={DEFAULT_ERROR} />
         </ErrorBoundary>
       </div>
+
       <div className="rhs">
         <GraphicalIcon icon="mentoring-screen" category="graphics" />
       </div>

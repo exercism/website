@@ -3,6 +3,7 @@
 import React from 'react'
 import { TrackSelector } from '../../mentoring/TrackSelector'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 export type Links = {
   tracks: string
@@ -23,7 +24,15 @@ export const ChooseTrackStep = ({
   return (
     <section className="tracks-section">
       <h2>{t('chooseTrackStep.selectTracks')}</h2>
-      <p>{t('chooseTrackStep.allowsUsToShow')}</p>
+      <p>
+        {
+          <Trans
+            i18nKey="chooseTrackStep.allowsUsToShow"
+            ns="components/modals/mentor-registration-modal"
+            components={[<strong />]}
+          />
+        }
+      </p>
       <TrackSelector
         tracksEndpoint={links.tracks}
         selected={selected}

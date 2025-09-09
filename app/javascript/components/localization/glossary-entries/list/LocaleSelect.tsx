@@ -33,9 +33,7 @@ const LocaleOption = ({
 export function LocaleSelect() {
   // ["hu", "de"] etc
   const { translationLocales } = useContext(GlossaryEntriesListContext)
-  const [selectedLocale, setSelectedLocale] = useState<string>(
-    translationLocales[0] || ''
-  )
+  const [selectedLocale, setSelectedLocale] = useState<string>('')
 
   const {
     buttonAttributes,
@@ -44,7 +42,7 @@ export function LocaleSelect() {
     itemAttributes,
     setOpen,
     open,
-  } = useDropdown(translationLocales.length, (i) => handleItemSelect(i), {
+  } = useDropdown(translationLocales.length + 1, (i) => handleItemSelect(i), {
     placement: 'bottom',
     modifiers: [
       {
@@ -58,9 +56,13 @@ export function LocaleSelect() {
 
   const handleItemSelect = useCallback(
     (index: number) => {
-      const locale = translationLocales[index]
-      if (locale) {
-        setSelectedLocale(locale)
+      if (index === 0) {
+        setSelectedLocale('')
+      } else {
+        const locale = translationLocales[index - 1]
+        if (locale) {
+          setSelectedLocale(locale)
+        }
       }
       setOpen(false)
     },
@@ -78,8 +80,12 @@ export function LocaleSelect() {
         aria-label="Open the locale filter"
         {...buttonAttributes}
       >
-        <div className="track-title">{nameForLocale(selectedLocale)}</div>
-        <span className="flag">{flagForLocale(selectedLocale)}</span>
+        <div className="track-title">
+          {selectedLocale ? nameForLocale(selectedLocale) : 'All'}
+        </div>
+        {selectedLocale && (
+          <span className="flag">{flagForLocale(selectedLocale)}</span>
+        )}
         <Icon
           icon="chevron-down"
           alt="Click to change locale"
@@ -89,9 +95,25 @@ export function LocaleSelect() {
       {open ? (
         <div {...panelAttributes} className="--options">
           <ul {...listAttributes}>
+            <li key="all" {...itemAttributes(0)}>
+              <label className="c-radio-wrapper">
+                <input
+                  type="radio"
+                  onChange={() => {
+                    setSelectedLocale('')
+                    setOpen(false)
+                  }}
+                  checked={selectedLocale === ''}
+                  name="locale_filter"
+                />
+                <div className="row gap-8">
+                  <div className="title">All</div>
+                </div>
+              </label>
+            </li>
             {translationLocales.map((locale, i) => {
               return (
-                <li key={locale} {...itemAttributes(i)}>
+                <li key={locale} {...itemAttributes(i + 1)}>
                   <LocaleOption
                     locale={locale}
                     onChange={() => {

@@ -206,13 +206,13 @@ function ProposalActions({
         const { fetch } = sendRequest({
           method: 'PATCH',
           endpoint: links.approveProposal
-            .replace('TRANSLATION_ID', translationUuid)
-            .replace('PROPOSAL_ID', proposalUuid),
+            .replace('GLOSSARY_ENTRY_ID', translationUuid)
+            .replace('ID', proposalUuid),
           body: null,
         })
 
         await fetch
-        redirectTo(links.originalsListPage)
+        redirectTo(links.glossaryEntriesListPage)
       } catch (err) {
         console.error(err)
       }
@@ -226,13 +226,13 @@ function ProposalActions({
         const { fetch } = sendRequest({
           method: 'PATCH',
           endpoint: links.updateProposal
-            .replace('TRANSLATION_ID', translationUuid)
-            .replace('PROPOSAL_ID', proposalUuid),
+            .replace('GLOSSARY_ENTRY_ID', translationUuid)
+            .replace('ID', proposalUuid),
           body: JSON.stringify({ value: proposalValue }),
         })
 
         await fetch
-        redirectTo(links.originalsListPage)
+        redirectTo(links.glossaryEntriesListPage)
       } catch (err) {
         console.error(err)
       }
@@ -246,13 +246,13 @@ function ProposalActions({
         const { fetch } = sendRequest({
           method: 'PATCH',
           endpoint: links.rejectProposal
-            .replace('TRANSLATION_ID', translationUuid)
-            .replace('PROPOSAL_ID', proposalUuid),
+            .replace('GLOSSARY_ENTRY_ID', translationUuid)
+            .replace('ID', proposalUuid),
           body: null,
         })
 
         await fetch
-        redirectTo(links.originalsListPage)
+        redirectTo(links.glossaryEntriesListPage)
       } catch (err) {
         console.error(err)
       }

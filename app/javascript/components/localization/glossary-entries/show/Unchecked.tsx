@@ -1,3 +1,4 @@
+/// <reference path="../types.d.ts" />
 import React, { useCallback, useContext, useState } from 'react'
 import { nameForLocale } from '@/utils/name-for-locale'
 import { flagForLocale } from '@/utils/flag-for-locale'
@@ -5,11 +6,13 @@ import { sendRequest } from '@/utils/send-request'
 import { GlossaryEntriesShowContext } from '.'
 import { redirectTo } from '@/utils'
 
-export function Unchecked({ translation }: { translation: Translation }) {
+export function Unchecked({ translation }: { translation: GlossaryEntry }) {
   const { links } = useContext(GlossaryEntriesShowContext)
   const [editMode, setEditMode] = useState(false)
-  const [copy, setCopy] = useState(translation.value)
-  const [textEditorValue, setTextEditorValue] = useState(translation.value)
+  const [copy, setCopy] = useState(translation.translation)
+  const [textEditorValue, setTextEditorValue] = useState(
+    translation.translation
+  )
 
   const updateCopy = useCallback(() => {
     if (textEditorValue !== copy) {
@@ -23,18 +26,23 @@ export function Unchecked({ translation }: { translation: Translation }) {
       const { fetch } = sendRequest({
         method: 'POST',
         endpoint: links.createProposal.replace(
-          'TRANSLATION_ID',
+          'GLOSSARY_ENTRY_ID',
           translation.uuid
         ),
         body: JSON.stringify({ value: copy }),
       })
 
       await fetch
-      redirectTo(links.originalsListPage)
+      redirectTo(links.glossaryEntriesListPage)
     } catch (err) {
       console.error(err)
     }
-  }, [links.createProposal, translation.uuid, copy, links.originalsListPage])
+  }, [
+    links.createProposal,
+    translation.uuid,
+    copy,
+    links.glossaryEntriesListPage,
+  ])
 
   const cancelEditing = useCallback(() => {
     setTextEditorValue(copy)
@@ -42,8 +50,8 @@ export function Unchecked({ translation }: { translation: Translation }) {
   }, [copy])
 
   const resetChanges = useCallback(() => {
-    setCopy(translation.value)
-    setTextEditorValue(translation.value)
+    setCopy(translation.translation)
+    setTextEditorValue(translation.translation)
   }, [])
 
   return (
@@ -92,7 +100,7 @@ export function Unchecked({ translation }: { translation: Translation }) {
               >
                 Edit Translation
               </button>
-              {copy !== translation.value && (
+              {copy !== translation.translation && (
                 <button onClick={resetChanges} className="btn-s btn-default">
                   Reset changes
                 </button>

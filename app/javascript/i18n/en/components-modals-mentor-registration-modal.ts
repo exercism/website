@@ -4,9 +4,9 @@ export default {
   'commitStep.description':
     "Mentoring on Exercism can be an incredible experience for students and mentors alike. To ensure it remains a positive place for everyone, we ask all mentors to affirm Exercism's values before they mentor their first solution.",
   'commitStep.youAgreeTo': 'You agree to:',
+  'commitStep.codeOfConduct': 'Abide by the <0>Code of Conduct <1/></0>',
   'commitStep.beKind':
     "Be patient, empathic and kind to those you're mentoring",
-  'commitStep.codeOfConduct': 'Abide by the <0>Code of Conduct <1/></0>',
   'commitStep.intellectualHumility':
     'Demonstrate <0>intellectual humility <1/></0>',
   'commitStep.noAgendas': 'Not use Exercism to promote personal agendas',

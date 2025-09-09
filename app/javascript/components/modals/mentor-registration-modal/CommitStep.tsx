@@ -43,7 +43,6 @@ export const CommitStep = ({
           accept_terms: true,
         }),
       })
-
       return fetch
     },
     onSuccess: () => {
@@ -74,49 +73,55 @@ export const CommitStep = ({
           <h3>{t('commitStep.youAgreeTo')}</h3>
 
           <Checkbox onChange={handleChange}>
-            <Trans
-              ns="components/modals/mentor-registration-modal"
-              i18nKey="commitStep.codeOfConduct"
-              components={[
-                <a
-                  key="link"
-                  href={links.codeOfConduct}
-                  target="_blank"
-                  rel="noreferrer"
-                />,
-                <Icon
-                  key="icon"
-                  icon="external-link"
-                  alt="Opens in a new tab"
-                />,
-              ]}
-            />
-          </Checkbox>
-
-          <Checkbox onChange={handleChange}>{t('commitStep.beKind')}</Checkbox>
-
-          <Checkbox onChange={handleChange}>
-            <Trans
-              ns="components/modals/mentor-registration-modal"
-              i18nKey="commitStep.intellectualHumility"
-              components={[
-                <a
-                  key="link"
-                  href={links.intellectualHumility}
-                  target="_blank"
-                  rel="noreferrer"
-                />,
-                <Icon
-                  key="icon"
-                  icon="external-link"
-                  alt="Opens in a new tab"
-                />,
-              ]}
-            />
+            <span>
+              <Trans
+                ns="components/modals/mentor-registration-modal"
+                i18nKey="commitStep.codeOfConduct"
+                components={[
+                  <a
+                    key="link"
+                    href={links.codeOfConduct}
+                    target="_blank"
+                    rel="noreferrer"
+                  />,
+                  <Icon
+                    key="icon"
+                    icon="external-link"
+                    alt="Opens in a new tab"
+                  />,
+                ]}
+              />
+            </span>
           </Checkbox>
 
           <Checkbox onChange={handleChange}>
-            {t('commitStep.noAgendas')}
+            <span>{t('commitStep.beKind')}</span>
+          </Checkbox>
+
+          <Checkbox onChange={handleChange}>
+            <span>
+              <Trans
+                ns="components/modals/mentor-registration-modal"
+                i18nKey="commitStep.intellectualHumility"
+                components={[
+                  <a
+                    key="link"
+                    href={links.intellectualHumility}
+                    target="_blank"
+                    rel="noreferrer"
+                  />,
+                  <Icon
+                    key="icon"
+                    icon="external-link"
+                    alt="Opens in a new tab"
+                  />,
+                ]}
+              />
+            </span>
+          </Checkbox>
+
+          <Checkbox onChange={handleChange}>
+            <span>{t('commitStep.noAgendas')}</span>
           </Checkbox>
         </div>
 

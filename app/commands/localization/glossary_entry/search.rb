@@ -23,7 +23,9 @@ class Localization::GlossaryEntry::Search
     filter_criteria!
     filter_status!
 
-    paginated_glossary_entries = @glossary_entries.page(page).per(per)
+    paginated_glossary_entries = @glossary_entries.
+      order(:locale, :term).
+      page(page).per(per)
 
     Kaminari.paginate_array(
       paginated_glossary_entries,

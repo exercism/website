@@ -1,12 +1,9 @@
 require 'test_helper'
 
 class Localization::GlossaryEntryProposal::CreateAdditionTest < ActiveSupport::TestCase
-  setup do
-    # Sometimes stub.
-    Localization::GlossaryEntryProposal::VerifyWithLLM.define_singleton_method(:call) { |proposal| }
-  end
-
   test "proposal gets created" do
+    Localization::GlossaryEntryProposal::VerifyWithLLM.stubs(:defer)
+
     term = "example_term"
     locale = "hu"
     translation = "New translation"

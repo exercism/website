@@ -1,6 +1,6 @@
 type GlossaryEntriesListContextType = Pick<
   GlossaryEntriesListProps,
-  'links' | 'glossaryEntries'
+  'links' | 'glossaryEntries' | 'translationLocales'
 > & {
   setCriteria: (criteria: string) => void
   setPage: (page: number) => void
@@ -47,6 +47,7 @@ type GlossaryEntriesListData = {
 
 type GlossaryEntriesListProps = {
   glossaryEntries: GlossaryEntry[]
+  translationLocales: string[]
   request: {
     endpoint: string
     query?: Record<string, any>

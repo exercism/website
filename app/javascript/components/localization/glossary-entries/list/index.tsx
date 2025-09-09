@@ -13,6 +13,7 @@ export const GlossaryEntriesListContext =
 const CACHE_KEY = 'localization-glossary-entries-list'
 export default function GlossaryEntriesList({
   glossaryEntries,
+  translationLocales,
   links,
   request: glossaryEntriesRequest,
 }: GlossaryEntriesListProps) {
@@ -45,6 +46,7 @@ export default function GlossaryEntriesList({
         isFetching: true,
         status,
         error,
+        translationLocales,
       }}
     >
       <Table />

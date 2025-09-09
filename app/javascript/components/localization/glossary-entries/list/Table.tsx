@@ -7,6 +7,7 @@ import { Tabs } from './Tabs'
 import { Modal } from '@/components/modals'
 import { sendRequest } from '@/utils/send-request'
 import { Toaster, toast } from 'react-hot-toast'
+import { LocaleSelect } from './LocaleSelect'
 
 export function Table() {
   const { setCriteria, request } = React.useContext(GlossaryEntriesListContext)
@@ -34,12 +35,14 @@ export function Table() {
       </div>
 
       <div className="container">
-        <header className="c-search-bar">
+        <header className="c-search-bar flex items-center justify-between">
           <SearchInput
             setFilter={setInputValue}
             filter={inputValue}
             placeholder="Search for translation"
           />
+
+          <LocaleSelect />
         </header>
         <GlossaryEntriesTableList />
       </div>

@@ -73,8 +73,8 @@ export function Unchecked({ translation }: { translation: GlossaryEntry }) {
 
         {editMode ? (
           <textarea
-            className="local-value mb-12 w-full"
-            rows={12}
+            className="mb-12 w-full p-16"
+            rows={1}
             value={textEditorValue}
             onChange={(e) => setTextEditorValue(e.target.value)}
           />
@@ -83,12 +83,15 @@ export function Unchecked({ translation }: { translation: GlossaryEntry }) {
         )}
 
         {editMode ? (
-          <div className="buttons flex gap-8">
-            <button onClick={updateCopy} className="btn-s btn-default">
-              Update
-            </button>
+          <div
+            className="buttons flex gap-8"
+            style={{ justifyContent: 'flex-start' }}
+          >
             <button onClick={cancelEditing} className="btn-s btn-default">
               Cancel
+            </button>
+            <button onClick={updateCopy} className="btn-s btn-default">
+              Update
             </button>
           </div>
         ) : (

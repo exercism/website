@@ -3,6 +3,7 @@ import { GraphicalIcon } from '@/components/common'
 import { GlossaryEntriesListContext } from '.'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import { flagForLocale } from '@/utils/flag-for-locale'
+import { useLogger } from '@/components/bootcamp/common/hooks/useLogger'
 
 export function GlossaryEntriesTableListElement({
   glossaryEntry,
@@ -10,20 +11,28 @@ export function GlossaryEntriesTableListElement({
   glossaryEntry: GlossaryEntry
 }) {
   const { links } = React.useContext(GlossaryEntriesListContext)
+  useLogger('glossaryEntry', glossaryEntry)
   return (
     <a
       href={links?.localizationGlossaryEntriesPath + '/' + glossaryEntry.uuid}
       className="glossary-entry"
     >
       <div className="info">
-        <div className="glossary-entry-key">{glossaryEntry.key}</div>
-        <div className="glossary-entry-uuid">{glossaryEntry.prettyType}</div>
+        <div className="glossary-entry-key w-[600px]">
+          {glossaryEntry.term} → {glossaryEntry.translation}
+        </div>
+        {/* <div className="glossary-entry-uuid">{glossaryEntry.uuid}</div> */}
       </div>
 
-      <TranslationsWithStatus translations={glossaryEntry.translations} />
+      <TranslationsWithStatus
+        locale={glossaryEntry.locale}
+        status={glossaryEntry.status}
+      />
 
       <div className="rhs">
-        <div className="translation-glimpse">{glossaryEntry.value}</div>
+        <div className="translation-glimpse">
+          {glossaryEntry.llmInstructions}
+        </div>
         <GraphicalIcon
           icon="chevron-right"
           className="action-icon filter-textColor6"
@@ -34,23 +43,17 @@ export function GlossaryEntriesTableListElement({
 }
 
 export function TranslationsWithStatus({
-  translations,
+  locale,
+  status,
 }: {
-  translations: Original['translations']
+  locale: string
+  status: 'unchecked' | 'approved' | 'rejected'
 }) {
   return (
     <div className="translations-statuses">
-      {translations.map((translation) => (
-        <div
-          className={assembleClassNames(
-            'translation-status',
-            translation.status
-          )}
-          key={translation.uuid}
-        >
-          {flagForLocale(translation.locale)}
-        </div>
-      ))}
+      <div className={assembleClassNames('translation-status', status)}>
+        {flagForLocale(locale)}
+      </div>
     </div>
   )
 }

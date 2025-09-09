@@ -7,39 +7,20 @@ import React, {
 } from 'react'
 import { flagForLocale } from '@/utils/flag-for-locale'
 import { nameForLocale } from '@/utils/name-for-locale'
-import { sendRequest } from '@/utils/send-request'
-import { redirectTo } from '@/utils'
 import { ProposalDescription } from './ProposalDescription'
 import { FeedbackBlock } from './FeedbackBlock'
 import { GlossaryEntriesShowContext } from '..'
-
-export type LLMFeedback = {
-  result: 'approved' | 'rejected'
-  reason: string
-}
-
-export type Proposal = {
-  uuid: string
-  value: string
-  proposerId: string | number
-  modifiedFromLLM?: boolean
-  llmFeedback?: LLMFeedback | null
-  reviewerId?: string | number | null
-}
-
-type Translation = {
-  status: 'proposed'
-  locale: string
-  proposals: Proposal[]
-  uuid: string
-}
+import { sendRequest } from '@/utils/send-request'
+import { redirectTo } from '@/utils'
 
 type ProposedProps = {
-  translation: Translation
+  uuid: string
+  locale: string
+  translation: string
+  status: string
+  llmInstructions: string
+  proposals: Proposal[]
   currentUserId: string | number
-  onApproveProposal: (params: { locale: string; proposalIndex: number }) => void
-  onRejectProposal: (params: { locale: string; proposalIndex: number }) => void
-  onEditProposal: (params: { locale: string; proposalIndex: number }) => void
 }
 
 type ProposalCardContextType = {
@@ -62,9 +43,7 @@ api_localization_translation_proposal             PATCH    /api/v2/localization/
 // Approve: PATCH approve_api_localization_translation_proposal
 // Reject: PATCH reject_api_localization_translation_proposal
 // after editing Update proposal: PATCH api_localization_translation_proposal
-export function Proposed({ translation }: ProposedProps) {
-  const { locale, proposals } = translation
-
+export function Proposed({ uuid, locale, proposals }: ProposedProps) {
   return (
     <section className="locale proposed">
       <TranslationHeader locale={locale} />
@@ -85,7 +64,7 @@ export function Proposed({ translation }: ProposedProps) {
               proposal={proposal}
               locale={locale}
               isMultiple={proposals.length > 1}
-              translationUuid={translation.uuid}
+              translationUuid={uuid}
             />
           ))}
         </div>
@@ -125,12 +104,12 @@ function ProposalCard({
     : ''
 
   const [editMode, setEditMode] = useState(false)
-  const [proposalValue, setProposalValue] = useState(proposal.value)
-  const [editorValue, setEditorValue] = useState(proposal.value)
+  const [proposalValue, setProposalValue] = useState(proposal.translation)
+  const [editorValue, setEditorValue] = useState(proposal.translation)
 
   const hasBeenEdited = useMemo(() => {
-    return proposalValue !== proposal.value
-  }, [proposalValue])
+    return proposalValue !== proposal.translation
+  }, [proposalValue, proposal.translation])
 
   const onSaveEditing = useCallback(() => {
     setProposalValue(editorValue)
@@ -142,21 +121,19 @@ function ProposalCard({
   }, [proposalValue])
 
   const onResetChanges = useCallback(() => {
-    setEditorValue(proposal.value)
-    setProposalValue(proposal.value)
-  }, [])
+    setEditorValue(proposal.translation)
+    setProposalValue(proposal.translation)
+  }, [proposal.translation])
 
   return (
     <ProposalCardContext.Provider value={{ editMode, setEditMode }}>
       <div className={cardClasses}>
-        {!isMultiple && (
-          <ProposalDescription proposal={proposal} locale={locale} />
-        )}
+        {!isMultiple && <ProposalDescription locale={locale} />}
 
         {editMode ? (
           <textarea
-            className="local-value mb-12 w-full"
-            rows={12}
+            className="local-value mb-12 p-16 w-full"
+            rows={1}
             value={editorValue}
             onChange={(e) => setEditorValue(e.target.value)}
           />
@@ -332,11 +309,11 @@ function ProposalActions({
 function EditActions({ onSave, onCancel }) {
   return (
     <div className="flex gap-8 items-center">
-      <button type="button" className="btn-s btn-primary" onClick={onSave}>
-        Save
-      </button>
       <button type="button" className="btn-s btn-default" onClick={onCancel}>
         Cancel
+      </button>
+      <button type="button" className="btn-s btn-primary" onClick={onSave}>
+        Save
       </button>
     </div>
   )

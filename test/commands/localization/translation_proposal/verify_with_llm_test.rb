@@ -10,7 +10,7 @@ class Localization::TranslationProposal::VerifyWithLLMTest < ActiveSupport::Test
     translation = create :localization_translation, key: original.key, locale: "en"
     proposal = create :localization_translation_proposal, translation: translation
 
-    expected_endpoint = "localization_verify_llm_proposal?proposal_uuid=#{proposal.uuid}"
+    expected_endpoint = "localization_verify_translation_proposal?proposal_uuid=#{proposal.uuid}"
 
     LLM::ExecGeminiFlash.expects(:call).with do |prompt, endpoint|
       assert_equal expected_endpoint, endpoint

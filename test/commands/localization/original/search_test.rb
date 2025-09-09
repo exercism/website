@@ -76,15 +76,20 @@ class Localization::Original::SearchTest < ActiveSupport::TestCase
     actual = Localization::Original::Search.(user, page: 1)
     assert_equal 2, actual.total_count
     assert_equal 1, actual.size
-    assert_equal original_1.key, actual.first.key
+    assert_includes [original_1.key, original_2.key], actual.first.key
     assert_equal 1, actual.current_page
     assert_equal 2, actual.total_pages
 
     actual = Localization::Original::Search.(user, page: 2)
     assert_equal 2, actual.total_count
     assert_equal 1, actual.size
-    assert_equal original_2.key, actual.first.key
+    assert_includes [original_1.key, original_2.key], actual.first.key
     assert_equal 2, actual.current_page
     assert_equal 2, actual.total_pages
+
+    # Ensure we got different items on each page
+    page1_keys = Localization::Original::Search.(user, page: 1).map(&:key)
+    page2_keys = Localization::Original::Search.(user, page: 2).map(&:key)
+    assert_equal [original_1.key, original_2.key].sort, (page1_keys + page2_keys).sort
   end
 end

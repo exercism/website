@@ -161,6 +161,11 @@ class ActionMailer::TestCase
   end
 end
 
+# We only want to do this once.
+# Each test should then revert their own changes
+# as they run in transactions.
+LoadLocaleIntoDB.()
+
 class ActiveSupport::TestCase
   include FactoryBot::Syntax::Methods
   include ActiveJob::TestHelper
@@ -170,7 +175,6 @@ class ActiveSupport::TestCase
 
   setup do
     # Load i18n data into database before each test
-    LoadLocaleIntoDB.()
     reset_redis!
     reset_rack_attack!
 

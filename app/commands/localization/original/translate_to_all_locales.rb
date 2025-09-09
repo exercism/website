@@ -15,4 +15,7 @@ class Localization::Original::TranslateToAllLocales
   end
 
   def locales = (I18n.available_locales + I18n.wip_locales)
+
+  memoize
+  def existing_locales = original.translations.pluck(:locale).map(&:to_sym)
 end

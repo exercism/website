@@ -26,4 +26,5 @@ class Localization::GlossaryEntryProposal < ApplicationRecord
   def to_param = uuid
   def locale = super || glossary_entry&.locale
   def term = super || glossary_entry&.term
+  def llm_instructions = super || glossary_entry&.llm_instructions
 end

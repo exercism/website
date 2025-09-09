@@ -12,14 +12,27 @@ type GlossaryEntriesListContextType = Pick<
   error?: unknown
 }
 
+type Proposal = {
+  uuid: string
+  type: string
+  status: string
+  term: string
+  translation: string
+  proposerId: string | number
+  llmInstructions: string
+  reviewerId?: string | number | null
+  llmFeedback?: string
+}
+
 type GlossaryEntry = {
   uuid: string
   locale: string
   term: string
   translation: string
-  status: 'unchecked' | 'approved' | 'rejected'
+  status: 'unchecked' | 'approved' | 'rejected' | 'proposed'
   llmInstructions: string
   proposalsCount: number
+  proposals?: Proposal[]
 }
 
 type GlossaryEntriesListData = {

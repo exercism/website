@@ -3,6 +3,8 @@ import React from 'react'
 import Icon from '@/components/common/Icon'
 import { Unchecked } from './Unchecked'
 import { Checked } from './Checked'
+import { Proposed } from './Proposed'
+import { useLogger } from '@/hooks'
 
 export const GlossaryEntriesShowContext =
   React.createContext<GlossaryEntriesShowContextType>(
@@ -53,7 +55,11 @@ function Body() {
 }
 
 function LHS() {
-  const { glossaryEntry } = React.useContext(GlossaryEntriesShowContext)
+  const { glossaryEntry, currentUserId } = React.useContext(
+    GlossaryEntriesShowContext
+  )
+
+  useLogger('render', glossaryEntry)
   return (
     <div className="lhs">
       <div className="translations">
@@ -66,16 +72,40 @@ function LHS() {
           </a>
           .
         </p>
-        {glossaryEntry.status === 'unchecked' && (
-          <Unchecked translation={glossaryEntry} key={glossaryEntry.uuid} />
-        )}
-        {(glossaryEntry.status === 'approved' ||
-          glossaryEntry.status === 'rejected') && (
-          <Checked translation={glossaryEntry} key={glossaryEntry.uuid} />
-        )}
+        {renderShow(glossaryEntry, currentUserId)}
       </div>
     </div>
   )
+}
+
+function renderShow(
+  glossaryEntry: GlossaryEntry,
+  currentUserId: string | number
+) {
+  switch (glossaryEntry.status) {
+    case 'proposed': {
+      return (
+        <Proposed
+          key={glossaryEntry.uuid}
+          uuid={glossaryEntry.uuid}
+          locale={glossaryEntry.locale}
+          translation={glossaryEntry.translation}
+          status={glossaryEntry.status}
+          llmInstructions={glossaryEntry.llmInstructions}
+          proposals={glossaryEntry.proposals || []}
+          currentUserId={currentUserId}
+        />
+      )
+    }
+
+    case 'unchecked': {
+      return <Unchecked key={glossaryEntry.uuid} translation={glossaryEntry} />
+    }
+    case 'approved':
+    case 'rejected': {
+      return <Checked key={glossaryEntry.uuid} translation={glossaryEntry} />
+    }
+  }
 }
 
 function RHS() {

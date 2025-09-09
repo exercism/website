@@ -1,8 +1,9 @@
+/// <reference path="../types.d.ts" />
 import React from 'react'
 import { Icon } from '@/components/common'
 import { nameForLocale } from '@/utils/name-for-locale'
 
-export function Checked({ translation }: { translation: Translation }) {
+export function Checked({ translation }: { translation: GlossaryEntry }) {
   return (
     <div className="locale checked">
       <div className="header">
@@ -23,7 +24,7 @@ export function Checked({ translation }: { translation: Translation }) {
           This translation has been signed off by two translators. No action is
           needed.
         </p>
-        <div className="locale-value mb-12">{translation.value}</div>
+        <div className="locale-value mb-12">{translation.translation}</div>
       </div>
     </div>
   )

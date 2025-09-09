@@ -1,6 +1,6 @@
+/// <reference path="../types.d.ts" />
 import React from 'react'
 import Icon from '@/components/common/Icon'
-import { Proposed } from './Proposed'
 import { Unchecked } from './Unchecked'
 import { Checked } from './Checked'
 
@@ -10,13 +10,13 @@ export const GlossaryEntriesShowContext =
   )
 
 export default function ({
-  original,
+  glossaryEntry,
   currentUserId,
   links,
 }: GlossaryEntriesShowProps) {
   return (
     <GlossaryEntriesShowContext.Provider
-      value={{ original, currentUserId, links }}
+      value={{ glossaryEntry, currentUserId, links }}
     >
       <Header />
       <Body />
@@ -25,17 +25,17 @@ export default function ({
 }
 
 function Header() {
-  const { original, links } = React.useContext(GlossaryEntriesShowContext)
+  const { glossaryEntry, links } = React.useContext(GlossaryEntriesShowContext)
   return (
     <header className="header">
       <div className="lg-container container">
-        <a href={links.originalsListPage} className="close-btn">
+        <a href={links.glossaryEntriesListPage} className="close-btn">
           <Icon icon="close" className="c-icon" alt="Close" />
         </a>
         <div className="info">
-          <div className="intro">You are editing translations for</div>
+          <div className="intro">You are editing glossary entry for</div>
           <div className="key">
-            {original.title} ({original.prettyType})
+            {glossaryEntry.term} ({glossaryEntry.locale})
           </div>
         </div>
       </div>
@@ -53,45 +53,33 @@ function Body() {
 }
 
 function LHS() {
-  const { original } = React.useContext(GlossaryEntriesShowContext)
+  const { glossaryEntry } = React.useContext(GlossaryEntriesShowContext)
   return (
     <div className="lhs">
       <div className="translations">
         <div className="text-h3 mb-6">Your Locales</div>
         <p className="text-16 mb-16 leading-140">
           These are the locales you have opted into help translate. You can{' '}
+          {/* TODO: Add link here */}
           <a href="#" className="c-prominent-link --inline">
             change your locales here
           </a>
           .
         </p>
-        {original.translations.map((translation, index) => {
-          switch (translation.status) {
-            case 'proposed': {
-              return (
-                <Proposed
-                  // @ts-ignore
-                  translation={translation}
-                  key={index}
-                />
-              )
-            }
-
-            case 'unchecked': {
-              return <Unchecked translation={translation} key={index} />
-            }
-            case 'checked': {
-              return <Checked translation={translation} key={index} />
-            }
-          }
-        })}
+        {glossaryEntry.status === 'unchecked' && (
+          <Unchecked translation={glossaryEntry} key={glossaryEntry.uuid} />
+        )}
+        {(glossaryEntry.status === 'approved' ||
+          glossaryEntry.status === 'rejected') && (
+          <Checked translation={glossaryEntry} key={glossaryEntry.uuid} />
+        )}
       </div>
     </div>
   )
 }
 
 function RHS() {
-  const { original } = React.useContext(GlossaryEntriesShowContext)
+  const { glossaryEntry } = React.useContext(GlossaryEntriesShowContext)
   return (
     <div className="rhs">
       <div className="original">
@@ -114,11 +102,11 @@ function RHS() {
           </a>
         </p>
 
-        <h3 className="text-h4 mb-6">The English Version</h3>
-        <div className="locale-value mb-20">{original.value}</div>
+        <h3 className="text-h4 mb-6">The Term</h3>
+        <div className="locale-value mb-20">{glossaryEntry.term}</div>
 
-        <h3 className="text-h4 mb-6">How it's used</h3>
-        <p className="text-16">{original.usageDetails}</p>
+        <h3 className="text-h4 mb-6">LLM Instructions</h3>
+        <p className="text-16">{glossaryEntry.llmInstructions}</p>
       </div>
     </div>
   )

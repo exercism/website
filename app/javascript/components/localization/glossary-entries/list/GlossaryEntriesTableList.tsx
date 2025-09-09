@@ -37,7 +37,6 @@ export function GlossaryEntriesTableList() {
       </div>
       <footer>
         <Pagination
-          disabled={true}
           current={request.query.page || 1}
           total={resolvedData?.meta.totalPages || 1}
           setPage={setPage}

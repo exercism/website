@@ -28,7 +28,7 @@ export default function GlossaryEntriesList({
     request
   )
 
-  useLogger('data', resolvedData)
+  useLogger('data', glossaryEntries)
 
   useHistory({ pushOn: removeEmpty(request.query) })
 

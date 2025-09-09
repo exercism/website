@@ -6,11 +6,12 @@ class API::Localization::GlossaryEntriesProposalsControllerTest < API::BaseTestC
   test "create proposes a new glossary entry" do
     setup_user
     glossary_entry = create :localization_glossary_entry
-    value = "New proposed glossary entry"
+    translation = "New proposed glossary entry"
 
-    Localization::GlossaryEntryProposal::Create.expects(:call).with(glossary_entry, @current_user, value)
+    Localization::GlossaryEntryProposal::CreateModification.expects(:call).with(glossary_entry, @current_user, translation)
 
-    post api_localization_glossary_entry_proposals_path(glossary_entry), params: { value: value }, headers: @headers, as: :json
+    post api_localization_glossary_entry_proposals_path(glossary_entry), params: { translation: translation }, headers: @headers,
+      as: :json
     assert_response :created
 
     expected = { glossary_entry: SerializeLocalizationGlossaryEntry.(glossary_entry, @current_user) }
@@ -68,7 +69,7 @@ class API::Localization::GlossaryEntriesProposalsControllerTest < API::BaseTestC
     new_value = "Updated proposal value"
 
     Localization::GlossaryEntryProposal::Reject.expects(:call).with(proposal, @current_user)
-    Localization::GlossaryEntryProposal::Create.expects(:call).with(glossary_entry, @current_user, new_value)
+    Localization::GlossaryEntryProposal::CreateModification.expects(:call).with(glossary_entry, @current_user, new_value)
 
     patch api_localization_glossary_entry_proposal_path(glossary_entry, proposal), params: { value: new_value }, headers: @headers,
       as: :json

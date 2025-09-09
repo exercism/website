@@ -36,6 +36,6 @@ class API::Localization::OriginalsControllerTest < API::BaseTestCase
     expected = {
       original: SerializeLocalizationOriginal.(original, @current_user)
     }
-    assert_equal expected, JSON.parse(response.body, symbolize_names: true)
+    assert_json_response(expected)
   end
 end

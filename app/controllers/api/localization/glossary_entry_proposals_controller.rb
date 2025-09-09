@@ -3,7 +3,7 @@ class API::Localization::GlossaryEntryProposalsController < API::BaseController
   before_action :use_proposal, except: [:create]
 
   def create
-    Localization::GlossaryEntryProposal::Create.(@glossary_entry, current_user, params[:value])
+    Localization::GlossaryEntryProposal::CreateModification.(@glossary_entry, current_user, params[:translation])
 
     render json: {
       glossary_entry: SerializeLocalizationGlossaryEntry.(@glossary_entry, current_user)
@@ -31,7 +31,7 @@ class API::Localization::GlossaryEntryProposalsController < API::BaseController
       Localization::GlossaryEntryProposal::UpdateValue.(@proposal, current_user, params[:value])
     else
       Localization::GlossaryEntryProposal::Reject.(@proposal, current_user)
-      Localization::GlossaryEntryProposal::Create.(@glossary_entry, current_user, params[:value])
+      Localization::GlossaryEntryProposal::CreateModification.(@glossary_entry, current_user, params[:value])
     end
 
     render json: {

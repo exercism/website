@@ -12,14 +12,21 @@ class API::Localization::GlossaryEntriesController < API::BaseController
   end
 
   def create
-    Localization::GlossaryEntry::Create.(
-      params[:glossary_entry][:locale],
+    Localization::GlossaryEntryProposal::CreateAddition.(
       params[:glossary_entry][:term],
+      params[:glossary_entry][:locale],
+      current_user,
       params[:glossary_entry][:translation],
       params[:glossary_entry][:llm_instructions]
     )
 
     render json: {}, status: :created
+  end
+
+  def destroy
+    Localization::GlossaryEntryProposal::CreateDeletion.(@glossary_entry, current_user)
+
+    render json: {}, status: :ok
   end
 
   private

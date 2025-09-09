@@ -77,6 +77,7 @@ export function LocaleSelect() {
     <div className={`c-single-select c-track-select --size-automation`}>
       <button
         className="current-track gap-8"
+        style={{ minWidth: '200px' }}
         aria-label="Open the locale filter"
         {...buttonAttributes}
       >

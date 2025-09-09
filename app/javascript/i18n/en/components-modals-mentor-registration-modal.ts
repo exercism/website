@@ -14,7 +14,7 @@ export default {
   'commitStep.continue': 'Continue',
   'chooseTrackStep.selectTracks': 'Select the tracks you want to mentor',
   'chooseTrackStep.allowsUsToShow':
-    'This allows us to only show you the solutions you want to mentor. <strong>Don’t worry, you can change these selections at anytime.</strong>',
+    'This allows us to only show you the solutions you want to mentor. <0>Don’t worry, you can change these selections at anytime.</0>',
   'stepIndicator.step': 'Step {{num}}: {{label}}',
   'closeButton.closeModal': 'Close the modal',
   'congratulationsStep.youAreNowMentor': 'You’re now a mentor!',

@@ -30,7 +30,7 @@ export function GlossaryEntriesTableList() {
         ) : (
           <FilterFallback
             icon="no-result-magnifier"
-            title="No translations found."
+            title="No glossary entries found"
             description="Try changing your filters to find glossary entries that need checking."
           />
         )}

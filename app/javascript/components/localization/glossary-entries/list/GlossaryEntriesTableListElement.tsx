@@ -18,10 +18,10 @@ export function GlossaryEntriesTableListElement({
       className="glossary-entry"
     >
       <div className="info">
-        <div className="glossary-entry-key">
+        <div className="glossary-entry-key w-[600px]">
           {glossaryEntry.term} → {glossaryEntry.translation}
         </div>
-        <div className="glossary-entry-uuid">{glossaryEntry.uuid}</div>
+        {/* <div className="glossary-entry-uuid">{glossaryEntry.uuid}</div> */}
       </div>
 
       <TranslationsWithStatus

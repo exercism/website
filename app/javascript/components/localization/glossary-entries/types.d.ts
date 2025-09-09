@@ -13,21 +13,13 @@ type GlossaryEntriesListContextType = Pick<
 }
 
 type GlossaryEntry = {
-  prettyType: ReactI18NextChildren | Iterable<ReactI18NextChildren>
-  title: ReactI18NextChildren | Iterable<ReactI18NextChildren>
-  usageDetails: ReactI18NextChildren | Iterable<ReactI18NextChildren>
-  uuid: string
-  key: string
-  value: string
-  translations: Translation[]
-}
-
-type Translation = {
   uuid: string
   locale: string
-  status: string
-  value?: string
-  proposal?: string[]
+  term: string
+  translation: string
+  status: 'unchecked' | 'approved' | 'rejected'
+  llmInstructions: string
+  proposalsCount: number
 }
 
 type GlossaryEntriesListData = {

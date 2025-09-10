@@ -5,8 +5,7 @@
  * are present in the aggregated javascript-copy.ts file
  */
 
-import { glob } from 'glob'
-import { readFileSync } from 'fs'
+import { readFileSync, readdirSync } from 'fs'
 import path from 'path'
 
 // Import the aggregated resources
@@ -19,7 +18,7 @@ const AGGREGATED_KEYS = new Set(Object.keys(resources.en.translation))
 const KEY_REGEX =
   /(?<key>[a-zA-Z_][a-zA-Z0-9_]*|['"][^'"]*['"])\s*:\s*(?<val>"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')/g
 
-async function extractKeysFromFile(filePath: string): Promise<string[]> {
+function extractKeysFromFile(filePath: string): string[] {
   const content = readFileSync(filePath, 'utf-8')
   const keys: string[] = []
 
@@ -39,15 +38,19 @@ async function extractKeysFromFile(filePath: string): Promise<string[]> {
   return keys
 }
 
-async function main() {
+function main() {
   console.log('🔍 Verifying i18n key completeness...\n')
 
   // Find all source translation files
-  const sourceFiles = await glob(`${SOURCE_DIR}/*.ts`)
+  const sourceFiles = readdirSync(SOURCE_DIR)
+    .filter((file) => file.endsWith('.ts'))
+    .map((file) => path.join(SOURCE_DIR, file))
+
   console.log(`Found ${sourceFiles.length} source translation files`)
   console.log(`Aggregated file contains ${AGGREGATED_KEYS.size} keys\n`)
 
   let totalSourceKeys = 0
+  let uniqueSourceKeys = new Set<string>()
   let missingKeys: string[] = []
   let extraKeys = new Set(AGGREGATED_KEYS)
 
@@ -56,10 +59,12 @@ async function main() {
     const fileName = path.basename(filePath)
     console.log(`📂 Processing ${fileName}`)
 
-    const keys = await extractKeysFromFile(filePath)
+    const keys = extractKeysFromFile(filePath)
     totalSourceKeys += keys.length
 
     for (const key of keys) {
+      uniqueSourceKeys.add(key)
+
       if (!AGGREGATED_KEYS.has(key)) {
         missingKeys.push(`${fileName}: ${key}`)
       } else {
@@ -71,6 +76,7 @@ async function main() {
   console.log(`\n📊 Summary:`)
   console.log(`  Source files: ${sourceFiles.length}`)
   console.log(`  Total source keys: ${totalSourceKeys}`)
+  console.log(`  Unique source keys: ${uniqueSourceKeys.size}`)
   console.log(`  Aggregated keys: ${AGGREGATED_KEYS.size}`)
   console.log(`  Missing keys: ${missingKeys.length}`)
   console.log(`  Extra keys: ${extraKeys.size}`)
@@ -99,7 +105,9 @@ async function main() {
   }
 }
 
-main().catch((error) => {
+try {
+  main()
+} catch (error) {
   console.error('Error:', error)
   process.exit(1)
-})
+}

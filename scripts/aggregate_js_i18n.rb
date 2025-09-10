@@ -8,6 +8,9 @@ DIR = Rails.root.join("app/javascript/i18n/en")
 # Output single TS file - the unified javascript-copy.ts
 OUTPUT_TS = Rails.root.join("i18n/javascript-copy.ts")
 
+# Output file for key conflicts
+CONFLICTS_OUTPUT = Rails.root.join("i18n/key-conflicts.json")
+
 # If you prefer to split by namespace (per file), set this to true.
 # When true, each filename (without .ts) becomes a namespace under `en`.
 # When false, everything goes into the "translation" namespace.
@@ -32,6 +35,9 @@ PAIR_REGEX = /
 # Either: { "translation" => { "k" => "v" } }
 # Or:     { "fileA" => { ... }, "fileB" => { ... } }
 AGGREGATED = Hash.new { |h, k| h[k] = {} }
+
+# Track key conflicts: { key => [{ file: "...", value: "..." }, ...] }
+KEY_CONFLICTS = Hash.new { |h, k| h[k] = [] }
 
 def import_file(file_path)
   puts "📂 Importing #{file_path}"
@@ -61,7 +67,33 @@ def import_file(file_path)
       puts "⚠️ Failed to import #{key}: #{e.message}"
     end
 
-    # Aggregate for TS output
+    # Check for key conflicts before aggregating
+    if AGGREGATED[namespace][key] && AGGREGATED[namespace][key] != value
+      # We have a conflict - same key, different values
+      filename = File.basename(file_path)
+      
+      # Add current conflict
+      KEY_CONFLICTS[key] << {
+        file: filename,
+        value: value,
+        namespace: namespace
+      }
+      
+      # Add previous value if this is the first conflict for this key
+      if KEY_CONFLICTS[key].length == 1
+        KEY_CONFLICTS[key].unshift({
+          file: "previous", # We don't track which file had the original
+          value: AGGREGATED[namespace][key],
+          namespace: namespace
+        })
+      end
+      
+      puts "⚠️  Key conflict detected: '#{key}'"
+      puts "   Previous: #{AGGREGATED[namespace][key]}"
+      puts "   Current:  #{value} (from #{filename})"
+    end
+
+    # Always store the latest value (last file wins)
     AGGREGATED[namespace][key] = value
   end
 end
@@ -84,3 +116,15 @@ TS
 
 File.write(OUTPUT_TS, ts)
 puts "✅ Wrote aggregated resources to: #{OUTPUT_TS}"
+
+# Write conflicts file if any conflicts were found
+if KEY_CONFLICTS.any?
+  conflicts_json = JSON.pretty_generate(KEY_CONFLICTS)
+  File.write(CONFLICTS_OUTPUT, conflicts_json)
+  puts "⚠️  #{KEY_CONFLICTS.size} key conflicts detected and saved to: #{CONFLICTS_OUTPUT}"
+  puts "   Please review and resolve these conflicts manually."
+else
+  # Remove conflicts file if no conflicts
+  File.delete(CONFLICTS_OUTPUT) if File.exist?(CONFLICTS_OUTPUT)
+  puts "✅ No key conflicts detected."
+end

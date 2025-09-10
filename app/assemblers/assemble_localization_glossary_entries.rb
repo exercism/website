@@ -24,7 +24,8 @@ class AssembleLocalizationGlossaryEntries
       user,
       criteria: params[:criteria],
       status: params[:status],
-      page: params[:page]
+      page: params[:page],
+      locale: params[:filter_locale]
     )
   end
 end

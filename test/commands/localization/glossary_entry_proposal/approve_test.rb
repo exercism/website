@@ -24,6 +24,7 @@ class Localization::GlossaryEntryProposal::ApproveTest < ActiveSupport::TestCase
     assert_equal term, glossary_entry.term
     assert_equal translation, glossary_entry.translation
     assert_equal llm_instructions, glossary_entry.llm_instructions
+    assert_equal :checked, glossary_entry.status
   end
 
   test "modification" do
@@ -38,8 +39,9 @@ class Localization::GlossaryEntryProposal::ApproveTest < ActiveSupport::TestCase
 
     assert_equal :approved, proposal.reload.status
     assert_equal user, proposal.reviewer
-    assert_equal translation, glossary_entry.translation
+    assert_equal translation, glossary_entry.reload.translation
     assert_equal llm_instructions, glossary_entry.llm_instructions
+    assert_equal :checked, glossary_entry.status
   end
 
   test "deletion" do

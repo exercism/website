@@ -25,7 +25,8 @@ class Localization::GlossaryEntryProposal::Approve
       locale: proposal.locale,
       term: proposal.term,
       translation: proposal.translation,
-      llm_instructions: proposal.llm_instructions
+      llm_instructions: proposal.llm_instructions,
+      status: :checked
     )
   end
 
@@ -34,7 +35,8 @@ class Localization::GlossaryEntryProposal::Approve
 
     proposal.glossary_entry.update!(
       translation: proposal.translation,
-      llm_instructions: proposal.llm_instructions
+      llm_instructions: proposal.llm_instructions,
+      status: :checked
     )
   end
 

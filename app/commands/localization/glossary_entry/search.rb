@@ -8,11 +8,12 @@ class Localization::GlossaryEntry::Search
     DEFAULT_PER
   end
 
-  def initialize(user, page: nil, per: nil, criteria: nil, status: nil)
+  def initialize(user, page: nil, per: nil, criteria: nil, status: nil, locale: nil)
     @user = user
 
     @criteria = criteria
     @status = status
+    @locale = locale
     @page = page.present? && page.to_i.positive? ? page.to_i : DEFAULT_PAGE
     @per = per.present? && per.to_i.positive? ? per.to_i : self.class.default_per
   end
@@ -22,6 +23,7 @@ class Localization::GlossaryEntry::Search
 
     filter_criteria!
     filter_status!
+    filter_locale!
 
     paginated_glossary_entries = @glossary_entries.
       order(:locale, :term).
@@ -37,7 +39,7 @@ class Localization::GlossaryEntry::Search
   def locales = user.translator_locales - [:en]
 
   private
-  attr_reader :user, :per, :page, :criteria, :status
+  attr_reader :user, :per, :page, :criteria, :status, :locale
 
   def filter_criteria!
     return if criteria.blank?
@@ -52,5 +54,11 @@ class Localization::GlossaryEntry::Search
     return if status.blank?
 
     @glossary_entries = @glossary_entries.where("localization_glossary_entries.status": status)
+  end
+
+  def filter_locale!
+    return if locale.blank?
+
+    @glossary_entries = @glossary_entries.where("localization_glossary_entries.locale": locale)
   end
 end

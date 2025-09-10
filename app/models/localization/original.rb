@@ -50,29 +50,29 @@ class Localization::Original < ApplicationRecord
 
     case type
     when :exercise_introduction
-      "This is the introduction text shown on the exercise page. It sets the context of the STORY of the exercise. The instructions are shown next and are translated seperately."
+      "This is the introduction text shown on the exercise page. It sets the context of the STORY of the exercise. The instructions are shown next and are translated seperately." # rubocop:disable Layout/LineLength
     when :exercise_instructions
-      "These are the instructions shown on the exercise page. They tell the user what to do to complete the exercise. The introduction is shown before and is translated seperately."
+      "These are the instructions shown on the exercise page. They tell the user what to do to complete the exercise. The introduction is shown before and is translated seperately." # rubocop:disable Layout/LineLength
     when :exercise_title
       "This is the title of the exercise shown around the site in various places."
     when :exercise_blurb
-      "This is a short blurb about the exercise, shown as part of an exercise widget (e.g. on the page that lists the exercises for a track)."
+      "This is a short blurb about the exercise, shown as part of an exercise widget (e.g. on the page that lists the exercises for a track)." # rubocop:disable Layout/LineLength
     when :exercise_source
       "This appears at the bottom of an exercise to show where it originated, and is included in the README downloaded via the CLI."
     when :generic_exercise_introduction
-      "This is the **programming-language-agnostic** introduction text. Some tracks override it, but it's generally used across most languages. The instructions and an optional append come seperately."
+      "This is the **programming-language-agnostic** introduction text. Some tracks override it, but it's generally used across most languages. The instructions and an optional append come seperately." # rubocop:disable Layout/LineLength
     when :generic_exercise_instructions
-      "These are the **programming-language-agnostic** instructions. Some tracks override them, but they're generally used across most languages. The introduction and an optional append come seperately."
+      "These are the **programming-language-agnostic** instructions. Some tracks override them, but they're generally used across most languages. The introduction and an optional append come seperately." # rubocop:disable Layout/LineLength
     when :generic_exercise_title
       "This is the **programming-language-agnostic** title of the exercise. It can be overriden by tracks but almost never is."
     when :generic_exercise_blurb
-      "This is a **programming-language-agnostic** short blurb about the exercise, shown as part of an exercise widget (e.g. on the page that lists the exercises for a track). It can be overriden by tracks but almost never is."
+      "This is a **programming-language-agnostic** short blurb about the exercise, shown as part of an exercise widget (e.g. on the page that lists the exercises for a track). It can be overriden by tracks but almost never is." # rubocop:disable Layout/LineLength
     when :generic_exercise_source
-      "This appears at the bottom of an exercise to show where it originated, and is included in the README downloaded via the CLI. This is the **programming-language-agnostic** version, which can be overriden by tracks but almost never is."
+      "This appears at the bottom of an exercise to show where it originated, and is included in the README downloaded via the CLI. This is the **programming-language-agnostic** version, which can be overriden by tracks but almost never is." # rubocop:disable Layout/LineLength
     when :concept_name
       "This is the name of a programming concept for a specific track. It appears throughout the track".
         when :concept_blurb
-      "This is a short blurb about a programming concept for a specific track. It appears on the concept page and in various places around the site."
+      "This is a short blurb about a programming concept for a specific track. It appears on the concept page and in various places around the site." # rubocop:disable Layout/LineLength
     when :concept_introduction
       "This is the version of the concept explanation that is shown to students BEFORE they complete the associated exercise."
     when :concept_about

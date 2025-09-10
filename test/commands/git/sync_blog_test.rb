@@ -66,6 +66,7 @@ class Git::SyncBlogTest < ActiveSupport::TestCase
   end
 
   test "updates existing stories" do
+    user = User.find_by(handle: "iHiD")
     interviewer = User.find_by(handle: "jonathandmiddleton")
     interviewee = User.find_by(handle: "porkostumus")
 
@@ -108,13 +109,13 @@ class Git::SyncBlogTest < ActiveSupport::TestCase
 
     blog_post = create :blog_post, uuid: "d925ec36-92dd-4bf6-be1d-969d192a4034"
 
-    blog_post.stubs(title:)
-    blog_post.stubs(description:)
-    blog_post.stubs(content:)
+    BlogPost.any_instance.stubs(title:)
+    BlogPost.any_instance.stubs(description:)
+    BlogPost.any_instance.stubs(content:)
 
-    Localization::Text::AddToLocalization.expects(:defer).with(:blog_post_title, title, blog_post.id)
-    Localization::Text::AddToLocalization.expects(:defer).with(:blog_post_description, description, blog_post.id)
-    Localization::Text::AddToLocalization.expects(:defer).with(:blog_post_content, content, blog_post.id)
+    Localization::Text::AddToLocalization.expects(:defer).with(:post_title, title, blog_post.id)
+    Localization::Text::AddToLocalization.expects(:defer).with(:post_description, description, blog_post.id)
+    Localization::Text::AddToLocalization.expects(:defer).with(:post_content, content, blog_post.id)
 
     Git::SyncBlog.()
   end

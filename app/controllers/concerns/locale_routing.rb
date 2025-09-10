@@ -5,9 +5,9 @@ module LocaleRouting
 
   included do
     # Order matters:
-    before_action :maybe_redirect_user_to_correct_locale!
-    before_action :maybe_redirect_en_to_naked!
-    around_action :switch_locale!
+    # before_action :maybe_redirect_user_to_correct_locale!
+    # before_action :maybe_redirect_en_to_naked!
+    # around_action :switch_locale!
   end
 
   def maybe_redirect_user_to_correct_locale!

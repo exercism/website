@@ -4,11 +4,11 @@ class MetricPeriod::SearchTest < ActiveSupport::TestCase
   include Mandate
 
   test "filter: period_type" do
-    day_1 = create :metric_period_day
-    day_2 = create :metric_period_day
+    day_1 = create :metric_period_day, day: 1
+    day_2 = create :metric_period_day, day: 2
     month = create :metric_period_month
-    minute_1 = create :metric_period_minute
-    minute_2 = create :metric_period_minute
+    minute_1 = create :metric_period_minute, minute: 1
+    minute_2 = create :metric_period_minute, minute: 2
 
     assert_equal [day_1, day_2], MetricPeriod::Search.(:day, {}).order(:id)
     assert_equal [minute_1, minute_2], MetricPeriod::Search.(:minute, {}).order(:id)

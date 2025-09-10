@@ -358,7 +358,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
 
     Track::UpdateBuildStatus.(track)
 
-    assert_equal 125, track.build_status.practice_exercises.unimplemented.size
+    assert_equal 126, track.build_status.practice_exercises.unimplemented.size
     expected = {
       slug: "zebra-puzzle",
       title: "Zebra Puzzle",
@@ -431,7 +431,7 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     create_list(:practice_exercise, 2, status: :deprecated, track:)
     Track::UpdateBuildStatus.(track)
 
-    assert_equal 194, track.reload.build_status.practice_exercises.num_active_target
+    assert_equal 195, track.reload.build_status.practice_exercises.num_active_target
   end
 
   test "practice_exercises: health" do

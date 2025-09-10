@@ -8,7 +8,7 @@ class LoadLocaleIntoDB
   end
 
   def call
-    puts "📂 Loading locale.yaml into database"
+    puts "📂 Loading haml-copy.yaml into database"
 
     data = YAML.load_file(locale_file) || {}
     flatten_keys(data).each do |key, value|
@@ -31,7 +31,7 @@ class LoadLocaleIntoDB
 
   private
   def locale_file
-    Rails.root.join("config", "locale.yaml")
+    Rails.root.join("i18n", "haml-copy.yaml")
   end
 
   # Flatten nested YAML into dot-notation keys

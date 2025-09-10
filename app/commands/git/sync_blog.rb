@@ -39,9 +39,8 @@ class Git::SyncBlog
     localize!(:post_title, post.title, post.id)
     localize!(:post_description, post.description, post.id)
     localize!(:post_content, post.content, post.id)
-
-    # rescue StandardError => e
-    #   Github::Issue::OpenForBlogSyncFailure.(e, repo.head_commit.oid)
+  rescue StandardError => e
+    Github::Issue::OpenForBlogSyncFailure.(e, repo.head_commit.oid)
   end
 
   def localize!(type, content, post_id)

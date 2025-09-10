@@ -29,10 +29,11 @@ module Git
         file_content = repo.send(read_method, commit, send("#{field}_absolute_filepath"))
 
         unless json_file || toml_file
-          file_content.strip!
-          file_content << "\n\n" if append_file
-          file_content << repo.send(read_method, commit, absolute_filepath(append_file)) if append_file
-          file_content.strip!
+          # Strings are becoming frozen
+          file_content = file_content.strip
+          file_content += "\n\n" if append_file
+          file_content += repo.send(read_method, commit, absolute_filepath(append_file)) if append_file
+          file_content = file_content.strip
         end
 
         instance_variable_set(iv, file_content)

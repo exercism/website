@@ -8,8 +8,8 @@ class Git::SyncProblemSpecifications
 
     repo.exercises.each do |exercise|
       GenericExercise::CreateOrUpdate.(exercise)
-      # rescue StandardError => e
-      # Bugsnag.notify(e)
+    rescue StandardError => e
+      Bugsnag.notify(e)
     end
   end
 

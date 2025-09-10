@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Localization::GlossaryEntryProposal::UpdateValueTest < ActiveSupport::TestCase
   test "proposal value gets updated" do
-    user = create :user
+    user = create :user, reputation: 21
     glossary_entry = create :localization_glossary_entry
     initial_translation = "Initial definition"
     updated_term = "Terrrrrm"

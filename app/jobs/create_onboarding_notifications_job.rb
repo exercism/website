@@ -10,7 +10,8 @@ class CreateOnboardingNotificationsJob < ApplicationJob
 
     memoize
     def has_notification?
-      text = I18n.t("notifications.#{notification_type}.1")
+      # This must have a default of nil, else Rails adds a default string.
+      text = I18n.t("notifications.#{notification_type}.1", default: nil)
       text.present?
     end
   end

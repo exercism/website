@@ -15,6 +15,8 @@ AllCops:
     - "node_modules/**/*"
     - "lib/solargraph-rails.rb"
     - "scripts/**/*"
+    - "i18n/**/*"
+    - "config/initializers/i18n.rb"
 
 Bundler/OrderedGems:
   Enabled: false

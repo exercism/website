@@ -13,7 +13,8 @@ class GenericExercise::CreateOrUpdateTest < ActiveSupport::TestCase
       deprecated: false
     }
 
-    exercise = GenericExercise::CreateOrUpdate.(attributes)
+    repo_exercise = OpenStruct.new(attributes.merge(deprecated?: attributes[:deprecated]))
+    exercise = GenericExercise::CreateOrUpdate.(repo_exercise)
 
     assert_equal 1, GenericExercise.count
     assert_equal GenericExercise.last, exercise
@@ -44,7 +45,8 @@ class GenericExercise::CreateOrUpdateTest < ActiveSupport::TestCase
       deprecated: true
     )
 
-    GenericExercise::CreateOrUpdate.(updated_attributes)
+    repo_exercise = OpenStruct.new(updated_attributes.merge(deprecated?: updated_attributes[:deprecated]))
+    GenericExercise::CreateOrUpdate.(repo_exercise)
 
     assert_equal 1, GenericExercise.count
     assert_equal GenericExercise.last, exercise
@@ -67,8 +69,9 @@ class GenericExercise::CreateOrUpdateTest < ActiveSupport::TestCase
       deprecated: false
     }
 
+    repo_exercise = OpenStruct.new(attributes.merge(deprecated?: attributes[:deprecated]))
     assert_idempotent_command do
-      GenericExercise::CreateOrUpdate.(attributes)
+      GenericExercise::CreateOrUpdate.(repo_exercise)
     end
 
     assert_equal 1, GenericExercise.count
@@ -102,6 +105,7 @@ class GenericExercise::CreateOrUpdateTest < ActiveSupport::TestCase
     Localization::Text::AddToLocalization.expects(:defer).with(:generic_exercise_blurb, blurb, anything)
     Localization::Text::AddToLocalization.expects(:defer).with(:generic_exercise_source, source, anything)
 
-    GenericExercise::CreateOrUpdate.(attributes)
+    repo_exercise = OpenStruct.new(attributes.merge(deprecated?: attributes[:deprecated]))
+    GenericExercise::CreateOrUpdate.(repo_exercise)
   end
 end

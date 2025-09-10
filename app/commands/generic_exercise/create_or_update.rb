@@ -7,11 +7,11 @@ class GenericExercise::CreateOrUpdate
     create!.tap do |exercise|
       exercise.update!(attributes)
 
-      localize!(:generic_exercise_instructions, exercise.instructions, exercise)
-      localize!(:generic_exercise_introduction, exercise.introduction, exercise)
-      localize!(:generic_exercise_title, exercise.title, exercise)
-      localize!(:generic_exercise_blurb, exercise.blurb, exercise)
-      localize!(:generic_exercise_source, exercise.source, exercise)
+      localize!(:generic_exercise_instructions, repo_exercise.instructions, exercise)
+      localize!(:generic_exercise_introduction, repo_exercise.introduction, exercise)
+      localize!(:generic_exercise_title, repo_exercise.title, exercise)
+      localize!(:generic_exercise_blurb, repo_exercise.blurb, exercise)
+      localize!(:generic_exercise_source, repo_exercise.source, exercise)
     end
   end
 

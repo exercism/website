@@ -3,7 +3,7 @@
 # Create merged locale.yaml from locales.bk directory
 # This script merges all YAML files and removes the "en" prefix
 
-OUTPUT_FILE="config/locale.yaml"
+OUTPUT_FILE="i18n/haml-copy.yaml"
 LOCALES_DIR="config/locales.bk"
 
 # Remove existing output file

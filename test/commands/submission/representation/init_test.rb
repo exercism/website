@@ -20,7 +20,7 @@ class Submission::Representation::InitTest < ActiveSupport::TestCase
     create :submission_file, submission:, filename: "special$chars.rb" # Don't allow special chars
     create :submission_file, submission:, filename: ".meta/config.json" # Don't allow meta
 
-    SecureRandom.expects(:uuid).returns("foo-bar123-asd")
+    SecureRandom.expects(:uuid).returns("1", "2")
     job_id = "foobar123asd"
     efs_dir = "#{Exercism.config.efs_tooling_jobs_mount_point}/#{Time.current.utc.strftime('%Y/%m/%d')}/#{job_id}"
 

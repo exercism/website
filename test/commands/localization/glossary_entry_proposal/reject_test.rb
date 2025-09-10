@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Localization::GlossaryEntryProposal::RejectTest < ActiveSupport::TestCase
   test "reject proposal with no other ones" do
-    user = create :user
+    user = create :user, reputation: 21
     glossary_entry = create :localization_glossary_entry, term: "wild_term", locale: "en", status: :checked
     proposal = create :localization_glossary_entry_proposal, :modification, glossary_entry: glossary_entry, proposer: user,
       translation: "Something wiiiiiild"
@@ -17,7 +17,7 @@ class Localization::GlossaryEntryProposal::RejectTest < ActiveSupport::TestCase
   end
 
   test "reject proposals with other pending ones" do
-    user = create :user
+    user = create :user, reputation: 21
     glossary_entry = create :localization_glossary_entry, term: "wild_term", locale: "hu", status: :checked
     proposal_1 = create :localization_glossary_entry_proposal, :modification, glossary_entry: glossary_entry, proposer: user,
       translation: "Something wiiiiiild"
@@ -34,7 +34,7 @@ class Localization::GlossaryEntryProposal::RejectTest < ActiveSupport::TestCase
   end
 
   test "reject addition proposal" do
-    user = create :user
+    user = create :user, reputation: 21
     proposal = create :localization_glossary_entry_proposal, :addition, proposer: user,
       term: "new_term", locale: "en", translation: "A new term"
 
@@ -48,7 +48,7 @@ class Localization::GlossaryEntryProposal::RejectTest < ActiveSupport::TestCase
   end
 
   test "reject deletion proposal" do
-    user = create :user
+    user = create :user, reputation: 21
     glossary_entry = create :localization_glossary_entry, term: "term_to_delete", locale: "en", status: :checked
     proposal = create :localization_glossary_entry_proposal, :deletion, glossary_entry: glossary_entry, proposer: user
 

@@ -4,6 +4,8 @@ class Localization::GlossaryEntryProposal::Reject
   initialize_with :proposal, :user
 
   def call
+    guard!
+
     ActiveRecord::Base.transaction do
       proposal.update!(
         status: :rejected,
@@ -16,5 +18,12 @@ class Localization::GlossaryEntryProposal::Reject
         glossary_entry.update!(status: :unchecked) unless glossary_entry.proposals.pending.exists?
       end
     end
+  end
+
+  private
+  def guard!
+    return if user.may_manage_translation_proposals?
+
+    raise "You need to have at least 20 rep to reject glossary entries"
   end
 end

@@ -4,6 +4,8 @@ class Localization::GlossaryEntryProposal::Approve
   initialize_with :proposal, :user
 
   def call
+    guard!
+
     ActiveRecord::Base.transaction do
       proposal.update!(
         status: :approved,
@@ -14,6 +16,12 @@ class Localization::GlossaryEntryProposal::Approve
   end
 
   private
+  def guard!
+    return if user.may_manage_translation_proposals?
+
+    raise "You need to have at least 20 rep to approve glossary entries"
+  end
+
   def handle_glossary_update!
     send("handle_#{proposal.type.to_s.camelize(:lower)}!")
   end

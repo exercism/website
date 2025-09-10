@@ -1,4 +1,5 @@
-body.namespace-localization.controller-originals.action-show {
+body.namespace-localization.controller-originals.action-show,
+body.namespace-localization.controller-glossary_entries.action-show {
     #site-header,
     #site-footer {
         display: none !important;

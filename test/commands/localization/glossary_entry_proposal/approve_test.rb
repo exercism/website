@@ -6,7 +6,7 @@ class Localization::GlossaryEntryProposal::ApproveTest < ActiveSupport::TestCase
     term = "exemple"
     translation = "An example definition"
     llm_instructions = "Be very clear"
-    user = create :user
+    user = create :user, reputation: 21
 
     proposal = create :localization_glossary_entry_proposal, :addition, locale: locale, term: term, proposer: user,
       translation: translation, llm_instructions: llm_instructions
@@ -30,7 +30,7 @@ class Localization::GlossaryEntryProposal::ApproveTest < ActiveSupport::TestCase
   test "modification" do
     translation = "Updated definition"
     llm_instructions = "Be very very clear"
-    user = create :user
+    user = create :user, reputation: 21
     glossary_entry = create :localization_glossary_entry, term: "example"
     proposal = create :localization_glossary_entry_proposal, :modification, glossary_entry: glossary_entry, proposer: user,
       translation: translation, llm_instructions: llm_instructions
@@ -45,7 +45,7 @@ class Localization::GlossaryEntryProposal::ApproveTest < ActiveSupport::TestCase
   end
 
   test "deletion" do
-    user = create :user
+    user = create :user, reputation: 21
     glossary_entry = create :localization_glossary_entry, term: "example"
     proposal = create :localization_glossary_entry_proposal, :deletion, glossary_entry: glossary_entry, proposer: user
 

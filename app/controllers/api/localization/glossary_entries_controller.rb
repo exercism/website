@@ -1,8 +1,21 @@
 class API::Localization::GlossaryEntriesController < API::BaseController
-  before_action :use_glossary_entry, except: %i[index create]
+  before_action :use_glossary_entry, except: %i[index create next]
 
   def index
     render json: AssembleLocalizationGlossaryEntries.(current_user, params)
+  end
+
+  def next
+    entry = Localization::GlossaryEntry::Search.(
+      current_user,
+      criteria: params[:criteria],
+      status: params[:status],
+      page: 1,
+      per: 1,
+      locale: params[:filter_locale]
+    ).first
+
+    render json: { uuid: entry&.uuid }
   end
 
   def show

@@ -36,7 +36,7 @@ class Localization::GlossaryEntry::Search
   end
 
   memoize
-  def locales = user.translator_locales - [:en]
+  def locales = (user.translator_locales - [:en]).map(&:to_s)
 
   private
   attr_reader :user, :per, :page, :criteria, :status, :locale

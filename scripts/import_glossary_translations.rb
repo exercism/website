@@ -47,6 +47,8 @@ class GlossaryImporter
     skipped = 0
     errors = []
 
+    user = User.system_user
+
     CSV.foreach(file, col_sep: "\t", headers: true, liberal_parsing: true) do |row|
       term = row['term']
       translation = row['translation']
@@ -62,6 +64,7 @@ class GlossaryImporter
       begin
         # Create new entry (Create service should handle updates if needed)
         Localization::GlossaryEntry::Create.(
+          user,
           locale,
           term,
           translation,

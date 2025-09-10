@@ -1,9 +1,13 @@
 class Localization::TranslatorsController < ApplicationController
   skip_before_action :authenticate_user!, only: [:new]
 
-  def show; end
-
   def new
+    return redirect_to action: :edit if current_user&.translator_locales.present?
+
+    @locale_options = LOCALE_OPTIONS.map { |flag, word, locale| ["#{flag} #{word}", locale] }
+  end
+
+  def edit
     @locale_options = LOCALE_OPTIONS.map { |flag, word, locale| ["#{flag} #{word}", locale] }
   end
 
@@ -12,6 +16,13 @@ class Localization::TranslatorsController < ApplicationController
     current_user.update!(translator_locales: locales)
 
     redirect_to action: :new
+  end
+
+  def update
+    locales = params[:locales].map(&:presence).compact
+    current_user.update!(translator_locales: locales)
+
+    redirect_to localization_root_url
   end
 
   LOCALE_OPTIONS = [

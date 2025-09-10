@@ -35,7 +35,8 @@ module ViewComponents
         end
       end
 
-      def tabs = [overview_tab, originals_tab, glossary_tab]
+      # def tabs = [overview_tab, originals_tab, glossary_tab]
+      def tabs = [glossary_tab]
 
       def overview_tab
         selected = controller_name != "originals" && controller_name != "glossary_entries" ? "selected" : ""

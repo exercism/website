@@ -2,6 +2,7 @@ require_relative '../base_test_case'
 
 class API::Localization::GlossaryEntriesControllerTest < API::BaseTestCase
   guard_incorrect_token! :api_localization_glossary_entries_path, method: :get
+  guard_incorrect_token! :next_api_localization_glossary_entries_path, method: :get
   guard_incorrect_token! :api_localization_glossary_entry_path, args: 1, method: :get
   guard_incorrect_token! :api_localization_glossary_entries_path, method: :post
   guard_incorrect_token! :api_localization_glossary_entry_path, args: 1, method: :delete
@@ -18,6 +19,78 @@ class API::Localization::GlossaryEntriesControllerTest < API::BaseTestCase
     assert_response :ok
     expected = AssembleLocalizationGlossaryEntries.(@current_user, {}).to_json
     assert_equal expected, response.body
+  end
+
+  ###
+  # Next
+  ###
+  test "next returns the next glossary entry uuid" do
+    setup_user
+    @current_user.data.update!(translator_locales: ["pt"])
+
+    entry_one = create :localization_glossary_entry, locale: "pt", term: "apple", status: :unchecked
+    create :localization_glossary_entry, locale: "pt", term: "banana", status: :unchecked
+    create :localization_glossary_entry, locale: "pt", term: "cherry", status: :checked
+
+    get next_api_localization_glossary_entries_path,
+      params: { status: :unchecked },
+      headers: @headers,
+      as: :json
+
+    assert_response :ok
+    expected = { uuid: entry_one.uuid }
+    assert_equal expected, JSON.parse(response.body, symbolize_names: true)
+  end
+
+  test "next returns null uuid when no entries match" do
+    setup_user
+    @current_user.data.update!(translator_locales: ["pt"])
+
+    # Only create checked entries
+    create :localization_glossary_entry, locale: "pt", term: "apple", status: :checked
+
+    get next_api_localization_glossary_entries_path,
+      params: { status: :unchecked },
+      headers: @headers,
+      as: :json
+
+    assert_response :ok
+    expected = { uuid: nil }
+    assert_equal expected, JSON.parse(response.body, symbolize_names: true)
+  end
+
+  test "next filters by locale" do
+    setup_user
+    @current_user.data.update!(translator_locales: %w[pt es])
+
+    create :localization_glossary_entry, locale: "pt", term: "apple", status: :unchecked
+    entry_es = create :localization_glossary_entry, locale: "es", term: "banana", status: :unchecked
+
+    get next_api_localization_glossary_entries_path,
+      params: { filter_locale: "es", status: :unchecked },
+      headers: @headers,
+      as: :json
+
+    assert_response :ok
+    expected = { uuid: entry_es.uuid }
+    assert_equal expected, JSON.parse(response.body, symbolize_names: true)
+  end
+
+  test "next filters by criteria" do
+    setup_user
+    @current_user.data.update!(translator_locales: ["pt"])
+
+    create :localization_glossary_entry, locale: "pt", term: "apple", translation: "maçã", status: :unchecked
+    entry_two = create :localization_glossary_entry, locale: "pt", term: "banana", translation: "banana fruit", status: :unchecked
+
+    get next_api_localization_glossary_entries_path,
+      params: { criteria: "fruit" },
+      headers: @headers,
+      as: :json
+
+    assert_response :ok
+    expected = { uuid: entry_two.uuid }
+    assert_equal expected, JSON.parse(response.body, symbolize_names: true)
   end
 
   ###

@@ -6,6 +6,8 @@ TSV_FILE = Rails.root.join("i18n/glossary_base.tsv")
 
 def import_glossary
   puts "📂 Importing glossary terms from #{TSV_FILE}"
+
+  user = User.system_user
   
   CSV.foreach(TSV_FILE, col_sep: "\t", headers: true, encoding: "UTF-8", quote_char: nil) do |row|
     term = row["term"]&.strip
@@ -14,7 +16,7 @@ def import_glossary
     next if term.blank? || llm_instructions.blank?
     
     # For English glossary entries, use the term itself as the translation
-    Localization::GlossaryEntry::Create.("en", term, term, llm_instructions)
+    Localization::GlossaryEntry::Create.(user, "en", term, term, llm_instructions)
     puts " → #{term}"
   rescue ActiveRecord::RecordNotUnique
     # Already exists, skip

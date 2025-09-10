@@ -66,6 +66,7 @@ class Git::SyncBlogTest < ActiveSupport::TestCase
   end
 
   test "updates existing stories" do
+    user = User.find_by(handle: "iHiD")
     interviewer = User.find_by(handle: "jonathandmiddleton")
     interviewee = User.find_by(handle: "porkostumus")
 

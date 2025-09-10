@@ -711,8 +711,8 @@ export const resources = {
         'This solution fails the tests of the latest version of this exercise. Try updating the exercise and checking it locally or in the online editor.',
       'solution.failedTestsOfTheLatestVersionOfTheExercise':
         'Failed tests of the latest version of the exercise',
-      iterations_one: '{{count}} iteration',
-      iterations_other: '{{count}} iterations',
+      'solution.iterations_one': '{{count}} iteration',
+      'solution.iterations_other': '{{count}} iterations',
       'solution.lines': '{{numLoc}} lines',
       'solution.views': '{{numViews}} {{viewLabel}}',
       'solution.lastSubmitted': 'Last submitted {{lastIteratedAt}}',

@@ -31,8 +31,8 @@ class Localization::GlossaryEntryProposal::VerifyWithLLMTest < ActiveSupport::Te
     translation = "Ejemplo Término"
 
     glossary_entry = create :localization_glossary_entry, term: term, locale: locale
-    proposal = create :localization_glossary_entry_proposal, :modification, glossary_entry: glossary_entry, translation: translation,
-      llm_instructions: llm_instructions
+    proposal = create(:localization_glossary_entry_proposal, :modification, glossary_entry: glossary_entry,
+      locale:, term:, translation:, llm_instructions:)
 
     expected_endpoint = "localization_verify_glossary_entry_proposal?proposal_uuid=#{proposal.uuid}"
 

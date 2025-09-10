@@ -5,22 +5,26 @@ require "json"
 # Input directory with your per-file TS translations
 DIR = Rails.root.join("app/javascript/i18n/en")
 
-# Output single TS file for tests
-OUTPUT_TS = Rails.root.join("app/javascript/i18n/en.aggregated.test.ts")
+# Output single TS file - the unified javascript-copy.ts
+OUTPUT_TS = Rails.root.join("i18n/javascript-copy.ts")
 
 # If you prefer to split by namespace (per file), set this to true.
 # When true, each filename (without .ts) becomes a namespace under `en`.
 # When false, everything goes into the "translation" namespace.
 GROUP_BY_FILENAME_AS_NAMESPACE = false
 
-# Matches: key: "value" or key: 'value'
+# Matches JavaScript object keys: unquoted identifiers or quoted strings
 PAIR_REGEX = /
-  ['"](?<key>[^'"]+)['"]      # key
+  (?<key>
+    [a-zA-Z_][a-zA-Z0-9_]*      # unquoted identifier (selectedTracks_one)
+    |
+    ['"][^'"]*['"]              # quoted key ('trackCheckbox.trackSelected')
+  )
   \s*:\s*
   (?<val>
-    "(?:[^"\\]|\\.)*"         # double-quoted string
+    "(?:[^"\\]|\\.)*"           # double-quoted string value
     |
-    '(?:[^'\\]|\\.)*'         # single-quoted string
+    '(?:[^'\\]|\\.)*'           # single-quoted string value
   )
 /x
 
@@ -41,6 +45,10 @@ def import_file(file_path)
     end
 
   content.scan(PAIR_REGEX) do |key, raw_val|
+    # Strip quotes from key if it's quoted
+    key = key[1..-2] if key.start_with?('"', "'")
+    
+    # Strip quotes from value
     value = raw_val[1..-2] # strip surrounding quotes
     value = value.gsub("\\'", "'").gsub('\\"', '"')
 

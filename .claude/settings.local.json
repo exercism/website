@@ -14,7 +14,8 @@
       "Bash(./sort_tsv_files.sh)",
       "Bash(cat:*)",
       "Bash(rails r:*)",
-      "Bash(sed:*)"
+      "Bash(sed:*)",
+      "Bash(rails test:*)"
     ],
     "deny": []
   }

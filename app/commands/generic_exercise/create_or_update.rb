@@ -17,7 +17,7 @@ class GenericExercise::CreateOrUpdate
 
   private
   def create!
-    GenericExercise.find_create_or_find_by!(slug: repo_exercise[:slug]) do |exercise|
+    GenericExercise.find_create_or_find_by!(slug: repo_exercise.slug) do |exercise|
       exercise.attributes = attributes
     end
   end
@@ -31,14 +31,14 @@ class GenericExercise::CreateOrUpdate
   memoize
   def attributes
     {
-      slug: repo_exercise[:slug],
-      title: repo_exercise[:title],
-      blurb: repo_exercise[:blurb],
-      source: repo_exercise[:source],
-      source_url: repo_exercise[:source_url],
-      deep_dive_youtube_id: repo_exercise[:deep_dive_youtube_id],
-      deep_dive_blurb: repo_exercise[:deep_dive_blurb],
-      status: repo_exercise[:deprecated] ? :deprecated : :active
+      slug: repo_exercise.slug,
+      title: repo_exercise.title,
+      blurb: repo_exercise.blurb&.truncate(255),
+      source: repo_exercise.source,
+      source_url: repo_exercise.source_url,
+      deep_dive_youtube_id: repo_exercise.deep_dive_youtube_id,
+      deep_dive_blurb: repo_exercise.deep_dive_blurb,
+      status: repo_exercise.deprecated? ? :deprecated : :active
     }
   end
 end

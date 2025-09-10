@@ -1,4 +1,5 @@
 class Localization::OriginalsController < ApplicationController
+  before_action :ensure_translator_locale
   def index
     redirect_to localization_glossary_entries_url
 
@@ -10,5 +11,12 @@ class Localization::OriginalsController < ApplicationController
     original = Localization::Original.find_by!(uuid: params[:id])
 
     @original = SerializeLocalizationOriginal.(original, current_user)
+  end
+
+  private
+  def ensure_translator_locale
+    return if current_user&.translator_locales.present?
+
+    redirect_to new_localization_translator_path
   end
 end

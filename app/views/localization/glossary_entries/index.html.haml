@@ -3,4 +3,13 @@
 #page-localization-index
   = render ViewComponents::Localization::Header.new
 
-  .lg-container= render ReactComponents::Localization::GlossaryEntriesList.new(@glossary_entries, @glossary_entries_params)
+  .lg-container
+    = render ReactComponents::Common::Introducer.new(:localization_glossary_entries, "world") do
+      %h2 Understanding the Glossary
+      %p
+        The glossary contains terms that should be translated consistently.
+        We have generated used LLMs to generate the translations. They now need two signoffs to proceed.
+        When a language's glossary is complete, we'll generate translations!
+
+
+    = render ReactComponents::Localization::GlossaryEntriesList.new(@glossary_entries, @glossary_entries_params)

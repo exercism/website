@@ -58,7 +58,7 @@ module ViewComponents
         selected = controller_name == "glossary_entries" ? "selected" : ""
         link_to(Exercism::Routes.localization_glossary_entries_url, class: "c-tab-2 #{selected}") do
           graphical_icon(:overview) +
-            tag.span("Glossary Entries")
+            tag.span("Glossary")
         end
       end
     end

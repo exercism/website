@@ -353,7 +353,6 @@ class User < ApplicationRecord
   end
 
   def may_create_translation_proposals? = reputation > 10
-  def may_accept_translation_proposals? = reputation > 20
   def may_manage_translation_proposals? = reputation > 20
 
   memoize

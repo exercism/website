@@ -4,8 +4,8 @@ import { GlossaryEntriesListContext } from '.'
 
 const TABS = [
   { value: undefined, label: 'All' },
-  { value: 'unchecked', label: 'Needs translating' },
-  { value: 'proposed', label: 'Needs reviewing' },
+  { value: 'unchecked', label: 'Needs checking' },
+  { value: 'proposed', label: 'Needs sign-off' },
   { value: 'checked', label: 'Done' },
 ]
 

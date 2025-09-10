@@ -2,18 +2,18 @@ require "test_helper"
 
 class TracksControllerTest < ActionDispatch::IntegrationTest
   test "index: renders correctly for external" do
-    track = create :track
+    create :track
 
-    get tracks_url(track)
+    get tracks_url
     assert_template "tracks/index"
   end
 
   test "index: renders correctly for internal" do
     sign_in!
 
-    track = create :track
+    create :track
 
-    get tracks_url(track)
+    get tracks_url
     assert_template "tracks/index"
   end
 

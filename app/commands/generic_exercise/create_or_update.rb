@@ -31,7 +31,6 @@ class GenericExercise::CreateOrUpdate
   memoize
   def attributes
     {
-      slug: repo_exercise.slug,
       title: repo_exercise.title,
       blurb: repo_exercise.blurb&.truncate(255),
       source: repo_exercise.source,

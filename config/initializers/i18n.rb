@@ -131,4 +131,4 @@ end
 #   I18n.Backend::Exercism.new,
 #   I18n.backend
 # )
-# nd
+# end

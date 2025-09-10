@@ -96,16 +96,13 @@ class GenericExercise::CreateOrUpdateTest < ActiveSupport::TestCase
       deprecated: false
     }
 
-    GenericExercise.any_instance.stubs(instructions:)
-    GenericExercise.any_instance.stubs(introduction:)
-
     Localization::Text::AddToLocalization.expects(:defer).with(:generic_exercise_instructions, instructions, anything)
     Localization::Text::AddToLocalization.expects(:defer).with(:generic_exercise_introduction, introduction, anything)
     Localization::Text::AddToLocalization.expects(:defer).with(:generic_exercise_title, title, anything)
     Localization::Text::AddToLocalization.expects(:defer).with(:generic_exercise_blurb, blurb, anything)
     Localization::Text::AddToLocalization.expects(:defer).with(:generic_exercise_source, source, anything)
 
-    repo_exercise = OpenStruct.new(attributes.merge(deprecated?: attributes[:deprecated]))
+    repo_exercise = OpenStruct.new(attributes.merge(deprecated?: attributes[:deprecated], instructions:, introduction:))
     GenericExercise::CreateOrUpdate.(repo_exercise)
   end
 end

@@ -1,4 +1,0 @@
-{
-  "components.mentoring.session.filePanel.instructions": "**Functional Purpose**: Tab label for instructions content\n**UI Location**: Mentoring session → File panel → Tab bar\n**When Users See This**: When instructions are available for the current iteration\n**Technical Context**: Standard text; no special formatting\n**Current English**: \"Instructions\"",
-  "components.mentoring.session.filePanel.tests": "**Functional Purpose**: Tab label for test files content\n**UI Location**: Mentoring session → File panel → Tab bar\n**When Users See This**: When test files are available for the current iteration\n**Technical Context**: Standard text; no special formatting\n**Current English**: \"Tests\""
-}

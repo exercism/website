@@ -1,3 +1,0 @@
-{
-  "components.mentoring.discussion.discussionActions.ended": "**Functional Purpose**: Indicates that a discussion has ended.\n**UI Location**: Discussion actions section, next to a checkmark icon.\n**When Users See This**: When the discussion status is 'isFinished'.\n**Technical Context**: Standard text; no special formatting.\n**Current English**: \"Ended\""
-}

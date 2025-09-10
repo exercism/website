@@ -1,3 +1,0 @@
-{
-  "contributionResults.showingContributions": "**Functional Purpose**: Displays the total count of contributions with appropriate pluralization.\n**UI Location**: Contribution Results component, within the `results-title-bar` header (h3).\n**When Users See This**: When viewing a list of contributions.\n**Technical Context**: Variables `totalCount` and `contributionLabel` must remain unchanged. `contributionLabel` already handles pluralization.\n**Current English**: \"Showing %{totalCount} %{contributionLabel}\""
-}

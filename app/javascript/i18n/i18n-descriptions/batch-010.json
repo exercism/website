@@ -1,3 +1,0 @@
-{
-  "infoMessage.insiderAccessToDarkMode": "**Functional Purpose**: Inform the user about their Dark Mode access as an Exercism Insider.\n**UI Location**: Settings → Theme Preference (info message area)\n**When Users See This**: When an Exercism Insider views the Theme Preference settings.\n**Technical Context**: Standard text; no special formatting.\n**Current English**: \"As an Exercism Insider, you have access to Dark Mode. Choose between light, dark, or automatically update based on your system preferences. Enjoy! 💎\""
-}

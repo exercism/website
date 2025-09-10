@@ -1,3 +1,0 @@
-{
-  "studentInfo.whoYoureMentoring": "**Functional Purpose**: Subtitle indicating the role of the user with respect to the student\n**UI Location**: Mentoring Session → Student Info section (subtitle)\n**When Users See This**: When viewing the student's information in a mentoring session\n**Technical Context**: Standard text; no special formatting\n**Current English**: \"Who you're mentoring\""
-}

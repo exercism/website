@@ -1,4 +1,0 @@
-{
-  "exerciseCommunitySolutions.exploreSolutions": "**Functional Purpose**: Heading for the community solutions list.\n**UI Location**: Exercise community solutions list, main heading.\n**When Users See This**: When the component successfully loads community solutions.\n**Technical Context**: Standard text.\n**Current English**: \"Explore how others solved this exercise\"",
-  "exerciseCommunitySolutions.searchPlaceholder": "**Functional Purpose**: Placeholder text for the search input field.\n**UI Location**: Exercise community solutions list, search bar.\n**When Users See This**: When the search input field is empty.\n**Technical Context**: Standard text; indicates minimum character requirement.\n**Current English**: \"Search by code (min 3 chars)\""
-}

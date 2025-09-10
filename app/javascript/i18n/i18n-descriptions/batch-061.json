@@ -1,5 +1,0 @@
-{
-  "stripeForm.eligibleForInsidersAccess": "**Functional Purpose**: Alternative text for an icon indicating eligibility for Insiders Access.\n**UI Location**: Donations form, 'Monthly Recurring' tab, next to the tab title.\n**When Users See This**: When viewing the donation form, specifically the monthly recurring option.\n**Technical Context**: This text is used as the `alt` attribute for an icon. It should describe the icon's purpose.\n**Current English**: \"Eligible for Insiders Access\"",
-  "form.monthlyRecurring": "**Functional Purpose**: Label for the tab allowing users to set up a monthly recurring donation.\n**UI Location**: Donations form, tab navigation.\n**When Users See This**: When viewing the donation form.\n**Technical Context**: Standard text for a UI tab.\n**Current English**: \"Monthly Recurring\"",
-  "form.oneOff": "**Functional Purpose**: Label for the tab allowing users to make a one-off donation.\n**UI Location**: Donations form, tab navigation.\n**When Users See This**: When viewing the donation form.\n**Technical Context**: Standard text for a UI tab.\n**Current English**: \"One-off\""
-}

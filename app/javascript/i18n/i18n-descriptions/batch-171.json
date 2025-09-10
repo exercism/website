@@ -1,4 +1,0 @@
-{
-  "badgesList.searchByBadgeNameOrDescription": "**Functional Purpose**: Placeholder text for the badge search input field\n**UI Location**: Badges tab → Search bar\n**When Users See This**: When the search input field is empty\n**Technical Context**: Standard text; no special formatting\n**Current English**: \"Search by badge name or description\"",
-  "badgeResults.showingBadges": "**Functional Purpose**: Displays the total number of badges found based on the current filters/search.\n**UI Location**: Badges tab → Results title bar\n**When Users See This**: After the badge list has loaded and results are displayed.\n**Technical Context**: Contains `totalCount` (number of badges) and `badgeLabel` (pluralized 'badge' string) variables, which must remain unchanged.\n**Current English**: \"Showing {{totalCount}} {{badgeLabel}}\""
-}

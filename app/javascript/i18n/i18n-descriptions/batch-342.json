@@ -1,3 +1,0 @@
-{
-  "feedbackPanelMentoringDiscussion.readonlyIterationMarker.iteration": "**Functional Purpose**: Displays the iteration number in a timeline marker.\n**UI Location**: Editor → Feedback Panel → Mentoring Discussion → Read-only iteration marker\n**When Users See This**: When viewing a discussion post associated with a specific iteration.\n**Technical Context**: Displays iteration index. `idx` must remain unchanged.\n**Current English**: \"Iteration {idx}\""
-}

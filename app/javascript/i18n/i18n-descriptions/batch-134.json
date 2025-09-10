@@ -1,5 +1,0 @@
-{
-  "exerciseUpdateForm.warning": "**Functional Purpose**: Informative warning about potential solution failure\n**UI Location**: Exercise Update Modal (below tabs, above action buttons)\n**When Users See This**: When viewing the exercise update modal\n**Technical Context**: Standard text; no special formatting\n**Current English**: \"By updating to the latest version, your solution may fail the tests and need to be updated.\"",
-  "exerciseUpdateForm.updateExercise": "**Functional Purpose**: Button text to confirm updating an exercise\n**UI Location**: Exercise Update Modal (primary action button)\n**When Users See This**: When a user decides to proceed with the exercise update\n**Technical Context**: Standard button text; no special formatting\n**Current English**: \"Update exercise\"",
-  "exerciseUpdateForm.dismiss": "**Functional Purpose**: Button text to dismiss the exercise update modal\n**UI Location**: Exercise Update Modal (secondary action button)\n**When Users See This**: When a user decides not to update the exercise and closes the modal\n**Technical Context**: Standard button text; no special formatting\n**Current English**: \"Dismiss\""
-}

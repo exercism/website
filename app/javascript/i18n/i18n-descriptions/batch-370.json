@@ -1,6 +1,0 @@
-{
-  "inbox.inbox": "**Functional Purpose**: Label for a tab showing discussions awaiting mentor action\n**UI Location**: Mentoring Inbox (tab for status filter)\n**When Users See This**: When viewing the mentoring inbox to filter discussions\n**Technical Context**: Standard text\n**Current English**: \"Inbox\"",
-  "inbox.awaitingStudent": "**Functional Purpose**: Label for a tab showing discussions awaiting student action\n**UI Location**: Mentoring Inbox (tab for status filter)\n**When Users See This**: When viewing the mentoring inbox to filter discussions\n**Technical Context**: Standard text\n**Current English**: \"Awaiting student\"",
-  "inbox.finished": "**Functional Purpose**: Label for a tab showing finished discussions\n**UI Location**: Mentoring Inbox (tab for status filter)\n**When Users See This**: When viewing the mentoring inbox to filter discussions\n**Technical Context**: Standard text\n**Current English**: \"Finished\"",
-  "inbox.filterByStudentOrExerciseName": "**Functional Purpose**: Placeholder text for a text input filter\n**UI Location**: Mentoring Inbox (search bar)\n**When Users See This**: When the text filter input is empty\n**Technical Context**: Standard text\n**Current English**: \"Filter by student or exercise name\""
-}

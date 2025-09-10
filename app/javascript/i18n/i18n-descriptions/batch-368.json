@@ -1,3 +1,0 @@
-{
-  "trackFilter.somethingWentWrong": "**Functional Purpose**: Error message indicating failure to load track data.\n**UI Location**: Mentoring Inbox → Track Filter component\n**When Users See This**: When an error occurs during the fetching of track data for filtering.\n**Technical Context**: Displayed when `isError` is true from `useRequestQuery`.\n**Current English**: \"Something went wrong\""
-}

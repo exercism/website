@@ -1,4 +1,0 @@
-{
-  "trackFilterList.clickToChange": "**Functional Purpose**: Alternative text for an icon indicating the dropdown can be opened\n**UI Location**: Mentoring Queue → Track Filter (Current track dropdown button)\n**When Users See This**: When viewing the current track filter, especially with assistive technologies\n**Technical Context**: Used as `alt` attribute for an `Icon` component. Standard text; no special formatting\n**Current English**: \"Click to change\"",
-  "trackFilterList.changeTheTracksYouMentor": "**Functional Purpose**: Button text to open a modal for changing mentored tracks\n**UI Location**: Mentoring Queue → Track Filter (Dropdown list item)\n**When Users See This**: When the track filter dropdown is open\n**Technical Context**: Standard text; no special formatting\n**Current English**: \"Change the tracks you mentor\""
-}

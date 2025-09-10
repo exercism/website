@@ -1,4 +1,0 @@
-{
-  "approachSnippet.author": "**Functional Purpose**: Label for the number of authors in a snippet card.\n**UI Location**: Dig Deeper → Approach Snippet card (below snippet title and blurb).\n**When Users See This**: When viewing an Approach Snippet card in the Dig Deeper section.\n**Technical Context**: Appears as `topLabel` for the Credits component. The number of authors is dynamic, from `approach.numAuthors`.\n**Current English**: \"author\"",
-  "approachSnippet.contributor": "**Functional Purpose**: Label for the number of contributors in a snippet card.\n**UI Location**: Dig Deeper → Approach Snippet card (below snippet title and blurb).\n**When Users See This**: When viewing an Approach Snippet card in the Dig Deeper section.\n**Technical Context**: Appears as `bottomLabel` for the Credits component. The number of contributors is dynamic, from `approach.numContributors`.\n**Current English**: \"contributor\""
-}

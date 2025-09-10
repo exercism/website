@@ -1,4 +1,0 @@
-{
-  "paymentPending.errorFetchingStatus": "**Functional Purpose**: Error message displayed when there is an issue fetching the payment status.\n**UI Location**: Background process, not directly visible to the user as a UI element, but affects the state.\n**When Users See This**: When an internal API call to fetch payment status fails.\n**Technical Context**: This string is used as an error message for an internal `fetch` call.\n**Current English**: \"Error fetching paypal status\"",
-  "loadingOverlay.redirect": "**Functional Purpose**: Button label to trigger a redirect.\n**UI Location**: Within a loading overlay component.\n**When Users See This**: When the `LoadingOverlay` component is active and presents an option to redirect.\n**Technical Context**: The button's `onClick` handler calls `redirectTo(url)`.\n**Current English**: \"Redirect\""
-}

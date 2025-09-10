@@ -1,3 +1,0 @@
-{
-  "radioButton.info": "**Functional Purpose**: Alternative text for an information icon next to a radio button.\n**UI Location**: Components → Mentoring → Representation → Right Pane → Radio Button (info icon alt text)\n**When Users See This**: When an information tooltip is available for a radio button option.\n**Technical Context**: Used as the `alt` attribute for an `Icon` component. Must remain unchanged.\n**Current English**: \"Info\""
-}

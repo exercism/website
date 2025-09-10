@@ -1,4 +1,0 @@
-{
-  "categorySummary.noRep": "**Functional Purpose**: Text indicating zero reputation for a contribution category\n**UI Location**: Profile → Contributions Summary → Individual Category Card\n**When Users See This**: When a user's reputation for a specific category is 0\n**Technical Context**: Displays 'No rep'; no variables\n**Current English**: \"No rep\"",
-  "categorySummary.rep": "**Functional Purpose**: Text displaying a user's reputation for a contribution category\n**UI Location**: Profile → Contributions Summary → Individual Category Card\n**When Users See This**: When a user has reputation (greater than 0) in a category\n**Technical Context**: Variable `reputation` must remain unchanged; formats the number using toLocaleString()\n**Current English**: \"%{reputation} rep\""
-}

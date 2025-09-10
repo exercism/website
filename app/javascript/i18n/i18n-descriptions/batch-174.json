@@ -1,5 +1,0 @@
-{
-  "solutionsList.searchByExerciseOrTrackName": "**Functional Purpose**: Placeholder text for the search input field\n**UI Location**: Solutions List (search bar)\n**When Users See This**: When the search input is empty\n**Technical Context**: Standard text; no special formatting\n**Current English**: \"Search by exercise or track name\"",
-  "solutionsList.showingSolutions": "**Functional Purpose**: Displays the count of solutions found, with correct pluralization\n**UI Location**: Solutions List (results title bar)\n**When Users See This**: After a search or filter has been applied and results are displayed\n**Technical Context**: Variables `totalCount` and `solutionLabel` must remain unchanged. `solutionLabel` handles pluralization.\n**Current English**: \"Showing {{totalCount}} {{solutionLabel}}\"",
-  "solutionsList.resetFilters": "**Functional Purpose**: Label for a button to clear all applied filters\n**UI Location**: Solutions List (results title bar)\n**When Users See This**: When filters are applied and the user wants to clear them\n**Technical Context**: Standard text; no special formatting\n**Current English**: \"Reset filters\""
-}

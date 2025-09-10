@@ -1,3 +1,0 @@
-{
-  "mobileIterationView.thisIterationHasBeenDeleted": "**Functional Purpose**: Inform the user that the current iteration has been deleted.\n**UI Location**: Mobile code panel, in place of code or file views, when an iteration is marked as deleted.\n**When Users See This**: When viewing a session iteration that has been deleted by a mentor.\n**Technical Context**: This message is displayed when `currentIteration.status` is `IterationStatus.DELETED`.\n**Current English**: \"This iteration has been deleted\""
-}

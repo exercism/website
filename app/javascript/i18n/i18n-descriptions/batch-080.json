@@ -1,4 +1,0 @@
-{
-  "searchByTitle": "**Functional Purpose**: Placeholder text for the exercise search bar\n**UI Location**: Student Exercise List page, within the search input field\n**When Users See This**: When the search input field is empty\n**Technical Context**: Standard text; no special formatting\n**Current English**: \"Search by title\"",
-  "noExercisesFound": "**Functional Purpose**: Message displayed when no exercises match the current filters or search criteria\n**UI Location**: Student Exercise List page, in the main content area below the filters\n**When Users See This**: After applying filters or search criteria that yield no results\n**Technical Context**: Standard text; no special formatting\n**Current English**: \"No exercises found\""
-}

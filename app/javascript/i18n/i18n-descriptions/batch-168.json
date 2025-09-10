@@ -1,5 +1,0 @@
-{
-  "solutionFilter.filterBy": "**Functional Purpose**: Label for the button that opens the solution filter options.\n**UI Location**: Solution List Page → Filter button\n**When Users See This**: Always visible next to the filter icon on the solution list page.\n**Technical Context**: Standard text; no special formatting\n**Current English**: \"Filter by\"",
-  "solutionFilter.applyFilters": "**Functional Purpose**: Button to confirm and apply the selected filter options.\n**UI Location**: Solution List Page → Filter dialog → Footer\n**When Users See This**: After opening the filter dialog and making selections, before closing.\n**Technical Context**: Standard text; no special formatting\n**Current English**: \"Apply filters\"",
-  "solutionFilter.close": "**Functional Purpose**: Button to close the filter options dialog without applying changes.\n**UI Location**: Solution List Page → Filter dialog → Footer\n**When Users See This**: When the filter dialog is open.\n**Technical Context**: Standard text; no special formatting\n**Current English**: \"Close\""
-}

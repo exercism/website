@@ -1,5 +1,0 @@
-{
-  "selectExercise.title": "**Functional Purpose**: Title for the modal to select an exercise for mentoring.\n**UI Location**: Request Mentoring Modal (header)\n**When Users See This**: When a user clicks to request mentoring for a solution.\n**Technical Context**: Standard text.\n**Current English**: \"Select an exercise to request mentoring on\"",
-  "selectExercise.searchPlaceholder": "**Functional Purpose**: Placeholder text for the search input.\n**UI Location**: Request Mentoring Modal (search bar)\n**When Users See This**: When the modal is open, before the user types into the search box.\n**Technical Context**: Standard text.\n**Current English**: \"Search exercise by name\"",
-  "exercise.numberOfIterations": "**Functional Purpose**: Alt text for an icon indicating the number of iterations for a solution.\n**UI Location**: Request Mentoring Modal (exercise list item)\n**When Users See This**: When an exercise solution is displayed in the list and the icon is hovered or read by a screen reader.\n**Technical Context**: Standard text.\n**Current English**: \"Number of iterations\""
-}

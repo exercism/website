@@ -1,6 +1,0 @@
-{
-  "notificationsList.notifications": "**Functional Purpose**: Heading for the notifications page\n**UI Location**: Notifications page, main heading\n**When Users See This**: When viewing their notifications list\n**Technical Context**: Standard text; no special formatting\n**Current English**: \"Notifications\"",
-  "notificationsList.markAsRead": "**Functional Purpose**: Button to mark selected notifications as read\n**UI Location**: Notifications page, action bar\n**When Users See This**: When one or more notifications are selected and at least one is unread\n**Technical Context**: Standard text for a button label\n**Current English**: \"Mark as read\"",
-  "notificationsList.markAsUnread": "**Functional Purpose**: Button to mark selected notifications as unread\n**UI Location**: Notifications page, action bar\n**When Users See This**: When one or more notifications are selected and at least one is read\n**Technical Context**: Standard text for a button label\n**Current English**: \"Mark as unread\"",
-  "notificationsList.markAllAsRead": "**Functional Purpose**: Button to open a modal to mark all notifications as read\n**UI Location**: Notifications page, action bar\n**When Users See This**: When there are unread notifications present\n**Technical Context**: Standard text for a button label\n**Current English**: \"Mark all as read\""
-}

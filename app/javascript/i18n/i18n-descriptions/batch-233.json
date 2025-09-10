@@ -1,3 +1,0 @@
-{
-  "testimonialsList.unableToLoadTestimonials": "**Functional Purpose**: Error message when testimonials fail to load\n**UI Location**: Profile → Testimonials List (error boundary)\n**When Users See This**: If an error occurs while fetching testimonials data\n**Technical Context**: This string replaces the default error message in the FetchingBoundary component.\n**Current English**: \"Unable to load testimonials\""
-}

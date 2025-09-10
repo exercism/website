@@ -1,5 +1,0 @@
-{
-  "trackObjectivesTitle": "**Functional Purpose**: Title for the track objectives section\n**UI Location**: Student tooltip → Track objectives section header\n**When Users See This**: When the student has track objectives to display in their tooltip\n**Technical Context**: Standard text; no special formatting\n**Current English**: \"Track objectives\"\n",
-  "favorited": "**Functional Purpose**: Label indicating the student is favorited\n**UI Location**: Student tooltip → Favorited status\n**When Users See This**: When the student is marked as a favorite\n**Technical Context**: Standard text; no special formatting\n**Current English**: \"Favorited\"\n",
-  "unableToLoad": "**Functional Purpose**: Error message when student information cannot be loaded\n**UI Location**: Student tooltip (main content area)\n**When Users See This**: If there's an error fetching student data for the tooltip\n**Technical Context**: Standard text; no special formatting\n**Current English**: \"Unable to load information\"\n"
-}

@@ -1,5 +1,0 @@
-{
-  "contributionsSummary.contributions": "**Functional Purpose**: Section header for the contributions summary\n**UI Location**: Profile page → Contributions section header\n**When Users See This**: When viewing the Contributions section on a profile page\n**Technical Context**: Standard text; no special formatting\n**Current English**: \"Contributions\"",
-  "contributionsSummary.seeHandleContributions": "**Functional Purpose**: Link text to view a specific user's contributions\n**UI Location**: Profile page → Contributions section (bottom link)\n**When Users See This**: When viewing another user's profile and seeing the contributions summary\n**Technical Context**: Variable `handle` must remain unchanged\n**Current English**: \"See %{handle}'s contributions\"",
-  "contributionsSummary.seeYourContributions": "**Functional Purpose**: Link text to view the current user's contributions\n**UI Location**: Profile page → Contributions section (bottom link)\n**When Users See This**: When viewing their own profile and seeing the contributions summary\n**Technical Context**: Standard text; no special formatting\n**Current English**: \"See your contributions\""
-}

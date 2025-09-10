@@ -1,5 +1,0 @@
-{
-  "commentsList.options.disableComments": "**Functional Purpose**: Button to disable comments for a solution\n**UI Location**: Community Solutions → Comments List → Options dropdown\n**When Users See This**: When viewing a solution as its author and comments are currently enabled\n**Technical Context**: Appears as an option in a dropdown menu. No variables.\n**Current English**: \"Disable comments…\"",
-  "commentsList.options.enableComments": "**Functional Purpose**: Button to enable comments for a solution\n**UI Location**: Community Solutions → Comments List → Options dropdown\n**When Users See This**: When viewing a solution as its author and comments are currently disabled\n**Technical Context**: Appears as an option in a dropdown menu. No variables.\n**Current English**: \"Enable comments…\"",
-  "commentsList.header.writeComment": "**Functional Purpose**: Heading for the comment submission section\n**UI Location**: Community Solutions → Comments List (header)\n**When Users See This**: Above the form for adding a new comment to a solution\n**Technical Context**: Standard text. No variables.\n**Current English**: \"Write a comment\""
-}

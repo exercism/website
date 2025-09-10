@@ -1,3 +1,0 @@
-{
-  "queue.filterByStudentHandle": "**Functional Purpose**: Placeholder text for a student name filter input\n**UI Location**: Mentoring Queue page, within the search bar\n**When Users See This**: When the input field for filtering solutions by student handle is empty\n**Technical Context**: This string is used as the `placeholder` prop for the `TextFilter` component.\n**Current English**: \"Filter by student handle\""
-}

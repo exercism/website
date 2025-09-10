@@ -1,4 +1,0 @@
-{
-  "revealedTestimonial.onExerciseInTrack": "**Functional Purpose**: Displays the exercise and track associated with the testimonial.\n**UI Location**: Mentoring → Testimonials List → Individual Testimonial Card (below student handle)\n**When Users See This**: When viewing a revealed testimonial in the list.\n**Technical Context**: Variables `exerciseTitle` and `trackTitle` must remain unchanged.\n**Current English**: \"on %{exerciseTitle} in %{trackTitle}\"",
-  "revealedTestimonial.new": "**Functional Purpose**: Label indicating a new testimonial.\n**UI Location**: Mentoring → Testimonials List → Individual Testimonial Card (top right corner of info block)\n**When Users See This**: When a newly revealed testimonial appears in the list.\n**Technical Context**: Standard text; no special formatting.\n**Current English**: \"New\""
-}

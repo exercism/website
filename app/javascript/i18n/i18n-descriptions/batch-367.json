@@ -1,4 +1,0 @@
-{
-  "discussion.favoriteStudent": "**Functional Purpose**: Alternative text for the gold star icon indicating a favorite student.\n**UI Location**: Mentoring inbox, within a discussion card, next to the student's handle.\n**When Users See This**: When a student is marked as a favorite by the mentor.\n**Technical Context**: Used as the `alt` attribute for an icon. Text must remain unchanged.\n**Current English**: \"Favorite student\"",
-  "discussion.comments": "**Functional Purpose**: Alternative text for the comment icon, indicating the number of comments in a discussion.\n**UI Location**: Mentoring inbox, within a discussion card, next to the comment icon.\n**When Users See This**: Always visible on a discussion card.\n**Technical Context**: Used as the `alt` attribute for an icon. The `postsCount` variable must remain unchanged.\n**Current English**: \"{discussion.postsCount} comments\""
-}

@@ -1,3 +1,0 @@
-{
-  "exerciseUpdateModal.loadingExerciseDiff": "**Functional Purpose**: Alternative text for a loading spinner indicating that exercise differences are being loaded.\n**UI Location**: Exercise Update Modal (loading state).\n**When Users See This**: While the modal is fetching data to display the exercise update form.\n**Technical Context**: Used as the `alt` attribute for an `Icon` component.\n**Current English**: \"Loading exercise diff\""
-}

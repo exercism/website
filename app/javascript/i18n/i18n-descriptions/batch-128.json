@@ -1,5 +1,0 @@
-{
-  "deepDiveVideoContent.digDeeperInto": "**Functional Purpose**: Heading for the deep dive video section.\n**UI Location**: Realtime Feedback Modal → Deep Dive Video Content.\n**When Users See This**: When an exercise offers a deep dive video as part of the feedback.\n**Technical Context**: `exerciseTitle` must remain unchanged.\n**Current English**: \"Dig Deeper into {exerciseTitle}!\"",
-  "deepDiveVideoContent.continue": "**Functional Purpose**: Button text to continue from the deep dive video content.\n**UI Location**: Realtime Feedback Modal → Deep Dive Video Content (footer button).\n**When Users See This**: After viewing the deep dive video, to proceed with the feedback flow.\n**Technical Context**: Standard text; no special formatting.\n**Current English**: \"Continue\"",
-  "feedbackContentButtons.goBackToEditor": "**Functional Purpose**: Button text to navigate back to the editor.\n**UI Location**: Realtime Feedback Modal → Footer button.\n**When Users See This**: When a user wants to exit the feedback modal and return to the code editor.\n**Technical Context**: Standard text; no special formatting.\n**Current English**: \"Go back to editor\""
-}

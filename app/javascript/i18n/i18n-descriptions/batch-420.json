@@ -1,3 +1,0 @@
-{
-  "studentTrackObjectives.exploreTrackGoals": "**Functional Purpose**: Summarize student's track goals, acting as a collapsible header.\n**UI Location**: Mentoring session page → Student info panel → Track Objectives section\n**When Users See This**: When viewing a student's information in a mentoring session.\n**Technical Context**: `handle` variable must remain unchanged.\n**Current English**: \"Explore {student.handle}'s track goal(s)\""
-}

@@ -1,3 +1,0 @@
-{
-  "finishedWizard.incorrectState": "**Functional Purpose**: Error message for an unexpected state in the finished wizard.\n**UI Location**: Mentoring Discussion → Finished Wizard (within the step content area)\n**When Users See This**: If the internal state of the wizard somehow enters an unrecognized step.\n**Technical Context**: The variable `step` must remain unchanged and represents the current step value.\n**Current English**: \"Incorrect state: {step}\""
-}

@@ -1,5 +1,0 @@
-{
-  "juniorView.aCourseForYou": "**Functional Purpose**: Title for the welcome message in the Junior View modal\n**UI Location**: Welcome Modal (Junior View) -> Left hand side -> Header\n**When Users See This**: When the welcome modal opens for users identified as junior\n**Technical Context**: Standard text; no special formatting\n**Current English**: \"A course for you... 🎉\"\n",
-  "juniorView.skip": "**Functional Purpose**: Button text to skip the welcome modal\n**UI Location**: Welcome Modal (Junior View) -> Left hand side -> Footer\n**When Users See This**: When the welcome modal is displayed, offering to dismiss it\n**Technical Context**: Standard text; no special formatting\n**Current English**: \"Skip\"\n",
-  "juniorView.theCourseOffers": "**Functional Purpose**: Subheading introducing the list of features of the course\n**UI Location**: Welcome Modal (Junior View) -> Right hand side -> Course details box\n**When Users See This**: When the welcome modal is displayed, providing information about the course\n**Technical Context**: Standard text; no special formatting\n**Current English**: \"The course offers:\""
-}

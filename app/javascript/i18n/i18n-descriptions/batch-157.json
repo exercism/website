@@ -1,4 +1,0 @@
-{
-  "whoIsThisTrackFor.courseOffersHeading": "**Functional Purpose**: Heading for the list of features offered by the course\n**UI Location**: Track Welcome Modal → Who Is This Track For (RHS panel)\n**When Users See This**: When the user is presented with the \"Who Is This Track For\" section of the welcome modal\n**Technical Context**: Standard text; no special formatting\n**Current English**: \"The course offers:\"\n",
-  "videoRHS.watchThisShortVideo": "**Functional Purpose**: Instructional message for a video explaining learning and practice modes\n**UI Location**: Track Welcome Modal → Video RHS panel\n**When Users See This**: When the user is presented with the video in the welcome modal\n**Technical Context**: Standard text with an emoji. The emoji ☝️ should remain unchanged.\n**Current English**: \"☝️ Watch this short video to learn more about Learning and Practice Modes, and how to choose the right setup for you.\""
-}

@@ -47,7 +47,7 @@ export function TranslationsWithStatus({
   status,
 }: {
   locale: string
-  status: 'unchecked' | 'approved' | 'rejected'
+  status: 'unchecked' | 'approved' | 'rejected' | 'proposed'
 }) {
   return (
     <div className="translations-statuses">

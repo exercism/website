@@ -1,6 +1,6 @@
 import { SearchInput } from '@/components/common'
 import { useDebounce } from '@uidotdev/usehooks'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { GlossaryEntriesListContext } from '.'
 import { GlossaryEntriesTableList } from './GlossaryEntriesTableList'
 import { Tabs } from './Tabs'
@@ -72,14 +72,24 @@ function ProposeTermModal({
   isOpen: boolean
   onClose: () => void
 }) {
+  const { links, translationLocales } = useContext(GlossaryEntriesListContext)
   const [term, setTerm] = useState<string>('')
   const [description, setDescription] = useState<string>('')
+  const [locale, setLocale] = useState<string>(translationLocales[0])
+  const [translation, setTranslation] = useState<string>('')
 
   const onSave = useCallback(() => {
     const fetch = sendRequest({
-      endpoint: '',
+      endpoint: links.createGlossaryEntry,
       method: 'POST',
-      body: JSON.stringify({ term, description }),
+      body: JSON.stringify({
+        glossary_entry: {
+          term,
+          llm_instructions: description,
+          locale,
+          translation,
+        },
+      }),
     })
 
     fetch.fetch
@@ -91,7 +101,7 @@ function ProposeTermModal({
         toast.error('Failed to propose a new term.', e)
         console.error(e)
       })
-  }, [term, description])
+  }, [term, description, locale, translation])
 
   return (
     <Modal open={isOpen} onClose={onClose}>
@@ -111,7 +121,6 @@ function ProposeTermModal({
               placeholder="Enter term"
             />
 
-            {/* GENERATE NOTE ABOUT WHAT A GLOSSARY TERM IS*/}
             <p className="text-p text-textColor6 leading-130">
               A glossary term is a word or phrase that has a specific meaning
               within a particular context or field.
@@ -132,11 +141,42 @@ function ProposeTermModal({
               className="w-full border border-gray-300 rounded px-12 py-8 mb-8"
               placeholder="Enter description"
             ></textarea>
-            {/* GENERATE NOTE ABOUT WHAT A GLOSSARY TERM DESCRIPTION IS*/}
             <p className="text-p text-textColor6 leading-130">
               A glossary term description provides additional context or
               explanation about the term, helping users understand its usage and
               significance.
+            </p>
+          </div>
+          <div>
+            <label className="block font-semibold mb-4 text-h6">Locale</label>
+            <LocaleSelect
+              locales={[...(translationLocales || [])]}
+              value={locale}
+              onChange={setLocale}
+              showAll={false}
+              label="Select locale"
+            />
+            <p className="text-p text-textColor6 leading-130 mt-8">
+              Select the language locale for this glossary term.
+            </p>
+          </div>
+          <div>
+            <label
+              className="block font-semibold mb-4 text-h6"
+              htmlFor="translation"
+            >
+              Translation
+            </label>
+            <input
+              type="text"
+              id="translation"
+              value={translation}
+              onChange={(e) => setTranslation(e.target.value)}
+              className="w-full border border-gray-300 rounded px-12 py-8 mb-8"
+              placeholder="Enter translation"
+            />
+            <p className="text-p text-textColor6 leading-130">
+              Provide the translated term or phrase in the selected locale.
             </p>
           </div>
           <div className="flex items-center gap-8">

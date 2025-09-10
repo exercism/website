@@ -17,7 +17,6 @@ export const ReputationInfo = (): JSX.Element => {
             {
               <Trans
                 i18nKey="reputationInfo.gainReputation"
-                ns="components/modals/mentor-registration-modal/commit-step"
                 components={[<strong />]}
               />
             }

@@ -6,34 +6,34 @@ administrator	administrator	Someone who manages and maintains the Exercism platf
 analyzer	analizues	An automated tool that analyzes code and provides feedback on common patterns and improvements. Use a technical term that conveys automated code analysis
 argument	argument	A value passed to a function or method when it is called. Use the standard programming term for argument or actual parameter
 approach	qasje	Different ways to solve an exercise, showing various techniques and patterns. Use the term for approach, method, or technique in problem-solving contexts
-approve	miratoj	When a mentor marks a solution as good enough to complete the exercise. Use the term for approval or validation in educational assessment
+approve	miratos	When a mentor marks a solution as good enough to complete the exercise. Use the term for approval or validation in educational assessment
 article	artikull	Educational content that provides deeper learning about programming topics related to exercises. Use the standard term for educational article or written lesson
 author	autor	Someone who creates original content like exercises, concepts, or approaches. Use the standard term for author or creator of educational content
-automated feedback	feedback automatik	Feedback generated automatically by the analyzer tool rather than by human mentors. Use terms that clearly indicate this is machine-generated feedback
-badge	emblemë	An achievement badge earned for accomplishments on Exercism like completing exercises or contributing. Use the term for achievement badge or award commonly used in gamification or educational achievement systems
+automated feedback	reagim i automatizuar	Feedback generated automatically by the analyzer tool rather than by human mentors. Use terms that clearly indicate this is machine-generated feedback
+badge	stemë	An achievement badge earned for accomplishments on Exercism like completing exercises or contributing. Use the term for achievement badge or award commonly used in gamification or educational achievement systems
 blog	blog	Articles and posts about Exercism updates, features, and community stories. Use the standard term for blog if commonly used, otherwise use online journal or news section
-bootcamp	kamp intensiv	An intensive, structured learning program for programming. Use the term for bootcamp or intensive training program
+bootcamp	kampi intenziv	An intensive, structured learning program for programming. Use the term for bootcamp or intensive training program
 code	kod	The text of a computer program. Use the standard term for source code or program code
 coding	kodim	The act of writing computer programs. Use the informal term for programming that students would use
 comment	komentoj	To leave feedback or thoughts on someone's published solution. Use the verb for commenting or leaving feedback on online content
 community	komunitet	The collective group of students, mentors, and contributors who make up Exercism. Use the standard term for community or collective in online contexts
 complete	përfundoj	To finish an exercise successfully by passing all tests. Use the verb for completing or finishing a task successfully
 concept	koncept	A fundamental programming idea or principle that is taught through exercises (like loops, recursion, or classes). Use the educational term for concept or fundamental principle
-concept exercise	ushtrim koncepti	An exercise specifically designed to teach a new programming concept. These exercises focus on introducing and practicing a single concept. Use terms that clearly indicate this is a teaching exercise for a specific concept
+concept exercise	ushtrimi i konceptit	An exercise specifically designed to teach a new programming concept. These exercises focus on introducing and practicing a single concept. Use terms that clearly indicate this is a teaching exercise for a specific concept
 contribution	kontribut	Work done to improve Exercism, such as creating exercises or fixing bugs. Use the noun form that matches your translation of 'contributor'
 Contribute	Kontribuo	One of the main sections of Exercism where users can help improve the platform. Keep as 'Contribute' or translate as a verb meaning to contribute or help
-contributor	kontribuues	Someone who helps build and improve Exercism by creating exercises, fixing bugs, or improving content. Use the standard term for contributor or collaborator in open-source projects
+contributor	kontributor	Someone who helps build and improve Exercism by creating exercises, fixing bugs, or improving content. Use the standard term for contributor or collaborator in open-source projects
 dashboard	paneli kryesor	The main page showing your progress, current exercises, and mentoring activity. Use the standard term for dashboard or control panel in web applications
 developer	zhvillues	Someone who writes software professionally. Use the standard term for software developer or programmer
 Discover	Zbulo	One of the main sections of Exercism for exploring solutions and learning from others. Keep as 'Discover' or translate as a verb meaning to discover or explore
 discussion	diskutim	A conversation between a mentor and student about a solution, where feedback is given and questions are answered. Use the term for educational discussion or dialogue
-donate	dhuroj	To give money to support Exercism's mission. Use the standard verb for charitable giving or donation
+donate	dhuro	To give money to support Exercism's mission. Use the standard verb for charitable giving or donation
 donation	dhurim	A financial contribution to support Exercism. Use the standard noun for charitable donation or contribution
 engineer	inxhinier	A professional who designs and builds software systems. Often used interchangeably with developer or programmer. Use the standard professional title for software engineer
-generator	gjenerator	A tool or script that automatically creates code, exercises, or other content. Use the term for generator or code generator
+generator	gjenerues	A tool or script that automatically creates code, exercises, or other content. Use the term for generator or code generator
 exercise	ushtrim	A coding problem that students solve to practice programming skills. These are like homework exercises in school. Translate as a practice problem or training task. Avoid translations that mean physical exercise
-favorites	të preferuara	A feature to bookmark exercises or solutions for easy access later. Use the standard term for favorites or bookmarks in software
-feedback	feedback	Comments and suggestions provided by mentors or automated systems to help improve solutions. Use the standard term for constructive feedback in educational contexts
+favorites	të preferuarit	A feature to bookmark exercises or solutions for easy access later. Use the standard term for favorites or bookmarks in software
+feedback	reagim	Comments and suggestions provided by mentors or automated systems to help improve solutions. Use the standard term for constructive feedback in educational contexts
 fluency	rrjedhshmëri	The goal of developing natural, confident programming ability in a language. Use the term for fluency or proficiency in language learning contexts
 forum	forum	The discussion board where the community can ask questions and share knowledge. Use the standard term for online forum or discussion board
 function	funksion	A reusable block of code that performs a specific task. Use the standard programming term for function
@@ -46,12 +46,12 @@ maintainer	mirëmbajtës	Someone who has responsibility for managing and oversee
 member	anëtar	Someone who is part of the Exercism community. Use the term for member or participant in a community
 mentor	mentor	An experienced volunteer who provides feedback on student solutions to help them improve. Use the standard translation for mentor/tutor/coach who guides learning. Choose the term most commonly used for someone who provides educational guidance
 method	metodë	A function that belongs to a class or object in object-oriented programming. Use the standard OOP term for method or member function
-mentoring	mentorish	The process of providing guidance and feedback to students on their solutions. Use the verb form of mentor/tutor/coach. This should be consistent with how you translate 'mentor'
-milestone	pikë kryesore	A significant point of progress in the learning journey. Use the term for milestone or landmark achievement
+mentoring	mentorimi	The process of providing guidance and feedback to students on their solutions. Use the verb form of mentor/tutor/coach. This should be consistent with how you translate 'mentor'
+milestone	gur kilometrik	A significant point of progress in the learning journey. Use the term for milestone or landmark achievement
 monthly	mujor	Happening once per month, especially for donations. Use the standard term for monthly or per month
-not-for-profit	jo-fitimprurës	Exercism is a not-for-profit organization focused on education, not making money. Use the legal term for nonprofit or not-for-profit organizations in your country
+not-for-profit	jofitimprurës	Exercism is a not-for-profit organization focused on education, not making money. Use the legal term for nonprofit or not-for-profit organizations in your country
 notification	njoftim	Messages alerting you to new feedback, replies, or other activity. Use the standard term for notifications or alerts in web applications
-open-source	burim i hapur	Exercism is open-source software, meaning the code is publicly available and anyone can contribute. Use the standard term for open-source software in your language
+open-source	me kod të hapur	Exercism is open-source software, meaning the code is publicly available and anyone can contribute. Use the standard term for open-source software in your language
 parameter	parametër	A variable in a function definition that receives a value when the function is called. Use the standard programming term for parameter or formal parameter
 payment	pagesë	The process of sending money for donations or services. Use the standard term for payment or transaction
 perks	përfitime	Special benefits and rewards available to Insiders and supporters. Use the term for benefits, perks, or rewards in loyalty programs
@@ -59,10 +59,10 @@ practice exercise	ushtrim praktike	An exercise designed to practice skills, not 
 premium	premium	Enhanced features or content (though Exercism is free, some features are for Insiders). Use the term for premium or enhanced features
 profile	profil	Your public page showing your solutions, contributions, and achievements. Use the standard term for user profile in web applications
 programming	programim	The formal term for writing computer programs. Use the standard professional term for software programming
-progress	përparim	Advancement through exercises and tracks, measuring learning achievement. Use the standard term for progress or advancement in educational contexts
+progress	progres	Advancement through exercises and tracks, measuring learning achievement. Use the standard term for progress or advancement in educational contexts
 publish	publiko	To make your solution publicly visible for others to learn from. Use the term for publishing or making public in online contexts
 queue	radhë	A waiting list, especially for mentoring requests where students wait for mentors. Use the term for queue or waiting list
-recurring	përsëritës	A donation that repeats automatically each month. Use the term for recurring or repeating payment
+recurring	përsëritëse	A donation that repeats automatically each month. Use the term for recurring or repeating payment
 representer	përfaqësues	A tool that normalizes code to identify common patterns across solutions. Use a technical term that conveys code representation or normalization
 reputation	reputacion	Reputation points are awarded to contributors for improving Exercism. Someone's total points are known as their 'reputation'. Use the standard term for reputation, standing, or prestige in the community. Avoid terms that only mean "points" or "score"
 request help	kërko ndihmë	To ask for a mentor to review your solution and provide guidance. Use the phrase for requesting assistance or asking for help in educational contexts
@@ -70,14 +70,14 @@ reward	shpërblim	Something earned for achievements or contributions. Use the te
 settings	cilësimet	The page where you configure your account preferences and options. Use the standard term for settings or preferences in software applications
 solution	zgjidhje	The code submitted by a student to solve an exercise. This is their answer to the problem. Use the term commonly used for code submissions or homework answers in educational contexts
 student	student	A person learning programming through Exercism exercises. Use the standard term for student or learner in educational contexts
-submit	dorëzoj	To send your solution to Exercism for testing and feedback. Use the verb for submitting or turning in work in educational contexts
-submission	dorëzim	The act of sending your solution to Exercism for testing and feedback. Use the term for submission or turning in work in educational contexts
+submit	dërgo	To send your solution to Exercism for testing and feedback. Use the verb for submitting or turning in work in educational contexts
+submission	dërgim	The act of sending your solution to Exercism for testing and feedback. Use the term for submission or turning in work in educational contexts
 subscription	abonim	A recurring monthly donation to Exercism. Use the term for subscription or recurring payment
 supporter	mbështetës	Someone who donates to Exercism. Use the term for patron, supporter, or donor of a charitable organization
-syllabus	silabi	The structured learning path showing the order of concepts and exercises in a track. Use the standard educational term for syllabus or curriculum
-test runner	ekzekutues testimesh	The system that executes tests against submitted solutions to check if they work correctly. Use the technical term for test execution system or test runner
+syllabus	kurrikul	The structured learning path showing the order of concepts and exercises in a track. Use the standard educational term for syllabus or curriculum
+test runner	ekzekutues testesh	The system that executes tests against submitted solutions to check if they work correctly. Use the technical term for test execution system or test runner
 testimonial	dëshmi	A review or recommendation written by a student about their mentor. Use the term for testimonial, review, or recommendation that is commonly used for endorsements
 tier	nivel	Different levels of features or access (like Insider tiers). Use the term for tier, level, or category
-track	shteg	Exercism uses 'track' to mean a pathway through content for a specific programming language. Each track contains exercises and concepts for that language. Use the word for "pathway" or "course" in the target language. If "track" translates naturally and is commonly used for learning paths, use that. Otherwise use the equivalent of "course" or "learning path"
+track	rrugë	Exercism uses 'track' to mean a pathway through content for a specific programming language. Each track contains exercises and concepts for that language. Use the word for "pathway" or "course" in the target language. If "track" translates naturally and is commonly used for learning paths, use that. Otherwise use the equivalent of "course" or "learning path"
 trophy	trofe	Special achievements earned within a specific track for completing challenges. Similar to badges but track-specific. Use a term that distinguishes these from general badges, perhaps using the word for trophy or special achievement
 unlock	shkyç	To gain access to new exercises or features by meeting certain requirements. Use the term for unlocking or gaining access that is commonly used in gamified systems

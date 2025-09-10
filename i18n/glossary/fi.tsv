@@ -8,22 +8,22 @@ argument	argumentti	A value passed to a function or method when it is called. Us
 approach	lähestymistapa	Different ways to solve an exercise, showing various techniques and patterns. Use the term for approach, method, or technique in problem-solving contexts
 approve	hyväksyä	When a mentor marks a solution as good enough to complete the exercise. Use the term for approval or validation in educational assessment
 article	artikkeli	Educational content that provides deeper learning about programming topics related to exercises. Use the standard term for educational article or written lesson
-author	kirjoittaja	Someone who creates original content like exercises, concepts, or approaches. Use the standard term for author or creator of educational content
+author	tekijä	Someone who creates original content like exercises, concepts, or approaches. Use the standard term for author or creator of educational content
 automated feedback	automaattinen palaute	Feedback generated automatically by the analyzer tool rather than by human mentors. Use terms that clearly indicate this is machine-generated feedback
 badge	merkki	An achievement badge earned for accomplishments on Exercism like completing exercises or contributing. Use the term for achievement badge or award commonly used in gamification or educational achievement systems
 blog	blogi	Articles and posts about Exercism updates, features, and community stories. Use the standard term for blog if commonly used, otherwise use online journal or news section
-bootcamp	tehokurssi	An intensive, structured learning program for programming. Use the term for bootcamp or intensive training program
+bootcamp	bootcamp	An intensive, structured learning program for programming. Use the term for bootcamp or intensive training program
 code	koodi	The text of a computer program. Use the standard term for source code or program code
 coding	koodaus	The act of writing computer programs. Use the informal term for programming that students would use
 comment	kommentoida	To leave feedback or thoughts on someone's published solution. Use the verb for commenting or leaving feedback on online content
 community	yhteisö	The collective group of students, mentors, and contributors who make up Exercism. Use the standard term for community or collective in online contexts
 complete	suorittaa	To finish an exercise successfully by passing all tests. Use the verb for completing or finishing a task successfully
 concept	käsite	A fundamental programming idea or principle that is taught through exercises (like loops, recursion, or classes). Use the educational term for concept or fundamental principle
-concept exercise	käsite-harjoitus	An exercise specifically designed to teach a new programming concept. These exercises focus on introducing and practicing a single concept. Use terms that clearly indicate this is a teaching exercise for a specific concept
-contribution	osuus	Work done to improve Exercism, such as creating exercises or fixing bugs. Use the noun form that matches your translation of 'contributor'
+concept exercise	käsiteharjoitus	An exercise specifically designed to teach a new programming concept. These exercises focus on introducing and practicing a single concept. Use terms that clearly indicate this is a teaching exercise for a specific concept
+contribution	kontribuutio	Work done to improve Exercism, such as creating exercises or fixing bugs. Use the noun form that matches your translation of 'contributor'
 Contribute	Osallistua	One of the main sections of Exercism where users can help improve the platform. Keep as 'Contribute' or translate as a verb meaning to contribute or help
-contributor	osallistuja	Someone who helps build and improve Exercism by creating exercises, fixing bugs, or improving content. Use the standard term for contributor or collaborator in open-source projects
-dashboard	kojelauta	The main page showing your progress, current exercises, and mentoring activity. Use the standard term for dashboard or control panel in web applications
+contributor	kontribuuttori	Someone who helps build and improve Exercism by creating exercises, fixing bugs, or improving content. Use the standard term for contributor or collaborator in open-source projects
+dashboard	hallintapaneeli	The main page showing your progress, current exercises, and mentoring activity. Use the standard term for dashboard or control panel in web applications
 developer	kehittäjä	Someone who writes software professionally. Use the standard term for software developer or programmer
 Discover	Löytää	One of the main sections of Exercism for exploring solutions and learning from others. Keep as 'Discover' or translate as a verb meaning to discover or explore
 discussion	keskustelu	A conversation between a mentor and student about a solution, where feedback is given and questions are answered. Use the term for educational discussion or dialogue
@@ -40,7 +40,7 @@ function	funktio	A reusable block of code that performs a specific task. Use the
 iteration	iteraatio	Each time a student submits updated code for an exercise, it creates a new iteration. This is a version of their solution. Use the term for version, revision, or iteration that is commonly used in software development contexts
 journey	matka	A user's personal learning path and history on Exercism. Use a term that conveys personal progression or learning journey
 Learn	Oppia	One of the main sections of Exercism where users learn programming through exercises. Keep as 'Learn' or translate as a verb meaning to learn or study
-learning exercise	opetusharjoitus	An exercise specifically designed to teach a new concept. Use terms that emphasize the educational/teaching aspect
+learning exercise	oppimisharjoitus	An exercise specifically designed to teach a new concept. Use terms that emphasize the educational/teaching aspect
 level	taso	A stage of progress or achievement in learning. Use the gaming or educational term for level or stage
 maintainer	ylläpitäjä	Someone who has responsibility for managing and overseeing a track or part of Exercism. Use the term commonly used for project maintainers in software development
 member	jäsen	Someone who is part of the Exercism community. Use the term for member or participant in a community
@@ -75,9 +75,9 @@ submission	lähetys	The act of sending your solution to Exercism for testing and
 subscription	tilaus	A recurring monthly donation to Exercism. Use the term for subscription or recurring payment
 supporter	tukija	Someone who donates to Exercism. Use the term for patron, supporter, or donor of a charitable organization
 syllabus	opetussuunnitelma	The structured learning path showing the order of concepts and exercises in a track. Use the standard educational term for syllabus or curriculum
-test runner	testisuoritin	The system that executes tests against submitted solutions to check if they work correctly. Use the technical term for test execution system or test runner
+test runner	testinsuorittaja	The system that executes tests against submitted solutions to check if they work correctly. Use the technical term for test execution system or test runner
 testimonial	suositus	A review or recommendation written by a student about their mentor. Use the term for testimonial, review, or recommendation that is commonly used for endorsements
 tier	taso	Different levels of features or access (like Insider tiers). Use the term for tier, level, or category
-track	polku	Exercism uses 'track' to mean a pathway through content for a specific programming language. Each track contains exercises and concepts for that language. Use the word for "pathway" or "course" in the target language. If "track" translates naturally and is commonly used for learning paths, use that. Otherwise use the equivalent of "course" or "learning path"
-trophy	pokaali	Special achievements earned within a specific track for completing challenges. Similar to badges but track-specific. Use a term that distinguishes these from general badges, perhaps using the word for trophy or special achievement
+track	rata	Exercism uses 'track' to mean a pathway through content for a specific programming language. Each track contains exercises and concepts for that language. Use the word for "pathway" or "course" in the target language. If "track" translates naturally and is commonly used for learning paths, use that. Otherwise use the equivalent of "course" or "learning path"
+trophy	pokali	Special achievements earned within a specific track for completing challenges. Similar to badges but track-specific. Use a term that distinguishes these from general badges, perhaps using the word for trophy or special achievement
 unlock	avata	To gain access to new exercises or features by meeting certain requirements. Use the term for unlocking or gaining access that is commonly used in gamified systems

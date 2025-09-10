@@ -1,8 +1,8 @@
 import React, { useCallback, useContext } from 'react'
-import { sendRequest } from '@/utils/send-request'
 import { redirectTo } from '@/utils'
 import { GlossaryEntriesShowContext } from '..'
 import { useProposedContext } from './ProposedContext'
+import { useRequestWithNextRedirect } from '../useRequestWithNextRedirect'
 
 type ProposalActionsProps = {
   proposal: Proposal
@@ -23,6 +23,7 @@ export function ProposalActions({
 }: ProposalActionsProps) {
   const { links } = useContext(GlossaryEntriesShowContext)
   const { uuid: translationUuid } = useProposedContext()
+  const { sendRequestWithRedirect } = useRequestWithNextRedirect()
 
   const approveProposal = useCallback(
     async ({
@@ -33,21 +34,18 @@ export function ProposalActions({
       proposalUuid: string
     }) => {
       try {
-        const { fetch } = sendRequest({
+        await sendRequestWithRedirect({
           method: 'PATCH',
           endpoint: links.approveProposal
             .replace('GLOSSARY_ENTRY_ID', translationUuid)
             .replace('ID', proposalUuid),
           body: null,
         })
-
-        await fetch
-        redirectTo(links.glossaryEntriesListPage)
       } catch (err) {
         console.error(err)
       }
     },
-    [links]
+    [sendRequestWithRedirect, links]
   )
 
   const updateProposal = useCallback(
@@ -60,22 +58,15 @@ export function ProposalActions({
       proposalUuid: string
       proposalValue: string
     }) => {
-      try {
-        const { fetch } = sendRequest({
-          method: 'PATCH',
-          endpoint: links.updateProposal
-            .replace('GLOSSARY_ENTRY_ID', translationUuid)
-            .replace('ID', proposalUuid),
-          body: JSON.stringify({ value: proposalValue }),
-        })
-
-        await fetch
-        redirectTo(links.glossaryEntriesListPage)
-      } catch (err) {
-        console.error(err)
-      }
+      await sendRequestWithRedirect({
+        method: 'PATCH',
+        endpoint: links.updateProposal
+          .replace('GLOSSARY_ENTRY_ID', translationUuid)
+          .replace('ID', proposalUuid),
+        body: JSON.stringify({ value: proposalValue }),
+      })
     },
-    [links]
+    [sendRequestWithRedirect, links]
   )
 
   const rejectProposal = useCallback(
@@ -87,21 +78,18 @@ export function ProposalActions({
       proposalUuid: string
     }) => {
       try {
-        const { fetch } = sendRequest({
+        await sendRequestWithRedirect({
           method: 'PATCH',
           endpoint: links.rejectProposal
             .replace('GLOSSARY_ENTRY_ID', translationUuid)
             .replace('ID', proposalUuid),
           body: null,
         })
-
-        await fetch
-        redirectTo(links.glossaryEntriesListPage)
       } catch (err) {
         console.error(err)
       }
     },
-    [links]
+    [sendRequestWithRedirect, links]
   )
 
   return (

@@ -2,17 +2,18 @@
 import React, { useCallback, useContext, useState } from 'react'
 import { nameForLocale } from '@/utils/name-for-locale'
 import { flagForLocale } from '@/utils/flag-for-locale'
-import { sendRequest } from '@/utils/send-request'
 import { GlossaryEntriesShowContext } from '.'
-import { redirectTo } from '@/utils'
+import { useRequestWithNextRedirect } from './useRequestWithNextRedirect'
 
 export function Unchecked({ translation }: { translation: GlossaryEntry }) {
   const { links } = useContext(GlossaryEntriesShowContext)
+  const { sendRequestWithRedirect } = useRequestWithNextRedirect()
   const [editMode, setEditMode] = useState(false)
   const [copy, setCopy] = useState(translation.translation)
   const [textEditorValue, setTextEditorValue] = useState(
     translation.translation
   )
+  const hasBeenEdited = copy !== translation.translation
 
   const updateCopy = useCallback(() => {
     if (textEditorValue !== copy) {
@@ -22,27 +23,15 @@ export function Unchecked({ translation }: { translation: GlossaryEntry }) {
   }, [textEditorValue, copy])
 
   const createProposal = useCallback(async () => {
-    try {
-      const { fetch } = sendRequest({
-        method: 'POST',
-        endpoint: links.createProposal.replace(
-          'GLOSSARY_ENTRY_ID',
-          translation.uuid
-        ),
-        body: JSON.stringify({ value: copy }),
-      })
-
-      await fetch
-      redirectTo(links.glossaryEntriesListPage)
-    } catch (err) {
-      console.error(err)
-    }
-  }, [
-    links.createProposal,
-    translation.uuid,
-    copy,
-    links.glossaryEntriesListPage,
-  ])
+    await sendRequestWithRedirect({
+      method: 'POST',
+      endpoint: links.createProposal.replace(
+        'GLOSSARY_ENTRY_ID',
+        translation.uuid
+      ),
+      body: JSON.stringify({ translation: copy }),
+    })
+  }, [sendRequestWithRedirect, links.createProposal, translation.uuid, copy])
 
   const cancelEditing = useCallback(() => {
     setTextEditorValue(copy)
@@ -103,7 +92,7 @@ export function Unchecked({ translation }: { translation: GlossaryEntry }) {
               >
                 Edit Translation
               </button>
-              {copy !== translation.translation && (
+              {hasBeenEdited && (
                 <button onClick={resetChanges} className="btn-s btn-default">
                   Reset changes
                 </button>

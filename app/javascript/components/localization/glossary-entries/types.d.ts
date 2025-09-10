@@ -75,12 +75,14 @@ type GlossaryEntriesShowProps = {
 }
 
 type GlossaryEntriesShowLinks = {
+  localizationGlossaryEntriesPath: string
   glossaryEntriesListPage: string
   approveLlmTranslation: string
   createProposal: string
   approveProposal: string
   rejectProposal: string
   updateProposal: string
+  nextEntry: string
 }
 
 type GlossaryEntriesShowContextType = GlossaryEntriesShowProps

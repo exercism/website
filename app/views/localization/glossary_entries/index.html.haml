@@ -10,6 +10,25 @@
         The glossary contains terms that should be translated consistently.
         We have generated used LLMs to generate the translations. They now need two signoffs to proceed.
         When a language's glossary is complete, we'll generate translations!
+    .mb-16
+      %h3.text-h3 Your Status
+      %p.text-14
+        - if current_user.may_manage_translation_proposals? && current_user.may_create_translation_proposals?
+          You can
+          %strong manage
+          and
+          %strong create
+          proposals.
+        - elsif current_user.may_manage_translation_proposals?
+          You can
+          %strong manage
+          proposals.
+        - elsif current_user.may_create_translation_proposals?
+          You can
+          %strong create
+          proposals.
+        - else
+          You cannot create or manage proposals.
 
 
     = render ReactComponents::Localization::GlossaryEntriesList.new(@glossary_entries, @glossary_entries_params)

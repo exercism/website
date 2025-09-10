@@ -1,6 +1,10 @@
 type GlossaryEntriesListContextType = Pick<
   GlossaryEntriesListProps,
-  'links' | 'glossaryEntries' | 'translationLocales'
+  | 'links'
+  | 'glossaryEntries'
+  | 'translationLocales'
+  | 'mayCreateTranslationProposals'
+  | 'mayManageTranslationProposals'
 > & {
   setCriteria: (criteria: string) => void
   setPage: (page: number) => void
@@ -60,6 +64,8 @@ type GlossaryEntriesListProps = {
     endpoint: string
     createGlossaryEntry: string
   }
+  mayCreateTranslationProposals: boolean
+  mayManageTranslationProposals: boolean
 }
 
 type GlossaryEntriesShowProps = {

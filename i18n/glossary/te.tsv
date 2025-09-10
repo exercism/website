@@ -1,0 +1,83 @@
+term	translation	llm_instructions
+CLI	CLI	The command-line interface tool used to download exercises and submit solutions. Keep as CLI or use the standard translation for command-line interface
+Insiders	Insiders	Exercism Insiders is the rewards program for contributors, mentors, and donors. Keep 'Insiders' untranslated as it's a program name, but translate 'Exercism Insiders' as 'Exercism Insiders' followed by explanation if needed
+achievement	విజయం	A goal completed or milestone reached in learning. Use the standard term for achievement or accomplishment
+administrator	నిర్వాహకుడు	Someone who manages and maintains the Exercism platform. Use the standard term for administrator or system administrator
+analyzer	విశ్లేషకుడు	An automated tool that analyzes code and provides feedback on common patterns and improvements. Use a technical term that conveys automated code analysis
+argument	వాదన	A value passed to a function or method when it is called. Use the standard programming term for argument or actual parameter
+approach	విధానం	Different ways to solve an exercise, showing various techniques and patterns. Use the term for approach, method, or technique in problem-solving contexts
+approve	అనుమోదించు	When a mentor marks a solution as good enough to complete the exercise. Use the term for approval or validation in educational assessment
+article	వ్యాసం	Educational content that provides deeper learning about programming topics related to exercises. Use the standard term for educational article or written lesson
+author	రచయిత	Someone who creates original content like exercises, concepts, or approaches. Use the standard term for author or creator of educational content
+automated feedback	స్వయంచాలక అభిప్రాయం	Feedback generated automatically by the analyzer tool rather than by human mentors. Use terms that clearly indicate this is machine-generated feedback
+badge	బ్యాడ్జ్	An achievement badge earned for accomplishments on Exercism like completing exercises or contributing. Use the term for achievement badge or award commonly used in gamification or educational achievement systems
+blog	బ్లాగ్	Articles and posts about Exercism updates, features, and community stories. Use the standard term for blog if commonly used, otherwise use online journal or news section
+bootcamp	శిక్షణా శిబిరం	An intensive, structured learning program for programming. Use the term for bootcamp or intensive training program
+code	కోడ్	The text of a computer program. Use the standard term for source code or program code
+coding	కోడింగ్	The act of writing computer programs. Use the informal term for programming that students would use
+comment	వ్యాఖ్యానించు	To leave feedback or thoughts on someone's published solution. Use the verb for commenting or leaving feedback on online content
+community	కమ్యూనిటీ	The collective group of students, mentors, and contributors who make up Exercism. Use the standard term for community or collective in online contexts
+complete	పూర్తిచేయు	To finish an exercise successfully by passing all tests. Use the verb for completing or finishing a task successfully
+concept	భావన	A fundamental programming idea or principle that is taught through exercises (like loops, recursion, or classes). Use the educational term for concept or fundamental principle
+concept exercise	భావన వ్యాయామం	An exercise specifically designed to teach a new programming concept. These exercises focus on introducing and practicing a single concept. Use terms that clearly indicate this is a teaching exercise for a specific concept
+contribution	సహకారం	Work done to improve Exercism, such as creating exercises or fixing bugs. Use the noun form that matches your translation of 'contributor'
+Contribute	సహకరించండి	One of the main sections of Exercism where users can help improve the platform. Keep as 'Contribute' or translate as a verb meaning to contribute or help
+contributor	సహకారి	Someone who helps build and improve Exercism by creating exercises, fixing bugs, or improving content. Use the standard term for contributor or collaborator in open-source projects
+dashboard	డ్యాష్‌బోర్డ్	The main page showing your progress, current exercises, and mentoring activity. Use the standard term for dashboard or control panel in web applications
+developer	డెవలపర్	Someone who writes software professionally. Use the standard term for software developer or programmer
+Discover	కనుగొనండి	One of the main sections of Exercism for exploring solutions and learning from others. Keep as 'Discover' or translate as a verb meaning to discover or explore
+discussion	చర్చ	A conversation between a mentor and student about a solution, where feedback is given and questions are answered. Use the term for educational discussion or dialogue
+donate	దానం చేయు	To give money to support Exercism's mission. Use the standard verb for charitable giving or donation
+donation	దానం	A financial contribution to support Exercism. Use the standard noun for charitable donation or contribution
+engineer	ఇంజనీర్	A professional who designs and builds software systems. Often used interchangeably with developer or programmer. Use the standard professional title for software engineer
+generator	జనరేటర్	A tool or script that automatically creates code, exercises, or other content. Use the term for generator or code generator
+exercise	వ్యాయామం	A coding problem that students solve to practice programming skills. These are like homework exercises in school. Translate as a practice problem or training task. Avoid translations that mean physical exercise
+favorites	ఇష్టాలు	A feature to bookmark exercises or solutions for easy access later. Use the standard term for favorites or bookmarks in software
+feedback	అభిప్రాయం	Comments and suggestions provided by mentors or automated systems to help improve solutions. Use the standard term for constructive feedback in educational contexts
+fluency	నిష్ణాతత	The goal of developing natural, confident programming ability in a language. Use the term for fluency or proficiency in language learning contexts
+forum	వేదిక	The discussion board where the community can ask questions and share knowledge. Use the standard term for online forum or discussion board
+function	ఫంక్షన్	A reusable block of code that performs a specific task. Use the standard programming term for function
+iteration	పునరావృతం	Each time a student submits updated code for an exercise, it creates a new iteration. This is a version of their solution. Use the term for version, revision, or iteration that is commonly used in software development contexts
+journey	యాత్ర	A user's personal learning path and history on Exercism. Use a term that conveys personal progression or learning journey
+Learn	నేర్చుకోండి	One of the main sections of Exercism where users learn programming through exercises. Keep as 'Learn' or translate as a verb meaning to learn or study
+learning exercise	అభ్యాస వ్యాయామం	An exercise specifically designed to teach a new concept. Use terms that emphasize the educational/teaching aspect
+level	స్థాయి	A stage of progress or achievement in learning. Use the gaming or educational term for level or stage
+maintainer	నిర్వహణాధికారి	Someone who has responsibility for managing and overseeing a track or part of Exercism. Use the term commonly used for project maintainers in software development
+member	సభ్యుడు	Someone who is part of the Exercism community. Use the term for member or participant in a community
+mentor	మార్గదర్శకుడు	An experienced volunteer who provides feedback on student solutions to help them improve. Use the standard translation for mentor/tutor/coach who guides learning. Choose the term most commonly used for someone who provides educational guidance
+method	పద్ధతి	A function that belongs to a class or object in object-oriented programming. Use the standard OOP term for method or member function
+mentoring	మార్గదర్శకత	The process of providing guidance and feedback to students on their solutions. Use the verb form of mentor/tutor/coach. This should be consistent with how you translate 'mentor'
+milestone	మైలురాయి	A significant point of progress in the learning journey. Use the term for milestone or landmark achievement
+monthly	మాసిక	Happening once per month, especially for donations. Use the standard term for monthly or per month
+not-for-profit	లాభాపేక్షలేని	Exercism is a not-for-profit organization focused on education, not making money. Use the legal term for nonprofit or not-for-profit organizations in your country
+notification	నోటిఫికేషన్	Messages alerting you to new feedback, replies, or other activity. Use the standard term for notifications or alerts in web applications
+open-source	ఓపెన్ సోర్స్	Exercism is open-source software, meaning the code is publicly available and anyone can contribute. Use the standard term for open-source software in your language
+parameter	పారామీటర్	A variable in a function definition that receives a value when the function is called. Use the standard programming term for parameter or formal parameter
+payment	చెల్లింపు	The process of sending money for donations or services. Use the standard term for payment or transaction
+perks	ప్రయోజనాలు	Special benefits and rewards available to Insiders and supporters. Use the term for benefits, perks, or rewards in loyalty programs
+practice exercise	అభ్యాస వ్యాయామం	An exercise designed to practice skills, not tied to teaching specific concepts. Use terms that distinguish practice/training from concept-teaching exercises
+premium	ప్రీమియం	Enhanced features or content (though Exercism is free, some features are for Insiders). Use the term for premium or enhanced features
+profile	ప్రొఫైల్	Your public page showing your solutions, contributions, and achievements. Use the standard term for user profile in web applications
+programming	ప్రోగ్రామింగ్	The formal term for writing computer programs. Use the standard professional term for software programming
+progress	పురోగతి	Advancement through exercises and tracks, measuring learning achievement. Use the standard term for progress or advancement in educational contexts
+publish	ప్రచురించు	To make your solution publicly visible for others to learn from. Use the term for publishing or making public in online contexts
+queue	క్యూ	A waiting list, especially for mentoring requests where students wait for mentors. Use the term for queue or waiting list
+recurring	పునరావృత	A donation that repeats automatically each month. Use the term for recurring or repeating payment
+representer	ప్రాతినిధ్యం	A tool that normalizes code to identify common patterns across solutions. Use a technical term that conveys code representation or normalization
+reputation	ప్రతిష్ఠ	Reputation points are awarded to contributors for improving Exercism. Someone's total points are known as their 'reputation'. Use the standard term for reputation, standing, or prestige in the community. Avoid terms that only mean "points" or "score"
+request help	సహాయం అడుగు	To ask for a mentor to review your solution and provide guidance. Use the phrase for requesting assistance or asking for help in educational contexts
+reward	బహుమతి	Something earned for achievements or contributions. Use the term for reward or prize
+settings	సెట్టింగులు	The page where you configure your account preferences and options. Use the standard term for settings or preferences in software applications
+solution	పరిష్కారం	The code submitted by a student to solve an exercise. This is their answer to the problem. Use the term commonly used for code submissions or homework answers in educational contexts
+student	విద్యార్థి	A person learning programming through Exercism exercises. Use the standard term for student or learner in educational contexts
+submit	సమర్పించు	To send your solution to Exercism for testing and feedback. Use the verb for submitting or turning in work in educational contexts
+submission	సమర్పణ	The act of sending your solution to Exercism for testing and feedback. Use the term for submission or turning in work in educational contexts
+subscription	సబ్స్క్రిప్షన్	A recurring monthly donation to Exercism. Use the term for subscription or recurring payment
+supporter	మద్దతుదారుడు	Someone who donates to Exercism. Use the term for patron, supporter, or donor of a charitable organization
+syllabus	పాఠ్యక్రమం	The structured learning path showing the order of concepts and exercises in a track. Use the standard educational term for syllabus or curriculum
+test runner	టెస్ట్ రన్నర్	The system that executes tests against submitted solutions to check if they work correctly. Use the technical term for test execution system or test runner
+testimonial	సాక్ష్యం	A review or recommendation written by a student about their mentor. Use the term for testimonial, review, or recommendation that is commonly used for endorsements
+tier	శ్రేణి	Different levels of features or access (like Insider tiers). Use the term for tier, level, or category
+track	ట్రాక్	Exercism uses 'track' to mean a pathway through content for a specific programming language. Each track contains exercises and concepts for that language. Use the word for "pathway" or "course" in the target language. If "track" translates naturally and is commonly used for learning paths, use that. Otherwise use the equivalent of "course" or "learning path"
+trophy	ట్రోఫీ	Special achievements earned within a specific track for completing challenges. Similar to badges but track-specific. Use a term that distinguishes these from general badges, perhaps using the word for trophy or special achievement
+unlock	అన్లాక్ చేయు	To gain access to new exercises or features by meeting certain requirements. Use the term for unlocking or gaining access that is commonly used in gamified systems

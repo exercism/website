@@ -1,5 +1,7 @@
 class CreateLocalizationOriginals < ActiveRecord::Migration[7.1]
   def change
+    return if Rails.env.production?
+
     create_table :localization_originals do |t|
       t.string :uuid, null: false
       t.string :type, null: false

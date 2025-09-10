@@ -31,10 +31,12 @@ class SerializeLocalizationTranslationTest < ActiveSupport::TestCase
       value: translation.value,
       status: translation.status,
       proposals: [
-        { uuid: proposal_1.uuid, status: proposal_1.status, value: proposal_1.value, proposer_id: proposal_1.proposer&.user_id,
-          reviewer_id: proposal_1.reviewer&.user_id },
-        { uuid: proposal_2.uuid, status: proposal_2.status, value: proposal_2.value, proposer_id: proposal_2.proposer&.user_id,
-          reviewer_id: proposal_2.reviewer&.user_id }
+        { uuid: proposal_1.uuid, status: proposal_1.status, value: proposal_1.value,
+          modified_from_llm: proposal_1.modified_from_llm?, proposer_id: proposal_1.proposer&.user_id,
+          reviewer_id: proposal_1.reviewer&.user_id, llm_feedback: proposal_1.llm_feedback },
+        { uuid: proposal_2.uuid, status: proposal_2.status, value: proposal_2.value,
+          modified_from_llm: proposal_2.modified_from_llm?, proposer_id: proposal_2.proposer&.user_id,
+          reviewer_id: proposal_2.reviewer&.user_id, llm_feedback: proposal_2.llm_feedback }
       ]
     }
 
@@ -55,8 +57,9 @@ class SerializeLocalizationTranslationTest < ActiveSupport::TestCase
       value: translation.value,
       status: translation.status,
       proposals: [
-        { uuid: proposal_1.uuid, status: proposal_1.status, value: proposal_1.value, proposer_id: proposal_1.proposer&.user_id,
-          reviewer_id: proposal_1.reviewer&.user_id }
+        { uuid: proposal_1.uuid, status: proposal_1.status, value: proposal_1.value,
+          modified_from_llm: proposal_1.modified_from_llm?, proposer_id: proposal_1.proposer&.user_id,
+          reviewer_id: proposal_1.reviewer&.user_id, llm_feedback: proposal_1.llm_feedback }
       ]
     }
 

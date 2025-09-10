@@ -8,6 +8,8 @@ class SerializeLocalizationOriginalsTest < ActiveSupport::TestCase
     expected = [{
       uuid: original.uuid,
       key: original.key,
+      title: "Unknown",
+      pretty_type: "Unknown",
       value: original.value,
       translations: []
     }]
@@ -27,6 +29,8 @@ class SerializeLocalizationOriginalsTest < ActiveSupport::TestCase
     expected = [{
       uuid: original.uuid,
       key: original.key,
+      title: "Unknown",
+      pretty_type: "Unknown",
       value: original.value,
       translations: [
         { uuid: translation_fr.uuid, locale: "fr", status: translation_fr.status },

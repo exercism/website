@@ -1,5 +1,7 @@
 class CreateLocalizationGlossaryEntryProposals < ActiveRecord::Migration[7.1]
   def change
+    return if Rails.env.production?
+
     create_table :localization_glossary_entry_proposals do |t|
       t.integer :type, null: false
       t.integer :status, null: false, default: 0

@@ -9,6 +9,10 @@ class SerializeLocalizationOriginalTest < ActiveSupport::TestCase
       uuid: original.uuid,
       key: original.key,
       value: original.value,
+      title: "Unknown",
+      type: :unknown,
+      pretty_type: "Unknown",
+      usage_details: "No usage details available.",
       translations: []
     }
 
@@ -28,6 +32,10 @@ class SerializeLocalizationOriginalTest < ActiveSupport::TestCase
       uuid: original.uuid,
       key: original.key,
       value: original.value,
+      title: "Unknown",
+      type: :unknown,
+      pretty_type: "Unknown",
+      usage_details: "No usage details available.",
       translations: [
         SerializeLocalizationTranslation.(translation_fr),
         SerializeLocalizationTranslation.(translation_pt)
@@ -55,6 +63,10 @@ class SerializeLocalizationOriginalTest < ActiveSupport::TestCase
       uuid: original.uuid,
       key: original.key,
       value: original.value,
+      title: "Unknown",
+      type: :unknown,
+      pretty_type: "Unknown",
+      usage_details: "No usage details available.",
       translations: [
         SerializeLocalizationTranslation.(translation_fr),
         SerializeLocalizationTranslation.(translation_pt)

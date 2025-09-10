@@ -20,7 +20,9 @@ export function Tabs() {
             'c-tab',
             request.query.status === tab.value && 'selected'
           )}
-          onClick={() => setQuery({ ...request.query, status: tab.value })}
+          onClick={() =>
+            setQuery({ ...request.query, status: tab.value, page: null })
+          }
         >
           {tab.label}
         </button>

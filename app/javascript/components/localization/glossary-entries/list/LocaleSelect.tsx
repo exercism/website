@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { GlossaryEntriesListContext } from '.'
 import { flagForLocale } from '@/utils/flag-for-locale'
 import { useDropdown } from '../../../dropdowns/useDropdown'
@@ -34,6 +34,7 @@ export function LocaleSelect() {
   // ["hu", "de"] etc
   const { translationLocales } = useContext(GlossaryEntriesListContext)
   const [selectedLocale, setSelectedLocale] = useState<string>('')
+  const { request, setQuery } = React.useContext(GlossaryEntriesListContext)
 
   const {
     buttonAttributes,
@@ -53,6 +54,10 @@ export function LocaleSelect() {
       },
     ],
   })
+
+  useEffect(() => {
+    setQuery({ ...request.query, locale: selectedLocale || undefined })
+  }, [selectedLocale])
 
   const handleItemSelect = useCallback(
     (index: number) => {

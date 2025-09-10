@@ -5,6 +5,8 @@ FactoryBot.define do
     locale { 'fr' }
     translation { "Bonjour #{SecureRandom.hex}" }
     llm_instructions { "Use formal language." }
+    type { :addition }
+    term { "Hello #{SecureRandom.hex}" }
 
     trait :addition do
       type { :addition }

@@ -28,7 +28,6 @@ export const ChooseTrackStep = ({
         {
           <Trans
             i18nKey="chooseTrackStep.allowsUsToShow"
-            ns="components/modals/mentor-registration-modal"
             components={[<strong />]}
           />
         }

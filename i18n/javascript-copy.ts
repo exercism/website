@@ -1,0 +1,2380 @@
+export const resources = {
+  en: {
+    translation: {
+      'components.mentoring.automation.automationIntroducer.initiateFeedbackAutomationBeepBoopBop':
+        'Initiate feedback automation…Beep boop bop…',
+      'components.mentoring.automation.automationIntroducer.automationIsASpace':
+        'Automation is a space that allows you to see common solutions to exercises and write feedback once for all students with that particular solution.',
+      'components.mentoring.automation.mostPopularTag.mostPopular':
+        'Most Popular',
+      'medianWaitTime.avgWaitTime': 'Avg. wait time: ~',
+      'mentorDiscussionSummary.inProgress': 'In Progress',
+      'mentorDiscussionSummary.commentCount_one': '{{postsCount}} comment',
+      'mentorDiscussionSummary.commentCount_other': '{{postsCount}} comments',
+      'pagination.first': 'First',
+      'pagination.previous': 'Previous',
+      'pagination.goToPage': 'Go to page {{page}}',
+      'pagination.goToPreviousPage': 'Go to previous page',
+      'pagination.goToNextPage': 'Go to next page',
+      'pagination.goToFirstPage': 'Go to first page',
+      'pagination.goToLastPage': 'Go to last page',
+      'pagination.next': 'Next',
+      'pagination.last': 'Last',
+      'pronouns.ratherThanUsingPronouns':
+        "Rather than using pronouns (he, her's, etc) please always refer to {{handle}} as {{handle}}.",
+      'pronouns.doNotUsePronouns': 'Do not use pronouns',
+      'pronouns.whenReferringTo':
+        'When refering to @{{handle}}, please use the pronouns',
+      'pronouns.forExampleIfLeaving':
+        'For example, if leaving a testimonial for {{handle}}, you might say:',
+      'pronouns.wasGreat':
+        "{{handle}} was great. {{pronoun1}} answered all my questions. I'll recommend {{pronoun2}} to others because {{pronoun3}} advice was very helpful.",
+      'shareButton.share': 'Share',
+      'shareLink.shareIt': 'Share it.',
+      'themeToggleButton.joinInsiders':
+        '<0>Join Insiders</0>\\u00A0to enable Dark Mode',
+      'info.titleInTrack': 'in <0/> <1>{{trackTitle}}</1>',
+      'info.iterationsCount_one': '{{count}} iteration',
+      'info.iterationsCount_other': '{{count}} iterations',
+      'info.hasNotifications': 'has notifications',
+      'info.outdated.solutionWasSolved':
+        'This solution was solved against an older version of this exercise',
+      'solutionStatusTag.published': 'Published',
+      'solutionStatusTag.completed': 'Completed',
+      'solutionStatusTag.inProgress': 'In-progress',
+      'exerciseStatusTag.recommended': 'Recommended',
+      'exerciseStatusTag.available': 'Available',
+      'exerciseStatusTag.locked': 'Locked',
+      'difficulty.easy': 'Easy',
+      'difficulty.medium': 'Medium',
+      'difficulty.hard': 'Hard',
+      'exerciseTypeTag.learningExercise': 'Learning Exercise',
+      'exerciseTypeTag.tutorialExercise': 'Tutorial Exercise',
+      'mobileIdleFormFooter.send': 'Send',
+      'newFormFooter.cancel': 'Cancel',
+      'newFormFooter.send': 'Send',
+      'editFormFooter.cancel': 'Cancel',
+      'editFormFooter.delete': 'Delete',
+      'editFormFooter.update': 'Update',
+      'platformButton.devToButton.devTo': 'DEV.to',
+      'platformButton.facebookButton.facebook': 'Facebook',
+      'platformButton.twitterButton.twitter': 'Twitter',
+      'platformButton.redditButton.reddit': 'Reddit',
+      'platformButton.linkedinButton.linkedIn': 'LinkedIn',
+      'commentsList.reminder.rememberComments':
+        'Remember! Comments are for asking questions or applauding a solution. <0>Do not use them</0> for mentoring or giving feedback.',
+      'commentsList.commentView.edit': 'Edit',
+      'commentsList.comment_one': '{{count}} comment',
+      'commentsList.comment_other': '{{count}} comments',
+      'commentsList.emptyList.noComments':
+        'No one has commented on this solution.',
+      'commentsList.emptyList.beFirst': 'Be the first to add your comment!',
+      'commentsList.options.disableComments': 'Disable comments…',
+      'commentsList.options.enableComments': 'Enable comments…',
+      'commentsList.header.writeComment': 'Write a comment',
+      'commentsList.listDisabled.disabledCommentsAuthor':
+        'You have disabled comments on this solution. Use the "Options" cog above to toggle this option.',
+      'commentsList.listDisabled.disabledComments':
+        'Comments have been disabled',
+      'commentsList.header.writeAComment': 'Write a comment',
+      'storiesGrid.index.moreStories': 'More Stories from our community',
+      'storiesGrid.index.listenLearn':
+        'Listen, learn and be inspired by our community members.',
+      'videoGrid.index.searchCommunity': 'Search community content',
+      'videoGrid.index.learnWithCommunity': 'Learn with our community',
+      'videoGrid.index.walkthroughsTutorials':
+        'Walkthroughs, tutorials and livestreams from our community.',
+      'videoGrid.index.noVideosFound': 'No videos found.',
+      'videoGrid.index.tryChangingFilters':
+        'Try changing your filters to find the video you are looking for.',
+      'videoGrid.index.thereAreNoVideos': 'There are currently no videos.',
+      'videoGrid.index.checkBackLater': 'Check back here later for more!',
+      'videoGrid.trackFilterList.openTrackFilter': 'Open the track filter',
+      'videoGrid.trackFilterList.clickToChange': 'Click to change',
+      'exerciseStatusBar.exerciseStatusDotTooltip':
+        'Exercise Status Dot Tooltip',
+      'concept.availableConcept': 'Available Concept:',
+      'concept.learnedConcept': 'Learned Concept:',
+      'concept.masteredConcept': 'Mastered Concept:',
+      'concept.lockedConcept': 'Locked Concept:',
+      'concept.concept': 'Concept:',
+      'sizeTag.xs': 'xs',
+      'sizeTag.s': 's',
+      'sizeTag.m': 'm',
+      'sizeTag.l': 'l',
+      'sizeTag.xl': 'xl',
+      'trackInfo.for': '<0>for</0>\\u00A0<2/>\\u00A0<1>{{trackTitle}}</1>',
+      'newTag.new': 'New',
+      'moduleTag.analyzer': 'Analyzer',
+      'moduleTag.representer': 'Representer',
+      'moduleTag.learningExercise': 'Learning Exercise',
+      'moduleTag.practiceExercise': 'Practice Exercise',
+      'moduleTag.testRunner': 'Test Runner',
+      'moduleTag.trackGenerators': 'Track Generators',
+      'moduleTag.trackConcepts': 'Track Concepts',
+      'actionIcon.action': 'Action: {{action}}',
+      'tasksList.showingTasks': 'Showing {{totalCount}} {{task}}',
+      'tasksList.outOfPossibleTasks':
+        'out of {{unscopedTotal}} possible {{unscopedTask}}',
+      'tasksList.resetFilters': 'Reset Filters',
+      'contributorsList.thisWeek': 'This week',
+      'contributorsList.last30Days': 'Last 30 days',
+      'contributorsList.lastYear': 'Last year',
+      'contributorsList.allTime': 'All time',
+      'contributorsList.categorySwitcher.authoring': 'Authoring',
+      'contributorsList.categorySwitcher.building': 'Building',
+      'contributorsList.categorySwitcher.maintaining': 'Maintaining',
+      'contributorsList.categorySwitcher.mentoring': 'Mentoring',
+      'contributorsList.categorySwitcher.allCategories': 'All categories',
+      'tasksList.actionSwitcher.create': 'Create',
+      'tasksList.actionSwitcher.sync': 'Sync',
+      'tasksList.actionSwitcher.improve': 'Improve',
+      'tasksList.actionSwitcher.proofread': 'Proofread',
+      'tasksList.actionSwitcher.fix': 'Fix',
+      'tasksList.actionSwitcher.all': 'All',
+      'tasksList.typeSwitcher.docs': 'Docs',
+      'tasksList.typeSwitcher.ci': 'CI',
+      'tasksList.typeSwitcher.coding': 'Coding',
+      'tasksList.typeSwitcher.docker': 'Docker',
+      'tasksList.typeSwitcher.content': 'Content',
+      'tasksList.typeSwitcher.allTypes': 'All types',
+      'tasksList.knowledgeSwitcher.none': 'None',
+      'tasksList.knowledgeSwitcher.elementary': 'Elementary',
+      'tasksList.knowledgeSwitcher.intermediate': 'Intermediate',
+      'tasksList.knowledgeSwitcher.advanced': 'Advanced',
+      'tasksList.knowledgeSwitcher.anyKnowledge': 'Any knowledge',
+      'tasksList.moduleSwitcher.generator': 'Generator',
+      'tasksList.moduleSwitcher.learningExercise': 'Learning Exercise',
+      'tasksList.moduleSwitcher.practiceExercise': 'Practice Exercise',
+      'tasksList.moduleSwitcher.concept': 'Concept',
+      'tasksList.moduleSwitcher.testRunner': 'Test Runner',
+      'tasksList.moduleSwitcher.representer': 'Representer',
+      'tasksList.moduleSwitcher.analyzer': 'Analyzer',
+      'tasksList.moduleSwitcher.multiple': 'Multiple',
+      'tasksList.moduleSwitcher.allModules': 'All modules',
+      'tasksList.sorter.sortByMostRecent': 'Sort by most recent',
+      'tasksList.sorter.sortByOldest': 'Sort by oldest',
+      'tasksList.sorter.sortByTrack': 'Sort by track',
+      'tasksList.task.new': 'New',
+      'tasksList.sizeSwitcher.allSizes': 'All sizes',
+      'tasksList.sizeSwitcher.tiny.title': 'Tiny',
+      'tasksList.sizeSwitcher.tiny.description': 'A quick amount of work',
+      'tasksList.sizeSwitcher.small.title': 'Small',
+      'tasksList.sizeSwitcher.small.description': 'Small amount of work',
+      'tasksList.sizeSwitcher.medium.title': 'Medium',
+      'tasksList.sizeSwitcher.medium.description': 'Average amount of work',
+      'tasksList.sizeSwitcher.large.title': 'Large',
+      'tasksList.sizeSwitcher.large.description': 'Large amount of work',
+      'tasksList.sizeSwitcher.massive.title': 'Massive',
+      'tasksList.sizeSwitcher.massive.description': 'Massive amount of work',
+      'tasksList.sizeSwitcher.multiple': 'Multiple',
+      'tasksList.sizeSwitcher.extraSmall': 'Extra Small',
+      'formOptions.initializedOption.changeAmount': 'Change amount',
+      'formOptions.initializedOption.or': 'or',
+      'formOptions.initializedOption.cancelRecurringDonation':
+        'Cancel your recurring donation',
+      'formOptions.updatingOption.changeDonationAmount':
+        'Change donation amount',
+      'formOptions.updatingOption.dollarSign': '$',
+      'formOptions.updatingOption.chargedPerMonth':
+        "You'll start being charged <strong>{{amount}} per month</strong>, on your next billing date.",
+      'formOptions.updatingOption.thankYouForIncreasingDonation':
+        'Thank you for increasing your donation!',
+      'formOptions.updatingOption.changeAmountButton': 'Change amount',
+      'formOptions.updatingOption.cancelThisChange': 'Cancel this change',
+      'formOptions.cancellingOption.areYouSure':
+        'Are you sure you want to cancel your recurring donation?',
+      'formOptions.cancellingOption.yesPleaseCancel': 'Yes - please cancel it.',
+      'formOptions.cancellingOption.noCloseThis': 'No, close this.',
+      'transactionForm.orSpecifyCustomAmount': 'Or specify a custom amount:',
+      'subscriptionForm.youReCurrentlyDonatingEachMonthToExercism':
+        "You're currently donating {{amount}} each month to Exercism.",
+      'subscriptionForm.thankYou': 'Thank you!',
+      'subscriptionForm.regularDonationsLikeYoursAllowUsToAnticipateOurCashflowAndMakeResponsibleDecisionsAboutHiringAndGrowingExercism':
+        'Regular donations like yours allow us to anticipate our cashflow and make responsible decisions about hiring and growing Exercism.',
+      'externalDonationManagement.yourRegularDonationIsManagedByToModifyOrCancelYourRecurringDonationPleaseUseDashboard':
+        'Your regular donation is managed by {{displayName}}. To modify or cancel your recurring donation, please use <0>{{displayName}} Dashboard<0/>.',
+      'existingSubscriptionNotice.youAlreadyDonate':
+        '<0>You already donate {{amount}} per month to Exercism.</0> Thank you! To change or manage this go to <1>Donation settings<1/>.',
+      'existingSubscriptionNotice.extra':
+        'Extra <0>one-time donations</0> are still gratefully received!',
+      'stripeForm.yourEmailAddressForReceipts':
+        'Your email address (for receipts):',
+      'stripeForm.attackInfo':
+        'Due to frequent <0>card testing attacks</0>, we need to check you are not a bot before we can accept a donation.',
+      'formWithModal.youVeDonatedSuccessfullyThankYou':
+        "You've donated {{amount}} successfully - thank you 💙",
+      'formWithModal.weTrulyAppreciateYourSupportExercismWouldNotBePossibleWithoutAwesomeContributorsLikeYourselfYouLlBeSentAnEmailShortlyWithYourDonationConfirmationAndReceipt':
+        "We truly appreciate your support. Exercism would not be possible without awesome contributors like yourself. You'll be sent an email shortly with your donation confirmation and receipt.",
+      'formWithModal.youVeEarnedTheBadge':
+        "You've earned the <0>Supporter</0> badge!",
+      'formWithModal.happyToHelpImDoneHere': "Happy to help! I'm done here 👍",
+      'footerForm.customAmount': 'Custom amount',
+      'footerForm.continue': 'Continue',
+      'form.monthlyRecurring': 'Monthly Recurring',
+      'form.oneOff': 'One-off',
+      'stripeForm.progressing': 'Progressing',
+      'stripeForm.eligibleForInsidersAccess': 'Eligible for Insiders Access',
+      'stripeForm.defaultError': 'Unable to fetch subscription information',
+      'reputationMenu.seeHowYouEarned':
+        'See how you earned all your reputation',
+      'reputationIcon.reputationAriaLabel': '{{reputation}} reputation',
+      'activatePracticeModeModal.disableLearningMode': 'Disable Learning Mode',
+      'activatePracticeModeModal.paragraph1':
+        'Disabling Learning Mode will unlock all the Practice Exercises on this track, but will disable Concepts and Learning Exercises.',
+      'activatePracticeModeModal.warning':
+        'You can switch in and out of Practice Mode at any time.',
+      'activatePracticeModeModal.disableLearningModeButton':
+        'Disable Learning Mode',
+      'leaveTrackModal.leaveResetTrackForm.strongText':
+        'By leaving and resetting this track, you will:',
+      'leaveTrackModal.leaveResetTrackForm.listItem1':
+        'Lose access to all solutions you have submitted in {{trackTitle}}',
+      'leaveTrackModal.leaveResetTrackForm.listItem2':
+        'Lose access to all mentoring you have received in {{trackTitle}}',
+      'leaveTrackModal.leaveResetTrackForm.listItem3':
+        'Lose any reputation you have earned for publishing solutions in {{trackTitle}}',
+      'leaveTrackModal.leaveResetTrackForm.listItem4':
+        'Remove {{trackTitle}} from your active tracks list',
+      'leaveTrackModal.leaveResetTrackForm.irreversibleText':
+        'This is irreversible and will mean you’ll lose everything you’ve done on this track.',
+      'leaveTrackModal.leaveResetTrackForm.confirmationLabel':
+        'To confirm, write {{confirmation}} in the box below:',
+      'leaveTrackModal.leaveResetTrackForm.cancel': 'Cancel',
+      'leaveTrackModal.leaveResetTrackForm.leaveReset': 'Leave + Reset',
+      'leaveTrackModal.leaveTrackForm.strongText':
+        'When you leave the track, you still keep:',
+      'leaveTrackModal.leaveTrackForm.listItem1':
+        'All solutions you have submitted in {{trackTitle}}',
+      'leaveTrackModal.leaveTrackForm.listItem2':
+        'All mentoring you have received in {{trackTitle}}',
+      'leaveTrackModal.leaveTrackForm.howeverWeWill': 'However, we will:',
+      'leaveTrackModal.leaveTrackForm.listItem3':
+        'End all mentoring discussions in {{trackTitle}}',
+      'leaveTrackModal.leaveTrackForm.listItem4':
+        'Remove {{trackTitle}} from your active tracks list',
+      'leaveTrackModal.leaveTrackForm.infoBoxText':
+        'You’re free to join back at anytime and return to where you left off.',
+      'leaveTrackModal.leaveTrackForm.cancel': 'Cancel',
+      'leaveTrackModal.leaveTrackForm.leaveTrack': 'Leave track',
+      'resetTrackModal.heading':
+        'You’re about to reset all your {{trackTitle}} progress.',
+      'resetTrackModal.pleaseReadCarefully':
+        'Please read this carefully before continuing.',
+      'resetTrackModal.irreversible':
+        'This is irreversible and will mean you’ll lose everything you’ve done on this track.',
+      'resetTrackModal.byResettingThisTrack':
+        'By resetting this track, you will lose access to:',
+      'resetTrackModal.listItem1':
+        'All solutions you have submitted in {{trackTitle}}',
+      'resetTrackModal.listItem2':
+        'All mentoring you have received in {{trackTitle}}',
+      'resetTrackModal.listItem3':
+        'Lose any reputation you have earned for publishing solutions in {{trackTitle}}',
+      'resetTrackModal.however': 'However:',
+      'resetTrackModal.listItem4':
+        'Any local versions of solutions stored on your machine will be unaffected',
+      'resetTrackModal.listItem5':
+        'You will keep any badges earned as a result of your work on the {{trackTitle}} track',
+      'resetTrackModal.confirmationLabel':
+        'To confirm, write {{confirmation}} in the box below:',
+      'resetTrackModal.cancel': 'Cancel',
+      'resetTrackModal.resetTrack': 'Reset track',
+      'activateLearningModeModal.activateLearningMode':
+        'Activate Learning Mode',
+      'activateLearningModeModal.paragraph1':
+        'Activating Learning Mode will enable Concepts and Learning Exercises on this track. However, it will lock Exercises for which you have not yet completed the prerequisites. You will still have access to any exercises you have already started.',
+      'activateLearningModeModal.warning':
+        'You can switch in and out of Learning Mode at any time.',
+      'activateLearningModeModal.activateLearningModeButton':
+        'Activate Learning Mode',
+      'leaveTrackModal.youreAboutToLeave':
+        'You’re about to leave the {{trackTitle}} track.',
+      'leaveTrackModal.noLongerInterested':
+        'No longer interested in learning {{trackTitle}}? No problem!',
+      'leaveTrackModal.leave': 'Leave',
+      'leaveTrackModal.leavePlusReset': 'Leave + Reset',
+      'trackMenu.seeTrackOnGithub':
+        'See {{trackTitle}} track on Github <icon/>',
+      'trackMenu.documentation': '{{trackTitle}} documentation',
+      'trackMenu.trackBuildStatus': 'Track Build Status',
+      'trackMenu.disableLearningMode': 'Disable Learning Mode…',
+      'trackMenu.enableLearningMode': 'Enable Learning Mode…',
+      'trackMenu.resetTrack': 'Reset track…',
+      'trackMenu.leaveTrack': 'Leave track…',
+      'notifications.seeAllYourNotifications': 'See all your notifications',
+      'notifications.unableToLoad': 'Unable to load notifications',
+      'reputation.unableToRetrieve': 'Unable to retrieve reputation tokens',
+      'chatGptDialog.areYouSureYouWantToAskChatGPT':
+        'Are you sure you want to ask ChatGPT?',
+      'chatGptDialog.chatGptIsAPowerfulTool':
+        "ChatGPT is a powerful tool, but it can also make it too easy to get unstuck and remove a lot of the learning opportunity that comes from wrestling with a problem. We recommend only using it when you're too stuck to continue without help.",
+      'chatGptDialog.selectAModel': 'Select a model:',
+      'chatGptDialog.noteChatGPT4IsSignificantlyBetter':
+        'Note: ChatGPT 4 is <bold>significantly</bold> better. However, ChatGPT 4 costs $0.20 per request (about 15x more than ChatGPT 3.5) so we have strict limits and give both options. Quotas reset on the first of each month. We suggest trying ChatGPT 3 first, then use one of your v4 tokens if needed.',
+      'chatGptDialog.youHaveExceededTheLimit': 'You have exceeded the limit',
+      'chatGptDialog.go': 'Go',
+      'chatGptDialog.cancel': 'Cancel',
+      'useChatGptFeedback.unableToAskChatGPT': 'Unable to ask ChatGPT',
+      'chatGptUpsellContent.exercismInsiders': 'Exercism Insiders',
+      'chatGptUpsellContent.donateToExercismAndGetBehindTheScenesAccessAndBonusFeatures':
+        'Donate to Exercism and get behind the scenes access and bonus features.',
+      'chatGptUpsellContent.needHelpGettingUnstuckUnlockOurChatGPTIntegration':
+        'Need help getting unstuck? Unlock our <strong>ChatGPT Integration</strong> and extra mentoring slots, as well as Dark Mode, exclusive badges and more, when you donate to Exercism.',
+      'chatGptUpsellContent.learnMore': 'Learn More',
+      'askChatGpt.couldntReceiveFeedback': "Couldn't receive feedback",
+      'askChatGpt.chatGptsSuggestions': "ChatGPT's Suggestions",
+      'askChatGpt.chatGptHasTheFollowingSuggestions':
+        'ChatGPT has the following suggestions:',
+      'askChatGpt.reminderUseThisAdviceWisely':
+        'Reminder: Use this advice wisely',
+      'askChatGpt.howeverCleverChatGptAppearsItDoesNotUnderstandCode':
+        'However clever ChatGPT appears, it does not "understand" code. Its suggestions may therefore be incorrect, muddled or misleading. However, it often provides useful insights to help unblock you. <bold>Use these suggestions as inspiration, not instruction.</bold>',
+      'askChatGpt.askingChatGPT': 'Asking ChatGPT…',
+      'askChatGpt.estimatedRunningTime15s': 'Estimated running time 15s',
+      'askChatGpt.getUnstuckWithChatGPT': 'Get unstuck with ChatGPT',
+      'askChatGpt.ifYoureFeelingStuckAndCantSeemToMakeProgress':
+        "If you're feeling stuck and can't seem to make progress, don't worry - just ask ChatGPT for help and get back on track.",
+      'askChatGptButton.pleaseRunTheTestsFirst': 'Please run the tests first.',
+      'askChatGptButton.pleaseRerunTheTestsToContinue':
+        'Please rerun the tests to continue.',
+      'askChatGptButton.testsAreCurrentlyRunning':
+        'Tests are currently running.',
+      'askChatGptButton.awaitingResponseFromChatGPTPleaseStandBy':
+        'Awaiting response from ChatGPT. Please stand by.',
+      'askChatGptButton.congratsTheTestsArePassing':
+        'Congrats! The tests are passing! 🎉',
+      'askChatGptButton.stuckAskChatGPT': 'Stuck? Ask ChatGPT',
+      'editorStatusSummary.error': 'Error: {{error}}',
+      'editorStatusSummary.revertingFiles': 'Reverting files…',
+      'feedbackPanelRequestMentoring.takeSolutionToNextLevel':
+        'Take your solution to the next level',
+      'feedbackPanelRequestMentoring.getFeedbackOnSolution':
+        'Get feedback on your solution to {{exerciseTitle}} by a {{trackTitle}} mentor and discover new ways to approach the problem, and expand and deepen your {{trackTitle}} knowledge.',
+      'feedbackPanelRequestMentoring.submitForCodeReview':
+        'Submit for code review',
+      'feedbackPanelRequestMentoring.free': "It's 100% free! 😲",
+      'feedbackPanelRequestMentoring.whyGetFeedback': 'Why get feedback?',
+      'feedbackPanelRequestMentoring.attainRealFluency':
+        'Attain real fluency in {{trackTitle}}',
+      'feedbackPanelRequestMentoring.learningALanguage':
+        "Learning a language is more than being able to use it, it's about being able to <bold>think</bold> in it. Our mentors will help develop your perceptions.",
+      'feedbackPanelRequestMentoring.youDontKnowWhatYouDontKnow':
+        "You don't know what you don't know",
+      'feedbackPanelRequestMentoring.hardToProgress':
+        "It's hard to progress when you don't know what's missing. Our mentors will help you discover the gaps in your {{trackTitle}} knowledge.",
+      'feedbackPanelRequestMentoring.getYourQuestionsAnswered':
+        'Get your questions answered',
+      'feedbackPanelRequestMentoring.whateverYourQuestions':
+        "Whatever your questions, our mentors will be able to help you. Make sure you ask what's on your mind when requesting a mentor.",
+      'feedbackPanelRequestMentoring.pushYourself': 'Push yourself',
+      'feedbackPanelRequestMentoring.confidentFeelIn':
+        'However confident you feel in {{trackTitle}}, there will always be more to learn. Push yourself further with an Exercism mentor.',
+      'feedbackPanel.codeReview': 'Code Review',
+      'feedbackPanel.codeReviewPending': 'Code Review (Pending)',
+      'feedbackPanelMentoringDiscussion.readonlyIterationMarker.iteration':
+        'Iteration {{idx}}',
+      'feedbackPanelMentoringDiscussion.pendingMentoringRequest.youveSubmittedSolution':
+        "You've submitted your solution for Code Review.",
+      'feedbackPanelMentoringDiscussion.pendingMentoringRequest.mentorWillProvideFeedback':
+        "A mentor will (hopefully) provide you with feedback soon. You'll recieve a notification and email when this happens.",
+      'feedbackPanelMentoringDiscussion.pendingMentoringRequest.viewYourRequest':
+        'View your request',
+      loading: 'Loading',
+      'feedbackPanelMentoringDiscussion.feedbackPanelMentoringDiscussion.loading':
+        'Loading…',
+      'feedbackPanelMentoringDiscussion.feedbackPanelMentoringDiscussion.latestCodeReviewSessionDescription':
+        'This is your latest code review session for this exercise. To continue the discussion, switch to <link>mentoring mode</link>.',
+      'feedbackDetail.automatedFeedback': 'Automated Feedback',
+      'getHelpPanelComponents.getHelpPanelTrackHelp.trackHelp':
+        '{{trackTitle}} help',
+      'getHelpPanelComponents.getHelpPanelHints.stuckHintsWillGive':
+        'Stuck? These hints will give you nudges to the right direction to get you unblocked. Use them wisely though - remember that wrestling with a problem is where the learning occurs!',
+      'getHelpPanelComponents.getHelpPanelHints.clickHeadingExpand':
+        'Click a heading to expand the hints:',
+      'getHelpPanelComponents.getHelpPanelHints.general': 'General',
+      'getHelpPanelComponents.getHelpPanelCommunityHelp.dontStruggleAlone':
+        "Don't struggle on alone! Our community is always here to help.",
+      'getHelpPanelComponents.getHelpPanelCommunityHelp.cantSubmitMentoringRequest':
+        "Although you can't submit a mentoring requests until you get the tests passing, you can ask for help on Discord or our Forum. Use the links below to get started:",
+      'getHelpPanelComponents.getHelpPanelCommunityHelp.discord': 'Discord',
+      'getHelpPanelComponents.getHelpPanelCommunityHelp.discordDescription':
+        'Get real time help in the #get-help channel on our Discord server.',
+      'getHelpPanelComponents.getHelpPanelCommunityHelp.forum': 'Forum',
+      'getHelpPanelComponents.getHelpPanelCommunityHelp.forumDescription':
+        'Dig deeper into topics and ideas on our forum.',
+      'getHelpPanelComponents.getHelpAccordionSkeleton.getHelp': 'Get help',
+      'stuckButton.stuckAskChatGpt': 'Stuck? Ask ChatGPT',
+      'stuckButton.stuckGetHelp': 'Stuck? Get help',
+      'getHelpTab.getHelp': 'Get help',
+      'legacyFileBanner.fileUnexpected':
+        'This file is unexpected. Did you upload it via the CLI by accident?',
+      'legacyFileBanner.deleteFile': 'Delete file…',
+      'legacyFileBanner.learnMore': 'Learn More',
+      'runTestsButton.youHaveNotMadeChanges':
+        'You have not made any changes since you last ran the tests',
+      'runTestsButton.runTests': 'Run Tests',
+      'submitButton.submit': 'Submit',
+      'submitButton.testsPassingRequired':
+        'You need to get the tests passing before you can submit your solution',
+      'settings.theme': 'Theme',
+      'settings.keybindings': 'Keybindings',
+      'settings.wrap': 'Wrap',
+      'settings.tabMode': 'Tab mode',
+      'settings.light': 'Light',
+      'settings.dark': 'Dark',
+      'settings.default': 'Default',
+      'settings.on': 'On',
+      'settings.off': 'Off',
+      'settings.editor': 'Editor',
+      'settings.accessibility': 'Accessibility',
+      'more.openMoreOptions': 'Open more options',
+      'more.revertToExerciseStart': 'Revert to exercise start',
+      'more.revertToLastIteration': 'Revert to last iteration',
+      'more.reportABug': 'Report a bug',
+      'deleteFileModal.areYouSure':
+        'Are you sure you want to delete this file?',
+      'deleteFileModal.deletingFile':
+        'Deleting this file will mean it is not submitted as part of your next iteration. However, it will remain visible in your previous iteration. If you change your mind before submitting, you can use the "Reset to last iteration" button (top-right) to undo this change.',
+      'deleteFileModal.deleteFile': 'Delete file',
+      'deleteFileModal.cancel': 'Cancel',
+      'resultsPanel.testRunCancelled': 'Test run cancelled',
+      'resultsPanel.runTestsToCheckYourCode':
+        '<0>Run tests</0> to check your code',
+      'resultsPanel.wellRunYourCode':
+        "We'll run your code against tests to check whether it works,\\nthen give you the results here.",
+      'instructionsPanel.introduction': 'Introduction',
+      'instructionsPanel.watchOurVideo':
+        'Watch our "Introduction to Hello, World" video to get started 👇',
+      'instructionsPanel.instructions': 'Instructions',
+      'instructionsPanel.task': 'Task {{n}}',
+      'instructionsPanel.stuckRevealHints': 'Stuck? Reveal Hints',
+      'instructionsPanel.opensInAModal': 'Opens in a modal',
+      'instructionsPanel.howToDebug': 'How to debug',
+      'testsTab.tests': 'Tests',
+      'feedbackTab.feedback': 'Feedback',
+      'instructionsTab.instructions': 'Instructions',
+      'resultsTab.results': 'Results',
+      'testsList.details':
+        'name: {{name}}, status: {{status}}, output: {{output}}',
+      'testRunSummary.noTestResults': 'No test results',
+      'testRunSummary.trackNotSupportTests':
+        'This track does not support automatically running exercise tests.',
+      'testRunSummary.exerciseNotSupportTests':
+        'This exercise does not support automatically running its tests.',
+      'testRunSummary.testingCode': "We're testing your code to check it works",
+      'testRunSummary.usuallyTakes':
+        'This usually takes {{averageTestDuration}}-{{averageTestDurationMultiplied}} seconds.',
+      'testRunSummary.tasksCompleted':
+        '{{completedTasks}} / {{totalTasks}} Tasks Completed',
+      'testRunSummary.allTasksPassed': 'All tasks passed',
+      'testRunSummary.allTestsPassed': 'All tests passed',
+      'testRunSummary.anErrorOccurred': 'An error occurred',
+      'testRunSummary.yourTestsTimedOut': 'Your tests timed out',
+      'testRunSummary.sweetLooksLike':
+        "Sweet. Looks like you've solved the exercise!",
+      'testRunSummary.goodJobContinueImprove':
+        "Good job! You can continue to improve your code or, if you're done, submit an iteration to get automated feedback and optionally request mentoring.",
+      'testRunSummary.weReceivedError':
+        'We received the following error when we ran your code:',
+      'testRunSummary.errorOccurredWhileRunningTests':
+        "An error occurred while running your tests. This might mean that there was an issue in our infrastructure, or it might mean that you have something in your code that's causing our systems to break.",
+      'testRunSummary.pleaseCheckCode':
+        'Please check your code, and if nothing seems to be wrong, try running the tests again.',
+      'testRunSummary.yourTestsTimedOutSuggestsCodeRunningSlowly':
+        'Your tests timed out. This might mean that there was an issue in our infrastructure, but more likely it suggests that your code is running slowly. Is there an infinite loop or something similar?',
+      'testRunSummary.runningTests': 'Running tests…',
+      'testRunSummary.estimatedRunningTime':
+        'Estimated running time ~ {{averageTestDuration}}s',
+      'testRunSummary.cancel': 'Cancel',
+      'testRunOutput.v1Message': '',
+      'testPanel.hidden': '',
+      'testsGroupedByStatusList.test_one': '{{count}} test',
+      'testsGroupedByStatusList.test_other': '{{count}} tests',
+      'testsGroupedByStatusList.passed': 'passed',
+      'testsGroupedByStatusList.failed': 'failed',
+      'testRunSummaryByStatusHeaderMessage.testFailure': 'test failure',
+      'testRunSummaryByStatusHeaderMessage.testFailures': 'test failures',
+      'testRunSummaryByStatusHeaderMessage.testsFailed': 'Tests failed',
+      'testsGroupedByTaskList.task': 'Task',
+      'testsGroupedByTaskList.jumpToInstructions': 'Jump to Instructions',
+      'testSummary.passed': 'Passed',
+      'testSummary.failed': 'Failed',
+      'testSummary.test': 'Test',
+      'testSummary.codeRun': 'Code Run',
+      'testSummary.testFailure': 'Test Failure',
+      'testSummary.testError': 'Test Error',
+      'testSummary.yourOutput': 'Your Output',
+      'testContentWrapper.fileNotFound': 'File not found',
+      'miniAdvert.backupYourSolutionsToGitHub':
+        'Backup your Solutions to GitHub',
+      'miniAdvert.automaticallyBackupSolutions':
+        'Automatically backup your solutions to GitHub with our automated backup tool.',
+      'miniAdvert.configureBackups': 'Configure backups',
+      'activeAutomaticSync.autoBackupEnabled': 'Auto-backup Enabled',
+      'activeAutomaticSync.newIterationsAutoBackupSolution':
+        'New iterations will automatically backup to GitHub. To manually trigger a backup of all iterations to this solution, please use the button below.',
+      'activeAutomaticSync.newIterationsAutoBackupIteration':
+        'New iterations for this solution will automatically backup to GitHub. To manually trigger a backup of this iteration, please use the button below.',
+      'activeAutomaticSync.triggerSolutionBackup': 'Trigger solution backup',
+      'activeAutomaticSync.triggerIterationBackup': 'Trigger iteration backup',
+      'pausedSync.yourSyncerCurrentlyPaused':
+        'Your syncer is currently <0>paused</0>.',
+      'pausedSync.visitSettingsToResumeSyncing':
+        'Visit your <0>settings</0> to resume syncing.',
+      'activeManualSync.automaticSyncsDisabled':
+        'You have automatic syncs disabled',
+      'activeManualSync.clickToBackupSolution':
+        'Click to back up your solution',
+      'impactTestimonial.saidThisAbout': 'said this about',
+      'impactTestimonial.on': 'on',
+      'topLearningCountries.topLearningCountries': 'Top learning countries',
+      'insidersStatus.eligibleText':
+        "You're currently eligible for Insiders. Thank you for being part of Exercism. We're excited to continue with you on our journey!",
+      'insidersStatus.ineligibleText':
+        'Set up a recurring monthly donation of $10 or more to access Insiders',
+      'insidersStatus.eligibleLifetimeText':
+        "We've given you lifetime access to Insiders. Thank you for being part of Exercism. We're excited to continue with you on our journey!",
+      'insidersStatus.unsetText':
+        "We're currently calculating your Insiders status. This box will update once we've finished.",
+      'insidersStatus.getAccessToInsiders': 'Get access to Insiders',
+      'insidersStatus.donateToAccessInsiders':
+        'Donate to Exercism to access Insiders',
+      'insidersStatus.exercismIsNonProfit':
+        'Exercism is an independent, registered not-for-profit organisation (UK #11733062) with a tiny team. All donations are used to run and improve the platform.',
+      'insidersStatus.chooseMonthlyDonation':
+        '1. Choose your monthly donation:',
+      'insidersStatus.specifyAmount': 'Specify amount',
+      'insidersStatus.minimumDonationAmount':
+        'Please note: The minimum donation amount for Insiders Access is $10.00. Thank you for your kind support!',
+      'insidersStatus.choosePaymentMethod': '2. Choose your payment method:',
+      'insidersStatus.thankYou': 'Thank you!',
+      'insidersStatus.thankYouForSupport':
+        'Thank you so much for supporting Exercism. It means the world to us! 💜',
+      'insidersStatus.setUpMonthlyDonation':
+        'Please use the form below to set up your monthly donation. You can amend or cancel your donation at any time in your settings page.',
+      'insidersStatus.donationsImprovePlatform':
+        'Exercism is an independent not-for-profit organisation. All donations are used to run and improve the platform. All payments are securely handled by Stripe.',
+      'paymentPending.errorFetchingStatus': 'Error fetching paypal status',
+      'orderSwitcher.sortByUnrevealedFirst': 'Sort by Unrevealed First',
+      'orderSwitcher.sortByNewestFirst': 'Sort by Newest First',
+      'orderSwitcher.sortByOldestFirst': 'Sort by Oldest First',
+      'markAllAsSeenButton.markAllAsSeen': 'Mark all as seen',
+      'markAllAsSeenModal.markAllAsSeenQuestion': 'Mark all as seen?',
+      'markAllAsSeenModal.confirmationMessage':
+        'Are you sure you want to mark all {{unseenTotal}} contributions as seen? Note that these contributions may span multiple pages.',
+      'markAllAsSeenModal.continue': 'Continue',
+      'markAllAsSeenModal.cancel': 'Cancel',
+      'categorySelect.contributingToExercises': 'Contributing to Exercises',
+      'categorySelect.buildingExercism': 'Building Exercism',
+      'categorySelect.maintaining': 'Maintaining',
+      'categorySelect.mentoring': 'Mentoring',
+      'categorySelect.publishing': 'Publishing',
+      'categorySelect.other': 'Other',
+      'categorySelect.anyCategory': 'Any category',
+      'categorySelect.category': 'Category',
+      'badgeSummary.none': 'You have no badges.',
+      'badgeSummary.summary': 'You have {{list}}.',
+      'badgeSummary.rarity.legendary_one': '{{count}} legendary badge',
+      'badgeSummary.rarity.legendary_other': '{{count}} legendary badges',
+      'badgeSummary.rarity.ultimate_one': '{{count}} ultimate badge',
+      'badgeSummary.rarity.ultimate_other': '{{count}} ultimate badges',
+      'badgeSummary.rarity.rare_one': '{{count}} rare badge',
+      'badgeSummary.rarity.rare_other': '{{count}} rare badges',
+      'badgeSummary.rarity.common_one': '{{count}} common badge',
+      'badgeSummary.rarity.common_other': '{{count}} common badges',
+      'headerSummary.youHaveContributedMostTo': "You've contributed most to ",
+      'headerSummary.noSummaryForTrack': 'No summary for track',
+      'exercisesCompletedSummary.exerciseCompleted': 'Exercise completed',
+      'exercisesCompletedSummary.exercisesCompleted': 'Exercises completed',
+      'conceptsLearntSummary.conceptLearnt': 'Concept learnt',
+      'conceptsLearntSummary.conceptsLearnt': 'Concepts learnt',
+      'headerSummary.youVeProgressed': "You've progressed the furthest in ",
+      'learningStats.didYouKnow': 'Did you know?',
+      'learningStats.linesOfCodeStat':
+        "You've written <strong>{{numLines}} {{lineLabel}}</strong> of code across <link>{{numSolutions}} {{solutionLabel}}</link>.",
+      'learningStats.aesopFact':
+        "That's approximately equivalent to the length of an <fableLink>Aesop's Fable!</fableLink>",
+      'tracksEnrolledSummary.tracksEnrolled_one': 'Track enrolled',
+      'tracksEnrolledSummary.tracksEnrolled_other': 'Tracks enrolled',
+      'trackSummary.exercisesCompleted':
+        '{{completed}} / {{total}} ({{percent}}%) exercises completed',
+      'trackSummary.joinedTrack': 'When you joined the {{title}} Track',
+      'trackSummary.startedTrackAgo':
+        'You started working through the {{title}} Track <strong>{{since}}</strong>.',
+      'trackSummary.none': 'none',
+      'trackSummary.mentoringSessionsCompleted_one':
+        'Mentoring session completed',
+      'trackSummary.mentoringSessionsCompleted_other':
+        'Mentoring sessions completed',
+      'trackSummary.mentoringStatus':
+        'You have <strong>{{inProgress}}</strong> in progress and <strong>{{queued}}</strong> in the queue.',
+      'trackSummary.mentoring.discussion_one': '{{count}} discussion',
+      'trackSummary.mentoring.discussion_other': '{{count}} discussions',
+      'trackSummary.mentoring.solution_one': '{{count}} solution',
+      'trackSummary.mentoring.solution_other': '{{count}} solutions',
+      'trackSummary.progressionVelocity': 'Progression Velocity',
+      'trackSummary.avgVelocity': 'Avg. on Exercism = {{avg}}',
+      'trackSummary.velocityExplanation':
+        "This is a measure of how quickly you've progressed through the track in the last 6 months",
+      'learningOverview.youReThroughSingle':
+        "You're through <em>{{percentage}}%</em> of your enrolled track. <strong>Keep it up!</strong>",
+      'learningOverview.youReThroughMultiple':
+        "You're through <em>{{percentage}}%</em> of your enrolled tracks. <strong>Keep it up!</strong>",
+      'learningOverview.exercisesCompleted':
+        '{{completed}} / {{total}} exercises completed',
+      'headerSummary.youVeMostlyMentoredIn': "You've mostly mentored in ",
+      'communityRank.topRank': 'Top {{rank}}%',
+      'mentoringChart.sessionsMentoredPerTrack': 'Sessions mentored per track',
+      'trackSummary.session_one': '{{count}} session',
+      'trackSummary.session_other': '{{count}} session',
+      'sessionsMentoredSummary.totalSessionsMentored':
+        'Total sessions mentored',
+      'sessionRatioSummary.sessionsPerStudent': 'Sessions per student',
+      'studentsMentoredSummary.totalStudentsMentored':
+        'Total students mentored',
+      'contributingSection.youHaventContributed':
+        "You haven't contributed to Exercism yet",
+      'contributingSection.seeHowYouCanContribute':
+        'See how you can contribute',
+      'contributingSection.yourContributions': 'Your contributions',
+      'learningSection.youHaventJoinedTracks':
+        "You haven't joined any tracks yet",
+      'learningSection.chooseTrackToGetStarted':
+        'Choose a track to get started.',
+      'learningSection.yourLearning': 'Your learning',
+      'mentoringSection.youHaventMentoredAnyone':
+        "You haven't mentored anyone yet",
+      'mentoringSection.tryMentoring': 'Try mentoring',
+      'mentoringSection.yourMentoring': 'Your mentoring',
+      'badgesSection.aGlimpseOfBadges': 'A glimpse of your badges collection',
+      'badgesSection.seeEntireBadgeCollection':
+        'See your entire badge collection',
+      'headTestsStatusSelect.passed': 'Passed',
+      'headTestsStatusSelect.failed': 'Failed',
+      'headTestsStatusSelect.errored': 'Errored',
+      'headTestsStatusSelect.exceptioned': 'Exceptioned',
+      'headTestsStatusSelect.all': 'All',
+      'headTestsStatusSelect.latestTestsStatus': 'Latest Tests status',
+      'orderSwitcher.oldestFirst': 'Oldest First',
+      'orderSwitcher.newestFirst': 'Newest First',
+      'mentoringStatusSelect.noMentoring': 'No mentoring',
+      'mentoringStatusSelect.mentoringRequested': 'Mentoring Requested',
+      'mentoringStatusSelect.mentoringInProgress': 'Mentoring in progress',
+      'mentoringStatusSelect.mentoringCompleted': 'Mentoring Completed',
+      'mentoringStatusSelect.any': 'Any',
+      'mentoringStatusSelect.mentoringStatus': 'Mentoring status',
+      'syncStatusSelect.upToDate': 'Up-to-date',
+      'syncStatusSelect.outOfDate': 'Out-of-date',
+      'syncStatusSelect.all': 'All',
+      'syncStatusSelect.syncStatus': 'Sync status',
+      'testsStatusSelect.passed': 'Passed',
+      'testsStatusSelect.failed': 'Failed',
+      'testsStatusSelect.errored': 'Errored',
+      'testsStatusSelect.exceptioned': 'Exceptioned',
+      'testsStatusSelect.all': 'All',
+      'testsStatusSelect.testsStatus': 'Tests status',
+      'exerciseStatusSelect.started': 'Started',
+      'exerciseStatusSelect.iterated': 'Iterated',
+      'exerciseStatusSelect.completed': 'Completed',
+      'exerciseStatusSelect.published': 'Published',
+      'exerciseStatusSelect.all': 'All',
+      'exerciseStatusSelect.exerciseStatus': 'Exercise status',
+      'solutionFilter.filterBy': 'Filter by',
+      'solutionFilter.applyFilters': 'Apply filters',
+      'solutionFilter.close': 'Close',
+      'contributionResults.showingContributions':
+        'Showing {{totalCount}} {{contributionLabel}}',
+      'badgesList.searchByBadgeNameOrDescription':
+        'Search by badge name or description',
+      'badgeResults.showingBadges': 'Showing {{totalCount}} {{badgeLabel}}',
+      'solution.completed': 'Completed',
+      'solution.published': 'Published',
+      'solution.thereIsANewerVersionOfTheExerciseVisitTheExercisePageToUpgrade':
+        'There is a newer version of this exercise. Visit the exercise page to upgrade to the latest version.',
+      'solution.passesTestsOfTheLatestVersionOfTheExercise':
+        'Passes tests of the latest version of the exercise',
+      'solution.thisSolutionFailsTheTestsOfTheLatestVersionOfTheExerciseTryUpdatingTheExerciseAndCheckingItLocallyOrInTheOnlineEditor':
+        'This solution fails the tests of the latest version of this exercise. Try updating the exercise and checking it locally or in the online editor.',
+      'solution.failedTestsOfTheLatestVersionOfTheExercise':
+        'Failed tests of the latest version of the exercise',
+      'solution.lines': '{{numLoc}} lines',
+      'solution.views': '{{numViews}} {{viewLabel}}',
+      'solution.lastSubmitted': 'Last submitted {{lastIteratedAt}}',
+      'solution.inTrack': 'in <0/><1>{{track}}<1/>',
+      'solutionsList.searchByExerciseOrTrackName':
+        'Search by exercise or track name',
+      'solutionsList.showingSolutions':
+        'Showing {{totalCount}} {{solutionLabel}}',
+      'solutionsList.resetFilters': 'Reset filters',
+      'contributionsList.searchByContributionName':
+        'Search by contribution name',
+      'contribution.generic': 'Generic',
+      'unrevealedBadge.unrevealed': 'Unrevealed',
+      'unrevealedBadge.clickTapToReveal': 'Click/tap to reveal',
+      'contribution.in': 'in',
+      'submissionsSummaryTable.id': 'ID',
+      'submissionsSummaryTable.track': 'Track',
+      'submissionsSummaryTable.exercise': 'Exercise',
+      'submissionsSummaryTable.testStatus': 'Test status',
+      'submissionsSummaryTable.representationStatus': 'Representation status',
+      'submissionsSummaryTable.analysesStatus': 'Analyses status',
+      'inbox.inbox': 'Inbox',
+      'inbox.awaitingStudent': 'Awaiting student',
+      'inbox.finished': 'Finished',
+      'inbox.filterByStudentOrExerciseName':
+        'Filter by student or exercise name',
+      'queue.filterByStudentHandle': 'Filter by student handle',
+      'session.code': 'Code',
+      'session.discussion': 'Discussion',
+      'session.scratchpad': 'Scratchpad',
+      'session.guidance': 'Guidance',
+      'testimonialsList.searchPlaceholder':
+        'Search by student name or testimonial',
+      'testimonialsList.noTestimonialsTitle':
+        'You currently have no testimonials',
+      'testimonialsList.noTestimonialsDescription':
+        'Testimonials are left by students on ending successful mentoring discussions.',
+      'adminTab.lastShown': 'Last shown',
+      'adminTab.lastOccurence': 'Last occurence',
+      'automationListElement.shownTime': 'Shown {{number}} time',
+      'automationListElement.shownTimes': 'Shown {{number}} times',
+      'automationListElement.occurenceTime': 'occurrence {{number}} time',
+      'automationListElement.occurenceTimes': 'occurrence {{number}} times',
+      'automationListElement.inTrackId': 'in {{trackTitle}} (#{{id}})',
+      'representationList.noSolutionsFound': 'No solutions found.',
+      'representationList.tryChangingFilters':
+        'Try changing your filters to find solutions that need feedback.',
+      'representationList.noSolutionsNeedFeedback':
+        'There are currently no solutions that need feedback.',
+      'representationList.checkBackLater': 'Check back here later for more!',
+      'finishedWizard.incorrectState': 'Incorrect state: {{step}}',
+      'markAsNothingToDoButton.studentsTurn':
+        "This button allows you to remove this discussion from your Inbox and return it to the student's Inbox. Use it when it's the student's turn but the system incorrectly thinks its yours.",
+      'markAsNothingToDoButton.itsTheStudentsTurn': "It's the student's turn…",
+      'markAsNothingToDoButton.passDiscussionBack':
+        'Pass this discussion back to the student?',
+      'markAsNothingToDoButton.continuingWillRemove':
+        "Continuing will remove this from your Inbox and return it to the student's Inbox. This feature is intended for when a student has left a message for you such as \"Sure, I'll do that\" and the system now needs to be told it's still the student's turn to act.",
+      'markAsNothingToDoButton.addCommentToDiscussion':
+        "If it may not be clear to the student that it's their turn to act, please add a comment to the discussion in addition to using this button.",
+      'markAsNothingToDoButton.continue': 'Continue',
+      'markAsNothingToDoButton.cancel': 'Cancel',
+      'discussionPostView.edit': 'Edit',
+      'favoriteStep.addToFavorites': 'Add to favorites',
+      'favoriteStep.addStudentToFavorites':
+        'Add {{studentHandle}} to your favorites?',
+      'favoriteStep.skip': 'Skip',
+      'finishStep.isOneOfYourFavorites':
+        '{{studentHandle}} is one of your favorites.',
+      'finishStep.willNotSeeFutureRequests':
+        'You will not see future mentor requests from {{studentHandle}}.',
+      'finishStep.thanksForMentoring':
+        'Thanks for mentoring {{studentHandle}}.',
+      'finishStep.changePreferences': 'Change preferences',
+      'mentorAgainStep.mentorAgain':
+        'Do you want to mentor {{studentHandle}} again?',
+      'mentorAgainStep.yes': 'Yes',
+      'mentorAgainStep.no': 'No',
+      'discussionList.somethingWentWrong': 'Something went wrong',
+      'discussionList.retry': 'Retry',
+      'discussionList.noMentoringDiscussions': 'No mentoring discussions',
+      'discussionList.mentorNewSolution': 'Mentor a new solution',
+      'discussion.favoriteStudent': 'Favorite student',
+      'discussion.comments': '{{postsCount}} comments',
+      'trackFilter.somethingWentWrong': 'Something went wrong',
+      'exerciseFilterList.allExercises': 'All exercises',
+      'exerciseFilterList.searchByExerciseName': 'Search by Exercise name',
+      'exerciseFilterList.onlyShowExercisesThatNeedMentoring':
+        'Only show exercises that need mentoring',
+      'exerciseFilterList.onlyShowExercisesIHaveCompleted':
+        "Only show exercises I've completed",
+      'solutionList.noDiscussionsFound': 'No discussions found',
+      'solution.favoriteStudent': 'Favorite student',
+      'solution.mentoredPreviously': 'Mentored previously',
+      'trackFilterList.clickToChange': 'Click to change',
+      'trackFilterList.changeTheTracksYouMentor':
+        'Change the tracks you mentor',
+      'cancelButton.cancel': 'Cancel',
+      'commentTag.essential': 'Essential',
+      'commentTag.recommended': 'Recommended',
+      'representationIterationView.solutionNumber':
+        'Solution #{{solutionNumber}}',
+      'representationIterationView.occurrence': '{{count}} occurrence',
+      'representationIterationView.occurrences': '{{count}} occurrences',
+      'representationIterationView.lastOccurred':
+        'Last occurred {{lastOccurred}}',
+      'representationInfo.feedbackOnSolution':
+        'You’re giving feedback on a solution set for',
+      'leftPane.exerciseInTrack': '{{exerciseTitle}} in {{trackTitle}}',
+      'previewAutomationModal.modalTitle': 'Thanks for submitting feedback!',
+      'submittedAutomationModal.thanksForFeedback':
+        'Thanks for submitting feedback!',
+      'submittedAutomationModal.shownToStudents':
+        'This will get shown to the relevant students on their solutions as they work through exercises.',
+      'submittedAutomationModal.solutionShownTimes':
+        "We'll show you how many times your solution gets shown to students too.",
+      'submittedAutomationModal.continueToSolutions':
+        'Continue to solutions requiring feedback',
+      'submittedAutomationModal.right': 'right',
+      'submittedAutomationModal.earnedReputation': 'You earned',
+      'submittedAutomationModal.reputationForFeedback':
+        'Reputation for providing this feedback 😊',
+      'previewFooter.youCanEditFeedback': 'You can edit this feedback anytime.',
+      'previewFooter.feedbackWillAppearOn': 'Your feedback will appear on',
+      'previewFooter.submit': 'Submit',
+      'previewFooter.example': 'Example',
+      'previewFeedbackComment.gaveThisFeedback':
+        '<0>{{mentorName}}</0> gave this feedback on a solution exactly like yours:',
+      'previewFeedbackComment.commentedOn': 'Commented on {{date}}',
+      'radioGroup.essential': 'Essential',
+      'radioGroup.actionable': 'Recommended',
+      'radioGroup.non_actionable': 'Optional',
+      'radioGroup.celebratory': 'Celebratory',
+      'radioGroup.essentialTooltipTitle': 'If you mark this as Essential',
+      'radioGroup.essentialTooltipBody':
+        'Student is prompted heavily to action this before proceeding. Essential enhancement.',
+      'radioGroup.actionableTooltipTitle': 'If you mark this as Recommended',
+      'radioGroup.actionableTooltipBody':
+        'Student is prompted to action this before proceeding, but not considered essential. High-value enhancement.',
+      'radioGroup.non_actionableTooltipTitle': 'If you mark this as Optional',
+      'radioGroup.non_actionableTooltipBody':
+        'Student is not prompted to action this before proceeding, entirely a low-value enhancement.',
+      'radioGroup.celebratoryTooltipTitle': 'If you mark this as Celebratory',
+      'radioGroup.celebratoryTooltipBody':
+        'Student is not prompted to action this before proceeding, congratulates the student on their solution.',
+      'radioGroup.recommended': 'Recommended',
+      'radioGroup.optional': 'Optional',
+      'radioGroup.recommendedTooltipTitle': 'If you mark this as Recommended',
+      'radioGroup.recommendedTooltipBody':
+        'Student is prompted to action this before proceeding, but not considered essential. High-value enhancement.',
+      'radioGroup.optionalTooltipTitle': 'If you mark this as Optional',
+      'radioGroup.optionalTooltipBody':
+        'Student is not prompted to action this before proceeding, entirely a low-value enhancement.',
+      'automationRules.noGuidance':
+        "This representer doesn't have any guidance yet. Guidance notes are written by our maintainers to explain what normalizations occur during the representation process. If you are a maintainer, please help get them started for this representer by sending a <0>Pull Request on GitHub</0>.",
+      'automationRules.pleaseReadBeforeGivingFeedback':
+        'Please read before giving feedback',
+      'considerations.readThisBeforeGivingFeedback':
+        'Please\\u00A0<0>read this</0>\\u00A0before giving your first feedback.',
+      'utilityTabs.information': 'Information',
+      'utilityTabs.scratchpad': 'Scratchpad',
+      'utilityTabs.guidance': 'Guidance',
+      'representationFeedbackEditor.previewAndSubmit': 'Preview & Submit',
+      'howImportant.howImportantIsThis': 'How important is this?',
+      'startMentoringPanel.helpStudentWriteBetter':
+        'Help {{studentHandle}} write better {{trackTitle}}?',
+      'startMentoringPanel.showThemWayToCodeBliss':
+        'Feel you can help {{studentHandle}} approach this in a better way? Start mentoring and show them the way to code bliss.',
+      'startMentoringPanel.startMentoring': 'Start mentoring',
+      'startMentoringPanel.sessionReturnsToQueue':
+        'You have 30 minutes until the session returns to the queue for others to mentor.',
+      'startMentoringPanel.unableToLockSolution': 'Unable to lock solution',
+      'lockedSolutionMentoringNote.mentoringDocs': 'mentoring docs',
+      'lockedSolutionMentoringNote.solutionLocked':
+        'This solution is locked until {{lockedUntil}} ({{diffMins}} from now).',
+      'lockedSolutionMentoringNote.solutionNoLongerLocked':
+        'This solution is no longer locked and another mentor may pick it up',
+      'extendLockedUntilModal.mentorLockExpiring':
+        'Mentor Lock close to expiring',
+      'extendLockedUntilModal.timeRemaining':
+        'You only have {{diffMinutes}} remaining to submit your comment before this mentor request is unlocked for other mentors to reply to.',
+      'extendLockedUntilModal.wouldLikeMoreTime': 'Would you like more time?',
+      'extendLockedUntilModal.yesExtend': 'Yes, extend for 30 minutes',
+      'extendLockedUntilModal.noThankYou': 'No, thank you',
+      'locked.stillLocked':
+        'Check out our <a>mentoring docs</a> for more information. This solution is locked until {{lockedUntil}} ({{diffMins}} from now).',
+      'locked.unlocked':
+        'Check out our <a>mentoring docs</a> for more information. This solution is no longer locked and another mentor may pick it up.',
+      'scratchpad.introducingYourScratchpad': 'Introducing your scratchpad',
+      'scratchpad.markdownSupportedPlace':
+        'A <0>Markdown-supported</0> place for you to write notes and add code snippets you’d like to refer to during mentoring.',
+      'scratchpad.yourNotesForExerciseInTrack':
+        'Your notes for <0>{{exerciseTitle}}</0> in<1/><0>{{trackTitle}}</0>',
+      'scratchpad.revertToSaved': 'Revert to saved',
+      'scratchpad.save': 'Save',
+      'scratchpad.unsaved': 'Unsaved',
+      'studentInfo.whoYoureMentoring': "Who you're mentoring",
+      'removeFavoriteButton.unfavorite': 'Unfavorite?',
+      'removeFavoriteButton.favorited': 'Favorited',
+      'addFavoriteButton.addToFavorites': 'Add to favorites',
+      'iterationHeader.downloadButton.downloadThisSolutionViaCli':
+        'Download this solution via the CLI',
+      'iterationHeader.downloadButton.solutionDownloadedIntoSubdirectory':
+        'This solution will be downloaded into a subdirectory specifically for this student.',
+      'iterationHeader.copyButton.copied': 'Copied',
+      'iterationHeader.outOfDateNotice.exerciseUpdated':
+        'This exercise has been updated since the student submitted this\\n        iteration. It might not pass the most recent set of tests. Exercises\\n        can be updated by students by clicking on the yellow bar in the main\\n        exercise page.',
+      'iterationHeader.downloadButton.downloadSolution': 'Download solution',
+      'iterationHeader.copyButton.copySolution': 'Copy solution',
+      'mobileIterationView.thisIterationHasBeenDeleted':
+        'This iteration has been deleted',
+      'sessionInfoModal.onExerciseInTrack':
+        'on {{exerciseTitle}} in {{trackTitle}}',
+      'toggleMoreInformationButton.expand': 'expand',
+      'studentTrackObjectives.exploreTrackGoals':
+        "Explore {{handle}}'s track goal(s)",
+      'deleteTestimonialModal.areYouSure':
+        'Are you sure you want to delete this testimonial?',
+      'deleteTestimonialModal.deletingWillHide':
+        'Deleting the testimonial will hide it from this list, your profile and mentoring stats. <strong>This action is irreversible.</strong>',
+      'deleteTestimonialModal.deleteTestimonial': 'Delete testimonial',
+      'deleteTestimonialModal.cancel': 'Cancel',
+      'optionsDropdown.options': 'Options',
+      'optionsDropdown.deleteTestimonial': 'Delete testimonial',
+      'orderSelect.sortByUnrevealedFirst': 'Sort by Unrevealed First',
+      'orderSelect.sortByNewestFirst': 'Sort by Newest First',
+      'orderSelect.sortByOldestFirst': 'Sort by Oldest First',
+      'revealedTestimonial.new': 'New',
+      'revealedTestimonial.onExerciseInTrack':
+        'on {{exerciseTitle}} in {{trackTitle}}',
+      'unrevealedTestimonial.someoneLeftYouATestimonial':
+        'Someone left you a testimonial… 😲',
+      'unrevealedTestimonial.clickTapToReveal': 'Click / tap to reveal',
+      'trackCheckbox.trackSelected': 'Track selected',
+      'tracksList.noTracksFound': 'No tracks found',
+      'continueButton.continue': 'Continue',
+      'badgeModal.newBadgeEarned': 'New Badge Earned',
+      'badgeModal.earnedOn': 'Earned on ',
+      'badgeModal.membersHaveEarned_one':
+        '<0>{{count}}</0> member has earned this badge.',
+      'badgeModal.membersHaveEarned_other':
+        '<0>{{count}}</0> members have earned this badge.',
+      'badgeModal.percentageOfUsers':
+        "That's {{percentage}}% of all Exercism users",
+      'begModal.sorryToDisturb': 'Sorry to disturb, but...',
+      'begModal.weNeedYourHelp': 'We need your help!',
+      'begModal.cantAffordIt': "Can't afford it?",
+      'begModal.shareExercism':
+        "If you can't afford to donate, but would like to help in some other way, please share Exercism with your friends and colleagues, and shout about us on social media. The more people that use us, the more donations we get!",
+      'begModal.wantToKnowMore': 'Want to know more?',
+      'begModal.explainsWhyWeNeedDonations':
+        'I put together a short video that explains why we need donations and how we use them 👇',
+      'begModal.fewerThan1Percent':
+        'Fewer than 1% of who use Exercism choose to donate. If you can afford to do so, please be one of them.',
+      'begModal.continueWithoutDonating': 'Continue without donating',
+      'begModal.previousDonorContent.thankYou':
+        "You're one of the few people who have donated to Exercism. Thank you so much for supporting us 💙",
+      'begModal.previousDonorContent.hateToAskAgain':
+        "I hate to ask you again (😔), but we really need your support. Exercism isn't covering its costs and we really need your help. If you're enjoying Exercism and can afford it, <0>please consider donating a few more dollars</0> to support us.",
+      'begModal.previousDonorContent.monthlyDonationHelpful':
+        'If possible, a monthly donation would be extra helpful! It takes 30 seconds to setup using the form on the right 👉',
+      'begModal.nonDonorContent.exercismReliesOnDonations':
+        "Exercism relies on donations. But right now we don't have enough 😔",
+      'begModal.nonDonorContent.mostPeopleCantAfford':
+        "Most people who use Exercism can't afford to donate. But if you can, and you're finding Exercism useful, <0>please consider donating a few dollars</0> so that we can keep it free for those who can't afford it.",
+      'begModal.nonDonorContent.only1Percent':
+        "If only 1% of our users support us regularly, we'll be able to cover our costs. It takes 30 seconds to donate, using the form on the right 👉",
+      'changePublishedIterationsModal.changePublishedIterations':
+        'Change published iterations',
+      'changePublishedIterationsModal.recommendPublishing':
+        'We recommend publishing all iterations to help others learn from your journey, but you can also choose just your favourite iteration to showcase instead.',
+      'changePublishedIterationsModal.updatePublishedSolution':
+        'Update published solution',
+      'changePublishedIterationsModal.cancel': 'Cancel',
+      'changePublishedIterationsModal.unableToChangePublishedIteration':
+        'Unable to change published iteration',
+      'authors.heading': 'Authors',
+      'authors.subtitle': 'People who wrote the concept',
+      'contributors.heading': 'Contributors',
+      'contributors.subtitle': 'People who updated the concept',
+      'deleteAccount.title': "You're about to delete your Exercism account",
+      'deleteAccount.readCarefully':
+        'Please read this carefully before continuing.',
+      'deleteAccount.irreversible':
+        'This is <em>irreversible</em> and will mean you’ll lose everything you’ve done on your account.',
+      'deleteAccount.loseAccessTo':
+        'By deleting your account, you will lose access to:',
+      'deleteAccount.allSolutions': 'All solutions you have submitted',
+      'deleteAccount.allMentoringReceived': 'All mentoring you have received',
+      'deleteAccount.allMentoringGiven':
+        'All mentoring you have given and any testimonials received.',
+      'deleteAccount.personalDataDeleted':
+        'All your personal data, which will be deleted',
+      'deleteAccount.confirmHandle': 'To confirm, write your handle',
+      'deleteAccount.cancel': 'Cancel',
+      'deleteAccount.deleteAccount': 'Delete account',
+      'deleteAccount.unableToDeleteAccount': 'Unable to delete account',
+      deleteAccount: 'Delete account',
+      'disableSolutionCommentsModal.confirmationTitle':
+        'Do you want to disable comments?',
+      'disableSolutionCommentsModal.confirmationDescription':
+        'Disabling comments stops people from publically posting questions and thoughts on your solution. You can reenable this at any time.',
+      'disableSolutionCommentsModal.disableComments': 'Disable comments',
+      'disableSolutionCommentsModal.cancel': 'Cancel',
+      'enableSolutionCommentsModal.enableComments': 'Enable comments?',
+      'enableSolutionCommentsModal.enablingCommentsAllows':
+        'Enabling comments allows people to publically post questions and thoughts on your solution. You can disable this at any time.',
+      'enableSolutionCommentsModal.enableCommentsButton': 'Enable comments',
+      'enableSolutionCommentsModal.cancel': 'Cancel',
+      'enableSolutionCommentsModal.unableToEnableComments':
+        'Unable to enable comments',
+      'exerciseMakersModal.seeFullHistoryOnGithub':
+        'See the full history of this exercise on GitHub',
+      'exerciseMakersModal.authors': 'Authors',
+      'exerciseMakersModal.peopleWhoWroteExercise':
+        'People who wrote the exercise',
+      'exerciseMakersModal.contributors': 'Contributors',
+      'exerciseMakersModal.peopleWhoUpdatedExercise':
+        'People who updated the exercise',
+      'exerciseUpdateModal.loadingExerciseDiff': 'Loading exercise diff',
+      'exerciseUpdateModal.sorryCantWorkOutWhatNeedsUpdating':
+        "Sorry - it seems that we can't work out what needs updating for this exercise. We've been alerted and will have a look.",
+      'chooseTrackStep.selectTracks': 'Select the tracks you want to mentor',
+      'commitStep.commitToBeGoodMentor': 'Commit to being a good mentor',
+      'congratulationsStep.congratulations': 'Congratulations',
+      'publishSolutionModal.publishYourSolution': 'Publish your solution',
+      'publishSolutionModal.recommendPublishing':
+        'We recommend publishing all iterations to help others learn from your journey, but you can also choose just your favourite iteration to showcase instead.',
+      'publishSolutionModal.publish': 'Publish',
+      'publishSolutionModal.cancel': 'Cancel',
+      'publishSolutionModal.unableToPublishSolution':
+        'Unable to publish solution',
+      'selectExercise.title': 'Select an exercise to request mentoring on',
+      'selectExercise.searchPlaceholder': 'Search exercise by name',
+      'exercise.numberOfIterations': 'Number of iterations',
+      'taskHintsModal.hintsAndTips': 'Hints and Tips',
+      'unpublishSolutionModal.title': 'Do you want to unpublish your solution?',
+      'unpublishSolutionModal.body':
+        'Unpublishing your solution will mean it no longer appears on your profile and can no longer be viewed under Community Solutions. All stars and comments will be lost, and any associated reputation will be removed.',
+      'unpublishSolutionModal.unpublishButton': 'Unpublish solution',
+      'unpublishSolutionModal.cancelButton': 'Cancel',
+      'welcomeToInsidersModal.title': 'Welcome to Insiders! 💙',
+      'welcomeToInsidersModal.accessToFeatures':
+        'You now have access to Dark Mode, ChatGPT Integration, extra mentoring slots along with behind the scenes videos, new badges, and more!',
+      'welcomeToInsidersModal.thanksForBeingPartOfOurStory':
+        'Thanks for being part of our story!',
+      'welcomeToInsidersModal.exercismReliesOnPeople':
+        "Exercism relies on people like you giving up your time and money to help others. Without you we wouldn't have helped the multitude of people that we have. Our journey is still just beginning and we're really glad to have you along with us. Thank you so much for making Exercism possible 💙",
+      'welcomeToInsidersModal.weHopeInsidersIsFun':
+        "We hope Insiders is a fun experience. We recommend watching the video on the right to get an overview of how your account has now changed, and also checking out the Insiders page behind this modal to see all the features you've unlocked.",
+      'welcomeToInsidersModal.greatLetsGo': "Great. Let's go!",
+      'welcomeToInsidersModal.startWithOurWelcomeVideo':
+        'Start with our welcome video 👇🏽',
+      'welcomeToInsidersModal.whatShouldIDoNext': 'What should I do next?',
+      'welcomeToInsidersModal.exploreDarkMode':
+        "Explore Dark Mode (we've enabled it by default). Check out your new badge(s). Try ChatGPT in the online editor. Use one of your new mentoring slots. Come and say hello on the #insiders channel on Discord. Or watch some of the behind the scenes videos 🎉",
+      'unlocks.conceptsUnlocked_one': "You've unlocked <icon/> 1 concept",
+      'unlocks.conceptsUnlocked_other':
+        "You've unlocked <icon/> {{count}} concepts",
+      'unlocks.exercisesUnlocked_one': "You've unlocked <icon/> 1 exercise",
+      'unlocks.exercisesUnlocked_other':
+        "You've unlocked <icon/> {{count}} exercises",
+      'exerciseCompletedModal.youCompleted':
+        "You've completed {{exerciseTitle}}!",
+      'exerciseCompletedModal.awesomeWorkLearning':
+        "Awesome work. You're one step closer to learning {{trackTitle}} 🚀",
+      'exerciseCompletedModal.awesomeWorkMastering':
+        "Awesome work. You're one step closer to mastering {{trackTitle}} 🚀",
+      'exerciseCompletedModal.concept.info_1':
+        "You've learnt <strong>{{count}}</strong> concept.",
+      'exerciseCompletedModal.concept.info_many':
+        "You've learnt <strong>{{count}}</strong> concepts.",
+      'exerciseCompletedModal.concept.info_1_1':
+        "You've learnt <strong>{{count}}</strong> concept and unlocked {{unlockedExercisesCount}} exercise by completing this exercise.",
+      'exerciseCompletedModal.concept.info_1_many':
+        "You've learnt <strong>{{count}}</strong> concept and unlocked {{unlockedExercisesCount}} exercises by completing this exercise.",
+      'exerciseCompletedModal.concept.info_many_1':
+        "You've learnt <strong>{{count}}</strong> concepts and unlocked {{unlockedExercisesCount}} exercise by completing this exercise.",
+      'exerciseCompletedModal.concept.info_many_many':
+        "You've learnt <strong>{{count}}</strong> concepts and unlocked {{unlockedExercisesCount}} exercises by completing this exercise.",
+      'exerciseCompletedModal.practice.info_1':
+        "You've progressed with <strong>{{count}}</strong> concept by completing this exercise.",
+      'exerciseCompletedModal.practice.info_many':
+        "You've progressed with <strong>{{count}}</strong> concepts by completing this exercise.",
+      'exerciseCompletedModal.practice.info_none':
+        "Once you've practiced some more {{trackTitle}}, come back to this exercise and see if you can make it even better.",
+      'exerciseCompletedModal.showMeMoreConcepts': 'Show me more concepts',
+      'exerciseCompletedModal.showMeMoreExercises': 'Show me more exercises',
+      'exerciseCompletedModal.returnToExercise': 'Return to the exercise',
+      'publishSolutionModal.publishKnowledge':
+        'Publish your code and share your knowledge',
+      'publishSolutionModal.publishHelpOthers':
+        "By publishing your code, you'll help others learn from your work. You can choose which iterations you publish, add more iterations once it's published, and unpublish it at any time.",
+      'tutorialCompletedModal.heading': "You've completed “{{exerciseTitle}}”.",
+      'tutorialCompletedModal.subheading':
+        'This is just the start of your journey on the {{trackTitle}} track 🚀',
+      'tutorialCompletedModal.body.noCourse':
+        "You're now ready to get stuck into some <0>real exercises</0>.",
+      'tutorialCompletedModal.body.withCourse':
+        "You're now ready to get stuck into some <0>real exercises</0>. We've also revealed {{trackTitle}}'s {{conceptCount}} concepts for you to take a look at.",
+      'tutorialCompletedModal.accessToMentoring':
+        "Once you start your next exercise, you'll have access to the mentoring section on your track too.",
+      'tutorialCompletedModal.showMeConcepts': 'Show me the Concepts',
+      'tutorialCompletedModal.showMoreExercises': 'Show me more exercises',
+      'tutorialCompletedModal.returnToTutorial':
+        'Return to “{{exerciseTitle}}”',
+      'publishSolutionForm.yesShareSolution':
+        "Yes, I'd like to share my solution with the community.",
+      'publishSolutionForm.noMarkComplete':
+        'No, I just want to mark the exercise as complete.',
+      'publishSolutionForm.confirm': 'Confirm',
+      'exerciseUpdateForm.header':
+        "See what's changed on <icon/> {{exerciseTitle}}",
+      'exerciseUpdateForm.warning':
+        'By updating to the latest version, your solution may fail the tests and need to be updated.',
+      'exerciseUpdateForm.updateExercise': 'Update exercise',
+      'exerciseUpdateForm.dismiss': 'Dismiss',
+      'reputationInfo.reputationAndTestimonials': 'Reputation & testimonials',
+      'reputationInfo.gainReputation':
+        "You'll gain <strong>6 reputation</strong> for each successful mentoring session. At the end of every discussion, students are invited to leave you a testimonial.",
+      'commitStep.title': 'Commit to being a good mentor',
+      'commitStep.description':
+        "Mentoring on Exercism can be an incredible experience for students and mentors alike. To ensure it remains a positive place for everyone, we ask all mentors to affirm Exercism's values before they mentor their first solution.",
+      'commitStep.youAgreeTo': 'You agree to:',
+      'commitStep.codeOfConduct': 'Abide by the <a>Code of Conduct <icon/></a>',
+      'commitStep.beKind':
+        "Be patient, empathic and kind to those you're mentoring",
+      'commitStep.intellectualHumility':
+        'Demonstrate <a>intellectual humility <icon/></a>',
+      'commitStep.noAgendas': 'Not use Exercism to promote personal agendas',
+      'commitStep.back': 'Back',
+      'commitStep.continue': 'Continue',
+      'chooseTrackStep.allowsUsToShow':
+        'This allows us to only show you the solutions you want to mentor. <strong>Don’t worry, you can change these selections at anytime.</strong>',
+      'stepIndicator.step': 'Step {{num}}: {{label}}',
+      'closeButton.closeModal': 'Close the modal',
+      'congratulationsStep.youAreNowMentor': 'You’re now a mentor!',
+      'congratulationsStep.thankYouGrateful':
+        'Thank you - we’re so grateful for your commitment 🙏',
+      'congratulationsStep.makeGettingStartedEasy':
+        'We want to make getting started with mentoring as easy as possible. Watch the video below to learn how to get started.',
+      'congratulationsStep.welcomeToMentorTeam': 'Welcome to the Mentor Team!',
+      'congratulationsStep.video': 'Video · 0:24',
+      'congratulationsStep.readyToGetStarted': "I'm ready to get started!",
+      'finishMentorDiscussionModal.areYouSure':
+        'Are you sure you want to end this discussion?',
+      'finishMentorDiscussionModal.explanation':
+        "It's normally time to end a discussion when the student has got what they wanted from the conversation, or you have taken the conversation as far as you like. It's generally polite to leave the student a final goodbye.",
+      'finishMentorDiscussionModal.cancel': 'Cancel',
+      'finishMentorDiscussionModal.endDiscussion': 'End discussion',
+      'firstTimeModal.havePublicProfile': 'You now have a public profile!',
+      'firstTimeModal.goodJob': 'Good job!',
+      'firstTimeModal.seeSolutions':
+        "You'll now see your published solutions, mentoring testimonials, contributions and badges on your public profile.",
+      'firstTimeModal.shareProfile':
+        'You can share your profile with others too!',
+      'feedbackContentButtons.goBackToEditor': 'Go back to editor',
+      'feedbackContentButtons.continue': 'Continue',
+      'index.suggestionImproveCode':
+        "Here's a suggestion on how to improve your code…",
+      'index.positiveFeedback': 'We have some positive feedback for you! 🎉',
+      'index.importantSuggestionImproveCode':
+        "Here's an important suggestion on how to improve your code…",
+      'index.thoughtsOnCode': 'Here are some thoughts on your code…',
+      'index.continue': 'Continue',
+      'index.continueAnyway': 'Continue anyway',
+      'analyzerFeedback.generatedFeedback':
+        'Our <strong>{{trackTitle}} Analyzer</strong> generated this feedback when analyzing your solution.',
+      'representerFeedback.gaveFeedbackSimilarSolution':
+        '<0>{{author}}</0>\\u00A0gave this feedback on a solution very similar to yours',
+      'index.noImmediateFeedback': 'No Immediate Feedback',
+      'index.ourSystemsDontHave':
+        "Our systems don't have any immediate suggestions about how to improve your code.",
+      'index.weRecommendRequesting':
+        "We recommend requesting code review from one of our {{trackTitle}} mentors. They'll give you feedback on your code and ideas about how you can make it even more idiomatic. It's 100% free 🙂",
+      'index.requestCodeReview': 'Request code review',
+      'index.youHaveMentoringSession':
+        'You have a mentoring session active for this exercise.',
+      'index.itIsGenerallyGood':
+        "It is generally good practice to tell your mentor what you've changed in your code and ask them to take a look at your new version.",
+      'index.goToYourDiscussion': 'Go to your discussion',
+      'index.continueToExercise': 'Continue to exercise',
+      'index.noImmediateFeedbackNoSlot': 'No Immediate Feedback',
+      'index.youveSubmittedSolution':
+        "You've submitted your solution for Code Review.",
+      'index.mentorWillTakeLook':
+        "A mentor will take a look at your solution and (hopefully) provide you with useful feedback soon. You'll receive a notification and email when this happens.",
+      'index.viewYourRequest': 'View your request',
+      'index.cancel': 'Cancel',
+      'index.submitForCodeReview': 'Submit for code review',
+      'index.onceYouSubmit':
+        'Once you submit, your request will be open for a mentor to join and start providing feedback.',
+      'deepDiveVideoContent.digDeeperInto':
+        'Dig Deeper into {{exerciseTitle}}!',
+      'deepDiveVideoContent.continue': 'Continue',
+      'realTimeFeedbackModal.deepDiveVideo': 'Deep Dive Video',
+      'realTimeFeedbackModal.feedback': 'Feedback',
+      'checkingForAutomatedFeedback.checking':
+        'Checking for automated feedback…',
+      'checkingForAutomatedFeedback.inspectingCode':
+        'Our systems are inspecting your code to find both automated feedback and feedback given by mentors on similar solutions.',
+      'checkingForAutomatedFeedback.processTime':
+        'This process normally takes ~10 seconds.',
+      'checkingForAutomatedFeedback.continueWaiting':
+        'Continue without waiting',
+      'checkingForAutomatedFeedback.takingLonger':
+        'Sorry, this is taking a little longer than expected. You may wish to continue without waiting. You can view any feedback on the iterations tab of the solution later.',
+      'feedbackContent.noFeedback': 'No Automated Feedback',
+      'feedbackContent.foundFeedback': 'Found Automated Feedback',
+      'bootcampAd.heading':
+        'Meet our <strong>Coding Fundamentals</strong> course...',
+      'bootcampAd.description':
+        'Our <strong>Coding Fundamentals</strong> course is designed specifically for beginners! It will teach you how to <strong>think like a coder</strong> by solving puzzles and building games.',
+      'bootcampAd.timeline':
+        "In 12 weeks, you'll go from zero to making these...",
+      'bootcampAd.punchline':
+        "This is a course for anyone that wants to get really good at coding. It's affordable. It's fun. And most importantly, it's <strong>incredibly effective</strong>!",
+      'bootcampAd.learnMore': 'Learn more ✨',
+      'bootcampAd.close': 'Close',
+      'bootcampAd.videoIntro': 'Watch the Course Intro 👇',
+      'bootcampAd.feature.video': '<strong>Video</strong> tutorials',
+      'bootcampAd.feature.fun': '<strong>Fun</strong> projects',
+      'bootcampAd.feature.mentors': 'Helpful <strong>mentors</strong>',
+      'bootcampAd.quote':
+        'I was brand new to coding and this course <strong>exceeded my wildest expectations</strong>. In my humble opinion, it will be <strong>one of the best choices you will ever make!</strong>',
+      'bootcampAd.quote.description': 'Absolute Beginner',
+      'senioritySurveyModal.inner': 'Inner',
+      'initialView.heyThere': 'Hey there 👋',
+      'initialView.expandingExercism':
+        "We're expanding Exercism to add content relevant to a wide range of abilities. To ensure Exercism shows you the right content, please tell us how experienced you are.",
+      'initialView.howExperiencedAreYou':
+        'How experienced a developer are you?',
+      'initialView.saveMyChoice': 'Save my choice',
+      'initialView.canBeUpdatedInSettings':
+        '(This can be updated at any time in your settings)',
+      'initialView.absoluteBeginner': 'Absolute Beginner',
+      'initialView.beginner': 'Beginner',
+      'initialView.juniorDeveloper': 'Junior Developer',
+      'initialView.midLevelDeveloper': 'Mid-level Developer',
+      'initialView.seniorDeveloper': 'Senior Developer',
+      'reportStep.howCanWeHelp': 'How can we help?',
+      'reportStep.explanation':
+        'We’re really sorry that you experienced a problematic mentoring discussion, and would like to help ensure your next experience is a positive one.',
+      'reportStep.resolveIssue': 'How would you like to resolve the issue?',
+      'reportStep.blockMentor': 'Block further interactions with this mentor',
+      'reportStep.requeueSolution':
+        'Put your solution back in the queue for mentoring',
+      'reportStep.reportDiscussion': 'Report this discussion to an admin',
+      'reportStep.whyReporting': 'Why are you reporting this conversation?',
+      'reportStep.whatWentWrong': 'What went wrong?',
+      'reportStep.reportAssurance':
+        'Your report will be sent to our adminstrators who will investigate further',
+      'reportStep.back': 'Back',
+      'reportStep.finish': 'Finish',
+      'rateMentorStep.reviewDiscussion': "It's time to review this discussion",
+      'rateMentorStep.yourDiscussionTimedOut': 'Your discussion timed out',
+      'rateMentorStep.mentorFinishedMentoring':
+        '{{mentorHandle}} has finished mentoring you on',
+      'rateMentorStep.feedbackRequest':
+        "To help us and our mentors understand how well we're doing, we'd love some feedback on your discussion with {{mentorHandle}}. Good mentors will answer your questions, introduce you to new ideas, or encourage you to try new things.",
+      'rateMentorStep.howWasDiscussion':
+        'How was your discussion with {{mentorHandle}}?',
+      'rateMentorStep.problematic': 'Problematic',
+      'rateMentorStep.acceptable': 'Acceptable',
+      'rateMentorStep.itWasGood': 'It was good!',
+      'successfulDonationStep.youveDonatedSuccessfully':
+        "You've donated {{amount}} successfully - thank you 💙",
+      'successfulDonationStep.trulyAppreciateSupport':
+        "We truly appreciate your support. Exercism would not be possible without awesome contributors like yourself. You'll be sent an email shortly with your donation confirmation and receipt.",
+      'successfulDonationStep.youVeEarnedTheBadge':
+        "You've earned the <0>Supporter</0> badge!",
+      'successfulDonationStep.continueToExercise': 'Continue to Exercise',
+      'requeuedStep.solutionRequeued': 'Your solution has been requeued.',
+      'requeuedStep.requedExplanation':
+        'Your solution has been put back in the queue and another mentor will hopefully pick it up soon. We hope you have a positive mentoring session on this solution next time!',
+      'requeuedStep.goToSolution': 'Go back to your solution',
+      'testimonialField.writeTestimonial': 'Write your testimonial here',
+      'testimonialField.minimum': 'minimum',
+      'unhappyStep.thankYouForReport': 'Thank you for your report',
+      'unhappyStep.reportExplanation':
+        'Thanks for letting us know. We will look into your report and get back to you in the next few days. In the meantime we hope you have a better next experience.',
+      'unhappyStep.solutionRequeued': 'Your solution has been be requeued',
+      'unhappyStep.requeueExplanation':
+        'Your solution has been put back in the queue and another mentor will hopefully pick it up soon. We hope you have a positive mentoring session on this solution next time!',
+      'unhappyStep.hopeBetterExperience':
+        'We hope you have a better next experience',
+      'unhappyStep.sorryExplanation':
+        "Sorry this experience wasn't great. We hope the next one will be better.",
+      'unhappyStep.goToSolution': 'Go back to your solution',
+      'addTestimonialStep.gladGoodDiscussion':
+        "We're glad you had a good discussion!",
+      'addTestimonialStep.mentorsVolunteerTime':
+        'Mentors volunteer their time for free. A nice testimonial is a great way of thanking them, and encouraging them to continue helping others.',
+      'addTestimonialStep.leaveTestimonial':
+        'Leave {{mentorHandle}} a testimonial (optional)',
+      'addTestimonialStep.back': 'Back',
+      'addTestimonialStep.skip': 'Skip',
+      'addTestimonialStep.finish': 'Finish',
+      'celebrationStep.thankYouForTestimonial':
+        'Thank you for leaving a testimonial 💙',
+      'celebrationStep.helpedMakeDay':
+        "You've helped make {{mentorHandle}}'s day.",
+      'celebrationStep.shareExperience':
+        'Please share your experience of Exercism with others.',
+      'celebrationStep.backToExercise': 'Back to the exercise',
+      'satisfiedStep.sorryMentoringWasntGreat':
+        "Sorry that this mentoring wasn't great.",
+      'satisfiedStep.putExerciseBack':
+        'Would you like to put this exercise back in the queue for another mentor to look at?',
+      'satisfiedStep.back': 'Back',
+      'satisfiedStep.noThanks': 'No thanks',
+      'satisfiedStep.yesPlease': 'Yes please',
+      'reasonSelect.codeOfConductViolation': 'Code of Conduct violation',
+      'reasonSelect.wrongOrMisleadingInformation':
+        'Wrong or misleading information',
+      'reasonSelect.other': 'Other',
+      'donationStep.oneMoreRequest': 'One more request…',
+      'donationStep.areYouFindingHelpful': 'Are you finding Exercism helpful?',
+      'donationStep.cantAfford': "Can't afford it?",
+      'donationStep.shareMessage':
+        "If you can't afford to donate, but would like to help in some other way, please share Exercism with your friends and colleagues, and shout about us on social media. The more people that use us, the more donations we get!",
+      'donationStep.wantToKnowMore': 'Want to know more?',
+      'donationStep.whyWeNeedDonations':
+        'I put together a short video that explains why we need donations and how we use them 👇',
+      'donationStep.continueWithoutDonating': 'Continue without donating',
+      'donationStep.lessThanOnePercentDonate':
+        'Fewer than 1% of who use Exercism choose to donate. If you can afford to do so, please be one of them.',
+      'confirmFinishMentorDiscussionModal.areYouSure':
+        'Are you sure you want to end this discussion?',
+      'confirmFinishMentorDiscussionModal.feelLikeMentoringReachedConclusion':
+        "When you feel like the mentoring has reached its natural conclusion, or you simply don't wish to proceed further, it's time to end the discussion.",
+      'confirmFinishMentorDiscussionModal.cancel': 'Cancel',
+      'confirmFinishMentorDiscussionModal.reviewAndEndDiscussion':
+        'Review and end discussion…',
+      'iterationSelector.allIterations': 'All iterations',
+      'iterationSelector.singleIteration': 'Single iteration',
+      'iterationSelect.iteration': 'Iteration {{idx}}',
+      'finishMentorDiscussionModal.reportShouldNotBeNull':
+        'Report should not be null',
+      'welcomeToTrack.welcomeTo': 'Welcome to {{trackTitle}}! 🎉',
+      'learningEnvironmentSelectorStep.onlineOrOnYourComputer':
+        'Online or on your computer?',
+      'learningEnvironmentSelectorStep.solveExercisesUsingEditorOrLocally':
+        "You can solve the exercises using either our online editor, or locally within your own environment. If you use your own environment, you'll need to install both {{trackTitle}} and the Exercism CLI.",
+      'learningEnvironmentSelectorStep.recommendStartingWithEditor':
+        'We generally recommend starting by using our editor.',
+      'learningEnvironmentSelectorStep.howWouldYouLikeToStartSolvingExercises':
+        'How would you like to start solving the {{trackTitle}} exercises?',
+      'learningEnvironmentSelectorStep.inTheOnlineEditor':
+        'In the online editor',
+      'learningEnvironmentSelectorStep.onMyLocalMachine': 'On my local machine',
+      'selectedOnlineEditorStep.youreAllSet': "You're all set!",
+      'selectedOnlineEditorStep.changeMindInstructions':
+        "If you change your mind later and want to work in your own environment, you'll find instructions for installing the Exercism CLI and language tooling on the right-hand side of each exercise.",
+      'selectedOnlineEditorStep.letsJumpIntoFirstExercise':
+        'Let\'s jump straight into the first exercise, "Hello, World!", which will ensure you\'re comfortable with the editor.',
+      'selectedOnlineEditorStep.continueToOnlineEditor':
+        'Continue to online editor',
+      'selectedOnlineEditorStep.resetChoices': 'Reset choices',
+      'selectedLocalMachineStep.title': "Let's get coding!",
+      'selectedLocalMachineStep.subtitle':
+        'There are three steps to get started:',
+      'selectedLocalMachineStep.step1':
+        "Install <cliLink>Exercism's CLI</cliLink>.",
+      'selectedLocalMachineStep.step2':
+        "Install <toolingLink>{{trackTitle}}'s tooling</toolingLink>.",
+      'selectedLocalMachineStep.step3': 'Download this exercise:',
+      'selectedLocalMachineStep.doneMessage':
+        '<strong>All done?</strong> Click "Continue" to see the instructions, then solve the exercise on your machine and submit it via <code>exercism submit</code>.',
+      'selectedLocalMachineStep.continue': 'Continue',
+      'selectedLocalMachineStep.reset': 'Reset choices',
+      'noLearningModeStep.title': "You'll be in Practice Mode",
+      'noLearningModeStep.description':
+        "The {{trackTitle}} track is designed to help you practice the language. Unlike some tracks, {{trackTitle}} doesn't have a Learning Mode yet, so you'll be completing the track's {{numExercises}} exercises in Practice Mode.",
+      'noLearningModeStep.resources':
+        "If you'd like to learn {{trackTitle}} from scratch, take a look at <0>these supplementary resources</0> that we've collated for you.",
+      'noLearningModeStep.continue': 'Continue',
+      'hasLearningModeStep.hereToLearnOrPractice': 'Here to learn or practice?',
+      'hasLearningModeStep.trackCanBeUsedForLearningOrPracticing':
+        'This track can be used for learning {{trackTitle}} (Learning Mode) or for practicing your {{trackTitle}} skills (Practice Mode). ',
+      'hasLearningModeStep.recommendLearningModeIfNew':
+        "We recommend Learning Mode if you're new to {{trackTitle}}, and Practice Mode if you're experienced.",
+      'hasLearningModeStep.startTrackInLearningOrPracticeMode':
+        'Would you like to start the track in Learning Mode or Practice Mode? (You can always change later.)',
+      'hasLearningModeStep.learningMode': 'Learning Mode',
+      'hasLearningModeStep.practiceMode': 'Practice Mode',
+      'openModalStep.loading': 'Loading...',
+      'bootcampRecommendation.header':
+        'Coding Fundamentals might be better for you…',
+      'bootcampRecommendation.tracksAudience':
+        "Exercism's tracks are designed for people who <strong>already know how to code</strong> and are practicing or learning new languages.",
+      'bootcampRecommendation.codingJourney':
+        "If you're just starting out on your coding journey, <strong>our Coding Fundamentals Course might be a better fit for you.</strong>",
+      'bootcampRecommendation.youllBuildGames':
+        "In 12 weeks, you'll go from zero to making these...",
+      'bootcampRecommendation.selfPaced':
+        "It's self-paced and <strong>priced affordably</strong>, with discounts available for students, people who are unemployed, and those living in emerging economies.",
+      'bootcampRecommendation.cta.checkOutCourse': 'Check out the Course ✨',
+      'bootcampRecommendation.cta.continueAnyway': 'Continue anyway',
+      'whoIsThisTrackFor.courseName':
+        "Exercism's <strong>Coding Fundamentals</strong>",
+      'whoIsThisTrackFor.courseOffersHeading': 'The course offers:',
+      'whoIsThisTrackFor.courseOffers.expertTeaching':
+        '<strong>Expert teaching</strong> and mentoring support.',
+      'whoIsThisTrackFor.courseOffers.handsOnProjects':
+        'Over <strong>100 hours of hands-on project based learning</strong>, making games and solving puzzles.',
+      'whoIsThisTrackFor.courseOffers.completeSyllabus':
+        "A <strong>complete Learn to Code syllabus</strong> covering coding basics, functions, object oriented programming, and the coder's mindset.",
+      'whoIsThisTrackFor.courseOffers.certificate':
+        'A formal <strong>certificate</strong> on completion.',
+      'videoRHS.watchThisShortVideo':
+        '☝️ Watch this short video to learn more about Learning and Practice Modes, and how to choose the right setup for you.',
+      'uploadVideoForm.useDifferentVideo': 'Use different video',
+      'uploadVideoForm.submitVideo': 'Submit video',
+      'uploadVideoTextInput.pasteYourVideoUrlYoutube':
+        'PASTE YOUR VIDEO URL (YOUTUBE)',
+      'uploadVideoTextInput.videoTitle': 'Video title',
+      'uploadVideoTextInput.enterTheVideoTitle': 'Enter the video title',
+      'uploadVideoForm.isTheVideoYoursOrSomeoneElses':
+        "IS THE VIDEO YOURS OR SOMEONE ELSE'S?",
+      'uploadVideoForm.mine': 'Mine',
+      'uploadVideoForm.someoneElse': 'Someone else',
+      'retrieveVideoForm.pasteYourVideoUrlYoutube':
+        'PASTE YOUR VIDEO URL (YOUTUBE)',
+      'retrieveVideoForm.thisLinkIsInvalidPleaseCheckItAgain':
+        'This link is invalid, please check it again!',
+      'retrieveVideoForm.pasteYourVideoHere': 'Paste your video here',
+      'retrieveVideoForm.retrieveVideo': 'Retrieve video',
+      'uploadVideoModalHeader.submitACommunityWorkthrough':
+        'Submit a community workthrough',
+      'uploadVideoModalHeader.producedAVideoOfWorkingThroughThisExerciseYourselfWantToShareItWithTheExercismCommunity':
+        'Produced a video of working through this exercise yourself? Want to share it with the Exercism community? <strong className="font-medium text">Submit the form below and Jeremy will review and approve it.</strong>',
+      'thanksForSubmitting.thanksForSubmitting': '✨ Thanks for submitting!',
+      'thanksForSubmitting.approvedVideoMessage':
+        "If your video gets approved, it'll show up in the Approaches section for the exercise.",
+      'thanksForSubmitting.noProblemImDone': "No problem. I'm done here.",
+      'welcomeModal.helloFellowDeveloper': 'Hello fellow developer 👋',
+      'welcomeModal.exercismDeepenSkills':
+        "Exercism is the place to deepen your programming skills and explore over {{numTracks}} programming languages. It's 100% free.",
+      'welcomeModal.thanksForJoining': 'Thanks for joining!',
+      'welcomeModal.madeByThousands':
+        "Exercism has been made by thousands of people who want to create a fun, powerful educational platform that makes it easy to learn and deepen your programming skills. We're really glad you've joined us for the ride! Check our forums, Youtube and Twitch to explore everything Exercism has to offer 🎉",
+      'welcomeModal.watchWelcomeVideo':
+        'To get started, watch the welcome video on the right then head to the Tracks page and choose the language you want to explore first. Solve the classic &quot;Hello World&quot; exercise to familiarize yourself with the platform, then start solving exercises for real.',
+      'welcomeModal.gotItCloseModal': 'Got it! Close this modal.',
+      'welcomeModal.startWithWelcomeVideo': 'Start with our welcome video 👇🏽',
+      'welcomeModal.whereCanIJoin': 'Where can I join #48in24?',
+      'welcomeModal.discoveredExercism':
+        "Discovered Exercism because of #48in24 or one of our featured months? Good stuff! Once you've watched the video above, close this modal and you'll see a big graphic on the right-hand side advertising #48in24. Click on that and follow the instructions to get started!",
+      'initialView.welcomeToExercism': 'Welcome to Exercism! 💙',
+      'initialView.letsMakeSure':
+        "Let's make sure that you get the most out of Exercism.",
+      'initialView.howExperienced': 'How experienced a developer are you?',
+      'juniorView.aCourseForYou': 'A course for you... 🎉',
+      'juniorView.codingFundamentalsDesigned':
+        'Our <strong>Coding Fundamentals</strong> course is designed for people who have been coding for less than a year!!',
+      'juniorView.itWillTeach':
+        "It will teach you how to <strong>think like a coder</strong> by solving puzzles and building games. In only 12 weeks, you'll go from zero to making these...",
+      'juniorView.thisIsCourseAnyone':
+        "This is a course for anyone that wants to get really good at coding. It's affordable. It's fun. And most importantly, it's <strong>incredibly effective</strong>!",
+      'juniorView.learnMore': 'Learn More ✨',
+      'juniorView.skip': 'Skip',
+      'juniorView.exercismsCodingFundamentals':
+        'Exercism\'s<strong className="font-semibold"> Coding Fundamentals</strong>',
+      'juniorView.theCourseOffers': 'The course offers:',
+      'juniorView.expertTeaching':
+        '<strong className="font-semibold">Expert teaching</strong> and mentoring support.',
+      'juniorView.overHoursHandsOn':
+        'Over <strong className="font-semibold">100 hours of hands-on project based learning</strong>, making games and solving puzzles.',
+      'juniorView.aCompleteCoding':
+        'A complete Coding Fundamentals <strong className="font-semibold">syllabus</strong> designed to build knowledge & confidence.',
+      'juniorView.aFormalCertificate':
+        'A formal <strong className="font-semibold">certificate</strong> on completion.',
+      'notificationsList.notifications': 'Notifications',
+      'notificationsList.markAsRead': 'Mark as read',
+      'notificationsList.markAsUnread': 'Mark as unread',
+      'notificationsList.markAllAsRead': 'Mark all as read',
+      'markAllNotificationsAsReadModal.unableToLoadNotifications':
+        'Unable to load notifications',
+      'markAllNotificationsAsReadModal.unableToMarkNotificationsAsRead':
+        'Unable to mark notifications as read',
+      'markAllNotificationsAsReadModal.unableToMarkNotificationsAsUnread':
+        'Unable to mark notifications as unread',
+      'useNotificationMutation.unableToMarkAllNotificationsAsRead':
+        'Unable to mark all notifications as read',
+      'list.youHaveNoNotifications': 'You have no notifications',
+      'markAllNotificationsAsReadModal.markAllAsRead': 'Mark all as read?',
+      'markAllNotificationsAsReadModal.areYouSure':
+        'Are you sure you want to mark all notifications as read?',
+      'markAllNotificationsAsReadModal.continue': 'Continue',
+      'markAllNotificationsAsReadModal.cancel': 'Cancel',
+      'perksModalButton.continueToPartner': 'Continue to {{websiteDomain}}',
+      'perksModalButton.close': 'Close',
+      'perksExternalModalButton.claimPerk':
+        'Claim this Perk with an Exercism account!',
+      'perksExternalModalButton.exercismIsNonProfit':
+        "Exercism is a not-for-profit organisation. We provide world-class education, a great community, and Perks from our partners. Join Exercism today. It's free!",
+      'perksExternalModalButton.signUp': 'Sign up',
+      'perksExternalModalButton.logIn': 'Log in',
+      'croppingStep.cropYourPhoto': 'Crop your photo',
+      'croppingStep.cancel': 'Cancel',
+      'croppingStep.crop': 'Crop',
+      'cropFinishedStep.happyWithResult': 'Happy with the result?',
+      'cropFinishedStep.recrop': 'Recrop',
+      'cropFinishedStep.saveImage': 'Save image',
+      'deletePhotoButton.deleteYourPicture': 'delete your picture',
+      'deletePhotoButton.deletePhotoModal.deleteYourProfilePicture':
+        'Delete your profile picture?',
+      'deletePhotoButton.deletePhotoModal.areYouSure':
+        'Are you sure you want to delete your photo? Other users will see a placeholder picture instead. You can upload a new picture at any time.',
+      'deletePhotoButton.deletePhotoModal.deletePicture': 'Delete picture',
+      'deletePhotoButton.deletePhotoModal.cancel': 'Cancel',
+      'photo.yourProfilePicture': 'Your profile picture',
+      'photo.uploadNewImage': 'Upload new image',
+      'photo.cropping': 'You can crop the image after uploading.',
+      'photo.youCanAlso': 'You can also <deleteButton/>.',
+      'croppingModal.cropFinished': 'Crop Finished',
+      'orderSelect.sortByMostStarred': 'Sort by Most Starred',
+      'otherContributionsList.generic': 'Generic',
+      'maintainingContributionsList.generic': 'Generic',
+      'buildingContributionsList.generic': 'Generic',
+      'totalReputation.addressHas': '{{handle}} has',
+      'totalReputation.youHave': 'You have',
+      'totalReputation.reputation': 'Reputation',
+      'trackSelect.rep': 'rep',
+      'categorySummary.noRep': 'No rep',
+      'categorySummary.rep': '{{reputation}} rep',
+      'contributionsSummary.contributions': 'Contributions',
+      'contributionsSummary.seeYourContributions': 'See your contributions',
+      'contributionsSummary.seeHandleContributions':
+        "See {{handle}}'s contributions",
+      'testimonialsSummary.solutionsMentored': 'Solutions mentored',
+      'testimonialsSummary.studentsHelped': 'Students helped',
+      'testimonialsSummary.testimonialsReceived': 'Testimonials received',
+      'testimonialsSummary.seeAllOfHandleTestimonials':
+        "See all of {{handle}}'s testimonials",
+      'newProfileForm.fullName': 'Full Name',
+      'newProfileForm.howDoYouWantToBeKnown': 'How do you want to be known?',
+      'newProfileForm.locationOptional': 'Location (optional)',
+      'newProfileForm.whereDoYouCurrentlyLive': 'Where do you currently live?',
+      'newProfileForm.exercismIsMadeUpOfPeople':
+        'Exercism is made up of people from all over the world 🌎',
+      'newProfileForm.bioOptional': 'Bio (optional)',
+      'newProfileForm.tellEveryoneABitMore':
+        "Tell everyone a bit more about who you are, and what you're in to. e.g. I'm a Rails dev who loves bouldering and coffee",
+      'newProfileForm.characters': '{{length}} / 160 characters',
+      'newProfileForm.createProfile': 'Create profile',
+      'contributionsList.building': 'Building',
+      'contributionsList.maintaining': 'Maintaining',
+      'contributionsList.authoring': 'Authoring',
+      'contributionsList.other': 'Other',
+      'communitySolutionsList.filterByExercise': 'Filter by exercise',
+      'avatarSelector.uploadNewPhoto': 'Upload new photo',
+      'avatarSelector.deletePhoto': 'Delete photo',
+      'testimonialsList.unableToLoadTestimonials':
+        'Unable to load testimonials',
+      'bootcampAffiliateCouponForm.bootcampAffiliateCoupon':
+        'Bootcamp Affiliate Coupon',
+      'bootcampAffiliateCouponForm.generateYourAffiliateDiscountCode':
+        'Generate your Affiliate Discount code',
+      'bootcampAffiliateCouponForm.generatingCode': 'Generating code...',
+      'bootcampAffiliateCouponForm.failedToGenerateCouponCodePleaseTryAgain':
+        'Failed to generate coupon code. Please try again.',
+      'bootcampAffiliateCouponForm.affiliateCoupon': 'Affiliate Coupon',
+      'bootcampAffiliateCouponForm.helpUsGetMorePeopleBenefitting':
+        "To help us get more people benefitting from the Bootcamp, we're giving you an Affiliate Code to share. Anyone using the code gets 20% off the Bootcamp, and we give you 20% of what they pay.",
+      'bootcampAffiliateCouponForm.pleaseShareAffiliateCode':
+        'Please share this Affiliate Code with your friends & colleagues, and on social media.',
+      'bootcampAffiliateCouponForm.thankYouForBeingInsider':
+        "To thank you for being an Insider and to help increase the amount of people signing up to Exercism's <0>Learn to Code Bootcamp</0>, we are giving all Insiders a <1>Discount Affiliate code</1>.",
+      'bootcampAffiliateCouponForm.codeGivesDiscountBootcamp':
+        "This code gives a 20% discount for the bootcamp (on top of any geographical discount). And for everyone that signs up, <strong>we'll give you 20%</strong> of whatever they pay.",
+      'bootcampAffiliateCouponForm.getStartedHere': 'Get started here',
+      'bootcampAffiliateCouponForm.pleaseHelpUsSpreadWord':
+        'Please help us spread the word. Send this code to your friends, post it on social media. Maybe even print it out on postcards and put it through your neighbours doors?',
+      'bootcampAffiliateCouponForm.youreEligibleToJoinInsiders':
+        "You're eligible to join Insiders.",
+      'bootcampAffiliateCouponForm.insidersCanAccessDiscount':
+        "Exercism Insiders can access 20% off Exercism's <link>Learn to Code Bootcamp</link>, and receive 20% of all sales when someone uses their voucher code.",
+      'bootcampFreeCouponForm.freeSeatOnBootcamp': 'Free Seat on the Bootcamp',
+      'bootcampFreeCouponForm.lifetimeInsiderEligible':
+        "As a lifetime insider you're eligible for a free seat on Exercism's <0>Learn to Code Bootcamp</0>.",
+      'bootcampFreeCouponForm.claimFreeSeat':
+        "To claim your free seat, we're providing you with a discount code that you can use at the checkout for a 100% discount. You can use it for yourself, give it to a friend, offer it to a charity, post it on social media, or anything else you feel appropriate.",
+      'bootcampFreeCouponForm.clickToGenerateCode': 'Click to generate code',
+      'bootcampFreeCouponForm.generatingCode': 'Generating code...',
+      'bootcampFreeCouponForm.failedToGenerateCouponCode':
+        'Failed to generate coupon code. Please try again.',
+      'mentoring.title': 'Mentoring',
+      'product.title': 'Product',
+      'formButton.changePreferences': 'Change preferences',
+      'successMessage.updatedPreferences': 'Your preferences have been updated',
+      'deleteProfile.deletePublicProfile': 'Delete your public profile',
+      'deleteProfile.deleteProfileDescription':
+        'This will delete your public profile from the website. You can recreate your profile at any time, and the only data that will be deleted is links to your social profiles.',
+      'deleteProfile.deleteYourProfile': 'Delete your profile',
+      'info.changeEmailConfirmation':
+        'You can change your email using the form above. We will send you a new confirmation email for you to accept.',
+      'success.confirmationEmailSent':
+        "We've sent a confirmation email to {{email}}",
+      'formMessage.error': 'Error',
+      'handleForm.changeYourHandle': 'Change your handle',
+      'handleForm.yourHandle': 'Your handle',
+      'handleForm.confirmYourPassword': 'Confirm your password',
+      'handleForm.handleChangeRecommendation':
+        'We recommend only changing your handle in rare circumstances as public solution links will break, and it is confusing for mentors.',
+      'handleForm.changeHandle': 'Change handle',
+      'handleForm.success': 'Your handle has been changed',
+      'insiderBenefits.insiderBenefits': 'Insider Benefits',
+      'insiderBenefits.hideWebsiteAdverts': 'Hide website adverts',
+      'insiderBenefits.changePreferences': 'Change preferences',
+      'insiderBenefits.preferencesUpdated':
+        'Your preferences have been updated',
+      'insiderBenefits.thanksForBeingInsider':
+        'Thanks for being an Exercism Insider! Here are some extra settings exclusively for you.',
+      'insiderBenefits.eligibleToJoin':
+        "You're eligible to join Insiders. <link>Get started here.</link>",
+      'insiderBenefits.exclusiveOptions':
+        'These are exclusive options for Exercism Insiders.',
+      'insiderBenefits.donateToExercism':
+        '<0>Donate to Exercism</0>\\u00A0 to become an Insider to access benefits such as Dark Mode, ChatGPT integration, an advert-free experience, and more.',
+      'photoForm.changeYourPhoto': 'Change your photo',
+      'profileForm.profile': 'Profile',
+      'profileForm.name': 'Name',
+      'profileForm.location': 'Location',
+      'profileForm.bio': 'Bio',
+      'profileForm.tellTheWorldAboutYouEmojisEncouraged':
+        'Tell the world about you 🌎. Emojis encouraged!',
+      'profileForm.seniority': 'Seniority',
+      'profileForm.yourSocialAccounts': 'Your social accounts',
+      'profileForm.githubHandle': 'Github (Handle)',
+      'profileForm.yourGitHubHandle': 'Your GitHub handle',
+      'profileForm.twitterHandle': 'Twitter (Handle)',
+      'profileForm.yourTwitterHandle': 'Your Twitter handle',
+      'profileForm.linkedInFullURL': 'LinkedIn (Full URL)',
+      'profileForm.yourLinkedInProfileUrl': 'Your LinkedIn profile url',
+      'profileForm.saveProfileData': 'Save profile data',
+      'profileForm.yourProfileHasBeenSaved': 'Your profile has been saved',
+      'profileForm.absoluteBeginner': 'Absolute Beginner',
+      'profileForm.beginner': 'Beginner',
+      'profileForm.juniorDeveloper': 'Junior Developer',
+      'profileForm.midLevelDeveloper': 'Mid-level Developer',
+      'profileForm.seniorDeveloper': 'Senior Developer',
+      'pronounsForm.howWouldYouLikeToBeAddressedOptional':
+        'How would you like to be addressed? (optional)',
+      'pronounsForm.instructions':
+        "We recommend listing the pronouns you'd like people to use when referring to you. <strong>In the example testimonial below, enter the pronouns you'd like us to show to your mentors and students.</strong> You can leave this blank, in which case we will not suggest any pronouns. <link>Learn more about how we use pronouns.</link>",
+      'pronounsForm.testimonialText': '{{handle}} was really great.',
+      'pronounsForm.testimonialAnswered':
+        "answered all my questions. I'll recommend",
+      'pronounsForm.testimonialToOthersBecause': 'to others because',
+      'pronounsForm.testimonialAdviceHelpful': 'advice was very helpful.',
+      'pronounsForm.frequentlyUsed': 'Frequently used:',
+      'pronounsForm.sheHerHer': 'she / her / her',
+      'pronounsForm.heHimHis': 'he / him / his',
+      'pronounsForm.theyThemTheir': 'they / them / their',
+      'pronounsForm.useHandle': 'Use handle',
+      'pronounsForm.leaveBlank': 'Leave blank',
+      'pronounsForm.savePronouns': 'Save pronouns',
+      'pronounsForm.yourPronounsHaveBeenUpdated':
+        'Your pronouns have been updated',
+      'themePreferenceForm.theme': 'Theme',
+      'tokenForm.apiCliToken': 'API / CLI Token',
+      'tokenForm.yourAuthenticationTokenIs': 'Your authentication token is:',
+      'tokenForm.whereDoIUseThis': 'Where do I use this?',
+      'tokenForm.resetToken': 'Reset token',
+      'tokenForm.yourTokenHasBeenReset': 'Your token has been reset',
+      'automation.title': 'Automation',
+      'automation.changePreferences': 'Change preferences',
+      'automation.successMessage': 'Your preferences have been updated',
+      'commentsPreferenceForm.commentsOnYourSolutions':
+        'Comments on your solutions',
+      'commentsPreferenceForm.settingToControlComments':
+        'Use this setting to control whether or not people can post comments on <0>future solutions that you publish</0>. This can be overriden on a per-solution basis and you can update all existing solutions below.',
+      'commentsPreferenceForm.updatePreference': 'Update preference',
+      'commentsPreferenceForm.yourPreferencesHaveBeenUpdated':
+        'Your preferences have been updated',
+      'manageExistingSolutions.manageExistingSolutions':
+        'Manage existing solutions',
+      'manageExistingSolutions.canCommentOnPublishedSolutions':
+        'Currently, people can comment on {{commentStatusPhrase}} of your published solutions. Use the buttons below to <0>enable or disable comments on all your existing solutions.</0>.',
+      'manageExistingSolutions.allowCommentsOnExistingSolutions':
+        'Allow comments on all existing solutions',
+      'manageExistingSolutions.disableCommentsOnExistingSolutions':
+        'Disable comments on all existing solutions',
+      'useCommentsPreferenceForm.none': 'none',
+      'useCommentsPreferenceForm.all': 'all',
+      'useCommentsPreferenceForm.xOutOfY':
+        '{{numCommentsEnabled}} / {{numPublished}}',
+      'deleteProfileModal.deleteProfile': 'Delete profile?',
+      'deleteProfileModal.areYouSure':
+        'Are you sure you want to delete your profile?',
+      'deleteProfileModal.continue': 'Continue',
+      'deleteProfileModal.cancel': 'Cancel',
+      'insiderBubble.insidersOnly': 'Insiders only',
+      'confirmationModal.confirm': 'Confirm',
+      'confirmationModal.cancel': 'Cancel',
+      'index.backupYourSolutionsToGithub': 'Backup your Solutions to GitHub',
+      'index.automatedBackupDescription':
+        'Automatically backup your solutions to GitHub with our automated backup tool.',
+      'index.safeBackup': 'Safe Backup',
+      'index.greenSquares': 'Green Squares',
+      'index.itsFree': 'Its Free!',
+      'index.createGithubRepository':
+        'Create a new GitHub repository for your solutions (or reuse an existing one if you were backing up manually)',
+      'index.clickButtonToConnect':
+        'Click the button below to connect your GitHub account.',
+      'index.backupEverythingOption':
+        'Use the "Backup Everything" option to backup all your existing solutions.',
+      'index.futureSolutionsAutoBackup':
+        'Future solutions will be automatically backed up as you complete exercises.',
+      'index.setupBackup': 'Setup Backup',
+      'connectModal.connectARepository': 'Connect a Repository',
+      'connectModal.ensureRepositoryReady':
+        'Before continuing, please ensure you have either created a new GitHub repository, or that you have an existing one ready to sync.',
+      'connectModal.permissionWarning':
+        "On the next screen you will be asked to give permission to that repository. Please ensure you <strong>select only one repository</strong> (sadly, GitHub doesn't give us a way to enforce that!)",
+      'connectModal.connectGithubRepository': 'Connect a GitHub repository',
+      'connectModal.cancel': 'Cancel',
+      'syncBehaviour.syncBehaviour': 'Sync behaviour',
+      'syncBehaviour.syncingOptionDescription':
+        'Choose whether syncing should happen automatically when you create a new iteration, or manually when you trigger it yourself. <strong>Automatic</strong> keeps your GitHub repo up to date, while <strong>manual</strong> gives you full control.',
+      'syncBehaviour.automatic': 'Automatic',
+      'syncBehaviour.manual': 'Manual',
+      'syncBehaviour.saveChanges': 'Save changes',
+      'syncBehaviour.savedChangesSuccessfully': 'Saved changes successfully!',
+      'syncBehaviour.failedToSaveChanges': 'Failed to save changes.',
+      'syncBehaviour.somethingWentWrongWhileSaving':
+        'Something went wrong while saving changes. Please try again.',
+      'index.syncerConnected': 'Syncer connected',
+      'dangerZoneSection.pauseSyncer': 'Pause Syncer',
+      'dangerZoneSection.wantToPause': 'Want to pause your syncer for a while?',
+      'dangerZoneSection.useButtonBelow':
+        'Use the button below. You can restart it at any time.',
+      'dangerZoneSection.disconnectSyncer': 'Disconnect Syncer',
+      'dangerZoneSection.wantToDisconnect':
+        'Want to disconnect the syncer from your GitHub repository? Use the button below.',
+      'dangerZoneSection.noteWillDeleteSettings':
+        '<strong>Note: </strong> This will also delete all settings on this page, so please manually save any settings you might wish to reuse in the future (e.g. your path template).',
+      'dangerZoneSection.disconnectGithub': 'Disconnect GitHub',
+      'dangerZoneSection.areYouSureDisconnect':
+        'Are you sure you want to disconnect your GitHub repository?',
+      'dangerZoneSection.thisActionCannotUndone':
+        'This action cannot be undone.',
+      'dangerZoneSection.disconnectSyncerConfirm': 'Disconnect Syncer',
+      'dangerZoneSection.cancel': 'Cancel',
+      'fileStructureSection.fileStructure': 'File structure',
+      'fileStructureSection.configureFolderStructure':
+        'Use this option to configure the folder structure for your repository.',
+      'fileStructureSection.placeholderValues':
+        'You can use the following placeholder values, which will be interpolated for each commit:',
+      'fileStructureSection.trackSlug':
+        '<code>$track_slug</code>: The slug of the track (e.g. "csharp").',
+      'fileStructureSection.trackTitle':
+        '<code>$track_title</code>: The name of the track (e.g. "C#")',
+      'fileStructureSection.exerciseSlug':
+        '<code>$exercise_slug</code>: The slug of the exercise (e.g.  "hello-world")',
+      'fileStructureSection.exerciseTitle':
+        '<code>$exercise_title</code>: The name of the exercise (e.g. "Hello World")',
+      'fileStructureSection.iterationIdx':
+        '<code>$iteration_idx</code>: The iteration index of the exercise (e.g. "1")',
+      'fileStructureSection.note1YourPath':
+        '<strong>Note 1:</strong> Your path must contain a track placeholder (<code>$track_slug</code> or <code>$track_title</code>) and an exercise placeholder ( <code>$exercise_slug</code> or <code>$exercise_title</code>.',
+      'fileStructureSection.note2Iteration':
+        '<strong>Note 2:</strong> The <code>$iteration_idx</code> placeholder is optional, but if you omit it, each iteration will override the previous one. This allows you to use Git for version controlling your solutions. Including the iteration index will result in a different folder for every iteration.',
+      'fileStructureSection.pathTemplateMustInclude':
+        'Your path template must include either <code>$track_slug</code> or <code>$track_title</code>, and either <code>$exercise_slug</code> or <code>$exercise_title</code>.',
+      'fileStructureSection.saveChanges': 'Save changes',
+      'fileStructureSection.revertToDefault': 'Revert to default',
+      'fileStructureSection.areYouSureWantRevert':
+        'Are you sure you want to revert your path template to default?',
+      'fileStructureSection.revert': 'Revert',
+      'fileStructureSection.cancel': 'Cancel',
+      'statusSection.status':
+        'Status: <span style={{ color: textColor }}>{{status}}</span>',
+      'statusSection.githubSyncerLinked':
+        'Your GitHub syncer is linked to <code>{{repoFullName}}</code>.',
+      'statusSection.enableSyncer': 'Enable Syncer',
+      'statusSection.areYouSureResumeSyncing':
+        'Are you sure you want to resume syncing solutions with GitHub?',
+      'statusSection.resume': 'Resume',
+      'commitMessageTemplateSection.heading': 'Commit message template',
+      'commitMessageTemplateSection.intro':
+        'Use this option to determine what your commit and PR messages should look like.',
+      'commitMessageTemplateSection.placeholder_intro':
+        'You can use the following placeholder values:',
+      'commitMessageTemplateSection.placeholders.track_slug':
+        'The slug of the track (e.g. "csharp").',
+      'commitMessageTemplateSection.placeholders.track_title':
+        'The name of the track (e.g. "C#")',
+      'commitMessageTemplateSection.placeholders.exercise_slug':
+        'The slug of the exercise (e.g. "hello-world")',
+      'commitMessageTemplateSection.placeholders.exercise_title':
+        'The name of the exercise (e.g. "Hello World")',
+      'commitMessageTemplateSection.placeholders.iteration_idx':
+        'The iteration index of the exercise (e.g. "1")',
+      'commitMessageTemplateSection.placeholders.sync_object':
+        'One of "Iteration", "Solution", "Track", or "Everything" depending on what is syncing.',
+      'commitMessageTemplateSection.note.note': 'Note',
+      'commitMessageTemplateSection.note.text':
+        'If your commit message contains leading or trailing slashes or dashes, these will be stripped. Multiple consecutive slashes or dashes will be reduced to single ones.',
+      'commitMessageTemplateSection.save_button': 'Save changes',
+      'commitMessageTemplateSection.revert_button': 'Revert to default',
+      'commitMessageTemplateSection.confirm_modal.title':
+        'Are you sure you want to revert your commit message template to default?',
+      'commitMessageTemplateSection.confirm_modal.confirm': 'Revert',
+      'commitMessageTemplateSection.confirm_modal.cancel': 'Cancel',
+      'processingMethodSection.processingMethod': 'Processing method',
+      'processingMethodSection.commitDirectly': 'Commit directly',
+      'processingMethodSection.createPullRequest': 'Create pull request',
+      'processingMethodSection.whatIsTheName':
+        'What is the name of your main branch?',
+      'processingMethodSection.ourBot':
+        'Our bot can commit directly to your repository for a fully automated setup, or create a pull request which you can approve each time. Which method would you prefer?',
+      'processingMethodSection.saveChange': 'Save changes',
+      'justConnectedModal.repositoryConnected':
+        'Repository connected successfully!',
+      'justConnectedModal.accountConnected':
+        "We've connected your Exercism account to your chosen repository.",
+      'justConnectedModal.happyWithDefaults':
+        "If you're happy with the defaults, you can back everything up now. Or you can tweak your settings, then use the button at the bottom of the settings page to back up later. Do you want to backup everything now?",
+      'justConnectedModal.backUpEverythingNow': 'Back up everything now',
+      'justConnectedModal.backUpLater': 'Back up later',
+      'manualSyncSection.backupTrack': 'Backup a track',
+      'manualSyncSection.backupTrackInfo':
+        'If you want to backup a track to GitHub, you can use this function.',
+      'manualSyncSection.pleaseUseSparing':
+        '<strong className="font-medium">Note:</strong> Please use this sparingly, for example when you want to backup a track for the first time. This is not designed to be part of your normal workflow and will likely hit rate-limits if over-used.',
+      'manualSyncSection.selectTrackToBackup': 'Select track to backup',
+      'manualSyncSection.backupTrackButton': 'Backup Track',
+      'manualSyncSection.backupEverything': 'Backup everything',
+      'manualSyncSection.backupEverythingInfo':
+        'If you want to backup all your exercises across all tracks to GitHub, you can use this function.',
+      'manualSyncSection.pleaseUseSparingBootstrap':
+        '<strong className="font-medium">Note:</strong> Please use this sparingly, for example when you want to bootstrap a new repo. This is not designed to be part of your normal workflow.',
+      'manualSyncSection.backupEverythingButton': 'Backup Everything',
+      'iterationFilesSection.iterationFiles': 'Iteration files',
+      'iterationFilesSection.whenSyncing':
+        'When syncing, do you want all the files in the exercise (e.g. your solution, the tests, the README, the hints, etc) to be synced to GitHub, or only your solution file(s)?',
+      'iterationFilesSection.theFullExercise': 'The full exercise',
+      'iterationFilesSection.onlyMySolutionFiles': 'Only my solution file(s)',
+      'iterationFilesSection.saveChanges': 'Save changes',
+      'syncBehaviourSection.syncBehaviour': 'Sync behaviour',
+      'syncBehaviourSection.chooseWhetherSyncing':
+        'Choose whether syncing should happen automatically when you create a new iteration, or manually when you trigger it yourself. <strong>Automatic</strong> keeps your GitHub repo up to date, while <strong>manual</strong> gives you full control.',
+      'syncBehaviourSection.automatic': 'Automatic',
+      'syncBehaviourSection.manual': 'Manual',
+      'infoMessage.insiderAccessToDarkMode':
+        'As an Exercism Insider, you have access to Dark Mode. Choose between light, dark, or automatically update based on your system preferences. Enjoy! 💎',
+      'infoMessage.eligibleToJoinInsiders':
+        "You're eligible to join Insiders. <0>Get started here.</0>",
+      'infoMessage.darkModeOnlyAvailableToInsiders':
+        'Dark Mode is only available to Exercism Insiders. <0>Donate to Exercism</0> and become an Insider to access Dark Mode, ChatGPT integration and more.',
+      'disabledTooltip.mustBeExercismInsider':
+        'You must be an <0>Exercism Insider <1/></0> to unlock this theme.',
+      'field.mustBeNoLongerThan':
+        '{{fieldName}} must be no longer than {{maxLength}} characters',
+      'exerciseStatusChart.invalidStatus': 'Invalid status',
+      'mentoringComboButton.continueCodeReview': 'Continue code review',
+      'mentoringComboButton.viewRequest': 'View request',
+      'mentoringComboButton.submitForCodeReview': 'Submit for Code Review',
+      'closeButton.close': 'Close',
+      'sessionInfo.inTrack': 'In',
+      'discussionActions.exercise': 'Exercise',
+      'iterationView.discussion': 'Discussion',
+      'mentoringRequest.trackObjectives': 'Track Objectives',
+      'openEditor.openInEditor': 'Open in editor',
+      'openEditor.startInEditor': 'Start in editor',
+      'openEditor.continueInEditor': 'Continue in editor',
+      'openEditor.downloadAndWorkLocally': 'Download and work locally',
+      'openEditor.downloadPrompt':
+        "Prefer to use the tools you're familiar with, than our online editor? No problem!",
+      'openEditor.youCanWorkLocally':
+        "{{downloadPrompt}} You can download this exercise and work on it locally, then submit it when you're happy.",
+      'openEditor.exerciseNotAvailable':
+        'This exercise is not available using the online editor.',
+      'openEditor.firstTimeUsingSetup':
+        'First time using our local setup? Read our <link>guide to solving exercises locally</link> to understand the flow and install Exercism locally. Then come back here and use the command above to start the exercise.',
+      'openEditor.onlineEditorNotAvailable':
+        'The online editor is not available for this exercise. Solve this exercise locally and submit it via the CLI.',
+      'openEditor.clickArrowForMoreInfo':
+        'Click the arrow to the right for more information.',
+      'openEditor.exerciseCurrentlyLocked': 'This exercise is currently locked',
+      'publishSolutionButton.publishSolution': 'Publish solution',
+      'tracksList.searchLanguageTracks': 'Search language tracks',
+      'tracksList.somethingWentWrong': 'Something went wrong',
+      'updateExerciseNotice.exerciseUpdated':
+        'This exercise has been updated. Update to the latest version and see if your tests still pass. ',
+      'updateExerciseNotice.seeWhatsChanged': "See what's changed…",
+      'analyzerFeedback.analyzerGeneratedFeedback':
+        'Our <strong>{{trackTitle}} Analyzer</strong> generated this feedback when analyzing your solution.',
+      'analyzerFeedback.learnMore': 'Learn more',
+      'comment.essential': 'Essential',
+      'comment.recommended': 'Recommended',
+      'analysisInformation.analyzingCode':
+        "We're analysing your code for suggestions",
+      'analysisInformation.analysisTime': 'This usually takes 10-30 seconds.',
+      'analysisInformation.noAutoSuggestions':
+        'No auto suggestions? Try human mentoring.',
+      'analysisInformation.getHumanMentoring':
+        'Get real 1-to-1 human mentoring on the {{exerciseTitle}} exercise and start writing better {{trackTitle}}.',
+      'analysisInformation.getMentoring': 'Get mentoring',
+      'analysisInformation.testFailed':
+        'Beep boop bob a hop, could not compute…',
+      'analysisInformation.passingTestsNeeded':
+        'In order for our systems to analyze your code, the tests must be passing.',
+      'analysisInformation.interestedInImprovingTooling':
+        "Interested in improving Exercism's automated tooling? <helpLink>We need your help</helpLink>.",
+      'information.analysis': 'Analysis',
+      'information.tests': 'Tests',
+      'information.backup': 'Backup',
+      'representerFeedback.gaveFeedback':
+        '<strong>{{authorName}}</strong> gave this feedback on a solution very similar to yours',
+      'representerFeedback.editedBy':
+        '(edited by <strong>{{editorName}}</strong>)',
+      'testsInformation.unableToFetchTestRun': 'Unable to fetch test run',
+      'emptyIterations.noIterations':
+        "You haven't submitted any iterations yet.",
+      'emptyIterations.iterationsWillAppear':
+        "You'll get to see all your iterations with test results and automated feedback once you submit a solution.",
+      'emptyIterations.viaExercismEditor': 'Via Exercism Editor',
+      'emptyIterations.startInEditor': 'Start in Editor',
+      'emptyIterations.unableToStartExercise': 'Unable to start exercise',
+      'emptyIterations.workLocally': 'Work locally (via CLI)',
+      'emptyIterations.learnMoreSolvingExercisesLocally':
+        'Learn more about solving exercises locally',
+      'optionsDropdown.optionsForIteration':
+        'Options for iteration {{iterationIdx}}',
+      'optionsDropdown.deleteIteration': 'Delete iteration',
+      'deleteIterationModal.areYouSure':
+        'Are you sure you want to delete Iteration {{iterationIdx}}?',
+      'deleteIterationModal.deletedIterationsRemoved':
+        'Deleted iterations are also removed from published solutions and mentoring discussions. <strong>This is irreversible.</strong>',
+      'deleteIterationModal.deleteIteration': 'Delete iteration',
+      'deleteIterationModal.cancel': 'Cancel',
+      'deleteIterationModal.unableToDeleteIteration':
+        'Unable to delete iteration',
+      'iterationReport.thisIterationHasBeenDeleted':
+        'This iteration has been deleted',
+      'discussionList.codeReviewSessions': 'Code Review Sessions',
+      'discussionList.appearHereOnceStarted':
+        'Your code review discussions with mentors for this exercise will appear here once started.',
+      'discussionList.mentoringDiscussions': 'Mentoring discussions',
+      'header.mentoringCurrentlyInProgress': 'Mentoring currently in progress',
+      'header.shareLinksNotAvailable':
+        "Share links aren't available with active mentoring",
+      'header.wantToGetMentored': 'Want to get mentored by a friend?',
+      'header.inviteFriendsColleagues':
+        'Use this share link to invite friends, colleagues or personal mentors directly to mentor your solution.',
+      'iterationHeader.thisExerciseHasBeenUpdated':
+        'This exercise has been updated since this iteration was submitted.',
+      'iterationHeader.youCanUpdateToLatestVersion':
+        'You can update to the latest version by clicking on the yellow bar at the top of the main exercise page.',
+      'solutionCommentTextArea.howCanMentorHelpYou':
+        'How can a mentor help you with this solution?',
+      'solutionCommentTextArea.giveMentorStartingPoint':
+        'Give your mentor a starting point for the conversation. This will be your first comment during the session. Markdown is permitted.',
+      'trackObjectivesTextArea.whatAreYouHopingToLearn':
+        'What are you hoping to learn from this track?',
+      'trackObjectivesTextArea.tellOurMentorsAboutYourBackground':
+        "Tell our mentors a little about your programming background and what you're aiming to learn from {{trackTitle}}.",
+      'cancelRequestModal.cancelMentoringRequest': 'Cancel mentoring request?',
+      'cancelRequestModal.areYouSure':
+        'Are you sure you want to cancel this mentoring request? Please note that if someone has started giving feedback in the last few minutes, the session may continue regardless of this cancellation.',
+      'cancelRequestModal.cancelMentoringRequestButton':
+        'Cancel mentoring request',
+      'cancelRequestModal.close': 'Close',
+      'cancelRequestButton.cancelRequest': 'Cancel Request',
+      'mentoringRequestInfo.waitingOnMentor': 'Waiting on a mentor…',
+      'mentoringRequestInfo.learnHowToGetMost':
+        'Learn how to get the most out of mentoring',
+      'mentoringRequestInfo.mentoringRelies':
+        'Mentoring relies on mentors and students having a shared understanding of how it works.',
+      'mentoringRequestInfo.readOurGuide':
+        '<0>Read our guide <1/></0> or watch the videos below to get that understanding.',
+      'mentoringRequestInfo.newWindowOrTab':
+        'The link opens in a new window or tab',
+      'mentoringRequestInfo.waitingOnMentorQuestion': 'Waiting on a mentor?',
+      'mentoringRequestInfo.howToGetMostOutOfMentoring':
+        'Learn how to get the most out of mentoring',
+      'mentoringRequestInfo.wantAFriend':
+        'Want a friend to mentor your solution?',
+      'mentoringRequestInfo.sendThisLink':
+        'Send this link to a friend for private mentoring.',
+      'mentoringRequestForm.sendThisLinkFriend':
+        'Send this link to a friend for private mentoring.',
+      'mentoringRequestForm.learnMore': 'Learn more',
+      'mentoringRequestForm.itsTimeToDeepen':
+        "It's time to deepen your knowledge.",
+      'mentoringRequestForm.startMentoringDiscussion':
+        'Start a mentoring discussion on <strong>{{exerciseTitle}}</strong> to discover new and exciting ways to approach it. Expand and deepen your knowledge.',
+      'mentoringRequestForm.submitMentoringRequest': 'Submit mentoring request',
+      'mentoringRequestForm.unableToCreateRequest':
+        'Unable to create mentor request',
+      'mentoringRequestForm.openForMentor':
+        'Once you submit, your request will be open for a mentor to join and start providing feedback.',
+      'iterationView.thisIterationHasBeenDeleted':
+        'This iteration has been deleted',
+      'sessionInfo.youreBeingMentoredByOn':
+        "<divFlex>You're being mentored by  <handleWithFlair/> on</divFlex> <divExerciseTitle>{{exerciseTitle}}</divExerciseTitle>",
+      'sessionInfo.getMentoringOn':
+        'Get mentoring on <divExerciseTitle>{{exerciseTitle}}</divExerciseTitle>',
+      'discussionInfo.endedThisDiscussion':
+        '{{mentorHandle}} ended this discussion.',
+      'discussionInfo.itsTimeToReviewMentoring':
+        "It's time to review {{mentorHandle}}'s mentoring",
+      'discussionInfo.youllBeAbleToLeaveFeedback':
+        "You'll be able to leave feedback and share what you thought of your experience.",
+      'discussionInfo.reviewFinishDiscussion': 'Review & finish discussion',
+      'discussionInfo.thisDiscussionTimedOut': 'This discussion timed out.',
+      'discussionInfo.reviewDiscussion': 'Review discussion',
+      'mentorInfo.meetYourMentor': 'Meet your mentor',
+      'discussionActions.ended': 'Ended',
+      'discussionActions.reviewDiscussion': 'Review discussion',
+      'discussionActions.endDiscussion': 'End discussion',
+      'startExerciseButton.startInEditor': 'Start in editor',
+      'publishSettings.publishSettings': 'Publish settings',
+      'publishSettings.changePublishedIterations':
+        'Change published iterations…',
+      'publishSettings.unpublishSolution': 'Unpublish solution…',
+      'unpublishSolutionModalButton.label': 'Unpublish solution',
+      'communitySolutions.learnFromOthersSolutions':
+        "Learn from others' solutions",
+      'communitySolutions.thisIsWhereWeWouldUsuallyLink':
+        'This is where we’d usually link you to other peoples’ solutions to the same exercise.',
+      'communitySolutions.exploreTheirApproaches':
+        'Explore their approaches to learn new tips and tricks. Discover popular solutions to this exercise.',
+      'communitySolutions.viewCommunitySolutions': 'View community solutions',
+      'mentoring.getMentoredByAHuman': 'Get mentored by a human',
+      'mentoring.youAlsoGetTheOpportunityToBeMentored':
+        'You also get the opportunity to be mentored by {{trackTitle}} experts.',
+      'mentoring.onAverageStudentsIterate':
+        'On average, students iterate a further 3.5 times when mentored on a solution.',
+      'mentoring.learnMore': 'Learn more',
+      'orderSelect.sortByLastTouched': 'Sort by last touched',
+      'track.learningMode': 'Learning Mode',
+      'track.thisTrackIsNew': 'This track is new',
+      'track.new': 'New',
+      'track.joined': 'Joined',
+      'track.numberOfExercises': '{{count}} exercise',
+      'track.numberOfExercises_one': '{{count}} exercise',
+      'track.numberOfExercises_other': '{{count}} exercises',
+      'track.numberOfConcepts': '{{count}} concept',
+      'track.numberOfConcepts_one': '{{count}} concept',
+      'track.numberOfConcepts_other': '{{count}} concepts',
+      'track.lastTouched': 'Last touched {{time}}',
+      'list.noResultsFound': 'No results found',
+      'list.resetSearchAndFilters': 'Reset search and filters',
+      'tagsFilter.filterBy': 'Filter by',
+      'tagsFilter.showingAll_one': 'Showing all {{count}} track',
+      'tagsFilter.showingAll_other': 'Showing all {{count}} tracks',
+      'tagsFilter.resetFilters': 'Reset filters',
+      'tagOptionList.apply': 'Apply',
+      'tagOptionList.close': 'Close',
+      'loadingOverlay.redirect': 'Redirect',
+      'exerciseTooltip.unableToLoadInformation': 'Unable to load information',
+      'knowledgeInfo.noExistingKnowledge':
+        'This task requires <strong>no</strong> existing Exercism knowledge.',
+      'knowledgeInfo.perfectForFirstContribution':
+        "This task is perfect for people making their first contribution to Exercism. If you've been around a while, considering leaving this for someone new 🙂",
+      'knowledgeInfo.elementaryKnowledge':
+        'This task requires <strong>elementary</strong> Exercism knowledge.',
+      'knowledgeInfo.littleBitAboutExercism':
+        "You'll need to know a little bit about how Exercism works, but you can work it out during this task. Perfect for first-time contributors.",
+      'knowledgeInfo.intermediateKnowledge':
+        'This task requires <strong>intermediate</strong> Exercism knowledge.',
+      'knowledgeInfo.keyPrinciplesOfArea':
+        "You'll need to know the key principles of {{desc}} to work on this task. If you're not familiar, you can learn while doing the task but you might need to put in a couple of hours of reading the docs to get up to speed.",
+      'knowledgeInfo.advancedKnowledge':
+        'This task requires <strong>advanced</strong> Exercism knowledge.',
+      'knowledgeInfo.solidUnderstandingOfArea':
+        "You'll need to have a solid understanding of{{desc}} to work on this task. If you don't, you'll probably need to pair up with someone more experienced to work on it.",
+      'moduleInfo.analyzers':
+        "For this task, you'll be working on <strong>Analyzers</strong>..",
+      'moduleInfo.analyzersDescription':
+        'Analyzers take code and generating automated suggestions for how to make code more idiomatic.',
+      'moduleInfo.concepts': 'This task is about <strong>Concepts</strong>.',
+      'moduleInfo.conceptsDescription':
+        'Concepts are comprised of brief introductions and more complex explanations about a programming topic.',
+      'moduleInfo.learningExercises':
+        'This task is about <strong>Learning Exercises</strong>.',
+      'moduleInfo.learningExercisesDescription':
+        'Learning Exercises teach one or more Concepts. They are signficiantly more complex to make than Practice Exercises.',
+      'moduleInfo.generators':
+        'This task is about <strong>Generators</strong>.',
+      'moduleInfo.generatorsDescription':
+        'Generators are pieces of tooling that Tracks use to keep in sync with our central set of exercises.',
+      'moduleInfo.practiceExercises':
+        'This task is about <strong>Practice Exercises</strong>.',
+      'moduleInfo.practiceExercisesDescription':
+        'Most exercises are Practice Exercises - they enable students to practice the Concepts they have learnt in Learning Exercises.',
+      'moduleInfo.representers':
+        'This task is about <strong>Representers</strong>.',
+      'moduleInfo.representersDescription':
+        "Representers create normalized versions of students' submissions, which can have mentoring comments attached to them.",
+      'moduleInfo.testRunners':
+        'This task is about <strong>Test Runners</strong>.',
+      'moduleInfo.testRunnersDescription':
+        "Test Runners allow Exercism to run students' code and determine whether they pass or fail the tests, and provide useful feedback to the student.",
+      'typeInfo.continuousIntegration':
+        "In this task you'll be working on Exercism's <strong>Continous Integration</strong>.",
+      'typeInfo.githubActions':
+        "You'll likely be working with GitHub Actions, or similar.",
+      'typeInfo.codingTask': 'This is a <strong>coding</strong> task.',
+      'typeInfo.productionLevelCode':
+        "You'll be writing production-level code that's run by Exercism, or by our maintainer team to help automate jobs.",
+      'typeInfo.studentFacingContent':
+        'This task involves writing <strong>student-facing content</strong>.',
+      'typeInfo.writingInMarkdown':
+        "You'll be primarily writing content in Markdown, along with some examples of code, and possible test files, in the relevant language.",
+      'typeInfo.writingDockerfiles':
+        'This task involves writing <strong>Dockerfiles</strong>.',
+      'typeInfo.improveDockerfiles':
+        'Use your Docker expertise to help improve, optimize and shrink our Dockerfiles.',
+      'typeInfo.writingDocs':
+        'This task involves <strong>writing docs</strong>.',
+      'typeInfo.docsImportant':
+        'Docs are one of the most important parts of Exercism - helping both contributors and students. Our docs are written in Markdown.',
+      'sizeInfo.tinyTask': 'This is a <strong>tiny</strong> task.',
+      'sizeInfo.completeInMinutes':
+        'Depending on your experience, you should be able to complete it in a few minutes.',
+      'sizeInfo.smallTask': 'This is a <strong>small</strong> task.',
+      'sizeInfo.completeInHour':
+        'Depending on your experience, you should be able to complete it under an hour.',
+      'sizeInfo.mediumSizedTask': 'This is <strong>medium sized</strong> task.',
+      'sizeInfo.deepenKnowledge':
+        'Depending on your experience, you should be able to complete it in a few hours. This is a great task to deepen your knowledge of working on Exercism and make a sigificant contribution.',
+      'sizeInfo.largeTask': 'This is a <strong>large task</strong>.',
+      'sizeInfo.bigContribution':
+        "This will take you many hours to complete. It's a great task to get your teeth into and will be a big contribution to Exercism.",
+      'sizeInfo.project': 'This task is a <strong>project</strong>.',
+      'sizeInfo.daysToComplete':
+        'This will take you days to complete, even if you are experienced with contributing to Exercism.',
+      'actionInfo.createNew':
+        'This task requires you to <strong>create</strong> something new.',
+      'actionInfo.buildingFromScratch':
+        "This means you'll be building something from scratch.",
+      'actionInfo.fixBroken':
+        'This task requires you to <strong>fix</strong> something broken.',
+      'actionInfo.fixingIt':
+        "This means you'll be taking something that's currently not working and fixing it.",
+      'actionInfo.improveSomething':
+        'This task requires you to <strong>improve</strong> something.',
+      'actionInfo.addFeatureOrImprovement':
+        'We often merge things at Exercism that take the project forward and add follow-up issues to improve things. This is an opportunity to add a feature or improvement.',
+      'actionInfo.proofread':
+        'This task requires you to <strong>proofread</strong>.',
+      'actionInfo.checkDocsAndContent':
+        'Help checks our docs and content make sense, are grammatical, and are consumable by non-native speakers.',
+      'actionInfo.syncContent':
+        'This task requires you to <strong>sync</strong> content to the latest verisons.',
+      'actionInfo.updateTrackImplementation':
+        "Exercism have a central repository of exercises that are updated by a cross-language team. This task involves updating one Track's implementation to the latest version of an Exercise.",
+      'summary.task': 'Task',
+      'summary.creating': 'creating',
+      'summary.fixing': 'fixing',
+      'summary.improving': 'improving',
+      'summary.proofreading': 'proofreading',
+      'summary.syncing': 'syncing',
+      'summary.analyzers': 'Analyzers',
+      'summary.concepts': 'Concepts',
+      'summary.learningExercises': 'Learning Exercises',
+      'summary.generators': 'Generators',
+      'summary.practiceExercises': 'Practice Exercises',
+      'summary.representers': 'Representers',
+      'summary.testRunners': 'Test Runners',
+      'summary.workingOn':
+        'For this task you will be {{verb}} {{module}} {{type}}{{trackSuffix}}.',
+      'exerciseCommunitySolutions.exploreSolutions':
+        'Explore how others solved this exercise',
+      'exerciseCommunitySolutions.searchPlaceholder':
+        'Search by code (min 3 chars)',
+      'iterationSummary.iteration': 'Iteration {{idx}}',
+      'iterationSummary.latest': 'Latest',
+      'iterationSummary.published': 'Published',
+      'iterationSummary.submitted': 'Submitted ',
+      'iterationSummary.viaCli': 'via CLI',
+      'iterationSummary.viaEditor': 'via Editor',
+      'trophy.awardedOn': 'Awarded on ',
+      'trophy.clickToReveal': 'Click to Reveal',
+      'trophy.failedToReveal': 'Failed to reveal trophy',
+      'trophy.locked': 'Locked',
+      'unlockHelpButton.unlockThisTab': 'Unlock this tab',
+      'unlockHelpButton.defaultError':
+        'There was an error unlocking help, please try again!',
+      'publishedSolutionLink.newSolution':
+        '<0>new solution</0>\\u00A0for\\u00A0',
+      'handle.someoneInCountry': 'Someone in {{countryName}}',
+      'handle.someone': 'Someone',
+      'userAvatar.userAvatar': "{{handle}}'s avatar",
+      'pullRequestLink.pullRequest': 'Pull Request',
+      'firstRow.tag': 'Tag',
+      'firstRow.enabled': 'Enabled',
+      'firstRow.filterable': 'Filterable',
+      'firstRow.numSolutions': 'Num Solutions',
+      'tagTogglerButton.yes': 'Yes',
+      'tagTogglerButton.no': 'No',
+      'communityVideos.communityVideos': 'Community Videos',
+      'communityVideos.walkthroughsFromPeople':
+        ' Walkthroughs from people using Exercism ',
+      'communityVideos.wantYourVideoFeatured': 'Want your video featured here?',
+      'communityVideos.submitItHere': 'Submit it here.',
+      'videoCredits.exercismProfile': 'Exercism Profile',
+      'videoCredits.youTubeChannel': 'YouTube Channel',
+      'communityVideoModal.postedBy': 'Posted by ',
+      'communityVideo.seeVideo': 'see video',
+      'communityVideoFooter.wantYourVideoFeatured':
+        'Want your video featured here?',
+      'communityVideoFooter.submitItHere': 'Submit it here',
+      'noContentYet.thereAreNoContentTypeForExerciseTitle':
+        'There are no {{contentType}} for {{exerciseTitle}}.',
+      'noIntroductionYet.digDeeper': 'Dig deeper',
+      'noIntroductionYet.thereAreNoIntroductionNotesForExerciseTitle':
+        'There are no Introduction notes for {{exerciseTitle}}.',
+      'noIntroductionYet.wantToContribute': 'Want to contribute?',
+      'noIntroductionYet.youCanDoItHere': 'You can do it here.',
+      'deepDiveVideo.deepDiveInto': 'Deep Dive into {{exerciseTitle}}!',
+      'approaches.approaches': 'Approaches',
+      'approaches.otherWaysCommunitySolved':
+        'Other ways our community solved this exercise',
+      'approaches.noApproaches':
+        'There are no Approaches for {{exerciseTitle}}.',
+      'approachSnippet.author': 'author',
+      'approachSnippet.contributor': 'contributor',
+      'sectionHeader.articles': 'Articles',
+      'sectionHeader.exploreMoreIdeas':
+        'Explore more ideas about this exercise',
+      'sectionHeader.noArticles':
+        'There are no Articles for {{exerciseTitle}}.',
+      'diggingDeeper.digDeeper': 'Dig deeper',
+      'diggingDeeper.author': 'author',
+      'diggingDeeper.contributor': 'contributor',
+      'diggingDeeper.lastUpdated': 'Last updated {{date}}',
+      'diggingDeeper.editViaGitHub': 'Edit via GitHub',
+      'diggingDeeper.linkOpensInNewTab':
+        'The link opens in a new window or tab',
+      'orderSelect.sortByMostSubmitted': 'Sort by Most Submitted',
+      'orderSelect.sortByNewest': 'Sort by Newest',
+      'orderSelect.sortByOldest': 'Sort by Oldest',
+      'orderSelect.sortByFewestLines': 'Sort by Fewest Lines',
+      'orderSelect.sortByHighestRepUser': 'Sort by Highest Rep User',
+      'exerciseTagFilter.exerciseTagFilterGroup.filterBy':
+        'Filter by {{groupName}}',
+      'exerciseTagFilter.exerciseTagFilter.filter': 'Filter',
+      'submissionMethodIcon.submittedViaCLI': 'Submitted via CLI',
+      'submissionMethodIcon.submittedViaEditor': 'Submitted via Editor',
+      'outOfDateNotice.outdated': 'Outdated',
+      'analysisStatusSummary.automatedComments': 'Automated comments',
+      'analysisStatusSummary.essential': 'Essential',
+      'analysisStatusSummary.actionable': 'Actionable',
+      'analysisStatusSummary.other': 'Other',
+      'rightPane.automationRules.theseTagsUsedToTrain':
+        "These tags will be used to train neural networks to correct identify student's solutions. Thanks for helping out!",
+      'rightPane.automationRules.heresSomeNotes':
+        "Here's some notes to help you:",
+      'rightPane.automationRules.ifUnclearAskOnForum':
+        'If you are unclear on whether a tag should be added (or removed) please ask on <0>the forum</0>. The knowledge sharing helps everyone.',
+      'rightPane.automationRules.stickToOfficialList':
+        'Please try to stick to the official list of tags in the select dropdown. If you need to add a new tag, you can do so by typing a new tag, but please consider discussing it on <0>the forum</0>.',
+      'rightPane.considerations.pleaseReadDocs':
+        'Please\\u00A0<0>read the docs</0>\\u00A0before tagging solutions.',
+      'rightPane.rightPane.saveAndTagAnother': 'Save and tag another…',
+      'leftPane.codeInfo.youAreAssigningTags': 'You are assigning tags for',
+      'leftPane.codeInfo.in': 'in',
+      'dashboardTabs.needsTagging': 'Needs tagging',
+      'dashboardTabs.needsChecking': 'Needs checking',
+      'dashboardTabs.needsCheckingAdmin': 'Needs checking (admin)',
+      'taggableCodeList.noTrainingData': 'No training data',
+      'taggableCodeList.oopsSomethingWentWrong': 'Oops! Something went wrong!',
+      'taggableCodeList.retry': 'Retry',
+      'dashboardHeader.filterExerciseName': 'Filter exercise name',
+      'components.mentoring.discussion.addDiscussionPost.thisDiscussionHasEnded':
+        '<strong>This discussion has ended.</strong> Have more to say? You can <em>still post</em>.',
+      'components.mentoring.discussion.discussionActions.ended': 'Ended',
+      'components.mentoring.discussion.finishButton.endDiscussion':
+        '<hint>End discussion</hint>',
+      'components.mentoring.session.automatedFeedbackModal.automatedAnalysis':
+        'Automated Analysis',
+      'components.mentoring.session.automatedFeedbackModal.forIteration':
+        'for Iteration {{iteration}}',
+      'components.mentoring.session.automatedFeedbackModal.loadingAutomatedFeedback':
+        'Loading automated feedback',
+      'components.mentoring.session.automatedFeedbackSummary.youReceivedAutomatedFeedback':
+        'You received automated feedback',
+      'components.mentoring.session.automatedFeedbackSummary.studentReceivedAutomatedFeedback':
+        'Student received automated feedback',
+      'components.mentoring.session.automatedFeedbackSummary.opensInAModal':
+        'Opens in a modal',
+      'components.mentoring.session.cancelledRequestModal.mentoringRequestCancelled':
+        'Mentoring request cancelled',
+      'components.mentoring.session.cancelledRequestModal.studentCancelledRequest':
+        "The student has cancelled this mentoring request. We know this is extremely frustrating once you've started responding 😞 Sorry for the annoyance!",
+      'components.mentoring.session.cancelledRequestModal.thankYouForBeingAMentor':
+        'Thank you for being a mentor at Exercism 💙',
+      'components.mentoring.session.cancelledRequestModal.backToMentorRequests':
+        'Back to mentor requests',
+      'components.mentoring.session.cancelledRequestModal.closeThisModal':
+        'Close this modal',
+      'components.mentoring.session.filePanel.instructions': 'Instructions',
+      'components.mentoring.session.filePanel.tests': 'Tests',
+      'components.mentoring.session.guidance.theExemplarSolution':
+        'The exemplar solution',
+      'components.mentoring.session.guidance.tryAndGuideStudent':
+        'Try and guide the student towards this solution. It is the best place for them to reach at this point during the Track.',
+      'components.mentoring.session.guidance.exerciseNotes': 'Exercise notes',
+      'components.mentoring.session.guidance.trackNotes': 'Track notes',
+      'components.mentoring.session.guidance.howYouSolvedExercise':
+        'How you solved the exercise',
+      'components.mentoring.session.guidance.automatedFeedback':
+        'Automated feedback',
+      'components.mentoring.session.iterationButton.new': 'New',
+      'components.mentoring.session.iterationButton.comment': 'comment',
+      'components.mentoring.session.iterationButton.comments': 'comments',
+      'components.mentoring.session.iterationButton.goToIteration':
+        'Go to iteration {{idx}}',
+      'components.mentoring.session.iterationMarker.iterationWasSubmitted':
+        '<0>Iteration {{idx}}</0> was submitted',
+      'components.mentoring.session.iterationsList.goToPreviousIteration':
+        'Go to previous iteration',
+      'components.mentoring.session.iterationsList.previous': 'Previous',
+      'components.mentoring.session.iterationsList.goToNextIteration':
+        'Go to next iteration',
+      'components.mentoring.session.iterationsList.next': 'Next',
+      'components.mentoring.session.guidance.feedbackHere': 'Feedback here',
+      'components.mentoring.session.iterationView.iterationDeleted':
+        'This iteration has been deleted',
+      'components.mentoring.session.linkButton.conversationLinked':
+        'Your code and mentoring conversation are currently linked.',
+      'components.mentoring.session.linkButton.conversationLinkedDescription':
+        'This means as you navigate to another iteration, the mentoring conversation will follow and vice versa.',
+      'components.mentoring.session.linkButton.clickToUnlink':
+        'Click or tap on the icon to unlink.',
+      'components.mentoring.session.linkButton.conversationUnlinked':
+        'Your code and mentoring conversation are currently unlinked.',
+      'components.mentoring.session.linkButton.conversationUnlinkedDescription':
+        'This means the left and right panes operate independently.',
+      'components.mentoring.session.linkButton.clickToLink':
+        'Click or tap on the icon to link.',
+      'components.mentoring.session.mentoringNote.mentoringDocs':
+        'Check out our <a>mentoring docs</a> for more information.',
+      'components.mentoring.session.mentorNotes.noNotesYet':
+        "This {{guidanceType}} doesn't have any mentoring notes yet. Mentoring notes are written by our community. Please help get them started for this exercise by sending a <0>Pull Request on GitHub</0>.",
+      'components.mentoring.session.mentorNotes.improveNotes':
+        'Improve these notes',
+      'components.mentoring.session.mentorNotes.communityNotes':
+        'These notes are written by our community. Please help improve them by sending a <0>Pull Request on GitHub</0>.',
+      'components.mentoring.session.previousSessionsLink.opensInModal':
+        'Opens in modal',
+      'components.mentoring.session.previousSessionsLink.seePreviousSessions':
+        'See {{numPrevious}} previous {{sessions}}',
+      unableToParseMarkdown: 'Unable to parse markdown',
+      processingStatus: 'Processing status',
+      processing: 'Processing',
+      youAreAboutToReset: "You're about to reset your Exercism account",
+      pleaseReadCarefully:
+        'Please read this carefully before commiting to reset your account.',
+      thisIsIrreversible:
+        'This is <em>irreversible</em> and will mean you’ll lose everything you’ve done on your account.',
+      byResettingAccount:
+        '<strong>By resetting your account, you will lose:</strong>',
+      allSolutionsSubmitted: 'All solutions you have submitted',
+      allMentoringReceived: 'All mentoring you have received',
+      allMentoringGiven:
+        'All mentoring you have given and any testimonials received.',
+      anyReputationEarned:
+        'Any reputation you have earned through mentoring or publishing solutions.',
+      toConfirmWriteHandle:
+        'To confirm, write your handle <pre>{{handle}}</pre> in the box below:',
+      cancel: 'Cancel',
+      resetAccount: 'Reset account',
+      unableToResetAccount: 'Unable to reset account',
+      failed: 'Failed',
+      passed: 'Passed',
+      selectedTracks_one: '{{count}} track selected',
+      selectedTracks_other: '{{count}} tracks selected',
+      selectedTracks_zero: 'No tracks selected',
+    },
+  },
+} as const
+export default resources

@@ -39,7 +39,7 @@ if (isTest) {
     .use(initReactI18next)
     .init({
       fallbackLng: 'en',
-      debug: true,
+      debug: false,
       interpolation: { escapeValue: false },
       backend: { loadPath: '/javascript-i18n/foo/en.js' },
       react: { useSuspense: true },

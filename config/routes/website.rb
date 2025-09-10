@@ -196,6 +196,8 @@ namespace :localization do
   root to: "dashboard#show"
   resources :originals, only: %i[index show] do
   end
+  resources :glossary_entries, only: %i[index show] do
+  end
 end
 
 resource :user_onboarding, only: %i[show create], controller: "user_onboarding"
@@ -278,7 +280,7 @@ get "/courses/stripe/session-status" => "courses#stripe_session_status", as: :co
 # Other #
 #########
 namespace :localization do
-  resource :translator, only: %i[new create]
+  resource :translator, only: %i[new create edit update]
 end
 
 root to: "pages#index"

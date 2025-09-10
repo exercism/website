@@ -6,8 +6,8 @@ require 'i18n/backend/simple'
 module I18n
   module Backend
     class Exercism < Simple
-      def available_locales = %i[en hu nl de pt pt-BR]
-      def wip_locales = %i[es]
+      def self.wip_locales = %i[es hu nl de pt pt-BR]
+      def available_locales = %i[en]
       def default_locale = :en
 
       def load_translations
@@ -39,6 +39,9 @@ I18n.backend = I18n::Backend::Chain.new(
   I18n::Backend::Exercism.new,
   I18n.backend
 )
+I18n.define_singleton_method(:wip_locales) do
+  I18n::Backend::Exercism.wip_locales
+end
 
 #
 #

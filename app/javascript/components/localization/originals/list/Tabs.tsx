@@ -15,7 +15,7 @@ export function Tabs() {
     <div className="flex items-center tabs mb-16">
       {TABS.map((tab) => (
         <button
-          key={tab.value}
+          key={tab.label}
           className={assembleClassNames(
             'c-tab',
             request.query.status === tab.value && 'selected'

@@ -201,6 +201,10 @@ class User < ApplicationRecord
     User::Notification::CreateEmailOnly.(self, :joined_exercism)
   end
 
+  def self.system_user
+    User.find_by(SYSTEM_USER_ID)
+  end
+
   def self.for!(param)
     return param if param.is_a?(User)
     return find_by!(id: param) if param.is_a?(Numeric)
@@ -347,6 +351,10 @@ class User < ApplicationRecord
   def bought_course?
     course_enrollments.paid.exists?
   end
+
+  def may_create_translation_proposals? = reputation > 10
+  def may_accept_translation_proposals? = reputation > 20
+  def may_manage_translation_proposals? = reputation > 20
 
   memoize
   def profile? = profile.present?

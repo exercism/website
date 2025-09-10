@@ -38,6 +38,11 @@ class Localization::Text::AddToLocalizationTest < ActiveSupport::TestCase
     create :localization_translation, key: key, locale: "hu", value: "Dutch translation"
     create :localization_translation, key: key, locale: "nl", value: "French translation"
 
+    # Stub TranslateToAllLocales.defer to call the method immediately
+    Localization::Original::TranslateToAllLocales.stubs(:defer).with(original) do |orig|
+      Localization::Original::TranslateToAllLocales.(orig)
+    end
+
     Localization::Original::Translate.expects(:defer).with(original, :pt)
     Localization::Original::Translate.expects(:defer).with(original, :es)
     Localization::Original::Translate.expects(:defer).with(original, :fr)

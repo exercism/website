@@ -1,12 +1,9 @@
 require 'test_helper'
 
 class Localization::TranslationProposal::CreateTest < ActiveSupport::TestCase
-  setup do
-    # Sometimes stub.
-    Localization::TranslationProposal::VerifyWithLLM.define_singleton_method(:call) { |proposal| }
-  end
-
   test "proposal gets created" do
+    Localization::TranslationProposal::VerifyWithLLM.stubs(:defer)
+
     user = create :user
     original = create :localization_original
     translation = create :localization_translation, key: original.key, locale: "hu"
@@ -26,7 +23,7 @@ class Localization::TranslationProposal::CreateTest < ActiveSupport::TestCase
     original = create :localization_original
     translation = create :localization_translation, key: original.key, locale: "hu"
 
-    Localization::TranslationProposal::VerifyWithLLM.expects(:call)
+    Localization::TranslationProposal::VerifyWithLLM.expects(:defer)
 
     Localization::TranslationProposal::Create.(translation, user, "New value")
   end

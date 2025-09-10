@@ -74,13 +74,13 @@ class PagesController < ApplicationController
 
     # TOOD: Check locale is a valid string
     # TODO: Whenever a JS translation is updated, we need to regenerate this.
-    # filepath = Rails.root.join('public', 'i18n', 'javascript', "#{locale.to_sym}.js")
-    # File.read(filepath)
+    filepath = Rails.root.join('i18n', 'javascript-copy.ts')
+    data = File.read(filepath)
 
-    data = Localization::Translation.where(locale: :en).joins(:original).
-      where('localization_originals.type': :website_client_side).
-      pluck(:key, :value).to_h
-    # TOOD: Pivot on the params[:locale]
+    # data = Localization::Translation.where(locale: :en).joins(:original).
+    #   where('localization_originals.type': :website_client_side).
+    #   pluck(:key, :value).to_h
+    # # TOOD: Pivot on the params[:locale]
     render json: data
   end
 end

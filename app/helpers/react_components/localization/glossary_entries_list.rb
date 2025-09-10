@@ -14,7 +14,11 @@ module ReactComponents
               create_glossary_entry: Exercism::Routes.api_localization_glossary_entries_path
             },
             request: glossary_entries_list_request,
-            translation_locales: current_user.data.translator_locales
+            translation_locales: current_user.data.translator_locales,
+            # Can't visit `show` from unchecked status, can't create a new proposal
+            may_create_translation_proposals: current_user.may_create_translation_proposals?,
+            # Can't visit `show` from proposed status
+            may_manage_translation_proposals: current_user.may_manage_translation_proposals?
           }
         )
       end

@@ -45,7 +45,6 @@ export function Table() {
             filter={inputValue}
             placeholder="Search for translation"
           />
-
           <LocaleSelect
             locales={translationLocales || []}
             value={selectedLocale}
@@ -73,8 +72,15 @@ export function Table() {
 }
 
 function ProposeTermButton({ onClick }) {
+  const { mayCreateTranslationProposals } = useContext(
+    GlossaryEntriesListContext
+  )
   return (
-    <button onClick={onClick} className="btn btn-primary btn-m">
+    <button
+      disabled={!mayCreateTranslationProposals}
+      onClick={onClick}
+      className="btn btn-primary btn-m"
+    >
       + Propose
     </button>
   )

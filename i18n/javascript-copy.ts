@@ -455,7 +455,7 @@ export const resources = {
       'resultsPanel.runTestsToCheckYourCode':
         '<0>Run tests</0> to check your code',
       'resultsPanel.wellRunYourCode':
-        "We'll run your code against tests to check whether it works,\\nthen give you the results here.",
+        "We'll run your code against tests to check whether it works, then give you the results here.",
       'instructionsPanel.introduction': 'Introduction',
       'instructionsPanel.watchOurVideo':
         'Watch our "Introduction to Hello, World" video to get started 👇',
@@ -926,7 +926,7 @@ export const resources = {
         'This solution will be downloaded into a subdirectory specifically for this student.',
       'iterationHeader.copyButton.copied': 'Copied',
       'iterationHeader.outOfDateNotice.exerciseUpdated':
-        'This exercise has been updated since the student submitted this\\n        iteration. It might not pass the most recent set of tests. Exercises\\n        can be updated by students by clicking on the yellow bar in the main\\n        exercise page.',
+        'This exercise has been updated since the student submitted this iteration. It might not pass the most recent set of tests. Exercises can be updated by students by clicking on the yellow bar in the main exercise page.',
       'iterationHeader.downloadButton.downloadSolution': 'Download solution',
       'iterationHeader.copyButton.copySolution': 'Copy solution',
       'mobileIterationView.thisIterationHasBeenDeleted':

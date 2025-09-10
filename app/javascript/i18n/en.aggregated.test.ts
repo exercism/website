@@ -444,7 +444,7 @@ export const resources = {
       'resultsPanel.runTestsToCheckYourCode':
         '<0>Run tests</0> to check your code',
       'resultsPanel.wellRunYourCode':
-        "We'll run your code against tests to check whether it works,\\nthen give you the results here.",
+        "We'll run your code against tests to check whether it works, then give you the results here.",
       'instructionsPanel.introduction': 'Introduction',
       'instructionsPanel.watchOurVideo':
         'Watch our "Introduction to Hello, World" video to get started 👇',

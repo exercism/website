@@ -10,12 +10,16 @@ import { Toaster, toast } from 'react-hot-toast'
 import { LocaleSelect } from './LocaleSelect'
 
 export function Table() {
-  const { setCriteria, request } = React.useContext(GlossaryEntriesListContext)
+  const { setCriteria, request, translationLocales, setQuery } =
+    React.useContext(GlossaryEntriesListContext)
 
   const [isOpen, setIsOpen] = React.useState(false)
 
   const [inputValue, setInputValue] = React.useState(
     request.query.criteria || ''
+  )
+  const [selectedLocale, setSelectedLocale] = React.useState(
+    request.query.filter_locale || ''
   )
   const debouncedValue = useDebounce(inputValue, 300)
 
@@ -42,7 +46,18 @@ export function Table() {
             placeholder="Search for translation"
           />
 
-          <LocaleSelect />
+          <LocaleSelect
+            locales={translationLocales || []}
+            value={selectedLocale}
+            onChange={(locale) => {
+              setSelectedLocale(locale)
+              setQuery({
+                ...request.query,
+                filter_locale: locale || undefined,
+                page: null,
+              })
+            }}
+          />
         </header>
         <GlossaryEntriesTableList />
       </div>
@@ -152,7 +167,7 @@ function ProposeTermModal({
             <LocaleSelect
               locales={[...(translationLocales || [])]}
               value={locale}
-              onChange={setLocale}
+              onChange={(locale) => setLocale(locale)}
               showAll={false}
               label="Select locale"
             />

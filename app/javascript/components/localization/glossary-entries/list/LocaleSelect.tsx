@@ -1,5 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react'
-import { GlossaryEntriesListContext } from '.'
+import React, { useCallback } from 'react'
 import { flagForLocale } from '@/utils/flag-for-locale'
 import { useDropdown } from '../../../dropdowns/useDropdown'
 import { Icon } from '../../../common'
@@ -37,23 +36,15 @@ export function LocaleSelect({
   showAll = true,
   label = 'Open the locale filter',
 }: {
-  locales?: string[]
-  value?: string
-  onChange?: (locale: string) => void
+  locales: string[]
+  value: string
+  onChange: (locale: string) => void
   showAll?: boolean
   label?: string
-} = {}) {
-  // ["hu", "de"] etc
-  const context = useContext(GlossaryEntriesListContext)
-  const { translationLocales } = context || {}
-  const [internalSelectedLocale, setInternalSelectedLocale] =
-    useState<string>('')
-  const { request, setQuery } = context || {}
-
-  // Use external props or fallback to internal state and context
-  const availableLocales = locales || translationLocales || []
-  const selectedLocale = value !== undefined ? value : internalSelectedLocale
-  const handleLocaleChange = onChange || setInternalSelectedLocale
+}) {
+  const availableLocales = locales
+  const selectedLocale = value
+  const handleLocaleChange = onChange
 
   const dropdownLength = showAll
     ? availableLocales.length + 1
@@ -77,13 +68,6 @@ export function LocaleSelect({
       },
     ],
   })
-
-  useEffect(() => {
-    // Only update query when used in context mode (not modal mode)
-    if (setQuery && request && onChange === undefined) {
-      setQuery({ ...request.query, locale: selectedLocale || undefined })
-    }
-  }, [selectedLocale, setQuery, request, onChange])
 
   const handleItemSelect = useCallback(
     (index: number) => {

@@ -30,11 +30,34 @@ const LocaleOption = ({
   )
 }
 
-export function LocaleSelect() {
+export function LocaleSelect({
+  locales,
+  value,
+  onChange,
+  showAll = true,
+  label = 'Open the locale filter',
+}: {
+  locales?: string[]
+  value?: string
+  onChange?: (locale: string) => void
+  showAll?: boolean
+  label?: string
+} = {}) {
   // ["hu", "de"] etc
-  const { translationLocales } = useContext(GlossaryEntriesListContext)
-  const [selectedLocale, setSelectedLocale] = useState<string>('')
-  const { request, setQuery } = React.useContext(GlossaryEntriesListContext)
+  const context = useContext(GlossaryEntriesListContext)
+  const { translationLocales } = context || {}
+  const [internalSelectedLocale, setInternalSelectedLocale] =
+    useState<string>('')
+  const { request, setQuery } = context || {}
+
+  // Use external props or fallback to internal state and context
+  const availableLocales = locales || translationLocales || []
+  const selectedLocale = value !== undefined ? value : internalSelectedLocale
+  const handleLocaleChange = onChange || setInternalSelectedLocale
+
+  const dropdownLength = showAll
+    ? availableLocales.length + 1
+    : availableLocales.length
 
   const {
     buttonAttributes,
@@ -43,7 +66,7 @@ export function LocaleSelect() {
     itemAttributes,
     setOpen,
     open,
-  } = useDropdown(translationLocales.length + 1, (i) => handleItemSelect(i), {
+  } = useDropdown(dropdownLength, (i) => handleItemSelect(i), {
     placement: 'bottom',
     modifiers: [
       {
@@ -56,25 +79,29 @@ export function LocaleSelect() {
   })
 
   useEffect(() => {
-    setQuery({ ...request.query, locale: selectedLocale || undefined })
-  }, [selectedLocale])
+    // Only update query when used in context mode (not modal mode)
+    if (setQuery && request && onChange === undefined) {
+      setQuery({ ...request.query, locale: selectedLocale || undefined })
+    }
+  }, [selectedLocale, setQuery, request, onChange])
 
   const handleItemSelect = useCallback(
     (index: number) => {
-      if (index === 0) {
-        setSelectedLocale('')
+      if (showAll && index === 0) {
+        handleLocaleChange('')
       } else {
-        const locale = translationLocales[index - 1]
+        const localeIndex = showAll ? index - 1 : index
+        const locale = availableLocales[localeIndex]
         if (locale) {
-          setSelectedLocale(locale)
+          handleLocaleChange(locale)
         }
       }
       setOpen(false)
     },
-    [translationLocales, setOpen]
+    [availableLocales, setOpen, handleLocaleChange, showAll]
   )
 
-  if (!translationLocales || translationLocales.length === 0) {
+  if (!availableLocales || availableLocales.length === 0) {
     return null
   }
 
@@ -83,11 +110,15 @@ export function LocaleSelect() {
       <button
         className="current-track gap-8"
         style={{ minWidth: '200px' }}
-        aria-label="Open the locale filter"
+        aria-label={label}
         {...buttonAttributes}
       >
         <div className="track-title">
-          {selectedLocale ? nameForLocale(selectedLocale) : 'All'}
+          {selectedLocale
+            ? nameForLocale(selectedLocale)
+            : showAll
+            ? 'All'
+            : 'Select locale'}
         </div>
         {selectedLocale && (
           <span className="flag">{flagForLocale(selectedLocale)}</span>
@@ -101,29 +132,32 @@ export function LocaleSelect() {
       {open ? (
         <div {...panelAttributes} className="--options">
           <ul {...listAttributes}>
-            <li key="all" {...itemAttributes(0)}>
-              <label className="c-radio-wrapper">
-                <input
-                  type="radio"
-                  onChange={() => {
-                    setSelectedLocale('')
-                    setOpen(false)
-                  }}
-                  checked={selectedLocale === ''}
-                  name="locale_filter"
-                />
-                <div className="row gap-8">
-                  <div className="title">All</div>
-                </div>
-              </label>
-            </li>
-            {translationLocales.map((locale, i) => {
+            {showAll && (
+              <li key="all" {...itemAttributes(0)}>
+                <label className="c-radio-wrapper">
+                  <input
+                    type="radio"
+                    onChange={() => {
+                      handleLocaleChange('')
+                      setOpen(false)
+                    }}
+                    checked={selectedLocale === ''}
+                    name="locale_filter"
+                  />
+                  <div className="row gap-8">
+                    <div className="title">All</div>
+                  </div>
+                </label>
+              </li>
+            )}
+            {availableLocales.map((locale, i) => {
+              const itemIndex = showAll ? i + 1 : i
               return (
-                <li key={locale} {...itemAttributes(i + 1)}>
+                <li key={locale} {...itemAttributes(itemIndex)}>
                   <LocaleOption
                     locale={locale}
                     onChange={() => {
-                      setSelectedLocale(locale)
+                      handleLocaleChange(locale)
                       setOpen(false)
                     }}
                     checked={selectedLocale === locale}

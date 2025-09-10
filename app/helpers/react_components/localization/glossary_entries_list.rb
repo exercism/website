@@ -10,7 +10,8 @@ module ReactComponents
             glossary_entries:,
             links: {
               localization_glossary_entries_path: Exercism::Routes.localization_glossary_entries_path,
-              endpoint: Exercism::Routes.api_localization_glossary_entries_path
+              endpoint: Exercism::Routes.api_localization_glossary_entries_path,
+              create_glossary_entry: Exercism::Routes.api_localization_glossary_entries_path
             },
             request: glossary_entries_list_request,
             translation_locales: current_user.data.translator_locales

@@ -101,7 +101,7 @@ export function LocaleSelect({
           {selectedLocale
             ? nameForLocale(selectedLocale)
             : showAll
-            ? 'All'
+            ? 'Locales: All'
             : 'Select locale'}
         </div>
         {selectedLocale && (

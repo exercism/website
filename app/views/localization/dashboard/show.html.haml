@@ -23,7 +23,7 @@
       Track the progress of all locales.
       Are we missing your locale?
       = succeed('.') do
-        = link_to "Open a forum issue", "https://forum.exercism.org/c/exercism/i18n/695", class: "text-primaryLinkColor font-semibold"
+        = link_to "Open a forum issue", "https://forum.exercism.org/c/exercism/i18n/695", class: "text-prominentLinkColor font-semibold"
     .locales
       - @locale_counts.each do |locale, counts|
         - total = counts.values.sum

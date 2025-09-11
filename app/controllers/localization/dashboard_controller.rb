@@ -1,6 +1,9 @@
 class Localization::DashboardController < ApplicationController
-  before_action :ensure_translator_locale
+  before_action :ensure_translator_locale!
+
   def show
+    redirect_to localization_glossary_entries_path
+
     @locale_counts = Localization::Translation.group(:locale, :status).count.
       each_with_object({}) do |((locale, status), count), h|
         h[locale.to_sym] ||= {}
@@ -9,7 +12,7 @@ class Localization::DashboardController < ApplicationController
   end
 
   private
-  def ensure_translator_locale
+  def ensure_translator_locale!
     return if current_user&.translator_locales.present?
 
     redirect_to new_localization_translator_path

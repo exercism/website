@@ -58,7 +58,7 @@ body.namespace-localization.controller-glossary_entries.action-show {
     .locale-value {
         @apply border-1 border-borderColor5 rounded-8;
         @apply p-16;
-        @apply text-16 leading-140 whitespace-pre-wrap;
+        @apply text-16 leading-160 whitespace-pre-wrap;
         @apply bg-backgroundColorE;
     }
     .original {

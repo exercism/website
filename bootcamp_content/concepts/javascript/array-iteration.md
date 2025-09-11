@@ -15,7 +15,7 @@ end
 // 🌱
 ```
 
-The equivelent code in JavaScript is very similar.
+The equivalent code in JavaScript is very similar.
 
 ```javascript
 for (const emoji of ["😀", "🚀", "🌱"]) {

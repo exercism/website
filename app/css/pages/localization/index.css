@@ -79,7 +79,7 @@
                     @apply border-launchingYellow bg-yellowPrompt;
                 }
 
-                &.done {
+                &.checked {
                     @apply border-green-400 bg-green-100;
                 }
             }

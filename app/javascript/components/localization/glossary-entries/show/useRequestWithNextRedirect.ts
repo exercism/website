@@ -15,7 +15,7 @@ export function useRequestWithNextRedirect() {
 
   const redirectToNext = useCallback(async () => {
     try {
-      const nextEntryEndpoint = `${links.nextEntry}?status=${glossaryEntry.status}&locale=${glossaryEntry.locale}&exclude_ids[]=${glossaryEntry.uuid}`
+      const nextEntryEndpoint = `${links.nextEntry}?status=${glossaryEntry.status}&locale=${glossaryEntry.locale}&exclude_uuids[]=${glossaryEntry.uuid}`
       console.log('Fetching next entry from:', nextEntryEndpoint)
 
       const { fetch: fetchNext } = sendRequest({

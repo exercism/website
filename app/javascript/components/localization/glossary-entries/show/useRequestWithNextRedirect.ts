@@ -32,13 +32,11 @@ export function useRequestWithNextRedirect() {
       }
 
       const redirectLink = `${links.localizationGlossaryEntriesPath}/${nextEntryResponse.uuid}`
-      console.log('Redirecting to:', redirectLink)
 
       redirectTo(redirectLink)
     } catch (error) {
       console.error('Error in redirectToNext:', error)
 
-      // Handle 404 - no more entries available
       if (
         error &&
         typeof error === 'object' &&

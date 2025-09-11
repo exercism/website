@@ -17,7 +17,7 @@ class Localization::GlossaryEntry::SearchTest < ActiveSupport::TestCase
     actual = Localization::GlossaryEntry::Search.(user)
 
     expected = [glossary_entry_1, glossary_entry_2]
-    assert_equal expected, actual.to_a
+    assert_equal expected.sort_by(&:id), actual.to_a.sort_by(&:id)
   end
 
   test "searches for unchecked glossary entries" do
@@ -36,7 +36,7 @@ class Localization::GlossaryEntry::SearchTest < ActiveSupport::TestCase
     actual = Localization::GlossaryEntry::Search.(user, status: :unchecked)
 
     expected = [glossary_entry_1, glossary_entry_2]
-    assert_equal expected, actual.to_a
+    assert_equal expected.sort_by(&:id), actual.to_a.sort_by(&:id)
   end
 
   test "searches for checked glossary entries" do
@@ -55,7 +55,7 @@ class Localization::GlossaryEntry::SearchTest < ActiveSupport::TestCase
     actual = Localization::GlossaryEntry::Search.(user, status: :checked)
 
     expected = [glossary_entry_1, glossary_entry_2]
-    assert_equal expected, actual.to_a
+    assert_equal expected.sort_by(&:id), actual.to_a.sort_by(&:id)
   end
 
   test "honours criteria for term" do
@@ -105,7 +105,7 @@ class Localization::GlossaryEntry::SearchTest < ActiveSupport::TestCase
     actual = Localization::GlossaryEntry::Search.(user, locale: "hu")
 
     expected = [glossary_entry_1, glossary_entry_2]
-    assert_equal expected, actual.to_a
+    assert_equal expected.sort_by(&:id), actual.to_a.sort_by(&:id)
   end
 
   test "combines filters" do
@@ -123,7 +123,7 @@ class Localization::GlossaryEntry::SearchTest < ActiveSupport::TestCase
     assert_equal expected, actual.to_a
   end
 
-  test "orders by locale then term" do
+  test "returns results in random order" do
     user = create :user
     user.stubs(translator_locales: %i[hu nl])
 
@@ -134,8 +134,8 @@ class Localization::GlossaryEntry::SearchTest < ActiveSupport::TestCase
 
     actual = Localization::GlossaryEntry::Search.(user)
 
-    expected = [glossary_entry_2, glossary_entry_3, glossary_entry_4, glossary_entry_1]
-    assert_equal expected, actual.to_a
+    expected = [glossary_entry_1, glossary_entry_2, glossary_entry_3, glossary_entry_4]
+    assert_equal expected.sort_by(&:id), actual.to_a.sort_by(&:id)
   end
 
   test "paginates" do
@@ -199,7 +199,7 @@ class Localization::GlossaryEntry::SearchTest < ActiveSupport::TestCase
     actual = Localization::GlossaryEntry::Search.(user)
 
     expected = [glossary_entry_1, glossary_entry_2]
-    assert_equal expected, actual.to_a
+    assert_equal expected.sort_by(&:id), actual.to_a.sort_by(&:id)
   end
 
   test "returns empty array when user has no translator locales" do
@@ -248,7 +248,7 @@ class Localization::GlossaryEntry::SearchTest < ActiveSupport::TestCase
     actual = Localization::GlossaryEntry::Search.(user, excluded_ids: [])
 
     expected = [glossary_entry_1, glossary_entry_2]
-    assert_equal expected, actual.to_a
+    assert_equal expected.sort_by(&:id), actual.to_a.sort_by(&:id)
   end
 
   test "combines excluded_ids with other filters" do
@@ -270,7 +270,7 @@ class Localization::GlossaryEntry::SearchTest < ActiveSupport::TestCase
     )
 
     expected = [glossary_entry_2, glossary_entry_3]
-    assert_equal expected, actual.to_a
+    assert_equal expected.sort_by(&:id), actual.to_a.sort_by(&:id)
   end
 
   test "includes pending addition proposals" do
@@ -385,7 +385,7 @@ class Localization::GlossaryEntry::SearchTest < ActiveSupport::TestCase
     assert_equal %w[existing new_term], terms
   end
 
-  test "combined entries and proposals maintain sort order" do
+  test "combined entries and proposals are returned" do
     user = create :user
     user.stubs(translator_locales: %i[hu nl])
 
@@ -398,13 +398,13 @@ class Localization::GlossaryEntry::SearchTest < ActiveSupport::TestCase
 
     actual = Localization::GlossaryEntry::Search.(user)
 
-    expected_order = [
+    expected_terms = [
       %w[hu apple],
       %w[hu banana],
       %w[nl apple],
       %w[nl zebra]
     ]
-    actual_order = actual.map { |e| [e.locale, e.term] }
-    assert_equal expected_order, actual_order
+    actual_terms = actual.map { |e| [e.locale, e.term] }
+    assert_equal expected_terms.sort, actual_terms.sort
   end
 end

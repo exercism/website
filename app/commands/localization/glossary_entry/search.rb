@@ -26,13 +26,13 @@ class Localization::GlossaryEntry::Search
     # Combine results and ensure uniqueness by term+locale
     all_entries = combine_unique_entries(entries_from_glossary, entries_from_proposals)
 
-    # Sort by locale then term
-    sorted_entries = all_entries.sort_by { |e| [e.locale, e.term] }
+    # Randomize order
+    randomized_entries = all_entries.shuffle
 
     # Paginate
     Kaminari.paginate_array(
-      sorted_entries,
-      total_count: sorted_entries.count
+      randomized_entries,
+      total_count: randomized_entries.count
     ).page(page).per(per)
   end
 
@@ -56,7 +56,7 @@ class Localization::GlossaryEntry::Search
     entries = entries.where(locale:) if locale.present?
     entries = entries.where.not(id: excluded_ids) if excluded_ids.present?
 
-    entries.to_a
+    entries.order("RAND()").to_a
   end
 
   def search_proposals
@@ -73,7 +73,7 @@ class Localization::GlossaryEntry::Search
     proposals = proposals.where(locale:) if locale.present?
 
     # Convert proposals to entry-like objects for uniform handling
-    proposals.map do |proposal|
+    proposals.order("RAND()").map do |proposal|
       # Create a temporary entry object with the same interface
       entry = Localization::GlossaryEntry.new(
         id: proposal.id,

@@ -8,13 +8,13 @@ class Localization::GlossaryEntry::Search
     DEFAULT_PER
   end
 
-  def initialize(user, page: nil, per: nil, criteria: nil, status: nil, locale: nil, excluded_ids: nil)
+  def initialize(user, page: nil, per: nil, criteria: nil, status: nil, locale: nil, exclude_uuids: nil)
     @user = user
 
     @criteria = criteria
     @status = status
     @locale = locale
-    @excluded_ids = excluded_ids
+    @exclude_uuids = exclude_uuids
     @page = page.present? && page.to_i.positive? ? page.to_i : DEFAULT_PAGE
     @per = per.present? && per.to_i.positive? ? per.to_i : self.class.default_per
   end
@@ -40,7 +40,7 @@ class Localization::GlossaryEntry::Search
   def locales = (user.translator_locales - [:en]).map(&:to_s)
 
   private
-  attr_reader :user, :per, :page, :criteria, :status, :locale, :excluded_ids
+  attr_reader :user, :per, :page, :criteria, :status, :locale, :exclude_uuids
 
   def search_glossary_entries
     entries = Localization::GlossaryEntry.where(locale: locales)
@@ -54,7 +54,7 @@ class Localization::GlossaryEntry::Search
 
     entries = entries.where(status:) if status.present?
     entries = entries.where(locale:) if locale.present?
-    entries = entries.where.not(id: excluded_ids) if excluded_ids.present?
+    entries = entries.where.not(uuid: exclude_uuids) if exclude_uuids.present?
 
     entries.order("RAND()").to_a
   end

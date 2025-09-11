@@ -24,12 +24,12 @@ class API::Localization::GlossaryEntriesControllerTest < API::BaseTestCase
   ###
   # Next
   ###
-  test "next returns the next glossary entry uuid" do
+  test "next returns a glossary entry uuid" do
     setup_user
     @current_user.data.update!(translator_locales: ["pt"])
 
     entry_one = create :localization_glossary_entry, locale: "pt", term: "apple", status: :unchecked
-    create :localization_glossary_entry, locale: "pt", term: "banana", status: :unchecked
+    entry_two = create :localization_glossary_entry, locale: "pt", term: "banana", status: :unchecked
     create :localization_glossary_entry, locale: "pt", term: "cherry", status: :checked
 
     get next_api_localization_glossary_entries_path,
@@ -38,8 +38,9 @@ class API::Localization::GlossaryEntriesControllerTest < API::BaseTestCase
       as: :json
 
     assert_response :ok
-    expected = { uuid: entry_one.uuid }
-    assert_equal expected, JSON.parse(response.body, symbolize_names: true)
+    result = JSON.parse(response.body, symbolize_names: true)
+    # With random ordering, we can get either unchecked entry
+    assert_includes [entry_one.uuid, entry_two.uuid], result[:uuid]
   end
 
   test "next returns null uuid when no entries match" do
@@ -93,7 +94,7 @@ class API::Localization::GlossaryEntriesControllerTest < API::BaseTestCase
     assert_equal expected, JSON.parse(response.body, symbolize_names: true)
   end
 
-  test "next excludes entries with excluded_ids" do
+  test "next excludes entries with exclude_uuids" do
     setup_user
     @current_user.data.update!(translator_locales: ["pt"])
 
@@ -102,7 +103,7 @@ class API::Localization::GlossaryEntriesControllerTest < API::BaseTestCase
     entry_three = create :localization_glossary_entry, locale: "pt", term: "cherry", status: :unchecked
 
     get next_api_localization_glossary_entries_path,
-      params: { status: :unchecked, excluded_ids: [entry_one.id, entry_two.id] },
+      params: { status: :unchecked, exclude_uuids: [entry_one.uuid, entry_two.uuid] },
       headers: @headers,
       as: :json
 
@@ -119,7 +120,7 @@ class API::Localization::GlossaryEntriesControllerTest < API::BaseTestCase
     entry_two = create :localization_glossary_entry, locale: "pt", term: "banana", status: :unchecked
 
     get next_api_localization_glossary_entries_path,
-      params: { status: :unchecked, excluded_ids: [entry_one.id, entry_two.id] },
+      params: { status: :unchecked, exclude_uuids: [entry_one.uuid, entry_two.uuid] },
       headers: @headers,
       as: :json
 

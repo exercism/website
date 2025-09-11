@@ -71,11 +71,12 @@
           %li= link_to t('.site_links.get_help.installing_cli_link'), doc_path(:using, "solving-exercises/working-locally")
           %li= link_to t('.site_links.get_help.cli_walkthrough_link'), cli_walkthrough_path
 
-    .col.locales
-      %h3.md:text-center= t('.locales.title')
-      %hr.c-divider.--small.md:mx-auto
-      .grid.grid-cols-1.sm:grid-cols-2.md:grid-cols-3.lg:grid-cols-3.xl:grid-cols-6.gap-x-32.gap-y-4
-        {{LOCALES}}
+    -#
+      .col.locales
+        %h3.md:text-center= t('.locales.title')
+        %hr.c-divider.--small.md:mx-auto
+        .grid.grid-cols-1.sm:grid-cols-2.md:grid-cols-3.lg:grid-cols-3.xl:grid-cols-6.gap-x-32.gap-y-4
+          = locales
 
   %hr.mt-40.md:mt-56.mb-40.md:mb-56
 

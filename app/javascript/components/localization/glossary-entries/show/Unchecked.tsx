@@ -1,5 +1,5 @@
 /// <reference path="../types.d.ts" />
-import React, { useCallback, useContext, useState } from 'react'
+import React, { useCallback, useContext, useState, useEffect } from 'react'
 import { nameForLocale } from '@/utils/name-for-locale'
 import { flagForLocale } from '@/utils/flag-for-locale'
 import { GlossaryEntriesShowContext } from '.'
@@ -14,9 +14,18 @@ export function Unchecked({ translation }: { translation: GlossaryEntry }) {
   const [textEditorValue, setTextEditorValue] = useState(
     translation.translation
   )
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true)
 
   const textAreaRef = React.useRef<HTMLTextAreaElement>(null)
   const hasBeenEdited = copy !== translation.translation
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsButtonDisabled(false)
+    }, 2000)
+
+    return () => clearTimeout(timer)
+  }, [])
 
   const updateCopy = useCallback(() => {
     if (textEditorValue !== copy) {
@@ -136,7 +145,11 @@ export function Unchecked({ translation }: { translation: GlossaryEntry }) {
               >
                 Skip this entry
               </button>
-              <button onClick={createProposal} className="btn-s btn-primary">
+              <button
+                onClick={createProposal}
+                className="btn-s btn-primary"
+                disabled={isButtonDisabled}
+              >
                 {hasBeenEdited ? '👍 Submit proposal' : '👍 Mark as Checked'}
               </button>
             </div>

@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react'
+import React, { useCallback, useContext, useState, useEffect } from 'react'
 import { GlossaryEntriesShowContext } from '..'
 import { useProposedContext } from './ProposedContext'
 import { useRequestWithNextRedirect } from '../useRequestWithNextRedirect'
@@ -24,6 +24,15 @@ export function ProposalActions({
   const { uuid: translationUuid } = useProposedContext()
   const { sendRequestWithRedirect, redirectToNext } =
     useRequestWithNextRedirect()
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true)
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsButtonDisabled(false)
+    }, 2000)
+
+    return () => clearTimeout(timer)
+  }, [])
 
   const approveProposal = useCallback(
     async ({
@@ -175,6 +184,7 @@ export function ProposalActions({
         <button
           type="button"
           className="btn-s btn-primary"
+          disabled={isButtonDisabled}
           onClick={() =>
             approveProposal({
               translationUuid,

@@ -7,7 +7,8 @@ import { useRequestWithNextRedirect } from './useRequestWithNextRedirect'
 
 export function Unchecked({ translation }: { translation: GlossaryEntry }) {
   const { links } = useContext(GlossaryEntriesShowContext)
-  const { sendRequestWithRedirect } = useRequestWithNextRedirect()
+  const { sendRequestWithRedirect, redirectToNext } =
+    useRequestWithNextRedirect()
   const [editMode, setEditMode] = useState(false)
   const [copy, setCopy] = useState(translation.translation)
   const [textEditorValue, setTextEditorValue] = useState(
@@ -42,6 +43,14 @@ export function Unchecked({ translation }: { translation: GlossaryEntry }) {
     setCopy(translation.translation)
     setTextEditorValue(translation.translation)
   }, [])
+
+  const handleSkip = useCallback(async () => {
+    try {
+      await redirectToNext()
+    } catch (err) {
+      console.error('Error skipping to next entry:', err)
+    }
+  }, [redirectToNext])
 
   return (
     <div className="locale unchecked">
@@ -98,9 +107,17 @@ export function Unchecked({ translation }: { translation: GlossaryEntry }) {
                 </button>
               )}
             </div>
-            <button onClick={createProposal} className="btn-s btn-primary">
-              Submit proposal
-            </button>
+            <div className="buttons flex gap-8">
+              <button
+                onClick={() => handleSkip()}
+                className="btn-s btn-default"
+              >
+                Skip
+              </button>
+              <button onClick={createProposal} className="btn-s btn-primary">
+                Submit proposal
+              </button>
+            </div>
           </div>
         )}
       </div>

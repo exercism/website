@@ -13,17 +13,31 @@ export function useRequestWithNextRedirect() {
   const { links, glossaryEntry } = useContext(GlossaryEntriesShowContext)
 
   const redirectToNext = useCallback(async () => {
-    const nextEntryEndpoint = `${links.nextEntry}?status=${glossaryEntry.status}&locale=${glossaryEntry.locale}`
-    const { fetch: fetchNext } = sendRequest({
-      method: 'GET',
-      endpoint: nextEntryEndpoint,
-      body: null,
-    })
+    try {
+      const nextEntryEndpoint = `${links.nextEntry}?status=${glossaryEntry.status}&locale=${glossaryEntry.locale}`
+      console.log('Fetching next entry from:', nextEntryEndpoint)
 
-    const nextEntryResponse = await fetchNext
-    const redirectLink = `${links.localizationGlossaryEntriesPath}/${nextEntryResponse.uuid}`
+      const { fetch: fetchNext } = sendRequest({
+        method: 'GET',
+        endpoint: nextEntryEndpoint,
+        body: null,
+      })
 
-    redirectTo(redirectLink)
+      const nextEntryResponse = await fetchNext
+      console.log('Next entry response:', nextEntryResponse)
+
+      if (!nextEntryResponse || !nextEntryResponse.uuid) {
+        throw new Error('Invalid next entry response: missing uuid')
+      }
+
+      const redirectLink = `${links.localizationGlossaryEntriesPath}/${nextEntryResponse.uuid}`
+      console.log('Redirecting to:', redirectLink)
+
+      redirectTo(redirectLink)
+    } catch (error) {
+      console.error('Error in redirectToNext:', error)
+      throw error
+    }
   }, [links, glossaryEntry])
 
   const sendRequestWithRedirect = useCallback(

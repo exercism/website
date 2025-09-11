@@ -23,7 +23,8 @@ export function ProposalActions({
 }: ProposalActionsProps) {
   const { links } = useContext(GlossaryEntriesShowContext)
   const { uuid: translationUuid } = useProposedContext()
-  const { sendRequestWithRedirect } = useRequestWithNextRedirect()
+  const { sendRequestWithRedirect, redirectToNext } =
+    useRequestWithNextRedirect()
 
   const approveProposal = useCallback(
     async ({
@@ -92,6 +93,14 @@ export function ProposalActions({
     [sendRequestWithRedirect, links]
   )
 
+  const handleSkip = useCallback(async () => {
+    try {
+      await redirectToNext()
+    } catch (err) {
+      console.error('Error skipping to next entry:', err)
+    }
+  }, [redirectToNext])
+
   return (
     <div className="buttons">
       <div className="flex gap-8 items-center">
@@ -114,23 +123,48 @@ export function ProposalActions({
       </div>
 
       {hasBeenEdited ? (
-        <button
-          type="button"
-          className="btn-s btn-primary"
-          onClick={() =>
-            updateProposal({
-              translationUuid,
-              proposalUuid: proposal.uuid,
-              proposalValue,
-            })
-          }
-        >
-          Update proposal
-        </button>
+        <div className="flex gap-8 items-center">
+          <button
+            type="button"
+            className="btn-s btn-default"
+            onClick={() => handleSkip()}
+          >
+            Skip
+          </button>
+          <button
+            type="button"
+            className="btn-s btn-primary"
+            onClick={() =>
+              updateProposal({
+                translationUuid,
+                proposalUuid: proposal.uuid,
+                proposalValue,
+              })
+            }
+          >
+            Update proposal
+          </button>
+        </div>
       ) : isOwn ? (
-        <span>(This is your proposal so you cannot approve it)</span>
+        <div className="flex gap-8 items-center">
+          <button
+            type="button"
+            className="btn-s btn-default"
+            onClick={() => handleSkip()}
+          >
+            Skip
+          </button>
+          <span>(This is your proposal so you cannot approve it)</span>
+        </div>
       ) : (
         <div className="flex gap-8 items-center">
+          <button
+            type="button"
+            className="btn-s btn-default"
+            onClick={() => handleSkip()}
+          >
+            Skip
+          </button>
           <button
             type="button"
             className="btn-s btn-default"

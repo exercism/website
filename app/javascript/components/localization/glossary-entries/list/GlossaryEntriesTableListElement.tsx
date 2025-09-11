@@ -3,7 +3,12 @@ import { GraphicalIcon } from '@/components/common'
 import { GlossaryEntriesListContext } from '.'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import { flagForLocale } from '@/utils/flag-for-locale'
-import { capitalize } from 'lodash'
+
+const GlossaryEntryStatusTags = {
+  unchecked: 'Needs checking',
+  checked: 'Done',
+  proposed: 'Needs Sign Off',
+}
 
 export function GlossaryEntriesTableListElement({
   glossaryEntry,
@@ -29,32 +34,15 @@ export function GlossaryEntriesTableListElement({
         {glossaryEntry.locale}
       </div>
 
-      <div
-        className={assembleClassNames(
-          'translation-status',
-          glossaryEntry.status
-        )}
-      >
-        {capitalize(glossaryEntry.status)}
-      </div>
-
-      <div className="rhs">
-        <div className="translation-glimpse">
-          {glossaryEntry.llmInstructions}
+      <div className="w-[200px] flex-shrink-0">
+        <div
+          className={assembleClassNames(
+            'translation-status',
+            glossaryEntry.status
+          )}
+        >
+          {GlossaryEntryStatusTags[glossaryEntry.status]}
         </div>
-        <GraphicalIcon
-          icon="chevron-right"
-          className="action-icon filter-textColor6"
-        />
-      </div>
-      <div className="text-[13px] upcase font-semibold border-1 rounded-100 px-8 py-6">
-        Needs checking
-      </div>
-      <div className="text-[13px] upcase font-semibold border-1 rounded-100 px-8 py-6">
-        Needs Sign Off
-      </div>
-      <div className="text-[13px] upcase font-semibold border-1 rounded-100 px-8 py-6">
-        Done
       </div>
 
       <div className="translation-glimpse ml-auto">

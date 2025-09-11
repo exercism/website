@@ -80,7 +80,7 @@
                 }
 
                 &.checked {
-                    @apply border-green-400 bg-green-100;
+                    @apply border-darkSuccessGreen bg-mediumGreen;
                 }
             }
 

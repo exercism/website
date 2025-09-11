@@ -27,6 +27,7 @@ export function ProposalCard({ proposal, isMultiple }: ProposalCardProps) {
     ? 'border-1 border-borderColor5 p-12 rounded-8 bg-backgroundColorF shadow-keystroke'
     : ''
 
+  const textAreaRef = React.useRef<HTMLTextAreaElement>(null)
   const [editMode, setEditMode] = useState(false)
   const [proposalValue, setProposalValue] = useState(proposal.translation)
   const [editorValue, setEditorValue] = useState(proposal.translation)
@@ -52,6 +53,15 @@ export function ProposalCard({ proposal, isMultiple }: ProposalCardProps) {
 
   const onEditMode = useCallback(() => {
     setEditMode(true)
+    setTimeout(() => {
+      if (textAreaRef.current) {
+        textAreaRef.current.focus()
+        textAreaRef.current.setSelectionRange(
+          textAreaRef.current.value.length,
+          textAreaRef.current.value.length
+        )
+      }
+    }, 0)
   }, [])
 
   return (
@@ -61,6 +71,7 @@ export function ProposalCard({ proposal, isMultiple }: ProposalCardProps) {
 
         {editMode ? (
           <textarea
+            ref={textAreaRef}
             className="local-value mb-12 p-16 w-full"
             rows={1}
             value={editorValue}

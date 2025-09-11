@@ -14,6 +14,8 @@ export function Unchecked({ translation }: { translation: GlossaryEntry }) {
   const [textEditorValue, setTextEditorValue] = useState(
     translation.translation
   )
+
+  const textAreaRef = React.useRef<HTMLTextAreaElement>(null)
   const hasBeenEdited = copy !== translation.translation
 
   const updateCopy = useCallback(() => {
@@ -52,6 +54,19 @@ export function Unchecked({ translation }: { translation: GlossaryEntry }) {
     }
   }, [redirectToNext])
 
+  const handleEdit = useCallback(() => {
+    setEditMode(true)
+    setTimeout(() => {
+      if (textAreaRef.current) {
+        textAreaRef.current.focus()
+        textAreaRef.current.setSelectionRange(
+          textAreaRef.current.value.length,
+          textAreaRef.current.value.length
+        )
+      }
+    }, 0)
+  }, [textAreaRef])
+
   return (
     <div className="locale unchecked">
       <div className="header">
@@ -77,6 +92,7 @@ export function Unchecked({ translation }: { translation: GlossaryEntry }) {
           <div className="flex-grow">
             {editMode ? (
               <textarea
+                ref={textAreaRef}
                 className="w-full p-16 block"
                 rows={1}
                 value={textEditorValue}
@@ -103,10 +119,7 @@ export function Unchecked({ translation }: { translation: GlossaryEntry }) {
         ) : (
           <div className="buttons flex justify-between">
             <div className="buttons flex gap-8">
-              <button
-                onClick={() => setEditMode(true)}
-                className="btn-s btn-default"
-              >
+              <button onClick={handleEdit} className="btn-s btn-default">
                 ✏️&nbsp;&nbsp;Edit Translation
               </button>
               {hasBeenEdited && (

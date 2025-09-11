@@ -1,5 +1,4 @@
 import React, { useCallback, useContext } from 'react'
-import { redirectTo } from '@/utils'
 import { GlossaryEntriesShowContext } from '..'
 import { useProposedContext } from './ProposedContext'
 import { useRequestWithNextRedirect } from '../useRequestWithNextRedirect'

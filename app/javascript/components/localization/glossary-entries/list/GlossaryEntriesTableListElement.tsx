@@ -42,7 +42,7 @@ export function GlossaryEntriesTableListElement({
   )
 
   // on unchecked page users without permission to create proposals see disabled entries
-  if (!mayCreateTranslationProposals && request.query.status === 'unchecked') {
+  if (!mayCreateTranslationProposals && glossaryEntry.status === 'unchecked') {
     return (
       <span className="glossary-entry opacity-50 cursor-not-allowed">
         {content}
@@ -51,7 +51,7 @@ export function GlossaryEntriesTableListElement({
   }
 
   // on proposed page users without permission to manage proposals see disabled entries
-  if (!mayManageTranslationProposals && request.query.status === 'proposed') {
+  if (!mayManageTranslationProposals && glossaryEntry.status === 'proposed') {
     return (
       <span className="glossary-entry opacity-50 cursor-not-allowed">
         {content}
@@ -73,7 +73,7 @@ export function TranslationsWithStatus({
   status,
 }: {
   locale: string
-  status: 'unchecked' | 'approved' | 'rejected' | 'proposed'
+  status: 'unchecked' | 'checked' | 'proposed'
 }) {
   return (
     <div className="translations-statuses">

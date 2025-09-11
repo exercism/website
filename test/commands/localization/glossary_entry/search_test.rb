@@ -272,4 +272,139 @@ class Localization::GlossaryEntry::SearchTest < ActiveSupport::TestCase
     expected = [glossary_entry_2, glossary_entry_3]
     assert_equal expected, actual.to_a
   end
+
+  test "includes pending addition proposals" do
+    user = create :user
+    user.stubs(translator_locales: %i[hu nl])
+
+    create :localization_glossary_entry, locale: "hu", term: "apple", status: :checked
+    create :localization_glossary_entry_proposal, :addition,
+      locale: "hu", term: "banana", translation: "banán", status: :pending
+
+    # Rejected proposal should not be included
+    create :localization_glossary_entry_proposal, :addition,
+      locale: "hu", term: "cherry", translation: "cseresznye", status: :rejected
+
+    # Approved proposal should not be included
+    create :localization_glossary_entry_proposal, :addition,
+      locale: "hu", term: "date", translation: "datolya", status: :approved
+
+    actual = Localization::GlossaryEntry::Search.(user)
+
+    assert_equal 2, actual.count
+    terms = actual.map(&:term).sort
+    assert_equal %w[apple banana], terms
+  end
+
+  test "proposals do not duplicate existing glossary entries" do
+    user = create :user
+    user.stubs(translator_locales: %i[hu])
+
+    # Existing entry
+    create :localization_glossary_entry, locale: "hu", term: "apple",
+      translation: "alma", status: :checked
+
+    # Proposal for the same term+locale (should not appear in results)
+    create :localization_glossary_entry_proposal, :addition,
+      locale: "hu", term: "apple", translation: "új_alma", status: :pending
+
+    actual = Localization::GlossaryEntry::Search.(user)
+
+    assert_equal 1, actual.count
+    assert_equal "apple", actual.first.term
+    assert_equal "alma", actual.first.translation # Should be the glossary entry, not proposal
+  end
+
+  test "filters proposals by criteria" do
+    user = create :user
+    user.stubs(translator_locales: %i[hu])
+
+    create :localization_glossary_entry_proposal, :addition,
+      locale: "hu", term: "foobar", translation: "translation1", status: :pending
+    create :localization_glossary_entry_proposal, :addition,
+      locale: "hu", term: "bazqux", translation: "contains foo here", status: :pending
+    create :localization_glossary_entry_proposal, :addition,
+      locale: "hu", term: "other", translation: "other", status: :pending
+
+    actual = Localization::GlossaryEntry::Search.(user, criteria: "foo")
+
+    assert_equal 2, actual.count
+    terms = actual.map(&:term).sort
+    assert_equal %w[bazqux foobar], terms
+  end
+
+  test "filters proposals by locale" do
+    user = create :user
+    user.stubs(translator_locales: %i[hu nl])
+
+    create :localization_glossary_entry_proposal, :addition,
+      locale: "hu", term: "apple", status: :pending
+    create :localization_glossary_entry_proposal, :addition,
+      locale: "nl", term: "banana", status: :pending
+
+    actual = Localization::GlossaryEntry::Search.(user, locale: "hu")
+
+    assert_equal 1, actual.count
+    assert_equal "apple", actual.first.term
+  end
+
+  test "proposals respect user translator locales" do
+    user = create :user
+    user.stubs(translator_locales: %i[hu])
+
+    create :localization_glossary_entry_proposal, :addition,
+      locale: "hu", term: "apple", status: :pending
+    create :localization_glossary_entry_proposal, :addition,
+      locale: "nl", term: "banana", status: :pending # Should not appear
+    create :localization_glossary_entry_proposal, :addition,
+      locale: "en", term: "cherry", status: :pending # Should not appear
+
+    actual = Localization::GlossaryEntry::Search.(user)
+
+    assert_equal 1, actual.count
+    assert_equal "apple", actual.first.term
+  end
+
+  test "only includes addition proposals not modifications or deletions" do
+    user = create :user
+    user.stubs(translator_locales: %i[hu])
+
+    entry = create :localization_glossary_entry, locale: "hu", term: "existing", status: :checked
+
+    create :localization_glossary_entry_proposal, :addition,
+      locale: "hu", term: "new_term", status: :pending
+    create :localization_glossary_entry_proposal, :modification,
+      glossary_entry: entry, locale: "hu", term: "existing", status: :pending
+    create :localization_glossary_entry_proposal, :deletion,
+      glossary_entry: entry, locale: "hu", term: "existing", status: :pending
+
+    actual = Localization::GlossaryEntry::Search.(user)
+
+    assert_equal 2, actual.count
+    terms = actual.map(&:term).sort
+    assert_equal %w[existing new_term], terms
+  end
+
+  test "combined entries and proposals maintain sort order" do
+    user = create :user
+    user.stubs(translator_locales: %i[hu nl])
+
+    create :localization_glossary_entry, locale: "nl", term: "zebra", status: :checked
+    create :localization_glossary_entry_proposal, :addition,
+      locale: "hu", term: "apple", status: :pending
+    create :localization_glossary_entry, locale: "hu", term: "banana", status: :checked
+    create :localization_glossary_entry_proposal, :addition,
+      locale: "nl", term: "apple", status: :pending
+
+    actual = Localization::GlossaryEntry::Search.(user)
+
+    expected_order = [
+      %w[hu apple],
+      %w[hu banana],
+      %w[nl apple],
+      %w[nl zebra]
+    ]
+    actual_order = actual.map { |e| [e.locale, e.term] }
+    assert_equal expected_order, actual_order
+  end
 end

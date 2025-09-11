@@ -83,6 +83,7 @@ type GlossaryEntriesShowLinks = {
   rejectProposal: string
   updateProposal: string
   nextEntry: string
+  editLocalizationTranslator: string
 }
 
 type GlossaryEntriesShowContextType = GlossaryEntriesShowProps

@@ -57,7 +57,7 @@ function Body() {
 }
 
 function LHS() {
-  const { glossaryEntry, currentUserId } = React.useContext(
+  const { glossaryEntry, currentUserId, links } = React.useContext(
     GlossaryEntriesShowContext
   )
 
@@ -68,8 +68,10 @@ function LHS() {
         <div className="text-h3 mb-6">Your Locales</div>
         <p className="text-16 mb-16 leading-140">
           These are the locales you have opted into help translate. You can{' '}
-          {/* TODO: Add link here */}
-          <a href="#" className="c-prominent-link --inline">
+          <a
+            href={links.editLocalizationTranslator}
+            className="c-prominent-link --inline"
+          >
             change your locales here
           </a>
           .

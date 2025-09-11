@@ -15,7 +15,8 @@ module ReactComponents
             approve_proposal: Exercism::Routes.approve_api_localization_glossary_entry_proposal_url(glossary_entry_id: "GLOSSARY_ENTRY_ID", id: "ID"), # rubocop:disable Layout/LineLength
             reject_proposal: Exercism::Routes.reject_api_localization_glossary_entry_proposal_url(glossary_entry_id: "GLOSSARY_ENTRY_ID", id: "ID"), # rubocop:disable Layout/LineLength
             update_proposal: Exercism::Routes.api_localization_glossary_entry_proposal_url(glossary_entry_id: "GLOSSARY_ENTRY_ID", id: "ID"), # rubocop:disable Layout/LineLength
-            next_entry: Exercism::Routes.next_api_localization_glossary_entries_url
+            next_entry: Exercism::Routes.next_api_localization_glossary_entries_url,
+            edit_localization_translator: Exercism::Routes.edit_localization_translator_url
           }
         })
       end

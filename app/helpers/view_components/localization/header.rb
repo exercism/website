@@ -36,7 +36,7 @@ module ViewComponents
       end
 
       # def tabs = [overview_tab, originals_tab, glossary_tab]
-      def tabs = [glossary_tab]
+      def tabs = [glossary_tab, settings_tab]
 
       def overview_tab
         selected = controller_name != "originals" && controller_name != "glossary_entries" ? "selected" : ""
@@ -59,6 +59,14 @@ module ViewComponents
         link_to(Exercism::Routes.localization_glossary_entries_url, class: "c-tab-2 #{selected}") do
           graphical_icon(:overview) +
             tag.span("Glossary")
+        end
+      end
+
+      def settings_tab
+        selected = controller_name == "translators" ? "selected" : ""
+        link_to(Exercism::Routes.edit_localization_translator_url, class: "c-tab-2 #{selected}") do
+          graphical_icon(:overview) +
+            tag.span("Settings")
         end
       end
     end

@@ -11,19 +11,21 @@
         We have used LLMs to generate the initial translations. They now need two signoffs to proceed.
         When a language's glossary is complete, we'll generate a translation of the website!
     .mb-16{ class: 'mt-[-12px]' }
-      %p.text-16.mb-24.bg-lightOrange.px-12.py-12.rounded-8
-        - if current_user.may_manage_translation_proposals? && current_user.may_create_translation_proposals?
+      - if current_user.may_manage_translation_proposals? && current_user.may_create_translation_proposals?
+        %p.text-16.mb-24.bg-veryLightGreen2.px-12.py-12.rounded-8
           👍 You have permission to both
           %strong.font-semibold check
           and
           %strong.font-semibold sign-off
           glossary entries.
-        - elsif current_user.may_create_translation_proposals?
+      - elsif current_user.may_create_translation_proposals?
+        %p.text-16.mb-24.bg-veryLightGreen2.px-12.py-12.rounded-8
           👍 You have permission to
           %strong.font-semibold check
           glossary entries but not sign them off.
           Earn 20 reptuation to increase your permissions.
-        - else
+      - else
+        %p.text-16.mb-24.bg-lightOrange.px-12.py-12.rounded-8
           ⚠️ You currently
           %strong.font-semibold do not have enough reputation
           to take part. To particpate, you need to

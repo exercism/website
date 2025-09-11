@@ -81,7 +81,7 @@ function ProposeTermButton({ onClick }) {
       onClick={onClick}
       className="btn btn-primary btn-m"
     >
-      + Propose
+      Propose new term
     </button>
   )
 }

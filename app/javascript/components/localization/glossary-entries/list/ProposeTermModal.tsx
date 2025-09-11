@@ -46,47 +46,25 @@ export function ProposeTermModal({
 
   return (
     <Modal open={isOpen} onClose={onClose}>
-      <div className="w-[400px]">
-        <h2 className="text-h2 font-bold mb-16">Propose New Term</h2>
-        <div className="gap-16 flex flex-col">
+      <div className="w-[500px]">
+        <h2 className="text-h2 font-semibold mb-16">Propose New Term</h2>
+        <div className="gap-20 flex flex-col">
           <div>
             <label className="block font-semibold mb-4 text-h6" htmlFor="term">
-              Term
+              Proposed Term (en)
             </label>
+            <p className="text-p-base text-textColor6 leading-140">
+              The English term you want to add to the glossary. Please check it
+              does not already exist for your locale.
+            </p>
             <input
               type="text"
               id="term"
               value={term}
               onChange={(e) => setTerm(e.target.value)}
-              className="w-full border border-gray-300 rounded px-12 py-8 mb-8"
+              className="w-full border border-gray-300 rounded px-12 py-8"
               placeholder="Enter term"
             />
-
-            <p className="text-p text-textColor6 leading-130">
-              A glossary term is a word or phrase that has a specific meaning
-              within a particular context or field.
-            </p>
-          </div>
-          <div>
-            <label
-              className="block font-semibold mb-4 text-h6"
-              htmlFor="description"
-            >
-              Description
-            </label>
-            <textarea
-              id="description"
-              rows={4}
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              className="w-full border border-gray-300 rounded px-12 py-8 mb-8"
-              placeholder="Enter description"
-            ></textarea>
-            <p className="text-p text-textColor6 leading-130">
-              A glossary term description provides additional context or
-              explanation about the term, helping users understand its usage and
-              significance.
-            </p>
           </div>
           <div>
             <label className="block font-semibold mb-4 text-h6">Locale</label>
@@ -97,9 +75,6 @@ export function ProposeTermModal({
               showAll={false}
               label="Select locale"
             />
-            <p className="text-p text-textColor6 leading-130 mt-8">
-              Select the language locale for this glossary term.
-            </p>
           </div>
           <div>
             <label
@@ -113,12 +88,28 @@ export function ProposeTermModal({
               id="translation"
               value={translation}
               onChange={(e) => setTranslation(e.target.value)}
-              className="w-full border border-gray-300 rounded px-12 py-8 mb-8"
+              className="w-full border border-gray-300 rounded px-12 py-8"
               placeholder="Enter translation"
             />
-            <p className="text-p text-textColor6 leading-130">
-              Provide the translated term or phrase in the selected locale.
+          </div>
+          <div>
+            <label
+              className="block font-semibold mb-4 text-h6"
+              htmlFor="description"
+            >
+              Description
+            </label>
+            <p className="text-p-base text-textColor6 leading-130 mb-8">
+              Add sentence explaining why you chose this translation.
             </p>
+            <textarea
+              id="description"
+              rows={2}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="w-full border border-gray-300 rounded px-12 py-8"
+              placeholder="Enter description"
+            ></textarea>
           </div>
           <div className="flex items-center gap-8">
             <button
@@ -126,7 +117,7 @@ export function ProposeTermModal({
               type="submit"
               className="btn btn-primary btn-m"
             >
-              Save
+              Propose new term
             </button>
             <button
               type="button"

@@ -100,22 +100,16 @@
                 }
             }
 
-            .rhs {
-                width: 50%;
-                @apply ml-auto;
-                @apply flex items-center;
-                .translation-glimpse {
-                    @apply flex items-center h-48;
-                    @apply text-right leading-150 text-textColor6;
-                    @apply truncate;
-                }
+            .translation-glimpse {
+                @apply text-right leading-150 text-textColor6;
+                @apply truncate;
+            }
 
-                .action-icon {
-                    @apply ml-36 text-textColor6;
+            .action-icon {
+                @apply ml-36 text-textColor6;
 
-                    height: 16px;
-                    width: 16px;
-                }
+                height: 16px;
+                width: 16px;
             }
         }
     }

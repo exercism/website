@@ -43,16 +43,19 @@ export function useRequestWithNextRedirect() {
         'status' in error &&
         error.status === 404
       ) {
-        toast(
-          'No more entries available in this category. Redirecting to the list page...',
-          {
-            duration: 3000,
-          }
-        )
+        const redirectPromise = new Promise((resolve) => {
+          setTimeout(() => {
+            redirectTo(links.glossaryEntriesListPage)
+            resolve('Redirected to list page')
+          }, 3000)
+        })
 
-        setTimeout(() => {
-          redirectTo(links.glossaryEntriesListPage)
-        }, 3000)
+        toast.promise(redirectPromise, {
+          loading:
+            'No more entries available in this category. Redirecting to the list page...',
+          success: 'Redirected to list page',
+          error: 'Failed to redirect',
+        })
 
         return
       }

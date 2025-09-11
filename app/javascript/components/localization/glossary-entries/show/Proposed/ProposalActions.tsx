@@ -100,36 +100,37 @@ export function ProposalActions({
     }
   }, [redirectToNext])
 
-  return (
-    <div className="buttons">
-      <div className="flex gap-8 items-center">
-        <button
-          type="button"
-          className="btn-s btn-default"
-          onClick={onEditMode}
-        >
-          Edit
-        </button>
-        {hasBeenEdited && (
-          <button
-            type="button"
-            className="btn-s btn-default"
-            onClick={onResetChanges}
-          >
-            Reset changes
-          </button>
-        )}
-      </div>
+  const SkipButton = ({
+    children = 'Skip',
+  }: {
+    children?: React.ReactNode
+  }) => (
+    <button type="button" className="btn-s btn-default" onClick={handleSkip}>
+      {children}
+    </button>
+  )
 
-      {hasBeenEdited ? (
+  const EditButton = () => (
+    <button type="button" className="btn-s btn-default" onClick={onEditMode}>
+      Edit translation
+    </button>
+  )
+
+  const ResetButton = () => (
+    <button
+      type="button"
+      className="btn-s btn-default"
+      onClick={onResetChanges}
+    >
+      Reset changes
+    </button>
+  )
+
+  const renderRightActions = () => {
+    if (hasBeenEdited) {
+      return (
         <div className="flex gap-8 items-center">
-          <button
-            type="button"
-            className="btn-s btn-default"
-            onClick={() => handleSkip()}
-          >
-            Skip
-          </button>
+          <SkipButton />
           <button
             type="button"
             className="btn-s btn-primary"
@@ -144,52 +145,56 @@ export function ProposalActions({
             Update proposal
           </button>
         </div>
-      ) : isOwn ? (
+      )
+    }
+
+    if (isOwn) {
+      return (
         <div className="flex gap-8 items-center">
-          <button
-            type="button"
-            className="btn-s btn-default"
-            onClick={() => handleSkip()}
-          >
-            Skip
-          </button>
+          <SkipButton />
           <span>(This is your proposal so you cannot approve it)</span>
         </div>
-      ) : (
-        <div className="flex gap-8 items-center">
-          <button
-            type="button"
-            className="btn-s btn-default"
-            onClick={() => handleSkip()}
-          >
-            Skip
-          </button>
-          <button
-            type="button"
-            className="btn-s btn-default"
-            onClick={() =>
-              approveProposal({
-                translationUuid,
-                proposalUuid: proposal.uuid,
-              })
-            }
-          >
-            Approve
-          </button>
-          <button
-            type="button"
-            className="btn-s btn-default"
-            onClick={() =>
-              rejectProposal({
-                translationUuid,
-                proposalUuid: proposal.uuid,
-              })
-            }
-          >
-            Reject
-          </button>
-        </div>
-      )}
+      )
+    }
+
+    return (
+      <div className="flex gap-8 items-center">
+        <SkipButton>Skip this entry</SkipButton>
+        <button
+          type="button"
+          className="btn-s btn-warning"
+          onClick={() =>
+            rejectProposal({
+              translationUuid,
+              proposalUuid: proposal.uuid,
+            })
+          }
+        >
+          Reject
+        </button>
+        <button
+          type="button"
+          className="btn-s btn-primary"
+          onClick={() =>
+            approveProposal({
+              translationUuid,
+              proposalUuid: proposal.uuid,
+            })
+          }
+        >
+          👍 Sign Off
+        </button>
+      </div>
+    )
+  }
+
+  return (
+    <div className="buttons">
+      <div className="flex gap-8 items-center">
+        <EditButton />
+        {hasBeenEdited && <ResetButton />}
+      </div>
+      {renderRightActions()}
     </div>
   )
 }

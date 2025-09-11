@@ -17,7 +17,7 @@ end
 log(doubled) //-> [2,4,6]
 ```
 
-The equivelent code in JavaScript is very similar.
+The equivalent code in JavaScript is very similar.
 
 ```javascript
 const numbers = [1, 2, 3];

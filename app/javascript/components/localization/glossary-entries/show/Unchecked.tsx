@@ -80,7 +80,7 @@ export function Unchecked({ translation }: { translation: GlossaryEntry }) {
       <div className="body">
         <p className="text-16 leading-140 mb-10">
           How should we translate this word in the context of Exercism? What is
-          the most natural equivelent in{' '}
+          the most natural equivalent in{' '}
           {nameForLocale(translation.locale, { displayInEnglish: true })}?
         </p>
         <div className="flex items-center gap-8 mb-12">
@@ -121,11 +121,11 @@ export function Unchecked({ translation }: { translation: GlossaryEntry }) {
           <div className="buttons flex justify-between">
             <div className="buttons flex gap-8">
               <button onClick={handleEdit} className="btn-s btn-default">
-                ✏️&nbsp;&nbsp;Edit Translation
+                Edit Translation
               </button>
               {hasBeenEdited && (
                 <button onClick={resetChanges} className="btn-s btn-default">
-                  ↩️ Reset changes
+                  Reset changes
                 </button>
               )}
             </div>
@@ -134,7 +134,7 @@ export function Unchecked({ translation }: { translation: GlossaryEntry }) {
                 onClick={() => handleSkip()}
                 className="btn-s btn-default"
               >
-                ↪️&nbsp;&nbsp;Skip this entry
+                Skip this entry
               </button>
               <button onClick={createProposal} className="btn-s btn-primary">
                 {hasBeenEdited ? '👍 Submit proposal' : '👍 Mark as Checked'}

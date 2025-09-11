@@ -3,6 +3,7 @@ import { GraphicalIcon } from '@/components/common'
 import { GlossaryEntriesListContext } from '.'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import { flagForLocale } from '@/utils/flag-for-locale'
+import { capitalize } from 'lodash'
 
 export function GlossaryEntriesTableListElement({
   glossaryEntry,
@@ -13,7 +14,6 @@ export function GlossaryEntriesTableListElement({
     links,
     mayCreateTranslationProposals,
     mayManageTranslationProposals,
-    request,
   } = React.useContext(GlossaryEntriesListContext)
 
   const content = (
@@ -29,10 +29,23 @@ export function GlossaryEntriesTableListElement({
         {glossaryEntry.locale}
       </div>
 
-      {/* Aron - apply the same colors that were on the flag to these and render the correct one */}
-      {/* Aron - Set the width to be the same on all of them with a flex-shrink-0, or put them in an outer div with that*/}
-      <div className="text-[13px] upcase font-semibold border-1 rounded-100 px-8 py-6">
-        {glossaryEntry.status}
+      <div
+        className={assembleClassNames(
+          'translation-status',
+          glossaryEntry.status
+        )}
+      >
+        {capitalize(glossaryEntry.status)}
+      </div>
+
+      <div className="rhs">
+        <div className="translation-glimpse">
+          {glossaryEntry.llmInstructions}
+        </div>
+        <GraphicalIcon
+          icon="chevron-right"
+          className="action-icon filter-textColor6"
+        />
       </div>
       <div className="text-[13px] upcase font-semibold border-1 rounded-100 px-8 py-6">
         Needs checking

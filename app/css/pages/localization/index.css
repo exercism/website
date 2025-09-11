@@ -64,9 +64,8 @@
                 @apply gap-16;
             }
             .translation-status {
-                @apply border-2 rounded-8;
-                @apply text-[25px];
-                @apply p-4 items-center;
+                @apply text-[13px] font-semibold border-1 rounded-100 px-8 py-6 w-fit whitespace-nowrap flex-shrink-0;
+                @apply items-center;
 
                 &.generating {
                     @apply border-blue-400 bg-blue-300;

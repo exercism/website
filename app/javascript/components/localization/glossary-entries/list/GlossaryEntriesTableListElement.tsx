@@ -4,6 +4,12 @@ import { GlossaryEntriesListContext } from '.'
 import { assembleClassNames } from '@/utils/assemble-classnames'
 import { flagForLocale } from '@/utils/flag-for-locale'
 
+const GlossaryEntryStatusTags = {
+  unchecked: 'Needs checking',
+  checked: 'Done',
+  proposed: 'Needs Sign Off',
+}
+
 export function GlossaryEntriesTableListElement({
   glossaryEntry,
 }: {
@@ -13,7 +19,6 @@ export function GlossaryEntriesTableListElement({
     links,
     mayCreateTranslationProposals,
     mayManageTranslationProposals,
-    request,
   } = React.useContext(GlossaryEntriesListContext)
 
   const content = (
@@ -29,19 +34,15 @@ export function GlossaryEntriesTableListElement({
         {glossaryEntry.locale}
       </div>
 
-      {/* Aron - apply the same colors that were on the flag to these and render the correct one */}
-      {/* Aron - Set the width to be the same on all of them with a flex-shrink-0, or put them in an outer div with that*/}
-      <div className="text-[13px] upcase font-semibold border-1 rounded-100 px-8 py-6">
-        {glossaryEntry.status}
-      </div>
-      <div className="text-[13px] upcase font-semibold border-1 rounded-100 px-8 py-6">
-        Needs checking
-      </div>
-      <div className="text-[13px] upcase font-semibold border-1 rounded-100 px-8 py-6">
-        Needs Sign Off
-      </div>
-      <div className="text-[13px] upcase font-semibold border-1 rounded-100 px-8 py-6">
-        Done
+      <div className="w-[200px] flex-shrink-0">
+        <div
+          className={assembleClassNames(
+            'translation-status',
+            glossaryEntry.status
+          )}
+        >
+          {GlossaryEntryStatusTags[glossaryEntry.status]}
+        </div>
       </div>
 
       <div className="translation-glimpse ml-auto">

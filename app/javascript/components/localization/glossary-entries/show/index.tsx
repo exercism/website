@@ -101,8 +101,7 @@ function renderShow(
     case 'unchecked': {
       return <Unchecked key={glossaryEntry.uuid} translation={glossaryEntry} />
     }
-    case 'approved':
-    case 'rejected': {
+    case 'checked': {
       return <Checked key={glossaryEntry.uuid} translation={glossaryEntry} />
     }
   }

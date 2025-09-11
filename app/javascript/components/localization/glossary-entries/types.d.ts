@@ -33,7 +33,7 @@ type GlossaryEntry = {
   locale: string
   term: string
   translation: string
-  status: 'unchecked' | 'approved' | 'rejected' | 'proposed'
+  status: 'unchecked' | 'checked' | 'proposed'
   llmInstructions: string
   proposalsCount: number
   proposals?: Proposal[]

@@ -2,6 +2,7 @@
 import React from 'react'
 import { Icon } from '@/components/common'
 import { nameForLocale } from '@/utils/name-for-locale'
+import { flagForLocale } from '@/utils/flag-for-locale'
 
 export function Checked({ translation }: { translation: GlossaryEntry }) {
   return (
@@ -18,6 +19,7 @@ export function Checked({ translation }: { translation: GlossaryEntry }) {
           />
           Checked
         </div>
+        <div className="flag">{flagForLocale(translation.locale)}</div>
       </div>
       <div className="body">
         <p className="text-16 leading-140 mb-10">

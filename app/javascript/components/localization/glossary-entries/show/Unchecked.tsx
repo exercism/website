@@ -80,7 +80,8 @@ export function Unchecked({ translation }: { translation: GlossaryEntry }) {
       <div className="body">
         <p className="text-16 leading-140 mb-10">
           How should we translate this word in the context of Exercism? What is
-          the most natural equivelent in LANGUAGE.
+          the most natural equivelent in{' '}
+          {nameForLocale(translation.locale, { displayInEnglish: true })}?
         </p>
         <div className="flex items-center gap-8 mb-12">
           <div className="text-16 w-[105px]">Original (en):</div>

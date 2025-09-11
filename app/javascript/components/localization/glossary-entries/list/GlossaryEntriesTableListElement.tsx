@@ -24,10 +24,15 @@ export function GlossaryEntriesTableListElement({
         </div>
       </div>
 
-      <TranslationsWithStatus
-        locale={glossaryEntry.locale}
-        status={glossaryEntry.status}
-      />
+      <div className="text-20">{flagForLocale(glossaryEntry.locale)}</div>
+      <div className="text-15 font-semibold text-textColor6 w-[50px] flex-shrink-0">{glossaryEntry.locale}</div>
+
+      {/* Aron - apply the same colors that were on the flag to these and render the correct one */}
+      {/* Aron - Set the width to be the same on all of them with a flex-shrink-0, or put them in an outer div with that*/}
+      <div className="text-[13px] upcase font-semibold border-1 rounded-100 px-8 py-6">{glossaryEntry.status}</div>
+      <div className="text-[13px] upcase font-semibold border-1 rounded-100 px-8 py-6">Needs checking</div>
+      <div className="text-[13px] upcase font-semibold border-1 rounded-100 px-8 py-6">Needs Sign Off</div>
+      <div className="text-[13px] upcase font-semibold border-1 rounded-100 px-8 py-6">Done</div>
 
       <div className="rhs">
         <div className="translation-glimpse">

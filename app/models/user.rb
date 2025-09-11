@@ -202,7 +202,7 @@ class User < ApplicationRecord
   end
 
   def self.system_user
-    User.find_by(SYSTEM_USER_ID)
+    User.find(SYSTEM_USER_ID)
   end
 
   def self.for!(param)
@@ -352,8 +352,8 @@ class User < ApplicationRecord
     course_enrollments.paid.exists?
   end
 
-  def may_create_translation_proposals? = reputation > 10
-  def may_manage_translation_proposals? = reputation > 20
+  def may_create_translation_proposals? = reputation > 10 || system?
+  def may_manage_translation_proposals? = reputation > 20 || system?
 
   memoize
   def profile? = profile.present?

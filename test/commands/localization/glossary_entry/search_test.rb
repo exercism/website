@@ -223,4 +223,53 @@ class Localization::GlossaryEntry::SearchTest < ActiveSupport::TestCase
 
     assert_empty actual.to_a
   end
+
+  test "excludes entries with excluded_ids" do
+    user = create :user
+    user.stubs(translator_locales: %i[hu nl])
+
+    glossary_entry_1 = create :localization_glossary_entry, locale: "hu", term: "term1", status: :checked
+    glossary_entry_2 = create :localization_glossary_entry, locale: "nl", term: "term2", status: :checked
+    glossary_entry_3 = create :localization_glossary_entry, locale: "hu", term: "term3", status: :checked
+
+    actual = Localization::GlossaryEntry::Search.(user, excluded_ids: [glossary_entry_1.id, glossary_entry_3.id])
+
+    expected = [glossary_entry_2]
+    assert_equal expected, actual.to_a
+  end
+
+  test "handles empty excluded_ids array" do
+    user = create :user
+    user.stubs(translator_locales: %i[hu nl])
+
+    glossary_entry_1 = create :localization_glossary_entry, locale: "hu", term: "term1", status: :checked
+    glossary_entry_2 = create :localization_glossary_entry, locale: "nl", term: "term2", status: :checked
+
+    actual = Localization::GlossaryEntry::Search.(user, excluded_ids: [])
+
+    expected = [glossary_entry_1, glossary_entry_2]
+    assert_equal expected, actual.to_a
+  end
+
+  test "combines excluded_ids with other filters" do
+    user = create :user
+    user.stubs(translator_locales: %i[hu nl])
+
+    glossary_entry_1 = create :localization_glossary_entry, locale: "hu", term: "foobar", status: :unchecked
+    glossary_entry_2 = create :localization_glossary_entry, locale: "hu", term: "foobaz", status: :unchecked
+    glossary_entry_3 = create :localization_glossary_entry, locale: "hu", term: "fooqux", status: :unchecked
+    create :localization_glossary_entry, locale: "hu", term: "bazqux", status: :unchecked
+    create :localization_glossary_entry, locale: "hu", term: "foobar", status: :checked
+
+    actual = Localization::GlossaryEntry::Search.(
+      user,
+      criteria: "foo",
+      status: :unchecked,
+      locale: "hu",
+      excluded_ids: [glossary_entry_1.id]
+    )
+
+    expected = [glossary_entry_2, glossary_entry_3]
+    assert_equal expected, actual.to_a
+  end
 end

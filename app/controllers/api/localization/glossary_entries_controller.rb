@@ -12,7 +12,8 @@ class API::Localization::GlossaryEntriesController < API::BaseController
       status: params[:status],
       page: 1,
       per: 1,
-      locale: params[:filter_locale]
+      locale: params[:filter_locale],
+      excluded_ids: params[:excluded_ids]
     ).first
 
     render json: { uuid: entry&.uuid }

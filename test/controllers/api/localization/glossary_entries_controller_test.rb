@@ -93,6 +93,41 @@ class API::Localization::GlossaryEntriesControllerTest < API::BaseTestCase
     assert_equal expected, JSON.parse(response.body, symbolize_names: true)
   end
 
+  test "next excludes entries with excluded_ids" do
+    setup_user
+    @current_user.data.update!(translator_locales: ["pt"])
+
+    entry_one = create :localization_glossary_entry, locale: "pt", term: "apple", status: :unchecked
+    entry_two = create :localization_glossary_entry, locale: "pt", term: "banana", status: :unchecked
+    entry_three = create :localization_glossary_entry, locale: "pt", term: "cherry", status: :unchecked
+
+    get next_api_localization_glossary_entries_path,
+      params: { status: :unchecked, excluded_ids: [entry_one.id, entry_two.id] },
+      headers: @headers,
+      as: :json
+
+    assert_response :ok
+    expected = { uuid: entry_three.uuid }
+    assert_equal expected, JSON.parse(response.body, symbolize_names: true)
+  end
+
+  test "next returns null when all entries are excluded" do
+    setup_user
+    @current_user.data.update!(translator_locales: ["pt"])
+
+    entry_one = create :localization_glossary_entry, locale: "pt", term: "apple", status: :unchecked
+    entry_two = create :localization_glossary_entry, locale: "pt", term: "banana", status: :unchecked
+
+    get next_api_localization_glossary_entries_path,
+      params: { status: :unchecked, excluded_ids: [entry_one.id, entry_two.id] },
+      headers: @headers,
+      as: :json
+
+    assert_response :ok
+    expected = { uuid: nil }
+    assert_equal expected, JSON.parse(response.body, symbolize_names: true)
+  end
+
   ###
   # Show
   ###

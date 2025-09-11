@@ -2,6 +2,7 @@ import { useCallback, useContext } from 'react'
 import { sendRequest } from '@/utils/send-request'
 import { redirectTo } from '@/utils'
 import { GlossaryEntriesShowContext } from './index'
+import { toast } from 'react-hot-toast'
 
 type RequestConfig = {
   endpoint: string
@@ -36,6 +37,28 @@ export function useRequestWithNextRedirect() {
       redirectTo(redirectLink)
     } catch (error) {
       console.error('Error in redirectToNext:', error)
+
+      // Handle 404 - no more entries available
+      if (
+        error &&
+        typeof error === 'object' &&
+        'status' in error &&
+        error.status === 404
+      ) {
+        toast(
+          'No more entries available in this category. Redirecting to the list page...',
+          {
+            duration: 3000,
+          }
+        )
+
+        setTimeout(() => {
+          redirectTo(links.glossaryEntriesListPage)
+        }, 3000)
+
+        return
+      }
+
       throw error
     }
   }, [links, glossaryEntry])

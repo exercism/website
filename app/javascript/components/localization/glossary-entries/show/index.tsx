@@ -5,6 +5,7 @@ import { Unchecked } from './Unchecked'
 import { Checked } from './Checked'
 import { Proposed } from './Proposed'
 import { useLogger } from '@/hooks'
+import { Toaster } from 'react-hot-toast'
 
 export const GlossaryEntriesShowContext =
   React.createContext<GlossaryEntriesShowContextType>(
@@ -22,6 +23,7 @@ export default function ({
     >
       <Header />
       <Body />
+      <Toaster />
     </GlossaryEntriesShowContext.Provider>
   )
 }

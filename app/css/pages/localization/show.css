@@ -64,7 +64,7 @@ body.namespace-localization.controller-glossary_entries.action-show {
     }
     .original {
         p {
-            @apply text-16 leading-140 mb-8;
+            @apply text-16 leading-160 mb-16;
         }
     }
 

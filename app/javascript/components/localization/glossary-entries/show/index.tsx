@@ -37,7 +37,7 @@ function Header() {
           <Icon icon="close" className="c-icon" alt="Close" />
         </a>
         <div className="info">
-          <div className="intro">You are editing glossary entry for</div>
+          <div className="intro">You are editing the glossary entry for</div>
           <div className="key">
             {glossaryEntry.term} ({glossaryEntry.locale})
           </div>
@@ -57,7 +57,7 @@ function Body() {
 }
 
 function LHS() {
-  const { glossaryEntry, currentUserId, links } = React.useContext(
+  const { glossaryEntry, currentUserId } = React.useContext(
     GlossaryEntriesShowContext
   )
 
@@ -66,13 +66,13 @@ function LHS() {
     <div className="translations mt-16 max-w-[800px]">
       <h2 className="text-h2 mb-4">Proposal</h2>
       <p className="text-p-base mb-16">
-        This proposal was suggested by either an LLM or another translator. It
-        must be checked and then signed off. Please{' '}
+        This proposal was suggested by an LLM or another translator. It needs to
+        be reviewed and signed off. Please{' '}
         <strong className="font-semibold">
-          edit translations that are incorrect
-        </strong>
-        , which will put them in a queue for another reviewer to see, or mark it
-        as checked/signed off.
+          edit any incorrect translations.
+        </strong>{' '}
+        Your changes will be placed in a queue for another reviewer, or mark it
+        as checked and signed off.
       </p>
       {renderShow(glossaryEntry, currentUserId)}
     </div>
@@ -85,22 +85,23 @@ function RHS() {
     <div className="rhs">
       <div className="original">
         <h2 className="text-h3 mb-6">The Entry</h2>
-        <p className="text-16 mb-4 leading-140">
-          Your job is to make the locales as close to the original English in{' '}
-          <strong className="font-semibold">meaning and tone</strong> as
-          possible, considering how it is used in the site.{' '}
+        <p>
+          Your job is to make the translation as close to the original English
+          in <strong className="font-semibold">meaning and tone</strong> as
+          possible, considering how it is used on the site.
         </p>
-        <p className="text-16 mb-8 leading-140">
+        <p>
           <strong className="font-semibold">
-            Please be careful not change the meaning from the original English
+            Please be careful not to change the meaning of the original English
           </strong>
-          . If you feel the original English is wrong, please{' '}
+          . If you believe the original English is wrong, please{' '}
           <a
             href="https://forum.exercism.org/c/exercism/i18n/695"
             className="c-prominent-link --inline"
           >
-            start a discussion on the forum.
+            start a discussion on the forum
           </a>
+          .
         </p>
 
         <div className="c-textblock-note">

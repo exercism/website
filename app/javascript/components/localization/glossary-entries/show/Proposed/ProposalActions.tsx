@@ -115,8 +115,10 @@ export function ProposalActions({
   const handleSkip = useCallback(async () => {
     try {
       await redirectToNext()
+      toast.success('Entry skipped!')
     } catch (err) {
       console.error('Error skipping to next entry:', err)
+      toast.error('Failed to skip entry')
     }
   }, [redirectToNext])
 

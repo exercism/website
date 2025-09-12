@@ -35,35 +35,35 @@ module Flows
 
           # Test status filtering
           click_on 'Needs checking'
-          sleep 0.5  # Wait for the AJAX request
+          sleep 0.5
           assert_text 'Hello'
           refute_text 'World'
           refute_text 'Goodbye'
 
           click_on 'Needs sign-off'
-          sleep 0.5  # Wait for the AJAX request
+          sleep 0.5
           assert_text 'World'
           refute_text 'Hello'
           refute_text 'Goodbye'
 
           click_on 'Done'
-          sleep 0.5  # Wait for the AJAX request
+          sleep 0.5
           assert_text 'Goodbye'
           refute_text 'Hello'
           refute_text 'World'
 
           # Test search functionality
           click_on 'All'
-          sleep 0.5  # Wait for the AJAX request
+          sleep 0.5
           fill_in 'Search for translation', with: 'Hello'
-          sleep 0.5  # Wait for the debounced search
+          sleep 0.5 # Wait for the debounced search
           assert_text 'Hello'
           refute_text 'World'
           refute_text 'Goodbye'
         end
       end
 
-      # Skip proposal modal test as mentioned - Proposal Modal won't be tested
+      # Skip proposal modal tests for now
       # test "translator can propose new glossary entry" do
       #   user = create :user
       #   user.update!(translator_locales: %w[fr], reputation: 25)
@@ -308,7 +308,7 @@ module Flows
           within('.--options') do
             find('.title', text: 'Français').click
           end
-          sleep 0.5 # Wait for the AJAX request
+          sleep 0.5
 
           assert_text 'Bonjour'
           refute_text 'Hola'
@@ -318,14 +318,14 @@ module Flows
           within('.--options') do
             find('.title', text: 'Español').click
           end
-          sleep 0.5 # Wait for the AJAX request
+          sleep 0.5
 
           assert_text 'Hola'
           refute_text 'Bonjour'
         end
       end
 
-      # Skip multiple proposals test - only one proposal per term now
+      # Skip multiple proposals tests for now
       # test "translator can navigate through multiple proposals on entry" do
       #   reviewer = create :user
       #   proposer1 = create :user
@@ -418,7 +418,7 @@ module Flows
           # Navigate to next page if pagination is available
           if has_link?('Next')
             click_on 'Next'
-            sleep 0.5 # Wait for the AJAX request
+            sleep 0.5
 
             # Should see different entries on next page
             refute_text 'Term0' # Should not see first page items anymore

@@ -54,7 +54,7 @@ export default function OpenEditorButton(props: Props): JSX.Element | null {
 }
 
 const Button = (props: Props & { className?: string }) => {
-  const { t } = useAppTranslation('components/student/OpenEditorButton.tsx')
+  const { t } = useAppTranslation()
 
   switch (props.status) {
     case 'locked':
@@ -109,7 +109,7 @@ const DropdownPanel = ({
   command: string
   links: { local: string }
 }) => {
-  const { t } = useAppTranslation('components/student/OpenEditorButton.tsx')
+  const { t } = useAppTranslation()
 
   const downloadPrompt = editorEnabled
     ? t('openEditor.downloadPrompt')
@@ -123,7 +123,6 @@ const DropdownPanel = ({
 
       <p>
         <Trans
-          ns="components/student/OpenEditorButton.tsx"
           i18nKey="openEditor.firstTimeUsingSetup"
           components={{
             link: <a href={links.local} target="_blank" rel="noreferrer" />,
@@ -145,7 +144,7 @@ const ButtonTooltip = ({
     | React.ReactElement<any, string | JSXElementConstructor<any>>
     | undefined
 }): JSX.Element | null => {
-  const { t } = useAppTranslation('components/student/OpenEditorButton.tsx')
+  const { t } = useAppTranslation()
 
   if (!editorEnabled) {
     const content = (

@@ -42,7 +42,7 @@ export const IterationView = ({
   setIsLinked: (linked: boolean) => void
   discussion?: MentorDiscussion
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/student/mentoring-session')
+  const { t } = useAppTranslation()
   /* TODO: (required) Don't do this if currentIteration.links.files is null */
   const {
     data: resolvedData,

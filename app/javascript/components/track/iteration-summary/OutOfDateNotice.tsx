@@ -5,7 +5,7 @@ import { GraphicalIcon } from '../../common'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const OutOfDateNotice = (): JSX.Element => {
-  const { t } = useAppTranslation('components/track/iteration-summary')
+  const { t } = useAppTranslation()
   return (
     <div className="--out-of-date">
       <GraphicalIcon icon="warning" />

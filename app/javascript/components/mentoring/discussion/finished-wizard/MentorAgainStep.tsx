@@ -28,9 +28,7 @@ export const MentorAgainStep = ({
   onYes: SuccessFn
   onNo: SuccessFn
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/mentoring/discussion/finished-wizard'
-  )
+  const { t } = useAppTranslation()
   const [choice, setChoice] = useState<Choice | null>(null)
   const {
     mutate: mutate,

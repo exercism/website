@@ -8,7 +8,7 @@ export const InitializedOption = ({
   onCancelling: () => void
   onUpdating: () => void
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/donations/subscription-form')
+  const { t } = useAppTranslation()
   return (
     <div className="options">
       <button type="button" onClick={onUpdating} className="text-a-subtle">

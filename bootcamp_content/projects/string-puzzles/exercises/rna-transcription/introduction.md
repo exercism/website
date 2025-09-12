@@ -34,7 +34,7 @@ Given a DNA strand, its transcribed RNA strand is formed by replacing each nucle
 - `A` -> `U`
 
 Create a function called `dna_to_rna(dna)`.
-It should take a DNA string as it's input, and should return a string representing the RNA equivelent.
+It should take a DNA string as it's input, and should return a string representing the RNA equivalent.
 
 ### Functions
 

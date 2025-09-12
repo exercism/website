@@ -22,7 +22,7 @@ export default function ContributionsList({
 }: {
   categories: readonly Category[]
 }): JSX.Element {
-  const { t } = useAppTranslation('components/profile')
+  const { t } = useAppTranslation()
   const [currentCategory, setCurrentCategory] = useState(categories[0])
 
   return (

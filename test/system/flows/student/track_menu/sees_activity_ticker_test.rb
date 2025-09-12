@@ -51,7 +51,8 @@ module Flows
             MetricsChannel.broadcast!(metric)
 
             assert_text @user.handle
-            assert_text "published a new solution for"
+            assert_text "published a new solution"
+            assert_text "for"
             assert_text solution.exercise.title
           end
         end

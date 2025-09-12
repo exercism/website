@@ -19,9 +19,7 @@ export default function BootcampFreeCouponForm({
   bootcampFreeCouponCode,
   links,
 }: BootcampFreeCouponFormProps): JSX.Element {
-  const { t } = useAppTranslation(
-    'components/settings/BootcampFreeCouponForm.tsx'
-  )
+  const { t } = useAppTranslation()
   const [couponCode, setCouponCode] = useState(bootcampFreeCouponCode)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
@@ -54,7 +52,6 @@ export default function BootcampFreeCouponForm({
       <p className="text-p-base mb-12">
         <Trans
           i18nKey="bootcampFreeCouponForm.lifetimeInsiderEligible"
-          ns="components/settings/BootcampFreeCouponForm.tsx"
           components={[
             <a
               href="https://exercism.org/bootcamp?utm_source=exercism&utm_medium=free_settings"

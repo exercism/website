@@ -49,7 +49,7 @@ type PerkExternalModalProps = Pick<
 }
 
 function PerkExternalModal({ links }: PerkExternalModalProps) {
-  const { t } = useAppTranslation('components/perks')
+  const { t } = useAppTranslation()
   return (
     <div className="max-w-[500px] flex flex-col items-center text-center">
       <h2 className="text-p-xlarge font-semibold mb-8">

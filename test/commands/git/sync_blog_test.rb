@@ -3,12 +3,16 @@ require "test_helper"
 class Git::SyncBlogTest < ActiveSupport::TestCase
   setup do
     TestHelpers.use_blog_test_repo!
-  end
 
-  test "creates missing posts" do
+    # Stub, sometimes unneccesarily
+    Localization::Text::AddToLocalization.define_singleton_method(:defer) { |*args| }
+
     create :user, handle: "iHiD"
     create :user, handle: "jonathandmiddleton"
     create :user, handle: "porkostumus"
+  end
+
+  test "creates missing posts" do
     Git::SyncBlog.()
 
     assert_equal 1, BlogPost.count
@@ -22,9 +26,6 @@ class Git::SyncBlogTest < ActiveSupport::TestCase
   end
 
   test "updates existing posts" do
-    create :user, handle: "iHiD"
-    create :user, handle: "jonathandmiddleton"
-    create :user, handle: "porkostumus"
     create :blog_post, uuid: "d925ec36-92dd-4bf6-be1d-969d192a4034",
       slug: "rlly",
       title: "Very wrong",
@@ -44,9 +45,8 @@ class Git::SyncBlogTest < ActiveSupport::TestCase
   end
 
   test "creates missing stories" do
-    create :user, handle: "iHiD"
-    interviewer = create :user, handle: "jonathandmiddleton"
-    interviewee = create :user, handle: "porkostumus"
+    interviewer = User.find_by(handle: "jonathandmiddleton")
+    interviewee = User.find_by(handle: "porkostumus")
 
     Git::SyncBlog.()
 
@@ -66,9 +66,9 @@ class Git::SyncBlogTest < ActiveSupport::TestCase
   end
 
   test "updates existing stories" do
-    user = create :user, handle: "iHiD"
-    interviewer = create :user, handle: "jonathandmiddleton"
-    interviewee = create :user, handle: "porkostumus"
+    user = User.find_by(handle: "iHiD")
+    interviewer = User.find_by(handle: "jonathandmiddleton")
+    interviewee = User.find_by(handle: "porkostumus")
 
     create :community_story, uuid: "e64c98c2-64a7-42ac-80ec-647561bbee7f",
       interviewer: user, interviewee: user,
@@ -94,13 +94,28 @@ class Git::SyncBlogTest < ActiveSupport::TestCase
   end
 
   test "open issue for sync failure when not synced successfully" do
-    create :user, handle: "iHiD"
-    create :user, handle: "jonathandmiddleton"
-    create :user, handle: "porkostumus"
     error = StandardError.new "Could not sync Blog"
     BlogPost.any_instance.stubs(:update!).raises(error)
 
     Github::Issue::OpenForBlogSyncFailure.expects(:call).with(error, Git::Blog.new.head_commit.oid)
+
+    Git::SyncBlog.()
+  end
+
+  test "localizes all the content" do
+    title = "The title"
+    description = "Some desc"
+    content = "Some content"
+
+    blog_post = create :blog_post, uuid: "d925ec36-92dd-4bf6-be1d-969d192a4034"
+
+    BlogPost.any_instance.stubs(title:)
+    BlogPost.any_instance.stubs(description:)
+    BlogPost.any_instance.stubs(content:)
+
+    Localization::Text::AddToLocalization.expects(:defer).with(:post_title, title, blog_post.id)
+    Localization::Text::AddToLocalization.expects(:defer).with(:post_description, description, blog_post.id)
+    Localization::Text::AddToLocalization.expects(:defer).with(:post_content, content, blog_post.id)
 
     Git::SyncBlog.()
   end

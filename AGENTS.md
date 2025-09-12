@@ -100,6 +100,13 @@ rm -rf .built-assets/              # Clear asset cache if needed
 - `app/controllers/spi/` - Internal service endpoints
 - `test/` - All test files
 - `docs/context/` - Detailed component documentation
+- `scripts/llm/` - Helper scripts created by AI agents
+
+**Script Organization:**
+
+- **Always create new scripts in `scripts/llm/`** - This keeps AI-generated scripts organized and separate from core application scripts
+- Use descriptive names like `merge_locales.rb` or `fix_data.rb`
+- Include comments explaining what the script does and when to use it
 
 **When editing:**
 
@@ -108,6 +115,11 @@ rm -rf .built-assets/              # Clear asset cache if needed
 3. Use commands for business logic, not controllers
 4. Add appropriate tests (see testing docs)
 5. Run pre-commit validation commands
+
+**Code Style:**
+
+- **Always use symbol key syntax (`key:`) in hashes** - Use `{ name: "value" }` not `{ "name" => "value" }` unless there's a specific reason to use string keys (like when the key contains special characters or spaces)
+- This applies to serializers, API responses, and all Ruby hash structures
 
 ## Reference Documentation
 

@@ -14,7 +14,7 @@ type Props = {
 
 export const IterationMarker = forwardRef<HTMLDivElement, Props>(
   ({ iteration, userIsStudent }, ref) => {
-    const { t } = useAppTranslation('session-batch-2')
+    const { t } = useAppTranslation()
     return (
       <a id={iterationId(iteration)} className="timeline-entry iteration-entry">
         <div className="timeline-marker">
@@ -25,7 +25,6 @@ export const IterationMarker = forwardRef<HTMLDivElement, Props>(
             <div className="info">
               {/* Iteration {{IDX}} was submitted [e.g. 2 days ago]  */}
               <Trans
-                ns="session-batch-2"
                 i18nKey="components.mentoring.session.iterationMarker.iterationWasSubmitted"
                 values={{ idx: iteration.idx }}
                 components={[<strong />]}

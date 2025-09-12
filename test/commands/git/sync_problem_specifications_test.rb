@@ -3,12 +3,15 @@ require "test_helper"
 class Git::SyncProblemSpecificationsTest < ActiveSupport::TestCase
   setup do
     TestHelpers.use_problem_specifications_test_repo!
+
+    # Stub, sometimes unneccesarily
+    Localization::Text::AddToLocalization.define_singleton_method(:defer) { |*args| }
   end
 
   test "creates new exercises" do
     Git::SyncProblemSpecifications.()
 
-    assert_equal 137, GenericExercise.count
+    assert_equal 138, GenericExercise.count
     assert_equal "accumulate", GenericExercise.first.slug
     assert_equal "zipper", GenericExercise.last.slug
   end

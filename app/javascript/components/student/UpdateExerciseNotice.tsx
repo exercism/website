@@ -12,7 +12,7 @@ export default function UpdateExerciseNotice({
 }: {
   links: Links
 }): JSX.Element {
-  const { t } = useAppTranslation('components/student/UpdateExerciseNotice.tsx')
+  const { t } = useAppTranslation()
   const [open, setOpen] = useState(false)
   return (
     <React.Fragment>

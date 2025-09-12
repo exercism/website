@@ -50,7 +50,7 @@ export default function NotificationsList({
   request: Request
   links: Links
 }): JSX.Element {
-  const { t } = useAppTranslation('components/notifications/')
+  const { t } = useAppTranslation()
   const queryClient = useQueryClient()
 
   const [currentData, setCurrentData] = useState<APIResponse | undefined>()

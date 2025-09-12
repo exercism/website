@@ -117,6 +117,27 @@ namespace :api do
       end
     end
 
+    namespace :localization do
+      resources :originals, only: %i[index show] do
+      end
+
+      resources :translations, only: [] do
+        patch :approve_llm_version, on: :member
+        resources :proposals, only: %i[create update], controller: "translation_proposals" do
+          patch :approve, on: :member
+          patch :reject, on: :member
+        end
+      end
+
+      resources :glossary_entries, only: %i[index show create destroy] do
+        get :next, on: :collection
+        resources :proposals, only: %i[create update], controller: "glossary_entry_proposals" do
+          patch :approve, on: :member
+          patch :reject, on: :member
+        end
+      end
+    end
+
     get "/scratchpad/:category/:title" => "scratchpad_pages#show", as: :scratchpad_page
     patch "/scratchpad/:category/:title" => "scratchpad_pages#update"
 

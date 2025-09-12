@@ -384,13 +384,11 @@ jobs:
           bundle exec setup_exercism_local_aws
 
       - name: Install Chrome
-        env:
-          CHROME_VERSION: "127.0.6533.119"
         run: |
-          # Download specific Chrome version
-          wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${CHROME_VERSION}-1_amd64.deb
+          # Download current stable Chrome version
+          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
           # Install Chrome
-          sudo apt-get install -y --allow-downgrades ./google-chrome-stable_${CHROME_VERSION}-1_amd64.deb
+          sudo apt-get install -y ./google-chrome-stable_current_amd64.deb
 
       - uses: nanasess/setup-chromedriver@v2
       - name: Start chromedriver

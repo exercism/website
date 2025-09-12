@@ -10,7 +10,7 @@ type MedianWaitTimeProps = {
 }
 
 export function MedianWaitTime({ seconds }: MedianWaitTimeProps) {
-  const { t } = useAppTranslation('components/common/MedianWaitTime.tsx')
+  const { t } = useAppTranslation()
 
   if (seconds === undefined || seconds === null) {
     return null

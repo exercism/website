@@ -6,7 +6,7 @@ export const SelectedTracksMessage = ({
 }: {
   numSelected: number
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/mentoring/track-selector')
+  const { t } = useAppTranslation()
 
   const classNames = ['selected', numSelected === 0 ? 'none' : ''].filter(
     Boolean

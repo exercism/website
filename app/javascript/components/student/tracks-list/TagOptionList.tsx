@@ -18,7 +18,7 @@ export const TagOptionList = ({
   selectedTags: string[]
   setSelectedTags: (tags: string[]) => void
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/student/tracks-list')
+  const { t } = useAppTranslation()
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement>,

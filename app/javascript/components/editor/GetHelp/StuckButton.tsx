@@ -16,7 +16,7 @@ export function StuckButton({
   setTab,
   tab,
 }: StuckButtonProps): JSX.Element {
-  const { t } = useAppTranslation('components/editor/GetHelp')
+  const { t } = useAppTranslation()
   return (
     <button
       type="button"

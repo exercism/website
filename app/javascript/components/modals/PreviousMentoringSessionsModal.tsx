@@ -36,9 +36,7 @@ export const PreviousMentoringSessionsModal = ({
   student: Student
   setStudent: (student: Student) => void
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/modals/PreviousMentoringSessionsModal.tsx'
-  )
+  const { t } = useAppTranslation()
   const { request, setPage } = useList({
     endpoint: student.links.previousSessions,
     options: {},
@@ -68,7 +66,6 @@ export const PreviousMentoringSessionsModal = ({
         <header>
           <Trans
             i18nKey="headerMobile"
-            ns="components/modals/PreviousMentoringSessionsModal.tsx"
             count={numPrevious}
             values={{ count: numPrevious, studentHandle: student.handle }}
             components={{
@@ -119,7 +116,6 @@ export const PreviousMentoringSessionsModal = ({
       <header>
         <Trans
           i18nKey="header"
-          ns="components/modals/PreviousMentoringSessionsModal.tsx"
           count={numPrevious}
           values={{ count: numPrevious, studentHandle: student.handle }}
           components={{

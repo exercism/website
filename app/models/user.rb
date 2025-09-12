@@ -201,6 +201,10 @@ class User < ApplicationRecord
     User::Notification::CreateEmailOnly.(self, :joined_exercism)
   end
 
+  def self.system_user
+    User.find(SYSTEM_USER_ID)
+  end
+
   def self.for!(param)
     return param if param.is_a?(User)
     return find_by!(id: param) if param.is_a?(Numeric)
@@ -348,6 +352,9 @@ class User < ApplicationRecord
     course_enrollments.paid.exists?
   end
 
+  def may_create_translation_proposals? = reputation > 10 || system?
+  def may_manage_translation_proposals? = reputation > 20 || system?
+
   memoize
   def profile? = profile.present?
   def may_create_profile? = reputation >= User::Profile::MIN_REPUTATION
@@ -360,6 +367,8 @@ class User < ApplicationRecord
   def captcha_required? = !github_auth? && Time.current - created_at < 2.days
 
   def flair = super&.to_sym
+
+  def locale = super&.to_sym
 
   def automator?(track = nil)
     return true if staff?

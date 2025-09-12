@@ -12,9 +12,7 @@ export default function CompleteExerciseButton({
   iterations: readonly Iteration[]
 }): JSX.Element {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const { t } = useAppTranslation(
-    'components/student/CompleteExerciseButton.tsx'
-  )
+  const { t } = useAppTranslation()
 
   const handleModalClose = useCallback(() => {
     setIsModalOpen(false)

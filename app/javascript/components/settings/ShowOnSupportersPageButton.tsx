@@ -38,9 +38,7 @@ export default function ShowOnSupportersPageButton({
     [mutation]
   )
 
-  const { t } = useAppTranslation(
-    'components/settings/ShowOnSupportersPageButton.tsx'
-  )
+  const { t } = useAppTranslation()
 
   return (
     <label className="c-checkbox-wrapper ml-auto">

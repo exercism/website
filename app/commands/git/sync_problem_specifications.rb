@@ -7,12 +7,7 @@ class Git::SyncProblemSpecifications
     repo.update!
 
     repo.exercises.each do |exercise|
-      GenericExercise::CreateOrUpdate.(
-        exercise.slug, exercise.title, exercise.blurb,
-        exercise.source, exercise.source_url,
-        exercise.deep_dive_youtube_id, exercise.deep_dive_blurb,
-        exercise.deprecated? ? :deprecated : :active
-      )
+      GenericExercise::CreateOrUpdate.(exercise)
     rescue StandardError => e
       Bugsnag.notify(e)
     end

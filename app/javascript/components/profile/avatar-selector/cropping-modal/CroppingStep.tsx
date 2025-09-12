@@ -13,9 +13,7 @@ export const CroppingStep = ({
   state: State
   dispatch: React.Dispatch<Action>
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/profile/avatar-selector/cropping-modal'
-  )
+  const { t } = useAppTranslation()
 
   if (!state.imageToCrop) {
     throw new Error('Cropped image was expected to exist')

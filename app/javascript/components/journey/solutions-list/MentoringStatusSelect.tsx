@@ -14,7 +14,7 @@ const OptionComponent = ({
 }: {
   option: MentoringStatus
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/journey/solutions-list')
+  const { t } = useAppTranslation()
 
   switch (status) {
     case 'none':
@@ -31,7 +31,7 @@ const OptionComponent = ({
 }
 
 const SelectedComponent = ({ option }: { option: MentoringStatus }) => {
-  const { t } = useAppTranslation('components/journey/solutions-list')
+  const { t } = useAppTranslation()
   switch (option) {
     case undefined:
       return <>{t('mentoringStatusSelect.mentoringStatus')}</>

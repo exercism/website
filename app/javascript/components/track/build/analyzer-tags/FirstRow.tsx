@@ -4,7 +4,7 @@ import React from 'react'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function FirstRow(): JSX.Element {
-  const { t } = useAppTranslation('components/track/build/analyzer-tags')
+  const { t } = useAppTranslation()
   return (
     <div className="record-row sticky z-1 lg:top-0 top-[65px]">
       <div className="record-name" />

@@ -38,8 +38,9 @@ class Git::ProblemSpecifications::Exercise
   def deep_dive_blurb = metadata["deep_dive_blurb"]
 
   memoize
-  def deprecated? = deprecated_exists?
+  def deprecated? = deprecated.present?
 
+  # TODO: This is only shown to maintainers so it doesn't need to be translated
   memoize
   def description_html
     return Markdown::Parse.(description) if description.present?

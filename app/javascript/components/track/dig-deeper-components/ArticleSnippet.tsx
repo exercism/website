@@ -8,7 +8,7 @@ import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function ArticleSnippet({ article }: { article: Article }): JSX.Element {
   const codeBlockRef = useHighlighting<HTMLPreElement>(article.snippetHtml)
-  const { t } = useAppTranslation('components/track/dig-deeper-components')
+  const { t } = useAppTranslation()
 
   return (
     <a

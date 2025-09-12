@@ -24,7 +24,7 @@ export const IterationHeader = ({
   downloadCommand,
   files,
 }: Props): JSX.Element => {
-  const { t } = useAppTranslation('components/mentoring/session/iteration-view')
+  const { t } = useAppTranslation()
   return (
     <header className="iteration-header">
       <IterationSummaryWithWebsockets
@@ -41,7 +41,7 @@ export const IterationHeader = ({
 }
 
 const OutOfDateNotice = () => {
-  const { t } = useAppTranslation('components/mentoring/session/iteration-view')
+  const { t } = useAppTranslation()
   return (
     <GenericTooltip
       content={t('iterationHeader.outOfDateNotice.exerciseUpdated')}

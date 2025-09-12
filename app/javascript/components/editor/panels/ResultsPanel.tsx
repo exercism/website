@@ -25,7 +25,7 @@ export const ResultsPanel = ({
   testRunner: TestRunner
   hasCancelled: boolean
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/editor/panels')
+  const { t } = useAppTranslation()
   return (
     <Tab.Panel id="results" context={TabsContext}>
       {hasCancelled ? (
@@ -51,7 +51,6 @@ export const ResultsPanel = ({
           <GraphicalIcon icon="run-tests-prompt" />
           <h2>
             <Trans
-              ns="components/editor/panels"
               i18nKey="resultsPanel.runTestsToCheckYourCode"
               components={[
                 <button

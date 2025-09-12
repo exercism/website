@@ -19,7 +19,7 @@ const ConfirmButton = ({
 }) => {
   useErrorHandler(error, { defaultError: DEFAULT_ERROR })
 
-  const { t } = useAppTranslation('components/modals/complete-exercise-modal')
+  const { t } = useAppTranslation()
 
   switch (status) {
     case 'idle':
@@ -55,7 +55,7 @@ export const PublishSolutionForm = ({
   iterations: readonly Iteration[]
   onSuccess: (data: ExerciseCompletion) => void
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/modals/complete-exercise-modal')
+  const { t } = useAppTranslation()
   const [toPublish, setToPublish] = useState(true)
   const [iterationIdxToPublish, setIterationIdxToPublish] = useState<
     number | null

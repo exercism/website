@@ -8,6 +8,7 @@ require 'webmock/minitest'
 require 'minitest/retry'
 require_relative './helpers/turbo_assertions_helper'
 require 'generate_js_config'
+require_relative './load_locale_into_db'
 
 # We need to write the manifest.json and env.json files as the
 # javascript:build rake task that is called below depends on it
@@ -160,6 +161,11 @@ class ActionMailer::TestCase
   end
 end
 
+# We only want to do this once.
+# Each test should then revert their own changes
+# as they run in transactions.
+LoadLocaleIntoDB.()
+
 class ActiveSupport::TestCase
   include FactoryBot::Syntax::Methods
   include ActiveJob::TestHelper
@@ -168,6 +174,7 @@ class ActiveSupport::TestCase
   # parallelize(workers: :number_of_processors)
 
   setup do
+    # Load i18n data into database before each test
     reset_redis!
     reset_rack_attack!
 

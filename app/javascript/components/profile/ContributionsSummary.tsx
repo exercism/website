@@ -53,7 +53,7 @@ export default function ContributionsSummary({
   links: Links
   showHeader?: boolean
 }): JSX.Element | null {
-  const { t } = useAppTranslation('components/profile')
+  const { t } = useAppTranslation()
   const allTrack = tracks.find((track) => track.slug === null)
 
   if (!allTrack) {

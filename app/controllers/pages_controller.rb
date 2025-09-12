@@ -65,4 +65,22 @@ class PagesController < ApplicationController
 
     render file: file_path, content_type: 'application/javascript'
   end
+
+  def javascript_i18n
+    expires_in 5.minutes, public: true
+
+    # Do not rename this param to locale as that's reserved
+    params[:i18n_locale]
+
+    # TOOD: Check locale is a valid string
+    # TODO: Whenever a JS translation is updated, we need to regenerate this.
+    filepath = Rails.root.join('i18n', 'javascript-copy.ts')
+    data = File.read(filepath)
+
+    # data = Localization::Translation.where(locale: :en).joins(:original).
+    #   where('localization_originals.type': :website_client_side).
+    #   pluck(:key, :value).to_h
+    # # TOOD: Pivot on the params[:locale]
+    render json: data
+  end
 end

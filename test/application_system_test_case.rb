@@ -21,6 +21,9 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   def setup
     ApplicationSystemTestCase.override_should_flunk = false
 
+    # Set default locale for URL generation in system tests
+    default_url_options[:locale] = nil # nil for default locale (English)
+
     super
   end
 

@@ -27,7 +27,7 @@ export const RequestMentoringModal = ({
   request: Request
   links: Links
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/modals/RequestMentoringModal.tsx')
+  const { t } = useAppTranslation()
   const { request, setPage, setCriteria } = useList(initialRequest)
   const {
     status,

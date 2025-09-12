@@ -13,9 +13,7 @@ export default function PublishSolutionButton({
   iterations: readonly Iteration[]
 }): JSX.Element {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const { t } = useAppTranslation(
-    'components/student/PublishSolutionButton.tsx'
-  )
+  const { t } = useAppTranslation()
 
   return (
     <>

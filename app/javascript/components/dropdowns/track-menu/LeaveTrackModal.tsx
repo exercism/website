@@ -28,7 +28,7 @@ export const LeaveTrackModal = ({
   endpoint: string
   track: Track
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/dropdowns/track-menu')
+  const { t } = useAppTranslation()
   const [tab, setTab] = useState<TabIndex>('leave')
 
   return (

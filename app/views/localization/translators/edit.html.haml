@@ -1,0 +1,17 @@
+- require_stylesheet "mentoring"
+
+#page-localization-index
+  = render ViewComponents::Localization::Header.new
+
+  .lg-container.flex.mt-24
+    .content.flex.flex-col.items-center{ class: "max-w-[820px]" }
+      = form_with url: localization_translator_path, method: :patch, class: "flex flex-col max-w-[600px] mb-40" do
+        %h2.text-h2.mb-8 Update your Langauges
+        %p.text-p-large.mb-12
+          Please choose languages you are fluent in. We'll show you any available work to do in those languages.
+
+        - 5.times do |idx|
+          .styled-selected.mb-8.text-18
+            = select_tag "locales[]", options_for_select(@locale_options, selected: current_user.translator_locales[idx].to_s), prompt: idx.zero? ? t('.form.select_language_prompt_first') : "", required: idx.zero?, class: 'px-12 py-8 w-fill border-1 border-borderColor5 rounded-5'
+
+        = button_tag t('.form.update_languages_button'), class: 'btn-l btn-primary mt-12'

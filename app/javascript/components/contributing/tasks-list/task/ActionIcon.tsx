@@ -10,7 +10,7 @@ export const ActionIcon = ({
 }: {
   action?: TaskAction
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/contributing/tasks-list/task')
+  const { t } = useAppTranslation()
   return (
     <div className="action-icon">
       {action ? (

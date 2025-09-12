@@ -47,7 +47,7 @@ const DropdownContent = ({
   status: QueryStatus
   error: unknown
 } & Pick<DropdownAttributes, 'listAttributes' | 'itemAttributes'>) => {
-  const { t } = useAppTranslation('components/dropdowns')
+  const { t } = useAppTranslation()
   if (data) {
     return (
       <ul {...listAttributes}>

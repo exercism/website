@@ -49,7 +49,7 @@ export const Guidance = ({
   language,
   feedback = false,
 }: Props): JSX.Element => {
-  const { t } = useAppTranslation('session-batch-2')
+  const { t } = useAppTranslation()
   const ref = useHighlighting<HTMLDivElement>()
   const [accordionState, setAccordionState] = useState([
     {

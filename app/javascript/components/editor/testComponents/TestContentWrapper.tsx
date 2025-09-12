@@ -50,7 +50,7 @@ export function TestContentWrapper({
 }
 
 function TabContextWrapper({ children }: { children: React.ReactNode }) {
-  const { t } = useAppTranslation('components/editor/testComponents')
+  const { t } = useAppTranslation()
 
   const { testTab, setTestTab, tabContext, testFiles, testTabGroupCss } =
     useContext(TestContentContext)

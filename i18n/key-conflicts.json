@@ -1,0 +1,14 @@
+{
+  "loading": [
+    {
+      "file": "previous",
+      "value": "Loading",
+      "namespace": "translation"
+    },
+    {
+      "file": "components-common-MarkdownEditor.tsx.ts",
+      "value": "Loading...",
+      "namespace": "translation"
+    }
+  ]
+}

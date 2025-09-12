@@ -9,9 +9,7 @@ export function NoIntroductionYet({
 }: {
   introduction: ApproachIntroduction
 }): JSX.Element {
-  const { t } = useAppTranslation(
-    'components/track/dig-deeper-components/no-content-yet'
-  )
+  const { t } = useAppTranslation()
   const { exercise } = useContext(DigDeeperDataContext)
   return (
     <section className="shadow-lgZ1 mb-16 rounded-8 px-20 lg:px-32 py-20 lg:py-24 bg-backgroundColorA">

@@ -203,6 +203,12 @@ const PerksModalButton = lazy(
 const PerksExternalModalButton = lazy(
   () => import('@/components/perks/PerksExternalModalButton')
 )
+const ExternalLanguageSelectorModal = lazy(
+  () =>
+    import(
+      '@/components/modals/external-language-selector-modal/ExternalLanguageSelectorModal'
+    )
+)
 
 const Trophies = lazy(() => import('@/components/track/Trophies'))
 
@@ -718,6 +724,15 @@ export const mappings = {
       <FirstTimeModal links={data.links} />
     </Suspense>
   ),
+  'external-language-selector-modal': (data: any): JSX.Element => {
+    return (
+      <Suspense fallback={RenderLoader()}>
+        <ExternalLanguageSelectorModal
+          supportedLocales={data.supported_locales}
+        />
+      </Suspense>
+    )
+  },
   'community-solutions-star-button': (data: any): JSX.Element => (
     <Suspense fallback={RenderLoader()}>
       <StarButton
@@ -767,6 +782,12 @@ export const mappings = {
         height={data.height}
         width={data.width}
       />
+    </Suspense>
+  ),
+
+  'common-translation-placeholder': (data: TranslationPlaceholderProps) => (
+    <Suspense fallback={RenderLoader()}>
+      <TranslationPlaceholder {...data} />
     </Suspense>
   ),
 
@@ -844,6 +865,9 @@ import { UserMenuDropdownSkeleton } from '@/components/common/skeleton/skeletons
 import { initializeFullscreenChangeListeners } from '@/utils/handle-accessibility-fullscreen'
 import { NOTIFICATIONS_CACHE_KEY } from '@/components/dropdowns/Notifications'
 import { REPUTATION_CACHE_KEY } from '@/components/dropdowns/Reputation'
+import TranslationPlaceholder, {
+  TranslationPlaceholderProps,
+} from '@/components/common/TranslationPlaceholder'
 
 // clear localStorage on logout..
 document.addEventListener('submit', function (event: SubmitEvent) {

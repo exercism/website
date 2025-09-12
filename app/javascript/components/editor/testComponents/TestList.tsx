@@ -3,7 +3,7 @@ import { Test } from '../types'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function TestsList({ tests }: { tests: Test[] }) {
-  const { t } = useAppTranslation('components/editor/testComponents')
+  const { t } = useAppTranslation()
 
   return (
     <div>

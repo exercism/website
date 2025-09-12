@@ -10,9 +10,7 @@ import { SectionHeader } from '../../common/SectionHeader'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export function ProcessingMethodSection() {
-  const { t } = useAppTranslation(
-    'components/settings/github-syncer/sections/ConnectedSection'
-  )
+  const { t } = useAppTranslation()
   const { links, isUserInsider, syncer } = React.useContext(GitHubSyncerContext)
   const [selectedProcessingMethod, setSelectedProcessingMethod] = useState<
     'commit' | 'pull_request'

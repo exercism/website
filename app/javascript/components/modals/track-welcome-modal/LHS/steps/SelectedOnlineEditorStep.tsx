@@ -7,9 +7,7 @@ export function SelectedOnlineEdiorStep({
   onContinueToOnlineEditor,
 }: Record<'onContinueToOnlineEditor', () => void>): JSX.Element {
   const { send } = useContext(TrackContext)
-  const { t } = useAppTranslation(
-    'components/modals/track-welcome-modal/LHS/steps'
-  )
+  const { t } = useAppTranslation()
 
   return (
     <>

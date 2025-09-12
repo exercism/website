@@ -8,9 +8,7 @@ export const NewMessageAlert = ({
 }: {
   onClick?: () => void
 }): JSX.Element | null => {
-  const { t } = useAppTranslation(
-    'components/mentoring/discussion/NewMessageAlert.tsx'
-  )
+  const { t } = useAppTranslation()
   const { hasNewMessages, highlightedPostRef } = useContext(PostsContext)
 
   if (!hasNewMessages) {

@@ -12,9 +12,7 @@ export default function HowImportant({
   feedbackType,
   setFeedbackType,
 }: HowImportantProps): JSX.Element {
-  const { t } = useAppTranslation(
-    'components/mentoring/representation/right-pane'
-  )
+  const { t } = useAppTranslation()
   return (
     <div className="mb-4">
       <h2 className="text-h6 mb-8">{t('howImportant.howImportantIsThis')}</h2>

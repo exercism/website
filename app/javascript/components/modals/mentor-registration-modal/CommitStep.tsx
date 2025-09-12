@@ -50,7 +50,7 @@ export const CommitStep = ({
     },
   })
 
-  const { t } = useAppTranslation('components/modals/mentor-registration-modal')
+  const { t } = useAppTranslation()
 
   const [numChecked, setNumChecked] = useState(0)
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -75,7 +75,6 @@ export const CommitStep = ({
           <Checkbox onChange={handleChange}>
             <span>
               <Trans
-                ns="components/modals/mentor-registration-modal"
                 i18nKey="commitStep.codeOfConduct"
                 components={[
                   <a
@@ -101,7 +100,6 @@ export const CommitStep = ({
           <Checkbox onChange={handleChange}>
             <span>
               <Trans
-                ns="components/modals/mentor-registration-modal"
                 i18nKey="commitStep.intellectualHumility"
                 components={[
                   <a

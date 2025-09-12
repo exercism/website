@@ -46,7 +46,7 @@ const CommentsCount = ({
 }
 
 const NewLabel = (): JSX.Element => {
-  const { t } = useAppTranslation('session-batch-2')
+  const { t } = useAppTranslation()
   return (
     <div className="new" aria-hidden={true}>
       {t('components.mentoring.session.iterationButton.new')}
@@ -63,7 +63,7 @@ export const IterationButton = ({
   selected: boolean
   onClick: () => void
 }): JSX.Element => {
-  const { t } = useAppTranslation('session-batch-2')
+  const { t } = useAppTranslation()
   const classNames = ['iteration']
   const label = [
     `${t('components.mentoring.session.iterationButton.goToIteration', {

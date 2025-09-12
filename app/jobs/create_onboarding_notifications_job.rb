@@ -10,7 +10,8 @@ class CreateOnboardingNotificationsJob < ApplicationJob
 
     memoize
     def has_notification?
-      text = I18n.backend.send(:translations)[:en][:notifications][notification_type][1]
+      # This must have a default of nil, else Rails adds a default string.
+      text = I18n.t("notifications.#{notification_type}.1", default: nil)
       text.present?
     end
   end
@@ -39,8 +40,6 @@ class CreateOnboardingNotificationsJob < ApplicationJob
   private_constant :EMAILS, :SAFETY_OFFSET_IN_DAYS, :OnboardingEmail
 
   def perform
-    I18n.backend.send(:init_translations)
-
     EMAILS.each do |email|
       users = User.where('created_at < ?', Time.current - email.day.days).
         where('created_at > ?', Time.current - (email.day + SAFETY_OFFSET_IN_DAYS).days)

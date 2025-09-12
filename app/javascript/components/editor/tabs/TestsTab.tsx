@@ -5,7 +5,7 @@ import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const TestsTab = () => {
-  const { t } = useAppTranslation('components/editor/tabs')
+  const { t } = useAppTranslation()
   return (
     <Tab id="tests" context={TabsContext}>
       <GraphicalIcon icon="tests" />

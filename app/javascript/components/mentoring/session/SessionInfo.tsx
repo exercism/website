@@ -21,9 +21,7 @@ export const SessionInfo = ({
   exercise: Exercise
   links: Links
 }): JSX.Element => {
-  const { t } = useAppTranslation(
-    'components/mentoring/session/SessionInfo.tsx'
-  )
+  const { t } = useAppTranslation()
 
   return (
     <>
@@ -34,7 +32,6 @@ export const SessionInfo = ({
           <div className="handle">{student.handle}</div>
           <div className="exercise">
             <Trans
-              ns="components/mentoring/session/SessionInfo.tsx"
               i18nKey="exerciseInTrack"
               values={{
                 exerciseTitle: exercise.title,

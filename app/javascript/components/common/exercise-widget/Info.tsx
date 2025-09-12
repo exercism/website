@@ -26,7 +26,7 @@ export const Info = ({
   renderBlurb: boolean
   isSkinny: boolean
 }): JSX.Element => {
-  const { t } = useAppTranslation('components/common/exercise-widget')
+  const { t } = useAppTranslation()
   return (
     <div className="--info">
       <div className="--title">
@@ -34,7 +34,6 @@ export const Info = ({
         {track && !isSkinny ? (
           <div className="--track">
             <Trans
-              ns="components/common/exercise-widget"
               i18nKey="info.titleInTrack"
               values={{ trackTitle: track.title }}
               components={[

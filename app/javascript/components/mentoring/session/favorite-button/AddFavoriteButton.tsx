@@ -29,9 +29,7 @@ const Component = ({
   onSuccess,
   setIsRemoveButtonHoverable,
 }: ComponentProps): JSX.Element | null => {
-  const { t } = useAppTranslation(
-    'components/mentoring/session/favorite-button'
-  )
+  const { t } = useAppTranslation()
   const {
     mutate: mutation,
     status,

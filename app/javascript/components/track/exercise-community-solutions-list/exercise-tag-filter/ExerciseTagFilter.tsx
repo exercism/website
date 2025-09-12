@@ -16,9 +16,7 @@ export function ExerciseTagFilter({
   setQuery: (query: any) => void
   request: Request
 }): JSX.Element | null {
-  const { t } = useAppTranslation(
-    'components/track/exercise-community-solutions-list'
-  )
+  const { t } = useAppTranslation()
   if (Object.keys(tags).length === 0) return null
 
   const { buttonAttributes, panelAttributes, setOpen, open } = usePanel({

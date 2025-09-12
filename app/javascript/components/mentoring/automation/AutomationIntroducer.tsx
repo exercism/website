@@ -7,7 +7,7 @@ export function AutomationIntroducer({
 }: {
   hideEndpoint: string
 }): JSX.Element {
-  const { t } = useAppTranslation('automation-batch')
+  const { t } = useAppTranslation()
 
   return (
     <Introducer

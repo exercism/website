@@ -232,6 +232,9 @@ import {
 } from '@/components/github-syncer-widget/GithubSyncerWidget'
 import { BootcampFreeCouponFormProps } from '@/components/settings/BootcampFreeCouponForm'
 import { FavoritesListProps } from '@/components/favorites-list'
+import LocalizationForm, {
+  LocalizationFormProps,
+} from '@/components/settings/LocalizationForm'
 
 // Add all react components here.
 // Each should map 1-1 to a component in app/helpers/components
@@ -478,6 +481,11 @@ initReact({
       />
     </Suspense>
   ),
+  'settings-localization-form': (data: any) => (
+    <Suspense fallback={RenderLoader()}>
+      <LocalizationForm {...camelizeKeysAs<LocalizationFormProps>(data)} />
+    </Suspense>
+  ),
   'settings-delete-profile-form': (data: any) => (
     <Suspense fallback={RenderLoader()}>
       <DeleteProfileForm links={data.links} />
@@ -711,4 +719,49 @@ initReact({
       />
     </Suspense>
   ),
+
+  'localization-originals-list': (data: any): JSX.Element => {
+    const OriginalsList = lazy(
+      () => import('@/components/localization/originals/list')
+    )
+    return (
+      <Suspense fallback={RenderLoader()}>
+        <OriginalsList {...camelizeKeysAs<OriginalsListProps>(data)} />
+      </Suspense>
+    )
+  },
+  'localization-originals-show': (data: any): JSX.Element => {
+    const OriginalsShow = lazy(
+      () => import('@/components/localization/originals/show')
+    )
+    return (
+      <Suspense fallback={RenderLoader()}>
+        <OriginalsShow {...camelizeKeysAs<OriginalsShowProps>(data)} />
+      </Suspense>
+    )
+  },
+  'localization-glossary-entries-list': (data: any): JSX.Element => {
+    const GlossaryEntriesList = lazy(
+      () => import('@/components/localization/glossary-entries/list')
+    )
+    return (
+      <Suspense fallback={RenderLoader()}>
+        <GlossaryEntriesList
+          {...camelizeKeysAs<GlossaryEntriesListProps>(data)}
+        />
+      </Suspense>
+    )
+  },
+  'localization-glossary-entries-show': (data: any): JSX.Element => {
+    const GlossaryEntriesShow = lazy(
+      () => import('@/components/localization/glossary-entries/show')
+    )
+    return (
+      <Suspense fallback={RenderLoader()}>
+        <GlossaryEntriesShow
+          {...camelizeKeysAs<GlossaryEntriesShowProps>(data)}
+        />
+      </Suspense>
+    )
+  },
 })

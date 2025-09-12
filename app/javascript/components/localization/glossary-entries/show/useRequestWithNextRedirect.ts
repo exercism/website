@@ -16,7 +16,6 @@ export function useRequestWithNextRedirect() {
   const redirectToNext = useCallback(async () => {
     try {
       const nextEntryEndpoint = `${links.nextEntry}?status=${glossaryEntry.status}&filter_locale=${glossaryEntry.locale}&exclude_uuids[]=${glossaryEntry.uuid}`
-      console.log('Fetching next entry from:', nextEntryEndpoint)
 
       const { fetch: fetchNext } = sendRequest({
         method: 'GET',
@@ -25,10 +24,11 @@ export function useRequestWithNextRedirect() {
       })
 
       const nextEntryResponse = await fetchNext
-      console.log('Next entry response:', nextEntryResponse)
 
       if (!nextEntryResponse || !nextEntryResponse.uuid) {
-        throw new Error('Invalid next entry response: missing uuid')
+        // If there's no next entry, redirect to the list page
+        redirectTo(links.glossaryEntriesListPage)
+        return
       }
 
       const redirectLink = `${links.localizationGlossaryEntriesPath}/${nextEntryResponse.uuid}`
@@ -36,7 +36,6 @@ export function useRequestWithNextRedirect() {
       redirectTo(redirectLink)
     } catch (error) {
       console.error('Error in redirectToNext:', error)
-
       if (
         error &&
         typeof error === 'object' &&

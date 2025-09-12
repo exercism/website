@@ -98,15 +98,20 @@ export function Unchecked({ translation }: { translation: GlossaryEntry }) {
         </div>
 
         <div className="flex items-center gap-8 mb-12">
-          <div className="text-16 w-[105px]">Translation:</div>
+          <label htmlFor="translation" className="text-16 w-[105px]">
+            Translation:
+          </label>
           <div className="flex-grow">
             {editMode ? (
               <textarea
                 ref={textAreaRef}
+                id="translation"
                 className="w-full p-16 block"
                 rows={1}
                 value={textEditorValue}
                 onChange={(e) => setTextEditorValue(e.target.value)}
+                name="Translation"
+                aria-label="Translation"
               />
             ) : (
               <div className="locale-value">{copy}</div>

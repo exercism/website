@@ -66,7 +66,7 @@ export function ProposalCard({ proposal, isMultiple }: ProposalCardProps) {
 
   return (
     <ProposalCardContext.Provider value={{ editMode, setEditMode }}>
-      <div className={cardClasses}>
+      <div className={cardClasses} data-proposal-id={proposal.uuid}>
         {!isMultiple && <ProposalDescription locale={locale} />}
 
         {editMode ? (
@@ -76,6 +76,7 @@ export function ProposalCard({ proposal, isMultiple }: ProposalCardProps) {
             rows={1}
             value={editorValue}
             onChange={(e) => setEditorValue(e.target.value)}
+            aria-label="Translation"
           />
         ) : (
           <div className="locale-value mb-12 !bg-white">{proposalValue}</div>

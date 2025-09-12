@@ -1,4 +1,5 @@
 import React, { useCallback, useContext, useState, useEffect } from 'react'
+import toast from 'react-hot-toast'
 import { GlossaryEntriesShowContext } from '..'
 import { useProposedContext } from './ProposedContext'
 import { useRequestWithNextRedirect } from '../useRequestWithNextRedirect'
@@ -50,8 +51,10 @@ export function ProposalActions({
             .replace('ID', proposalUuid),
           body: null,
         })
+        toast.success('Proposal approved successfully!')
       } catch (err) {
         console.error(err)
+        toast.error('Failed to approve proposal')
       }
     },
     [sendRequestWithRedirect, links]
@@ -67,13 +70,19 @@ export function ProposalActions({
       proposalUuid: string
       proposalValue: string
     }) => {
-      await sendRequestWithRedirect({
-        method: 'PATCH',
-        endpoint: links.updateProposal
-          .replace('GLOSSARY_ENTRY_ID', translationUuid)
-          .replace('ID', proposalUuid),
-        body: JSON.stringify({ value: proposalValue }),
-      })
+      try {
+        await sendRequestWithRedirect({
+          method: 'PATCH',
+          endpoint: links.updateProposal
+            .replace('GLOSSARY_ENTRY_ID', translationUuid)
+            .replace('ID', proposalUuid),
+          body: JSON.stringify({ value: proposalValue }),
+        })
+        toast.success('Proposal updated successfully!')
+      } catch (err) {
+        console.error(err)
+        toast.error('Failed to update proposal')
+      }
     },
     [sendRequestWithRedirect, links]
   )
@@ -94,8 +103,10 @@ export function ProposalActions({
             .replace('ID', proposalUuid),
           body: null,
         })
+        toast.success('Proposal rejected successfully!')
       } catch (err) {
         console.error(err)
+        toast.error('Failed to reject proposal')
       }
     },
     [sendRequestWithRedirect, links]

@@ -31,11 +31,6 @@ export function Table() {
     <div className="originals-table">
       <div className="flex items-center justify-between mb-16">
         <Tabs />
-        {/* <ProposeTermButton
-          onClick={() => {
-            setIsOpen(true)
-          }}
-        /> */}
       </div>
 
       <div className="container">
@@ -60,12 +55,6 @@ export function Table() {
         </header>
         <GlossaryEntriesTableList />
       </div>
-      {/* <ProposeTermModal
-        isOpen={isOpen}
-        onClose={() => {
-          setIsOpen(false)
-        }}
-      /> */}
       <Toaster />
     </div>
   )

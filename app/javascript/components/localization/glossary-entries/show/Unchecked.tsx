@@ -1,5 +1,6 @@
 /// <reference path="../types.d.ts" />
 import React, { useCallback, useContext, useState, useEffect } from 'react'
+import toast from 'react-hot-toast'
 import { nameForLocale } from '@/utils/name-for-locale'
 import { flagForLocale } from '@/utils/flag-for-locale'
 import { GlossaryEntriesShowContext } from '.'
@@ -35,15 +36,35 @@ export function Unchecked({ translation }: { translation: GlossaryEntry }) {
   }, [textEditorValue, copy])
 
   const createProposal = useCallback(async () => {
-    await sendRequestWithRedirect({
-      method: 'POST',
-      endpoint: links.createProposal.replace(
-        'GLOSSARY_ENTRY_ID',
-        translation.uuid
-      ),
-      body: JSON.stringify({ translation: copy }),
-    })
-  }, [sendRequestWithRedirect, links.createProposal, translation.uuid, copy])
+    try {
+      await sendRequestWithRedirect({
+        method: 'POST',
+        endpoint: links.createProposal.replace(
+          'GLOSSARY_ENTRY_ID',
+          translation.uuid
+        ),
+        body: JSON.stringify({ translation: copy }),
+      })
+      if (hasBeenEdited) {
+        toast.success('Proposal submitted successfully!')
+      } else {
+        toast.success('Marked as checked successfully!')
+      }
+    } catch (err) {
+      console.error(err)
+      if (hasBeenEdited) {
+        toast.error('Failed to submit proposal')
+      } else {
+        toast.error('Failed to mark as checked')
+      }
+    }
+  }, [
+    sendRequestWithRedirect,
+    links.createProposal,
+    translation.uuid,
+    copy,
+    hasBeenEdited,
+  ])
 
   const cancelEditing = useCallback(() => {
     setTextEditorValue(copy)
@@ -58,8 +79,10 @@ export function Unchecked({ translation }: { translation: GlossaryEntry }) {
   const handleSkip = useCallback(async () => {
     try {
       await redirectToNext()
+      toast.success('Entry skipped!')
     } catch (err) {
       console.error('Error skipping to next entry:', err)
+      toast.error('Failed to skip entry')
     }
   }, [redirectToNext])
 

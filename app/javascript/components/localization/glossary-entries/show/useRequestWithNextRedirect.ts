@@ -65,14 +65,9 @@ export function useRequestWithNextRedirect() {
 
   const sendRequestWithRedirect = useCallback(
     async (config: RequestConfig) => {
-      try {
-        const { fetch } = sendRequest(config)
-        await fetch
-        await redirectToNext()
-      } catch (err) {
-        console.error(err)
-        throw err
-      }
+      const { fetch } = sendRequest(config)
+      await fetch
+      await redirectToNext()
     },
     [redirectToNext]
   )

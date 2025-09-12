@@ -40,6 +40,7 @@ body.namespace-localization.controller-glossary_entries.action-show {
     .body-container {
         @apply flex flex-1;
         @apply bg-backgroundColorA;
+        @apply h-screen;
     }
 
     .lhs {
@@ -68,7 +69,7 @@ body.namespace-localization.controller-glossary_entries.action-show {
     }
 
     .translations {
-        @apply mb-16;
+        @apply mb-16 mr-16;
         .locale {
             &.unchecked {
                 --locale-background-color: #ffeeee;

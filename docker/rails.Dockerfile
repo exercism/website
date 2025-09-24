@@ -22,25 +22,8 @@ RUN apt-get update && \
 
 WORKDIR /opt/exercism/website
 
-ENV BUNDLE_PATH=/usr/local/bundle
-ENV GEM_HOME=$BUNDLE_PATH
-ENV GEM_PATH=$BUNDLE_PATH
-ENV PATH=$BUNDLE_PATH/bin:$PATH
-RUN gem install bundler -v "${BUNDLER_VERSION}"
-
 RUN bundle config set frozen 'true' && \
-    bundle config set without 'development test' && \
-    bundle config set path "${BUNDLE_PATH}"
-
-RUN gem install propshaft -v 0.4.0 --no-document --install-dir=$BUNDLE_PATH
-RUN gem install nokogiri -v 1.18.8 --no-document --install-dir=$BUNDLE_PATH
-RUN gem install anycable -v 1.6.0 --no-document --install-dir=$BUNDLE_PATH
-RUN gem install oj -v 3.14.3 --no-document --install-dir=$BUNDLE_PATH
-RUN gem install rugged -v 1.9.0 --no-document --install-dir=$BUNDLE_PATH
-RUN gem install mysql2 -v 0.5.6 --no-document --install-dir=$BUNDLE_PATH
-RUN gem install commonmarker -v 0.23.8 --no-document --install-dir=$BUNDLE_PATH
-RUN gem install grpc -v 1.73.0 --no-document --install-dir=$BUNDLE_PATH
-RUN gem install devise -v 4.9.4 --no-document --install-dir=$BUNDLE_PATH
+    bundle config set without 'development test'
 
 # Only Gemfile and Gemfile.lock changes require a new bundle install
 COPY Gemfile Gemfile.lock ./

@@ -37,8 +37,8 @@ export function FoundAutomatedFeedback({
     latestIteration?.status === 'celebratory_automated_feedback'
   return (
     <>
-      <div className="flex gap-40 items-start">
-        <div className="flex-col items-left">
+      <div className="flex gap-40 items-start w-full max-h-[550px] overflow-y-auto overflow-x-hidden">
+        <div className="flex-col items-left w-[66.67%]">
           <div className="text-h4 mb-16 flex c-iteration-summary">
             {t(HEADLINE[latestIteration!.status] as string)}
           </div>

@@ -16,10 +16,8 @@
         %ul
           %li= link_to t('.site_links.editions.exercism_link'), root_url
           -# UPDATE LINKS - footer
-          %li= link_to t('.site_links.editions.learn_to_code_link'), Courses::CodingFundamentals.url
-          %li= link_to t('.site_links.editions.coding_fundamentals_link'), Courses::CodingFundamentals.url
-          %li= link_to t('.site_links.editions.front_end_course_link'), Courses::FrontEndFundamentals.url
-          %li= link_to t('.site_links.editions.bootcamp_link'), Exercism::Routes.bootcamp_url
+          %li= link_to t('.site_links.editions.learn_to_code_link'), jiki_url
+          %li= link_to t('.site_links.editions.coding_fundamentals_link'), jiki_url
           %li= link_to t('.site_links.editions.teams_link'), doc_path(:using, 'editions/teams')
           %li= link_to t('.site_links.editions.research_link'), doc_path(:using, 'editions/research')
 

@@ -4,16 +4,17 @@ class CoursesController < ApplicationController
 
   before_action :use_course!, only: %i[show start_enrolling enroll pay]
   before_action :use_enrollment!, except: %i[enrolled stripe_session_status]
-  before_action :use_location!, only: %i[show start_enrolling enroll pay]
+  # before_action :use_location!, only: %i[show start_enrolling enroll pay]
   before_action :setup_pricing!, only: %i[show start_enrolling enroll pay]
   before_action :use_quotes!, only: [:show]
   # before_action :cache_public_action!, only: %i[show]
+  before_action :redirect_non_members_to_jiki!, only: %i[index show start_enrolling enroll pay]
 
   def course_redirect
     if user_signed_in? && (current_user.bootcamp_attendee? || current_user.bootcamp_mentor?)
       redirect_to bootcamp_dashboard_url
     else
-      redirect_to course_url(params[:course] || Courses::CodingFundamentals.instance.slug)
+      redirect_to jiki_url
     end
   end
 
@@ -117,6 +118,12 @@ class CoursesController < ApplicationController
   end
 
   private
+  def redirect_non_members_to_jiki!
+    return if user_signed_in? && (current_user.bootcamp_attendee? || current_user.bootcamp_mentor?)
+
+    redirect_to jiki_url
+  end
+
   def use_course!
     @bundle = Courses::BundleCodingFrontEnd.instance
     @course = Courses::Course.course_for_slug(params[:id])
@@ -142,13 +149,13 @@ class CoursesController < ApplicationController
     session[:enrollment_id] = @enrollment.id if @enrollment
   end
 
-  def use_location!
-    @country_code_2 = @enrollment&.country_code_2.presence ||
-                      session[:location_country_code].presence ||
-                      retrieve_location_from_vpnapi!
-  rescue StandardError
-    # Rate limit probably
-  end
+  # def use_location!
+  #   @country_code_2 = @enrollment&.country_code_2.presence ||
+  #                     session[:location_country_code].presence ||
+  #                     retrieve_location_from_vpnapi!
+  # rescue StandardError
+  #   # Rate limit probably
+  # end
 
   def retrieve_location_from_vpnapi!
     return session[:location_country_code] = "MX" unless Rails.env.production?

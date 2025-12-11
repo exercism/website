@@ -57,7 +57,7 @@ export default function BootcampFreeCouponForm({
           ns="components/settings/BootcampFreeCouponForm.tsx"
           components={[
             <a
-              href="https://exercism.org/bootcamp?utm_source=exercism&utm_medium=free_settings"
+              href="https://exercism.org/jiki?utm_source=exercism&utm_medium=free_settings"
               className="font-bold"
             />,
           ]}

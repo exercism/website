@@ -1,0 +1,12 @@
+en:
+  jiki:
+    testimonials:
+      heading: What do our students think?
+      subheading_html: These are some extracts from what our beta users said. %{link_to_read_more}
+      subheading_link: Read the full versions here!
+      primary_quote_text:
+        Seeing how much effort, thought, and even love is put into
+        this course, it’s such a pleasure to be a student here. Every
+        explanation, each exercise turn this course into a masterpiece. I really
+        enjoy it.
+      primary_quote_description: Coding Newbie

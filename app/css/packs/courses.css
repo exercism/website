@@ -28,6 +28,7 @@ body {
     display: block;
 
     @apply bg-[#fff];
+    color: #26282d;
     @apply font-body;
     font-size: inherit;
     line-height: 1.5;

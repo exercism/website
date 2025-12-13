@@ -443,7 +443,7 @@
 
     - if user_signed_in?
       = form_with url: jiki_signup_path, method: :post, class: 'max-w-[650px] mx-auto mt-24 mb-24' do |f|
-        #signup-confirmation{ class: @existing_signup ? "" : "hidden" }
+        #signup-confirmation.text-textColor1{ class: @existing_signup ? "" : "hidden" }
           .mt-24.mb-24.p-24.bg-veryLightGreen.border-2.border-darkSuccessGreen.rounded-8.text-darkSuccessGreen
             %h4.text-center.mb-12.text-22.font-semibold ✅  You're on the waiting list!
             %p.text-center We will email you nearer the time with details. You can use the form below to update your preferences if needed.

@@ -19,17 +19,19 @@ class CoursesController < ApplicationController
   end
 
   def show
-    return unless stale?(etag: @course)
+    redirect_to jiki_url
 
-    render action: @course.template_slug
-
-    difference_in_seconds = Time.utc(2025, 4, 26, 12, 0o0, 0o0) - Time.current
-
-    # Convert to days, hours, minutes, and seconds
-    @days = (difference_in_seconds / (24 * 60 * 60)).to_i
-    @hours = (difference_in_seconds % (24 * 60 * 60) / (60 * 60)).to_i
-    @minutes = (difference_in_seconds % (60 * 60) / 60).to_i
-    @seconds = (difference_in_seconds % 60).to_i
+    # return unless stale?(etag: @course)
+    #
+    # render action: @course.template_slug
+    #
+    # difference_in_seconds = Time.utc(2025, 4, 26, 12, 0o0, 0o0) - Time.current
+    #
+    # # Convert to days, hours, minutes, and seconds
+    # @days = (difference_in_seconds / (24 * 60 * 60)).to_i
+    # @hours = (difference_in_seconds % (24 * 60 * 60) / (60 * 60)).to_i
+    # @minutes = (difference_in_seconds % (60 * 60) / 60).to_i
+    # @seconds = (difference_in_seconds % 60).to_i
   end
 
   def testimonials

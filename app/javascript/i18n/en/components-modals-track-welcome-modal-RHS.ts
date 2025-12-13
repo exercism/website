@@ -11,6 +11,11 @@ export default {
     "A <strong>complete Learn to Code syllabus</strong> covering coding basics, functions, object oriented programming, and the coder's mindset.",
   'whoIsThisTrackFor.courseOffers.certificate':
     'A formal <strong>certificate</strong> on completion.',
+
+  'whoIsThisTrackFor.youllBuildGames':
+    "In a few weeks, you'll go from zero knowledge to solving puzzles and making games like these...",
+  'whoIsThisTrackFor.testimonial':
+    "I've been blown away with the quality of this course. I've come so far in the past few weeks!",
   'videoRHS.watchThisShortVideo':
     '☝️ Watch this short video to learn more about Learning and Practice Modes, and how to choose the right setup for you.',
 }

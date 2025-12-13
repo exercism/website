@@ -14,56 +14,31 @@ export function BootcampAdvertismentView() {
 
   return (
     <>
+      <div className="curtains" />
       <div className="lhs">
-        <header>
-          <h1 className="!font-medium">
+        <header className="!mb-24">
+          <div className="mt-40 mb-20 text-[60px] text-center">🎉</div>
+          <h1 className="!text-[44px] text-center !mb-4 font-spartan !font-bold">
             <Trans
               ns="components/modals/seniority-survey-modal"
               i18nKey="bootcampAd.heading"
-              components={{ strong: <strong className="font-semibold" /> }}
+              components={{
+                strong: (
+                  <strong className="font-semibold text-bootcamp-purple" />
+                ),
+              }}
             />
           </h1>
 
-          <p className="mb-8">
+          <div className="!font-semibold text-18 text-center mb-20">
             <Trans
               ns="components/modals/seniority-survey-modal"
-              i18nKey="bootcampAd.description"
-              components={{
-                strong: <strong className="!font-semibold text-black" />,
-              }}
-            />
-          </p>
-
-          <p className="mb-6">{t('bootcampAd.timeline')}</p>
-
-          <div className="grid grid-cols-4 gap-10 mb-12">
-            <Icon
-              category="bootcamp"
-              alt="Image of a space invaders game"
-              icon="space-invaders.gif"
-              className="w-full"
-            />
-            <Icon
-              category="bootcamp"
-              alt="Image of a tic-tac-toe game"
-              icon="tic-tac-toe.gif"
-              className="w-full"
-            />
-            <Icon
-              category="bootcamp"
-              alt="Image of a breakout game"
-              icon="breakout.gif"
-              className="w-full"
-            />
-            <Icon
-              category="bootcamp"
-              alt="Image of a maze game"
-              icon="maze.gif"
-              className="w-full"
+              i18nKey="bootcampAd.subheading"
+              components={{ strong: <strong className="font-semibold" /> }}
             />
           </div>
 
-          <p className="mb-8">
+          <p className="mb-20 !leading-150 !text-17 text-center text-balance">
             <Trans
               ns="components/modals/seniority-survey-modal"
               i18nKey="bootcampAd.punchline"
@@ -72,9 +47,38 @@ export function BootcampAdvertismentView() {
               }}
             />
           </p>
+
+          <div className="bg-bootcamp-light-purple px-12 py-12 text-center rounded-8">
+            <div className="grid grid-cols-4 gap-10">
+              <Icon
+                category="bootcamp"
+                alt="Image of a space invaders game"
+                icon="space-invaders.gif"
+                className="w-full"
+              />
+              <Icon
+                category="bootcamp"
+                alt="Image of a tic-tac-toe game"
+                icon="tic-tac-toe.gif"
+                className="w-full"
+              />
+              <Icon
+                category="bootcamp"
+                alt="Image of a breakout game"
+                icon="breakout.gif"
+                className="w-full"
+              />
+              <Icon
+                category="bootcamp"
+                alt="Image of a maze game"
+                icon="maze.gif"
+                className="w-full"
+              />
+            </div>
+          </div>
         </header>
 
-        <div className="flex gap-12 mt-auto flex-grow">
+        <div className="flex gap-12 mt-auto flex-grow mb-20">
           <a
             href={links.codingFundamentalsCourse}
             className="btn-primary btn-l cursor-pointer flex-grow"
@@ -91,6 +95,16 @@ export function BootcampAdvertismentView() {
           </FormButton>
         </div>
 
+        <p className="!leading-150 text-center !text-15 text-textColor5">
+          <Trans
+            ns="components/modals/seniority-survey-modal"
+            i18nKey="bootcampAd.offer"
+            components={{
+              strong: <strong className="text-black font-semibold" />,
+            }}
+          />
+        </p>
+
         <ErrorBoundary resetKeys={[patchCloseModal.status]}>
           <ErrorMessage
             error={patchCloseModal.error}
@@ -99,7 +113,7 @@ export function BootcampAdvertismentView() {
         </ErrorBoundary>
       </div>
 
-      <div className="rhs">
+      {/*<div className="rhs">
         <div className="font-semibold text-18 text-center mb-16">
           {t('bootcampAd.videoIntro')}
         </div>
@@ -195,7 +209,7 @@ export function BootcampAdvertismentView() {
             </div>
           </div>
         </div>
-      </div>
+      </div>*/}
     </>
   )
 }

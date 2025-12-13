@@ -4,7 +4,9 @@
     .content.mr-auto
       %strong Exercism
       %span.hidden.md:inline-block · Learn to Code
-    - unless user_signed_in?
+    - if user_signed_in?
+      = link_to "Back to Exercism →", root_path, class: "button"
+    - else
       = link_to "Log In", new_user_session_path, class: "button"
       = link_to "Sign Up", new_user_registration_path, class: "button !ml-2"
 
@@ -13,7 +15,7 @@
 .hero
   .md-container
     .text-center
-      %h1.rock-solid{class: "!text-[65px]"}
+      %h1.rock-solid{ class: "!text-[65px]" }
         Master
         %strong Coding Fundamentals
         with Jiki
@@ -23,7 +25,7 @@
         way to
         %strong.font-semibold Learn to Code.
         %span.inline-block
-          %strong Launching in 
+          %strong Launching in
           January 2026.
 
     .bubbles
@@ -337,7 +339,7 @@
           .level
             = image_tag "bootcamp/flower.gif"
             %h4
-              Your first 
+              Your first
               %strong major project
               is to
               %strong animate flipbook-style
@@ -392,7 +394,7 @@
             %h4
               By
               %strong Level 20
-              you're able to build 
+              you're able to build
               %strong complex programs
               with intertwining ideas.
 
@@ -401,7 +403,7 @@
             %h4
               And by the
               %strong end of the course
-              you're building games like 
+              you're building games like
               %strong Breakout!
 
 
@@ -437,14 +439,14 @@
     %p.intro.text-balance
       We're be opening up the course starting in January 2026.
       The first 1,000 signups get
-      %strong.font-semibold free Premium access 
+      %strong.font-semibold free Premium access
       for the year!
 
-    %hr.mx-auto.mb-20{class: "border-[#ddd] max-w-[500px]"}
+    %hr.mx-auto.mb-20{ class: "border-[#ddd] max-w-[500px]" }
 
     - if user_signed_in?
       = form_with url: jiki_signup_path, method: :post, class: 'max-w-[650px] mx-auto mt-24 mb-24' do |f|
-        #signup-confirmation{class: @existing_signup ? "" : "hidden"}
+        #signup-confirmation{ class: @existing_signup ? "" : "hidden" }
           .mt-24.mb-24.p-24.bg-veryLightGreen.border-2.border-darkSuccessGreen.rounded-8.text-darkSuccessGreen
             %h4.text-center.mb-12.text-22.font-semibold ✅  You're on the waiting list!
             %p.text-center We will email you nearer the time with details. You can use the form below to update your preferences if needed.
@@ -469,7 +471,6 @@
         Please sign into Exercism to continue.
       = link_to "Sign In to Exercism", new_user_session_path(return_to: jiki_path), class: "btn mx-auto w-fit block"
 
-
 = image_tag "bootcamp/divider.png", class: 'w-[100px] mx-auto my-64'
 
 %section#exercism
@@ -479,12 +480,12 @@
       Exercism is a
       %strong.font-medium longstanding nonprofit
       that's helped over
-      %strong.font-medium.whitespace-nowrap 2 million people
+      %strong.font-medium.whitespace-nowrap 2.5 million people
       level-up their coding skills.
     %ul
       %li
         .emoji 🧑‍💻
-        .count 2,100,000
+        .count 2,500,000
         .title Exercism students
         %p We've grown entirely by word of mouth. Good friends tell their friends about Exercism!
 
@@ -519,7 +520,7 @@
     .faq
       %h4 How much will this cost? What's the price?
       %p
-        All of the videos and exercises on Jiki will be free. There will be Premium and Max options that adds features such as AI-help, an ad-free experience, exclusive live-streams and a extra projects. 
+        All of the videos and exercises on Jiki will be free. There will be Premium and Max options that adds features such as AI-help, an ad-free experience, exclusive live-streams and a extra projects.
 
     .faq
       %h4 How much time will I need to spend each week on the course?

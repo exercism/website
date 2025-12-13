@@ -135,7 +135,7 @@ module Pages
           click_on "Practice Mode"
           assert_selector '[data-capy-element="bootcamp-recommendation-header"]'
           find(:css, '[data-capy-element="go-to-bootcamp-button"]').click
-          assert_current_path Exercism::Routes.course_path('coding-fundamentals')
+          assert_current_path Exercism::Routes.jiki_path
         end
       end
 

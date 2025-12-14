@@ -1,199 +1,36 @@
-class CoursesController < ApplicationController
+class JikiController < ApplicationController
   layout 'courses'
   skip_before_action :authenticate_user!
+  before_action :use_quotes!
+  before_action :use_testimonials!
 
-  before_action :use_course!, only: %i[show start_enrolling enroll pay]
-  before_action :use_enrollment!, except: %i[enrolled stripe_session_status]
-  # before_action :use_location!, only: %i[show start_enrolling enroll pay]
-  before_action :setup_pricing!, only: %i[show start_enrolling enroll pay]
-  before_action :use_quotes!, only: [:show]
-  # before_action :cache_public_action!, only: %i[show]
-  before_action :redirect_non_members_to_jiki!, only: %i[index show start_enrolling enroll pay]
-
-  def course_redirect
-    if user_signed_in? && (current_user.bootcamp_attendee? || current_user.bootcamp_mentor?)
-      redirect_to bootcamp_dashboard_url
-    else
-      redirect_to jiki_url
+  def index
+    @locale_options = Localization::TranslatorsController::LOCALE_OPTIONS.map do |flag, word, locale|
+      ["#{flag} #{word}", locale]
     end
+    @programming_language_options = JikiSignup::PROGRAMMING_LANGUAGES
+
+    return unless user_signed_in?
+
+    @existing_signup = JikiSignup.find_by(user: current_user)
   end
 
-  def show
-    redirect_to jiki_url
-
-    # return unless stale?(etag: @course)
-    #
-    # render action: @course.template_slug
-    #
-    # difference_in_seconds = Time.utc(2025, 4, 26, 12, 0o0, 0o0) - Time.current
-    #
-    # # Convert to days, hours, minutes, and seconds
-    # @days = (difference_in_seconds / (24 * 60 * 60)).to_i
-    # @hours = (difference_in_seconds % (24 * 60 * 60) / (60 * 60)).to_i
-    # @minutes = (difference_in_seconds % (60 * 60) / 60).to_i
-    # @seconds = (difference_in_seconds % 60).to_i
-  end
-
-  def testimonials
-    use_testimonials!
-  end
-
-  def start_enrolling
-    @name = @enrollment&.name.presence || current_user&.name
-    @email = @enrollment&.email.presence || current_user&.email
-
-    @course_or_bundle = params[:course_or_bundle].presence
-    return unless !@course_or_bundle && @enrollment&.course_slug
-
-    @course_or_bundle = @enrollment.course_slug == @course.slug ? "course" : "bundle"
-  end
-
-  def enroll
-    course_slug = params[:course_or_bundle] == "course" ? @course.slug : @bundle.slug
-    if @enrollment
-      @enrollment.update!(
-        name: params[:name],
-        email: params[:email],
-        course_slug:,
-        country_code_2: @country_code_2
-      )
-    else
-      @enrollment = CourseEnrollment.create!(
-        user: current_user,
-        name: params[:name],
-        email: params[:email],
-        course_slug:,
-        country_code_2: @country_code_2
-      )
-      session[:enrollment_id] = @enrollment.id
-    end
-
-    redirect_to action: :pay
-  end
-
-  def pay
-    redirect_to action: :start_enrolling unless @enrollment&.course_slug.present?
-  end
-
-  def stripe_create_checkout_session
-    if Rails.env.production?
-      stripe_price = @enrollment.stripe_price_id
-    else
-      stripe_price = "price_1QCjUFEoOT0Jqx0UJOkhigru"
-    end
-
-    # rubocop:disable Layout/LineLength
-    session = Stripe::Checkout::Session.create({
-      ui_mode: 'embedded',
-      customer_email: @enrollment.email,
-      customer_creation: "always",
-      line_items: [{
-        price: stripe_price,
-        quantity: 1
-      }],
-      mode: 'payment',
-      allow_promotion_codes: true,
-      return_url: "#{courses_enrolled_url}?enrollment_uuid=#{@enrollment.uuid}&failure_path=#{course_pay_path(@enrollment.course_slug)}&session_id={CHECKOUT_SESSION_ID}"
-    })
-    # rubocop:enable Layout/LineLength
-
-    render json: { clientSecret: session.client_secret }
-  end
-
-  def stripe_session_status
-    session = Stripe::Checkout::Session.retrieve(params[:session_id])
-    @enrollment = CourseEnrollment.find_by!(uuid: params[:enrollment_uuid])
-
-    if session.status == 'complete'
-      @enrollment.update!(checkout_session_id: session.id)
-      @enrollment.paid!
-    end
-
-    render json: {
-      status: session.status,
-      customer_email: session.customer_details.email
-    }
-  end
-
-  def enrolled
-    @enrollment = CourseEnrollment.find_by!(uuid: params[:enrollment_uuid])
-  end
-
-  private
-  def redirect_non_members_to_jiki!
-    return if user_signed_in? && (current_user.bootcamp_attendee? || current_user.bootcamp_mentor?)
-
-    redirect_to jiki_url
-  end
-
-  def use_course!
-    @bundle = Courses::BundleCodingFrontEnd.instance
-    @course = Courses::Course.course_for_slug(params[:id])
-    redirect_to action: :coding_fundamentals unless @course
-  end
-
-  def use_enrollment!
-    if session[:enrollment_id]
-      begin
-        @enrollment = CourseEnrollment.find(session[:enrollment_id])
-        return
-      rescue ActiveRecord::RecordNotFound
-        session.delete(:enrollment_id)
-      end
-    end
-
-    return unless user_signed_in? && @course
-
-    @enrollment = CourseEnrollment.find_by(
-      user: current_user,
-      course_slug: @course.slug
-    )
-    session[:enrollment_id] = @enrollment.id if @enrollment
-  end
-
-  # def use_location!
-  #   @country_code_2 = @enrollment&.country_code_2.presence ||
-  #                     session[:location_country_code].presence ||
-  #                     retrieve_location_from_vpnapi!
-  # rescue StandardError
-  #   # Rate limit probably
-  # end
-
-  def retrieve_location_from_vpnapi!
-    return session[:location_country_code] = "MX" unless Rails.env.production?
-
-    data = JSON.parse(RestClient.get("https://vpnapi.io/api/#{request.remote_ip}?key=#{Exercism.secrets.vpnapi_key}").body)
-    if data.dig("security", "vpn")
-      @using_vpn = true
+  def create
+    unless user_signed_in?
+      redirect_to jiki_path
       return
     end
 
-    session[:location_country_code] = data.dig("location", "country_code")
-  end
+    @existing_signup = JikiSignup::Create.(
+      current_user,
+      params[:preferred_locale],
+      params[:preferred_programming_language]
+    )
 
-  def setup_pricing!
-    @course_full_price = @course.full_price
-    @bundle_full_price = @bundle.full_price
-
-    country_data = @course.pricing_data_for_country(@country_code_2)
-    country_data ? setup_country_pricing!(country_data) : setup_default_pricing!
-  end
-
-  def setup_country_pricing!(country_data)
-    @country_name = country_data[:country_name]
-    @hello = country_data[:hello]
-
-    @has_discount = true
-    @bundle_price = country_data[:bundle_price].to_f
-    @course_price = country_data[:course_price].to_f
-    @discount_percentage = country_data[:discount_percentage]
-  end
-
-  def setup_default_pricing!
-    @has_discount = false
-
-    @bundle_price = @bundle.full_price
-    @course_price = @course.full_price
+    respond_to do |format|
+      format.html { redirect_to jiki_path }
+      format.json { render json: { success: true, signup: @existing_signup } }
+    end
   end
 
   # rubocop:disable Layout/LineLength

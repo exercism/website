@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_08_19_141635) do
+ActiveRecord::Schema[7.1].define(version: 2025_12_11_055432) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -708,6 +708,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_19_141635) do
     t.index ["solution_id"], name: "fk_rails_5d9f1bf4bd"
     t.index ["submission_id"], name: "index_iterations_on_submission_id", unique: true
     t.index ["uuid"], name: "iterations_uuid"
+  end
+
+  create_table "jiki_signups", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "preferred_locale", null: false
+    t.string "preferred_programming_language", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_jiki_signups_on_user_id", unique: true
   end
 
   create_table "mailshots", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -1892,6 +1901,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_19_141635) do
   add_foreign_key "github_tasks", "tracks"
   add_foreign_key "github_team_members", "tracks"
   add_foreign_key "github_team_members", "users"
+  add_foreign_key "jiki_signups", "users"
   add_foreign_key "mentor_discussion_posts", "iterations"
   add_foreign_key "mentor_discussion_posts", "mentor_discussions", column: "discussion_id"
   add_foreign_key "mentor_discussion_posts", "users"

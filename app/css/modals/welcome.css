@@ -25,7 +25,7 @@
         /* Developer: max-width: 1180px; */
         /* Start: max-width: 590px; */
         /* Beginners */
-        max-width: 1100px;
+        max-width: 620px;
 
         .view-changer-btn {
             @apply cursor-pointer text-18 font-semibold rounded-8 border-1 border-borderColor1 px-12 py-8 h-[56px] pointer-events-auto;
@@ -196,5 +196,24 @@
                 @apply md:text-[16px] text-14 leading-[100%] font-normal;
             }
         }
+    }
+    .--modal-content {
+        position: relative;
+        overflow: hidden;
+    }
+    .curtains {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0px;
+        background-image: url("graphics/curtains.png");
+        background-size: 620px 860px;
+        background-position: bottom center;
+        background-repeat: no-repeat;
+    }
+    .lhs {
+        z-index: 1;
+        position: relative;
     }
 }

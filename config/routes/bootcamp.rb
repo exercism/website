@@ -1,3 +1,6 @@
+get "jiki" => "jiki#index", as: :jiki
+post "jiki/signup" => "jiki#create", as: :jiki_signup
+
 namespace :bootcamp do
   get "dashboard", to: "dashboard#index", as: :dashboard
   get "images/:filename", to: "dashboard#image_proxy", as: :image_proxy

@@ -1,15 +1,16 @@
 // namespace: components/modals/seniority-survey-modal
 export default {
   // i18n - components/modals/seniority-survey-modal.ts
-  'bootcampAd.heading':
-    'Meet our <strong>Coding Fundamentals</strong> course...',
-  'bootcampAd.description':
-    'Our <strong>Coding Fundamentals</strong> course is designed specifically for beginners! It will teach you how to <strong>think like a coder</strong> by solving puzzles and building games.',
-  'bootcampAd.timeline': "In 12 weeks, you'll go from zero to making these...",
+  'bootcampAd.heading': 'Introducing <strong>Jiki</strong>',
+  'bootcampAd.subheading': 'Our new coding platform for beginners!',
+  'bootcampAd.timeline':
+    "In a few weeks, you'll go from zero to making these...",
   'bootcampAd.punchline':
-    "This is a course for anyone that wants to get really good at coding. It's affordable. It's fun. And most importantly, it's <strong>incredibly effective</strong>!",
-  'bootcampAd.learnMore': 'Learn more ✨',
+    "The platform for anyone that wants to get really good at coding. It's incredibly effective. It's fun. <strong>And it's free!</strong>",
+  'bootcampAd.learnMore': 'Join the Waiting List',
   'bootcampAd.close': 'Close',
+  'bootcampAd.offer':
+    '(The first 1,000 to join the waiting list get Premium for free!)',
   'bootcampAd.videoIntro': 'Watch the Course Intro 👇',
   'bootcampAd.feature.video': '<strong>Video</strong> tutorials',
   'bootcampAd.feature.fun': '<strong>Fun</strong> projects',

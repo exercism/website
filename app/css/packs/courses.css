@@ -4,6 +4,7 @@
 @import "../tailwind";
 @import "../defaults";
 @import "../fonts";
+@import "../components/select";
 
 /* poppins-200 - latin */
 @font-face {
@@ -27,6 +28,7 @@ body {
     display: block;
 
     @apply bg-[#fff];
+    color: #26282d;
     @apply font-body;
     font-size: inherit;
     line-height: 1.5;
@@ -1821,5 +1823,19 @@ section#confirmation {
                 @apply md:text-[16px] text-14 leading-[100%] font-normal;
             }
         }
+    }
+}
+
+#signup-section {
+    .c-select {
+        &:after {
+            background-color: #702af4;
+        }
+    }
+    .btn {
+        @apply bg-[#0f45d1] text-white py-16 px-24 rounded-8;
+        @apply font-medium;
+        @apply mb-8;
+        @apply text-18;
     }
 }

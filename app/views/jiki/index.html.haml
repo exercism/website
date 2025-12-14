@@ -1,31 +1,29 @@
--# = render "discount_bar", has_discount: @has_discount, country_code_2: @country_code_2, country_name: @country_name, discount_percentage: @discount_percentage, hello: @hello
-
 #nav-fixed.nav{ class: "h-[64px]" }
   #nav-contents.lg-container.flex.flex-row.gap-8.items-center
-    = image_tag "bootcamp/exercism-face-light.svg", class: 'exercism-face'
-    .content.mr-auto
-      %strong Exercism
-      %span.hidden.md:inline-block Bootcamps
-    = link_to "Watch first session 👀", "https://www.youtube.com/live/bOAL_EIFwhg&start=1400", class: "first-session hidden md:block", target: "_blank", rel: 'noopener'
-    = link_to "Enroll now 👉", course_start_enrolling_path(@course.slug), class: "button"
+    = link_to root_path, class: "flex flex-1 gap-12" do
+      = image_tag "bootcamp/exercism-face-light.svg", class: 'exercism-face'
+      .content.mr-auto
+        %strong Exercism
+        %span.hidden.md:inline-block · Learn to Code
+    = link_to "Enroll Now →", "#signup-section", class: "button ml-auto"
+
 #nav-sticky.nav
 
 .hero
   .md-container
     .text-center
-      %h1.rock-solid
-        Build
-        %strong Rock-Solid
-        Coding Fundamentals
+      %h1.rock-solid{ class: "!text-[65px]" }
+        Master
+        %strong Coding Fundamentals
+        with Jiki
       .tagline{ class: "max-w-[650px]" }
         The
         %em ultimate
         way to
         %strong.font-semibold Learn to Code.
         %span.inline-block
-          Go from
-          %strong zero to confident
-          in only 12 weeks.
+          %strong Launching in
+          January 2026.
 
     .bubbles
       .bubble
@@ -39,37 +37,11 @@
           %strong Fun
           projects
       .bubble
-        = image_tag "bootcamp/help.svg"
+        = image_tag "bootcamp/globe.svg"
         .text
-          Helpful
-          %strong mentors
-        -#
-          - if @has_discount
-            .flag= flag_for_country_code(@country_code_2)
-            .text
-              %span.line-through{ class: 'text-[#666]' } $#{@course.full_price}
-              Only
-              %strong $#{@course_price}
-          - else
-            = image_tag "bootcamp/cost.svg"
-            .text
-              Only
-              %strong $#{@course_price}
+          %strong 40+
+          languages
 
-    .video-container
-      .video
-        <iframe src="https://player.vimeo.com/video/1068683543?h=2de237a304&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="bootcamp"></iframe>
-        <script src="https://player.vimeo.com/api/player.js"></script>
-
-    .supported-by
-      %h3 Exercism's supporters include:
-      .logos
-        = image_tag "bootcamp/google.png", class: 'google'
-        = image_tag "bootcamp/chicago.svg", class: 'chicago'
-        = image_tag "bootcamp/mozilla.svg", class: 'mozilla'
-        = image_tag "bootcamp/packt.svg", class: 'packt'
-
-  -# .paper-tear
   = render "scrolling_testimonials"
 
 %section.welcome
@@ -285,8 +257,7 @@
         What's on the
         %strong menu?
       %p.intro.mb-24.text-balance{ class: 'max-w-[820px]' }
-        The course is split into two halves.
-        The first teaches Coding Fundamentals. The second (optional) part teaches Front-end Web Development.
+        The course teaches Coding Fundamentals - the things you need to know to understand the fundamentals of programming.
 
       .sections
         .section.mb-32
@@ -294,10 +265,10 @@
             .lhs
               %h3.mb-8
                 Coding Fundamentals 🧑‍🔬
-                .bubble Part 1
+                .bubble Beginners
 
               .part-intro.mb-20
-                The first half of the course focusses on
+                The course focusses on
                 %span.rough-highlight.font-medium building rock solid foundations.
                 We'll cover all the core concepts in programming and give you tons of exercises and projects to practice with.
 
@@ -317,52 +288,16 @@
                   .text
                     %strong Develop the Coder's Mind.
                     You'll notice that your critical thinking, problem solving, and logic skills are all improving.
+                %li
+                  = image_tag "bootcamp/build.svg"
+                  .text
+                    %strong A base to build on
+                    Whatever type of programming you want to do, this the base you need, and one you can easily build on.
             .rhs
               .dates.h3-sideheading.relative
                 = image_tag "bootcamp/calendar.svg"
                 Takes 12-20 weeks
               = image_tag "bootcamp/part-1.png", class: 'w-[350px] -mr-32 -mt-[60px]'
-
-        .section.relative
-          #part-2-arrow.arrow-animation
-          .lhs
-            %h3.mb-8
-              Front-End Web Development 🧑‍💻
-              .bubble Part 2
-            .part-intro
-              From April to June, we'll build on the fundamentals and look at
-              %span.rough-highlight.font-medium front-end web development.
-              You'll gain the skills you need to build beautiful, interactive websites and kickstart your career.
-
-            %ul
-              %li
-                = image_tag "bootcamp/javascript.svg"
-                .text
-                  %strong Get comfortable with JavaScript.
-                  We'll build on your knowledge from Part 1 by looking at JavaScript programming techniques essential for web development.
-
-              %li
-                = image_tag "bootcamp/html.svg"
-                .text
-                  %strong Learn HTML and CSS.
-                  These two languages are the other fundamentals of web development. You'll learn both and use them to create beautiful websites.
-
-              %li
-                = image_tag "bootcamp/work-locally.svg"
-                .text
-                  %strong Learn Visual Studio Code and Git.
-                  Master these important tools, and how to use them to make your life easier.
-
-              %li
-                = image_tag "bootcamp/portfolio.svg"
-                .text
-                  %strong Build a portfolio of projects.
-                  Create projects to showcase to potential employers while practicing your skills.
-          .rhs
-            .dates.h3-sideheading.z-overlay
-              = image_tag "bootcamp/calendar.svg"
-              Takes ~12 weeks
-            = image_tag "bootcamp/part-2.png", class: 'w-[350px] -mr-32 -mt-[60px]'
 
   .lg-container
     #portfolio-subsection.subcontainer.relative
@@ -370,7 +305,7 @@
       .flex.flex-col.mb-8{ class: 'lg:flex-row' }
         %h2.mr-auto
           The
-          %strong 10 Levels
+          %strong Levels
           of Coding Fundamentals
         .h3-sideheading
           Students normally take 1-2 weeks per level.
@@ -384,26 +319,34 @@
             = image_tag "bootcamp/penguin.png"
             %h4
               In
-              %strong level 1
+              %strong level 2
               you get familiar with
               %strong coding basics
               through some drawing puzzles.
 
+          .level
+            = image_tag "bootcamp/golf.gif"
+            %h4
+              In
+              %strong level 3
+              you'll learn how to
+              %strong make things move
+              for the first time.
 
           .level
             = image_tag "bootcamp/flower.gif"
             %h4
-              In
-              %strong level 2
-              you'll learn how to
+              Your first
+              %strong major project
+              is to
               %strong animate flipbook-style
               using variables and loops.
 
           .level
             = image_tag "bootcamp/space-invaders.gif"
             %h4
-              In
-              %strong level 3
+              By
+              %strong level 7
               you'll start
               %strong building some intelligence
               into your code.
@@ -412,7 +355,7 @@
             = image_tag "bootcamp/wall.gif"
             %h4
               In
-              %strong level 4
+              %strong level 10
               you use
               %strong repeatable chunks
               of code eliminate duplication.
@@ -420,7 +363,7 @@
           .level
             = image_tag "bootcamp/wordle.png"
             %h4
-              %strong Level 5
+              %strong Level 12
               introduces lists, your first
               %strong compound data type,
               and Wordle!
@@ -428,45 +371,39 @@
           .level
             = image_tag "bootcamp/tic-tac-toe.gif"
             %h4
-              %strong Level 6
+              %strong Level 14
               focusses on
               %strong coding mindset
-              and introduces
-              your first major project!
-
+              and solving a hard project.
           .level
             = image_tag "bootcamp/maze.gif"
             %h4
               In
-              %strong Level 7
+              %strong Level 16
               you unlock
               %strong dictionaries
               making Emoji Collector possible.
 
           .level
-            = image_tag "bootcamp/weather.gif"
-            %h4
-              In
-              %strong Level 8
-              you take a big step, learning
-              %strong Object Oriented Programming.
-
-          .level
-          .level
-            = image_tag "bootcamp/breakout.gif"
-            %h4
-              %strong Level 9
-              introduces
-              %strong methods
-              and you start to feel like a real coder.
 
           .level
             = image_tag "bootcamp/dreaming-house.gif"
             %h4
-              And finally, in
-              %strong Level 10
-              you start to make your own
-              %strong classes.
+              By
+              %strong Level 20
+              you're able to build
+              %strong complex programs
+              with intertwining ideas.
+
+          .level
+            = image_tag "bootcamp/breakout.gif"
+            %h4
+              And by the
+              %strong end of the course
+              you're building games like
+              %strong Breakout!
+
+
 
   .lg-container
     .subcontainer
@@ -477,7 +414,7 @@
           .lhs.flex.flex-col.items-start
             .bubble Celebrate your new skills!
             %h3.mb-8 Get a verified certificate
-            %p.text-16.mb-12 At the end of the Bootcamp, we'll issue you an official certificate to recognise your participation and completion of the course.
+            %p.text-16.mb-12 At the end of the course, we'll issue you an official certificate to recognise your participation and completion of the course.
             %p.text-16 Show off your skills on your resume and in the Certifications section of your LinkedIn profile.
 
           = image_tag "bootcamp/certificate-arrow.png", class: 'w-[100px] self-middle mt-[100px] mb-10 mr-40 my-10 lg:block hidden'
@@ -494,150 +431,42 @@
   .rhs-bg
   .lg-container
     %h2.text-center.font-normal
-      Choose
-      your
-      %strong.font-semibold Path
+      Join the
+      %strong.font-semibold Waiting List
     %p.intro.text-balance
-      Depending on whether you want to learn web development or some other speciality such as data science, we have
-      %strong.font-medium two different options.
-    - if @has_discount
-      #discount-bar
-        .flag= flag_for_country_code(@country_code_2)
-        - if @hello.present?
-          %strong #{@hello}!
-        Everyone in #{@country_name} gets a
-        %strong.inline #{@discount_percentage}% discount!
+      We're be opening up the course starting in January 2026.
+      The first 1,000 signups get
+      %strong.font-semibold free Premium access
+      for the year!
 
-    - elsif @using_vpn
-      #vpn-bar
-        %span.inline-block
-          🌐 Many countries have
-          %strong discounts
-          that make this course more affordable
-          %strong globally! 🌐
-        Please
-        %strong disable your VPN
-        and refresh the page to see if you're eligible.
+    %hr.mx-auto.mb-20{ class: "border-[#ddd] max-w-[500px]" }
 
-    .grid.md:grid-cols-2.grid-cols-1.gap-40
-      .container
-        .header
-          = image_tag "bootcamp/exercism-face-dark.svg", class: "face"
-          .flex.flex-col.items-start
-            .bubbles
-              .bubble
-                Only
-                %strong Part 1
+    - if user_signed_in?
+      = form_with url: jiki_signup_path, method: :post, class: 'max-w-[650px] mx-auto mt-24 mb-24' do |f|
+        #signup-confirmation.text-textColor1{ class: @existing_signup ? "" : "hidden" }
+          .mt-24.mb-24.p-24.bg-veryLightGreen.border-2.border-darkSuccessGreen.rounded-8.text-darkSuccessGreen
+            %h4.text-center.mb-12.text-22.font-semibold ✅  You're on the waiting list!
+            %p.text-center We will email you nearer the time with details. You can use the form below to update your preferences if needed.
 
-            %h2
-              Learn to
-              %strong Code
-            %p Build rock solid coding fundamentals, applicable to every speciality.
-          - if @has_discount
-            .price
-              %strong $#{@course_price}
-              %span{ class: "text-[26px] line-through text-[#777] font-normal" } $#{@course.full_price}
-            .discount
+        %p.text-18.mb-24
+          We'll be opening up the course in tranches based on people's chosen language.
+          The more popular the language, the higher we'll prioritise it!
+        .mb-28
+          = f.label :preferred_locale, "What's your preferred language?", class: 'block mb-8 font-medium text-18'
+          .c-select
+            = f.select :preferred_locale, @locale_options, { selected: @existing_signup&.preferred_locale || 'en' }
 
-              Includes a
-              %strong #{@discount_percentage}% discount
-              for our friends in
-              %span.flag= flag_for_country_code(@country_code_2)
-              #{@country_name}!
-          - else
-            .price
-              %strong $#{@course.full_price}
-        .body
-          .point
-            %h4 Who's it for? 🧑🏽
-            %p
-              Anyone looking to develop rock solid
-              %strong coding fundamentals.
-              Designed for
-              %strong absolute beginners
-              or new devs wanting to reinforce their solid foundations.
+        .mb-20
+          = f.label :preferred_programming_language, "Which programming language would you like to learn?", class: 'block mb-8 font-medium text-18'
+          .c-select
+            = f.select :preferred_programming_language, @programming_language_options, { selected: @existing_signup&.preferred_programming_language }
 
-          .point
-            %h4 Duration ⏳
-            %p.mb-12 3 months, part-time.
+        = f.submit @existing_signup ? "Update Preferences" : "Join Waiting List", class: 'btn w-full'
 
-          .point
-            %h4 Where you'll be by the end 🎉
-            %p
-              You'll have a solid understanding of
-              %strong coding fundamentals.
-              You'll be ready to learn vocational skills like app development or
-              %strong data science.
-
-          .point
-            %h4 What's included? 🔎
-            %ul.list-disc
-              %li Over 35 hours of live teaching (that you can watch back forever).
-              %li Weekly sessions to answer your questions.
-              %li Hundreds of hours of exercises and projects, in a specially designed interface for beginners.
-              %li A dedicated community Discord server.
-              %li An official certificate of completion.
-
-          = link_to "Learn Coding Fundamentals 👉", course_start_enrolling_path(@course.slug, course_or_bundle: "course"), class: "button"
-
-      .container
-        .header
-          = image_tag "bootcamp/exercism-face-dark.svg", class: "face"
-
-          .bubbles
-            .bubble
-              The
-              %strong Complete Course
-          %h2
-            Become a
-            %strong Front-End Dev
-          %p Learn the fundamentals then specialise in front-end web development.
-
-          -# %p.mb-12{class: "!font-semibold"} One-time payment. Lifetime access. Money-back guarantee.
-          - if @has_discount
-            .price
-              %strong $#{@bundle_price}
-              %span{ class: "text-[26px] line-through text-[#777] font-normal" } $#{@bundle.full_price}
-            .discount
-              Includes a
-              %strong #{@discount_percentage}% discount
-              for our friends in
-              %span.flag= flag_for_country_code(@country_code_2)
-              #{@country_name}.
-          - else
-            .price
-              %strong $#{@bundle.full_price}
-        .body
-          .point
-            %h4 Who's it for? 🧑🏽
-            %p
-              Anyone looking to become a
-              %strong web developer.
-              Designed for
-              %strong absolute beginners
-              or new devs wanting to reinforce their solid foundations.
-
-          .point
-            %h4 Duration ⏳
-            %p.mb-12 6 months, part-time.
-
-          .point
-            %h4 Where you'll be by the end 🎉
-            %p
-              You'll be confident creating
-              %strong website front-ends from scratch
-              and well on your way to a career in web development.
-
-          .point
-            %h4 What's included? 🔎
-            %ul.list-disc
-              %li Everything in Part 1.
-              %li An extra 35 hours of live teaching.
-              %li More weekly sessions to answer your questions.
-              %li More exercises and projects, this time for you to solve on your own laptop.
-              %li A second official certificate of completion to put on your resume.
-
-          = link_to "Learn Coding & Front-End 👉", course_start_enrolling_path(@course.slug, course_or_bundle: "bundle"), class: "button"
+    - else
+      %p.text-20.mb-24.text-center
+        Please sign into Exercism to continue.
+      = link_to "Sign In to Exercism", new_user_session_path(return_to: jiki_path), class: "btn mx-auto w-fit block"
 
 = image_tag "bootcamp/divider.png", class: 'w-[100px] mx-auto my-64'
 
@@ -648,12 +477,12 @@
       Exercism is a
       %strong.font-medium longstanding nonprofit
       that's helped over
-      %strong.font-medium.whitespace-nowrap 2 million people
+      %strong.font-medium.whitespace-nowrap 2.5 million people
       level-up their coding skills.
     %ul
       %li
         .emoji 🧑‍💻
-        .count 2,100,000
+        .count 2,500,000
         .title Exercism students
         %p We've grown entirely by word of mouth. Good friends tell their friends about Exercism!
 
@@ -686,13 +515,13 @@
       = link_to "Ping us an email!", "mailto:bootcamp@exercism.org"
 
     .faq
-      %h4 When will I get access and how long for?
-      %p You gain access to the full Coding Fundamentals course as soon as your pay. You'll have access for life.
-      %p The Front-End Fundamentals course will run live from April 26th till mid-July. You'll also have access to the course materials beyond that date for life.
+      %h4 How much will this cost? What's the price?
+      %p
+        All of the videos and exercises on Jiki will be free. There will be Premium and Max options that adds features such as AI-help, an ad-free experience, exclusive live-streams and a extra projects.
 
     .faq
       %h4 How much time will I need to spend each week on the course?
-      %p You can spend as long or as little as you like. In general, people who spend an 1-2 hours per day on the course get through each Level in 1-2 weeks.
+      %p You can spend as long or as little as you like. We've designed the course so it can be completed in 12-24 weeks by most people spending 5-10 hours per week. But it really comes down to how much time you can put in.
 
     .faq
       %h4 How hard is the course? How smart do I need to be?
@@ -700,33 +529,18 @@
       %p But if you put in the effort, ask for help when you get stuck, and embrace the challenge, you'll be amazed at how far you can go in a short time.
 
     .faq
-      %h4 Are there group activities and do I have to take part?
+      %h4 When will Jiki launch?
       %p
-        There are no formal group activities.
-        However, we encourage everyone to share their journey and explore programming together in our Discord server.
-        Chatting about code is one of the best ways to improve your programming skills.
-        Many of our students get together (virtually) for unofficial study groups - so you might like to join some of them!
-        You can choose to opt-out of the community aspects if you prefer.
+        Jiki is launching in January 2026. We'll be letting people in gradually throughout January and February as we add more languages.
 
     .faq
-      %h4 What specific programming language is taught.
+      %h4 I already signed up to the Bootcamp - is this different?
       %p
-        We're teaching you a special beginner-friendly language called JikiScript.
-        It's a full, normal programming language, but it's been designed specifically to ensure you don't get bogged down by syntax or language oddities.
+        Thanks for being part of the Bootcamp! Jiki is the next stage in the evolution of our Bootcamp. Most of the exercises you solved will appear in Jiki along with lots more. We've also broken down the 3 hour videos into smaller, 5-10 minute chunks to make watching easier!
       %p
-        Once you've learnt JikiScript and understand the core programming concepts, you'll find it straight-forward to learn Python, JavaScript, or any other language using Exercism's free courses.
+        As a member of the Bootcamp, you'll automatically get Jiki Premium for Life. This applies to both the initial Coding Fundamentals course and future courses.
 
     .faq
-      %h4 Are the exercises graded or just for practice? Is there any form of assessment?
-      %p Most exercises can be completed by reaching a certain objective. However, they are not graded and your code isn't assessed or marked. We will explore some (anonymised) code in the weekly sessions and discuss how it could be improved, but our philosophy is that you should be in the trenches coding, not worrying about passing tests.
-
-    .faq
-      %h4 I've signed up but not received anything.
-      %p Firstly, please check your spam. If you still can't find anything, please email #{link_to 'bootcamp@exercism.org', 'mailto:bootcamp@exercism.org', class: 'font-semibold text-[blue]'} and we'll check everything for you!
-
-%section#legals
-  .md-container.text-center
-    %strong Exercism
-    is a registered
-    %strong not-for-profit organisation.
-    %span.whitespace-nowrap © #{Date.current.year} Exercism
+      %h4 How will I know when I can access Jiki?
+      %p
+        We'll email you when it's your turn to access Jiki. Make sure to check your spam folder!

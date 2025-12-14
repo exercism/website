@@ -37,35 +37,6 @@ export function BootcampRecommendationView() {
         />
       </p>
 
-      <p className="mb-6">{t('bootcampRecommendation.youllBuildGames')}</p>
-
-      <div className="grid grid-cols-4 gap-10 mb-16">
-        <Icon
-          category="bootcamp"
-          alt="Image of a space invaders game"
-          icon="space-invaders.gif"
-          className="w-full"
-        />
-        <Icon
-          category="bootcamp"
-          alt="Image of a tic-tac-toe game"
-          icon="tic-tac-toe.gif"
-          className="w-full"
-        />
-        <Icon
-          category="bootcamp"
-          alt="Image of a breakout game"
-          icon="breakout.gif"
-          className="w-full"
-        />
-        <Icon
-          category="bootcamp"
-          alt="Image of a maze game"
-          icon="maze.gif"
-          className="w-full"
-        />
-      </div>
-
       <p className="mb-12">
         <Trans
           ns="components/modals/track-welcome-modal/LHS"

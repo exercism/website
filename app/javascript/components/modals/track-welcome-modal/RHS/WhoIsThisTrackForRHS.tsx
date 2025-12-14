@@ -10,84 +10,51 @@ export function WhoIsThisTrackForRHS(): JSX.Element {
 
   return (
     <div className="rhs" data-capy-element="who-is-this-track-for-rhs">
-      <div className="rounded-8 p-20 bg-backgroundColorD border-1 border-borderColor7 mb-16">
-        <div className="flex flex-row gap-8 items-center justify-center text-16 text-textColor1 mb-16">
+      <div className="bg-bootcamp-light-purple px-24 pt-28 pb-24 text-center rounded-12 relative">
+        <GraphicalIcon
+          icon="bookmark.png"
+          category="graphics"
+          className="!absolute right-[12px] top-0 h-[40px]"
+        />
+        <h3 className="mb-12 !text-[19px] text-textColor1 font-semibold">
+          Learn by doing... from day 1!
+        </h3>
+        <p className="mb-12 !text-16 leading-150">
+          {t('whoIsThisTrackFor.youllBuildGames')}
+        </p>
+
+        <div className="grid grid-cols-4 gap-4">
           <Icon
-            icon="exercism-face"
-            className="filter-textColor1"
-            alt="exercism-face"
-            height={16}
-            width={16}
+            category="bootcamp"
+            alt="Image of a space invaders game"
+            icon="space-invaders.gif"
+            className="w-full border-1 border-bootcamp-purple"
           />
-          <div>
-            <Trans
-              ns="components/modals/track-welcome-modal/RHS"
-              i18nKey="whoIsThisTrackFor.courseName"
-              components={{ strong: <strong className="font-semibold" /> }}
-              parent="span"
-            />
-          </div>
+          <Icon
+            category="bootcamp"
+            alt="Image of a tic-tac-toe game"
+            icon="tic-tac-toe.gif"
+            className="w-full border-1 border-bootcamp-purple"
+          />
+          <Icon
+            category="bootcamp"
+            alt="Image of a breakout game"
+            icon="breakout.gif"
+            className="w-full border-1 border-bootcamp-purple"
+          />
+          <Icon
+            category="bootcamp"
+            alt="Image of a maze game"
+            icon="maze.gif"
+            className="w-full border-1 border-bootcamp-purple"
+          />
         </div>
-        <VimeoEmbed className="rounded-8 mb-16" id="1068683543?h=2de237a304" />
-        <div className="text-16 leading-150 text-textColor2">
-          <p className="mb-12 text-17 font-semibold">
-            {t('whoIsThisTrackFor.courseOffersHeading')}
-          </p>
-          <ul className="flex flex-col gap-8 text-16 font-regular">
-            <li className="flex items-start">
-              <GraphicalIcon
-                icon="wave"
-                category="bootcamp"
-                className="mr-8 w-[20px]"
-              />
-              <Trans
-                ns="components/modals/track-welcome-modal/RHS"
-                i18nKey="whoIsThisTrackFor.courseOffers.expertTeaching"
-                components={{ strong: <strong className="font-semibold" /> }}
-                parent="span"
-              />
-            </li>
-            <li className="flex items-start">
-              <GraphicalIcon
-                icon="fun"
-                category="bootcamp"
-                className="mr-8 w-[20px]"
-              />
-              <Trans
-                ns="components/modals/track-welcome-modal/RHS"
-                i18nKey="whoIsThisTrackFor.courseOffers.handsOnProjects"
-                components={{ strong: <strong className="font-semibold" /> }}
-                parent="span"
-              />
-            </li>
-            <li className="flex items-start">
-              <GraphicalIcon
-                icon="complete"
-                category="bootcamp"
-                className="mr-8 w-[20px]"
-              />
-              <Trans
-                ns="components/modals/track-welcome-modal/RHS"
-                i18nKey="whoIsThisTrackFor.courseOffers.completeSyllabus"
-                components={{ strong: <strong className="font-semibold" /> }}
-                parent="span"
-              />
-            </li>
-            <li className="flex items-start">
-              <GraphicalIcon
-                icon="certificate"
-                category="bootcamp"
-                className="mr-8 w-[20px]"
-              />
-              <Trans
-                ns="components/modals/track-welcome-modal/RHS"
-                i18nKey="whoIsThisTrackFor.courseOffers.certificate"
-                components={{ strong: <strong className="font-semibold" /> }}
-                parent="span"
-              />
-            </li>
-          </ul>
-        </div>
+
+        <hr className="c-divider --small mt-16 mb-8 mx-auto !filter-purple" />
+        <p className="mb-6 !text-15 italic leading-150">
+          {t('whoIsThisTrackFor.testimonial')}
+        </p>
+        <p className="mb-!text-15 italic">- One of our beta testers.</p>
       </div>
     </div>
   )

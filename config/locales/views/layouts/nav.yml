@@ -30,25 +30,6 @@ en:
         feature_info:
           For each week we've chosen a different exercise to feature, with
           approaches, walkthroughs, videos, and more.
-      front_end_fundamentals:
-        title: Front-end Fundamentals
-        subtitle: Live Teaching. Fun projects. Fair pricing.
-        description_p1_html:
-          Join us for the second part of Exercism's Bootcamp, where
-          we'll teach you %{strong_text_1} through interactive, live teaching,
-          and %{strong_text_2}.
-        strong_text_1: front-end development
-        strong_text_2: 100s of hours of fun projects.
-        description_p2_html:
-          Master the basics of HTML, CSS, JavaScript, Git and Visual
-          Studio Code. Build games like %{strong_text_1} and %{strong_text_2}.
-          Interact with APIs like %{strong_text_3} and %{strong_text_4}.
-        strong_text_3: Breakout
-        strong_text_4: Snake
-        strong_text_5: NASA
-        strong_text_6: ChatGPT
-        explore_button: Explore Front-end Fundamentals
-        start_date_info: Sign up now for April 26th start.
       tracks:
         your_recent_tracks: Your recent tracks
         see_all_button: See all
@@ -59,13 +40,14 @@ en:
         history_label: History
         and_more_label: And more…
       coding_fundamentals:
-        title: Coding Fundamentals
-        subtitle: Video tutorials. Fun projects. Fair pricing.
+        title: Jiki
+        bubble: Launching Jan 2026
+        subtitle: Video lessons. Fun projects. 40+ Languages.
         description_p1_html:
-          A course designed to give you rock-solid programming
-          fundamentals. %{strong_text_1} Stuck in %{strong_text_2} If you've
-          been coding for under a year, this course is perfect for you.
+          A brand new platform designed to give you rock-solid programming
+          fundamentals. If you've
+          been <strong>coding for under a year</strong>, this course is designed for you.
         strong_text_1: Totally new?
         strong_text_2: Tutorial Hell?
-        description_p2: In 12 weeks you'll go from zero to making...
-        explore_button: Explore Coding Fundamentals
+        description_p2: In a few weeks you'll go from zero to making...
+        explore_button: Join the Waiting List

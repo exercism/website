@@ -1,5 +1,7 @@
 .flex.flex-col.items-center.items-stretch.pt-20.px-24
-  %h2.text-h3.mb-4= t('.title')
+  %h2.text-h2.mb-4.flex.items-center.gap-8
+    = t('.title')
+    .leading-100.font-semibold.uppercase.px-10.py-6.bg-darkSuccessGreen.text-white.inline-block.rounded-12{ class: "text-[11px]" }= t('.bubble')
   %p.text-p-base.font-semibold.mb-12
     = t('.subtitle')
   %p.text-p-base.mb-8

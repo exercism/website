@@ -1,15 +1,12 @@
 // namespace: components/modals/track-welcome-modal/LHS
 export default {
-  'bootcampRecommendation.header':
-    'Coding Fundamentals might be better for you…',
+  'bootcampRecommendation.header': 'Jiki might be better for you…',
   'bootcampRecommendation.tracksAudience':
     "Exercism's tracks are designed for people who <strong>already know how to code</strong> and are practicing or learning new languages.",
   'bootcampRecommendation.codingJourney':
-    "If you're just starting out on your coding journey, <strong>our Coding Fundamentals Course might be a better fit for you.</strong>",
-  'bootcampRecommendation.youllBuildGames':
-    "In 12 weeks, you'll go from zero to making these...",
+    "If you're just starting out on your coding journey, our new platfrom <strong>Jiki</strong> might be a better fit for you.",
   'bootcampRecommendation.selfPaced':
-    "It's self-paced and <strong>priced affordably</strong>, with discounts available for students, people who are unemployed, and those living in emerging economies.",
-  'bootcampRecommendation.cta.checkOutCourse': 'Check out the Course ✨',
+    "It launches in January 2026 and you can sign up for the waiting list now! And best of all, <strong>it's free!</strong>",
+  'bootcampRecommendation.cta.checkOutCourse': 'Join the Waiting List',
   'bootcampRecommendation.cta.continueAnyway': 'Continue anyway',
 }

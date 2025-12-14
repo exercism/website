@@ -338,6 +338,7 @@ module.exports = {
     fontFamily: {
       body: 'var(--body-font)',
       mono: ['Source Code Pro', 'monospace'],
+      spartan: ['League Spartan'],
     },
     fontSize: {
       12: '12px',

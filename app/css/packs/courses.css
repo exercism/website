@@ -219,7 +219,7 @@ body {
     }
 
     h1 {
-        @apply sm:text-[77px] text-[40px] leading-[1.05];
+        @apply sm:text-[65px] text-[45px] leading-[1.05];
         @apply mb-20;
         @apply font-light;
         strong {

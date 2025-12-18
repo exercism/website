@@ -18,9 +18,13 @@ import { Project } from './utils/exerciseMap'
 import JikiscriptExercisePageContextWrapper, {
   ExerciseLocalStorageData,
 } from './JikiscriptExercisePageContextWrapper'
-import { Logger } from './RHS/Logger/Logger'
-import { assembleClassNames } from '@/utils/assemble-classnames'
 import { RHS } from './RHS/RHS'
+import { javascript } from '@codemirror/lang-javascript'
+import { jikiscript } from '@exercism/codemirror-lang-jikiscript'
+import { debounce } from 'lodash'
+import { getCodeMirrorFieldValue } from './CodeMirror/getCodeMirrorFieldValue'
+import { readOnlyRangesStateField } from './CodeMirror/extensions/read-only-ranges/readOnlyRanges'
+import { Prec } from '@codemirror/state'
 
 export default function JikiscriptExercisePage({
   exercise,
@@ -100,6 +104,25 @@ export default function JikiscriptExercisePage({
     [exercise]
   )
 
+  const updateLocalStorageValueOnDebounce = useMemo(() => {
+    return debounce((value: string, view) => {
+      if (!setExerciseLocalStorageData) {
+        return
+      }
+
+      const readonlyRanges = getCodeMirrorFieldValue(
+        view,
+        readOnlyRangesStateField
+      )
+
+      setExerciseLocalStorageData({
+        code: value,
+        storedAt: new Date().toISOString(),
+        readonlyRanges: readonlyRanges,
+      })
+    }, 500)
+  }, [setExerciseLocalStorageData, readOnlyRangesStateField])
+
   /* spotlight is active if 
    - testSuiteResult is passing and basic testResult modal wasn't shown before
    - bonus tests are unlocked, bonusTestSuiteResult is passing and bonus modal wasn't shown before 
@@ -154,6 +177,19 @@ export default function JikiscriptExercisePage({
                 ref={editorViewRef}
                 editorDidMount={handleEditorDidMount}
                 handleRunCode={handleRunCode}
+                onEditorChangeCallback={(view) => {
+                  updateLocalStorageValueOnDebounce(
+                    view.state.doc.toString(),
+                    view
+                  )
+                }}
+                extensions={[
+                  Prec.high(
+                    exercise?.language === 'javascript'
+                      ? javascript()
+                      : jikiscript()
+                  ),
+                ]}
               />
             </ErrorBoundary>
 

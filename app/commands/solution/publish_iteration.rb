@@ -6,10 +6,10 @@ class Solution::PublishIteration
   def call
     solution.update!(published_iteration: iteration)
 
-    Solution::UpdateTags.(solution)
-    Solution::UpdatePublishedExerciseRepresentation.(solution)
-    Solution::UpdateSnippet.(solution)
-    Solution::UpdateNumLoc.(solution)
+    Solution::UpdateTags.defer(solution)
+    Solution::UpdatePublishedExerciseRepresentation.defer(solution)
+    Solution::UpdateSnippet.defer(solution)
+    Solution::UpdateNumLoc.defer(solution)
   end
 
   private

@@ -70,11 +70,11 @@
           %li= link_to t('.site_links.get_help.cli_walkthrough_link'), cli_walkthrough_path
 
   .socials.mt-24.mb-40.md:mb-56
-    = link_to "https://twitter.com/exercism_io", class: 'icon twitter' do
+    = link_to "https://twitter.com/exercism_io", class: 'icon twitter', aria: { label: 'Exercism on Twitter' } do
       = graphical_icon 'external-site-twitter'
-    = link_to "https://facebook.com/exercism.io", class: 'icon facebook' do
+    = link_to "https://facebook.com/exercism.io", class: 'icon facebook', aria: { label: 'Exercism on Facebook' } do
       = graphical_icon 'external-site-facebook'
-    = link_to "https://github.com/exercism", class: 'icon github' do
+    = link_to "https://github.com/exercism", class: 'icon github', aria: { label: 'Exercism on GitHub' } do
       = graphical_icon 'external-site-github'
 
   %hr

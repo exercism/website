@@ -5,6 +5,11 @@ class UserOnboardingController < ApplicationController
     return redirect_to dashboard_path if user_signed_in? && current_user.onboarded?
 
     @onboarding = UserOnboardingForm.new
+
+    respond_to do |format|
+      format.html
+      format.any { head :not_acceptable }
+    end
   end
 
   def create

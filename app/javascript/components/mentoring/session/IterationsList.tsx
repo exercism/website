@@ -68,7 +68,7 @@ export const IterationsList = ({
 
   return (
     <>
-      <nav className="iterations">
+      <nav className="iterations scroll-x-hidden">
         {iterations.map((iteration) => (
           <IterationButton
             key={iteration.idx}

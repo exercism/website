@@ -39,13 +39,13 @@ class Payments::TestBase < ActiveSupport::TestCase
   end
 
   def mock_stripe_payment(id, amount, receipt_url, invoice_id: nil)
+    charge_id = "ch_#{SecureRandom.hex(12)}"
+    Stripe::Charge.stubs(:retrieve).with(charge_id).returns(OpenStruct.new(receipt_url:))
     OpenStruct.new(
       id:,
       amount:,
       invoice: invoice_id,
-      charges: [
-        OpenStruct.new(receipt_url:)
-      ]
+      latest_charge: charge_id
     )
   end
 

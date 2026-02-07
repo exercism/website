@@ -4,10 +4,14 @@ module SPI
       user = User.find_by!(email: params[:email])
       User::UnsubscribeFromAllEmails.(user)
 
-      Exercism.ses_client.put_suppressed_destination({
-        email_address: params[:email],
-        reason: params[:reason].upcase
-      })
+      begin
+        Exercism.ses_client.put_suppressed_destination({
+          email_address: params[:email],
+          reason: params[:reason].upcase
+        })
+      rescue Aws::SESV2::Errors::ServiceError => e
+        Bugsnag.notify(e)
+      end
     end
   end
 end

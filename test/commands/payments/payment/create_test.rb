@@ -72,6 +72,33 @@ class Payments::Payment::CreateTest < Payments::TestBase
     assert_equal payment_1, payment_2
   end
 
+  test "uses donated_at for first_donated_at" do
+    freeze_time do
+      user = create :user
+      donated_at = 3.months.ago
+
+      Payments::Payment::Create.(user, :stripe, SecureRandom.uuid, 1500, "", donated_at:)
+
+      assert_equal donated_at, user.reload.first_donated_at
+    end
+  end
+
+  test "does not send email when send_email is false" do
+    user = create :user
+
+    Payments::Payment::SendEmail.expects(:defer).never
+
+    Payments::Payment::Create.(user, :stripe, SecureRandom.uuid, 1500, "", send_email: false)
+  end
+
+  test "sends email by default" do
+    user = create :user
+
+    Payments::Payment::SendEmail.expects(:defer).once
+
+    Payments::Payment::Create.(user, :stripe, SecureRandom.uuid, 1500, "")
+  end
+
   test "handles insiders status correctly" do
     # Eligible for 498
     user = create :user

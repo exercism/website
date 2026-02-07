@@ -6,7 +6,8 @@
 class Payments::Payment::Create
   include Mandate
 
-  initialize_with :user, :provider, :external_id, :amount_in_cents, :external_receipt_url, subscription: nil
+  initialize_with :user, :provider, :external_id, :amount_in_cents, :external_receipt_url,
+    subscription: nil, donated_at: nil, send_email: true
 
   def call
     Payments::Payment.create!(
@@ -18,9 +19,9 @@ class Payments::Payment::Create
       amount_in_cents:
     ).tap do |payment|
       User::UpdateTotalDonatedInCents.(user)
-      User::RegisterAsDonor.(user, Time.current)
+      User::RegisterAsDonor.(user, donated_at || Time.current)
       User::InsidersStatus::UpdateForPayment.(user)
-      Payments::Payment::SendEmail.defer(payment)
+      Payments::Payment::SendEmail.defer(payment) if send_email
     end
   rescue ActiveRecord::RecordNotUnique
     Payments::Payment.find_by!(external_id:, provider:)

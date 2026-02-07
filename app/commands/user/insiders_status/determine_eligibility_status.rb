@@ -52,6 +52,8 @@ class User::InsidersStatus::DetermineEligibilityStatus
   end
 
   def recent_donation?
+    # Important note: We use *created_at* here, not *donated_at*, so if we reconcile
+    # old payments that weren't logged, they're honoured from today, not from back then.
     user.payments.sort { |p| -p.id }.each do |donation|
       # For every 9.99 donation before Insiders launched, give a month of access
       # from the launch date. Plus one free month for everyone who's ever donated.

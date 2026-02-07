@@ -151,26 +151,6 @@ class CoursesController < ApplicationController
     session[:enrollment_id] = @enrollment.id if @enrollment
   end
 
-  # def use_location!
-  #   @country_code_2 = @enrollment&.country_code_2.presence ||
-  #                     session[:location_country_code].presence ||
-  #                     retrieve_location_from_vpnapi!
-  # rescue StandardError
-  #   # Rate limit probably
-  # end
-
-  def retrieve_location_from_vpnapi!
-    return session[:location_country_code] = "MX" unless Rails.env.production?
-
-    data = JSON.parse(RestClient.get("https://vpnapi.io/api/#{request.remote_ip}?key=#{Exercism.secrets.vpnapi_key}").body)
-    if data.dig("security", "vpn")
-      @using_vpn = true
-      return
-    end
-
-    session[:location_country_code] = data.dig("location", "country_code")
-  end
-
   def setup_pricing!
     @course_full_price = @course.full_price
     @bundle_full_price = @bundle.full_price

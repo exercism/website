@@ -19,7 +19,12 @@ class Payments::Stripe::Payment::Create
 
   private
   def external_id = stripe_data.id
-  def external_receipt_url = stripe_data.charges.first.receipt_url
+
+  def external_receipt_url
+    charge = Stripe::Charge.retrieve(stripe_data.latest_charge)
+    charge.receipt_url
+  end
+
   def amount_in_cents = stripe_data.amount
 
   memoize

@@ -23,6 +23,9 @@ class User::GithubSolutionSyncer
         pr_title,
         pr_message
       )
+    rescue Octokit::NotFound
+      # Repo may have been deleted or renamed — nothing to sync to
+      nil
     end
 
     private

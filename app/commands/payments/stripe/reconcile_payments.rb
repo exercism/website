@@ -41,8 +41,8 @@ class Payments::Stripe::ReconcilePayments
   def should_record_payment?(payment_intent)
     return true if payment_intent.invoice
 
-    charge = payment_intent.latest_charge
-    charge&.billing_details&.email.blank?
+    # Bootcamp payments were created via Checkout Sessions; donations are not.
+    Stripe::Checkout::Session.list({ payment_intent: payment_intent.id }).data.empty?
   rescue StandardError
     true
   end

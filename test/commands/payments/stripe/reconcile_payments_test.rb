@@ -39,14 +39,14 @@ class Payments::Stripe::ReconcilePaymentsTest < Payments::TestBase
     end
   end
 
-  test "skips bootcamp payments with billing email" do
+  test "skips bootcamp payments with checkout session" do
     freeze_time do
       create :user, stripe_customer_id: "cus_123"
       since = 90.days.ago
 
-      pis = [build_payment_intent("pi_bootcamp", customer: "cus_123",
-        amount: 4900, billing_email: "buyer@example.com")]
+      pis = [build_payment_intent("pi_bootcamp", customer: "cus_123", amount: 4900)]
       stub_payment_intents_list(pis, created_gte: since.to_i)
+      stub_checkout_session("pi_bootcamp", exists: true)
 
       Payments::Stripe::ReconcilePayments.(since:)
 
@@ -151,23 +151,14 @@ class Payments::Stripe::ReconcilePaymentsTest < Payments::TestBase
     end
   end
 
-  test "records subscription payment even with billing email" do
+  test "records donation with billing email but no checkout session" do
     freeze_time do
-      user = create :user, stripe_customer_id: "cus_123"
-      create :payments_subscription, user: user, external_id: "sub_abc", provider: :stripe
-      invoice_id = "in_sub_email"
+      create :user, stripe_customer_id: "cus_123"
       since = 90.days.ago
 
-      pis = [build_payment_intent("pi_sub_email", customer: "cus_123", amount: 999,
-        billing_email: "someone@example.com", invoice: invoice_id)]
+      pis = [build_payment_intent("pi_email_donor", customer: "cus_123", amount: 1500)]
       stub_payment_intents_list(pis, created_gte: since.to_i)
-
-      stub_request(:get, "https://api.stripe.com/v1/invoices/#{invoice_id}").
-        to_return(
-          status: 200,
-          body: { id: invoice_id, object: "invoice", subscription: "sub_abc" }.to_json,
-          headers: { 'Content-Type': 'application/json' }
-        )
+      stub_checkout_session("pi_email_donor", exists: false)
 
       Payments::Stripe::ReconcilePayments.(since:)
 
@@ -242,8 +233,20 @@ class Payments::Stripe::ReconcilePaymentsTest < Payments::TestBase
       )
   end
 
+  def stub_checkout_session(payment_intent_id, exists:)
+    data = exists ? [{ id: "cs_#{SecureRandom.hex(8)}", object: "checkout.session" }] : []
+    stub_request(:get, "https://api.stripe.com/v1/checkout/sessions?payment_intent=#{payment_intent_id}").
+      to_return(
+        status: 200,
+        body: { object: "list", data:, has_more: false, url: "/v1/checkout/sessions" }.to_json,
+        headers: { 'Content-Type': 'application/json' }
+      )
+  end
+
   def build_payment_intent(id, customer:, amount:, receipt_url: nil,
-                           billing_email: nil, invoice: nil, created: Time.current.to_i)
+                           invoice: nil, created: Time.current.to_i)
+    stub_checkout_session(id, exists: false)
+
     {
       id:,
       object: "payment_intent",
@@ -255,10 +258,7 @@ class Payments::Stripe::ReconcilePaymentsTest < Payments::TestBase
       latest_charge: {
         id: "ch_#{SecureRandom.hex(8)}",
         object: "charge",
-        receipt_url:,
-        billing_details: {
-          email: billing_email
-        }
+        receipt_url:
       }
     }
   end

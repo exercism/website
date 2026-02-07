@@ -1,6 +1,7 @@
 class DocsController < ApplicationController
   skip_before_action :authenticate_user!
   skip_before_action :ensure_onboarded!
+  rescue_from ActiveRecord::RecordNotFound, with: :render_404
   before_action :use_track, only: %i[track_index track_show]
   before_action :use_section, only: %i[section show]
 

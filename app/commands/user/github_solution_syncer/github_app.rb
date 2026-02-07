@@ -3,6 +3,8 @@ require "jwt"
 require "rest-client"
 
 module User::GithubSolutionSyncer::GithubApp
+  class InstallationNotFoundError < StandardError; end
+
   def self.generate_jwt
     app_id = Exercism.secrets.github_solution_syncer_app_id
     private_key = OpenSSL::PKey::RSA.new(Exercism.secrets.github_solution_syncer_private_key.gsub("\\n", "\n"))
@@ -29,5 +31,7 @@ module User::GithubSolutionSyncer::GithubApp
     )
 
     JSON.parse(response.body)["token"]
+  rescue RestClient::NotFound
+    raise InstallationNotFoundError, "GitHub App installation #{installation_id} not found"
   end
 end

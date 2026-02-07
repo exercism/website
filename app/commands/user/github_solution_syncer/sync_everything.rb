@@ -15,6 +15,8 @@ class User::GithubSolutionSyncer
           sync_everything(pr_branch_name, token)
         end
       end
+    rescue GithubApp::InstallationNotFoundError
+      # noop - installation may have been removed or GitHub may be having issues
     end
 
     def sync_everything(branch_name, token = nil)

@@ -18,6 +18,8 @@ class User::GithubSolutionSyncer
           CreateCommit.(syncer, files, commit_message, pr_branch_name, token:)
         end
       end
+    rescue GithubApp::InstallationNotFoundError
+      # noop - installation may have been removed or GitHub may be having issues
     end
 
     private

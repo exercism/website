@@ -65,6 +65,25 @@ class LegacyControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
+  test "solution with nonexistent uuid returns 404" do
+    get "/solutions/nonexistent-uuid"
+    assert_response :not_found
+  end
+
+  test "my_solution with nonexistent uuid returns 404" do
+    user = create :user
+    sign_in!(user)
+    get "/my/solutions/nonexistent-uuid"
+    assert_response :not_found
+  end
+
+  test "mentor_solution with nonexistent uuid returns 404" do
+    user = create :user
+    sign_in!(user)
+    get "/mentor/solutions/nonexistent-uuid"
+    assert_response :not_found
+  end
+
   test "mentor solution with discussion" do
     solution = create :concept_solution
     discussion = create :mentor_discussion, solution:, mentor: solution.user

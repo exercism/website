@@ -231,7 +231,7 @@ class Payments::Stripe::ReconcilePaymentsTest < Payments::TestBase
 
   def stub_payment_intents_request(body:, created_gte:, starting_after: nil)
     url = "https://api.stripe.com/v1/payment_intents?created%5Bgte%5D=#{created_gte}" \
-          "&expand%5B%5D=data.latest_charge&limit=100&status=succeeded"
+          "&expand%5B%5D=data.latest_charge&limit=100"
     url += "&starting_after=#{starting_after}" if starting_after
 
     stub_request(:get, url).

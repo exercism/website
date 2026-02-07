@@ -14,6 +14,10 @@ module Auth
       set_flash_message(:alert, :invalid_hash) if is_navigational_format?
 
       redirect_to new_user_session_path
+    rescue ActionController::InvalidAuthenticityToken
+      set_flash_message(:alert, :csrf_failure) if is_navigational_format?
+
+      redirect_to new_user_session_path
     end
 
     def store_referer!

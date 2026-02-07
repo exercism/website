@@ -40,12 +40,8 @@ class Payments::Stripe::PaymentIntent::HandleSuccess
   def should_record_payment?
     return true if subscription_data
 
-    charge = Stripe::Charge.retrieve(payment_intent.latest_charge)
-
-    # If there is an email, then it's the Bootcamp.
-    # If there's not an email, then through our integration.
-    # This is terrible, I know.
-    charge.billing_details.email.blank?
+    # Bootcamp payments were created via Checkout Sessions; donations are not.
+    Stripe::Checkout::Session.list({ payment_intent: payment_intent.id }).data.empty?
   rescue StandardError
     true
   end

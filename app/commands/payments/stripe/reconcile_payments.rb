@@ -6,10 +6,10 @@ class Payments::Stripe::ReconcilePayments
   def call
     Stripe::PaymentIntent.list({
       limit: 100,
-      status: 'succeeded',
       created: { gte: since.to_i },
       expand: ['data.latest_charge']
     }).auto_paging_each do |payment_intent|
+      next unless payment_intent.status == 'succeeded'
       next if existing_payment_ids.include?(payment_intent.id)
       next unless payment_intent.customer
 

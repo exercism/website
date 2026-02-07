@@ -6,6 +6,8 @@ class LegacyController < ApplicationController
     return render_404 unless solution.published?
 
     redirect_to Exercism::Routes.published_solution_url(solution)
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 
   def my_solution
@@ -13,6 +15,8 @@ class LegacyController < ApplicationController
     return render_404 unless solution.user_id == current_user.id
 
     redirect_to Exercism::Routes.private_solution_url(solution)
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 
   def mentor_solution
@@ -21,5 +25,7 @@ class LegacyController < ApplicationController
     return render_404 unless discussion
 
     redirect_to mentoring_discussion_url(discussion)
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 end

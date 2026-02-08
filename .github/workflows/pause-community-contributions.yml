@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   pause:
-    if: github.repository_owner == 'exercism' # Stops this job from running on forks
+    if: github.repository_owner == 'exercism' && github.actor != 'sentry[bot]'
     uses: exercism/github-actions/.github/workflows/community-contributions.yml@main
     with:
       forum_category: support

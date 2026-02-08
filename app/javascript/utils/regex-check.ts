@@ -37,6 +37,8 @@ function compareVersions(versionA: string, versionB: string): number {
 }
 
 export function isLookbehindSupported(): boolean {
+  if (!areAllRegExpFeaturesSupported()) return false
+
   const parser = new UAParser().getBrowser()
 
   switch (parser.name) {

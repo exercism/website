@@ -114,7 +114,10 @@ class Submission::TestRun::Process
   def results
     return {} if tooling_job.execution_output.nil?
 
-    res = JSON.parse(tooling_job.execution_output['results.json'], allow_invalid_unicode: true)
+    results_json = tooling_job.execution_output['results.json']
+    return {} if results_json.blank?
+
+    res = JSON.parse(results_json, allow_invalid_unicode: true)
     res.is_a?(Hash) ? res.symbolize_keys : {}
   rescue StandardError => e
     Sentry.capture_exception(e)

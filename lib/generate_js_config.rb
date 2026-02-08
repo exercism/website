@@ -19,7 +19,7 @@ module GenerateJSConfig
   def self.write_env
     File.write(
       Rails.root / 'app' / 'javascript' / '.config' / 'env.json',
-      Exercism.config.to_h.slice(:website_assets_host).to_json
+      Exercism.config.to_h.slice(:website_assets_host, :sentry_js_dsn).to_json
     )
   end
 end

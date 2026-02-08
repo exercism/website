@@ -182,11 +182,11 @@ class API::SolutionsControllerTest < API::BaseTestCase
     assert_response :bad_request
   end
 
-  test "Bugsnag is alerted if diff does not contain files" do
+  test "Sentry is alerted if diff does not contain files" do
     user = create :user
     setup_user(user)
     solution = create(:concept_solution, user:)
-    Bugsnag.expects(:notify).with(RuntimeError.new("No files were found during solution diff"))
+    Sentry.expects(:capture_exception).with(RuntimeError.new("No files were found during solution diff"))
 
     get diff_api_solution_path(solution.uuid), headers: @headers, as: :json
   end

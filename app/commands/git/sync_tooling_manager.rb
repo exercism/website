@@ -6,6 +6,6 @@ class Git::SyncToolingManager
   def call
     Git::ToolingManager.new.update!
   rescue StandardError => e
-    Bugsnag.notify(e)
+    Sentry.capture_exception(e)
   end
 end

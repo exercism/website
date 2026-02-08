@@ -24,22 +24,15 @@ class ApplicationJobTest < ActiveJob::TestCase
     end
   end
 
-  test "deadlock raises but skips bugsnag" do
-    exception = assert_raises ActiveRecord::Deadlocked do
+  test "deadlock retries the job" do
+    assert_enqueued_with(job: TestDeadlockedJob) do
       TestDeadlockedJob.perform_now
     end
-
-    assert exception.skip_bugsnag
   end
 
   test "Deserialization raises for non-active-record exception" do
-    exception = assert_raises ActiveJob::DeserializationError do
+    assert_raises ActiveJob::DeserializationError do
       TestDeserializationJob.perform_now
-    end
-
-    # Check we don't skip bugsnag (this is the weird way to do it)
-    assert_raises(NoMethodError) do
-      exception.skip_bugsnag
     end
   end
 

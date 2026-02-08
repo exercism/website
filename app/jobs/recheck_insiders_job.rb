@@ -5,7 +5,7 @@ class RecheckInsidersJob < ApplicationJob
     User.with_data.where(data: { insiders_status: %i[eligible active] }).find_each do |user|
       User::InsidersStatus::Update.(user)
     rescue StandardError => e
-      Bugsnag.notify(e)
+      Sentry.capture_exception(e)
     end
   end
 end

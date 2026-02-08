@@ -1,13 +1,7 @@
 class ApplicationJob < ActiveJob::Base
-  # For some errors we want to put the job back on the queue by raising and
-  # letting Sidekiq handle things, but don't want to raise the exceptions
-  # to bugsnag. This block handles that.
-  skip_bugnag_and_raise = lambda do |exception|
-    exception.define_singleton_method(:skip_bugsnag) { true }
-    raise exception
-  end
-
-  rescue_from ActiveRecord::Deadlocked, &skip_bugnag_and_raise
+  # Retry deadlocked jobs without reporting to Sentry
+  # (excluded via Sentry config's excluded_exceptions)
+  retry_on ActiveRecord::Deadlocked
 
   # Can be overriden to disable this
   def guard_against_deserialization_errors? = true
@@ -15,7 +9,7 @@ class ApplicationJob < ActiveJob::Base
     raise exception unless guard_against_deserialization_errors?
 
     # We expect this to be a record not found. If it's not
-    # then get out of here and go via Bugsnag!
+    # then get out of here and go via Sentry!
     raise exception unless exception.cause.is_a?(ActiveRecord::RecordNotFound)
 
     # Let any transactions finish then look up again

@@ -12,7 +12,7 @@ class Webhooks::ProcessPaypalAPIEvent
     handle!
   rescue StandardError => e
     Payments::Paypal::Debug.("[Webhook] Error:\n#{e.message}")
-    Bugsnag.notify(e)
+    Sentry.capture_exception(e)
   end
 
   private

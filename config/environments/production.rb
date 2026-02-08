@@ -7,7 +7,6 @@ Rails.application.configure do
 
     Bullet.enable = false # Also change this in config/initializers/bullet.rb
     Bullet.raise  = false
-    Bullet.bugsnag = false
   end
   # Settings specified here will take precedence over those in config/application.rb.
 

@@ -20,7 +20,7 @@ class Exercise::Approach::LinkMatchingSubmissions
 
       Submission::LinkToMatchingApproach.defer(submission)
     rescue StandardError => e
-      Bugsnag.notify(e)
+      Sentry.capture_exception(e)
     end
   end
 
@@ -28,7 +28,7 @@ class Exercise::Approach::LinkMatchingSubmissions
     Submission.has_iteration.tagged.where(exercise:, approach: nil).find_each do |submission|
       Submission::LinkApproach.(submission, approach) if approach.matches_tags?(submission.tags)
     rescue StandardError => e
-      Bugsnag.notify(e)
+      Sentry.capture_exception(e)
     end
   end
 

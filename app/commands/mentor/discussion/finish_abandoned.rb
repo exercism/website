@@ -5,7 +5,7 @@ class Mentor::Discussion::FinishAbandoned
     discussions_to_abandon.each do |discussion|
       finish!(discussion)
     rescue StandardError => e
-      Bugsnag.notify(e)
+      Sentry.capture_exception(e)
     end
   end
 

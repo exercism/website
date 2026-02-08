@@ -36,7 +36,7 @@ class Submission::Representation::Process
 
     tooling_job.execution_output['representation.txt']
   rescue StandardError => e
-    Bugsnag.notify(e)
+    Sentry.capture_exception(e)
     nil
   end
 
@@ -47,7 +47,7 @@ class Submission::Representation::Process
     res = JSON.parse(tooling_job.execution_output['mapping.json'])
     res.is_a?(Hash) ? res.symbolize_keys : {}
   rescue StandardError => e
-    Bugsnag.notify(e)
+    Sentry.capture_exception(e)
     {}
   end
 
@@ -61,7 +61,7 @@ class Submission::Representation::Process
     res = JSON.parse(representation_json)
     res.is_a?(Hash) ? res.symbolize_keys : {}
   rescue StandardError => e
-    Bugsnag.notify(e)
+    Sentry.capture_exception(e)
     {}
   end
 

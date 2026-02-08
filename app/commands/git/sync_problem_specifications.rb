@@ -14,7 +14,7 @@ class Git::SyncProblemSpecifications
         exercise.deprecated? ? :deprecated : :active
       )
     rescue StandardError => e
-      Bugsnag.notify(e)
+      Sentry.capture_exception(e)
     end
   end
 

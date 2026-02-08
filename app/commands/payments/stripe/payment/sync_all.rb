@@ -7,7 +7,7 @@ class Payments::Stripe::Payment::SyncAll
 
       Payments::Stripe::HandleEvent.(event)
     rescue StandardError => e
-      Bugsnag.notify(e)
+      Sentry.capture_exception(e)
     end
   end
 

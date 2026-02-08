@@ -40,7 +40,7 @@ class Submission::Analysis < ApplicationRecord
     end
   rescue StandardError => e
     Github::Issue::Open.(analyzer_repo, e.message, e.backtrace)
-    Bugsnag.notify(e)
+    Sentry.capture_exception(e)
 
     {}
   end
@@ -82,7 +82,7 @@ class Submission::Analysis < ApplicationRecord
       }
     rescue StandardError => e
       Github::Issue::Open.(analyzer_repo, e.message, e.backtrace)
-      Bugsnag.notify(e)
+      Sentry.capture_exception(e)
 
       nil
     end

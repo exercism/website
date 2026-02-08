@@ -90,7 +90,7 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
   test "handle ops error" do
     submission = create :submission
 
-    Bugsnag.expects(:notify).never
+    Sentry.expects(:capture_exception).never
 
     job = create_representer_job!(submission, execution_status: 500, ast: nil)
     Submission::Representation::Process.(job)
@@ -240,7 +240,7 @@ class Submission::Representation::ProcessTest < ActiveSupport::TestCase
     submission = create :submission
     mapping = { 'foo' => 'bar' }
 
-    Bugsnag.expects(:notify).never
+    Sentry.expects(:capture_exception).never
 
     job = create_representer_job!(submission, execution_status: ops_status, ast:, mapping:)
 

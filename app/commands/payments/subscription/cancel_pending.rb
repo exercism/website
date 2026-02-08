@@ -8,7 +8,7 @@ class Payments::Subscription::CancelPending
     Payments::Subscription.pending.where('created_at < ?', Time.current - 2.days).find_each do |subscription|
       Payments::Subscription::Cancel.(subscription)
     rescue StandardError => e
-      Bugsnag.notify(e)
+      Sentry.capture_exception(e)
     end
   end
 end

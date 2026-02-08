@@ -48,7 +48,7 @@ class CreateOnboardingNotificationsJob < ApplicationJob
       users.find_each do |user|
         send_email(user, email)
       rescue StandardError => e
-        Bugsnag.notify(e)
+        Sentry.capture_exception(e)
       end
     end
   end

@@ -24,7 +24,7 @@ class Submission::Analysis::ProcessTest < ActiveSupport::TestCase
     submission = create :submission
     job = create_analyzer_job!(submission, execution_status: 500, data: nil)
 
-    Bugsnag.expects(:notify).never
+    Sentry.expects(:capture_exception).never
 
     Submission::Analysis::Process.(job)
 
@@ -115,7 +115,7 @@ class Submission::Analysis::ProcessTest < ActiveSupport::TestCase
       execution_output:
     )
 
-    Bugsnag.expects(:notify).never
+    Sentry.expects(:capture_exception).never
 
     Submission::Analysis::Process.(job)
 

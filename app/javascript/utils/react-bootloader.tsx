@@ -1,7 +1,6 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
-import Bugsnag from '@bugsnag/js'
-import BugsnagPluginReact from '@bugsnag/plugin-react'
+import * as Sentry from '@sentry/react'
 import { ExercismTippy } from '../components/misc/ExercismTippy'
 import { QueryClientProvider } from '@tanstack/react-query'
 
@@ -20,33 +19,37 @@ type TurboFrameRenderDetail = {
   }
 }
 
-let ErrorBoundary: ErrorBoundaryType = () => <></>
+if (process.env.SENTRY_DSN) {
+  Sentry.init({
+    dsn: process.env.SENTRY_DSN,
+    environment: process.env.NODE_ENV,
+    enabled: process.env.NODE_ENV === 'production',
+    sendDefaultPii: false,
+    beforeSend: (event) => {
+      // Drop non-actionable dynamic import failures (network issues, stale chunks)
+      const isDynamicImportError = event.exception?.values?.some((ex) =>
+        ex.value?.includes('Failed to fetch dynamically imported module')
+      )
+      if (isDynamicImportError) return null
 
-if (process.env.BUGSNAG_API_KEY) {
-  Bugsnag.start({
-    apiKey: process.env.BUGSNAG_API_KEY,
-    releaseStage: process.env.NODE_ENV,
-    plugins: [new BugsnagPluginReact()],
-    enabledReleaseStages: ['production'],
-    collectUserIp: false,
-    onError: function (event) {
       const tag = document.querySelector<HTMLMetaElement>(
         'meta[name="user-id"]'
       )
 
-      if (!tag) {
-        return true
+      if (tag) {
+        event.user = { id: tag.content }
+        return event
       }
 
-      event.setUser(tag.content)
+      // Sample 1% of errors from logged-out users
+      return Math.random() < 0.01 ? event : null
     },
   })
-  const reactPlugin = Bugsnag.getPlugin('react')
-  if (reactPlugin) {
-    ErrorBoundary = reactPlugin.createErrorBoundary(React)
-  } else {
-    throw new Error("Failed to load Bugsnag's react plugin")
-  }
+}
+
+let ErrorBoundary: ErrorBoundaryType = ({ children }) => <>{children}</>
+if (process.env.SENTRY_DSN) {
+  ErrorBoundary = Sentry.ErrorBoundary
 }
 
 // Asynchronously appends a stylesheet to the head and resolves

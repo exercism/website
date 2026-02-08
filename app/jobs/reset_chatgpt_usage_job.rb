@@ -6,7 +6,7 @@ class ResetChatGPTUsageJob < ApplicationJob
       User::ResetUsage.(user, :chatgpt, '3.5')
       User::ResetUsage.(user, :chatgpt, '4.0')
     rescue StandardError => e
-      Bugsnag.notify(e)
+      Sentry.capture_exception(e)
     end
   end
 end

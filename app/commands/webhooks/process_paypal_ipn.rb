@@ -11,7 +11,7 @@ class Webhooks::ProcessPaypalIPN
     handle!
   rescue StandardError => e
     Payments::Paypal::Debug.("[IPN] Error:\n#{e.message}")
-    Bugsnag.notify(e)
+    Sentry.capture_exception(e)
   end
 
   private

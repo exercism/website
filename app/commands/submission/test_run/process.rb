@@ -29,8 +29,8 @@ class Submission::TestRun::Process
         raise "Unknown status"
       end
     rescue StandardError => e
-      # Alert bugsnag and mark as exceptioned
-      Bugsnag.notify(e)
+      # Alert sentry and mark as exceptioned
+      Sentry.capture_exception(e)
       update_status!(:exceptioned)
     end
 
@@ -117,7 +117,7 @@ class Submission::TestRun::Process
     res = JSON.parse(tooling_job.execution_output['results.json'], allow_invalid_unicode: true)
     res.is_a?(Hash) ? res.symbolize_keys : {}
   rescue StandardError => e
-    Bugsnag.notify(e)
+    Sentry.capture_exception(e)
     {}
   end
 

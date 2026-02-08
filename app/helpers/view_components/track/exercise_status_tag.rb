@@ -24,7 +24,7 @@ module ViewComponents
           raise "ExerciseStatusTag: Invalid status: #{status}"
         end
       rescue StandardError => e
-        Bugsnag.notify(e)
+        Sentry.capture_exception(e)
         ""
       end
     end

@@ -10,7 +10,7 @@ module SPI
           reason: params[:reason].upcase
         })
       rescue Aws::SESV2::Errors::ServiceError => e
-        Bugsnag.notify(e)
+        Sentry.capture_exception(e)
       end
     end
   end

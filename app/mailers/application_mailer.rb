@@ -74,7 +74,7 @@ class ApplicationMailer < ActionMailer::Base
     rescue StandardError => e
       # We're fine with @preview_text being nil if it has to be
       # but we should never get here.
-      Bugsnag.notify(e)
+      Sentry.capture_exception(e)
     end
 
     mail(

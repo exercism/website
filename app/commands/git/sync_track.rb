@@ -30,7 +30,7 @@ class Git::SyncTrack < Git::Sync
 
     # TODO: (Optional) consider raising error when slug in config is different from track slug
 
-    # TODO: (Optional) We should raise a bugsnag here too. Note: this is not needed if
+    # TODO: (Optional) We should raise a sentry error here too. Note: this is not needed if
     # we validate a track using configlet
     blurb = head_git_track.blurb[0, 350]
 

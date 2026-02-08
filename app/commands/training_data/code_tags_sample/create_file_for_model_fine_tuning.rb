@@ -52,7 +52,7 @@ class TrainingData::CodeTagsSample::CreateFileForModelFineTuning
       write_messages_for_incorrect_llm_tags!(sample) if sample.llm_tags.present?
       write_messages_for_missing_llm_tags!(sample) if sample.llm_tags.present?
     rescue StandardError => e
-      Bugsnag.notify(e)
+      Sentry.capture_exception(e)
     end
   end
 

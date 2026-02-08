@@ -6,7 +6,7 @@ import {
   ErrorBoundaryPropsWithComponent,
 } from 'react-error-boundary'
 import { APIError } from './types'
-import Bugsnag from '@bugsnag/js'
+import * as Sentry from '@sentry/react'
 
 const ERROR_MESSAGE_TIMEOUT_IN_MS = 500
 
@@ -32,7 +32,7 @@ const handleError = (error: Error) => {
     return
   }
 
-  Bugsnag.notify(error)
+  Sentry.captureException(error)
 }
 
 export const ErrorBoundary = ({
@@ -85,7 +85,7 @@ export const useErrorHandler = (
       }
 
       if (process.env.NODE_ENV == 'production') {
-        Bugsnag.notify(error)
+        Sentry.captureException(error)
       }
 
       handler(new HandledError(defaultError.message))
@@ -98,7 +98,7 @@ export const useErrorHandler = (
         })
         .catch((e) => {
           if (process.env.NODE_ENV == 'production') {
-            Bugsnag.notify(e)
+            Sentry.captureException(e)
           }
 
           handler(new HandledError(defaultError.message))

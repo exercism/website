@@ -12,7 +12,7 @@ class Github::Issue::Open
       reopen_issue
     end
   rescue StandardError => e
-    Bugsnag.notify(e)
+    Sentry.capture_exception(e)
   end
 
   private

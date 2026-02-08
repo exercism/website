@@ -32,6 +32,10 @@ const handleError = (error: Error) => {
     return
   }
 
+  if (error.name === 'AbortError') {
+    return
+  }
+
   Sentry.captureException(error)
 }
 

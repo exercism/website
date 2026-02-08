@@ -41,6 +41,18 @@ if (process.env.SENTRY_DSN) {
       )
       if (isTurnstileError) return null
 
+      // Drop AbortErrors — expected when fetch requests are cancelled
+      // (e.g. user navigates away, component unmounts, React Query cancels stale requests)
+      const isAbortError = event.exception?.values?.some(
+        (ex) =>
+          ex.type === 'AbortError' ||
+          ex.value?.includes('AbortError') ||
+          ex.value?.includes('Fetch is aborted') ||
+          ex.value?.includes('The operation was aborted') ||
+          ex.value?.includes('signal is aborted without reason')
+      )
+      if (isAbortError) return null
+
       const tag = document.querySelector<HTMLMetaElement>(
         'meta[name="user-id"]'
       )

@@ -29,7 +29,7 @@ function build() {
       target: 'es2022',
       define: {
         // global: 'window',
-        'process.env.SENTRY_DSN': `"${env['sentry_dsn'] || ''}"`,
+        'process.env.SENTRY_DSN': `"${env['sentry_js_dsn'] || ''}"`,
 
         // The || '' part is needed to prevent the value being injected
         // into the code being the literal "null"

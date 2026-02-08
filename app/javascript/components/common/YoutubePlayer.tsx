@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 
 declare global {
   interface Window {
@@ -15,12 +15,17 @@ export function YoutubePlayer({
   onPlay?: () => void
 }): JSX.Element | null {
   const playerRef = useRef<HTMLDivElement>(null)
-  const [player, setPlayer] = useState<any>(null)
+  const playerInstanceRef = useRef<any>(null)
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
-
-  if (!id || id.length !== 11) return null
+  const isMountedRef = useRef(true)
+  const playerCreatedRef = useRef(false)
 
   useEffect(() => {
+    if (!id || id.length !== 11) return
+
+    isMountedRef.current = true
+    playerCreatedRef.current = false
+
     if (!window.YT) {
       const existingScript = document.querySelector(
         'script[src*="youtube.com/iframe_api"]'
@@ -34,53 +39,66 @@ export function YoutubePlayer({
     }
 
     const showVideo = () => {
-      if (playerRef.current && !player && window.YT?.Player) {
-        try {
-          const newPlayer = new window.YT.Player(playerRef.current, {
-            videoId: id,
-            playerVars: {
-              rel: 0,
-              playsinline: 1,
+      if (!isMountedRef.current) return
+      if (playerCreatedRef.current) return
+      if (!playerRef.current) return
+      if (!window.YT?.Player) return
+
+      playerCreatedRef.current = true
+
+      try {
+        const newPlayer = new window.YT.Player(playerRef.current, {
+          videoId: id,
+          playerVars: {
+            rel: 0,
+            playsinline: 1,
+          },
+          events: {
+            onStateChange: (event: { data: number }) => {
+              if (event.data === window.YT.PlayerState.PLAYING && onPlay) {
+                onPlay()
+              }
             },
-            events: {
-              onStateChange: (event: { data: number }) => {
-                if (event.data === window.YT.PlayerState.PLAYING && onPlay) {
-                  onPlay()
-                }
-              },
-            },
-          })
-          setPlayer(newPlayer)
-        } catch (error) {
-          console.error('Error creating YouTube player:', error)
-        }
+          },
+        })
+        playerInstanceRef.current = newPlayer
+      } catch (error) {
+        playerCreatedRef.current = false
+        console.error('Error creating YouTube player:', error)
       }
     }
 
     intervalRef.current = setInterval(() => {
       if (window.YT?.Player) {
-        showVideo()
         if (intervalRef.current) {
           clearInterval(intervalRef.current)
           intervalRef.current = null
         }
+        showVideo()
       }
     }, 100)
 
     return () => {
+      isMountedRef.current = false
+
       if (intervalRef.current) {
         clearInterval(intervalRef.current)
         intervalRef.current = null
       }
-      if (player?.destroy) {
+
+      if (playerInstanceRef.current?.destroy) {
         try {
-          player.destroy()
+          playerInstanceRef.current.destroy()
         } catch (error) {
           console.error('Error destroying YT player:', error)
         }
       }
+      playerInstanceRef.current = null
+      playerCreatedRef.current = false
     }
   }, [id, onPlay])
+
+  if (!id || id.length !== 11) return null
 
   return (
     <div className="c-youtube-container">

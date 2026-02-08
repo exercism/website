@@ -52,6 +52,21 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
     assert submission.reload.tests_exceptioned?
   end
 
+  test "handle empty results.json in execution output" do
+    submission = create :submission
+    job = create_tooling_job!(
+      submission,
+      :test_runner,
+      execution_status: 200,
+      execution_output: { "results.json" => "" },
+      source: { 'exercise_git_sha' => submission.git_sha }
+    )
+
+    Submission::TestRun::Process.(job)
+
+    assert submission.reload.tests_exceptioned?
+  end
+
   test "handle tests pass" do
     submission = create :submission
     results = { 'status' => 'pass', 'message' => "", 'tests' => [] }

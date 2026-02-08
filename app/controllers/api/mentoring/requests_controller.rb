@@ -12,10 +12,6 @@ class API::Mentoring::RequestsController < API::BaseController
     render json: AssembleMentorRequests.(current_user, params)
   end
 
-  def tracks
-    render json: Mentor::Request::RetrieveTracks.(current_user)
-  end
-
   def exercises
     render json: Mentor::Request::RetrieveExercises.(current_user, params[:track_slug])
   end

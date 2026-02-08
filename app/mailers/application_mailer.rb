@@ -6,7 +6,7 @@ class ApplicationMailer < ActionMailer::Base
   helper :email
 
   rescue_from(Mail::Field::IncompleteParseError) {}
-  rescue_from("Net::SMTPSyntaxError: 501 5.5.2 RCPT TO syntax error") {}
+  rescue_from(Net::SMTPSyntaxError) {}
 
   def user_email_with_name(user)
     name = user.name.presence || user.handle

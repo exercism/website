@@ -33,11 +33,11 @@ export function useTheme(
     theme: defaultThemePreference,
     time: Date.now(),
   })
-  const [theme, setTheme] = useState<string>(storedTheme.theme || '')
+  const [theme, setTheme] = useState<string>(storedTheme?.theme || '')
   const debouncedTheme = useDebounce(theme, 500)
 
   useEffect(() => {
-    if (hasFiveMinElapsed(storedTheme.time)) {
+    if (!storedTheme?.time || hasFiveMinElapsed(storedTheme.time)) {
       setStoredTheme({ theme: defaultThemePreference, time: Date.now() })
     }
   }, [])

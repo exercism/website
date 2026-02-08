@@ -18,15 +18,21 @@ You are fixing a GitHub issue for the exercism/website repository.
 
 Issue number: !`echo "$ARGUMENTS" | grep -oE '[0-9]+$'`
 
-## Critical: Protect existing work
+## Critical: Two phase.
 
-**Before doing anything else**, check the current git state:
+Your work is split into two phases.
+
+The first phase is purely planning. You must **NOT** make any changes to git state (switching branches, creating branches etc). You should presume that other work is SIMULTANEOUSLY happening WHILE you are planning.
+
+Once the plan has been **APPROVED** by the user you should check the current git state:
 
 - Run `git status` to check for uncommitted changes and the current branch.
 - If there are **uncommitted or staged changes**, STOP and ask the user how to proceed. Do NOT checkout another branch, stash, or discard anything.
 - If you are **not on main**, STOP and ask the user how to proceed. Do NOT switch branches or reset.
 
 Never destroy or discard existing work.
+
+If the plan has been approved, and you are on a clean main branch, continue with your work.
 
 ## Workflow
 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import Bugsnag from '@bugsnag/browser'
+import * as Sentry from '@sentry/react'
 import { Stripe } from '@stripe/stripe-js'
 
 export function useLazyLoadStripe(): {
@@ -15,7 +15,7 @@ export function useLazyLoadStripe(): {
     )?.content
 
     if (!publishableKey) {
-      Bugsnag.notify('Publishable key not found!')
+      Sentry.captureMessage('Publishable key not found!')
       setError('Publishable key not found!')
       return
     }
@@ -30,7 +30,7 @@ export function useLazyLoadStripe(): {
       })
       .then(setStripe)
       .catch((err) => {
-        Bugsnag.notify('Failed to load Stripe:', err)
+        Sentry.captureException(err)
         setError(`Failed to load Stripe. Please reload the page to try again.`)
       })
   }, [])

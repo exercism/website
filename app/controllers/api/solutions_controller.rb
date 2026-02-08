@@ -107,7 +107,7 @@ class API::SolutionsController < API::BaseController
       status = 200
     else
       status = 400
-      Bugsnag.notify(RuntimeError.new("No files were found during solution diff"))
+      Sentry.capture_exception(RuntimeError.new("No files were found during solution diff"))
     end
 
     render json: {

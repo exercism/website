@@ -23,7 +23,7 @@ class Mailshot
     rescue StandardError => e
       # I don't want this silently failing, but I do want it catching
       # and requeuing automatically by ActiveJob.
-      Bugsnag.notify(e)
+      Sentry.capture_exception(e)
 
       raise
     end

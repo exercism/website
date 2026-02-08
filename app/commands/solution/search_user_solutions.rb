@@ -41,7 +41,7 @@ class Solution::SearchUserSolutions
     Kaminari.paginate_array(solutions, total_count:).
       page(page).per(per)
   rescue StandardError => e
-    Bugsnag.notify(e)
+    Sentry.capture_exception(e)
     Fallback.(user, page, per, track_slug, status, mentoring_status,
       criteria, order, sync_status, tests_status, head_tests_status)
   end

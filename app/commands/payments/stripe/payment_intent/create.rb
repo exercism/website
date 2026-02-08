@@ -8,7 +8,9 @@ class Payments::Stripe::PaymentIntent::Create
 
   def call
     if invalid_user_or_email?
-      Bugsnag.notify(Payments::Stripe::PaymentIntentError.new("Invalid user or email trying to make donation: #{user_or_email}"))
+      Sentry.capture_exception(
+        Payments::Stripe::PaymentIntentError.new("Invalid user or email trying to make donation: #{user_or_email}")
+      )
       return
     end
 

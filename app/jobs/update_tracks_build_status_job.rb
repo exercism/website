@@ -7,7 +7,7 @@ class UpdateTracksBuildStatusJob < ApplicationJob
     tracks.find_each do |track|
       Track::UpdateBuildStatus.(track)
     rescue StandardError => e
-      Bugsnag.notify(e)
+      Sentry.capture_exception(e)
     end
   end
 

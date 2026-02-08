@@ -14,7 +14,7 @@ class Mentor::Discussion::SendNudges
 
       Mentor::Discussion::NudgeStudent.(discussion, num_days_waiting)
     rescue StandardError => e
-      Bugsnag.notify(e)
+      Sentry.capture_exception(e)
     end
   end
 
@@ -31,7 +31,7 @@ class Mentor::Discussion::SendNudges
 
       Mentor::Discussion::NudgeMentor.(discussion, num_days_waiting)
     rescue StandardError => e
-      Bugsnag.notify(e)
+      Sentry.capture_exception(e)
     end
   end
 

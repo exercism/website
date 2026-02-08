@@ -36,8 +36,8 @@ class Submission::Representation::ProcessResults
     rescue StandardError => e
       raise unless Rails.env.production?
 
-      # Alert bugsnag and mark as exceptioned
-      Bugsnag.notify(e)
+      # Alert sentry and mark as exceptioned
+      Sentry.capture_exception(e)
 
       # Reload the record here to ensure # that it hasn't got
       # in a bad state in the transaction above.

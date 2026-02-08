@@ -11,7 +11,7 @@ class Mentor::Discussion::UpdateTimedOut
     student_timed_out_discussions.find_each do |discussion|
       Mentor::Discussion::StudentTimedOut.(discussion)
     rescue StandardError => e
-      Bugsnag.notify(e)
+      Sentry.capture_exception(e)
     end
   end
 
@@ -25,7 +25,7 @@ class Mentor::Discussion::UpdateTimedOut
     mentor_timed_out_discussions.find_each do |discussion|
       Mentor::Discussion::MentorTimedOut.(discussion)
     rescue StandardError => e
-      Bugsnag.notify(e)
+      Sentry.capture_exception(e)
     end
   end
 

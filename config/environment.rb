@@ -11,7 +11,7 @@ begin
   path = ref.split(':').last.strip # This extracts `refs/heads/main`
   ENV["SKYLIGHT_DEPLOY_GIT_SHA"] = File.read(Rails.root.join(".git", path)).strip
 rescue StandardError => e
-  Bugsnag.notify(e)
+  Sentry.capture_exception(e)
 end
 
 # Initialize the Rails application.

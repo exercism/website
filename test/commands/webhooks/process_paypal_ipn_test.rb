@@ -51,35 +51,35 @@ class Webhooks::ProcessPaypalIPNTest < ActiveSupport::TestCase
     end
   end
 
-  test "bugsnag is created if IPN is invalid" do
+  test "sentry is alerted if IPN is invalid" do
     payload = "txn_id=#{SecureRandom.uuid}&txn_type=web_accept"
 
     stub_request(:post, "https://ipnpb.paypal.com/cgi-bin/webscr").
       to_return(status: 200, body: "INVALID", headers: {})
 
-    Bugsnag.expects(:notify).once
+    Sentry.expects(:capture_exception).once
 
     Webhooks::ProcessPaypalIPN.(payload)
   end
 
-  test "bugsnag is created if IPN verification has unknown result" do
+  test "sentry is alerted if IPN verification has unknown result" do
     payload = "txn_id=#{SecureRandom.uuid}&txn_type=web_accept"
 
     stub_request(:post, "https://ipnpb.paypal.com/cgi-bin/webscr").
       to_return(status: 200, body: "UNKNOWN", headers: {})
 
-    Bugsnag.expects(:notify).once
+    Sentry.expects(:capture_exception).once
 
     Webhooks::ProcessPaypalIPN.(payload)
   end
 
-  test "bugsnag is created if error occurs in verification request" do
+  test "sentry is alerted if error occurs in verification request" do
     payload = "txn_id=#{SecureRandom.uuid}&txn_type=web_accept"
 
     stub_request(:post, "https://ipnpb.paypal.com/cgi-bin/webscr").
       to_return(status: 500, body: "ERROR", headers: {})
 
-    Bugsnag.expects(:notify).once
+    Sentry.expects(:capture_exception).once
 
     Webhooks::ProcessPaypalIPN.(payload)
   end

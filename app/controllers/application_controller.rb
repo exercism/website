@@ -203,14 +203,14 @@ class ApplicationController < ActionController::Base
     captcha = %w[https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/]
     fontawesome = "https://maxcdn.bootstrapcdn.com"
     spellchecker = "https://cdn.jsdelivr.net"
-    bugsnag = "https://sessions.bugsnag.com/"
+    sentry = "https://*.ingest.sentry.io"
 
     default = %w['self' https://exercism.org https://api.exercism.org https://assets.exercism.org]
     default << "127.0.0.1" if Rails.env.test?
 
     {
       default:,
-      connect: ["'self'", websockets, spellchecker, bugsnag],
+      connect: ["'self'", websockets, spellchecker, sentry],
       img: %w['self' data: https://*],
       media: %w[*],
       script: default + [stripe, spellchecker, *captcha],

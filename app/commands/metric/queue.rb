@@ -11,7 +11,7 @@ class Metric::Queue
     Metric::Create.defer(type, occurred_at, **attributes)
   rescue StandardError => e
     # Don't crash if the creation fails, e.g. if sidekiq is down
-    Bugsnag.notify(e)
+    Sentry.capture_exception(e)
   end
 
   memoize

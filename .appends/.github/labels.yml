@@ -3,13 +3,13 @@
 # https://github.com/exercism/org-wide-files/blob/main/global-files/.github/labels.yml.     #
 # ----------------------------------------------------------------------------------------- #
 
-- name: "bot/bugsnag"
+- name: "bot/sentry"
   description: ""
-  color: "A32E92"
-  
-- name: "bot/bugsnag-clientside"
+  color: "362D59"
+
+- name: "bot/sentry-clientside"
   description: ""
-  color: "A32E92"
+  color: "362D59"
 
 - name: "dependencies"
   description: "Pull requests that update a dependency file"

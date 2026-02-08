@@ -78,7 +78,7 @@ class Payments::Stripe::PaymentIntent::CreateTest < Payments::TestBase
     assert_nil Payments::Stripe::PaymentIntent::Create.(email, type, amount_in_cents)
   end
 
-  test "log error in bugsnag when email uses blocked domain" do
+  test "log error in sentry when email uses blocked domain" do
     block_domain = create :user_block_domain
     email = "#{SecureRandom.uuid}@#{block_domain.domain}"
     type = 'payment'
@@ -88,7 +88,7 @@ class Payments::Stripe::PaymentIntent::CreateTest < Payments::TestBase
     Stripe::PaymentIntent.expects(:create).never
     Stripe::Subscription.expects(:create).never
 
-    Bugsnag.expects(:notify).once
+    Sentry.expects(:capture_exception).once
 
     assert_nil Payments::Stripe::PaymentIntent::Create.(email, type, amount_in_cents)
   end

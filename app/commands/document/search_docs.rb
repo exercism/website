@@ -32,7 +32,7 @@ class Document::SearchDocs
     Kaminari.paginate_array(docs, total_count:).
       page(page).per(per)
   rescue StandardError => e
-    Bugsnag.notify(e)
+    Sentry.capture_exception(e)
     Fallback.(criteria, track_slug, page, per)
   end
 

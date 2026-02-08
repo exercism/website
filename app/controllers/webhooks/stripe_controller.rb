@@ -12,10 +12,10 @@ module Webhooks
 
       head :ok
     rescue JSON::ParserError => e
-      Bugsnag.notify(e)
+      Sentry.capture_exception(e)
       head :bad_request
     rescue Stripe::SignatureVerificationError => e
-      Bugsnag.notify(e)
+      Sentry.capture_exception(e)
       head :bad_request
     end
   end

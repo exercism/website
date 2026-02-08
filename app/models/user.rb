@@ -289,12 +289,12 @@ class User < ApplicationRecord
     solutions.where('downloaded_at >= ?', Time.current - 30.days).exists?
   end
 
-  # TODO: Remove this if there have not been any bugsnags
+  # TODO: Remove this if there have not been any sentry errors
   def may_view_solution?(solution)
     begin
       raise "User#may_view_solution? is deprecated"
     rescue StandardError => e
-      Bugsnag.notify(e)
+      Sentry.capture_exception(e)
     end
 
     solution.viewable_by?(self)

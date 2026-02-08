@@ -15,7 +15,7 @@ class Payments::Stripe::ReconcilePayments
 
       sync_payment_intent(payment_intent)
     rescue StandardError => e
-      Bugsnag.notify(e)
+      Sentry.capture_exception(e)
     end
   end
 

@@ -4,8 +4,6 @@
   "dependencies": {
     "@babel/plugin-transform-regenerator": "^7.25.9",
     "@ballerina/highlightjs-ballerina": "^1.0.1",
-    "@bugsnag/js": "^7.10.0",
-    "@bugsnag/plugin-react": "^7.19.0",
     "@codemirror/commands": "^6.7.1",
     "@codemirror/lang-cpp": "^6.0.2",
     "@codemirror/lang-css": "^6.3.1",
@@ -44,6 +42,7 @@
     "@rails/actioncable": "^6.0.0",
     "@replit/codemirror-interact": "^6.3.1",
     "@sector-labs/postcss-inline-class": "^0.0.6",
+    "@sentry/react": "^10.38.0",
     "@stripe/react-stripe-js": "^2.1.1",
     "@stripe/stripe-js": "^1.54.1",
     "@tanstack/query-persist-client-core": "^5.80.7",

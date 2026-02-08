@@ -30,7 +30,7 @@ class AvatarsController < ActionController::Base # rubocop:disable Rails/Applica
   rescue ActiveRecord::RecordNotFound
     head :not_found
   rescue StandardError => e
-    Bugsnag.notify(e)
+    Sentry.capture_exception(e)
     head :internal_server_error
   end
 end

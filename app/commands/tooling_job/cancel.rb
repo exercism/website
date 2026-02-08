@@ -25,6 +25,7 @@ class ToolingJob::Cancel
     end
   end
 
+  memoize
   def job
     Exercism::ToolingJob.find_for_submission_uuid_and_type(submission_uuid, type)
   rescue StandardError

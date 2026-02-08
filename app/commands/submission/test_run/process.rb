@@ -112,6 +112,8 @@ class Submission::TestRun::Process
 
   memoize
   def results
+    return {} if tooling_job.execution_output.nil?
+
     res = JSON.parse(tooling_job.execution_output['results.json'], allow_invalid_unicode: true)
     res.is_a?(Hash) ? res.symbolize_keys : {}
   rescue StandardError => e

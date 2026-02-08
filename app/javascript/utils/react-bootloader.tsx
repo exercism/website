@@ -172,7 +172,12 @@ export function initReact(mappings: Mappings): void {
   }
 }
 
+let googleTranslatePatched = false
+
 function onGoogleTranslateDetected(): void {
+  if (googleTranslatePatched) return
+  googleTranslatePatched = true
+
   // See: https://github.com/facebook/react/issues/11538#issuecomment-417504600
   if (typeof Node === 'function' && Node.prototype) {
     const originalRemoveChild: (child: Node) => Node =

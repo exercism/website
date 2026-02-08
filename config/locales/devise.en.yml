@@ -6,6 +6,7 @@ en:
       confirmed: "Your email address has been successfully confirmed. Please sign in below."
       send_instructions: "You will receive an email with instructions for how to confirm your email address in a few minutes."
       send_paranoid_instructions: "If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes."
+      csrf_failure: "Your session expired. Please try again."
     failure:
       already_authenticated: "You are already signed in."
       inactive: "Your account is not activated yet."
@@ -46,6 +47,7 @@ en:
       updated: "Your account has been updated successfully."
       updated_but_not_signed_in: "Your account has been updated successfully, but since your password was changed, you need to sign in again"
       captcha_verification_failed: "Captcha verification failed. Please try again."
+      csrf_failure: "Your session expired. Please try again."
     sessions:
       signed_in: "Signed in successfully."
       signed_out: "Signed out successfully."

@@ -67,9 +67,15 @@ Only create the worktree **after the plan is approved**. The issue number has be
 
 ```bash
 git pull --ff-only origin main
-mkdir -p ../website-worktrees
-git worktree add ../website-worktrees/fix-<issue-number> -b fix/<issue-number>
-cd ../website-worktrees/fix-<issue-number>
+git worktree add worktrees/fix-<issue-number> -b fix/<issue-number>
+cd worktrees/fix-<issue-number>
+```
+
+After creating the worktree, symlink `node_modules` and husky from the main repo so that JS tooling (prettier, eslint, jest) and pre-commit hooks work without a full `yarn install`:
+
+```bash
+ln -s /Users/iHiD/Code/exercism/website/node_modules node_modules
+ln -s /Users/iHiD/Code/exercism/website/.husky/_ .husky/_
 ```
 
 **Important:** After creating the worktree, `cd` into it immediately. All subsequent work (file edits, bash commands, tests) happens inside the worktree. The main repo stays untouched on its current branch.
@@ -129,7 +135,7 @@ EOF
 
 ```bash
 cd /Users/iHiD/Code/exercism/website
-git worktree remove ../website-worktrees/fix-<issue-number>
+git worktree remove worktrees/fix-<issue-number>
 ```
 
 This removes the worktree directory and returns you to the main repo. The branch remains on the remote for the PR.

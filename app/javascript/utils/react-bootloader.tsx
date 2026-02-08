@@ -53,6 +53,12 @@ if (process.env.SENTRY_DSN) {
       )
       if (isAbortError) return null
 
+      // Drop non-actionable cross-origin postMessage errors (third-party iframes: Turnstile, YouTube, etc.)
+      const isInvalidOriginError = event.exception?.values?.some((ex) =>
+        ex.value?.includes('invalid origin')
+      )
+      if (isInvalidOriginError) return null
+
       const tag = document.querySelector<HTMLMetaElement>(
         'meta[name="user-id"]'
       )

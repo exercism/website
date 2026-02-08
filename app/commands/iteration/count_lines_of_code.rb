@@ -3,7 +3,9 @@ class Iteration::CountLinesOfCode
 
   queue_as :solution_processing
 
-  initialize_with :iteration
+  initialize_with :iteration, retries_count: 0
+
+  MAX_RETRIES = 3
 
   def call
     # Sometimes the iteration might be deleted
@@ -34,6 +36,10 @@ class Iteration::CountLinesOfCode
 
     iteration.update_column(:num_loc, num_loc)
     Solution::UpdateNumLoc.(iteration.solution)
+  rescue RestClient::BadGateway, RestClient::ServiceUnavailable, RestClient::GatewayTimeout
+    raise if retries_count >= MAX_RETRIES
+
+    self.class.defer(iteration, retries_count: retries_count + 1, wait: rand(30..90))
   ensure
     ToolingJob::DeleteFromEFS.(efs_dir)
   end

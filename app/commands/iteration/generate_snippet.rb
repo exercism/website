@@ -3,7 +3,9 @@ class Iteration::GenerateSnippet
 
   queue_as :solution_processing
 
-  initialize_with :iteration
+  initialize_with :iteration, retries_count: 0
+
+  MAX_RETRIES = 3
 
   def call
     # Sometimes the iteration might be deleted
@@ -35,5 +37,9 @@ class Iteration::GenerateSnippet
     return if e.message.include?("Invalid Unicode")
 
     raise
+  rescue RestClient::BadGateway, RestClient::ServiceUnavailable, RestClient::GatewayTimeout
+    raise if retries_count >= MAX_RETRIES
+
+    self.class.defer(iteration, retries_count: retries_count + 1, wait: rand(30..90))
   end
 end

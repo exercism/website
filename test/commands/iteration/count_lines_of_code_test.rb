@@ -98,6 +98,31 @@ class Iteration::CountLinesOfCodeTest < ActiveJob::TestCase
     assert_equal iteration.num_loc, solution.reload.num_loc
   end
 
+  test "requeues on bad gateway" do
+    submission = create :submission
+    create :submission_file, submission:, content: "Some source code"
+    iteration = create(:iteration, submission:)
+
+    RestClient.stubs(:post).raises(RestClient::BadGateway)
+
+    Iteration::CountLinesOfCode.expects(:defer).with do |iter, **kwargs|
+      iter == iteration && kwargs[:retries_count] == 1 && kwargs[:wait].between?(30, 90)
+    end
+    Iteration::CountLinesOfCode.(iteration)
+  end
+
+  test "raises after max retries exhausted" do
+    submission = create :submission
+    create :submission_file, submission:, content: "Some source code"
+    iteration = create(:iteration, submission:)
+
+    RestClient.stubs(:post).raises(RestClient::BadGateway)
+
+    assert_raises RestClient::BadGateway do
+      Iteration::CountLinesOfCode.(iteration, retries_count: 3)
+    end
+  end
+
   test "solution is not updated if another iteration is published" do
     solution = create :concept_solution
     submission = create :submission

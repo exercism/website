@@ -1,7 +1,9 @@
 module SPI
   class UnsubscribeUsersController < BaseController
     def unsubscribe_by_email
-      user = User.find_by!(email: params[:email])
+      user = User.find_by(email: params[:email])
+      return head :ok unless user
+
       User::UnsubscribeFromAllEmails.(user)
 
       begin

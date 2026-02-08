@@ -25,14 +25,18 @@ if (process.env.SENTRY_DSN) {
     environment: process.env.NODE_ENV,
     enabled: process.env.NODE_ENV === 'production',
     sendDefaultPii: false,
-    initialScope: (scope) => {
+    beforeSend: (event) => {
       const tag = document.querySelector<HTMLMetaElement>(
         'meta[name="user-id"]'
       )
+
       if (tag) {
-        scope.setUser({ id: tag.content })
+        event.user = { id: tag.content }
+        return event
       }
-      return scope
+
+      // Sample 1% of errors from logged-out users
+      return Math.random() < 0.01 ? event : null
     },
   })
 }

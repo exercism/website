@@ -16,9 +16,14 @@
             %p
               = t('.external_cta.description', num_exercises: @user_track.num_exercises, track_title: @track.title)
 
-          = button_to join_track_path(@track), method: :post, class: "btn-primary btn-m" do
-            = graphical_icon(:plus)
-            = t('.external_cta.join_track_button', track_title: @track.title)
+          - if user_signed_in?
+            = button_to join_track_path(@track), method: :post, class: "btn-primary btn-m" do
+              = graphical_icon(:plus)
+              = t('.external_cta.join_track_button', track_title: @track.title)
+          - else
+            = link_to User::GenerateNewSessionPath.(request, controller), class: "btn-primary btn-m" do
+              = graphical_icon(:plus)
+              = t('.external_cta.join_track_button', track_title: @track.title)
 
     %header.page-header
       .lg-container.container.flex-col.sm:flex-row

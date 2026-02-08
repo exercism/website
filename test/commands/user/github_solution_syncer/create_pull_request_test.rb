@@ -36,5 +36,22 @@ class User::GithubSolutionSyncer
 
       User::GithubSolutionSyncer::CreatePullRequest.(syncer, pr_title, pr_body, &block)
     end
+
+    test "returns nil when repo not found" do
+      syncer = create :user_github_solution_syncer
+
+      token = "fake-token-#{SecureRandom.uuid}"
+      GithubApp.expects(:generate_installation_token!).with(syncer.installation_id).returns(token)
+
+      client = mock
+      Octokit::Client.expects(:new).with(access_token: token).returns(client).at_least_once
+      client.expects(:repository).with(syncer.repo_full_name).raises(Octokit::NotFound)
+
+      block = ->(_, _) {}
+      block.expects(:call).never
+
+      result = User::GithubSolutionSyncer::CreatePullRequest.(syncer, "title", "body", &block)
+      assert_nil result
+    end
   end
 end

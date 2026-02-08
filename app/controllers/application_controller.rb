@@ -26,6 +26,8 @@ class ApplicationController < ActionController::Base
   # by a gem, which can cause chaos with devise etc.
   protect_from_forgery with: :exception, prepend: true
 
+  rescue_from ActionController::UnknownFormat, with: -> { head :not_acceptable }
+
   def process_action(*args)
     super
   rescue ActionDispatch::Http::MimeNegotiation::InvalidType,

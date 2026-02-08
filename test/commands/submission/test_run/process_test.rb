@@ -43,6 +43,15 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
     assert submission.reload.tests_exceptioned?
   end
 
+  test "handle ops error with no execution output" do
+    submission = create :submission
+    job = create_test_runner_job!(submission, execution_status: 500)
+
+    Submission::TestRun::Process.(job)
+
+    assert submission.reload.tests_exceptioned?
+  end
+
   test "handle tests pass" do
     submission = create :submission
     results = { 'status' => 'pass', 'message' => "", 'tests' => [] }

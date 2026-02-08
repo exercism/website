@@ -40,8 +40,7 @@ class Solution::SearchUserSolutions
     total_count = results["hits"]["total"]["value"].to_i
     Kaminari.paginate_array(solutions, total_count:).
       page(page).per(per)
-  rescue StandardError => e
-    Sentry.capture_exception(e)
+  rescue StandardError
     Fallback.(user, page, per, track_slug, status, mentoring_status,
       criteria, order, sync_status, tests_status, head_tests_status)
   end

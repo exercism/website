@@ -19,5 +19,8 @@
           exercises_link: exercise_link)
 
   .buttons
-    = button_to t('.join_track_button', track_title: track.title), join_track_path(track), method: :post, class: "btn-primary btn-m"
+    - if user_signed_in?
+      = button_to t('.join_track_button', track_title: track.title), join_track_path(track), method: :post, class: "btn-primary btn-m"
+    - else
+      = link_to t('.join_track_button', track_title: track.title), User::GenerateNewSessionPath.(request, controller), class: "btn-primary btn-m"
     = link_to t('.see_all_exercises_button', track_title: track.title), track_exercises_path(track), class: 'btn-secondary btn-m'

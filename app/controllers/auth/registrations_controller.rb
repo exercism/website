@@ -4,6 +4,8 @@ module Auth
     before_action :configure_permitted_parameters
     before_action :verify_turnstile!, only: [:create]
 
+    rescue_from ActionController::InvalidAuthenticityToken, with: :handle_csrf_failure
+
     def create
       super do |user|
         if user.persisted?
@@ -24,6 +26,11 @@ module Auth
     end
 
     private
+    def handle_csrf_failure
+      set_flash_message(:alert, :csrf_failure) if is_navigational_format?
+      redirect_to new_user_registration_path
+    end
+
     def verify_turnstile!
       raise "Turnstile: No response token" unless params['cf-turnstile-response'].present?
 

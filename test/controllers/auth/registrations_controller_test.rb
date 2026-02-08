@@ -22,5 +22,23 @@ module Auth
         "cf-turnstile-response": "valid_turnstile_response"
       }
     end
+
+    test "redirects to registration page on CSRF failure" do
+      ActionController::Base.allow_forgery_protection = true
+
+      post user_registration_path, params: {
+        user: {
+          name: "User",
+          handle: "user22",
+          email: "user@exercism.org",
+          password: "password",
+          password_confirmation: "password"
+        }
+      }
+
+      assert_redirected_to new_user_registration_path
+    ensure
+      ActionController::Base.allow_forgery_protection = false
+    end
   end
 end

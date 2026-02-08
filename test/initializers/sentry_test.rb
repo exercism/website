@@ -18,7 +18,7 @@ class SentryActiveStorageFilterTest < ActiveSupport::TestCase
   end
 
   test "allows other errors from ActiveStorage paths" do
-    event = mock_sentry_event(url: "https://exercism.org/rails/active_storage/representations/redirect/abc123/variant/avatar.jpg")
+    event = stub
     hint = { exception: StandardError.new }
 
     result = SENTRY_ACTIVE_STORAGE_FILTER.(event, hint)
@@ -26,7 +26,7 @@ class SentryActiveStorageFilterTest < ActiveSupport::TestCase
   end
 
   test "handles events with no exception in hint" do
-    event = mock_sentry_event(url: "https://exercism.org/tracks/ruby")
+    event = stub
     hint = {}
 
     result = SENTRY_ACTIVE_STORAGE_FILTER.(event, hint)

@@ -1,6 +1,6 @@
 ---
 name: fix
-description: Fix a GitHub issue end-to-end — fetches issue, creates branch, plans and implements fix, runs validation, opens PR, returns to main.
+description: Fix a GitHub issue end-to-end — fetches issue, creates worktree, plans and implements fix, runs validation, opens PR, cleans up.
 argument-hint: [issue-number-or-url]
 disable-model-invocation: true
 allowed-tools: Bash, Read, Write, Edit, Glob, Grep, WebFetch, WebSearch
@@ -18,21 +18,20 @@ You are fixing a GitHub issue for the exercism/website repository.
 
 Issue number: !`echo "$ARGUMENTS" | grep -oE '[0-9]+$'`
 
-## Critical: Two phase.
+## Critical: Two phase.
 
 Your work is split into two phases.
 
-The first phase is purely planning. You must **NOT** make any changes to git state (switching branches, creating branches etc). You should presume that other work is SIMULTANEOUSLY happening WHILE you are planning.
+The first phase is purely planning. You must **NOT** make any changes to git state (switching branches, creating branches, creating worktrees, etc). You should presume that other work is SIMULTANEOUSLY happening WHILE you are planning.
 
 Once the plan has been **APPROVED** by the user you should check the current git state:
 
-- Run `git status` to check for uncommitted changes and the current branch.
-- If there are **uncommitted or staged changes**, STOP and ask the user how to proceed. Do NOT checkout another branch, stash, or discard anything.
-- If you are **not on main**, STOP and ask the user how to proceed. Do NOT switch branches or reset.
+- Run `git status` to check for uncommitted changes.
+- If there are **uncommitted or staged changes**, STOP and ask the user how to proceed. Do NOT stash or discard anything.
 
 Never destroy or discard existing work.
 
-If the plan has been approved, and you are on a clean main branch, continue with your work.
+If the plan has been approved and the working tree is clean, continue with your work.
 
 ## Workflow
 
@@ -50,7 +49,7 @@ Read the relevant `docs/context/` files for the area of the codebase involved.
 
 ### Step 2: Plan the fix
 
-**Do NOT create a branch yet.** Stay on the current branch while planning.
+**Do NOT create a branch or worktree yet.** Stay on the current branch while planning.
 
 Use /plan to enter plan mode. Explore the codebase thoroughly:
 
@@ -62,19 +61,22 @@ Use /plan to enter plan mode. Explore the codebase thoroughly:
 
 Design a complete fix before writing any code.
 
-### Step 3: Create a feature branch
+### Step 3: Create a worktree
 
-Only create the branch **after the plan is approved**. The issue number has been extracted above (works whether the argument was a full URL like `https://github.com/exercism/website/issues/8370` or just `8370`).
+Only create the worktree **after the plan is approved**. The issue number has been extracted above (works whether the argument was a full URL like `https://github.com/exercism/website/issues/8370` or just `8370`).
 
 ```bash
-git checkout main
 git pull --ff-only origin main
-git checkout -b fix/<issue-number>
+mkdir -p ../website-worktrees
+git worktree add ../website-worktrees/fix-<issue-number> -b fix/<issue-number>
+cd ../website-worktrees/fix-<issue-number>
 ```
+
+**Important:** After creating the worktree, `cd` into it immediately. All subsequent work (file edits, bash commands, tests) happens inside the worktree. The main repo stays untouched on its current branch.
 
 ### Step 4: Implement the fix
 
-After the plan is approved and the branch is created, implement the changes:
+After the plan is approved and the worktree is created, implement the changes:
 
 - Follow existing patterns and conventions in the codebase
 - Business logic belongs in `/app/commands/` using the Mandate pattern
@@ -82,17 +84,17 @@ After the plan is approved and the branch is created, implement the changes:
 - Add or update tests as appropriate (Minitest, FactoryBot)
 - Keep changes minimal and focused on the issue
 
-### Step 5: Run pre-commit validation
+### Step 5: Run tests
 
-Run all three checks. All must pass before committing:
+Run the relevant tests for the changes you made:
 
 ```bash
-bundle exec rubocop --except Metrics
-yarn test
-bundle exec rails test:zeitwerk
+bundle exec rails test <test-file-or-directory>
 ```
 
-If any check fails, fix the issues and re-run until all pass.
+If you made front-end changes, also run `yarn test` before committing.
+
+Rubocop and brakeman will be checked automatically by the pre-commit hook when you commit — you do not need to run them manually.
 
 ### Step 6: Commit the changes
 
@@ -123,10 +125,13 @@ EOF
 )"
 ```
 
-### Step 8: Return to main
+### Step 8: Clean up worktree
 
 ```bash
-git checkout main
+cd /Users/iHiD/Code/exercism/website
+git worktree remove ../website-worktrees/fix-<issue-number>
 ```
+
+This removes the worktree directory and returns you to the main repo. The branch remains on the remote for the PR.
 
 Report the PR URL to the user.

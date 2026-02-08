@@ -7,6 +7,7 @@ module ViewComponents
           data: {
             sitekey: Exercism.secrets.turnstile_site_key,
             callback: "turnstileEnableSubmitButton",
+            error_callback: "turnstileHandleError",
             size: "flexible",
             theme: "light"
           }
@@ -20,6 +21,13 @@ module ViewComponents
                 const form = turnstileElement.closest('form');
                 const submitButton = form.querySelector('button[type="submit"]');
                 submitButton.disabled = false;
+              }
+
+              /* Handle Turnstile errors gracefully to prevent uncaught exceptions reaching Sentry.
+                 Returning true tells Turnstile we handled the error, suppressing its default error throw. */
+              window.turnstileHandleError = (errorCode) => {
+                console.warn('Cloudflare Turnstile error:', errorCode);
+                return true;
               }
             JS
           end

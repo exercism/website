@@ -29,6 +29,11 @@ class AvatarsController < ActionController::Base # rubocop:disable Rails/Applica
     send_data data, type: content_type, disposition: 'inline'
   rescue ActiveRecord::RecordNotFound
     head :not_found
+  rescue OpenURI::HTTPError
+    url = "#{Exercism.config.website_icons_host}/placeholders/user-avatar.svg"
+    file = URI.parse(url).open
+    expires_in 5.minutes, public: true
+    send_data file.read, type: file.content_type, disposition: 'inline'
   rescue StandardError => e
     Bugsnag.notify(e)
     head :internal_server_error

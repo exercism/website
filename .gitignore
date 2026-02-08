@@ -28,6 +28,7 @@
 /public/packs
 /public/packs-test
 /node_modules
+.husky/_
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity

@@ -27,8 +27,10 @@ if (process.env.SENTRY_DSN) {
     sendDefaultPii: false,
     beforeSend: (event) => {
       // Drop non-actionable dynamic import failures (network issues, stale chunks)
-      const isDynamicImportError = event.exception?.values?.some((ex) =>
-        ex.value?.includes('Failed to fetch dynamically imported module')
+      const isDynamicImportError = event.exception?.values?.some(
+        (ex) =>
+          ex.value?.includes('Failed to fetch dynamically imported module') ||
+          ex.value?.includes('Importing a module script failed')
       )
       if (isDynamicImportError) return null
 
@@ -52,6 +54,19 @@ if (process.env.SENTRY_DSN) {
           ex.value?.includes('signal is aborted without reason')
       )
       if (isAbortError) return null
+
+      // Drop non-actionable cross-origin postMessage errors (third-party iframes: Turnstile, YouTube, etc.)
+      const isInvalidOriginError = event.exception?.values?.some((ex) =>
+        ex.value?.includes('invalid origin')
+      )
+      if (isInvalidOriginError) return null
+
+      // Drop non-actionable iframe readiness errors (third-party scripts or browser internals
+      // accessing iframe.contentWindow before the frame is ready)
+      const isFrameNotReadyError = event.exception?.values?.some((ex) =>
+        ex.value?.includes('frame window is not ready')
+      )
+      if (isFrameNotReadyError) return null
 
       const tag = document.querySelector<HTMLMetaElement>(
         'meta[name="user-id"]'

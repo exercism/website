@@ -72,6 +72,13 @@ git worktree add worktrees/fix-<issue-number> -b fix/<issue-number>
 cd worktrees/fix-<issue-number>
 ```
 
+After creating the worktree, symlink `node_modules` and husky from the main repo so that JS tooling (prettier, eslint, jest) and pre-commit hooks work without a full `yarn install`:
+
+```bash
+ln -s /Users/iHiD/Code/exercism/website/node_modules node_modules
+ln -s /Users/iHiD/Code/exercism/website/.husky/_ .husky/_
+```
+
 **CRITICAL:** You MUST `cd` into the worktree immediately after creating it. All subsequent work — file reads, edits, bash commands, tests — MUST happen from inside the worktree directory using `cd worktrees/fix-<issue-number> && <command>` on every Bash call. Do NOT use absolute paths to the worktree from the main repo. The main repo stays untouched on its current branch.
 
 ### Step 4: Implement the fix
@@ -128,6 +135,7 @@ EOF
 ### Step 8: Clean up worktree
 
 ```bash
+cd /Users/iHiD/Code/exercism/website
 git worktree remove worktrees/fix-<issue-number>
 ```
 

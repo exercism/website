@@ -35,6 +35,11 @@ class Github::Issue::Open
   memoize
   def issue
     author = Exercism.config.github_bot_username
-    Exercism.octokit_client.search_issues("\"#{title}\" is:issue in:title repo:#{repo} author:#{author}")[:items]&.first
+    sanitized_title = title.gsub(/[{}]/, '')
+    Exercism.octokit_client.search_issues(
+      "\"#{sanitized_title}\" is:issue in:title repo:#{repo} author:#{author}"
+    )[:items]&.first
+  rescue Octokit::UnprocessableEntity
+    nil
   end
 end

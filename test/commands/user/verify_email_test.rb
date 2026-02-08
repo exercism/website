@@ -31,6 +31,15 @@ class User::VerifyEmailTest < ActiveSupport::TestCase
     end
   end
 
+  test "marks email with non-ASCII characters as invalid" do
+    user = create :user, email: "user@\u2666gmail.com"
+    user.update(email_status: :unverified)
+
+    User::VerifyEmail.(user)
+
+    assert_equal :invalid, user.email_status
+  end
+
   %i[verified invalid].each do |email_status|
     test "does not verify email when current email status is #{email_status}" do
       created_at = Time.current - 2.days

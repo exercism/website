@@ -11,6 +11,8 @@ class User::VerifyEmail
 
   private
   def email_status
+    return :invalid unless user.email.ascii_only?
+
     case check_email_status!
     when 'valid'
       :verified

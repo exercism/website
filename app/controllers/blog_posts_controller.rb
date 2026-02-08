@@ -16,5 +16,7 @@ class BlogPostsController < ApplicationController
   def show
     @post = BlogPost.published.find(params[:id])
     @other_posts = BlogPost.published.ordered_by_recency.includes(:author).where.not(id: @post.id).limit(6)
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 end

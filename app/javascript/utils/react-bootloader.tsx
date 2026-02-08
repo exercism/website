@@ -32,6 +32,15 @@ if (process.env.SENTRY_DSN) {
       )
       if (isDynamicImportError) return null
 
+      // Drop non-actionable Cloudflare Turnstile widget errors (browser extensions, privacy settings, etc.)
+      const isTurnstileError = event.exception?.values?.some(
+        (ex) =>
+          ex.type?.includes('TurnstileError') ||
+          ex.value?.includes('TurnstileError') ||
+          ex.value?.includes('[Cloudflare Turnstile]')
+      )
+      if (isTurnstileError) return null
+
       const tag = document.querySelector<HTMLMetaElement>(
         'meta[name="user-id"]'
       )

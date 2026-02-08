@@ -68,6 +68,15 @@ if (process.env.SENTRY_DSN) {
       )
       if (isFrameNotReadyError) return null
 
+      // Drop non-actionable network errors (connectivity loss, DNS failures, browser extensions blocking requests)
+      const isNetworkError = event.exception?.values?.some(
+        (ex) =>
+          ex.value?.includes(
+            'NetworkError when attempting to fetch resource'
+          ) || ex.value?.includes('Failed to fetch')
+      )
+      if (isNetworkError) return null
+
       const tag = document.querySelector<HTMLMetaElement>(
         'meta[name="user-id"]'
       )

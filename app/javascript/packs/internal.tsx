@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // Absolute, module imports
-import React, { Suspense, lazy } from 'react'
+import React, { Suspense } from 'react'
+import { lazy } from '@/utils/lazy-with-retry'
 import { camelizeKeys } from 'humps'
 import currency from 'currency.js'
 import { initReact } from '@/utils/react-bootloader'

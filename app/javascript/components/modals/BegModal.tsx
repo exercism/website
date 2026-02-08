@@ -1,6 +1,7 @@
 // i18n-key-prefix: begModal
 // i18n-namespace: components/modals/BegModal.tsx
-import React, { lazy, Suspense, useCallback, useState } from 'react'
+import React, { Suspense, useCallback, useState } from 'react'
+import { lazy } from '@/utils/lazy-with-retry'
 import currency from 'currency.js'
 import { PaymentIntentType } from '@/components/donations/stripe-form/useStripeForm'
 import { Request } from '@/hooks/request-query'

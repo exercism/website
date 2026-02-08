@@ -1,5 +1,6 @@
 import React from 'react'
-import { lazy, Suspense } from 'react'
+import { Suspense } from 'react'
+import { lazy } from '@/utils/lazy-with-retry'
 import { initReact } from '../utils/react-bootloader'
 import '@hotwired/turbo-rails'
 import { camelizeKeysAs } from '@/utils/camelize-keys-as'

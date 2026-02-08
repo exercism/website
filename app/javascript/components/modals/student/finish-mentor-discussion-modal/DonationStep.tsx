@@ -1,4 +1,5 @@
-import React, { lazy, Suspense } from 'react'
+import React, { Suspense } from 'react'
+import { lazy } from '@/utils/lazy-with-retry'
 import { MentoringSessionDonation } from '@/components/types'
 import currency from 'currency.js'
 import { DiscussionActionsLinks } from '@/components/student/mentoring-session/DiscussionActions'

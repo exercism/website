@@ -18,4 +18,13 @@ class SPI::UnsubscribeUserTest < ActionDispatch::IntegrationTest
       reason: :bounce
     )
   end
+
+  test "returns 200 when user does not exist" do
+    patch spi_unsubscribe_user_path(
+      email: "nonexistent@example.com",
+      reason: :bounce
+    )
+
+    assert_response :ok
+  end
 end

@@ -67,6 +67,7 @@ Only create the worktree **after the plan is approved**. The issue number has be
 
 ```bash
 git pull --ff-only origin main
+mkdir -p worktrees
 git worktree add worktrees/fix-<issue-number> -b fix/<issue-number>
 cd worktrees/fix-<issue-number>
 ```
@@ -78,7 +79,7 @@ ln -s /Users/iHiD/Code/exercism/website/node_modules node_modules
 ln -s /Users/iHiD/Code/exercism/website/.husky/_ .husky/_
 ```
 
-**Important:** After creating the worktree, `cd` into it immediately. All subsequent work (file edits, bash commands, tests) happens inside the worktree. The main repo stays untouched on its current branch.
+**CRITICAL:** You MUST `cd` into the worktree immediately after creating it. All subsequent work — file reads, edits, bash commands, tests — MUST happen from inside the worktree directory using `cd worktrees/fix-<issue-number> && <command>` on every Bash call. Do NOT use absolute paths to the worktree from the main repo. The main repo stays untouched on its current branch.
 
 ### Step 4: Implement the fix
 
@@ -138,6 +139,6 @@ cd /Users/iHiD/Code/exercism/website
 git worktree remove worktrees/fix-<issue-number>
 ```
 
-This removes the worktree directory and returns you to the main repo. The branch remains on the remote for the PR.
+This removes the worktree directory. The branch remains on the remote for the PR.
 
 Report the PR URL to the user.

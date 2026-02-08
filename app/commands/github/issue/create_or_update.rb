@@ -6,7 +6,7 @@ class Github::Issue::CreateOrUpdate
   def call
     issue = ::Github::Issue.create_or_find_by!(node_id:) do |i|
       i.number = attributes[:number]
-      i.title = attributes[:title]
+      i.title = title
       i.status = status
       i.repo = attributes[:repo]
       i.opened_at = attributes[:opened_at]
@@ -17,7 +17,7 @@ class Github::Issue::CreateOrUpdate
 
     issue.update!(
       number: attributes[:number],
-      title: attributes[:title],
+      title:,
       status:,
       repo: attributes[:repo],
       opened_at: attributes[:opened_at],
@@ -35,6 +35,7 @@ class Github::Issue::CreateOrUpdate
     end
   end
 
+  def title = attributes[:title].to_s.truncate(255)
   def status = attributes[:state].downcase.to_sym
 
   def log_metric!(issue)

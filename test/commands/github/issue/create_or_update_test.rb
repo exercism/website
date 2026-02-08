@@ -67,6 +67,23 @@ class Github::Issue::CreateOrUpdateTest < ActiveSupport::TestCase
     assert_nil issue.opened_by_username
   end
 
+  test "truncates title longer than 255 characters" do
+    long_title = "a" * 300
+
+    issue = Github::Issue::CreateOrUpdate.(
+      "MDU6SXNzdWU3MjM2MjUwMTI=",
+      number: 999,
+      title: long_title,
+      state: "OPEN",
+      repo: "exercism/ruby",
+      labels: [],
+      opened_at: Time.parse("2020-10-17T02:39:37Z").utc,
+      opened_by_username: "SleeplessByte"
+    )
+
+    assert_equal 255, issue.title.length
+  end
+
   test "update issue if data has changed" do
     issue = create :github_issue
 

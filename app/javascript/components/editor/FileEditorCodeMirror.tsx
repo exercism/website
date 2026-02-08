@@ -41,7 +41,11 @@ export function FileEditorCodeMirror({
   settings: EditorSettings
   files: File[]
   readonly: boolean
-}): JSX.Element {
+}): JSX.Element | null {
+  if (!defaultFiles || defaultFiles.length === 0) {
+    return null
+  }
+
   const [files, setFiles] = useState(defaultFiles)
   const [tab, setTab] = useState(files[0].filename)
   const containerRef = useRef<HTMLDivElement>(null)

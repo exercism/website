@@ -26,6 +26,12 @@ if (process.env.SENTRY_DSN) {
     enabled: process.env.NODE_ENV === 'production',
     sendDefaultPii: false,
     beforeSend: (event) => {
+      // Drop non-actionable dynamic import failures (network issues, stale chunks)
+      const isDynamicImportError = event.exception?.values?.some((ex) =>
+        ex.value?.includes('Failed to fetch dynamically imported module')
+      )
+      if (isDynamicImportError) return null
+
       const tag = document.querySelector<HTMLMetaElement>(
         'meta[name="user-id"]'
       )

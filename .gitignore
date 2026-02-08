@@ -60,4 +60,4 @@ app/javascript/i18n/.env
 vendor/bundle/
 
 # Claude local settings
-.claude/
+.claude/settings.local.json

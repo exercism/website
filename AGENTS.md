@@ -19,13 +19,13 @@ For comprehensive documentation about the application architecture, setup, and p
 
 ## Essential Commands
 
-**Pre-commit validation (ALWAYS run before committing):**
+**Validation commands:**
 
-```bash
-bundle exec rubocop --except Metrics
-yarn test
-bundle exec rails test:zeitwerk
-```
+- **Tests**: `bin/rails test` (Rails TestUnit with FactoryBot)
+- **Linting**: `bin/rubocop -a` (auto-fixes issues)
+- **Security**: `bin/brakeman`
+
+**IMPORTANT:** Linting and security checks are run automatically by the git pre-commit hook. For basic changes, you don't need to run these yourself - just let the git hook handle it when you commit. For more complex changes, run tests manually during development, but leave rubocop and brakeman to the git hook. If making front-end changes, run `yarn test` before committing.
 
 **Development server:**
 

@@ -59,6 +59,13 @@ if (process.env.SENTRY_DSN) {
       )
       if (isInvalidOriginError) return null
 
+      // Drop non-actionable iframe readiness errors (third-party scripts or browser internals
+      // accessing iframe.contentWindow before the frame is ready)
+      const isFrameNotReadyError = event.exception?.values?.some((ex) =>
+        ex.value?.includes('frame window is not ready')
+      )
+      if (isFrameNotReadyError) return null
+
       const tag = document.querySelector<HTMLMetaElement>(
         'meta[name="user-id"]'
       )

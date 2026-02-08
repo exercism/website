@@ -24,6 +24,8 @@ export default ({ html }: { html: string }): JSX.Element => {
 
     return () => {
       $(window).off('shown.sm.passage', scrollToTop)
+      $(window).off('popstate')
+      $(window).off('hashchange')
     }
   }, [])
 

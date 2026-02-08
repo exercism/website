@@ -24,18 +24,19 @@
           %p.text-p-large.mb-40= raw @partner.support_html
 
     .rhs
-      .border-gradient-lightPurple.border-2.p-20.rounded-8.shadow-smZ1.mb-32
-        .text-adaptivePurple.font-semibold.leading-150.flex.items-center.mb-4= t('.rhs.perk_label')
-        %h2.text-textColor1.text-p-xlarge.font-semibold.mb-8= raw strip_tags(@perk.offer_summary_html_for_user(current_user))
-        %p.text-p-base.mb-20= @perk.offer_details_for_user(current_user)
-        - if !user_signed_in?
-          = render ReactComponents::Perks::PerksExternalModalButton.new(@perk)
-        - else
-          - if @perk.voucher_code?
-            .mb-20= render ReactComponents::Common::CopyToClipboardButton.new(@perk.voucher_code_for_user(current_user))
-          = link_to @perk.button_text_for_user(current_user), claim_perk_path(@perk), class: 'btn-m btn-primary', data: { turbo: false }
+      - if @perk
+        .border-gradient-lightPurple.border-2.p-20.rounded-8.shadow-smZ1.mb-32
+          .text-adaptivePurple.font-semibold.leading-150.flex.items-center.mb-4= t('.rhs.perk_label')
+          %h2.text-textColor1.text-p-xlarge.font-semibold.mb-8= raw strip_tags(@perk.offer_summary_html_for_user(current_user))
+          %p.text-p-base.mb-20= @perk.offer_details_for_user(current_user)
+          - if !user_signed_in?
+            = render ReactComponents::Perks::PerksExternalModalButton.new(@perk)
+          - else
+            - if @perk.voucher_code?
+              .mb-20= render ReactComponents::Common::CopyToClipboardButton.new(@perk.voucher_code_for_user(current_user))
+            = link_to @perk.button_text_for_user(current_user), claim_perk_path(@perk), class: 'btn-m btn-primary', data: { turbo: false }
 
-      .border-1.border-borderColor8.p-20.rounded-8.shadow-base
-        %h2.text-p-xlarge.font-semibold.mb-8= t('.rhs.learn_more_heading', partner_name: @partner.name)
-        %p.text-p-base.mb-20= t('.rhs.learn_more_paragraph', website_domain: @partner.website_domain, partner_name: @partner.name)
-        = link_to t('.rhs.visit_button', website_domain: @partner.website_domain), claim_perk_path(@perk, partner_url: true), class: 'btn-m btn-default', data: { turbo: false }
+        .border-1.border-borderColor8.p-20.rounded-8.shadow-base
+          %h2.text-p-xlarge.font-semibold.mb-8= t('.rhs.learn_more_heading', partner_name: @partner.name)
+          %p.text-p-base.mb-20= t('.rhs.learn_more_paragraph', website_domain: @partner.website_domain, partner_name: @partner.name)
+          = link_to t('.rhs.visit_button', website_domain: @partner.website_domain), claim_perk_path(@perk, partner_url: true), class: 'btn-m btn-default', data: { turbo: false }

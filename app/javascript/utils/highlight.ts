@@ -36,7 +36,7 @@ if (isLookbehindSupported()) {
 }
 
 highlighter.default.configure({
-  throwUnescapedHTML: true,
+  throwUnescapedHTML: false,
 })
 
 function duplicateMultilineNodes(element: HTMLElement) {

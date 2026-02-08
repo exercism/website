@@ -229,6 +229,7 @@ GEM
       faraday (~> 1.0)
     ffi (1.17.2)
     ffi (1.17.2-arm64-darwin)
+    ffi (1.17.2-x86_64-linux-gnu)
     friendly_id (5.4.2)
       activerecord (>= 4.0.0)
     fugit (1.11.1)
@@ -245,12 +246,18 @@ GEM
     google-protobuf (4.31.1-arm64-darwin)
       bigdecimal
       rake (>= 13)
+    google-protobuf (4.31.1-x86_64-linux-gnu)
+      bigdecimal
+      rake (>= 13)
     googleapis-common-protos-types (1.20.0)
       google-protobuf (>= 3.18, < 5.a)
     grpc (1.73.0)
       google-protobuf (>= 3.25, < 5.0)
       googleapis-common-protos-types (~> 1.0)
     grpc (1.73.0-arm64-darwin)
+      google-protobuf (>= 3.25, < 5.0)
+      googleapis-common-protos-types (~> 1.0)
+    grpc (1.73.0-x86_64-linux)
       google-protobuf (>= 3.25, < 5.0)
       googleapis-common-protos-types (~> 1.0)
     haml (6.3.0)
@@ -360,6 +367,8 @@ GEM
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     nokogiri (1.18.8-arm64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.18.8-x86_64-linux-gnu)
       racc (~> 1.4)
     oauth2 (2.0.12)
       faraday (>= 0.17.3, < 4.0)
@@ -649,6 +658,7 @@ GEM
 PLATFORMS
   arm64-darwin-23
   x64-mingw32
+  x86_64-linux
 
 DEPENDENCIES
   addressable (~> 2.7)

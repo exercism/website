@@ -27,8 +27,10 @@ if (process.env.SENTRY_DSN) {
     sendDefaultPii: false,
     beforeSend: (event) => {
       // Drop non-actionable dynamic import failures (network issues, stale chunks)
-      const isDynamicImportError = event.exception?.values?.some((ex) =>
-        ex.value?.includes('Failed to fetch dynamically imported module')
+      const isDynamicImportError = event.exception?.values?.some(
+        (ex) =>
+          ex.value?.includes('Failed to fetch dynamically imported module') ||
+          ex.value?.includes('Importing a module script failed')
       )
       if (isDynamicImportError) return null
 

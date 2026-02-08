@@ -3,6 +3,10 @@ import { createRoot } from 'react-dom/client'
 import * as Sentry from '@sentry/react'
 import { ExercismTippy } from '../components/misc/ExercismTippy'
 import { QueryClientProvider } from '@tanstack/react-query'
+import {
+  isChunkLoadError,
+  safeReloadForChunkError,
+} from './chunk-load-error-handler'
 
 type ErrorBoundaryType = React.ComponentType<any>
 
@@ -26,12 +30,19 @@ if (process.env.SENTRY_DSN) {
     enabled: process.env.NODE_ENV === 'production',
     sendDefaultPii: false,
     beforeSend: (event) => {
-      // Drop non-actionable dynamic import failures (network issues, stale chunks)
-      const isDynamicImportError = event.exception?.values?.some(
-        (ex) =>
-          ex.value?.includes('Failed to fetch dynamically imported module') ||
-          ex.value?.includes('Importing a module script failed')
-      )
+      // Drop non-actionable dynamic import failures (network issues, stale chunks).
+      // Error messages vary by browser:
+      //   Chrome/Edge: "Failed to fetch dynamically imported module: <url>"
+      //   Firefox:     "error loading dynamically imported module: <url>"
+      //   Safari:      "Importing a module script failed."
+      const isDynamicImportError = event.exception?.values?.some((ex) => {
+        const msg = ex.value?.toLowerCase() || ''
+        return (
+          msg.includes('failed to fetch dynamically imported module') ||
+          msg.includes('error loading dynamically imported module') ||
+          msg.includes('importing a module script failed')
+        )
+      })
       if (isDynamicImportError) return null
 
       // Drop non-actionable Cloudflare Turnstile widget errors (browser extensions, privacy settings, etc.)
@@ -115,6 +126,22 @@ if (process.env.SENTRY_DSN) {
 let ErrorBoundary: ErrorBoundaryType = ({ children }) => <>{children}</>
 if (process.env.SENTRY_DSN) {
   ErrorBoundary = Sentry.ErrorBoundary
+}
+
+// Reload the page when a dynamic import fails due to stale chunks after deployment.
+// This catches failures that occur outside React's error boundary tree.
+window.addEventListener('unhandledrejection', (event) => {
+  if (isChunkLoadError(event.reason)) {
+    event.preventDefault()
+    safeReloadForChunkError()
+  }
+})
+
+const chunkErrorFallback: Sentry.FallbackRender = ({ error }) => {
+  if (isChunkLoadError(error)) {
+    safeReloadForChunkError()
+  }
+  return <></>
 }
 
 // Asynchronously appends a stylesheet to the head and resolves
@@ -307,7 +334,7 @@ const render = (elem: HTMLElement, component: React.ReactNode) => {
   root.render(
     <React.StrictMode>
       <QueryClientProvider client={window.queryClient}>
-        <ErrorBoundary>{component}</ErrorBoundary>
+        <ErrorBoundary fallback={chunkErrorFallback}>{component}</ErrorBoundary>
       </QueryClientProvider>
     </React.StrictMode>
   )

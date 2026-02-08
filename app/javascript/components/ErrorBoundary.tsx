@@ -7,6 +7,10 @@ import {
 } from 'react-error-boundary'
 import { APIError } from './types'
 import * as Sentry from '@sentry/react'
+import {
+  isChunkLoadError,
+  safeReloadForChunkError,
+} from '../utils/chunk-load-error-handler'
 
 const ERROR_MESSAGE_TIMEOUT_IN_MS = 500
 
@@ -60,10 +64,15 @@ export const ErrorFallback = ({
   resetErrorBoundary,
 }: FallbackProps): JSX.Element => {
   useEffect(() => {
+    if (isChunkLoadError(error)) {
+      safeReloadForChunkError()
+      return
+    }
+
     const timer = setTimeout(resetErrorBoundary, ERROR_MESSAGE_TIMEOUT_IN_MS)
 
     return () => clearTimeout(timer)
-  }, [resetErrorBoundary])
+  }, [error, resetErrorBoundary])
 
   return (
     <div>

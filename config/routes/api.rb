@@ -216,7 +216,6 @@ namespace :api do
 
       resources :requests, only: %i[index], param: :uuid do
         collection do
-          get :tracks
           get :exercises
         end
         member do

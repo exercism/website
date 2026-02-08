@@ -1,5 +1,6 @@
 class ImagesController < ApplicationController
   skip_before_action :authenticate_user!
+  rescue_from ActiveRecord::RecordNotFound, with: :render_404
 
   layout 'images'
 

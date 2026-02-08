@@ -60,4 +60,12 @@ class ToolingJob::CancelTest < ActiveSupport::TestCase
 
     assert submission.reload.representation_cancelled?
   end
+
+  test "gracefully handles missing job" do
+    submission = create :submission
+
+    ToolingJob::Cancel.(submission.uuid, :test_runner)
+
+    refute submission.reload.tests_cancelled?
+  end
 end

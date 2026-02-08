@@ -7,14 +7,17 @@ export default function ActivityTicker({
   trackTitle,
   initialData,
 }: Elements.ActivityTickerProps) {
-  const { metric, animation } = Elements.useActivityTicker({
+  const { metric, metricKey, animation } = Elements.useActivityTicker({
     trackTitle,
     initialData,
   })
 
   if (!metric) return
   return (
-    <div className={assembleClassNames('flex items-start', animation)}>
+    <div
+      key={metricKey}
+      className={assembleClassNames('flex items-start', animation)}
+    >
       {metric.user || !metric.countryCode ? (
         <Elements.UserAvatar user={metric.user} />
       ) : (

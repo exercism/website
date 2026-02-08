@@ -5,10 +5,12 @@ import { METRIC_TYPES, allowedMetricTypes } from './ActivityTicker.types'
 
 export function useActivityTicker({ initialData, trackTitle }): {
   metric: Metric
+  metricKey: number
   animation: 'animate-fadeIn' | 'animate-fadeOut'
 } {
   const [metric, setMetric] = useState<Metric>(initialData)
   const [isVisible, setIsVisible] = useState(true)
+  const [metricKey, setMetricKey] = useState(0)
 
   useEffect(() => {
     const connection = new MetricsChannel((metric) => {
@@ -20,6 +22,7 @@ export function useActivityTicker({ initialData, trackTitle }): {
 
       setIsVisible(false)
       setTimeout(() => {
+        setMetricKey((prev) => prev + 1)
         setMetric(metric)
         setIsVisible(true)
       }, 300)
@@ -27,5 +30,9 @@ export function useActivityTicker({ initialData, trackTitle }): {
     return () => connection.disconnect()
   }, [])
 
-  return { metric, animation: isVisible ? 'animate-fadeIn' : 'animate-fadeOut' }
+  return {
+    metric,
+    metricKey,
+    animation: isVisible ? 'animate-fadeIn' : 'animate-fadeOut',
+  }
 }

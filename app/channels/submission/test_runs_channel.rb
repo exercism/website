@@ -1,5 +1,7 @@
 class Submission::TestRunsChannel < ApplicationCable::Channel
   def subscribed
+    return reject unless current_user
+
     submission = current_user.submissions.find_by!(uuid: params[:submission_uuid])
 
     # Don't use persisted objects for stream_for

@@ -115,11 +115,18 @@ export default function SenioritySurveyModal({
 
 function Inner() {
   const { t } = useAppTranslation('components/modals/seniority-survey-modal')
-  const { currentView } = useContext(SenioritySurveyModalContext)
+  const { currentView, patchCloseModal, links } = useContext(
+    SenioritySurveyModalContext
+  )
   switch (currentView) {
     case 'initial':
       return <InitialView />
     case 'bootcamp-advertisment':
-      return <BootcampAdvertismentView />
+      return (
+        <BootcampAdvertismentView
+          patchCloseModal={patchCloseModal}
+          links={links}
+        />
+      )
   }
 }

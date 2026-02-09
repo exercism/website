@@ -99,6 +99,8 @@ export function ControlButtons({
       },
       customFunctions: [],
       readonlyRanges: { html: htmlReadonlyRanges, css: cssReadonlyRanges },
+    }).catch(() => {
+      // Submission is fire-and-forget; server errors are non-critical
     })
   }, [
     exercise,

@@ -77,6 +77,13 @@ if (process.env.SENTRY_DSN) {
       )
       if (isNetworkError) return null
 
+      // Drop non-actionable DOM removeChild errors (third-party scripts like reCAPTCHA
+      // trying to clean up nodes that React has already unmounted)
+      const isRemoveChildError = event.exception?.values?.some((ex) =>
+        ex.value?.includes("Failed to execute 'removeChild' on 'Node'")
+      )
+      if (isRemoveChildError) return null
+
       const tag = document.querySelector<HTMLMetaElement>(
         'meta[name="user-id"]'
       )

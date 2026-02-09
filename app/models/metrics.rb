@@ -17,6 +17,10 @@ module Metrics
 
       define_method "increment_num_#{key}!" do
         Exercism.redis_cache_client.incr(redis_key)
+      rescue Redis::Cluster::InitialSetupError, RedisClient::Cluster::InitialSetupError
+        # Redis connectivity issues are transient. These counters
+        # are periodically recalculated from the database, so
+        # a missed increment is harmless.
       end
 
       define_method "set_num_#{key}!" do

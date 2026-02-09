@@ -125,7 +125,6 @@ export function useConstructRunCode({
           }
         }
       )
-      // try {
       testResults = await generateAndRunTestSuite(
         {
           studentCode,
@@ -143,20 +142,6 @@ export function useConstructRunCode({
         editorView,
         language
       )
-      // console.log("Thinks I've run", testResults.tests.length)
-      // } catch (error) {
-      //   console.log(error)
-      //   const compError = error as CompilationError
-      //   if (
-      //     compError.hasOwnProperty('type') &&
-      //     compError.type == 'CompilationError'
-      //   ) {
-      //     handleCompilationError(compError.error, editorView)
-      //     return
-      //   }
-      //   console.log(compError)
-      // }
-      console.log('No error')
 
       const bonusTestResults = await generateAndRunTestSuite(
         {

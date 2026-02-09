@@ -77,6 +77,49 @@ class Iteration::GenerateSnippetTest < ActiveJob::TestCase
     Iteration::GenerateSnippet.(iteration)
   end
 
+  test "requeues on bad gateway" do
+    iteration = create :iteration, submission: @submission
+
+    RestClient.stubs(:post).raises(RestClient::BadGateway)
+
+    Iteration::GenerateSnippet.expects(:defer).with do |iter, **kwargs|
+      iter == iteration && kwargs[:retries_count] == 1 && kwargs[:wait].between?(30, 90)
+    end
+    Iteration::GenerateSnippet.(iteration)
+  end
+
+  test "requeues on service unavailable" do
+    iteration = create :iteration, submission: @submission
+
+    RestClient.stubs(:post).raises(RestClient::ServiceUnavailable)
+
+    Iteration::GenerateSnippet.expects(:defer).with do |iter, **kwargs|
+      iter == iteration && kwargs[:retries_count] == 1 && kwargs[:wait].between?(30, 90)
+    end
+    Iteration::GenerateSnippet.(iteration)
+  end
+
+  test "requeues on gateway timeout" do
+    iteration = create :iteration, submission: @submission
+
+    RestClient.stubs(:post).raises(RestClient::GatewayTimeout)
+
+    Iteration::GenerateSnippet.expects(:defer).with do |iter, **kwargs|
+      iter == iteration && kwargs[:retries_count] == 1 && kwargs[:wait].between?(30, 90)
+    end
+    Iteration::GenerateSnippet.(iteration)
+  end
+
+  test "raises after max retries exhausted" do
+    iteration = create :iteration, submission: @submission
+
+    RestClient.stubs(:post).raises(RestClient::BadGateway)
+
+    assert_raises RestClient::BadGateway do
+      Iteration::GenerateSnippet.(iteration, retries_count: 3)
+    end
+  end
+
   test "handle long snippets" do
     code = "Some source code"
     snippet = "Some generated snippet#{"x" * 1500}"

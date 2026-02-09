@@ -12,13 +12,13 @@ module UserRateLimitConcern
     count = Rails.cache.increment(key, 1, expires_in: within)
     return unless count && count > max
 
-    if request.xhr? || controller_path.starts_with?("api/")
+    if (request.xhr? && !turbo_frame_request?) || controller_path.starts_with?("api/")
       head :too_many_requests
     else
       @status_code = 429
       @error_title = "You've gone too fast!"
       @errror_message = ""
-      render template: "errors/too_many_requests"
+      render template: "errors/too_many_requests", status: :too_many_requests
     end
   end
 end

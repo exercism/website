@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_12_11_055432) do
+ActiveRecord::Schema[7.1].define(version: 2026_02_09_141203) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -106,7 +106,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_11_055432) do
   create_table "bootcamp_drawings", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "uuid", null: false
-    t.text "code", null: false
+    t.text "code", size: :medium, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "title", null: false
@@ -173,7 +173,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_11_055432) do
     t.bigint "user_id"
     t.bigint "exercise_id"
     t.string "uuid", null: false
-    t.text "code", null: false
+    t.text "code", size: :medium, null: false
     t.datetime "completed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -190,7 +190,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_11_055432) do
     t.string "uuid", null: false
     t.bigint "solution_id"
     t.integer "status", limit: 2, null: false
-    t.text "code", null: false
+    t.text "code", size: :medium, null: false
     t.text "readonly_ranges", null: false
     t.text "test_results", null: false
     t.datetime "created_at", null: false

@@ -35,6 +35,36 @@ class API::Payments::PaymentIntentsControllerTest < API::BaseTestCase
     )
   end
 
+  test "rejects amount over maximum" do
+    setup_user
+    post api_payments_payment_intents_path(
+      type: 'payment', amount_in_cents: 100_000_000
+    ), headers: @headers, as: :json
+
+    assert_response :ok
+    assert_includes JSON.parse(response.body)["error"], "Amount must be between"
+  end
+
+  test "rejects zero amount" do
+    setup_user
+    post api_payments_payment_intents_path(
+      type: 'payment', amount_in_cents: 0
+    ), headers: @headers, as: :json
+
+    assert_response :ok
+    assert_includes JSON.parse(response.body)["error"], "Amount must be between"
+  end
+
+  test "rejects negative amount" do
+    setup_user
+    post api_payments_payment_intents_path(
+      type: 'payment', amount_in_cents: -100
+    ), headers: @headers, as: :json
+
+    assert_response :ok
+    assert_includes JSON.parse(response.body)["error"], "Amount must be between"
+  end
+
   test "returns an error if raised" do
     error = "oh dear!!"
     ::Payments::Stripe::PaymentIntent::Create.expects(:call).raises(Stripe::InvalidRequestError.new(error, nil))

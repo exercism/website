@@ -6,6 +6,7 @@ import { fetchWithParams, handleJsonErrorResponse } from '../../fetchWithParams'
 import { StaticTooltip } from '@/components/bootcamp/JikiscriptExercisePage/Scrubber/ScrubberTooltipInformation'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 import { Trans } from 'react-i18next'
+import { useSyncEverything } from '../../useSyncEverything'
 
 type Track = {
   title: string
@@ -52,32 +53,7 @@ export function ManualSyncSection() {
     [links.syncTrack, t]
   )
 
-  const handleSyncEverything = useCallback(() => {
-    fetchWithParams({
-      url: links.syncEverything,
-    })
-      .then(async (response) => {
-        if (response.ok) {
-          toast.success(
-            t(
-              'yourBackupForAllTracksHasBeenQueuedAndShouldBeCompletedWithinAFewMinutes'
-            ),
-            { duration: 5000 }
-          )
-        } else {
-          await handleJsonErrorResponse(
-            response,
-            t('errorQueuingBackupForAllTracks')
-          )
-        }
-      })
-      .catch((error) => {
-        console.error('Error:', error)
-        toast.error(
-          t('somethingWentWrongWhileQueuingTheBackupForAllTracksPleaseTryAgain')
-        )
-      })
-  }, [links.syncEverything, t])
+  const handleSyncEverything = useSyncEverything(links.syncEverything)
 
   return (
     <section

@@ -2,19 +2,16 @@ import React from 'react'
 import Modal from '@/components/modals/Modal'
 import { GitHubSyncerContext } from '../../GitHubSyncerForm'
 import { Icon } from '@/components/common'
-import { fetchWithParams, handleJsonErrorResponse } from '../../fetchWithParams'
-import toast from 'react-hot-toast'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { useSyncEverything } from '../../useSyncEverything'
 
 export function JustConnectedModal(): JSX.Element {
   const { t } = useAppTranslation(
     'components/settings/github-syncer/sections/ConnectedSection'
   )
-  const { t: tSync } = useAppTranslation(
-    'components/settings/github-syncer/sections/ConnectedSection/ManualSyncSection.tsx'
-  )
   const { links } = React.useContext(GitHubSyncerContext)
   const [isModalOpen, setIsModalOpen] = React.useState(false)
+  const syncEverything = useSyncEverything(links.syncEverything)
 
   React.useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search)
@@ -31,34 +28,9 @@ export function JustConnectedModal(): JSX.Element {
   }, [])
 
   const handleSync = React.useCallback(() => {
-    fetchWithParams({
-      url: links.syncEverything,
-    })
-      .then(async (response) => {
-        if (response.ok) {
-          toast.success(
-            tSync(
-              'yourBackupForAllTracksHasBeenQueuedAndShouldBeCompletedWithinAFewMinutes'
-            ),
-            { duration: 5000 }
-          )
-        } else {
-          await handleJsonErrorResponse(
-            response,
-            tSync('errorQueuingBackupForAllTracks')
-          )
-        }
-      })
-      .catch((error) => {
-        console.error('Error:', error)
-        toast.error(
-          tSync(
-            'somethingWentWrongWhileQueuingTheBackupForAllTracksPleaseTryAgain'
-          )
-        )
-      })
+    syncEverything()
     handleRemoveParam()
-  }, [links.syncEverything, tSync, handleRemoveParam])
+  }, [syncEverything, handleRemoveParam])
 
   const handleCloseModal = React.useCallback(() => {
     handleRemoveParam()

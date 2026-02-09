@@ -97,6 +97,13 @@ if (process.env.SENTRY_DSN) {
       })
       if (isObfuscatedExtensionError) return null
 
+      // Drop non-actionable promise rejections with non-Error values
+      // (no stack trace, arbitrary strings from third-party code or browser extensions)
+      const isNonErrorRejection = event.exception?.values?.some((ex) =>
+        ex.value?.includes('Non-Error promise rejection captured with value:')
+      )
+      if (isNonErrorRejection) return null
+
       const tag = document.querySelector<HTMLMetaElement>(
         'meta[name="user-id"]'
       )

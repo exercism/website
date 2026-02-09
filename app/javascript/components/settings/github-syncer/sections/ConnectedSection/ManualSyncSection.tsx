@@ -52,6 +52,33 @@ export function ManualSyncSection() {
     [links.syncTrack, t]
   )
 
+  const handleSyncEverything = useCallback(() => {
+    fetchWithParams({
+      url: links.syncEverything,
+    })
+      .then(async (response) => {
+        if (response.ok) {
+          toast.success(
+            t(
+              'yourBackupForAllTracksHasBeenQueuedAndShouldBeCompletedWithinAFewMinutes'
+            ),
+            { duration: 5000 }
+          )
+        } else {
+          await handleJsonErrorResponse(
+            response,
+            t('errorQueuingBackupForAllTracks')
+          )
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error)
+        toast.error(
+          t('somethingWentWrongWhileQueuingTheBackupForAllTracksPleaseTryAgain')
+        )
+      })
+  }, [links.syncEverything, t])
+
   return (
     <section
       style={{
@@ -119,11 +146,7 @@ export function ManualSyncSection() {
       <div className="group relative">
         <button
           disabled={!isSyncingEnabled}
-          onClick={() =>
-            handleSyncEverything({
-              syncEverythingEndpoint: links.syncEverything,
-            })
-          }
+          onClick={handleSyncEverything}
           className="btn btn-primary relative group"
         >
           {t('backupEverythingLabel')}
@@ -138,38 +161,4 @@ export function ManualSyncSection() {
       </div>
     </section>
   )
-}
-
-export function handleSyncEverything({
-  syncEverythingEndpoint,
-}: {
-  syncEverythingEndpoint: string
-}) {
-  const { t } = useAppTranslation(
-    'components/settings/github-syncer/sections/ConnectedSection/ManualSyncSection.tsx'
-  )
-  fetchWithParams({
-    url: syncEverythingEndpoint,
-  })
-    .then(async (response) => {
-      if (response.ok) {
-        toast.success(
-          t(
-            'yourBackupForAllTracksHasBeenQueuedAndShouldBeCompletedWithinAFewMinutes'
-          ),
-          { duration: 5000 }
-        )
-      } else {
-        await handleJsonErrorResponse(
-          response,
-          t('errorQueuingBackupForAllTracks')
-        )
-      }
-    })
-    .catch((error) => {
-      console.error('Error:', error)
-      toast.error(
-        t('somethingWentWrongWhileQueuingTheBackupForAllTracksPleaseTryAgain')
-      )
-    })
 }

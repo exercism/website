@@ -84,6 +84,19 @@ if (process.env.SENTRY_DSN) {
       )
       if (isRemoveChildError) return null
 
+      // Drop errors from obfuscated browser extensions or injected scripts.
+      // Obfuscated code uses hex variable names like _0x4761, _0x5e4966 etc.
+      // Safari reports "Can't find variable: _0x...", Chrome reports "_0x... is not defined".
+      // Also filter when stack frames reference webkit-masked-url (WebKit extension sandbox).
+      const isObfuscatedExtensionError = event.exception?.values?.some((ex) => {
+        const hasObfuscatedVar = /_0x[0-9a-f]+/.test(ex.value ?? '')
+        const hasMaskedUrl = ex.stacktrace?.frames?.some((frame) =>
+          frame.filename?.includes('webkit-masked-url')
+        )
+        return hasObfuscatedVar || hasMaskedUrl
+      })
+      if (isObfuscatedExtensionError) return null
+
       const tag = document.querySelector<HTMLMetaElement>(
         'meta[name="user-id"]'
       )

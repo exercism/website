@@ -237,6 +237,8 @@ export function useConstructRunCode({
           editorView,
           readOnlyRangesStateField
         ),
+      }).catch(() => {
+        // Submission is fire-and-forget; server errors are non-critical
       })
     },
     [

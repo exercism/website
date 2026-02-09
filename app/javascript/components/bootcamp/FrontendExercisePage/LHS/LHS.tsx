@@ -113,6 +113,8 @@ export function LHS() {
         css: cssReadonlyRanges,
         js: jsReadonlyRanges,
       },
+    }).catch(() => {
+      // Submission is fire-and-forget; server errors are non-critical
     })
 
     const result = parseJS(jsView.state.doc.toString())

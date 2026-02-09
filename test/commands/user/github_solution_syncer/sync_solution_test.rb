@@ -14,5 +14,21 @@ class User::GithubSolutionSyncer
       # Should not raise
       User::GithubSolutionSyncer::SyncSolution.(solution)
     end
+
+    test "requeues on server error" do
+      user = create(:user)
+      track = create(:track, slug: "ruby")
+      exercise = create(:practice_exercise, track:, slug: "two-fer")
+      solution = create(:practice_solution, user:, exercise:)
+      create(:user_github_solution_syncer, user:)
+
+      CreatePullRequest.stubs(:call).raises(Octokit::ServerError)
+
+      Mocha::Configuration.override(stubbing_non_existent_method: :allow) do
+        cmd = User::GithubSolutionSyncer::SyncSolution.new(solution)
+        cmd.expects(:requeue_job!).with(30.seconds)
+        cmd.()
+      end
+    end
   end
 end

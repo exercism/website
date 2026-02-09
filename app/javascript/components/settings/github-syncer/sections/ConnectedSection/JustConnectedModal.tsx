@@ -2,8 +2,8 @@ import React from 'react'
 import Modal from '@/components/modals/Modal'
 import { GitHubSyncerContext } from '../../GitHubSyncerForm'
 import { Icon } from '@/components/common'
-import { handleSyncEverything } from './ManualSyncSection'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { useSyncEverything } from '../../useSyncEverything'
 
 export function JustConnectedModal(): JSX.Element {
   const { t } = useAppTranslation(
@@ -11,6 +11,7 @@ export function JustConnectedModal(): JSX.Element {
   )
   const { links } = React.useContext(GitHubSyncerContext)
   const [isModalOpen, setIsModalOpen] = React.useState(false)
+  const syncEverything = useSyncEverything(links.syncEverything)
 
   React.useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search)
@@ -27,9 +28,9 @@ export function JustConnectedModal(): JSX.Element {
   }, [])
 
   const handleSync = React.useCallback(() => {
-    handleSyncEverything({ syncEverythingEndpoint: links.syncEverything })
+    syncEverything()
     handleRemoveParam()
-  }, [links.syncEverything])
+  }, [syncEverything, handleRemoveParam])
 
   const handleCloseModal = React.useCallback(() => {
     handleRemoveParam()

@@ -6,6 +6,7 @@ import { fetchWithParams, handleJsonErrorResponse } from '../../fetchWithParams'
 import { StaticTooltip } from '@/components/bootcamp/JikiscriptExercisePage/Scrubber/ScrubberTooltipInformation'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 import { Trans } from 'react-i18next'
+import { useSyncEverything } from '../../useSyncEverything'
 
 type Track = {
   title: string
@@ -51,6 +52,8 @@ export function ManualSyncSection() {
     },
     [links.syncTrack, t]
   )
+
+  const handleSyncEverything = useSyncEverything(links.syncEverything)
 
   return (
     <section
@@ -119,11 +122,7 @@ export function ManualSyncSection() {
       <div className="group relative">
         <button
           disabled={!isSyncingEnabled}
-          onClick={() =>
-            handleSyncEverything({
-              syncEverythingEndpoint: links.syncEverything,
-            })
-          }
+          onClick={handleSyncEverything}
           className="btn btn-primary relative group"
         >
           {t('backupEverythingLabel')}
@@ -138,38 +137,4 @@ export function ManualSyncSection() {
       </div>
     </section>
   )
-}
-
-export function handleSyncEverything({
-  syncEverythingEndpoint,
-}: {
-  syncEverythingEndpoint: string
-}) {
-  const { t } = useAppTranslation(
-    'components/settings/github-syncer/sections/ConnectedSection/ManualSyncSection.tsx'
-  )
-  fetchWithParams({
-    url: syncEverythingEndpoint,
-  })
-    .then(async (response) => {
-      if (response.ok) {
-        toast.success(
-          t(
-            'yourBackupForAllTracksHasBeenQueuedAndShouldBeCompletedWithinAFewMinutes'
-          ),
-          { duration: 5000 }
-        )
-      } else {
-        await handleJsonErrorResponse(
-          response,
-          t('errorQueuingBackupForAllTracks')
-        )
-      }
-    })
-    .catch((error) => {
-      console.error('Error:', error)
-      toast.error(
-        t('somethingWentWrongWhileQueuingTheBackupForAllTracksPleaseTryAgain')
-      )
-    })
 }

@@ -154,11 +154,15 @@ export const useSubmissionsList = (
       method: 'GET',
     })
 
-    fetch.then((json) => {
-      const testRun = typecheck<TestRun>(json, 'testRun')
+    fetch
+      .then((json) => {
+        const testRun = typecheck<TestRun>(json, 'testRun')
 
-      set(current.uuid, { ...current, testRun: testRun })
-    })
+        set(current.uuid, { ...current, testRun: testRun })
+      })
+      .catch(() => {
+        remove(current.uuid)
+      })
   }, [set])
 
   return { current, create, set, remove }

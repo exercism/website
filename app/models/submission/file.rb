@@ -65,10 +65,19 @@ class Submission::File < ApplicationRecord
 
     return file_contents if uri.empty?
 
-    @raw_content = Exercism.s3_client.get_object(
-      bucket: s3_bucket,
-      key: s3_key
-    ).body.read
+    attempts = 0
+    begin
+      attempts += 1
+      @raw_content = Exercism.s3_client.get_object(
+        bucket: s3_bucket,
+        key: s3_key
+      ).body.read
+    rescue Aws::Sigv4::Errors::MissingCredentialsError, Aws::Errors::MissingCredentialsError
+      raise if attempts >= 3
+
+      sleep(attempts)
+      retry
+    end
   rescue Aws::S3::Errors::NoSuchKey
     ""
   end

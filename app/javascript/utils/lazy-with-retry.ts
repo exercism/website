@@ -1,4 +1,8 @@
 import React from 'react'
+import {
+  isChunkLoadError,
+  safeReloadForChunkError,
+} from './chunk-load-error-handler'
 
 const MAX_RETRIES = 3
 const RETRY_DELAY_MS = 1000
@@ -18,7 +22,13 @@ function retryImport<T extends React.ComponentType<any>>(
   retriesLeft = MAX_RETRIES
 ): Promise<{ default: T }> {
   return factory().catch((error) => {
-    if (retriesLeft <= 0) throw error
+    if (retriesLeft <= 0) {
+      if (isChunkLoadError(error)) {
+        safeReloadForChunkError()
+        return new Promise<{ default: T }>(() => {})
+      }
+      throw error
+    }
 
     return new Promise<{ default: T }>((resolve) =>
       setTimeout(

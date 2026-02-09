@@ -104,6 +104,16 @@ if (process.env.SENTRY_DSN) {
       )
       if (isNonErrorRejection) return null
 
+      // Drop errors from student code running in blob URLs (bootcamp JS
+      // exercises execute student solutions via dynamically created blob:
+      // modules — errors from those are expected, not application bugs)
+      const isStudentCodeError = event.exception?.values?.some((ex) =>
+        ex.stacktrace?.frames?.some((frame) =>
+          frame.filename?.startsWith('blob:')
+        )
+      )
+      if (isStudentCodeError) return null
+
       const tag = document.querySelector<HTMLMetaElement>(
         'meta[name="user-id"]'
       )

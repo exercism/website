@@ -91,15 +91,13 @@ export function useEditorHandler({
     }
   }
 
-  const handleRunCode = () => {
+  const handleRunCode = async () => {
     if (editorHandler.current) {
       const value = editorHandler.current.getValue()
 
       setLatestValueSnapshot(value)
       try {
-        //const time = performance.now()
-        runCode(value, editorViewRef.current)
-        //console.log('Duration', performance.now() - time)
+        await runCode(value, editorViewRef.current)
       } catch (e: unknown) {
         if (
           process.env.NODE_ENV === 'development' ||

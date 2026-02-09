@@ -74,7 +74,14 @@ class Submission::Analysis < ApplicationRecord
         template = block
       end
 
-      markdown = repo.analysis_comment_for(template) % (params || {}).symbolize_keys
+      safe_params = (params || {}).symbolize_keys
+      markdown = repo.analysis_comment_for(template).gsub(/%(?:\{(\w+)\}|%)/) do
+        if Regexp.last_match(1)
+          safe_params[Regexp.last_match(1).to_sym].to_s
+        else
+          '%'
+        end
+      end
 
       {
         type: type&.to_sym || DEFAULT_TYPE,

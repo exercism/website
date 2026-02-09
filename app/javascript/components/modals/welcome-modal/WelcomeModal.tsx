@@ -134,9 +134,11 @@ export default function WelcomeModal({
       <Modal
         cover={true}
         open={open}
-        style={
-          currentView === 'initial' ? { content: { maxWidth: '590px' } } : {}
-        }
+        style={{
+          content: {
+            maxWidth: currentView === 'initial' ? '590px' : '1180px',
+          },
+        }}
         {...props}
         onClose={() => null}
         className="m-welcome"

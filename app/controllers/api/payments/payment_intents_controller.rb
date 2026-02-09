@@ -1,7 +1,14 @@
 class API::Payments::PaymentIntentsController < API::BaseController
   before_action :authenticate_user!
 
+  MAX_AMOUNT_IN_CENTS = 99_999_999
+
   def create
+    amount_in_cents = params[:amount_in_cents].to_i
+    unless amount_in_cents.between?(1, MAX_AMOUNT_IN_CENTS)
+      return render json: { error: "Amount must be between 1 and #{MAX_AMOUNT_IN_CENTS} cents" }, status: :ok
+    end
+
     payment_intent = ::Payments::Stripe::PaymentIntent::Create.(
       current_user || params[:email],
       params[:type],

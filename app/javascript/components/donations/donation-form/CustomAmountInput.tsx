@@ -1,6 +1,8 @@
 import React, { useCallback } from 'react'
 import currency from 'currency.js'
 
+const MAX_AMOUNT = '999999.99'
+
 export const CustomAmountInput = ({
   onChange,
   selected,
@@ -8,6 +10,7 @@ export const CustomAmountInput = ({
   defaultValue,
   value,
   min = '0',
+  max = MAX_AMOUNT,
   className = '',
   onBlur,
 }: {
@@ -18,6 +21,7 @@ export const CustomAmountInput = ({
   defaultValue?: currency
   value?: currency | string
   min?: string
+  max?: string
   className?: string
 }): JSX.Element => {
   const handleCustomAmountChange = useCallback(
@@ -34,9 +38,14 @@ export const CustomAmountInput = ({
         return
       }
 
+      if (parseFloat(e.target.value) > parseFloat(max)) {
+        onChange(currency(NaN))
+        return
+      }
+
       onChange(currency(e.target.value))
     },
-    [onChange]
+    [onChange, max]
   )
 
   const classNames = [
@@ -51,6 +60,7 @@ export const CustomAmountInput = ({
       <input
         type="number"
         min={min}
+        max={max}
         step="0.01"
         onBlur={onBlur}
         placeholder={placeholder}

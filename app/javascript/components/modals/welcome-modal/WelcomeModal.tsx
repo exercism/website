@@ -4,7 +4,7 @@ import { sendRequest } from '@/utils/send-request'
 import { Modal, ModalProps } from '../Modal'
 import { InitialView } from './InitialView'
 import { SeniorView } from './DeveloperView'
-import { JuniorView } from './JuniorView'
+import { BootcampAdvertismentView } from '../seniority-survey-modal/BootcampAdvertismentView'
 
 type ViewVariant = 'initial' | 'beginner' | 'developer'
 
@@ -134,9 +134,16 @@ export default function WelcomeModal({
       <Modal
         cover={true}
         open={open}
-        style={
-          currentView === 'initial' ? { content: { maxWidth: '590px' } } : {}
-        }
+        style={{
+          content: {
+            maxWidth:
+              currentView === 'initial'
+                ? '590px'
+                : currentView === 'beginner'
+                ? '620px'
+                : '1180px',
+          },
+        }}
         {...props}
         onClose={() => null}
         className="m-welcome"
@@ -148,12 +155,18 @@ export default function WelcomeModal({
 }
 
 function Inner() {
-  const { currentView } = useContext(WelcomeModalContext)
+  const { currentView, patchCloseModal, links } =
+    useContext(WelcomeModalContext)
   switch (currentView) {
     case 'initial':
       return <InitialView />
     case 'beginner':
-      return <JuniorView />
+      return (
+        <BootcampAdvertismentView
+          patchCloseModal={patchCloseModal}
+          links={links}
+        />
+      )
     case 'developer':
       return <SeniorView />
     default:

@@ -1,15 +1,28 @@
-import React, { useContext } from 'react'
-import { GraphicalIcon, Icon } from '@/components/common'
+import React from 'react'
+import { Icon } from '@/components/common'
 import { FormButton } from '@/components/common/FormButton'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
-import { SenioritySurveyModalContext } from './SenioritySurveyModal'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 import { Trans } from 'react-i18next'
+import { MutationStatus } from '@tanstack/react-query'
 
 const DEFAULT_ERROR = new Error('Unable to dismiss modal')
 
-export function BootcampAdvertismentView() {
-  const { patchCloseModal, links } = useContext(SenioritySurveyModalContext)
+type BootcampAdvertismentViewProps = {
+  patchCloseModal: {
+    mutate: () => void
+    status: string
+    error: unknown
+  }
+  links: {
+    codingFundamentalsCourse: string
+  }
+}
+
+export function BootcampAdvertismentView({
+  patchCloseModal,
+  links,
+}: BootcampAdvertismentViewProps) {
   const { t } = useAppTranslation('components/modals/seniority-survey-modal')
 
   return (
@@ -86,7 +99,7 @@ export function BootcampAdvertismentView() {
             {t('bootcampAd.learnMore')}
           </a>
           <FormButton
-            status={patchCloseModal.status}
+            status={patchCloseModal.status as MutationStatus}
             className="btn-secondary btn-l w-[140px]"
             type="button"
             onClick={patchCloseModal.mutate}

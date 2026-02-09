@@ -102,13 +102,7 @@ class API::SolutionsController < API::BaseController
   def diff
     files = Git::Exercise::GenerateDiffBetweenVersions.(@solution.exercise, @solution.git_slug, @solution.git_sha)
 
-    # TODO: (Optional): Change this to always be a 200 and handle the empty files in React
-    if files.present?
-      status = 200
-    else
-      status = 400
-      Sentry.capture_exception(RuntimeError.new("No files were found during solution diff"))
-    end
+    Solution::UpdateToLatestExerciseVersion.(@solution) if files.blank?
 
     render json: {
       diff: {
@@ -121,7 +115,7 @@ class API::SolutionsController < API::BaseController
           update: Exercism::Routes.sync_api_solution_url(@solution.uuid)
         }
       }
-    }, status:
+    }, status: :ok
   end
 
   def sync

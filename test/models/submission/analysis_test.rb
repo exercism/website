@@ -80,6 +80,20 @@ class Submission::AnalysisTest < ActiveSupport::TestCase
     assert_equal expected, analysis.comments
   end
 
+  test "comments for comment hash with missing params does not raise" do
+    TestHelpers.use_website_copy_test_repo!
+
+    comments = [{
+      "comment" => "ruby.two-fer.string_interpolation",
+      "params" => {}
+    }]
+    analysis = create :submission_analysis, data: { comments: }
+
+    # Missing %{name_variable} becomes empty string; %% still becomes %
+    assert_equal 1, analysis.comments.size
+    assert_equal :informative, analysis.comments.first[:type]
+  end
+
   test "comments orders correctly for mixed comments" do
     TestHelpers.use_website_copy_test_repo!
 

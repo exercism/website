@@ -71,6 +71,10 @@ rm -rf .built-assets/              # Clear asset cache if needed
 - Always use Bearer token authentication for API
 - Delegate business logic to commands, keep controllers thin
 
+## Git Usage
+
+- **Do not use `git -C <path>`**. Instead, `cd` to the correct directory before running git commands. This avoids issues with worktrees and ensures hooks run in the right context.
+
 ## Critical Warnings
 
 **Never cancel long-running operations:**

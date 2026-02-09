@@ -4,9 +4,9 @@ import React, {
   useState,
   useEffect,
   createContext,
-  lazy,
   Suspense,
 } from 'react'
+import { lazy } from '@/utils/lazy-with-retry'
 import { File } from '../types'
 import type { Handler } from '../misc/CodeMirror'
 import { Tab, TabContext } from '../common/Tab'

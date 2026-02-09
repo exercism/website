@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { lazy, Suspense } from 'react'
+import React, { Suspense } from 'react'
+import { lazy } from '@/utils/lazy-with-retry'
 import { camelizeKeys } from 'humps'
 import { camelizeKeysAs } from '@/utils/camelize-keys-as'
 import { initReact } from '@/utils/react-bootloader'

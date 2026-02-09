@@ -15,6 +15,19 @@ class User::GithubSolutionSyncer
       User::GithubSolutionSyncer::SyncSolution.(solution)
     end
 
+    test "noops when integration lacks permission" do
+      user = create(:user)
+      track = create(:track, slug: "ruby")
+      exercise = create(:practice_exercise, track:, slug: "two-fer")
+      solution = create(:practice_solution, user:, exercise:)
+      create(:user_github_solution_syncer, user:)
+
+      CreatePullRequest.stubs(:call).raises(Octokit::Forbidden)
+
+      # Should not raise
+      User::GithubSolutionSyncer::SyncSolution.(solution)
+    end
+
     test "requeues on server error" do
       user = create(:user)
       track = create(:track, slug: "ruby")

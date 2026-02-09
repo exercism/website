@@ -20,6 +20,8 @@ class User::GithubSolutionSyncer
       end
     rescue GithubApp::InstallationNotFoundError
       # noop - installation may have been removed or GitHub may be having issues
+    rescue Octokit::Forbidden
+      # noop - the integration no longer has permission to access the repo
     rescue Octokit::ServerError
       requeue_job!(30.seconds)
     end

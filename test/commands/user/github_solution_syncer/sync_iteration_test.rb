@@ -17,6 +17,21 @@ class User::GithubSolutionSyncer
       User::GithubSolutionSyncer::SyncIteration.(iteration)
     end
 
+    test "noops when integration lacks permission" do
+      user = create(:user)
+      track = create(:track, slug: "ruby")
+      exercise = create(:practice_exercise, track:, slug: "two-fer")
+      solution = create(:practice_solution, user:, exercise:)
+      submission = create(:submission, solution:)
+      iteration = create(:iteration, user:, solution:, submission:)
+      create(:user_github_solution_syncer, user:)
+
+      CreatePullRequest.stubs(:call).raises(Octokit::Forbidden)
+
+      # Should not raise
+      User::GithubSolutionSyncer::SyncIteration.(iteration)
+    end
+
     test "requeues on server error" do
       user = create(:user)
       track = create(:track, slug: "ruby")

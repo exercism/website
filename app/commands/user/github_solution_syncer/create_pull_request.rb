@@ -23,8 +23,9 @@ class User::GithubSolutionSyncer
         pr_title,
         pr_message
       )
-    rescue Octokit::NotFound
-      # Repo may have been deleted or renamed — nothing to sync to
+    rescue Octokit::NotFound, Octokit::Forbidden
+      # Repo may have been deleted/renamed, or the integration
+      # no longer has permission — nothing to sync to
       nil
     end
 

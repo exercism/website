@@ -115,7 +115,7 @@ class Submission::TestRun::Process
     return {} if tooling_job.execution_output.nil?
 
     results_json = tooling_job.execution_output['results.json']
-    return {} if results_json.blank?
+    return {} if results_json&.scrub.blank?
 
     res = JSON.parse(results_json, allow_invalid_unicode: true)
     res.is_a?(Hash) ? res.symbolize_keys : {}

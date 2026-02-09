@@ -69,7 +69,7 @@ class Submission::Analysis::Process
     return {} if ops_errored?
 
     tags_json = tooling_job.execution_output['tags.json']
-    return {} if tags_json.blank?
+    return {} if tags_json.scrub.blank?
 
     res = JSON.parse(tags_json)
     res.is_a?(Hash) ? res.symbolize_keys : {}

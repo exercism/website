@@ -67,6 +67,23 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
     assert submission.reload.tests_exceptioned?
   end
 
+  test "handle invalid UTF-8 in results.json without raising" do
+    submission = create :submission
+    job = create_test_runner_job!(
+      submission,
+      execution_status: 200,
+      results: { 'status' => 'pass', 'tests' => [] }
+    )
+
+    invalid_bytes = "\xFF\xFE".dup.force_encoding('UTF-8')
+    job.stubs(:execution_output).returns({ 'results.json' => invalid_bytes })
+
+    # This should not raise ArgumentError: invalid byte sequence in UTF-8
+    Submission::TestRun::Process.(job)
+
+    assert submission.reload.tests_exceptioned?
+  end
+
   test "handle tests pass" do
     submission = create :submission
     results = { 'status' => 'pass', 'message' => "", 'tests' => [] }

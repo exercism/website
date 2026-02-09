@@ -12,6 +12,16 @@ class User::GithubSolutionSyncer
       User::GithubSolutionSyncer::SyncEverything.(user)
     end
 
+    test "noops when integration lacks permission" do
+      user = create(:user)
+      create(:user_github_solution_syncer, user:)
+
+      CreatePullRequest.stubs(:call).raises(Octokit::Forbidden)
+
+      # Should not raise
+      User::GithubSolutionSyncer::SyncEverything.(user)
+    end
+
     test "requeues on server error" do
       user = create(:user)
       create(:user_github_solution_syncer, user:)

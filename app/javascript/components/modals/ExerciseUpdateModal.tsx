@@ -3,7 +3,7 @@
 import React from 'react'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { Modal, ModalProps } from './Modal'
-import { Icon } from '../common'
+import { Icon, GraphicalIcon } from '../common'
 import { useRequestQuery } from '../../hooks/request-query'
 import { ExerciseUpdateForm } from './exercise-update-modal/ExerciseUpdateForm'
 import { Exercise } from '../types'
@@ -43,10 +43,44 @@ export const ExerciseUpdateModal = ({
         defaultError={DEFAULT_ERROR}
       >
         {data ? (
-          <ExerciseUpdateForm diff={data.diff} onCancel={props.onClose} />
+          data.diff.files.length > 0 ? (
+            <ExerciseUpdateForm diff={data.diff} onCancel={props.onClose} />
+          ) : (
+            <AutoUpdatedNotice onClose={props.onClose} />
+          )
         ) : null}
       </FetchingBoundary>
     </Modal>
+  )
+}
+
+const AutoUpdatedNotice = ({ onClose }: { onClose: () => void }) => {
+  const { t } = useAppTranslation('components/modals/ExerciseUpdateModal.tsx')
+  return (
+    <div className="auto-updated-notice flex flex-col items-center text-center">
+      <GraphicalIcon
+        icon="completed-check-circle"
+        height={64}
+        width={64}
+        className="mb-20"
+      />
+      <h2 className="text-h3 mb-8">
+        {t('exerciseUpdateModal.autoUpdatedTitle')}
+      </h2>
+      <p className="text-p-large mb-24">
+        {t('exerciseUpdateModal.autoUpdatedBody')}
+      </p>
+      <button
+        type="button"
+        className="btn-primary btn-m"
+        onClick={() => {
+          onClose()
+          window.location.reload()
+        }}
+      >
+        {t('exerciseUpdateModal.continue')}
+      </button>
+    </div>
   )
 }
 

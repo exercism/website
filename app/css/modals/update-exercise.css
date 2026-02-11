@@ -5,6 +5,9 @@
         @apply flex flex-col;
         width: 80%;
     }
+    &:has(.auto-updated-notice) .--modal-content {
+        max-width: 500px;
+    }
     & .header {
         @apply mb-16;
         & h2 {

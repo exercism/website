@@ -173,22 +173,17 @@ class API::SolutionsControllerTest < API::BaseTestCase
     assert_equal expected, actual
   end
 
-  test "Diff returns 400 if diff does not contain files" do
+  test "Diff auto-syncs and returns 200 when diff does not contain files" do
     user = create :user
     setup_user(user)
     solution = create(:concept_solution, user:)
-    get diff_api_solution_path(solution.uuid), headers: @headers, as: :json
-
-    assert_response :bad_request
-  end
-
-  test "Sentry is alerted if diff does not contain files" do
-    user = create :user
-    setup_user(user)
-    solution = create(:concept_solution, user:)
-    Sentry.expects(:capture_exception).with(RuntimeError.new("No files were found during solution diff"))
+    Solution::UpdateToLatestExerciseVersion.expects(:call).with(solution)
 
     get diff_api_solution_path(solution.uuid), headers: @headers, as: :json
+
+    assert_response :ok
+    response_body = JSON.parse(response.body)
+    assert_empty response_body.dig("diff", "files")
   end
 
   ########

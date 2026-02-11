@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   pause:
-    if: github.repository_owner == 'exercism' && github.actor != 'sentry[bot]'
+    if: github.repository_owner == 'exercism' && github.actor != 'ops-handler[bot]'
     uses: exercism/github-actions/.github/workflows/community-contributions.yml@main
     with:
       forum_category: support

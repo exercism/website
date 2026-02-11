@@ -57,10 +57,19 @@ export const ExerciseUpdateModal = ({
 const AutoUpdatedNotice = ({ onClose }: { onClose: () => void }) => {
   const { t } = useAppTranslation('components/modals/ExerciseUpdateModal.tsx')
   return (
-    <div className="auto-updated-notice">
-      <GraphicalIcon icon="completed-check-circle" />
-      <h2>{t('exerciseUpdateModal.autoUpdatedTitle')}</h2>
-      <p>{t('exerciseUpdateModal.autoUpdatedBody')}</p>
+    <div className="auto-updated-notice flex flex-col items-center text-center">
+      <GraphicalIcon
+        icon="completed-check-circle"
+        height={64}
+        width={64}
+        className="mb-20"
+      />
+      <h2 className="text-h3 mb-8">
+        {t('exerciseUpdateModal.autoUpdatedTitle')}
+      </h2>
+      <p className="text-p-large mb-24">
+        {t('exerciseUpdateModal.autoUpdatedBody')}
+      </p>
       <button
         type="button"
         className="btn-primary btn-m"

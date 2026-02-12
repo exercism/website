@@ -138,6 +138,18 @@ if (process.env.SENTRY_DSN) {
           ex.value?.includes("read the 'sessionStorage' property from 'Window'")
       )
       if (isStorageAccessError) return null
+      
+      // Drop non-actionable "Maximum call stack size exceeded" errors.
+      // These come from browser extensions, third-party scripts, or users
+      // with cached bundles (the root cause in app code was fixed in #8408).
+      // Stack traces for these are truncated by browsers and not useful in
+      // minified production bundles.
+      const isStackOverflowError = event.exception?.values?.some(
+        (ex) =>
+          ex.type === 'RangeError' &&
+          ex.value?.includes('Maximum call stack size exceeded')
+      )
+      if (isStackOverflowError) return null
 
       const tag = document.querySelector<HTMLMetaElement>(
         'meta[name="user-id"]'

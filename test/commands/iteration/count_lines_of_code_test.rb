@@ -118,7 +118,7 @@ class Iteration::CountLinesOfCodeTest < ActiveJob::TestCase
 
     RestClient.stubs(:post).raises(RestClient::BadGateway)
 
-    assert_raises RestClient::BadGateway do
+    assert_raises Iteration::CountLinesOfCode::LocCounterTemporarilyUnavailable do
       Iteration::CountLinesOfCode.(iteration, retries_count: 3)
     end
   end

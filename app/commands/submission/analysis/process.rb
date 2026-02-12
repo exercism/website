@@ -59,6 +59,8 @@ class Submission::Analysis::Process
 
     res = JSON.parse(tooling_job.execution_output['analysis.json'])
     res.is_a?(Hash) ? res.symbolize_keys : {}
+  rescue JSON::ParserError
+    {}
   rescue StandardError => e
     Sentry.capture_exception(e)
     {}
@@ -73,6 +75,8 @@ class Submission::Analysis::Process
 
     res = JSON.parse(tags_json)
     res.is_a?(Hash) ? res.symbolize_keys : {}
+  rescue JSON::ParserError
+    {}
   rescue StandardError => e
     Sentry.capture_exception(e)
     {}

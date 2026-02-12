@@ -230,6 +230,11 @@ class Submission::TestRunTest < ActiveSupport::TestCase
     assert_equal submission.track, test_run.track
   end
 
+  test "handles version as array" do
+    tr = create(:submission_test_run, raw_results: { version: [3], status: :pass })
+    assert_equal 3, tr.version
+  end
+
   test "truncate message" do
     message = 'a' * 66_000
     test_run = create(:submission_test_run, raw_results: { message: })

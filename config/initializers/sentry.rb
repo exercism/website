@@ -14,7 +14,7 @@ if Rails.env.production?
     config.environment = Rails.env
     config.breadcrumbs_logger = %i[active_support_logger http_logger]
     config.send_default_pii = false
-    config.excluded_exceptions += ['ActiveRecord::Deadlocked']
+    config.excluded_exceptions += ['ActiveRecord::Deadlocked', 'MandateJob::PreqJobNotFinishedError']
     config.before_send = SENTRY_ACTIVE_STORAGE_FILTER
   end
 end

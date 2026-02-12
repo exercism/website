@@ -32,3 +32,15 @@ test('does not render out of date notice', async () => {
 
   expect(screen.queryByText('Outdated')).not.toBeInTheDocument()
 })
+
+test('renders nothing when publishedIterations is empty', async () => {
+  const { container } = render(
+    <SolutionView
+      {...buildProps()}
+      iterations={[createIteration({ idx: 1 })]}
+      publishedIterationIdxs={[99]}
+    />
+  )
+
+  expect(container.innerHTML).toBe('')
+})

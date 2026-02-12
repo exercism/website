@@ -46,6 +46,8 @@ class Submission::Representation::Process
 
     res = JSON.parse(tooling_job.execution_output['mapping.json'])
     res.is_a?(Hash) ? res.symbolize_keys : {}
+  rescue JSON::ParserError
+    {}
   rescue StandardError => e
     Sentry.capture_exception(e)
     {}
@@ -60,6 +62,8 @@ class Submission::Representation::Process
 
     res = JSON.parse(representation_json)
     res.is_a?(Hash) ? res.symbolize_keys : {}
+  rescue JSON::ParserError
+    {}
   rescue StandardError => e
     Sentry.capture_exception(e)
     {}

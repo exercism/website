@@ -13,7 +13,7 @@ class Submission::TestRun < ApplicationRecord
   delegate :solution, to: :submission
 
   before_create do
-    self.version = raw_results[:version].to_i
+    self.version = Array(raw_results[:version]).first.to_i
     self.message = raw_results[:message] unless self.message
     self.output = raw_results[:output] unless self.output
     self.status = raw_results.fetch(:status, :error) unless self.status

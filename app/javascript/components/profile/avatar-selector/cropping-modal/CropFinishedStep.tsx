@@ -49,6 +49,7 @@ export const CropFinishedStep = ({
       /* TODO: (optional) Use our standard sendRequest library */
       return fetch(links.update, { body: formData, method: 'PATCH' })
         .then((response) => {
+          if (!response.ok) throw response
           return response.json().then((json) => camelizeKeys(json))
         })
         .then((json) => {

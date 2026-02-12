@@ -19,6 +19,12 @@ async function initialize() {
   const response = await fetch(
     `/courses/stripe/session-status?session_id=${sessionId}&enrollment_uuid=${enrollmentUuid}`
   )
+
+  if (!response.ok) {
+    window.location.replace(failurePath)
+    return
+  }
+
   const session = await response.json()
 
   if (session.status == 'open') {

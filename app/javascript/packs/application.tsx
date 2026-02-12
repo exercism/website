@@ -249,8 +249,13 @@ if (typeof window !== 'undefined') {
       shouldDehydrateQuery: (query) => {
         const [key] = query.queryKey
         // only persist notifications and reputation in localStorage cache
-        return [NOTIFICATIONS_CACHE_KEY, REPUTATION_CACHE_KEY].includes(
-          key as string
+        // also check status to avoid dehydrating pending queries whose
+        // promises can reject with an unhandled "redacted" error
+        return (
+          query.state.status === 'success' &&
+          [NOTIFICATIONS_CACHE_KEY, REPUTATION_CACHE_KEY].includes(
+            key as string
+          )
         )
       },
     },

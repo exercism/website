@@ -129,7 +129,7 @@ class CoursesController < ApplicationController
   def use_course!
     @bundle = Courses::BundleCodingFrontEnd.instance
     @course = Courses::Course.course_for_slug(params[:id])
-    redirect_to action: :coding_fundamentals unless @course
+    redirect_to jiki_url unless @course
   end
 
   def use_enrollment!

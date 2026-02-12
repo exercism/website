@@ -21,9 +21,13 @@ export const NewListItemForm = <T extends unknown>({
   onCompressed?: () => void
   defaultError: Error
 }): JSX.Element => {
-  const [value, setValue] = useState(
-    localStorage.getItem(`smde_${contextId}`) || ''
-  )
+  const [value, setValue] = useState(() => {
+    try {
+      return localStorage.getItem(`smde_${contextId}`) || ''
+    } catch {
+      return ''
+    }
+  })
   const handleSuccess = useCallback(
     (item: T) => {
       setValue('')

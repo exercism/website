@@ -29,9 +29,14 @@ export const StartDiscussionPanel = ({
   links: Links
 }): JSX.Element => {
   const contextId = `start-discussion-request-${request.uuid}`
-  const [state, setState] = useState({
-    expanded: defaultExpanded,
-    value: localStorage.getItem(`smde_${contextId}`) || '',
+  const [state, setState] = useState(() => {
+    let value = ''
+    try {
+      value = localStorage.getItem(`smde_${contextId}`) || ''
+    } catch {
+      // localStorage may be inaccessible (e.g. Safari private browsing)
+    }
+    return { expanded: defaultExpanded, value }
   })
   const lastIteration = iterations[iterations.length - 1]
 

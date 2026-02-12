@@ -128,6 +128,17 @@ if (process.env.SENTRY_DSN) {
       )
       if (isStudentCodeError) return null
 
+      // Drop non-actionable localStorage/sessionStorage SecurityErrors (Safari private
+      // browsing, restricted iframes, or strict cookie settings block storage access entirely)
+      const isStorageAccessError = event.exception?.values?.some(
+        (ex) =>
+          ex.value?.includes(
+            "read the 'localStorage' property from 'Window'"
+          ) ||
+          ex.value?.includes("read the 'sessionStorage' property from 'Window'")
+      )
+      if (isStorageAccessError) return null
+      
       // Drop non-actionable "Maximum call stack size exceeded" errors.
       // These come from browser extensions, third-party scripts, or users
       // with cached bundles (the root cause in app code was fixed in #8408).

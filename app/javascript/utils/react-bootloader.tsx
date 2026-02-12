@@ -138,7 +138,7 @@ if (process.env.SENTRY_DSN) {
           ex.value?.includes("read the 'sessionStorage' property from 'Window'")
       )
       if (isStorageAccessError) return null
-      
+
       // Drop non-actionable "Maximum call stack size exceeded" errors.
       // These come from browser extensions, third-party scripts, or users
       // with cached bundles (the root cause in app code was fixed in #8408).
@@ -150,6 +150,14 @@ if (process.env.SENTRY_DSN) {
           ex.value?.includes('Maximum call stack size exceeded')
       )
       if (isStackOverflowError) return null
+
+      // Drop non-actionable Stripe.js loading failures (ad blockers,
+      // privacy extensions, or network issues preventing the script from loading).
+      // Users already see a friendly fallback message in the UI.
+      const isStripeLoadError = event.exception?.values?.some((ex) =>
+        ex.value?.includes('Failed to load Stripe.js')
+      )
+      if (isStripeLoadError) return null
 
       const tag = document.querySelector<HTMLMetaElement>(
         'meta[name="user-id"]'

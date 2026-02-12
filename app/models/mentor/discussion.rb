@@ -95,13 +95,13 @@ class Mentor::Discussion < ApplicationRecord
   def timed_out? = %i[student_timed_out mentor_timed_out].include?(status)
 
   def viewable_by?(user)
-    return true if user.admin?
+    return true if user&.admin?
 
     [mentor, student].include?(user)
   end
 
   def viewable_by_mentor?(user)
-    return true if user.admin?
+    return true if user&.admin?
 
     user == mentor
   end

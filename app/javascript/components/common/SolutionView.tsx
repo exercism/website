@@ -36,7 +36,7 @@ export default function SolutionView({
   indentSize,
   outOfDate,
   links,
-}: Props): JSX.Element {
+}: Props): JSX.Element | null {
   const publishedIterations = iterations.filter((iteration) =>
     publishedIterationIdxs.includes(iteration.idx)
   )
@@ -50,10 +50,14 @@ export default function SolutionView({
     isFetching,
   } = usePaginatedRequestQuery<{
     files: File[]
-  }>([currentIteration.links.files], {
-    endpoint: currentIteration.links.files,
-    options: {},
+  }>([currentIteration?.links.files ?? 'noop'], {
+    endpoint: currentIteration?.links.files,
+    options: { enabled: !!currentIteration },
   })
+
+  if (!currentIteration) {
+    return null
+  }
 
   return (
     <div

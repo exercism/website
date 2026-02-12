@@ -128,6 +128,17 @@ if (process.env.SENTRY_DSN) {
       )
       if (isStudentCodeError) return null
 
+      // Drop non-actionable localStorage/sessionStorage SecurityErrors (Safari private
+      // browsing, restricted iframes, or strict cookie settings block storage access entirely)
+      const isStorageAccessError = event.exception?.values?.some(
+        (ex) =>
+          ex.value?.includes(
+            "read the 'localStorage' property from 'Window'"
+          ) ||
+          ex.value?.includes("read the 'sessionStorage' property from 'Window'")
+      )
+      if (isStorageAccessError) return null
+
       const tag = document.querySelector<HTMLMetaElement>(
         'meta[name="user-id"]'
       )

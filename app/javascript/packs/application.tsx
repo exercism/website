@@ -4,6 +4,7 @@ import { lazy } from '@/utils/lazy-with-retry'
 import { camelizeKeys } from 'humps'
 import { camelizeKeysAs } from '@/utils/camelize-keys-as'
 import { initReact } from '@/utils/react-bootloader'
+import { safeLocalStorage } from '@/utils/safe-local-storage'
 import { RenderLoader } from '@/components/common/RenderLoader'
 import 'focus-visible'
 import 'tippy.js/animations/shift-away-subtle.css'
@@ -220,7 +221,7 @@ declare global {
 
 if (typeof window !== 'undefined') {
   const persister = createSyncStoragePersister({
-    storage: window.localStorage,
+    storage: safeLocalStorage(),
     key: 'REACT_QUERY_OFFLINE_CACHE',
     // Strip non-serializable `promise` fields from dehydrated query state.
     // When a query is pending during dehydration, its state includes a real
@@ -873,13 +874,16 @@ document.addEventListener('submit', function (event: SubmitEvent) {
       'frontend-training-page-size',
     ]
 
-    const allKeys = Object.keys(localStorage)
+    const storage = safeLocalStorage()
+    if (storage) {
+      const allKeys = Object.keys(storage)
 
-    allKeys.forEach((key) => {
-      if (!keysToKeep.includes(key)) {
-        localStorage.removeItem(key)
-      }
-    })
+      allKeys.forEach((key) => {
+        if (!keysToKeep.includes(key)) {
+          storage.removeItem(key)
+        }
+      })
+    }
   }
 })
 

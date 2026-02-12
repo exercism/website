@@ -11,7 +11,9 @@ export const moveCursorByPasteLength = EditorView.domEventHandlers({
       const pastedLength = pastedText.length
 
       view.dispatch({
-        selection: { anchor: from + pastedLength },
+        selection: {
+          anchor: Math.min(from + pastedLength, view.state.doc.length),
+        },
         scrollIntoView: true,
       })
     }, 0)

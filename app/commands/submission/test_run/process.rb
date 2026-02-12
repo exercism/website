@@ -119,6 +119,8 @@ class Submission::TestRun::Process
 
     res = JSON.parse(results_json, allow_invalid_unicode: true)
     res.is_a?(Hash) ? res.symbolize_keys : {}
+  rescue JSON::ParserError
+    {}
   rescue StandardError => e
     Sentry.capture_exception(e)
     {}

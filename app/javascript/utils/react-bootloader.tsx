@@ -166,12 +166,13 @@ const chunkErrorFallback: Sentry.FallbackRender = ({ error }) => {
 
 // Asynchronously appends a stylesheet to the head and resolves
 // the promise when it's finished loading.
-let loadStylesheet = function (url) {
+const loadStylesheet = function (url: string): Promise<void> {
   return new Promise((resolve, reject) => {
-    let link = document.createElement('link')
+    const link = document.createElement('link')
     link.type = 'text/css'
     link.rel = 'stylesheet'
-    link.onload = resolve
+    link.onload = () => resolve()
+    link.onerror = () => reject(new Error(`Failed to load stylesheet: ${url}`))
     link.href = url
 
     document.getElementsByTagName('head')[0].appendChild(link)
@@ -188,7 +189,9 @@ function initEventListeners() {
 
     const hrefs = Array.from(
       e.detail.newFrame.querySelectorAll('link[rel="stylesheet"]')
-    ).map((link) => (link as HTMLLinkElement).getAttribute('href'))
+    )
+      .map((link) => (link as HTMLLinkElement).getAttribute('href'))
+      .filter((href): href is string => href != null && href.length > 0)
 
     // If we have no stylesheets, just continue
     if (hrefs.length == 0) {
@@ -201,8 +204,9 @@ function initEventListeners() {
     // Load stylesheets in parallel asynchronously
     const promises = hrefs.map((href) => loadStylesheet(href))
 
-    // When they're all loaded, resume
-    Promise.all(promises).then(() => e.detail.resume())
+    // When they're all loaded (or if any fail), resume rendering.
+    // Use allSettled so a failed stylesheet never blocks the Turbo frame.
+    Promise.allSettled(promises).then(() => e.detail.resume())
   })
 
   // This changes any extra things that need changing from the

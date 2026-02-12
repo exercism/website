@@ -82,6 +82,12 @@ class Mentor::DiscussionTest < ActiveSupport::TestCase
     refute discussion.viewable_by?(user)
   end
 
+  test "#viewable_by? returns false if user is nil" do
+    discussion = create :mentor_discussion
+
+    refute discussion.viewable_by?(nil)
+  end
+
   test "finished?" do
     skip # TODO: Can this be deleted?
     discussion = create :mentor_discussion

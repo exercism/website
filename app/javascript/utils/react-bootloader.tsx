@@ -79,12 +79,15 @@ if (process.env.SENTRY_DSN) {
       )
       if (isFrameNotReadyError) return null
 
-      // Drop non-actionable network errors (connectivity loss, DNS failures, browser extensions blocking requests)
+      // Drop non-actionable network errors (connectivity loss, DNS failures, browser extensions blocking requests).
+      // Messages vary by browser: Chrome="Failed to fetch", Firefox="NetworkError…", Safari="Load failed"
       const isNetworkError = event.exception?.values?.some(
         (ex) =>
           ex.value?.includes(
             'NetworkError when attempting to fetch resource'
-          ) || ex.value?.includes('Failed to fetch')
+          ) ||
+          ex.value?.includes('Failed to fetch') ||
+          ex.value?.includes('Load failed')
       )
       if (isNetworkError) return null
 

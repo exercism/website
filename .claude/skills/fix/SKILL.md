@@ -13,7 +13,7 @@ You are fixing a GitHub issue for the exercism/website repository.
 ## Issue details
 
 ```json
-!`gh issue view $ARGUMENTS --json number,title,body,labels,comments`
+!`gh issue view $(echo "$ARGUMENTS" | grep -oE '[0-9]+$') --json number,title,body,labels,comments`
 ```
 
 Issue number: !`echo "$ARGUMENTS" | grep -oE '[0-9]+$'`

@@ -222,6 +222,15 @@ if (typeof window !== 'undefined') {
   const persister = createSyncStoragePersister({
     storage: window.localStorage,
     key: 'REACT_QUERY_OFFLINE_CACHE',
+    // Strip non-serializable `promise` fields from dehydrated query state.
+    // When a query is pending during dehydration, its state includes a real
+    // Promise which JSON.stringify silently mangles into a non-thenable value.
+    // On hydration, React Query's tryResolveSync calls .then() on it, causing
+    // "TypeError: t.then is not a function" (Sentry EXERCISM-JS-3 / #8587).
+    serialize: (data) =>
+      JSON.stringify(data, (key, value) =>
+        key === 'promise' ? undefined : value
+      ),
   })
 
   // use query client by pulling it out of the provider with useQueryClient hook

@@ -115,7 +115,7 @@ class Iteration::GenerateSnippetTest < ActiveJob::TestCase
 
     RestClient.stubs(:post).raises(RestClient::BadGateway)
 
-    assert_raises RestClient::BadGateway do
+    assert_raises Iteration::GenerateSnippet::SnippetGeneratorTemporarilyUnavailable do
       Iteration::GenerateSnippet.(iteration, retries_count: 3)
     end
   end

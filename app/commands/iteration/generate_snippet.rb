@@ -6,6 +6,7 @@ class Iteration::GenerateSnippet
   initialize_with :iteration, retries_count: 0
 
   MAX_RETRIES = 3
+  SnippetGeneratorTemporarilyUnavailable = Class.new(StandardError)
 
   def call
     # Sometimes the iteration might be deleted
@@ -38,7 +39,8 @@ class Iteration::GenerateSnippet
 
     raise
   rescue RestClient::BadGateway, RestClient::ServiceUnavailable, RestClient::GatewayTimeout
-    raise if retries_count >= MAX_RETRIES
+    # This error is manually ignored on Sentry unless it escalates
+    raise SnippetGeneratorTemporarilyUnavailable if retries_count >= MAX_RETRIES
 
     self.class.defer(iteration, retries_count: retries_count + 1, wait: rand(30..90))
   end

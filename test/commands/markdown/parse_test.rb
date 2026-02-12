@@ -339,6 +339,11 @@ Done')
     assert_equal expected, Markdown::Parse.("[exercise:julia/two-fer](+https://exercism.org/tracks/julia/exercises/two-fer)")
   end
 
+  test "handles invalid URI without crashing" do
+    expected = %(<p><a>link</a></p>\n)
+    assert_equal expected, Markdown::Parse.("[link](https://)")
+  end
+
   test "render vimeo video without link" do
     expected = %(<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/595885125?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;" title="X Exercism_ Tutorial Your first mentoring session 1.m4v"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>\n) # rubocop:disable Layout/LineLength
     assert_equal expected, Markdown::Parse.("[video:vimeo/595885125]()")

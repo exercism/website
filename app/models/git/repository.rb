@@ -57,11 +57,13 @@ module Git
     def lookup_commit(sha, update_on_failure: true)
       return head_commit if sha == "HEAD"
 
+      raise MissingCommitError, sha if sha.blank?
+
       lookup(sha).tap do |object|
         raise 'wrong-type' if object.type != :commit
       end
     rescue Rugged::OdbError, Rugged::InvalidError
-      raise MissingCommitError unless update_on_failure
+      raise MissingCommitError, sha unless update_on_failure
 
       fetch!
       lookup_commit(sha, update_on_failure: false)

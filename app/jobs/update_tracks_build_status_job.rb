@@ -7,7 +7,7 @@ class UpdateTracksBuildStatusJob < ApplicationJob
     tracks.find_each do |track|
       Track::UpdateBuildStatus.(track)
     rescue StandardError => e
-      Sentry.capture_exception(e)
+      Sentry.capture_exception(e, extra: { track_slug: track.slug, synced_to_git_sha: track.synced_to_git_sha })
     end
   end
 

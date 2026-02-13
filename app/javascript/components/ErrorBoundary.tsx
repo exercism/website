@@ -103,19 +103,24 @@ export const useErrorHandler = (
 
       handler(new HandledError(defaultError.message))
     } else if (error instanceof Response) {
-      error
-        .clone()
-        .json()
-        .then((res: { error: APIError }) => {
-          handler(new HandledError(res.error.message))
-        })
-        .catch((e) => {
-          if (process.env.NODE_ENV == 'production') {
-            Sentry.captureException(e)
-          }
+      const contentType = error.headers.get('Content-Type') || ''
+      const isJson =
+        contentType.includes('application/json') ||
+        contentType.includes('+json')
 
-          handler(new HandledError(defaultError.message))
-        })
+      if (isJson) {
+        error
+          .clone()
+          .json()
+          .then((res: { error: APIError }) => {
+            handler(new HandledError(res.error.message))
+          })
+          .catch(() => {
+            handler(new HandledError(defaultError.message))
+          })
+      } else {
+        handler(new HandledError(defaultError.message))
+      }
     }
   }, [defaultError, error, handler])
 }

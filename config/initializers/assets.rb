@@ -42,11 +42,16 @@ class Propshaft::Asset
   def digested_path
     return logical_path if digested_by_esbuild?
     return logical_path if already_digested?
+    return logical_path if source_map?
 
     logical_path.sub(/\.(\w+)$/) { |ext| "-#{digest}#{ext}" }
   end
 
   def digested_by_esbuild?
     logical_path.to_s =~ /-([0-9A-Z]{8})\.js/
+  end
+
+  def source_map?
+    logical_path.to_s.end_with?('.map')
   end
 end

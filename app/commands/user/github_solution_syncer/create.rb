@@ -12,6 +12,8 @@ class User::GithubSolutionSyncer::Create
       installation_id:,
       repo_full_name: repo.full_name
     )
+  rescue User::GithubSolutionSyncer::GithubApp::InstallationNotFoundError
+    raise GithubSolutionSyncerCreationError, "GitHub App installation not found or no longer accessible"
   rescue Octokit::Unauthorized
     raise GithubSolutionSyncerCreationError, "GitHub authorization failed"
   rescue Octokit::Error => e

@@ -7,6 +7,18 @@ class ApplicationJobTest < ActiveJob::TestCase
     end
   end
 
+  class TestAwsSigv4MissingCredentialsJob < ApplicationJob
+    def perform
+      raise Aws::Sigv4::Errors::MissingCredentialsError
+    end
+  end
+
+  class TestAwsMissingCredentialsJob < ApplicationJob
+    def perform
+      raise Aws::Errors::MissingCredentialsError, "credentials not set"
+    end
+  end
+
   class TestDeserializationJob < ApplicationJob
     def perform
       # ActiveJob::DeserializationError uses $! so this needs
@@ -27,6 +39,18 @@ class ApplicationJobTest < ActiveJob::TestCase
   test "deadlock retries the job" do
     assert_enqueued_with(job: TestDeadlockedJob) do
       TestDeadlockedJob.perform_now
+    end
+  end
+
+  test "Aws::Sigv4 missing credentials retries the job" do
+    assert_enqueued_with(job: TestAwsSigv4MissingCredentialsJob) do
+      TestAwsSigv4MissingCredentialsJob.perform_now
+    end
+  end
+
+  test "Aws::Errors missing credentials retries the job" do
+    assert_enqueued_with(job: TestAwsMissingCredentialsJob) do
+      TestAwsMissingCredentialsJob.perform_now
     end
   end
 

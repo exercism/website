@@ -61,6 +61,7 @@ export type TabIndex =
   | 'chat-gpt'
 
 const filesEqual = (files: File[], other: File[]) => {
+  if (!files || !other) return false
   if (files.length !== other.length) {
     return false
   }

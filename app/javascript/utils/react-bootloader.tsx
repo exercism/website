@@ -159,6 +159,15 @@ if (process.env.SENTRY_DSN) {
       )
       if (isStripeLoadError) return null
 
+      // Drop non-actionable Turbo frame-missing errors (infrastructure 502s,
+      // CDN errors, or other responses that don't include the expected
+      // turbo-frame). The turbo:frame-missing handler provides a full page
+      // visit fallback for the user experience.
+      const isTurboFrameMissingError = event.exception?.values?.some((ex) =>
+        ex.value?.includes('did not contain the expected <turbo-frame')
+      )
+      if (isTurboFrameMissingError) return null
+
       const tag = document.querySelector<HTMLMetaElement>(
         'meta[name="user-id"]'
       )
@@ -263,6 +272,16 @@ function initEventListeners() {
       behavior: 'auto',
     })
     setTurboStyle('')
+  })
+
+  // When a response doesn't contain the expected <turbo-frame> (e.g. a 502
+  // from infrastructure), fall back to a full page visit so the user sees
+  // the actual error page instead of a broken frame.
+  document.addEventListener('turbo:frame-missing', (e: Event) => {
+    if (!(e instanceof CustomEvent)) return
+    e.preventDefault()
+    setTurboStyle('')
+    e.detail.visit(e.detail.response)
   })
 }
 

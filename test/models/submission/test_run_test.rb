@@ -235,6 +235,12 @@ class Submission::TestRunTest < ActiveSupport::TestCase
     assert_equal 3, tr.version
   end
 
+  test "handles test result status as array" do
+    tests = [{ 'name' => 'test1', 'status' => ['pass'] }]
+    tr = create(:submission_test_run, raw_results: { version: 2, status: 'pass', tests: tests })
+    assert_equal :pass, tr.test_results.first.to_h[:status]
+  end
+
   test "truncate message" do
     message = 'a' * 66_000
     test_run = create(:submission_test_run, raw_results: { message: })

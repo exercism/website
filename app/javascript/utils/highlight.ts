@@ -7,12 +7,10 @@ import setupBqn from 'highlightjs-bqn'
 import setupZig from 'highlightjs-zig'
 import setupGleam from '@gleam-lang/highlight.js-gleam'
 import setupBallerina from '@ballerina/highlightjs-ballerina'
-import setupRed from 'highlightjs-redbol'
 import setupChapel from 'highlightjs-chapel'
 import setupGDScript from '@exercism/highlightjs-gdscript'
 import setupJq from 'highlightjs-jq'
 import setupArturo from '@exercism/highlightjs-arturo'
-import setupRoc from 'highlightjs-roc'
 import setupUiua from '@exercism/highlightjs-uiua'
 import setupJikiscript from '@exercism/highlightjs-jikiscript'
 import setupFuthark from '@exercism/highlightjs-futhark'
@@ -25,14 +23,22 @@ if (isLookbehindSupported()) {
   highlighter.default.registerLanguage('zig', setupZig)
   highlighter.default.registerLanguage('gleam', setupGleam)
   highlighter.default.registerLanguage('ballerina', setupBallerina)
-  highlighter.default.registerLanguage('red', setupRed)
   highlighter.default.registerLanguage('chapel', setupChapel)
   highlighter.default.registerLanguage('gdscript', setupGDScript)
   highlighter.default.registerLanguage('jq', setupJq)
-  highlighter.default.registerLanguage('roc', setupRoc)
   highlighter.default.registerLanguage('uiua', setupUiua)
   highlighter.default.registerLanguage('jikiscript', setupJikiscript)
   highlighter.default.registerLanguage('futhark', setupFuthark)
+
+  // These packages contain lookbehind regex patterns that cause parse-time
+  // SyntaxErrors on browsers without lookbehind support. Dynamic imports
+  // ensure they are loaded in separate chunks, only after confirming support.
+  import('highlightjs-redbol').then((m) => {
+    highlighter.default.registerLanguage('red', m.default)
+  })
+  import('highlightjs-roc').then((m) => {
+    highlighter.default.registerLanguage('roc', m.default)
+  })
 }
 
 highlighter.default.configure({

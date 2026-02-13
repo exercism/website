@@ -14,6 +14,22 @@ module Git
       end
     end
 
+    test "lookup_commit_for_blank_sha_raises_without_fetch" do
+      repository = ::Git::Repository.new(repo_url: TestHelpers.git_repo_url("track"))
+      repository.expects(:fetch!).never
+      assert_raises Git::MissingCommitError do
+        repository.lookup_commit("")
+      end
+    end
+
+    test "lookup_commit_for_nil_sha_raises_without_fetch" do
+      repository = ::Git::Repository.new(repo_url: TestHelpers.git_repo_url("track"))
+      repository.expects(:fetch!).never
+      assert_raises Git::MissingCommitError do
+        repository.lookup_commit(nil)
+      end
+    end
+
     test "lookup_commit_for_head" do
       repository = ::Git::Repository.new(repo_url: TestHelpers.git_repo_url("track"))
       assert_equal repository.head_commit, repository.lookup_commit("HEAD")

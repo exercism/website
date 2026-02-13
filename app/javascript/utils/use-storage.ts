@@ -15,7 +15,7 @@ export function useLocalStorage<T>(
     try {
       const item = JSON.parse(localStorage.getItem(key) || '') as T
 
-      return item
+      return item ?? initialValue
     } catch (error) {
       return initialValue
     }

@@ -3,6 +3,12 @@ class ApplicationJob < ActiveJob::Base
   # (excluded via Sentry config's excluded_exceptions)
   retry_on ActiveRecord::Deadlocked
 
+  # Retry jobs that fail due to transient AWS credential errors
+  # (e.g. during credential rotation or ECS task role refresh)
+  retry_on Aws::Sigv4::Errors::MissingCredentialsError,
+    Aws::Errors::MissingCredentialsError,
+    wait: 10.seconds, attempts: 3
+
   # Can be overriden to disable this
   def guard_against_deserialization_errors? = true
   rescue_from ActiveJob::DeserializationError do |exception|

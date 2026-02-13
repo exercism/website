@@ -27,4 +27,16 @@ class User::GithubSolutionSyncer::GithubAppTest < ActiveSupport::TestCase
       User::GithubSolutionSyncer::GithubApp.generate_installation_token!(installation_id)
     end
   end
+
+  test "raises InstallationNotFoundError on 403" do
+    installation_id = 123_456
+
+    User::GithubSolutionSyncer::GithubApp.stubs(:generate_jwt).returns("fake.jwt.token")
+    stub_request(:post, "https://api.github.com/app/installations/#{installation_id}/access_tokens").
+      to_return(status: 403, body: { message: "Forbidden" }.to_json)
+
+    assert_raises(User::GithubSolutionSyncer::GithubApp::InstallationNotFoundError) do
+      User::GithubSolutionSyncer::GithubApp.generate_installation_token!(installation_id)
+    end
+  end
 end

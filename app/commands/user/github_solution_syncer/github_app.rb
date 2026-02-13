@@ -31,7 +31,7 @@ module User::GithubSolutionSyncer::GithubApp
     )
 
     JSON.parse(response.body)["token"]
-  rescue RestClient::NotFound
-    raise InstallationNotFoundError, "GitHub App installation #{installation_id} not found"
+  rescue RestClient::NotFound, RestClient::Forbidden
+    raise InstallationNotFoundError, "GitHub App installation #{installation_id} not found or not accessible"
   end
 end

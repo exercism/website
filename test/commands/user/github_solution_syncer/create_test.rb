@@ -72,6 +72,19 @@ class User::GithubSolutionSyncer
       end
     end
 
+    test "raises GithubSolutionSyncerCreationError when installation is not found or forbidden" do
+      user = create(:user)
+      installation_id = 123_456
+
+      GithubApp.stubs(:generate_installation_token!).raises(
+        GithubApp::InstallationNotFoundError, "GitHub App installation #{installation_id} not found or not accessible"
+      )
+
+      assert_raises GithubSolutionSyncerCreationError do
+        User::GithubSolutionSyncer::Create.(user, installation_id)
+      end
+    end
+
     test "replaces existing syncer" do
       user = create(:user)
       old_syncer = create(

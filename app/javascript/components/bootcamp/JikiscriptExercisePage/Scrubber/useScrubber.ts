@@ -191,6 +191,8 @@ export function useScrubber({
       newTimelineTime?: number,
       pause: boolean = true
     ) => {
+      if (!lastFrame) return
+
       const isLastFrame = newFrame.timelineTime == lastFrame.timelineTime
       newTimelineTime = newTimelineTime || newFrame.timelineTime
 

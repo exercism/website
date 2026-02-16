@@ -76,11 +76,11 @@ class Submission::TestRun < ApplicationRecord
         name: test[:name].to_s,
         status: Array(test[:status]).first.try(:to_sym),
         test_code: test[:test_code],
-        message: test[:message],
-        message_html: Ansi::RenderHTML.(test[:message]),
+        message: Array(test[:message]).first,
+        message_html: Ansi::RenderHTML.(Array(test[:message]).first),
         expected: test[:expected],
-        output: test[:output],
-        output_html: Ansi::RenderHTML.(test[:output]),
+        output: Array(test[:output]).first,
+        output_html: Ansi::RenderHTML.(Array(test[:output]).first),
         task_id: test[:task_id]&.to_i
       }
     end

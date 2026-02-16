@@ -49,6 +49,7 @@ class GenericExercisesController < ApplicationController
     end
 
     @ps_data = @exercise.generic_exercise
+    render_404 unless @ps_data
   rescue ActiveRecord::RecordNotFound
     render_404
   end

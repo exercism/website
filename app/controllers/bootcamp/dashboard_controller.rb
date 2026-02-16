@@ -33,6 +33,8 @@ class Bootcamp::DashboardController < Bootcamp::BaseController
       expires_in 1.year, public: true
 
       send_data image.read, type: image.content_type, disposition: 'inline'
+    rescue URI::InvalidURIError
+      head :bad_request
     rescue OpenURI::HTTPError
       head :not_found
     end

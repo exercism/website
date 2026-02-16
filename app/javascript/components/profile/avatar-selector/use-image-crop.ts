@@ -86,6 +86,9 @@ export const useImageCrop = () => {
   })
 
   const handleAttach = useCallback((e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
     const fileReader = new FileReader()
 
     fileReader.onloadend = () => {
@@ -97,7 +100,7 @@ export const useImageCrop = () => {
       })
     }
 
-    fileReader.readAsDataURL(e.target.files[0])
+    fileReader.readAsDataURL(file)
   }, [])
 
   return { state, dispatch, handleAttach }

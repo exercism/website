@@ -8,6 +8,12 @@ export function showSiteFooter(): void {
     return
   }
 
+  if (!document.body) {
+    retryCount++
+    setTimeout(showSiteFooter, 10)
+    return
+  }
+
   const elems = document.body.getElementsByClassName('c-react-component')
   for (const elem of elems) {
     // If this elem is hydrated, move onto the next one...

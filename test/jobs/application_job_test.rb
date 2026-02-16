@@ -19,6 +19,12 @@ class ApplicationJobTest < ActiveJob::TestCase
     end
   end
 
+  class TestFaradayConnectionFailedJob < ApplicationJob
+    def perform
+      raise Faraday::ConnectionFailed, "end of file reached"
+    end
+  end
+
   class TestDeserializationJob < ApplicationJob
     def perform
       # ActiveJob::DeserializationError uses $! so this needs
@@ -51,6 +57,12 @@ class ApplicationJobTest < ActiveJob::TestCase
   test "Aws::Errors missing credentials retries the job" do
     assert_enqueued_with(job: TestAwsMissingCredentialsJob) do
       TestAwsMissingCredentialsJob.perform_now
+    end
+  end
+
+  test "Faraday::ConnectionFailed retries the job" do
+    assert_enqueued_with(job: TestFaradayConnectionFailedJob) do
+      TestFaradayConnectionFailedJob.perform_now
     end
   end
 

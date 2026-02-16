@@ -9,6 +9,11 @@ class ApplicationJob < ActiveJob::Base
     Aws::Errors::MissingCredentialsError,
     wait: 10.seconds, attempts: 3
 
+  # Retry jobs that fail due to transient network connection errors
+  # (e.g. remote server closing connection, brief network interruptions)
+  retry_on Faraday::ConnectionFailed,
+    wait: 5.seconds, attempts: 5
+
   # Can be overriden to disable this
   def guard_against_deserialization_errors? = true
   rescue_from ActiveJob::DeserializationError do |exception|

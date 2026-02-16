@@ -20,4 +20,15 @@ class MailerRescuesTest < ActionMailer::TestCase
 
     NotificationsMailer.with(notification:).joined_exercism.deliver_now
   end
+
+  test "rescues Net::SMTPFatalError" do
+    user = create :user
+    notification = create(:joined_exercism_notification, user:)
+
+    Mail::Message.any_instance.stubs(:deliver).raises(
+      Net::SMTPFatalError.new("554 Transaction failed: Invalid domain name: '2010'.")
+    )
+
+    NotificationsMailer.with(notification:).joined_exercism.deliver_now
+  end
 end

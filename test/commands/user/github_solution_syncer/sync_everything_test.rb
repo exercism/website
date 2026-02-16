@@ -22,6 +22,16 @@ class User::GithubSolutionSyncer
       User::GithubSolutionSyncer::SyncEverything.(user)
     end
 
+    test "noops when git command fails" do
+      user = create(:user)
+      create(:user_github_solution_syncer, user:)
+
+      CreatePullRequest.stubs(:call).raises(RuntimeError, "Command failed with exit 1: git")
+
+      # Should not raise
+      User::GithubSolutionSyncer::SyncEverything.(user)
+    end
+
     test "requeues on server error" do
       user = create(:user)
       create(:user_github_solution_syncer, user:)

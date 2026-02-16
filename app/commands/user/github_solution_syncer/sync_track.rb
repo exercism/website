@@ -21,6 +21,8 @@ class User::GithubSolutionSyncer
       # noop - the integration no longer has permission to access the repo
     rescue Octokit::ServerError
       requeue_job!(30.seconds)
+    rescue RuntimeError
+      # noop - git command may have failed due to transient issues or repo unavailability
     end
 
     private

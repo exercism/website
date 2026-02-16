@@ -8,6 +8,7 @@ en:
       not_maintainer: "You do not have maintainer permissions"
       duplicate_submission: "No files you submitted have changed since your last submission"
       duplicate_video: "The video has already been submitted by someone else"
+      exercise_locked: "This exercise is locked"
       exercise_not_found: "The exercise you specified could not be found"
       invalid_auth_token: "The auth token provided is invalid"
       invalid_mentor_student_relationship: "There is not a valid relationship between you and this student"

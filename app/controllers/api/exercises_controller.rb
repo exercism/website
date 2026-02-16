@@ -16,6 +16,10 @@ class API::ExercisesController < API::BaseController
         exercise: Exercism::Routes.edit_track_exercise_url(@track, @exercise)
       }
     }
+  rescue UserTrackNotFoundError
+    render_403(:track_not_joined)
+  rescue ExerciseLockedError
+    render_403(:exercise_locked)
   end
 
   private

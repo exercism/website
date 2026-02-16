@@ -9,5 +9,10 @@ class Track::RetrieveUnimplementedPracticeExercises
 
   private
   def implemented_exercise_slugs = track.practice_exercises.pluck(:slug)
-  def foregone_exercise_slugs = track.git.foregone_exercises
+
+  def foregone_exercise_slugs
+    track.git.foregone_exercises
+  rescue Git::MissingCommitError
+    []
+  end
 end

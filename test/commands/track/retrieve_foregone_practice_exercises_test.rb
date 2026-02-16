@@ -12,4 +12,12 @@ class Track::RetrieveForegonePracticeExercisesTest < ActiveSupport::TestCase
 
     assert_equal %w[alphametics zipper], foregone_exercise_slugs.sort
   end
+
+  test "returns empty when git commit is missing" do
+    track = create :track
+
+    Git::Track.any_instance.stubs(:foregone_exercises).raises(Git::MissingCommitError)
+
+    assert_empty Track::RetrieveForegonePracticeExercises.(track)
+  end
 end

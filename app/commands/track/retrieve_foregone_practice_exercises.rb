@@ -3,5 +3,9 @@ class Track::RetrieveForegonePracticeExercises
 
   initialize_with :track
 
-  def call = GenericExercise.where(slug: track.git.foregone_exercises)
+  def call
+    GenericExercise.where(slug: track.git.foregone_exercises)
+  rescue Git::MissingCommitError
+    GenericExercise.none
+  end
 end

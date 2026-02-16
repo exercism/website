@@ -42,4 +42,16 @@ class Track::RetrieveUnimplementedPracticeExercisesTest < ActiveSupport::TestCas
 
     assert_equal %w[bob forth], unimplemented_exercise_slugs.sort
   end
+
+  test "includes foregone exercises when git commit is missing" do
+    track = create :track
+    create(:generic_exercise, slug: 'alphametics')
+    create(:generic_exercise, slug: 'anagram')
+
+    Git::Track.any_instance.stubs(:foregone_exercises).raises(Git::MissingCommitError)
+
+    unimplemented_exercise_slugs = Track::RetrieveUnimplementedPracticeExercises.(track).map(&:slug)
+
+    assert_equal %w[alphametics anagram], unimplemented_exercise_slugs.sort
+  end
 end

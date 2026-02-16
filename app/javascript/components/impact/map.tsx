@@ -59,6 +59,8 @@ const MetricPointUserWithTooltip = ({
   metric: Metric
   text: string
 }): JSX.Element => {
+  if (!metric.user) return <></>
+
   const avatarRef = useRef(null)
   const content = (
     <div

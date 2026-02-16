@@ -114,10 +114,10 @@ class Submission::TestRun::Process
   def results
     return {} if tooling_job.execution_output.nil?
 
-    results_json = tooling_job.execution_output['results.json']
-    return {} if results_json&.scrub.blank?
+    results_json = tooling_job.execution_output['results.json']&.scrub
+    return {} if results_json.blank?
 
-    res = JSON.parse(results_json, allow_invalid_unicode: true)
+    res = JSON.parse(results_json)
     res.is_a?(Hash) ? res.symbolize_keys : {}
   rescue JSON::ParserError
     {}

@@ -435,6 +435,7 @@ export function renderComponents(
   if (!parentElement) {
     parentElement = document.body
   }
+  if (!parentElement) return
   // As getElementsByClassName returns a live collection, it is recommended to use Array.from
   // when iterating through it, otherwise the number of elements may change mid-loop.
   const elems = Array.from(
@@ -469,6 +470,7 @@ function renderTooltips(parentElement: HTMLElement, mappings: Mappings) {
   if (!parentElement) {
     parentElement = document.body
   }
+  if (!parentElement) return
   parentElement
     .querySelectorAll('[data-tooltip-type][data-endpoint]')
     .forEach((elem) => renderTooltip(mappings, elem as HTMLElement))

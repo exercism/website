@@ -247,6 +247,22 @@ class Submission::TestRunTest < ActiveSupport::TestCase
     assert_nil tr.test_results.first.to_h[:status]
   end
 
+  test "handles test result message as array" do
+    tests = [{ 'name' => 'test1', 'status' => 'fail', 'message' => ['Expected 1 but got 2'] }]
+    tr = create(:submission_test_run, raw_results: { version: 2, status: 'fail', tests: tests })
+    result = tr.test_results.first.to_h
+    assert_equal 'Expected 1 but got 2', result[:message]
+    assert_equal 'Expected 1 but got 2', result[:message_html]
+  end
+
+  test "handles test result output as array" do
+    tests = [{ 'name' => 'test1', 'status' => 'fail', 'output' => ['some output'] }]
+    tr = create(:submission_test_run, raw_results: { version: 2, status: 'fail', tests: tests })
+    result = tr.test_results.first.to_h
+    assert_equal 'some output', result[:output]
+    assert_equal 'some output', result[:output_html]
+  end
+
   test "truncate message" do
     message = 'a' * 66_000
     test_run = create(:submission_test_run, raw_results: { message: })

@@ -7,6 +7,7 @@ class ApplicationMailer < ActionMailer::Base
 
   rescue_from(Mail::Field::IncompleteParseError) {}
   rescue_from(Net::SMTPSyntaxError) {}
+  rescue_from(Net::SMTPFatalError) {}
 
   def user_email_with_name(user)
     name = user.name.presence || user.handle

@@ -166,7 +166,7 @@ en:
           title: Ready to start %{exercise_title}?
           description_html:
             Sign up to Exercism to learn and master %{track_link} with
-            %{concept_link}%{exercise_link}, and real human mentoring,
+            %{concept_link}, %{exercise_link}, and real human mentoring,
             <strong>all for free.</strong>
           concept_plural:
             one: 1 concept

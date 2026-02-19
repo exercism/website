@@ -75,6 +75,23 @@ class UserTrack::AcquiredTrophy::CreateTest < ActiveSupport::TestCase
     UserTrack::AcquiredTrophy::Create.(user, track, :mentored)
   end
 
+  test "returns existing trophy on race condition (RecordNotUnique)" do
+    user = create :user
+    track = create :track
+    trophy = create :mentored_trophy
+    existing = create(:user_track_acquired_trophy, user:, trophy:, track:)
+
+    Track::Trophies::MentoredTrophy.any_instance.stubs(:award?).returns(true)
+
+    # Simulate race: find_by returns nil first (record not yet created),
+    # then returns the existing record when called from find_by! in rescue
+    UserTrack::AcquiredTrophy.stubs(:find_by).returns(nil, existing)
+    UserTrack::AcquiredTrophy.stubs(:create!).raises(ActiveRecord::RecordNotUnique)
+
+    actual = UserTrack::AcquiredTrophy::Create.(user, track, :mentored)
+    assert_equal existing, actual
+  end
+
   def force_trophy!(user, track)
     Track::Trophies::MentoredTrophy.any_instance.expects(:award?).with(user, track).returns(true)
   end

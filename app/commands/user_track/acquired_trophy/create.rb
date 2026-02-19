@@ -24,7 +24,7 @@ class UserTrack::AcquiredTrophy::Create
     # Guard against the race condition and return the trophy if it's been
     # created in parallel to this command
     rescue ActiveRecord::RecordNotUnique
-      User::AcquiredTrophy.find_by!(user:, track:, trophy:)
+      UserTrack::AcquiredTrophy.find_by!(user:, track:, trophy:)
     end
   end
 

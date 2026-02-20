@@ -51,6 +51,10 @@ export default function CodeMirror({
   const [textarea, setTextarea] = useState<HTMLDivElement | null>(null)
   const viewRef = useRef<EditorView | null>(null)
 
+  if (value === undefined || value === null) {
+    return <div className="editor" />
+  }
+
   const setValue = (text: string) => {
     if (!viewRef.current) {
       return

@@ -424,7 +424,7 @@ GEM
       base64 (>= 0.2)
     raabro (1.4.0)
     racc (1.8.1)
-    rack (3.1.16)
+    rack (3.1.20)
     rack-attack (6.7.0)
       rack (>= 1.0, < 4)
     rack-cors (3.0.0)
@@ -502,12 +502,6 @@ GEM
       actionpack (>= 5.2)
       railties (>= 5.2)
     rest-client (2.1.0)
-      http-accept (>= 1.7.0, < 2.0)
-      http-cookie (>= 1.0.2, < 2.0)
-      mime-types (>= 1.16, < 4.0)
-      netrc (~> 0.8)
-    rest-client (2.1.0-x64-mingw32)
-      ffi (~> 1.9)
       http-accept (>= 1.7.0, < 2.0)
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
@@ -658,7 +652,7 @@ GEM
 PLATFORMS
   arm64-darwin-23
   arm64-darwin-24
-  x64-mingw32
+  x64-mingw-ucrt
   x86_64-linux
 
 DEPENDENCIES

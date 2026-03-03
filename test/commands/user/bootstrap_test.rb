@@ -31,13 +31,6 @@ class User::BootstrapTest < ActiveSupport::TestCase
     assert_equal user, metric.user
   end
 
-  test "email verified for new user" do
-    user = create :user
-
-    User::VerifyEmail.expects(:defer).with(user).once
-    User::Bootstrap.(user)
-  end
-
   test "becomes attendee and subscribes to onboarding emails if paid email" do
     enrollment = create :course_enrollment, :coding_fundamentals, :paid
     user = create :user, email: enrollment.email

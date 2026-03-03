@@ -174,10 +174,6 @@ class User < ApplicationRecord
     after_confirmation if confirmed?
   end
 
-  after_update_commit do
-    reverify_email! if previous_changes.key?('email')
-  end
-
   # If we don't know about this record, maybe the
   # user's data record has it instead?
   def method_missing(name, *args)
@@ -337,11 +333,6 @@ class User < ApplicationRecord
 
   def send_devise_notification(notification, *args)
     devise_mailer.send(notification, self, *args).deliver_later
-  end
-
-  def reverify_email!
-    email_status_unverified!
-    User::VerifyEmail.defer(self)
   end
 
   memoize

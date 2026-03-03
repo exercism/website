@@ -409,16 +409,6 @@ class UserTest < ActiveSupport::TestCase
     assert_equal :insider, user.flair
   end
 
-  test "email verified when email changes" do
-    user = create :user
-
-    User::VerifyEmail.expects(:defer).with(user).once
-
-    user.email = 'test@example.org'
-    user.skip_reconfirmation!
-    user.save!
-  end
-
   test "asset may receive email by default" do
     user = create :user
     assert user.may_receive_emails?
@@ -434,10 +424,16 @@ class UserTest < ActiveSupport::TestCase
     refute user.may_receive_emails?
   end
 
-  test "refute may receive email for invalid email" do
-    user = create :user, disabled_at: Time.current
-    user.email_status_invalid!
+  test "refute may receive email for invalid email status" do
+    user = create :user
+    user.data.update!(email_status: :invalid)
     refute user.may_receive_emails?
+  end
+
+  test "assert may receive email for unverified email status" do
+    user = create :user
+    user.data.update!(email_status: :unverified)
+    assert user.may_receive_emails?
   end
 
   test "refute may receive email for ghost user" do

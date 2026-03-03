@@ -424,6 +424,18 @@ class UserTest < ActiveSupport::TestCase
     refute user.may_receive_emails?
   end
 
+  test "refute may receive email for invalid email status" do
+    user = create :user
+    user.data.update!(email_status: :invalid)
+    refute user.may_receive_emails?
+  end
+
+  test "assert may receive email for unverified email status" do
+    user = create :user
+    user.data.update!(email_status: :unverified)
+    assert user.may_receive_emails?
+  end
+
   test "refute may receive email for ghost user" do
     user = create :user, :ghost
     refute user.may_receive_emails?

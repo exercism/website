@@ -10,7 +10,7 @@ It should have one input that expects a _number_. It should return a _string_ sp
 
 To approach this problem, think about what it is that actually makes a number odd or even.
 
-Remember, that Jiki understands plus (`+`), minus (`-`), multiply (`*`), divide (`/`) and remainder (`%`). Check the [Numbers Concept](https://exercism.org/bootcamp/concepts/numbers) for a recap on how they work.
+Remember, that Jiki understands plus (`+`), minus (`-`), multiply (`*`), divide (`/`) and remainder (`%`). Check the [Numbers Concept](/bootcamp/concepts/jikiscript/numbers) for a recap on how they work.
 
 ## Hints
 
@@ -23,6 +23,6 @@ You probably remember from school that a remainder is what’s left over when yo
 
 For example, if you divide 7 by 3, you can fit two groups of 3 into 7 (since 3 + 3 = 6), but there’s 1 left over. That leftover 1 is the remainder. And that remainder makes it an odd number.
 
-So to solve this exercise, you might like to use the **[remainder operator](https://exercism.org/bootcamp/concepts/numbers)**.
+So to solve this exercise, you might like to use the **[remainder operator](/bootcamp/concepts/jikiscript/numbers)**.
 
 </details>

@@ -46,6 +46,14 @@ Rails.application.routes.draw do
     resource :workflow_run_updates, only: [:create]
   end
 
+  # ########## #
+  # Moderation #
+  # ########## #
+  namespace :moderation do
+    root to: redirect('/moderation/shadow_banned_users')
+    resources :shadow_banned_users, only: %i[index create destroy]
+  end
+
   # ##### #
   # Admin #
   # ##### #

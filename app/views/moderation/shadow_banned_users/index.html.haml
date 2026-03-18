@@ -1,0 +1,31 @@
+.c-admin-table
+  .lg-container
+    %h1.text-h1.mb-8 Shadow Banned Users
+
+    - if flash[:notice]
+      .mb-12.text-p-base.font-bold.text-darkSuccessGreen= flash[:notice]
+    - if flash[:alert]
+      .mb-12.text-p-base.font-bold.text-red= flash[:alert]
+
+    = form_with(url: moderation_shadow_banned_users_path, method: :post, class: "flex items-end gap-8 mb-16") do |form|
+      .flex.flex-col
+        = form.label :handle, "User handle", class: 'text-h6 mb-4'
+        = form.text_field :handle, required: true
+      %div
+        = form.submit "Shadow Ban", class: 'btn btn-primary btn-base'
+
+    %table.mb-8{ style: "border-collapse: collapse; width: 100%; background: white;" }
+      %tr
+        %th{ style: "border: 1px solid #ddd; padding: 8px 12px; text-align: left;" } Handle
+        %th{ style: "border: 1px solid #ddd; padding: 8px 12px; text-align: left;" } Email
+        %th{ style: "border: 1px solid #ddd; padding: 8px 12px; text-align: left;" } Banned at
+        %th{ style: "border: 1px solid #ddd; padding: 8px 12px; text-align: left;" } Banned by
+        %th{ style: "border: 1px solid #ddd; padding: 8px 12px; text-align: left;" } Actions
+      - @users.each do |user|
+        %tr
+          %td{ style: "border: 1px solid #ddd; padding: 8px 12px;" }= user.handle
+          %td{ style: "border: 1px solid #ddd; padding: 8px 12px;" }= user.email
+          %td{ style: "border: 1px solid #ddd; padding: 8px 12px;" }= user.shadow_banned_at.strftime("%Y-%m-%d %H:%M")
+          %td{ style: "border: 1px solid #ddd; padding: 8px 12px;" }= user.shadow_banned_by&.handle || "Unknown"
+          %td{ style: "border: 1px solid #ddd; padding: 8px 12px;" }
+            = button_to "Remove", moderation_shadow_banned_user_path(user), method: :delete, class: 'btn btn-primary btn-base'

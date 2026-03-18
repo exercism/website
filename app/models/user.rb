@@ -344,9 +344,12 @@ class User < ApplicationRecord
   def profile? = profile.present?
   def may_create_profile? = reputation >= User::Profile::MIN_REPUTATION
 
+  belongs_to :shadow_banned_by, class_name: "User", optional: true
+
   def confirmed? = super && !disabled? && !blocked?
   def disabled? = !!disabled_at
   def blocked? = User::BlockDomain.blocked?(user: self)
+  def shadow_banned? = !!shadow_banned_at
 
   def github_auth? = uid.present?
   def captcha_required? = !github_auth? && Time.current - created_at < 2.days

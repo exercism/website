@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_02_09_141203) do
+ActiveRecord::Schema[7.1].define(version: 2026_03_18_000000) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -1834,6 +1834,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_09_141203) do
     t.datetime "disabled_at"
     t.integer "flair", limit: 1
     t.integer "version", limit: 2, default: 0, null: false
+    t.datetime "shadow_banned_at"
+    t.bigint "shadow_banned_by_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["created_at"], name: "index_users_on_created_at"
     t.index ["email"], name: "index_users_on_email", unique: true

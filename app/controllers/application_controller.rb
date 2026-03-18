@@ -82,6 +82,12 @@ class ApplicationController < ActionController::Base
     redirect_to maintaining_root_path
   end
 
+  def ensure_moderator!
+    return if current_user&.moderator?
+
+    redirect_to root_path
+  end
+
   def ensure_iHiD! # rubocop:disable Naming/MethodName
     return true if Rails.env.development?
     return true if current_user&.id == User::IHID_USER_ID

@@ -33,6 +33,7 @@ class Mentor::Discussion::Retrieve
 
   def call
     setup!
+    filter_shadow_banned!
     filter_status!
     filter_track!
     filter_student!
@@ -55,6 +56,10 @@ class Mentor::Discussion::Retrieve
     @discussions = Mentor::Discussion.
       includes(solution: [:user, { exercise: :track }]).
       where(mentor:)
+  end
+
+  def filter_shadow_banned!
+    @discussions = @discussions.joins(:solution).where.not(solutions: { user_id: User.shadow_banned.select(:id) })
   end
 
   def filter_status!

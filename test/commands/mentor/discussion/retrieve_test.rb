@@ -187,4 +187,16 @@ class Mentor::Discussion::RetrieveTest < ActiveSupport::TestCase
       Mentor::Discussion::Retrieve.(user, status)
     end
   end
+
+  test "does not retrieve shadow-banned students' discussions" do
+    mentor = create :user
+
+    normal_discussion = create :mentor_discussion, :awaiting_mentor, mentor: mentor
+
+    shadow_banned_discussion = create :mentor_discussion, :awaiting_mentor, mentor: mentor
+    shadow_banned_student = shadow_banned_discussion.solution.user
+    shadow_banned_student.update!(shadow_banned_at: Time.current)
+
+    assert_equal [normal_discussion], Mentor::Discussion::Retrieve.(mentor, :awaiting_mentor, page: 1)
+  end
 end

@@ -173,4 +173,33 @@ class Mentor::Request::RetrieveTest < ActiveSupport::TestCase
     assert requests.is_a?(ActiveRecord::Relation)
     refute_respond_to requests, :current_page
   end
+
+  test "does not retrieve shadow-banned students' requests" do
+    mentored_track = create :track
+    mentor = create :user
+    create :user_track_mentorship, user: mentor, track: mentored_track
+
+    normal_student = create :user
+    banned_student = create :user, shadow_banned_at: Time.current
+
+    normal_solution = create :concept_solution, track: mentored_track, user: normal_student
+    banned_solution = create :concept_solution, track: mentored_track, user: banned_student
+
+    normal_request = create :mentor_request, solution: normal_solution
+    create :mentor_request, solution: banned_solution
+
+    assert_equal [normal_request], Mentor::Request::Retrieve.(mentor:)
+  end
+
+  test "shadow-banned mentor sees empty queue" do
+    mentored_track = create :track
+    mentor = create :user, shadow_banned_at: Time.current
+    create :user_track_mentorship, user: mentor, track: mentored_track
+
+    student = create :user
+    solution = create :concept_solution, track: mentored_track, user: student
+    create :mentor_request, solution: solution
+
+    assert_empty Mentor::Request::Retrieve.(mentor:)
+  end
 end

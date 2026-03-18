@@ -46,6 +46,9 @@ class Mentor::Request::Retrieve
     @requests = Mentor::Request.
       pending.
       unlocked_for(mentor)
+
+    # Shadow-banned mentors see empty queues
+    @requests = @requests.none if mentor&.shadow_banned?
   end
 
   def filter!
@@ -59,6 +62,9 @@ class Mentor::Request::Retrieve
         where('blocked_by_mentor = ? OR blocked_by_student = ?', true, true).
         select(:student_id)
     )
+
+    # Don't show shadow-banned students' requests
+    @requests = @requests.where.not(student_id: User.shadow_banned.select(:id))
 
     if exercise_slug.present?
       filter_exercises!

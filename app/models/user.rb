@@ -147,6 +147,7 @@ class User < ApplicationRecord
 
   scope :with_data, -> { joins(:data) }
   scope :insiders, -> { with_data.where(user_data: { insiders_status: %i[active active_lifetime] }) }
+  scope :shadow_banned, -> { where.not(shadow_banned_at: nil) }
 
   # TODO: Validate presence of name
   validates :handle, uniqueness: { case_sensitive: false }, handle_format: true, length: { maximum: 190 }

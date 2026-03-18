@@ -64,7 +64,7 @@ class Mentor::Request::Retrieve
     )
 
     # Don't show shadow-banned students' requests
-    @requests = @requests.where.not(student_id: User.where.not(shadow_banned_at: nil).select(:id))
+    @requests = @requests.where.not(student_id: User.shadow_banned.select(:id))
 
     if exercise_slug.present?
       filter_exercises!

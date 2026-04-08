@@ -120,7 +120,7 @@ group :test do
   gem 'recursive-open-struct'
 end
 
-gem 'addressable', '~> 2.7'
+gem 'addressable', '~> 2.9'
 gem 'mini_magick'
 
 gem 'opensearch-ruby'

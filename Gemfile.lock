@@ -187,7 +187,7 @@ GEM
       rack (>= 1.6)
     domain_name (0.6.20240107)
     drb (2.2.3)
-    erb (5.0.1)
+    erb (6.0.1.1)
     erubi (1.13.1)
     et-orbi (1.2.11)
       tzinfo
@@ -506,12 +506,6 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
-    rest-client (2.1.0-x64-mingw32)
-      ffi (~> 1.9)
-      http-accept (>= 1.7.0, < 2.0)
-      http-cookie (>= 1.0.2, < 2.0)
-      mime-types (>= 1.16, < 4.0)
-      netrc (~> 0.8)
     reverse_markdown (3.0.0)
       nokogiri
     rexml (3.4.1)
@@ -658,7 +652,7 @@ GEM
 PLATFORMS
   arm64-darwin-23
   arm64-darwin-24
-  x64-mingw32
+  x64-mingw-ucrt
   x86_64-linux
 
 DEPENDENCIES

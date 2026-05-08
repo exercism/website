@@ -59,7 +59,7 @@ gem 'public_suffix'
 gem 'humanize'
 
 # Authentication
-gem 'devise', '~> 4.7'
+gem 'devise', '~> 5.0'
 
 # Omniauth
 gem 'omniauth-github'

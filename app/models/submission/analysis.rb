@@ -75,9 +75,10 @@ class Submission::Analysis < ApplicationRecord
       end
 
       safe_params = (params || {}).symbolize_keys
-      markdown = repo.analysis_comment_for(template).gsub(/%(?:\{(\w+)\}|%)/) do
-        if Regexp.last_match(1)
-          safe_params[Regexp.last_match(1).to_sym].to_s
+      markdown = repo.analysis_comment_for(template).gsub(/%(?:\{(\w+)\}|%<(\w+)>[a-z])|%)/) do
+        key = Regexp.last_match(1) || Regexp.last_match(2)
+        if key
+          (safe_params[key.to_sym] || safe_params.find { |k, _| k.to_s.casecmp?(key) }&.last).to_s
         else
           '%'
         end

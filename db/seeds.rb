@@ -543,6 +543,15 @@ kaido.perks.create!(
 
 Track::Trophies::Reseed.create!
 
+unless Doorkeeper::Application.exists?(name: "Jiki")
+  Doorkeeper::Application.create!(
+    name: "Jiki",
+    redirect_uri: "http://localhost:3061/auth/exercism/callback",
+    scopes: "profile",
+    confidential: true
+  )
+end
+
 Solution.published.each do |solution|
   next if solution.iterations.last.files.map(&:content).all?(&:empty?)
 

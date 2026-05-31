@@ -186,6 +186,8 @@ GEM
       faraday_middleware (~> 1.0)
       rack (>= 1.6)
     domain_name (0.6.20240107)
+    doorkeeper (5.9.1)
+      railties (>= 5)
     drb (2.2.3)
     erb (5.0.1)
     erubi (1.13.1)
@@ -680,6 +682,7 @@ DEPENDENCIES
   cssbundling-rails
   devise (~> 4.7)
   discourse_api
+  doorkeeper (~> 5.8)
   exercism-config (>= 0.130.0)
   factory_bot_rails
   friendly_id (~> 5.4.0)

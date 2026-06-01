@@ -2,6 +2,8 @@
 
 class CreateDoorkeeperTables < ActiveRecord::Migration[7.1]
   def change
+    return if Rails.env.production?
+
     create_table :oauth_applications do |t|
       t.string  :name,    null: false
       t.string  :uid,     null: false

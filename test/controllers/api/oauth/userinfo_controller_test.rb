@@ -31,7 +31,7 @@ class API::Oauth::UserinfoControllerTest < API::BaseTestCase
       handle: "alice",
       name: "Alice",
       email: "alice@example.com",
-      avatar_url: user.avatar_url,
+      avatar_url: "https://test.exercism.org#{user.avatar_url}",
       membership_status: "normal"
     )
   end

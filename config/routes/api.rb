@@ -288,10 +288,10 @@ namespace :api do
     end
 
     post "markdown/parse" => "markdown#parse", as: "parse_markdown"
+  end
 
-    namespace :oauth do
-      get :userinfo, to: 'userinfo#show'
-    end
+  namespace :oauth do
+    get :userinfo, to: 'userinfo#show'
   end
 end
 get "api/(*url)", to: 'api/errors#render_404'

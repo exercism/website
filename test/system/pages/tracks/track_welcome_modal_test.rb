@@ -134,8 +134,8 @@ module Pages
           assert_text "Here to learn or practice?"
           click_on "Practice Mode"
           assert_selector '[data-capy-element="bootcamp-recommendation-header"]'
-          find(:css, '[data-capy-element="go-to-bootcamp-button"]').click
-          assert_current_path Exercism::Routes.jiki_path
+          assert_link href: "https://jiki.io", count: 1
+          assert_selector '[data-capy-element="go-to-bootcamp-button"][href="https://jiki.io"]'
         end
       end
 

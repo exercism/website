@@ -1,5 +1,4 @@
-get "jiki" => "jiki#index", as: :jiki
-post "jiki/signup" => "jiki#create", as: :jiki_signup
+get "jiki" => redirect("https://jiki.io"), as: :jiki
 
 namespace :bootcamp do
   get "dashboard", to: "dashboard#index", as: :dashboard

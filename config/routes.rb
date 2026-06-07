@@ -519,7 +519,7 @@ Rails.application.routes.draw do
   post "/courses/stripe/create-checkout-session" => "courses#stripe_create_checkout_session", as: :courses_stripe_create_checkout_session
   get "/courses/stripe/session-status" => "courses#stripe_session_status", as: :courses_stripe_session_status
 
-  get "/bootcamp" => "courses#course_redirect", as: :bootcamp
+  get "/bootcamp" => redirect("https://jiki.io"), as: :bootcamp
 
   draw(:bootcamp)
 end

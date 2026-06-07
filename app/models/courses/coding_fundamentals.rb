@@ -5,6 +5,7 @@ class Courses::CodingFundamentals < Courses::Course
   def template_slug = "coding_fundamentals"
   def name = "Coding Fundamentals"
   def full_price = 99.99
+  def url = "https://jiki.io"
   def self.url = instance.url
 
   # rubocop:disable Layout/LineLength

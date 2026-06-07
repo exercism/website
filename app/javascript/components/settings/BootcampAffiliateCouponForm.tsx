@@ -146,7 +146,7 @@ export function InfoMessage({
             ns="components/settings/BootcampAffiliateCouponForm.tsx"
             i18nKey="bootcampAffiliateCouponForm.thankYouForBeingInsider"
             components={[
-              <a href="https://exercism.org/bootcamp?utm_source=exercism&utm_medium=affiliate_settings"></a>,
+              <a href="https://jiki.io?utm_source=exercism&utm_medium=affiliate_settings"></a>,
               <strong className="font-semibold" />,
             ]}
           />
@@ -186,7 +186,7 @@ export function InfoMessage({
             ns="components/settings/BootcampAffiliateCouponForm.tsx"
             components={{
               link: (
-                <a href="https://exercism.org/bootcamp?utm_source=exercism&utm_medium=affiliate_settings"></a>
+                <a href="https://jiki.io?utm_source=exercism&utm_medium=affiliate_settings"></a>
               ),
             }}
           />

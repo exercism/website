@@ -1,4 +1,4 @@
-get "jiki" => redirect("https://jiki.io"), as: :jiki
+direct(:jiki) { "https://jiki.io" }
 
 namespace :bootcamp do
   get "dashboard", to: "dashboard#index", as: :dashboard

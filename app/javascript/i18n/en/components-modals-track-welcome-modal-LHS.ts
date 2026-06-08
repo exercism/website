@@ -6,7 +6,7 @@ export default {
   'bootcampRecommendation.codingJourney':
     "If you're just starting out on your coding journey, our new platfrom <strong>Jiki</strong> might be a better fit for you.",
   'bootcampRecommendation.selfPaced':
-    "It launches in January 2026 and you can sign up for the waiting list now! And best of all, <strong>it's free!</strong>",
-  'bootcampRecommendation.cta.checkOutCourse': 'Join the Waiting List',
+    "It's available now and best of all, <strong>it's free!</strong>",
+  'bootcampRecommendation.cta.checkOutCourse': 'Check out Jiki',
   'bootcampRecommendation.cta.continueAnyway': 'Continue anyway',
 }

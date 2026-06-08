@@ -7,10 +7,9 @@ export default {
     "In a few weeks, you'll go from zero to making these...",
   'bootcampAd.punchline':
     "The platform for anyone that wants to get really good at coding. It's incredibly effective. It's fun. <strong>And it's free!</strong>",
-  'bootcampAd.learnMore': 'Join the Waiting List',
+  'bootcampAd.learnMore': 'Check out Jiki',
   'bootcampAd.close': 'Close',
-  'bootcampAd.offer':
-    '(The first 1,000 to join the waiting list get Premium for free!)',
+  'bootcampAd.offer': "(Did we mention it's free?)",
   'bootcampAd.videoIntro': 'Watch the Course Intro 👇',
   'bootcampAd.feature.video': '<strong>Video</strong> tutorials',
   'bootcampAd.feature.fun': '<strong>Fun</strong> projects',

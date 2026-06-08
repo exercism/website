@@ -72,9 +72,8 @@ module ViewComponents
       link_to(Courses::CodingFundamentals.url, class: "announcement-bar md:block hidden") do
         tag.div(class: "lg-container") do
           tag.span("👋", class: 'emoji mr-6') +
-            tag.span("Learning to code? Check out our") +
-            tag.strong("Coding Fundamentals") +
-            tag.span("course for beginners!")
+            tag.span("Learning to code? Check out our new dedicated beginners platform -") +
+            tag.strong("Jiki!")
         end
       end
     end

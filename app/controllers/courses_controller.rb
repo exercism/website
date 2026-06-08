@@ -14,12 +14,12 @@ class CoursesController < ApplicationController
     if user_signed_in? && (current_user.bootcamp_attendee? || current_user.bootcamp_mentor?)
       redirect_to bootcamp_dashboard_url
     else
-      redirect_to "https://jiki.io", allow_other_host: true
+      redirect_to jiki_url
     end
   end
 
   def show
-    redirect_to "https://jiki.io", allow_other_host: true
+    redirect_to jiki_url
 
     # return unless stale?(etag: @course)
     #
@@ -123,13 +123,13 @@ class CoursesController < ApplicationController
   def redirect_non_members_to_jiki!
     return if user_signed_in? && (current_user.bootcamp_attendee? || current_user.bootcamp_mentor?)
 
-    redirect_to "https://jiki.io", allow_other_host: true
+    redirect_to jiki_url
   end
 
   def use_course!
     @bundle = Courses::BundleCodingFrontEnd.instance
     @course = Courses::Course.course_for_slug(params[:id])
-    redirect_to "https://jiki.io", allow_other_host: true unless @course
+    redirect_to jiki_url unless @course
   end
 
   def use_enrollment!

@@ -41,13 +41,11 @@ en:
         and_more_label: And more…
       coding_fundamentals:
         title: Jiki
-        bubble: Launching Jan 2026
-        subtitle: Video lessons. Fun projects. 40+ Languages.
+        bubble: Just Launched!
+        subtitle: Learn to Code and Build in the LLM-era.
         description_p1_html:
-          A brand new platform designed to give you rock-solid programming
-          fundamentals. If you've
-          been <strong>coding for under a year</strong>, this course is designed for you.
+          Coding has changed. How you learn needs to change too. Jiki is a brand new platform, designed to help you learn to code and build in the LLM-era.
+          Designed for <strong>beginners, juniors and vibe coders.</strong>.
         strong_text_1: Totally new?
         strong_text_2: Tutorial Hell?
-        description_p2: In a few weeks you'll go from zero to making...
-        explore_button: Join the Waiting List
+        explore_button: Get started - it's free!

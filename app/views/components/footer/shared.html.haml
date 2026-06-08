@@ -15,9 +15,10 @@
         %hr.c-divider.--small
         %ul
           %li= link_to t('.site_links.editions.exercism_link'), root_url
-          -# UPDATE LINKS - footer
-          %li= link_to t('.site_links.editions.learn_to_code_link'), jiki_url
-          %li= link_to t('.site_links.editions.coding_fundamentals_link'), jiki_url
+          %li
+            = link_to t('.site_links.editions.learn_to_code_link'), jiki_url
+            %span.font-medium.text-16.leading-150{ style: "color: #c8d5ef;" }= t('.site_links.editions.with')
+            = link_to t('.site_links.editions.jiki_link'), jiki_url
           %li= link_to t('.site_links.editions.teams_link'), doc_path(:using, 'editions/teams')
           %li= link_to t('.site_links.editions.research_link'), doc_path(:using, 'editions/research')
 

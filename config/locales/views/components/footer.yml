@@ -14,7 +14,8 @@ en:
             title: Editions
             exercism_link: Exercism
             learn_to_code_link: Learn to Code
-            coding_fundamentals_link: Coding Fundamentals
+            with: with
+            jiki_link: Jiki
             front_end_course_link: Front-end Course
             bootcamp_link: Exercism Bootcamp
             teams_link: Exercism for Teams

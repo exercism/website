@@ -1,4 +1,4 @@
-class User::Jiki::UserStatus
+class User::Jiki::DetermineUserStatus
   include Mandate
 
   initialize_with :user

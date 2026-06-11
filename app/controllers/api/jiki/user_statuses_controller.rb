@@ -3,7 +3,7 @@ module API
     class UserStatusesController < BaseController
       def show
         user = ::User.find_by(id: params[:exercism_id])
-        render json: ::User::Jiki::UserStatus.(user)
+        render json: ::User::Jiki::DetermineUserStatus.(user)
       end
     end
   end

@@ -13,88 +13,46 @@ class API::Jiki::UserStatusesControllerTest < API::BaseTestCase
   end
 
   test "returns 401 without a token" do
-    post api_jiki_user_statuses_path, params: { exercism_ids: [1] }, as: :json
+    user = create(:user)
+    get api_jiki_user_status_path(exercism_id: user.id), as: :json
     assert_response :unauthorized
   end
 
   test "returns 401 with a bad token" do
-    post api_jiki_user_statuses_path,
-      params: { exercism_ids: [1] },
+    user = create(:user)
+    get api_jiki_user_status_path(exercism_id: user.id),
       headers: { 'Authorization' => "Bearer wrong" },
       as: :json
     assert_response :unauthorized
   end
 
-  test "returns 401 when secret is not configured" do
-    Exercism.secrets.jiki_api_key = nil
-
-    post api_jiki_user_statuses_path,
-      params: { exercism_ids: [1] },
-      headers: { 'Authorization' => "Bearer #{TOKEN}" },
-      as: :json
-    assert_response :unauthorized
-  end
-
-  test "returns statuses for known users" do
-    insider = create(:user)
-    insider.data.update!(insiders_status: :active)
-
-    lifetime = create(:user)
-    lifetime.data.update!(insiders_status: :active_lifetime)
-
-    bootcamper = create(:user)
-    create(:user_bootcamp_data, user: bootcamper, enrolled_on_part_1: true)
-
-    mentor = create(:user, bootcamp_mentor: true)
-
-    normal = create(:user)
-
-    post api_jiki_user_statuses_path,
-      params: { exercism_ids: [insider.id, lifetime.id, bootcamper.id, mentor.id, normal.id] },
-      headers: { 'Authorization' => "Bearer #{TOKEN}" },
-      as: :json
-    assert_response :ok
-
-    assert_equal(
-      {
-        "statuses" => [
-          { "exercism_id" => insider.id, "is_insider" => true, "is_bootcamp_member" => false },
-          { "exercism_id" => lifetime.id, "is_insider" => true, "is_bootcamp_member" => false },
-          { "exercism_id" => bootcamper.id, "is_insider" => false, "is_bootcamp_member" => true },
-          { "exercism_id" => mentor.id, "is_insider" => false, "is_bootcamp_member" => true },
-          { "exercism_id" => normal.id, "is_insider" => false, "is_bootcamp_member" => false }
-        ]
-      },
-      response.parsed_body
-    )
-  end
-
-  test "returns false/false for unknown ids and preserves input order" do
+  test "returns status for insider" do
     user = create(:user)
     user.data.update!(insiders_status: :active)
 
-    post api_jiki_user_statuses_path,
-      params: { exercism_ids: [999_999, user.id, 888_888] },
+    get api_jiki_user_status_path(exercism_id: user.id),
       headers: { 'Authorization' => "Bearer #{TOKEN}" },
       as: :json
     assert_response :ok
-
-    statuses = response.parsed_body["statuses"]
-    assert_equal 999_999, statuses[0]["exercism_id"]
-    refute statuses[0]["is_insider"]
-    refute statuses[0]["is_bootcamp_member"]
-    assert_equal user.id, statuses[1]["exercism_id"]
-    assert statuses[1]["is_insider"]
-    assert_equal 888_888, statuses[2]["exercism_id"]
-    refute statuses[2]["is_insider"]
+    assert_equal({ "is_insider" => true, "is_bootcamp_member" => false }, response.parsed_body)
   end
 
-  test "handles empty ids array" do
-    post api_jiki_user_statuses_path,
-      params: { exercism_ids: [] },
+  test "returns status for bootcamp member" do
+    user = create(:user)
+    create(:user_bootcamp_data, user:, enrolled_on_part_1: true)
+
+    get api_jiki_user_status_path(exercism_id: user.id),
       headers: { 'Authorization' => "Bearer #{TOKEN}" },
       as: :json
     assert_response :ok
-    assert_equal({ "statuses" => [] }, response.parsed_body)
+    assert_equal({ "is_insider" => false, "is_bootcamp_member" => true }, response.parsed_body)
+  end
+
+  test "returns 200 with false/false for unknown id" do
+    get api_jiki_user_status_path(exercism_id: 999_999),
+      headers: { 'Authorization' => "Bearer #{TOKEN}" },
+      as: :json
+    assert_response :ok
+    assert_equal({ "is_insider" => false, "is_bootcamp_member" => false }, response.parsed_body)
   end
 end

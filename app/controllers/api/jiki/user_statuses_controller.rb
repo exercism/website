@@ -1,10 +1,9 @@
 module API
   module Jiki
     class UserStatusesController < BaseController
-      def create
-        ids = Array(params[:exercism_ids])
-        statuses = User::JikiStatuses.(ids)
-        render json: { statuses: }
+      def show
+        user = ::User.find_by(id: params[:exercism_id])
+        render json: ::User::Jiki::UserStatus.(user)
       end
     end
   end

@@ -10,7 +10,8 @@ class User::OauthUserinfo
       name: user.name,
       email: user.email,
       avatar_url: absolute_avatar_url,
-      membership_status:
+      is_insider: insider?,
+      is_bootcamp_member: bootcamp_member?
     }
   end
 
@@ -24,10 +25,14 @@ class User::OauthUserinfo
     "#{host}#{url}"
   end
 
-  def membership_status
-    return :lifetime_insider if user.data.insiders_status_active_lifetime?
-    return :insider if user.data.insiders_status_active?
+  def insider?
+    user.data.insiders_status_active? || user.data.insiders_status_active_lifetime?
+  end
 
-    :normal
+  def bootcamp_member?
+    return true if user.bootcamp_mentor?
+    return false unless user.bootcamp_data
+
+    user.bootcamp_data.enrolled_on_part_1? || user.bootcamp_data.enrolled_on_part_2?
   end
 end

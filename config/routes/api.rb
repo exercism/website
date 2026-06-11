@@ -288,6 +288,10 @@ namespace :api do
     end
 
     post "markdown/parse" => "markdown#parse", as: "parse_markdown"
+
+    namespace :jiki do
+      post :user_statuses, to: 'user_statuses#create'
+    end
   end
 
   namespace :oauth do

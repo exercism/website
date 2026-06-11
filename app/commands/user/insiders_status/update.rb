@@ -43,6 +43,7 @@ class User::InsidersStatus::Update
       User::SetDiscordRoles.defer(user)
       User::SetDiscourseGroups.defer(user)
       User::UpdateFlair.defer(user)
+      User::NotifyJikiOfInsiderChange.defer(user, :deactivated)
 
     # This is the case where someone's cancelled their donation
     # but are still active for a period

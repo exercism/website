@@ -26,5 +26,6 @@ class User::InsidersStatus::Activate
     AwardBadgeJob.perform_later(user, :lifetime_insider) if user.insiders_status_active_lifetime?
     User::SetDiscordRoles.defer(user)
     User::SetDiscourseGroups.defer(user)
+    User::NotifyJikiOfInsiderChange.defer(user, :activated)
   end
 end

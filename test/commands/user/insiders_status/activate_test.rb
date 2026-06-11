@@ -150,6 +150,32 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
     User::InsidersStatus::Activate.(user)
   end
 
+  test "notifies Jiki when changing status to active" do
+    user = create :user, insiders_status: :eligible
+
+    User::NotifyJikiOfInsiderChange.expects(:defer).with(user, :activated)
+
+    User::InsidersStatus::Activate.(user)
+  end
+
+  test "notifies Jiki when changing status to active_lifetime" do
+    user = create :user, insiders_status: :eligible_lifetime
+
+    User::NotifyJikiOfInsiderChange.expects(:defer).with(user, :activated)
+
+    User::InsidersStatus::Activate.(user)
+  end
+
+  %i[ineligible active active_lifetime].each do |current_status|
+    test "does not notify Jiki when current status is #{current_status}" do
+      user = create :user, insiders_status: current_status
+
+      User::NotifyJikiOfInsiderChange.expects(:defer).never
+
+      User::InsidersStatus::Activate.(user)
+    end
+  end
+
   test "award insider badge when current insiders_status is eligible" do
     user = create :user, insiders_status: :eligible
 

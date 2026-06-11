@@ -31,10 +31,31 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
     User::SetDiscourseGroups.expects(:defer).with(user)
     User::Notification::Create.expects(:defer).never
     User::UpdateFlair.expects(:defer).with(user)
+    User::NotifyJikiOfInsiderChange.expects(:defer).with(user, :deactivated)
 
     User::InsidersStatus::Update.(user)
 
     assert_equal :ineligible, user.reload.insiders_status
+  end
+
+  test "active -> active_lifetime does not notify Jiki" do
+    user = create :user, insiders_status: :active
+    User::InsidersStatus::DetermineEligibilityStatus.expects(:call).returns(:eligible_lifetime)
+
+    User::NotifyJikiOfInsiderChange.expects(:defer).never
+
+    User::InsidersStatus::Update.(user)
+  end
+
+  %i[ineligible eligible].each do |current_status|
+    test "#{current_status} -> ineligible does not notify Jiki" do
+      user = create :user, insiders_status: current_status
+      User::InsidersStatus::DetermineEligibilityStatus.expects(:call).returns(:ineligible)
+
+      User::NotifyJikiOfInsiderChange.expects(:defer).never
+
+      User::InsidersStatus::Update.(user)
+    end
   end
 
   %w[dark system].each do |theme|

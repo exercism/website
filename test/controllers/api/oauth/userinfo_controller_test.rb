@@ -67,7 +67,7 @@ class API::Oauth::UserinfoControllerTest < API::BaseTestCase
 
   test "reports is_bootcamp_member for enrolled user" do
     user = create(:user)
-    create(:user_bootcamp_data, user:, enrolled_at: Time.current)
+    create(:user_bootcamp_data, user:, enrolled_on_part_1: true)
     application = Doorkeeper::Application.create!(name: "Jiki",
       redirect_uri: "https://example.com/cb", scopes: "profile")
     token = Doorkeeper::AccessToken.create!(application:, resource_owner_id: user.id,

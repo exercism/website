@@ -18,7 +18,7 @@ class MailshotsMailer < ApplicationMailer
     @user = params[:user]
     @translator = @user.translator_locales.present?
 
-    subject = "Learn to build in the LLM era. Meet Jiki."
+    subject = "Learn to Build in the LLM Era. Meet Jiki."
     @email_communication_preferences_key = :receive_product_updates
     bulk_mail(@user, subject)
   end

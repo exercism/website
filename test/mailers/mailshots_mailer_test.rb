@@ -5,7 +5,7 @@ class MailshotsMailerTest < ActionMailer::TestCase
     user = create :user
 
     email = MailshotsMailer.with(user:).jiki_launch
-    subject = "Learn to build in the LLM era. Meet Jiki."
+    subject = "Learn to Build in the LLM Era. Meet Jiki."
     assert_email(email, user.email, subject, "jiki_launch", bulk: true)
 
     refute_includes email.html_part.body.to_s, "You previously signed up to help with translating Exercism"
@@ -16,7 +16,7 @@ class MailshotsMailerTest < ActionMailer::TestCase
     user.update!(translator_locales: ["fr"])
 
     email = MailshotsMailer.with(user:).jiki_launch
-    subject = "Learn to build in the LLM era. Meet Jiki."
+    subject = "Learn to Build in the LLM Era. Meet Jiki."
     assert_email(email, user.email, subject, "jiki_launch", bulk: true)
 
     assert_includes email.html_part.body.to_s, "You previously signed up to help with translating Exercism"

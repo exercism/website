@@ -5,39 +5,42 @@ module Flows
   module Journey
     class OverviewTest < ApplicationSystemTestCase
       include CapybaraHelpers
-      include ActiveSupport::Testing::TimeHelpers
 
       test "user sees track learning details" do
         Time.zone = "UTC"
-        travel_to Time.zone.local(2024, 6, 26) do
-          user = create :user
-          track = create :track
-          create :user_track, user:, track:, created_at: Time.zone.local(2016, 12, 25)
+        # The joined date and the "N years ago" text are both rendered client-side
+        # by dayjs against the real browser clock, so travel_to (which only affects
+        # the test process) can't pin them. Anchor the join date relative to now so
+        # it stays exactly 9 years ago, permanently. Midday avoids any timezone
+        # boundary flipping the displayed date.
+        started_at = 9.years.ago.change(hour: 12)
 
-          exercise = create(:concept_exercise, track:)
-          solution = create(:concept_solution, exercise:, user:)
-          create :mentor_discussion, student: user, solution:, status: :finished
+        user = create :user
+        track = create :track
+        create :user_track, user:, track:, created_at: started_at
 
-          exercise = create(:concept_exercise, track:)
-          solution = create(:concept_solution, exercise:, user:)
-          create :mentor_discussion, student: user, solution:, status: :awaiting_student
+        exercise = create(:concept_exercise, track:)
+        solution = create(:concept_solution, exercise:, user:)
+        create :mentor_discussion, student: user, solution:, status: :finished
 
-          exercise = create(:concept_exercise, track:)
-          solution = create(:concept_solution, exercise:, user:)
-          create :mentor_request, student: user, solution:, status: :pending
+        exercise = create(:concept_exercise, track:)
+        solution = create(:concept_solution, exercise:, user:)
+        create :mentor_discussion, student: user, solution:, status: :awaiting_student
 
-          use_capybara_host do
-            sign_in!(user)
-            visit journey_url
+        exercise = create(:concept_exercise, track:)
+        solution = create(:concept_solution, exercise:, user:)
+        create :mentor_request, student: user, solution:, status: :pending
 
-            sleep 60
-            assert_text "25 Dec 2016"
-            assert_text "When you joined the Ruby Track"
-            assert_text "1 Mentoring session completed"
-            assert_text "You have 1 discussion in progress and 1 solution in the queue."
+        use_capybara_host do
+          sign_in!(user)
+          visit journey_url
 
-            assert_text "You started working through the Ruby Track 9 years ago."
-          end
+          assert_text started_at.strftime("%d %b %Y")
+          assert_text "When you joined the Ruby Track"
+          assert_text "1 Mentoring session completed"
+          assert_text "You have 1 discussion in progress and 1 solution in the queue."
+
+          assert_text "You started working through the Ruby Track 9 years ago."
         end
       end
 

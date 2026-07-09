@@ -1,6 +1,11 @@
 class Mailshot < ApplicationRecord
   has_markdown_field :content, strip_h1: false
 
+  # Custom-mailer mailshots bypass the DB content, so the preference key that
+  # gates who actually gets the email must be set explicitly - otherwise
+  # User::SendEmail treats a blank key as "no opt-out" and sends to everyone.
+  validates :email_communication_preferences_key, presence: true, if: :custom_mailer?
+
   def sent_to_audiences = super.to_a.to_set
 
   def email_communication_preferences_key

@@ -36,7 +36,11 @@ class Mailshot
         user = user_extractor.(record)
         next unless user
 
-        User::Mailshot::Send.(user, mailshot)
+        if mailshot.custom_mailer?
+          User::Mailshot::SendWithCustomMailer.(user, mailshot)
+        else
+          User::Mailshot::Send.(user, mailshot)
+        end
       end
     end
 

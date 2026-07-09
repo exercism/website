@@ -7,6 +7,10 @@ class Mailshot < ApplicationRecord
     super&.to_sym
   end
 
+  # Whether this mailshot renders via a bespoke MailshotsMailer action/template
+  # (e.g. jiki_launch) rather than the generic DB-content-driven :mailshot action.
+  def custom_mailer? = MailshotsMailer::CUSTOM_MAILER_SLUGS.include?(slug)
+
   # This should return:
   # - an ActiveRecord relation that is paginatable
   # - a lambda that takes a record (from the relation) and returns the

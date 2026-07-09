@@ -157,6 +157,26 @@ class Mailshot::SendToAudienceSegmentTest < ActiveSupport::TestCase
     Mailshot::SendToAudienceSegment.(mailshot, :track, track.slug, 10, 0)
   end
 
+  test "sends via custom mailer for custom_mailer mailshots" do
+    mailshot = create :mailshot, slug: "jiki_launch"
+    user = create :user, :admin
+
+    User::Mailshot::SendWithCustomMailer.expects(:call).with(user, mailshot)
+    User::Mailshot::Send.expects(:call).never
+
+    Mailshot::SendToAudienceSegment.(mailshot, :admins, nil, 10, 0)
+  end
+
+  test "sends via generic mailer for normal mailshots" do
+    mailshot = create :mailshot
+    user = create :user, :admin
+
+    User::Mailshot::Send.expects(:call).with(user, mailshot)
+    User::Mailshot::SendWithCustomMailer.expects(:call).never
+
+    Mailshot::SendToAudienceSegment.(mailshot, :admins, nil, 10, 0)
+  end
+
   test "requeues with deserialization error" do
     class TestSender < Mailshot::SendToAudienceSegment # rubocop:disable Lint/ConstantDefinitionInBlock
       # ActiveJob::DeserializationError uses $! so this needs wrapping like this.

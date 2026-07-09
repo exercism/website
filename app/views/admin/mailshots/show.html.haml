@@ -32,8 +32,14 @@
 
   .flex
     = link_to "Edit this mailshot", edit_admin_mailshot_path(@mailshot), class: 'btn btn-standard btn-base'
-    = link_to "Preview HTML", "/rails/mailers/mailshots/mailshot.html?slug=#{@mailshot.slug}", rel: "noopener", target: "_blank", class: 'btn btn-standard btn-base'
-    = link_to "Preview Text", "/rails/mailers/mailshots/mailshot.txt?slug=#{@mailshot.slug}", rel: "noopener", target: "_blank", class: 'btn btn-standard btn-base'
+    - if @mailshot.custom_mailer?
+      - preview_html = "/rails/mailers/mailshots/#{@mailshot.slug}.html"
+      - preview_text = "/rails/mailers/mailshots/#{@mailshot.slug}.txt"
+    - else
+      - preview_html = "/rails/mailers/mailshots/mailshot.html?slug=#{@mailshot.slug}"
+      - preview_text = "/rails/mailers/mailshots/mailshot.txt?slug=#{@mailshot.slug}"
+    = link_to "Preview HTML", preview_html, rel: "noopener", target: "_blank", class: 'btn btn-standard btn-base'
+    = link_to "Preview Text", preview_text, rel: "noopener", target: "_blank", class: 'btn btn-standard btn-base'
     - if @send_count.zero?
       |
       = button_to "Destroy this mailshot", [:admin, @mailshot], method: :delete, data: { confirm: "Are you sure? Destroy #{@mailshot.slug}?" }, class: 'btn btn-warning'

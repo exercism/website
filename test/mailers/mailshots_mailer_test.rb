@@ -1,21 +1,24 @@
 require "test_helper"
 
 class MailshotsMailerTest < ActionMailer::TestCase
-  test "launch_trophies: 1 trophy" do
+  test "jiki_launch: renders for non-translators" do
     user = create :user
-    create(:user_track_acquired_trophy, user:)
 
-    email = MailshotsMailer.with(user:).launch_trophies
-    subject = "You have a new Track Trophy at Exercism"
-    assert_email(email, user.email, subject, "launch_trophies", bulk: true)
+    email = MailshotsMailer.with(user:).jiki_launch
+    subject = "Learn to build in the LLM era. Meet Jiki."
+    assert_email(email, user.email, subject, "jiki_launch", bulk: true)
+
+    refute_includes email.html_part.body.to_s, "You previously signed up to help with translating Exercism"
   end
 
-  test "launch_trophies: 5 trophies" do
+  test "jiki_launch: shows the translator section for people who signed up to translate" do
     user = create :user
-    5.times { create(:user_track_acquired_trophy, user:, track: create(:track, :random_slug)) }
+    user.update!(translator_locales: ["fr"])
 
-    email = MailshotsMailer.with(user:).launch_trophies
-    subject = "You have five new Track Trophies at Exercism"
-    assert_email(email, user.email, subject, "launch_trophies", bulk: true)
+    email = MailshotsMailer.with(user:).jiki_launch
+    subject = "Learn to build in the LLM era. Meet Jiki."
+    assert_email(email, user.email, subject, "jiki_launch", bulk: true)
+
+    assert_includes email.html_part.body.to_s, "You previously signed up to help with translating Exercism"
   end
 end

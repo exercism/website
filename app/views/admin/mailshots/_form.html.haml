@@ -11,7 +11,15 @@
   .flex.flex-col
     .mb-12
       = form.label :slug, class: "block mb-4"
-      = form.text_field :slug, class: 'w-fill'
+      - if mailshot.persisted? && mailshot.custom_mailer?
+        = form.text_field :slug, readonly: true, class: 'w-fill'
+        .text-p-small.mt-4.text-textColor6 This slug maps to a custom email template and can't be changed.
+      - else
+        = form.text_field :slug, list: "mailshot-slugs", class: 'w-fill'
+        %datalist#mailshot-slugs
+          - MailshotsMailer::CUSTOM_MAILER_SLUGS.each do |slug|
+            %option{ value: slug }
+        .text-p-small.mt-4.text-textColor6 Choose a custom-template slug from the list, or type a manual one for a standard content mailshot.
     .mb-12
       = form.label :subject, class: "block mb-4"
       = form.text_field :subject, class: 'w-fill'

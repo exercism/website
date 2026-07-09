@@ -1,0 +1,50 @@
+- eleven_labs_url = "https://start.elevenlabs.io/c/exercism?utm_source=exercism&utm_medium=cpm&utm_campaign=exercism_-_media_buy&utm_content=exercism_-_newsletter"
+Sponsored by ElevenLabs (#{eleven_labs_url}). Get 50% off Creator.
+\
+Hi #{@user.handle},
+\
+It's been a while since I sent an Exercism newsletter! That's because we've been super-busy building our brand new platform for learning to code in the LLM era - Jiki (https://jiki.io). And I'm very excited to tell you that we're now live and you can sign up today: https://jiki.io
+\
+If you'd like to know more, I'm hosting an Ask Me Anything to discuss Jiki, Exercism, and the future of coding in general on Saturday 11th July at 12:00 UTC. You can set a reminder on YouTube now: https://www.youtube.com/watch?v=ZYDSF2jtKkg
+\
+INTRODUCING JIKI
+\
+Jiki (https://jiki.io) is a brand new platform by the team behind Exercism. It's designed for beginners, juniors and vibe-coders wanting to understand what's going on. It has two halves:
+\
+* Coding Fundamentals: The most fun and effective way to get a solid understanding of coding basics, with hundreds of hours of exercises to solve, projects to build, and videos to watch.
+* Build with Jeremy: A series of livestreams and projects where I build real things and teach you everything I know along the way, then challenge you to build your own versions. Even if you're not new to coding, this might be a fun way to upskill in new areas!
+\
+Jiki is 100% free to sign up to with some Premium options if you want some bonus features. The Coding Fundamentals part is currently available for JavaScript (with Python coming later in the year), and the Build with Jeremy half starts on July 11th (set a reminder here: https://www.youtube.com/watch?v=aEmZE-VnxsQ).
+\
+TRANSLATING EXERCISM AND JIKI
+\
+I'm also excited to announce that we're going to be rolling out translations of both Exercism (https://exercism.org) and Jiki (https://jiki.io) to dozens of languages over the next two months. We'll be hosting a translatathon (like a hackathon but less code and more translating) later in the month.
+\
+- if @translator
+  You previously signed up to help with translating Exercism. If you'd still like to be involved, please sign up to Jiki and join our forum there, where we'll be managing this. There's a category for each language, where you can introduce yourself! I'll also email you again nearer the translatathon at the end of the month.
+- else
+  If you'd like to be involved, please sign up to Jiki and join Jiki's forum, where we'll be managing this. I'll be emailing everyone that joins Jiki with more details later in the month.
+\
+As part of this, we're also translating our videos into multiple languages, and for that we're using ElevenLabs (#{eleven_labs_url}). They provide (by far!) the most realistic set of voices, and their APIs make it quick and easy to translate anything. They're also sponsoring Exercism this quarter.
+\
+SPONSOR OFFER
+Made by engineers, for engineers. Use the ElevenLabs API to generate speech, translate audio, or build conversational agents. Build with a full audio stack in one product. Get 50% off Creator to start building with real AI audio. Claim the offer here: #{eleven_labs_url}
+\
+AN UPDATE ON EXERCISM
+\
+Exercism itself has been going from strength to strength. Our wonderful team of maintainers continue to improve our content and exercises, and our mentors are always there to support you. In the next few days we will hit 3 million users (https://exercism.org/about/impact), which is a huge milestone.
+\
+I want to thank everyone who's been part of our journey so far. As the world of coding changes, we're here to try and help developers keep up to date with the skills they need, and enjoy all that programming has to offer!
+\
+Thanks for reading,
+\
+Jeremy Walker
+Exercism Co-founder
+\
+___
+\
+Why am I receiving this?
+\
+You're receiving this because you've previously signed up to Exercism (#{root_url}) (the free, not-for-profit programming education platform) and are subscribed to our update emails, where we let you know about new things on the site.
+\
+You can unsubscribe from this email (#{unsubscribe_url(token: @user.communication_preferences.token, key: @email_communication_preferences_key)}) or change your notification settings (#{unsubscribe_url(token: @user.communication_preferences.token)}) to opt out of some or all emails.

@@ -1,8 +1,8 @@
 class MailshotsPreview < ActionMailer::Preview
-  def launch_trophies
+  def jiki_launch
     MailshotsMailer.with(
-      user: User.first
-    ).launch_trophies
+      user: User.fourth
+    ).jiki_launch
   end
 
   def mailshot

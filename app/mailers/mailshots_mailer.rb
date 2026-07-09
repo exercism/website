@@ -1,6 +1,12 @@
 class MailshotsMailer < ApplicationMailer
   layout false
 
+  # Slugs whose Mailshot maps to a bespoke action on this mailer (with its own
+  # template), rather than the generic, DB-content-driven :mailshot action.
+  # A Mailshot with one of these slugs is sent via
+  # User::Mailshot::SendWithCustomMailer instead of User::Mailshot::Send.
+  CUSTOM_MAILER_SLUGS = %w[jiki_launch].freeze
+
   def mailshot
     @user = params[:user]
     @mailshot = params[:mailshot]
@@ -8,17 +14,11 @@ class MailshotsMailer < ApplicationMailer
     bulk_mail(@user, @mailshot.subject)
   end
 
-  def launch_trophies
+  def jiki_launch
     @user = params[:user]
-    acquired_trophies = @user.acquired_trophies
-    @num_trophies = acquired_trophies.count
-    @trophy_tracks = Track.where(id: acquired_trophies.map(&:track_id))
+    @translator = @user.translator_locales.present?
 
-    raise "No trophies" unless @num_trophies.positive?
-
-    subject = @num_trophies == 1 ? "You have a new Track Trophy at Exercism" :
-      "You have #{@num_trophies.humanize} new Track Trophies at Exercism"
-
+    subject = "Learn to build in the LLM era. Meet Jiki."
     @email_communication_preferences_key = :receive_product_updates
     bulk_mail(@user, subject)
   end

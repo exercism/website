@@ -1,10 +1,9 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <!--[if IE]><html xmlns="http://www.w3.org/1999/xhtml" class="ie"><![endif]-->
 <!--[if !IE]><!--><html style="margin: 0;padding: 0;" xmlns="http://www.w3.org/1999/xhtml"><!--<![endif]-->
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title></title>
+    <title>Learn to build in the LLM era. Meet Jiki.</title>
     <!--[if !mso]><!--><meta http-equiv="X-UA-Compatible" content="IE=edge"/><!--<![endif]-->
     <meta name="viewport" content="width=device-width"/>
 
@@ -485,7 +484,14 @@ div.preheader {
 </style>
 
 <meta name="robots" content="noindex,nofollow"/>
-<meta name="og:title" content="Take the #12in23 Challenge"/>
+<meta name="og:title" content="Learn to build in the LLM era. Meet Jiki."/>
+<style type="text/css">
+  .sponsor-mobile { display: none; }
+  @media only screen and (max-width: 619px) {
+    .sponsor-desktop { display: none !important; }
+    .sponsor-mobile { display: inline !important; }
+  }
+</style>
 </head>
 
 <!--[if mso]>
@@ -494,16 +500,15 @@ div.preheader {
 <!--[if !mso]><!-->
   <body class="main full-padding" style="margin: 0;padding: 0;-webkit-text-size-adjust: 100%;">
 <!--<![endif]-->
+    <div style="display:none;font-size:1px;color:#ffffff;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all;">Introducing Jiki - our new learning platform teaching how to code and build in the LLM era, full of exercises, projects and videos.</div>
     <table class="wrapper" style="border-collapse: collapse;table-layout: fixed;min-width: 320px;width: 100%;background-color: #fff;" cellpadding="0" cellspacing="0" role="presentation"><tbody><tr><td>
-      <div role="banner">
-        <div class="header" style="margin: 0 auto;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);" id="emb-email-header-container">
-        <!--[if (mso)|(IE)]><table align="center" class="header" cellpadding="0" cellspacing="0" role="presentation"><tr><td style="width: 600px"><![endif]-->
-          <div class="logo emb-logo-margin-box" style="font-size: 26px;line-height: 32px;margin-top: 20px;margin-bottom: 20px;color: #38434d;font-family: Avenir,sans-serif;margin-left: 20px;margin-right: 20px;" align="center">
-            <div class="logo-center" align="center" id="emb-email-header"><a style="text-decoration: none;transition: opacity 0.1s ease-in;color: #38434d;" href="https://exercism.org"><img style="display: block;height: auto;width: 100%;border: 0;max-width: 76px;" src="https://exercism-static.s3.eu-west-1.amazonaws.com/static/email-logo.png" alt="" width="76"/></a></div>
-          </div>
-        <!--[if (mso)|(IE)]></td></tr></table><![endif]-->
-        </div>
-      </div>
+      <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;table-layout: fixed;background-color: #f4f4f6;margin-bottom: 8px;">
+        <tbody><tr>
+          <td align="center" style="padding: 8px 20px;font-family: Poppins,Arial,'Helvetica Neue',Helvetica,sans-serif;font-size: 12px;line-height: 18px;color: #6b7280;">
+            <span class="sponsor-desktop">This email is sponsored by <a href="https://start.elevenlabs.io/c/exercism?utm_source=exercism&utm_medium=cpm&utm_campaign=exercism_-_media_buy&utm_content=exercism_-_newsletter" style="color: #6b7280;font-weight: 600;text-decoration: underline;">ElevenLabs</a>. Get 50% off Creator.</span><span class="sponsor-mobile">Sponsored by <a href="https://start.elevenlabs.io/c/exercism?utm_source=exercism&utm_medium=cpm&utm_campaign=exercism_-_media_buy&utm_content=exercism_-_newsletter" style="color: #6b7280;font-weight: 600;text-decoration: underline;">ElevenLabs</a>. 50% off Creator.</span>
+          </td>
+        </tr></tbody>
+      </table>
       <div>
         <div class="layout one-col fixed-width stack" style="margin: 0 auto;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;">
           <div class="layout__inner" style="border-collapse: collapse;display: table;width: 100%;background-color: #ffffff;">
@@ -512,38 +517,49 @@ div.preheader {
 
               <div style="margin-left: 20px;margin-right: 20px;">
                 <div style="mso-line-height-rule: exactly;mso-text-raise: 11px;vertical-align: middle;">
+<div style="text-align: center;">
+                    <img style="display: inline-block;height: auto;width: 100%;border: 0;max-width: 440px;" src="https://assets.jiki.io/static/emails/newsletter.jpg" alt="Jiki" width="440" align="center"/>
+                  </div>
                   <p style="margin-top: 16px;margin-bottom: 0;">Hi <%= @user.handle %>,</p>
-                  <p style="margin-top: 16px;margin-bottom: 0;">Last week we rolled out Track Trophies for Exercism's language tracks, a new way of marking and celebrating your progress 🏆
-                  <p style="margin-top: 16px;margin-bottom: 0;">Based on your past achievements, we've already 
-                    <% if @num_trophies == 1 %>
-                      <strong style="font-weight:600">
-                        <%= link_to "awarded you a trophy in #{@trophy_tracks.first.title}", @trophy_tracks.first %>.
-                      </strong>
-                      You can reveal it in the new Trophy cabinet.
-                    <% elsif @trophy_tracks.size == 1 %>
-                      <strong style="font-weight:600">
-                      <%= link_to "awarded you #{@num_trophies.humanize} trophies in #{@trophy_tracks.first.title}", @trophy_tracks.first %>.
-                      </strong>
-                      You can reveal them in the new Trophy cabinet.
+                  <p style="margin-top: 16px;margin-bottom: 0;">It's been a while since I sent an Exercism newsletter! That's because we've been super-busy building our brand new platform for <strong style="font-weight:500">learning to code in the LLM era</strong> - <a href="https://jiki.io">Jiki</a>. And I'm very excited to tell you that we're now live and you can <a href="https://jiki.io">sign up today</a>!</p>
+                  <p style="margin-top: 16px;margin-bottom: 0;">If you'd like to know more, I'm hosting an <a href="https://www.youtube.com/watch?v=ZYDSF2jtKkg">Ask Me Anything</a> to discuss Jiki, Exercism, and the future of coding in general on Saturday 11th July at 12:00 UTC. You can <a href="https://www.youtube.com/watch?v=ZYDSF2jtKkg">set a reminder on YouTube</a> now.</p>
+
+                  <h3 style="margin-top: 20px;margin-bottom: 0;">Introducing Jiki</h3>
+                  <p style="margin-top: 8px;margin-bottom: 0;"><a href="https://jiki.io">Jiki</a> is a brand new platform by the team behind Exercism. It's designed for beginners, juniors and vibe-coders wanting to understand what's going on. It has two halves:</p>
+                  <ul style="margin-top: 16px;margin-bottom: 0;">
+                    <li><strong style="font-weight:600">Coding Fundamentals:</strong> The most fun and effective way to get a solid understanding of coding basics, with hundreds of hours of exercises to solve, projects to build, and videos to watch.</li>
+                    <li><strong style="font-weight:600">Build with Jeremy:</strong> A series of livestreams and projects where I build real things and teach you everything I know along the way, then challenge you to build your own versions. <strong style="font-weight:500">Even if you're not new to coding, this might be a fun way to upskill in new areas!</strong></li>
+                  </ul>
+
+                  <p style="margin-top: 16px;margin-bottom: 0;">Jiki is <strong style="font-weight:500">100% free</strong> to sign up to with some Premium options if you want some bonus features. The Coding Fundamentals part is currently available for JavaScript (with Python coming later in the year), and the Build with Jeremy half starts on July 11th (<a href="https://www.youtube.com/watch?v=aEmZE-VnxsQ">set a reminder here</a>).</p>
+
+                  <h3 style="margin-top: 20px;margin-bottom: 0;">Translating Exercism and Jiki</h3>
+                  <p style="margin-top: 8px;margin-bottom: 0;">I'm also excited to announce that we're going to be rolling out translations of both <a href="https://exercism.org">Exercism</a> and <a href="https://jiki.io">Jiki</a> to dozens of languages over the next two months. We'll be hosting a <strong style="font-weight:500">translatathon</strong> (like a hackathon but less code and more translating) later in the month.</p>
+
+                  <p style="margin-top: 16px;margin-bottom: 0;">
+                    <% if @translator %>
+                      <strong style="font-weight:500">You previously signed up to help with translating Exercism.</strong> If you'd still like to be involved, please sign up to Jiki and join our forum there, where we'll be managing this. There's a category for each language, where you can introduce yourself! I'll also email you again nearer the translatathon at the end of the month.
                     <% else %>
-                      <strong style="font-weight:600">
-                        awarded you
-                        <%= @num_trophies %> trophies across <%= to_sentence(@trophy_tracks.map {|track| link_to(track.title, track)}) %>.
-                      </strong>
-                    You can reveal them in the new Trophy cabinet on each Track page.
+                      If you'd like to be involved, please sign up to Jiki and join Jiki's forum, where we'll be managing this. I'll be emailing everyone that joins Jiki with more details later in the month.
                     <% end %>
                   </p>
-                  <p style="margin-top: 16px;margin-bottom: 0;">
-                  Trophies are all about giving you that extra motivational nudge and making the learning journey a bit more fun.
-                  Hit milestones, achieve learning goals, and the trophy is yours.
-                  We also have language-specific trophies in the works. You'll be able to earn them for mastering recursion in Elixir, getting cozy with prototypes in JavaScript, or becoming a metaprogramming maestro in Ruby.
-                  </p>
 
-                  <p style="margin-top: 16px;margin-bottom: 0;">
-                  Take some time to check out the new Trophies feature and I hope you enjoy the learning adventure! 🚀
-                  </p>
+                  <p style="margin-top: 16px;margin-bottom: 0;">As part of this, we're also translating our videos into multiple languages, and for that we're using <a href="https://start.elevenlabs.io/c/exercism?utm_source=exercism&utm_medium=cpm&utm_campaign=exercism_-_media_buy&utm_content=exercism_-_newsletter">ElevenLabs</a>. They provide (by far!) the most <strong style="font-weight:500">realistic set of voices</strong>, and their APIs make it quick and easy to translate anything. They're also sponsoring Exercism this quarter.</p>
 
-                  <p style="margin-top: 8px;margin-bottom: 20px;">
+                  <div style="background-color: lightgoldenrodyellow;padding: 12px 16px;margin-top: 16px;">
+                    <div style="text-transform: uppercase;font-weight: 600;font-size: 10px;line-height: 16px;letter-spacing: 0.5px;background: palegoldenrod;padding: 5px;display: inline-block;color: darkgoldenrod;">Sponsor Offer</div>
+                    <p style="margin-top: 4px;margin-bottom: 0;">Made by engineers, for engineers. Use the ElevenLabs API to generate speech, translate audio, or build conversational agents. Build with a full audio stack in one product. Get <strong style="font-weight:500">50% off Creator</strong> to start building with real AI audio. <a href="https://start.elevenlabs.io/c/exercism?utm_source=exercism&utm_medium=cpm&utm_campaign=exercism_-_media_buy&utm_content=exercism_-_newsletter">Claim the offer here</a>.</p>
+                  </div>
+
+                  <h3 style="margin-top: 20px;margin-bottom: 0;">An update on Exercism</h3>
+                  <p style="margin-top: 8px;margin-bottom: 0;">
+                    Exercism itself has been going from strength to strength. Our wonderful team of maintainers continue to improve our content and exercises, and our mentors are always there to support you. In the next few days we will hit <strong style="font-weight:500"><a href="https://exercism.org/about/impact">3 million users</a></strong>, which is a huge milestone.</p>
+                  <p style="margin-top: 8px;margin-bottom: 0;">
+                     I want to thank everyone who's been part of our journey so far. As the world of coding changes, we're here to try and help developers keep up to date with the skills they need, and enjoy all that programming has to offer!</p>
+
+                  <p style="margin-top: 16px;margin-bottom: 0;">Thanks for reading,</p>
+
+                  <p style="margin-top: 6px;margin-bottom: 20px;">
                     Jeremy Walker<br/>
                     Exercism Co-founder</p>
                   </p>
@@ -552,8 +568,8 @@ div.preheader {
 
               <div style="margin-left: 20px;margin-right: 20px;">
                 <div class="btn btn--shadow btn--large" style="margin-bottom: 20px;">
-                  <![if !mso]><a style="border-radius: 4px;display: inline-block;font-size: 16px;font-weight: bold;line-height: 24px;padding: 12px 24px 13px 24px;text-align: center;text-decoration: none !important;transition: opacity 0.1s ease-in;color: #ffffff !important;box-shadow: inset 0 -2px 0 0 rgba(0, 0, 0, 0.2);background-color: #2e57e8;font-family: Poppins, Trebuchet MS, Avenir, Segoe UI, sans-serif;" href="https://exercism.org">
-                    Visit Exercism
+                  <![if !mso]><a style="border-radius: 4px;display: inline-block;font-size: 16px;font-weight: bold;line-height: 24px;padding: 12px 24px 13px 24px;text-align: center;text-decoration: none !important;transition: opacity 0.1s ease-in;color: #ffffff !important;box-shadow: inset 0 -2px 0 0 rgba(0, 0, 0, 0.2);background-color: #2e57e8;font-family: Poppins, Trebuchet MS, Avenir, Segoe UI, sans-serif;" href="https://jiki.io">
+                    Sign up to Jiki
                     <span style="font-size:20px;margin-left:5px">➡</span>
                   </a><![endif]>
               </div>

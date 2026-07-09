@@ -11,7 +11,11 @@ class Mailshot::SendTestMail
     User::Mailshot.where(user:, mailshot:).destroy_all
 
     # Now send the email
-    User::Mailshot::Send.(user, mailshot)
+    if mailshot.custom_mailer?
+      User::Mailshot::SendWithCustomMailer.(user, mailshot)
+    else
+      User::Mailshot::Send.(user, mailshot)
+    end
 
     mailshot.update!(test_sent: true)
   end

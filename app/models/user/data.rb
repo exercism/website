@@ -4,6 +4,7 @@ class User::Data < ApplicationRecord
 
   scope :donors, -> { where.not(first_donated_at: nil) }
   scope :public_supporter, -> { donors.where(show_on_supporters_page: true) }
+  scope :translators, -> { where.not(translator_locales: [nil, "", "[]", "{}"]) }
 
   belongs_to :user
 

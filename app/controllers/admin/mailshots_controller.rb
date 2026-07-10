@@ -12,7 +12,7 @@ class Admin::MailshotsController < Admin::BaseController
   def show
     @send_count = User::Mailshot.where(mailshot: @mailshot).count
     @audiences = %w[
-      admins donors insiders jiki_waiting_list challenge#12in23 challenge#48in24
+      admins donors insiders jiki_waiting_list translators challenge#12in23 challenge#48in24
     ]
     @audiences += [100, 10, 3, 2, 1].map { |min| "reputation##{min}" }
     @audiences += [10, 30, 60, 90].map { |min| "recent##{min}" }

@@ -88,6 +88,25 @@ class Mailshot::SendToAudienceSegmentTest < ActiveSupport::TestCase
     Mailshot::SendToAudienceSegment.(mailshot, :translators, nil, 10, 0)
   end
 
+  %i[absolute_beginner beginner junior mid senior].each do |seniority|
+    audience = "#{seniority}s".to_sym
+
+    test "schedules audience_for_#{audience}" do
+      mailshot = create :mailshot
+
+      good_user = create :user
+      good_user.data.update!(seniority:)
+
+      bad_user = create :user
+      bad_user.data.update!(seniority: seniority == :senior ? :beginner : :senior)
+
+      User::Mailshot::Send.expects(:call).with(good_user, mailshot)
+      User::Mailshot::Send.expects(:call).with(bad_user, mailshot).never
+
+      Mailshot::SendToAudienceSegment.(mailshot, audience, nil, 10, 0)
+    end
+  end
+
   test "schedules audience_for_challenge" do
     mailshot = create :mailshot
 

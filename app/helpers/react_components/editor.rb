@@ -10,7 +10,7 @@ module ReactComponents
         default_submissions: submissions,
         default_files: SerializeEditorFiles.(solution.files_for_editor),
         insider: solution.user.insider?,
-        chatgpt_usage:,
+        assistant_chat:,
         default_settings: {
           tab_size: track.indent_size,
           use_soft_tabs: track.indent_style == :space
@@ -36,9 +36,7 @@ module ReactComponents
             test_runner: {
               average_test_duration: track.average_test_duration
             }
-          },
-          ai_help: submission.present? ? SerializeSubmissionAIHelpRecord.(submission.ai_help_records.last) : nil,
-          chatgpt_usage:
+          }
         },
         exercise: {
           title: exercise.title,
@@ -134,8 +132,18 @@ module ReactComponents
     end
 
     memoize
-    def chatgpt_usage
-      solution.user.chatgpt_usage
+    def assistant_chat
+      {
+        chat_url: Exercism.config.assistant_chat_url,
+        turnstile_site_key: Exercism.secrets.turnstile_site_key,
+        allowed: Solution::AssistantConversation::CheckUserAccess.(solution),
+        messages: solution.assistant_conversation&.messages || [],
+        links: {
+          create_token: Exercism::Routes.api_solution_assistant_conversation_url(solution.uuid),
+          user_messages: Exercism::Routes.user_messages_api_solution_assistant_conversation_url(solution.uuid),
+          assistant_messages: Exercism::Routes.assistant_messages_api_solution_assistant_conversation_url(solution.uuid)
+        }
+      }
     end
 
     memoize

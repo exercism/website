@@ -11,7 +11,6 @@ type SubmissionLinks = {
   cancel: string
   submit: string
   testRun: string
-  aiHelp: string
   initialFiles: string
   lastIterationFiles: string
 }

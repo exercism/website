@@ -37,7 +37,6 @@ class Submission < ApplicationRecord
     ->(s) { where(exercise_representer_version: s.exercise_representer_version).order(id: :desc) },
     class_name: "Submission::Representation", dependent: :destroy
   has_one :exercise_representation, through: :submission_representation
-  has_many :ai_help_records, class_name: "Submission::AIHelpRecord", dependent: :destroy
 
   # TODO: It's important that we enforce rules on these to stop things from
   # going from the success states (passed/failed/errored/generated/completed)

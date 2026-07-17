@@ -23,7 +23,6 @@ import be from './components-donations-subscription-form'
 import bf from './components-dropdowns'
 import bg from './components-dropdowns-reputation'
 import bh from './components-dropdowns-track-menu'
-import bi from './components-editor-ChatGptFeedback'
 import bj from './components-editor-EditorStatusSummary.tsx'
 import bk from './components-editor-FeedbackPanel'
 import bl from './components-editor-GetHelp'
@@ -234,7 +233,6 @@ export default {
   'components/dropdowns': bf,
   'components/dropdowns/reputation': bg,
   'components/dropdowns/track-menu': bh,
-  'components/editor/ChatGptFeedback': bi,
   'components/editor/EditorStatusSummary.tsx': bj,
   'components/editor/FeedbackPanel': bk,
   'components/editor/GetHelp': bl,

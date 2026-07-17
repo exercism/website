@@ -11,25 +11,17 @@ type StuckButtonProps = {
   setTab: React.Dispatch<React.SetStateAction<TabIndex>>
 }
 
-export function StuckButton({
-  insider,
-  setTab,
-  tab,
-}: StuckButtonProps): JSX.Element {
+export function StuckButton({ setTab, tab }: StuckButtonProps): JSX.Element {
   const { t } = useAppTranslation('components/editor/GetHelp')
   return (
     <button
       type="button"
-      disabled={['get-help', 'chat-gpt'].includes(tab)}
+      disabled={['get-help', 'assistant'].includes(tab)}
       className="btn-enhanced btn-s !ml-0 mr-auto ask-chatgpt-btn"
-      onClick={() => setTab(insider ? 'chat-gpt' : 'get-help')}
+      onClick={() => setTab('assistant')}
     >
       <GraphicalIcon icon="automation" height={16} width={16} />
-      <span>
-        {t(
-          insider ? 'stuckButton.stuckAskChatGpt' : 'stuckButton.stuckGetHelp'
-        )}
-      </span>
+      <span>{t('stuckButton.stuckGetHelp')}</span>
     </button>
   )
 }

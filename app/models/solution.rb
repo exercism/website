@@ -27,6 +27,7 @@ class Solution < ApplicationRecord
 
   has_many :submissions, dependent: :destroy
   has_many :iterations, dependent: :destroy
+  has_one :assistant_conversation, dependent: :destroy
   has_many :user_activities, class_name: "User::Activity", dependent: :destroy
 
   # rubocop:disable Rails/HasManyOrHasOneDependent

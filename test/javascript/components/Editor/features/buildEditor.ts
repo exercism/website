@@ -101,7 +101,19 @@ export const buildEditor = build<Props>({
     defaultSubmissions: [],
     defaultFiles: [{ filename: 'lasagna.rb', content: 'class Lasagna' }],
     insidersStatus: 'active',
-    chatgptUsage: { '3.5': 4, '4.0': 2 },
+    assistantChat: {
+      chatUrl: 'https://chat.exercism.test',
+      turnstileSiteKey: 'test-site-key',
+      allowed: true,
+      messages: [],
+      links: {
+        createToken: 'https://exercism.test/assistant_conversation',
+        userMessages:
+          'https://exercism.test/assistant_conversation/user_messages',
+        assistantMessages:
+          'https://exercism.test/assistant_conversation/assistant_messages',
+      },
+    },
     defaultSettings: {},
     autosave: { saveInterval: 500000 },
     help: { html: '' },
@@ -118,7 +130,6 @@ export const buildEditor = build<Props>({
           averageTestDuration: 3,
         },
       },
-      chatgptUsage: { '3.5': 4, '4.0': 2 },
     },
     track: {},
     exercise: {},

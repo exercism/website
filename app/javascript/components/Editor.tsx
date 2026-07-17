@@ -47,18 +47,16 @@ import {
   GetHelpTab,
   StuckButton,
   TestContentWrapper,
-  ChatGPT,
 } from './editor/index'
 import { RealtimeFeedbackModal } from './modals'
-import { ChatGptTab } from './editor/ChatGptFeedback/ChatGptTab'
-import { ChatGptPanel } from './editor/ChatGptFeedback/ChatGptPanel'
+import { AssistantChatTab, AssistantChatPanel } from './editor/AssistantChat'
 
 export type TabIndex =
   | 'instructions'
   | 'tests'
   | 'results'
   | 'get-help'
-  | 'chat-gpt'
+  | 'assistant'
 
 const filesEqual = (files: File[], other: File[]) => {
   if (!files || !other) return false
@@ -104,7 +102,7 @@ export default ({
   discussion,
   request,
   mentoringStatus,
-  chatgptUsage,
+  assistantChat,
   trackObjectives,
   showDeepDiveVideo,
   hasAvailableMentoringSlot,
@@ -150,11 +148,6 @@ export default ({
     testRunStatus === TestRunStatus.TIMEOUT ||
     testRunStatus === TestRunStatus.CANCELLED
   const queryClient = useQueryClient()
-  const [chatGptDialogOpen, setChatGptDialogOpen] = useState(false)
-  const [selectedGPTModel, setSelectedGPTModel] = useState<ChatGPT.ModelType>({
-    version: '3.5',
-    usage: chatgptUsage['3.5'],
-  })
 
   useEffect(() => {
     if (
@@ -413,44 +406,6 @@ export default ({
 
   useEditorFocus({ editor: editorRef.current, isProcessing })
 
-  const {
-    mutation: pokeChatGpt,
-    status: chatGptFetchingStatus,
-    helpRecord,
-    setSubmissionUuid,
-    submissionUuid,
-    mutationError,
-    mutationStatus,
-    exceededLimit,
-    chatGptUsage,
-  } = ChatGPT.Hook({
-    submission: submission ?? null,
-    defaultRecord: panels.aiHelp,
-    GPTModel: selectedGPTModel.version,
-    chatgptUsage,
-  })
-
-  const invokeChatGpt = useCallback(() => {
-    const status = chatGptFetchingStatus
-    setTab('get-help')
-    if (status === 'unfetched' || submissionUuid !== submission?.uuid) {
-      pokeChatGpt()
-      setSubmissionUuid(submission?.uuid)
-    }
-  }, [
-    chatGptFetchingStatus,
-    pokeChatGpt,
-    setSubmissionUuid,
-    submission?.uuid,
-    submissionUuid,
-  ])
-
-  useEffect(() => {
-    if (mutationStatus === 'success') {
-      setChatGptDialogOpen(false)
-    }
-  }, [mutationStatus])
-
   return (
     <FeaturesContext.Provider value={features}>
       <TabsContext.Provider
@@ -533,7 +488,7 @@ export default ({
                   {panels.tests ? <TestsTab /> : null}
                   <ResultsTab />
                   {iteration ? <FeedbackTab /> : null}
-                  <ChatGptTab />
+                  <AssistantChatTab />
                   <GetHelpTab />
                 </div>
                 <InstructionsPanel
@@ -573,30 +528,11 @@ export default ({
                     mentorDiscussionsLink={links.mentorDiscussions}
                   />
                 ) : null}
-                <ChatGptPanel>
-                  {insider ? (
-                    <ChatGPT.Wrapper
-                      helpRecord={helpRecord}
-                      status={chatGptFetchingStatus}
-                    >
-                      <ChatGPT.Button
-                        insider={insider}
-                        noSubmission={!submission}
-                        sameSubmission={
-                          submission
-                            ? submission.uuid === submissionUuid
-                            : false
-                        }
-                        isProcessing={isProcessing}
-                        passingTests={testRunStatus === TestRunStatus.PASS}
-                        chatGptFetchingStatus={chatGptFetchingStatus}
-                        onClick={() => setChatGptDialogOpen(true)}
-                      />
-                    </ChatGPT.Wrapper>
-                  ) : (
-                    <ChatGPT.UpsellContent />
-                  )}
-                </ChatGptPanel>
+                <AssistantChatPanel
+                  config={assistantChat}
+                  solutionUuid={solution.uuid}
+                  getFiles={getFiles}
+                />
                 <GetHelpPanel
                   assignment={panels.instructions.assignment}
                   helpHtml={help.html}
@@ -622,20 +558,6 @@ export default ({
             hasAvailableMentoringSlot={hasAvailableMentoringSlot}
             links={{ ...links, redirectToExerciseLink: redirectLink }}
           />
-
-          {submission && insider && (
-            <ChatGPT.Dialog
-              onClose={() => setChatGptDialogOpen(false)}
-              open={chatGptDialogOpen}
-              submission={submission}
-              value={selectedGPTModel}
-              setValue={setSelectedGPTModel}
-              onGo={invokeChatGpt}
-              chatgptUsage={chatGptUsage}
-              error={mutationError}
-              exceededLimit={exceededLimit}
-            />
-          )}
         </div>
       </TabsContext.Provider>
     </FeaturesContext.Provider>

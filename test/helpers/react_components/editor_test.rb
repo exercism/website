@@ -10,7 +10,6 @@ class ReactComponents::EditorTest < ReactComponentTestCase
       default_submissions: [],
       default_files: SerializeEditorFiles.(solution.files_for_editor),
       insiders: false,
-      chatgpt_usage: {},
       default_settings: {
         tab_size: track.indent_size,
         use_soft_tabs: track.indent_style == :space
@@ -36,9 +35,7 @@ class ReactComponents::EditorTest < ReactComponentTestCase
           test_runner: {
             average_test_duration: track.average_test_duration
           }
-        },
-        ai_help: nil,
-        chatgpt_usage: {}
+        }
       },
 
       exercise: {

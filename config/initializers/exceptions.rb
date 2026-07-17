@@ -1,3 +1,7 @@
+class AssistantConversationAccessDeniedError < RuntimeError; end
+
+class InvalidHMACSignatureError < RuntimeError; end
+
 class BadgeCriteriaNotFulfilledError < RuntimeError; end
 
 class TrophyCriteriaNotFulfilledError < RuntimeError; end
@@ -56,8 +60,6 @@ class NoMentoringSlotsAvailableError < RuntimeError; end
 class ProfileCriteriaNotFulfilledError < RuntimeError; end
 
 class InvalidCommunityVideoUrlError < RuntimeError; end
-
-class ChatGPTTooManyRequestsError < RuntimeError; end
 
 class NoPublishedSolutionForRepresentationError < RuntimeError; end
 

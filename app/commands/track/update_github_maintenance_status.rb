@@ -14,14 +14,13 @@ class Track::UpdateGithubMaintenanceStatus
 
   def call
     return if Rails.env.development?
+    return unless new_topic
 
-    topic = new_topic
-    return unless topic
-
-    Exercism.octokit_client.replace_all_topics(repo, (current_topics - TOGGLEABLE) + [topic])
+    Exercism.octokit_client.replace_all_topics(repo, (current_topics - TOGGLEABLE) + [new_topic])
   end
 
   private
+  memoize
   def new_topic
     if maintained?
       MAINTAINED if current_topics.include?(UNMAINTAINED)

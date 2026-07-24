@@ -13,13 +13,14 @@ class Github::TeamMember::CreateTest < ActiveSupport::TestCase
     assert_equal team_name, team_name_member.team_name
   end
 
-  test "update maintainer role" do
+  test "update maintainer role and sync maintenance status" do
     github_uid = '137131'
     team_name = 'fsharp'
 
-    create(:track, slug: team_name)
+    track = create(:track, slug: team_name)
     user = create(:user, uid: github_uid)
     User::UpdateMaintainer.expects(:call).with(user).once
+    Track::UpdateGithubMaintenanceStatus.expects(:defer).with(track).once
 
     team_name_member = Github::TeamMember::Create.(user, team_name)
 
@@ -34,6 +35,7 @@ class Github::TeamMember::CreateTest < ActiveSupport::TestCase
     user = create(:user, uid: github_uid)
 
     User::UpdateMaintainer.expects(:call).with(user).never
+    Track::UpdateGithubMaintenanceStatus.expects(:defer).never
 
     Github::TeamMember::Create.(user, team_name)
   end
@@ -45,6 +47,7 @@ class Github::TeamMember::CreateTest < ActiveSupport::TestCase
     create(:github_team_member, team_name:, user:)
 
     User::UpdateMaintainer.expects(:call).with(user).never
+    Track::UpdateGithubMaintenanceStatus.expects(:defer).never
 
     Github::TeamMember::Create.(user, team_name)
   end

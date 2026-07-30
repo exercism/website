@@ -1,0 +1,20 @@
+en:
+  layouts:
+    mailer:
+      aria_label: "An email from Exercism"
+      sponsored_by_html: "This email is kindly sponsored by %{partner_name}. %{mailer_text}"
+      learn_more_link: "Click here"
+      learn_more_suffix: "to learn more."
+      received_because_html: "You received this email because you've signed up to %{exercism_link}."
+      exercism_link: "Exercism"
+      you_can: "You can"
+      unsubscribe_link: "unsubscribe from this email"
+      or: "or"
+      change_notification_settings_link: "change your notification settings"
+      sent_by: "Sent by Exercism:"
+      address: "Unit G3; 81 Bournville Lane, United Kingdom"
+      text:
+        received_because: "You received this email because you've signed up to Exercism (%{exercism_url})"
+        unsubscribe_line: "Unsubscribe from this email: %{unsubscribe_url}"
+        change_notification_settings_line: "Change your notification settings: %{settings_url}"
+        sent_by: "Sent by Exercism: Unit G3; 81 Bournville Lane, United Kingdom"

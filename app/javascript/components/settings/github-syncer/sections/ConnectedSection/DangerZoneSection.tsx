@@ -38,11 +38,11 @@ export function DangerZoneSection() {
     })
       .then((response) => {
         if (response.ok) {
-          toast.success('Paused code sync with GitHub.')
+          toast.success(t('dangerZoneSection.pausedCodeSync'))
           setActivityChangeConfirmationModalOpen(false)
           setIsSyncingEnabled(false)
         } else {
-          toast.error(`Failed to change status.`)
+          toast.error(t('dangerZoneSection.failedToChangeStatus'))
           setActivityChangeConfirmationModalOpen(false)
         }
       })
@@ -50,28 +50,29 @@ export function DangerZoneSection() {
         console.error('Error:', error)
         setActivityChangeConfirmationModalOpen(false)
       })
-  }, [links.settings])
+  }, [links.settings, t])
 
   const handleDelete = useCallback(() => {
     setIsDeleting(true)
     fetchWithParams({ url: links.settings, method: 'DELETE' })
       .then(async (response) => {
         if (response.ok) {
-          toast.success('GitHub sync deleted successfully')
+          toast.success(t('dangerZoneSection.githubSyncDeleted'))
           setIsUserConnected(false)
           setDeleteConfirmationModalOpen(false)
         } else {
-          handleJsonErrorResponse(response, 'Failed to delete GitHub sync.')
+          handleJsonErrorResponse(
+            response,
+            t('dangerZoneSection.failedToDeleteSync')
+          )
         }
       })
       .catch((error) => {
-        toast.error(
-          `Oops! We received an unexpected error while deleting the GitHub sync.`
-        )
+        toast.error(t('dangerZoneSection.unexpectedErrorDeleting'))
         console.error('Error:', error)
       })
       .finally(() => setIsDeleting(false))
-  }, [links.settings])
+  }, [links.settings, t])
 
   return (
     <section className="danger-zone">
@@ -94,9 +95,9 @@ export function DangerZoneSection() {
                 {t('dangerZoneSection.pauseSyncer')}
               </button>
               <ConfirmationModal
-                title="Are you sure you want to pause syncing solutions with GitHub?"
-                confirmLabel="Pause"
-                declineLabel="Cancel"
+                title={t('dangerZoneSection.areYouSurePauseSyncing')}
+                confirmLabel={t('dangerZoneSection.pause')}
+                declineLabel={t('dangerZoneSection.cancel')}
                 onConfirm={handlePauseSyncer}
                 open={isActivityChangeConfirmationModalOpen}
                 onClose={handleActivityChangeConfirmationModalClose}

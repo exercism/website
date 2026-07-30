@@ -74,7 +74,10 @@ export function IterationSummary({
         <div className="--idx">
           <h3>{t('iterationSummary.iteration', { idx: iteration.idx })}</h3>
           {iteration.isLatest ? (
-            <div className="--latest" aria-label="Latest iteration">
+            <div
+              className="--latest"
+              aria-label={t('iterationSummary.latestIteration')}
+            >
               {t('iterationSummary.latest')}
             </div>
           ) : null}
@@ -82,7 +85,7 @@ export function IterationSummary({
           {iteration.isPublished ? (
             <div
               className="--published"
-              aria-label="This iteration is published"
+              aria-label={t('iterationSummary.thisIterationIsPublished')}
             >
               {t('iterationSummary.published')}
             </div>

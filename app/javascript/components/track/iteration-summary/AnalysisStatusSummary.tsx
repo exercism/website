@@ -23,7 +23,11 @@ export function AnalysisStatusSummary({
   }
 
   return (
-    <div className="--feedback" role="status" aria-label="Analysis status">
+    <div
+      className="--feedback"
+      role="status"
+      aria-label={t('analysisStatusSummary.analysisStatus')}
+    >
       <Icon
         icon="automation"
         alt={t('analysisStatusSummary.automatedComments')}

@@ -31,7 +31,10 @@ export const DiscussionList = ({
       {status === 'error' && (
         <>
           <p>{t('discussionList.somethingWentWrong')}</p>
-          <button onClick={() => refetch()} aria-label="Retry">
+          <button
+            onClick={() => refetch()}
+            aria-label={t('discussionList.retry')}
+          >
             {t('discussionList.retry')}
           </button>
         </>

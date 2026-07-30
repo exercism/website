@@ -14,6 +14,8 @@ export default {
     'This means the left and right panes operate independently.',
   'components.mentoring.session.linkButton.clickToLink':
     'Click or tap on the icon to link.',
+  'components.mentoring.session.linkButton.linkConversation':
+    'Link conversation',
   'components.mentoring.session.mentoringNote.mentoringDocs':
     'Check out our <a>mentoring docs</a> for more information.',
   'components.mentoring.session.mentorNotes.noNotesYet':

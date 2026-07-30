@@ -182,7 +182,7 @@ const SuccessMessage = () => {
   const { t } = useAppTranslation('components/settings/ProfileForm.tsx')
   return (
     <div className="status success">
-      <Icon icon="completed-check-circle" alt="Success" />
+      <Icon icon="completed-check-circle" alt={t('profileForm.successAlt')} />
       {t('profileForm.yourProfileHasBeenSaved')}
     </div>
   )

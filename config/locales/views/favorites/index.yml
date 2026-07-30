@@ -1,0 +1,16 @@
+en:
+  favorites:
+    index:
+      heading: Your Favorites
+      intro_html:
+        Star your favorite solutions as you use Exercism, then come back
+        here to learn from them at any time. What solutions can you find that
+        %{highlight}
+      intro_highlight: impress, inspire or excite you?
+      insider_benefit_html: Favorites is one of the benefits of your %{insiders_link} membership.
+      insiders_link_text: Exercism Insiders
+      upgrade_prompt_html:
+        Unlock the full Favorites functionality with %{insiders_link}.
+        %{upgrade_link} to store more than 10 favourites and add searching and
+        filtering!
+      upgrade_link_text: Upgrade your account

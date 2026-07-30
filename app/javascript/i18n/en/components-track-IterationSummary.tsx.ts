@@ -6,4 +6,6 @@ export default {
   'iterationSummary.submitted': 'Submitted ',
   'iterationSummary.viaCli': 'via CLI',
   'iterationSummary.viaEditor': 'via Editor',
+  'iterationSummary.latestIteration': 'Latest iteration',
+  'iterationSummary.thisIterationIsPublished': 'This iteration is published',
 }

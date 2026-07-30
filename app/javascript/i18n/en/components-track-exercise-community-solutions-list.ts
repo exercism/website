@@ -8,4 +8,5 @@ export default {
   'exerciseTagFilter.exerciseTagFilterGroup.filterBy':
     'Filter by {{groupName}}',
   'exerciseTagFilter.exerciseTagFilter.filter': 'Filter',
+  'exerciseTagFilter.exerciseTagFilter.clickToChange': 'Click to change',
 }

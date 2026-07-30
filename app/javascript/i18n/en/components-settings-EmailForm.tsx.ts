@@ -8,4 +8,5 @@ export default {
   changeEmail: 'Change email',
   'success.confirmationEmailSent':
     "We've sent a confirmation email to {{email}}",
+  'success.alt': 'Success',
 }

@@ -23,5 +23,7 @@ export default {
   'components.mentoring.session.iterationsList.goToNextIteration':
     'Go to next iteration',
   'components.mentoring.session.iterationsList.next': 'Next',
+  'components.mentoring.session.iterationsList.leftArrow': 'Left arrow',
+  'components.mentoring.session.iterationsList.rightArrow': 'Right arrow',
   'components.mentoring.session.guidance.feedbackHere': 'Feedback here',
 }

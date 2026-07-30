@@ -37,11 +37,11 @@ export function StatusSection() {
     })
       .then((response) => {
         if (response.ok) {
-          toast.success('Resumed code sync with GitHub.')
+          toast.success(t('statusSection.resumedCodeSync'))
           setActivityChangeConfirmationModalOpen(false)
           setIsSyncingEnabled(true)
         } else {
-          toast.error(`Failed to change status.`)
+          toast.error(t('statusSection.failedToChangeStatus'))
           setActivityChangeConfirmationModalOpen(false)
         }
       })
@@ -49,7 +49,7 @@ export function StatusSection() {
         console.error('Error:', error)
         setActivityChangeConfirmationModalOpen(false)
       })
-  }, [links.settings])
+  }, [links.settings, t])
 
   return (
     <section
@@ -80,9 +80,9 @@ export function StatusSection() {
             {t('statusSection.enableSyncer')}
           </button>
           <ConfirmationModal
-            title="Are you sure you want to resume syncing solutions with GitHub?"
-            confirmLabel="Resume"
-            declineLabel="Cancel"
+            title={t('statusSection.areYouSureResumeSyncing')}
+            confirmLabel={t('statusSection.resume')}
+            declineLabel={t('statusSection.cancel')}
             onConfirm={handleEnableSyncing}
             open={isActivityChangeConfirmationModalOpen}
             onClose={handleActivityChangeConfirmationModalClose}

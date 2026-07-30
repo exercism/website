@@ -1,6 +1,8 @@
+// i18n-namespace: components/common/SingleSelect.tsx
 import React, { useCallback } from 'react'
 import { Icon } from './Icon'
 import { useDropdown } from '../dropdowns/useDropdown'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const SingleSelect = <T extends unknown>({
   options,
@@ -19,6 +21,7 @@ export const SingleSelect = <T extends unknown>({
   className?: string
   disabled?: boolean
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/common/SingleSelect.tsx')
   const {
     buttonAttributes,
     panelAttributes,
@@ -69,7 +72,7 @@ export const SingleSelect = <T extends unknown>({
         </div>
         <Icon
           icon="chevron-down"
-          alt="Click to change"
+          alt={t('singleSelect.clickToChange')}
           className="action-icon"
         />
       </button>

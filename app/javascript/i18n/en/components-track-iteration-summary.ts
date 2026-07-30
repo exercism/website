@@ -7,4 +7,5 @@ export default {
   'analysisStatusSummary.essential': 'Essential',
   'analysisStatusSummary.actionable': 'Actionable',
   'analysisStatusSummary.other': 'Other',
+  'analysisStatusSummary.analysisStatus': 'Analysis status',
 }

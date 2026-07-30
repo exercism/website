@@ -19,19 +19,19 @@ export function ConnectToGithubSection() {
           <Icon
             icon="exercism-face"
             category="icons"
-            alt="Exercism"
+            alt={t('index.exercismAlt')}
             className="mb-16 h-[128px]"
           />
           <Icon
             icon="sync"
             category="graphics"
-            alt="Sync with"
+            alt={t('index.syncWithAlt')}
             className="mb-16 h-[90px]"
           />
           <Icon
             icon="external-site-github"
             category="icons"
-            alt="Github"
+            alt={t('index.githubAlt')}
             className="mb-16 h-[128px]"
           />
         </div>

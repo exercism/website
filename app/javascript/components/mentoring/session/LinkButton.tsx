@@ -46,7 +46,7 @@ export const LinkButton = ({
       <button className={classNames.join(' ')} onClick={() => setValue(!value)}>
         <Icon
           icon={value ? 'mentoring-linked' : 'mentoring-unlinked'}
-          alt="Link conversation"
+          alt={t('components.mentoring.session.linkButton.linkConversation')}
         />
       </button>
     </GenericTooltip>

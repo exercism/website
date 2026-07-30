@@ -100,7 +100,7 @@ const SuccessMessage = ({ email }: { email: string }) => {
   const { t } = useAppTranslation('components/settings/EmailForm.tsx')
   return (
     <div className="status success">
-      <Icon icon="completed-check-circle" alt="Success" />
+      <Icon icon="completed-check-circle" alt={t('success.alt')} />
       {t('success.confirmationEmailSent', { email })}
     </div>
   )

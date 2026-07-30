@@ -1,0 +1,7 @@
+en:
+  components:
+    mentoring:
+      queue:
+        sort_options:
+          oldest_first: "Sort by oldest first"
+          recent_first: "Sort by recent first"

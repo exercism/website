@@ -18,7 +18,7 @@ module ReactComponents
             tracks_request:,
             default_track:,
             default_exercise:,
-            sort_options: SORT_OPTIONS,
+            sort_options:,
             links: {
               tracks: Exercism::Routes.api_mentoring_tracks_url,
               update_tracks: Exercism::Routes.api_mentoring_tracks_url
@@ -27,14 +27,15 @@ module ReactComponents
         )
       end
 
-      SORT_OPTIONS = [
-        { value: "", label: "Sort by oldest first" },
-        { value: "recent", label: "Sort by recent first" }
-      ].freeze
-      private_constant :SORT_OPTIONS
-
       private
       attr_reader :mentor, :params
+
+      def sort_options
+        [
+          { value: "", label: I18n.t("components.mentoring.queue.sort_options.oldest_first") },
+          { value: "recent", label: I18n.t("components.mentoring.queue.sort_options.recent_first") }
+        ]
+      end
 
       def tracks_request
         {

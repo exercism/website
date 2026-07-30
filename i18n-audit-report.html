@@ -1,0 +1,1806 @@
+<title>Exercism i18n State Audit</title>
+<style>
+  :root {
+    --bg: #faf9fc;
+    --surface: #ffffff;
+    --surface-2: #f3f1f8;
+    --border: #e5e1ef;
+    --border-strong: #d3cce6;
+    --ink: #1f1a2e;
+    --ink-2: #4a4360;
+    --ink-3: #746c8a;
+    --accent: #6f4bd8;
+    --accent-soft: #ede8fb;
+    --good: #2f8f5b;
+    --good-soft: #e3f2ea;
+    --warn: #b8801a;
+    --warn-soft: #f7edd8;
+    --crit: #c0392f;
+    --crit-soft: #f8e4e2;
+    --mono: ui-monospace, "SF Mono", "JetBrains Mono", "Cascadia Code", Menlo,
+      Consolas, monospace;
+    --sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --display: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --shadow: 0 1px 2px rgba(31, 26, 46, 0.04),
+      0 4px 16px rgba(31, 26, 46, 0.06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14111f;
+      --surface: #1c1830;
+      --surface-2: #241f3a;
+      --border: #2f2947;
+      --border-strong: #3d3660;
+      --ink: #ece9f6;
+      --ink-2: #b6afce;
+      --ink-3: #857da0;
+      --accent: #a98bf5;
+      --accent-soft: #2a2148;
+      --good: #55c489;
+      --good-soft: #17301f;
+      --warn: #e0ab4e;
+      --warn-soft: #33280f;
+      --crit: #ef6b5f;
+      --crit-soft: #35181a;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 6px 20px rgba(0, 0, 0, 0.35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #14111f;
+    --surface: #1c1830;
+    --surface-2: #241f3a;
+    --border: #2f2947;
+    --border-strong: #3d3660;
+    --ink: #ece9f6;
+    --ink-2: #b6afce;
+    --ink-3: #857da0;
+    --accent: #a98bf5;
+    --accent-soft: #2a2148;
+    --good: #55c489;
+    --good-soft: #17301f;
+    --warn: #e0ab4e;
+    --warn-soft: #33280f;
+    --crit: #ef6b5f;
+    --crit-soft: #35181a;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 6px 20px rgba(0, 0, 0, 0.35);
+  }
+  :root[data-theme="light"] {
+    --bg: #faf9fc;
+    --surface: #ffffff;
+    --surface-2: #f3f1f8;
+    --border: #e5e1ef;
+    --border-strong: #d3cce6;
+    --ink: #1f1a2e;
+    --ink-2: #4a4360;
+    --ink-3: #746c8a;
+    --accent: #6f4bd8;
+    --accent-soft: #ede8fb;
+    --good: #2f8f5b;
+    --good-soft: #e3f2ea;
+    --warn: #b8801a;
+    --warn-soft: #f7edd8;
+    --crit: #c0392f;
+    --crit-soft: #f8e4e2;
+    --shadow: 0 1px 2px rgba(31, 26, 46, 0.04),
+      0 4px 16px rgba(31, 26, 46, 0.06);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    font-size: 15px;
+  }
+  .wrap {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 24px 96px;
+  }
+
+  /* ---- Masthead ---- */
+  header.masthead {
+    padding: 56px 0 40px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 40px;
+  }
+  .eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin: 0 0 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 22px;
+    height: 2px;
+    background: var(--accent);
+    display: inline-block;
+  }
+  h1 {
+    font-family: var(--display);
+    font-size: clamp(30px, 4.5vw, 46px);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    margin: 0 0 18px;
+    font-weight: 800;
+    text-wrap: balance;
+    max-width: 20ch;
+  }
+  .lede {
+    font-size: 17px;
+    color: var(--ink-2);
+    max-width: 68ch;
+    margin: 0;
+  }
+  .meta-row {
+    margin-top: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    font-size: 13px;
+    color: var(--ink-3);
+  }
+  .meta-row b {
+    color: var(--ink-2);
+    font-weight: 600;
+  }
+
+  /* ---- Verdict band ---- */
+  .verdict {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--warn);
+    border-radius: 12px;
+    padding: 24px 26px;
+    box-shadow: var(--shadow);
+    margin-bottom: 36px;
+  }
+  .verdict h2 {
+    margin: 0 0 8px;
+    font-size: 15px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--warn);
+  }
+  .verdict p {
+    margin: 0 0 12px;
+    color: var(--ink-2);
+    max-width: 74ch;
+  }
+  .verdict p:last-child {
+    margin-bottom: 0;
+  }
+  .verdict strong {
+    color: var(--ink);
+  }
+
+  /* ---- KPI tiles ---- */
+  .kpis {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 14px;
+    margin-bottom: 48px;
+  }
+  .kpi {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+  .kpi .num {
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    margin-bottom: 6px;
+  }
+  .kpi .lbl {
+    font-size: 12.5px;
+    color: var(--ink-3);
+    line-height: 1.35;
+  }
+  .kpi.good .num {
+    color: var(--good);
+  }
+  .kpi.warn .num {
+    color: var(--warn);
+  }
+  .kpi.crit .num {
+    color: var(--crit);
+  }
+  .kpi.neutral .num {
+    color: var(--accent);
+  }
+
+  /* ---- Sections ---- */
+  section {
+    margin-bottom: 52px;
+    scroll-margin-top: 20px;
+  }
+  .sec-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+  }
+  .sec-num {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+  h2.sec-title {
+    font-family: var(--display);
+    font-size: 25px;
+    font-weight: 800;
+    letter-spacing: -0.015em;
+    margin: 0;
+    line-height: 1.15;
+  }
+  .sec-sub {
+    color: var(--ink-2);
+    margin: 4px 0 22px;
+    max-width: 76ch;
+  }
+
+  /* ---- Meter ---- */
+  .meter-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 22px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+  }
+  .meter-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .meter-top .label {
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .meter-top .val {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--ink-2);
+    font-variant-numeric: tabular-nums;
+  }
+  .bar {
+    height: 12px;
+    border-radius: 999px;
+    background: var(--surface-2);
+    overflow: hidden;
+    display: flex;
+  }
+  .bar > span {
+    display: block;
+    height: 100%;
+  }
+  .seg-good {
+    background: var(--good);
+  }
+  .seg-warn {
+    background: var(--warn);
+  }
+  .seg-crit {
+    background: var(--crit);
+  }
+  .bar-legend {
+    display: flex;
+    gap: 18px;
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--ink-3);
+    flex-wrap: wrap;
+  }
+  .bar-legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  /* ---- Chips ---- */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11.5px;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 999px;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+  .chip.crit {
+    background: var(--crit-soft);
+    color: var(--crit);
+  }
+  .chip.warn {
+    background: var(--warn-soft);
+    color: var(--warn);
+  }
+  .chip.good {
+    background: var(--good-soft);
+    color: var(--good);
+  }
+  .chip.neutral {
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+
+  /* ---- Tables ---- */
+  .table-scroll {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 13.5px;
+    background: var(--surface);
+  }
+  th,
+  td {
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  thead th {
+    background: var(--surface-2);
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-3);
+    font-weight: 700;
+    position: sticky;
+    top: 0;
+  }
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+  td.num,
+  th.num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    font-family: var(--mono);
+  }
+  code,
+  .path {
+    font-family: var(--mono);
+    font-size: 12.5px;
+  }
+  .path {
+    color: var(--ink-2);
+    word-break: break-all;
+  }
+  .mini-bar {
+    height: 7px;
+    width: 90px;
+    border-radius: 999px;
+    background: var(--surface-2);
+    overflow: hidden;
+    display: inline-flex;
+    vertical-align: middle;
+  }
+  .mini-bar > span {
+    height: 100%;
+    display: block;
+  }
+
+  /* ---- Details / exhaustive lists ---- */
+  details.exhaustive {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+    margin-top: 16px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  details.exhaustive > summary {
+    cursor: pointer;
+    padding: 14px 18px;
+    font-weight: 700;
+    font-size: 14px;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    user-select: none;
+  }
+  details.exhaustive > summary::-webkit-details-marker {
+    display: none;
+  }
+  details.exhaustive > summary::before {
+    content: "▸";
+    color: var(--accent);
+    font-size: 12px;
+    transition: transform 0.15s ease;
+  }
+  details.exhaustive[open] > summary::before {
+    transform: rotate(90deg);
+  }
+  details.exhaustive > summary .count {
+    margin-left: auto;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-3);
+    font-weight: 500;
+  }
+  .exhaustive-body {
+    padding: 0 18px 18px;
+  }
+  .file-block {
+    padding: 12px 0;
+    border-top: 1px solid var(--border);
+  }
+  .file-block:first-child {
+    border-top: none;
+  }
+  .file-block .fname {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--accent);
+    font-weight: 600;
+    word-break: break-all;
+    margin-bottom: 6px;
+  }
+  .file-block ul {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+  }
+  .file-block li {
+    font-size: 12.5px;
+    color: var(--ink-2);
+    padding: 2px 0;
+    display: flex;
+    gap: 8px;
+  }
+  .file-block li .ln {
+    font-family: var(--mono);
+    color: var(--ink-3);
+    flex-shrink: 0;
+    min-width: 46px;
+  }
+  .file-block li .ctx {
+    color: var(--ink-3);
+    font-size: 11px;
+  }
+
+  .callout {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin: 16px 0;
+    font-size: 13.5px;
+    color: var(--ink-2);
+  }
+  .callout.crit {
+    background: var(--crit-soft);
+    border-color: transparent;
+  }
+  .callout.crit strong {
+    color: var(--crit);
+  }
+  .callout strong {
+    color: var(--ink);
+  }
+
+  ul.findings {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  ul.findings > li {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 12px;
+    align-items: start;
+  }
+  ul.findings > li:last-child {
+    border-bottom: none;
+  }
+  ul.findings .body {
+    min-width: 0;
+  }
+  ul.findings .body p {
+    margin: 4px 0 0;
+    color: var(--ink-2);
+    font-size: 13.5px;
+  }
+  ul.findings .body .t {
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  /* ---- Priority list ---- */
+  ol.priority {
+    counter-reset: p;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  ol.priority > li {
+    counter-increment: p;
+    position: relative;
+    padding: 18px 18px 18px 60px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow);
+  }
+  ol.priority > li::before {
+    content: counter(p);
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 800;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+  }
+  ol.priority h3 {
+    margin: 0 0 5px;
+    font-size: 15.5px;
+  }
+  ol.priority p {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: 13.5px;
+  }
+
+  footer {
+    margin-top: 60px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    font-size: 12.5px;
+    color: var(--ink-3);
+    line-height: 1.7;
+  }
+  a {
+    color: var(--accent);
+  }
+  .scope-note {
+    font-size: 12px;
+    color: var(--ink-3);
+    font-style: italic;
+    margin-top: 8px;
+  }
+</style>
+
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">Internationalization Audit</p>
+    <h1>The state of i18n across the Exercism website</h1>
+    <p class="lede">
+      A full-surface audit of translation extraction — Rails views, server-side
+      copy, the React frontend, and multi-locale readiness. Where the site is
+      internationalized, where it isn't, and what it would take to finish.
+      <strong>v2</strong> narrows the numbers to the translate-in-scope surface
+      and re-checks whether the "missing keys" actually break in prod.
+    </p>
+    <div class="meta-row">
+      <span
+        ><b>In scope:</b> everything except admin · maintaining · bootcamp ·
+        test harness · campaign mailers</span
+      >
+      <span><b>Locales configured:</b> en · hu · nl</span>
+      <span
+        ><b>Method:</b> 8 parallel static sweeps · key-resolution, reachability
+        &amp; grep based</span
+      >
+    </div>
+  </header>
+
+  <!-- SCOPE BANNER -->
+  <div
+    class="callout"
+    style="
+      background: var(--accent-soft);
+      border-color: transparent;
+      margin-bottom: 20px;
+    "
+  >
+    <strong style="color: var(--accent)">Scope note (v2 — corrected).</strong>
+    This revision excludes areas confirmed <em>out of translation scope</em>:
+    <code>admin/</code>, <code>maintaining/</code>,
+    <code>bootcamp/</code> (views + React), the <code>test/</code> component
+    harness, and one-off campaign mailers. All headline percentages below are
+    recomputed against the <strong>translate-in-scope surface</strong>.
+    Whole-app figures from v1 are shown struck through for comparison. The
+    "missing keys" section has also been re-triaged for real prod reachability.
+  </div>
+
+  <!-- VERDICT -->
+  <div class="verdict">
+    <h2>Bottom line</h2>
+    <p>
+      <strong
+        >Once out-of-scope areas are excluded, this is a solidly-in-progress
+        migration — not the "barely majority" the raw numbers suggested.</strong
+      >
+      In-scope Rails view coverage is <strong>79%</strong> and the React
+      frontend is <strong>62%</strong> adopted (and effectively higher — most
+      non-adopters are copy-free logic files). The real remaining work is
+      concentrated, not diffuse: (1) <strong>server-side copy</strong> — mailer
+      subjects, flash messages, and above all the
+      <strong>Ruby view-component/presenter layer</strong> (~155 strings of
+      nav/headers/tab-labels) — stays almost entirely hardcoded and is the
+      single highest-leverage gap; (2) a handful of genuinely in-scope zero-i18n
+      view areas remain (<strong>challenges, layouts, courses mailers</strong>);
+      and (3) <strong>non-English content effectively doesn't exist</strong> — 1
+      of 126 locale files carries hu/nl, with no user-facing way to switch
+      locale.
+    </p>
+    <p>
+      Net: the plumbing is being laid well on the two "view" layers. What's left
+      is the presenter boundary, a few in-scope sections, and the fact that
+      there's no populated second language or route to reach one yet.
+    </p>
+  </div>
+
+  <!-- KPIS -->
+  <div class="kpis">
+    <div class="kpi good">
+      <div class="num">79%</div>
+      <div class="lbl">
+        In-scope Rails views fully keyed<br />(289 of 365)
+        <span style="text-decoration: line-through; color: var(--ink-3)"
+          >63% app-wide</span
+        >
+      </div>
+    </div>
+    <div class="kpi good">
+      <div class="num">62%</div>
+      <div class="lbl">
+        In-scope React components translated<br />(461 of 744)
+        <span style="text-decoration: line-through; color: var(--ink-3)"
+          >53% app-wide</span
+        >
+      </div>
+    </div>
+    <div class="kpi crit">
+      <div class="num">0%</div>
+      <div class="lbl">
+        Mailer subjects internationalized<br />(all mailers hardcoded)
+      </div>
+    </div>
+    <div class="kpi crit">
+      <div class="num">0.8%</div>
+      <div class="lbl">Locale files with hu/nl content<br />(1 of 126)</div>
+    </div>
+    <div class="kpi warn">
+      <div class="num">~44</div>
+      <div class="lbl">
+        Missing keys on live routes<br />(of 55; 12 confirmed dead)
+      </div>
+    </div>
+    <div class="kpi neutral">
+      <div class="num">~155</div>
+      <div class="lbl">
+        Presenter-layer strings —<br />the top structural gap
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: RAILS VIEWS -->
+  <section id="views">
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <h2 class="sec-title">Rails view templates</h2>
+    </div>
+    <p class="sec-sub">
+      The most mature layer. Views use Rails' lazy-lookup convention
+      (<code>t('.key')</code>) with locale YAMLs that mirror the view tree.
+      Coverage is measured by <em>key resolution</em>, not file-mirroring — this
+      repo consolidates many views into shared/renamed YAMLs, so a missing
+      companion file ≠ a gap. Figures below are
+      <strong>in-scope</strong> (admin/maintaining/bootcamp/test excluded).
+    </p>
+
+    <div class="meter-card">
+      <div class="meter-top">
+        <span class="label"
+          >In-scope template coverage — 365 templates
+          <span style="font-weight: 400; color: var(--ink-3)"
+            >(101 out-of-scope removed)</span
+          ></span
+        ><span class="val">289 full · 76 zero-i18n · 79.2%</span>
+      </div>
+      <div class="bar">
+        <span class="seg-good" style="width: 79.2%"></span>
+        <span class="seg-crit" style="width: 20.8%"></span>
+      </div>
+      <div class="bar-legend">
+        <span
+          ><i class="dot" style="background: var(--good)"></i> Fully keyed
+          (289)</span
+        >
+        <span
+          ><i class="dot" style="background: var(--crit)"></i> No i18n at all
+          (76)</span
+        >
+        <span style="margin-left: auto; color: var(--ink-3)"
+          >v1 app-wide:
+          <span style="text-decoration: line-through"
+            >62.7% (292/466)</span
+          ></span
+        >
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>Load mechanism — verified, no loading bug.</strong> The
+      initializer explicitly loads only 7 category dirs, but
+      <code>config/locales/views/**</code> loads anyway via Rails' default
+      <code>config/locales/**/*.yml</code> glob (all 115 view YAMLs confirmed
+      present in <code>I18n.load_path</code>). The explicit loop harmlessly
+      double-loads those 7 categories. Production sets
+      <code>config.i18n.fallbacks = true</code>, so hu/nl requests silently fall
+      back to English rather than erroring — which is exactly why the total
+      non-coverage below is invisible in practice.
+    </div>
+
+    <p style="margin: 24px 0 10px; font-weight: 700; font-size: 14px">
+      In-scope zero-i18n subtrees — where the remaining view work is (76 files)
+    </p>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Subtree</th>
+            <th class="num">Zero-i18n files</th>
+            <th>Character &amp; priority</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="path">tracks/</td>
+            <td class="num">12</td>
+            <td>
+              Tail of an otherwise 88%-done subtree — scattered, low-effort
+              finish.
+            </td>
+          </tr>
+          <tr>
+            <td class="path">layouts/</td>
+            <td class="num">12</td>
+            <td>
+              Mailer boilerplate footer + chrome.
+              <span class="chip warn">real gap</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="path">mentoring/</td>
+            <td class="num">9</td>
+            <td>
+              Mostly delegate to React / already keyed — near-done in practice.*
+            </td>
+          </tr>
+          <tr>
+            <td class="path">challenges/</td>
+            <td class="num">7</td>
+            <td>
+              Evergreen public campaign pages, ~215 hardcoded strings.
+              <span class="chip crit">genuinely in-scope, heavy</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="path">mailers/ (courses_mailer + misc)</td>
+            <td class="num">6</td>
+            <td>Evergreen course-enrollment emails — real, in-scope gap.</td>
+          </tr>
+          <tr>
+            <td class="path">about/</td>
+            <td class="num">5</td>
+            <td>
+              Team/impact — partly mixed (names + social labels hardcoded).
+            </td>
+          </tr>
+          <tr>
+            <td class="path">journey/</td>
+            <td class="num">4</td>
+            <td>Tail of an 85%-done area.</td>
+          </tr>
+          <tr>
+            <td class="path">courses/ · temp/</td>
+            <td class="num">3 each</td>
+            <td>Includes the missing-key incidents (see §02).</td>
+          </tr>
+          <tr>
+            <td class="path">training_data · kaminari · contributing</td>
+            <td class="num">2 each</td>
+            <td>Small, bounded.</td>
+          </tr>
+          <tr>
+            <td class="path">
+              pages · notifications · moderation · meta · favorites · errors ·
+              devise · community · blog_posts
+            </td>
+            <td class="num">1 each</td>
+            <td>Long tail — single-file cleanups.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="scope-note">
+      *mentoring's "zero-i18n" templates delegate rendering to React components
+      or already use <code>t()</code>; the key-resolution tool counted delegated
+      templates as un-keyed. Only 1 stray hardcoded string (an iframe title)
+      actually survives there — so its practical coverage is far better than the
+      file count implies.
+    </p>
+
+    <details class="exhaustive">
+      <summary>
+        Exhaustive hardcoded-string catalogue — admin · maintaining · bootcamp
+        views <span class="count">233 strings · 57 files</span>
+      </summary>
+      <div class="exhaustive-body" id="ex-views1"></div>
+    </details>
+    <details class="exhaustive">
+      <summary>
+        Exhaustive hardcoded-string catalogue — challenges · layouts · mixed
+        templates <span class="count">~346 strings · 18 files</span>
+      </summary>
+      <div class="exhaustive-body" id="ex-views2"></div>
+    </details>
+  </section>
+
+  <!-- SECTION 2: KEY INTEGRITY -->
+  <section id="integrity">
+    <div class="sec-head">
+      <span class="sec-num">02</span>
+      <h2 class="sec-title">Key integrity</h2>
+    </div>
+    <p class="sec-sub">
+      Of the keyed views, are the keys actually sound? Two failure modes:
+      <strong>missing keys</strong> (referenced but absent → render
+      <code>translation missing</code>) and
+      <strong>orphan keys</strong> (defined but never referenced → dead weight).
+      ~55 missing keys were found (the naive filename-mirror approach gives 1259
+      false positives; the real number needs merged-tree resolution).
+      <strong>v2 re-triages each for prod reachability</strong> — because a
+      referenced-but-absent key only breaks if the code path actually renders.
+    </p>
+
+    <div class="kpis" style="margin-bottom: 24px">
+      <div class="kpi warn">
+        <div class="num">~44</div>
+        <div class="lbl">
+          Missing keys on live, ungated routes<br />(statically reachable)
+        </div>
+      </div>
+      <div class="kpi good">
+        <div class="num">12</div>
+        <div class="lbl">Confirmed dead<br />(unrouted / prod-disabled)</div>
+      </div>
+      <div class="kpi neutral">
+        <div class="num">3</div>
+        <div class="lbl">
+          Pages carrying the reachable<br />keys — all low-traffic
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="callout"
+      style="background: var(--warn-soft); border-color: transparent"
+    >
+      <strong style="color: var(--warn)"
+        >Reachability ≠ traffic — read this before acting.</strong
+      >
+      The triage is <em>static</em>: it proves these keys sit on routed, ungated
+      code paths, not that real users hit them. The three carrier pages are
+      <strong>low-traffic</strong> — a paid-course purchase-confirmation screen
+      and two About pages — which plausibly explains the absence of bug reports
+      better than "dead code" does. Whether they're live
+      <em>experiences</em> (vs. merely live <em>routes</em>) depends on data
+      static analysis can't see: are these courses still being sold? See the
+      prod-check list at the end of this section.
+    </div>
+
+    <p style="margin: 20px 0 10px; font-weight: 700; font-size: 14px">
+      Missing-key incidents by reachability verdict
+    </p>
+    <ul class="findings">
+      <li>
+        <span class="chip warn">reachable · low-traffic</span>
+        <div class="body">
+          <span class="t"
+            >courses/enrolled — wrapper + 3 partials, ~37 keys</span
+          >
+          <p>
+            <code>GET /courses/enrolled</code> is routed with no gating; it
+            renders <code>courses/enrolled/#{template_slug}</code>.
+            <code>coding_fundamentals</code> &amp;
+            <code>front_end_fundamentals</code> (16 keys each) have
+            <em>no</em> matching YAML namespace at all; the wrapper is missing
+            4; the bundle partial misses 1 (<code>create_one_here</code>,
+            guest-checkout branch). Renders on every course purchase
+            confirmation —
+            <strong>but only if these courses are still sold.</strong>
+          </p>
+        </div>
+      </li>
+      <li>
+        <span class="chip warn">reachable · low-traffic</span>
+        <div class="body">
+          <span class="t">about/testimonials.html.haml — 3 keys</span>
+          <p>
+            Routed at <code>/about/testimonials</code>, no
+            <code>testimonials.yml</code> exists at all.
+            <code>.meta_title</code>/<code>.meta_description</code>/<code
+              >.heading</code
+            >
+            render unconditionally at the top of the template.
+          </p>
+        </div>
+      </li>
+      <li>
+        <span class="chip warn">reachable · low-traffic</span>
+        <div class="body">
+          <span class="t">about/team.html.haml — kaido_link_text ×2</span>
+          <p>
+            Link text inside a <code>bio_html</code> interpolation for two
+            people; the key was never added alongside their other bio keys.
+            Renders on every <code>/about/team</code> view.
+          </p>
+        </div>
+      </li>
+      <li>
+        <span class="chip good">dead — unrouted</span>
+        <div class="body">
+          <span class="t"
+            >layouts/nav/front_end_fundamentals.html.haml — 11 keys</span
+          >
+          <p>
+            Orphaned template. <code>nav_submenus.rb</code> wires no
+            <code>:front_end_fundamentals</code> view value (grep-confirmed zero
+            refs) — superseded by a nav redesign. Never rendered.
+          </p>
+        </div>
+      </li>
+      <li>
+        <span class="chip good">dead — prod-disabled</span>
+        <div class="body">
+          <span class="t"
+            >temp/modals/donation_confirmation — thank_you_title</span
+          >
+          <p>
+            Genuine key mismatch (YAML has <code>thank_you_title_html</code>),
+            but moot: the whole <code>temp/modals</code> route is wrapped in
+            <code>unless Rails.env.production?</code> ("TODO: Remove before
+            launching"). Dev/staging-only preview scaffolding — cannot fire in
+            prod.
+          </p>
+        </div>
+      </li>
+    </ul>
+
+    <div class="callout crit" style="margin-top: 18px">
+      <strong>Prod checks to close the reachability→traffic gap</strong> — three
+      quick queries only the running app can answer:
+      <ul style="margin: 8px 0 0; padding-left: 18px">
+        <li>
+          Grep production logs for <code>I18n::MissingTranslation</code> /
+          <code>translation missing</code> over the last 30–90 days — if the
+          courses/about keys aren't there, they're effectively never rendered.
+        </li>
+        <li>
+          Check whether <code>Coding Fundamentals</code> /
+          <code>Front-End Fundamentals</code> are still purchasable (live course
+          records + recent enrollments) — if sales have stopped, the 37
+          courses/enrolled keys are dead in practice despite being live in code.
+        </li>
+        <li>
+          Confirm <code>/about/testimonials</code> and
+          <code>/about/team</code> pageview volume — these are the only
+          genuinely always-on carriers; if traffic is negligible, downgrade from
+          "bug" to "cleanup."
+        </li>
+      </ul>
+    </div>
+
+    <div class="callout" style="margin-top: 22px">
+      <strong>Orphan keys — uneven by file age.</strong> Small, tightly-scoped
+      YAMLs (<code>settings/show</code>, <code>courses/pay</code>) are
+      essentially orphan-free. Large files that accreted content across
+      refactors/campaigns carry real dead weight:
+      <code>tracks/build.yml</code> (~8–10% — legacy nested tooltip
+      <code>feedback:</code> blocks + a dead <code>shared.*</code> namespace),
+      <code>about/organisation_supporters_partners.yml</code> (~35% — route is
+      commented out, whole subtree unreachable), and
+      <code>cohorts/show.yml</code> (stale "Aug '22" campaign partials).
+      Interpolation-mismatch checking was inconclusive — the regex tool's
+      false-positive rate was too high to trust; a proper AST pass would be
+      needed.
+    </div>
+  </section>
+
+  <!-- SECTION 3: SERVER-SIDE -->
+  <section id="server">
+    <div class="sec-head">
+      <span class="sec-num">03</span>
+      <h2 class="sec-title">Server-side copy — the biggest blind spot</h2>
+    </div>
+    <p class="sec-sub">
+      Everything outside templates: controllers (flash/error messages), mailers
+      (subjects &amp; bodies), and — most consequentially — the
+      <strong
+        >Ruby view-component / presenter / react-component-helper layer</strong
+      >
+      that generates nav menus, headers, tab labels and status tags. This is
+      where "fully migrated" pages still leak hardcoded English, because the
+      template delegates its copy to a Ruby object that hardcodes it.
+    </p>
+
+    <div class="callout crit">
+      <strong
+        >Evergreen mailer subjects and flash messages are ~0%
+        internationalized.</strong
+      >
+      Zero <code>I18n.t</code> usage across the mailers — every subject is a
+      hardcoded literal (e.g. <code>"[Exercism] Reset password request"</code>,
+      <code>"Welcome to Exercism Insiders"</code>). In-scope controller flashes
+      (GitHub-syncer errors, moderation, unsubscribe) are the same. Emails and
+      system notices <em>cannot</em> be localized without a structural pass
+      here.
+    </div>
+
+    <p style="margin: 24px 0 10px; font-weight: 700; font-size: 14px">
+      In-scope hardcoded strings by server-side area
+      <span style="font-weight: 400; color: var(--ink-3)"
+        >(~309 total; ~34 out-of-scope removed)</span
+      >
+    </p>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Area</th>
+            <th class="num">Files</th>
+            <th class="num">~Strings</th>
+            <th>Character of the gap</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="path">
+              app/helpers/**
+              <span style="color: var(--ink-3)"
+                >(view_components + react_components)</span
+              >
+            </td>
+            <td class="num">36</td>
+            <td class="num">~155</td>
+            <td>
+              Nav menus, site header, settings/mentor/track headers, tab labels,
+              status tags.
+              <strong
+                >Leaks into "done" pages — fully in-scope, the #1 gap.</strong
+              >
+            </td>
+          </tr>
+          <tr>
+            <td class="path">
+              app/controllers/**
+              <span style="color: var(--ink-3)">(in-scope)</span>
+            </td>
+            <td class="num">13</td>
+            <td class="num">~88</td>
+            <td>
+              Flashes + errors; ~90 testimonial bodies in
+              <code>courses_controller.rb</code>.
+              <span style="color: var(--ink-3)"
+                >(15 admin/bootcamp/maintaining files, ~32 strings,
+                excluded.)</span
+              >
+            </td>
+          </tr>
+          <tr>
+            <td class="path">
+              app/mailers/**
+              <span style="color: var(--ink-3)">(evergreen only)</span>
+            </td>
+            <td class="num">5</td>
+            <td class="num">~58</td>
+            <td>
+              All subjects + inline labels. Zero i18n.
+              <span style="color: var(--ink-3)"
+                >(mailshots/jiki campaign mailer excluded.)</span
+              >
+            </td>
+          </tr>
+          <tr>
+            <td class="path">app/serializers/**</td>
+            <td class="num">7 of 72</td>
+            <td class="num">8</td>
+            <td>
+              Minor — a few user-facing labels ("All Tracks", "First timer").
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <strong>Template stub worth fixing:</strong>
+      <code>app/views/layouts/mailer.html.erb:84</code> ships an un-customized
+      boilerplate value —
+      <code>aria-label="An email from Your Brand Name"</code> — straight from
+      the HTML-email starter template. Screen readers announce this as the
+      email's title.
+    </div>
+
+    <details class="exhaustive">
+      <summary>
+        Exhaustive catalogue — controllers · mailers · helpers · serializers
+        <span class="count">full v1 sweep · includes out-of-scope</span>
+      </summary>
+      <div class="exhaustive-body" id="ex-server"></div>
+    </details>
+  </section>
+
+  <!-- SECTION 4: FRONTEND -->
+  <section id="frontend">
+    <div class="sec-head">
+      <span class="sec-num">04</span>
+      <h2 class="sec-title">React frontend</h2>
+    </div>
+    <p class="sec-sub">
+      There are <strong>two independent i18next systems</strong>: an
+      interpreter-local one (Jiki runtime error messages) and a broad app-wide
+      one at <code>app/javascript/i18n/</code> feeding
+      <code>useAppTranslation</code>. The app-wide system is a genuine,
+      tooling-assisted migration in flight (LLM-assisted
+      <code>extract-jsx-copy</code> / <code>extract-haml-copy</code> tooling
+      present) — but only an <code>en</code> resource is registered, so it's
+      English-only in practice.
+    </p>
+
+    <div class="meter-card">
+      <div class="meter-top">
+        <span class="label"
+          >In-scope component adoption — 744 .tsx
+          <span style="font-weight: 400; color: var(--ink-3)"
+            >(122 bootcamp removed)</span
+          ></span
+        ><span class="val">461 translated · 283 not · 62.0%</span>
+      </div>
+      <div class="bar">
+        <span class="seg-good" style="width: 62%"></span
+        ><span class="seg-crit" style="width: 38%"></span>
+      </div>
+      <div class="bar-legend">
+        <span
+          ><i class="dot" style="background: var(--good)"></i> Uses
+          useAppTranslation (461)</span
+        >
+        <span
+          ><i class="dot" style="background: var(--crit)"></i> No translation
+          (283)</span
+        >
+        <span style="margin-left: auto; color: var(--ink-3)"
+          >v1 app-wide:
+          <span style="text-decoration: line-through"
+            >53.2% (461/866)</span
+          ></span
+        >
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>Adoption understates true copy-coverage.</strong> A read-through
+      of 40 non-adopters found <strong>~92% are copy-free</strong> —
+      dispatchers, hooks, skeleton loaders, and prop-passthrough wrappers that
+      render no user-facing text. Extrapolated, only
+      <strong>~20 of the 283</strong> non-adopters actually carry hardcoded
+      copy. The real frontend gap is small and concentrated, not 283 files wide.
+    </div>
+
+    <div class="table-scroll" style="margin-top: 18px">
+      <table>
+        <thead>
+          <tr>
+            <th>
+              Component dir
+              <span style="font-weight: 400; color: var(--ink-3)"
+                >(in-scope)</span
+              >
+            </th>
+            <th style="width: 130px">Adoption</th>
+            <th>Note</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="path">journey/</td>
+            <td>
+              <span class="mini-bar"
+                ><span class="seg-good" style="width: 85%"></span
+              ></span>
+              <span style="font-family: var(--mono); font-size: 12px"
+                >40/47</span
+              >
+            </td>
+            <td>85%</td>
+          </tr>
+          <tr>
+            <td class="path">modals/</td>
+            <td>
+              <span class="mini-bar"
+                ><span class="seg-good" style="width: 77%"></span
+              ></span>
+              <span style="font-family: var(--mono); font-size: 12px"
+                >80/104</span
+              >
+            </td>
+            <td>77%</td>
+          </tr>
+          <tr>
+            <td class="path">settings/ · profile/ · student/</td>
+            <td>
+              <span class="mini-bar"
+                ><span class="seg-good" style="width: 78%"></span
+              ></span>
+              <span style="font-family: var(--mono); font-size: 12px"
+                >~78%</span
+              >
+            </td>
+            <td>well underway</td>
+          </tr>
+          <tr>
+            <td class="path">mentoring/ · editor/ · track/ · donations/</td>
+            <td>
+              <span class="mini-bar"
+                ><span class="seg-good" style="width: 63%"></span
+              ></span>
+              <span style="font-family: var(--mono); font-size: 12px"
+                >~60–68%</span
+              >
+            </td>
+            <td>in progress</td>
+          </tr>
+          <tr>
+            <td class="path">common/</td>
+            <td>
+              <span class="mini-bar"
+                ><span class="seg-good" style="width: 25%"></span
+                ><span class="seg-crit" style="width: 75%"></span
+              ></span>
+              <span style="font-family: var(--mono); font-size: 12px"
+                >26/102</span
+              >
+            </td>
+            <td><span class="chip warn">25% — shared widgets</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout" style="margin-top: 18px">
+      <strong>Interpreter locale parity (separate system):</strong>
+      <code>en</code> = 157 keys · <code>nl</code> = 71 (~45%, partly stale) ·
+      <code>system</code> = 156 (not a language — a debug/canonical-key locale
+      where each value is the error-code identifier itself). Deps:
+      <code>i18next ^23</code>, <code>react-i18next ^15</code>,
+      <code>i18next-browser-languagedetector ^8</code>.
+    </div>
+  </section>
+
+  <!-- SECTION 5: MULTI-LOCALE -->
+  <section id="locale">
+    <div class="sec-head">
+      <span class="sec-num">05</span>
+      <h2 class="sec-title">Multi-locale readiness</h2>
+    </div>
+    <p class="sec-sub">
+      Configuration says three locales; reality says one. This is the gap
+      between "i18n-ready" and "actually multilingual."
+    </p>
+
+    <ul class="findings">
+      <li>
+        <span class="chip crit">1 / 126</span>
+        <div class="body">
+          <span class="t">Almost no non-English content exists</span>
+          <p>
+            Exactly one locale file —
+            <code>config/locales/pages/track.yml</code> — carries
+            <code>hu</code> and <code>nl</code> roots (and it's fully at parity,
+            34/34 keys). Every other file across views, mailers, devise, API and
+            preferences is English-only. hu/nl are unpopulated everywhere else.
+          </p>
+        </div>
+      </li>
+      <li>
+        <span class="chip warn">no UI path</span>
+        <div class="body">
+          <span class="t">Locale switching is wired but unreachable</span>
+          <p>
+            <code>ApplicationController</code> runs
+            <code>around_action :switch_locale!</code>, honoring
+            <code>params[:locale]</code>. But nothing sets it: no
+            <code>scope "/:locale"</code> in routes, no Accept-Language
+            negotiation, no switcher UI, no user language preference driving
+            <code>I18n.locale</code>. The only way to see hu/nl today is
+            manually appending <code>?locale=hu</code> — and even then only the
+            one track.yml fragment renders translated.
+          </p>
+        </div>
+      </li>
+      <li>
+        <span class="chip neutral">context</span>
+        <div class="body">
+          <span class="t">The translation program is still recruiting</span>
+          <p>
+            A "Become a translator" page gathers volunteers (its own copy says
+            translation is targeted "near the start of September").
+            <code>translator_locales</code> is a volunteer-signup preference,
+            not a consumption setting. The multi-locale config is best read as
+            <strong>early scaffolding ahead of a localization drive</strong>,
+            not a shipped feature.
+          </p>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- SECTION 6: PRIORITIES -->
+  <section id="priorities">
+    <div class="sec-head">
+      <span class="sec-num">06</span>
+      <h2 class="sec-title">Prioritized remediation</h2>
+    </div>
+    <p class="sec-sub">
+      Ranked by impact-per-effort, assuming the goal is to make the site
+      genuinely translatable end-to-end. Fix correctness first, then close the
+      structural blind spots, then populate a language.
+    </p>
+
+    <ol class="priority">
+      <li>
+        <h3>
+          Triage then fix the missing keys
+          <span class="chip warn" style="vertical-align: middle"
+            >correctness</span
+          >
+        </h3>
+        <p>
+          Run the three prod checks in §02 first. ~44 keys sit on live routes
+          but all on
+          <strong>low-traffic pages</strong> (<code>courses/enrolled/*</code>,
+          <code>about/testimonials</code>, <code>about/team</code>) — likely why
+          no bug reports exist. If logs/sales confirm they render, fix them
+          (small, bounded). If the courses are retired, delete the dead partials
+          instead. The 12 confirmed-dead keys (orphan nav partial +
+          prod-disabled modal) are pure cleanup.
+        </p>
+      </li>
+      <li>
+        <h3>
+          Internationalize the Ruby presenter layer
+          <span class="chip crit" style="vertical-align: middle"
+            >structural</span
+          >
+        </h3>
+        <p>
+          ~155 strings across <code>app/helpers/view_components</code> &amp;
+          <code>react_components</code>. This is the highest-leverage gap: nav,
+          headers and tab labels leak hardcoded English into pages that are
+          otherwise "done." Until this is keyed, no page is fully translatable.
+        </p>
+      </li>
+      <li>
+        <h3>
+          Extract mailer subjects &amp; flash messages
+          <span class="chip warn" style="vertical-align: middle"
+            >structural</span
+          >
+        </h3>
+        <p>
+          All 33 subjects + controller flashes. Emails and system notices are
+          currently un-localizable. Establish an <code>I18n.t</code> convention
+          for mailers and a flash-key helper.
+        </p>
+      </li>
+      <li>
+        <h3>
+          Close the in-scope zero-i18n view areas
+          <span class="chip warn" style="vertical-align: middle">coverage</span>
+        </h3>
+        <p>
+          Now that out-of-scope areas are excluded, the real remaining view work
+          is: <code>challenges/</code> (~215 prose strings, the heavy one), the
+          <code>layouts/</code> mailer footer, and the evergreen
+          <code>courses_mailer</code> templates. The <code>tracks/</code> and
+          <code>journey/</code> tails are scattered, low-effort finishes.
+          Consider
+          <strong>codifying the scope exclusions</strong>
+          (admin/maintaining/bootcamp/test) in the audit tooling so future
+          coverage numbers report against the in-scope denominator by default.
+        </p>
+      </li>
+      <li>
+        <h3>
+          Sweep orphan keys &amp; dead namespaces
+          <span class="chip neutral" style="vertical-align: middle"
+            >hygiene</span
+          >
+        </h3>
+        <p>
+          Prune the ~35% dead
+          <code>about/organisation_supporters</code> subtree, legacy
+          <code>tracks/build</code> tooltip blocks, and stale cohort partials.
+          Low urgency, but shrinks the surface before a translatathon.
+        </p>
+      </li>
+      <li>
+        <h3>
+          Build a real locale path, then populate a language
+          <span class="chip neutral" style="vertical-align: middle"
+            >enablement</span
+          >
+        </h3>
+        <p>
+          Add routing/Accept-Language/switcher UI so
+          <code>switch_locale!</code> is reachable, register a non-<code
+            >en</code
+          >
+          resource for the React app-wide system, and only then run the
+          translatathon. Populating hu/nl before the structural gaps above are
+          closed would produce a half-translated experience.
+        </p>
+      </li>
+    </ol>
+  </section>
+
+  <footer>
+    <p>
+      <strong>Method &amp; confidence.</strong> Findings come from eight
+      parallel static analyses (v1: six sweeps; v2: a missing-key reachability
+      triage + an in-scope coverage re-baseline). Techniques: view
+      key-resolution against the merged I18n tree, missing/orphan-key resolution
+      (mailer-path- and pluralization-aware), static route/branch reachability
+      tracing, exhaustive per-file hardcoded-string extraction, and frontend
+      adoption counts. String counts are catalogued exhaustively where marked
+      "exhaustive" and are lower bounds elsewhere (regex sweeps favor precision,
+      so they undercount multi-line and attribute strings).
+      Interpolation-mismatch analysis was inconclusive and is not reported as a
+      finding. No repository files were modified — this is read-only.
+    </p>
+    <p>
+      <strong>Key limitation — static, not runtime.</strong> Reachability is
+      proven at the code level (routed? gated? dead branch?), <em>not</em> at
+      the traffic level. The ~44 "reachable" missing keys sit on live routes but
+      on low-traffic pages; whether real users render them depends on prod logs
+      and course-sales data this audit cannot see. The three checks in §02 close
+      that gap. Also unverified at runtime: whether stale cohort/campaign
+      partials are reachable via live DB rows. These are decisions to confirm,
+      not defects. Out-of-scope areas (admin, maintaining, bootcamp, test,
+      campaign mailers) are excluded from all v2 headline figures per confirmed
+      scope.
+    </p>
+  </footer>
+</div>
+
+<script>
+  // Exhaustive per-file data, injected as collapsible blocks to keep the page scannable.
+  const V1 = [
+    [
+      "app/views/admin/ — 33 files, 100 strings",
+      "The entire admin CRUD surface (adverts, community_videos, dashboard, donors, insiders, mailshots, partners, perks, streaming_events, users). Headings, labels, buttons, data-confirm prompts, and interpolated field rows — all hardcoded. Representative:",
+      [
+        [
+          "admin/mailshots/show.html.haml",
+          "Slug/Subject/Preference Key rows, 'Send test', 'Send to audience', 'Are you sure you want to send…', 'Destroy this mailshot', 'Are you sure? Destroy …'",
+        ],
+        [
+          "admin/partners/show.html.haml",
+          "'Perks', 'Adverts', column headers (Status/Clicks/Impressions/Track Slugs), 'Add new perk/advert', 'Edit this partner'",
+        ],
+        [
+          "admin/perks/_form.html.haml",
+          "'General offer', 'Insiders offer', 'URL', 'Summary (Markdown)', 'Button Text', 'Offer details…', 'Voucher Code (optional)'",
+        ],
+        [
+          "admin/users/search.html.haml",
+          "'Search User', 'Search', Name/Handle/Email/Reputation/Joined At rows, 'Could not find user'",
+        ],
+        [
+          "admin/dashboard/show.html.haml",
+          "'Admin', nav links: Community Videos / Donors / Mailshots / Streaming Events / Users",
+        ],
+      ],
+    ],
+    [
+      "app/views/maintaining/ — 8 files, 65 strings",
+      "Track-management dashboard and forms. Note two typos in source headings ('Represenation', 'Represenations').",
+      [
+        [
+          "maintaining/track_maintainers/index.html.haml",
+          "Full legend paragraphs (Active/Inactive/Candidates/Contributors/Unlinked definitions), cutoff-value rows, column headers, 'Clear cache' + 'Are you sure? This is an expensive operation'",
+        ],
+        [
+          "maintaining/site_updates/_form.html.haml",
+          "'Title', 'Description (markdown, max 600 chars…)', 'Track', 'Pull Request number (…)', 'Back to site updates'",
+        ],
+        [
+          "maintaining/dashboard/show.html.haml",
+          "'Maintaining Exercism', 'Track Management', 'Site Updates', 'Track Maintainers', 'Track Categories'",
+        ],
+      ],
+    ],
+    [
+      "app/views/bootcamp/ — 16 files, 68 strings",
+      "Student-facing bootcamp UI — dashboard, levels, concepts, projects, custom functions, FAQs. Long instructional prose, not just labels.",
+      [
+        [
+          "bootcamp/dashboard/index.html.haml",
+          "'Welcome to Level N!', 'Continue where you left off', 'Upcoming Live Sessions', 'Make the most of the Bootcamp', 'Chat on Discord', 'Ask questions on the Forum', part-switching copy",
+        ],
+        [
+          "bootcamp/levels/show.html.haml",
+          "'Key Concepts', 'Core Exercises', 'Brain Busters', 'Major Project 🎉' + their descriptions",
+        ],
+        [
+          "bootcamp/custom_functions/index.html.haml",
+          "'Your Functions', 'Library', 'Active/Inactive Functions', 'New Function' + explanatory paragraphs",
+        ],
+        [
+          "bootcamp/concepts/index.html.haml + show.html.haml",
+          "'All Concepts', 'Concepts', 'Subconcepts', 'Exercises', library descriptions",
+        ],
+      ],
+    ],
+  ];
+  const V2 = [
+    [
+      "app/views/challenges/ — 7 files, ~215 strings",
+      "By far the heaviest view concentration. The #12in23 and #48in24 campaign landing pages — huge blocks of marketing/instructional prose (overview text, badge rules, streaming schedules, 'How does it work?', per-exercise descriptions, donation asks). Nearly every line is hardcoded.",
+      [
+        [
+          "challenges/12in23.html.haml",
+          "~70 strings — 'December Diversions', overview video copy, badge rules, recommended-exercise list w/ descriptions, streaming schedule, 'How does #12in23 work?', progress section",
+        ],
+        [
+          "challenges/48in24.html.haml",
+          "~50 strings — weekly-featured copy, Bronze/Silver/Gold rules, subscribe/community blocks, progress grid",
+        ],
+        [
+          "challenges/functional_february.html.haml + mechanical_march.haml",
+          "Near-identical per-month structure, each ~60 strings of themed prose",
+        ],
+        [
+          "challenges/external.html.haml",
+          "Logged-out landing — 'Why take part?', 'Expand your knowledge', 'Learn together', 'Have fun!', 'Get started!'",
+        ],
+        [
+          "challenges/implementation_status + track_implementation_status",
+          "Symbol-key legends, 'Please add it!', column headers",
+        ],
+      ],
+    ],
+    [
+      "app/views/layouts/ — 5 files, ~24 strings",
+      "Mailer boilerplate + bootcamp/courses chrome. The mailer footer is unlocalized user-facing copy sent on every email.",
+      [
+        [
+          "layouts/mailer.html.erb",
+          "'This email is kindly sponsored by', 'You received this email because…', 'unsubscribe from this email', 'change your notification settings', 'Sent by Exercism: Unit G3…', and the boilerplate aria-label='An email from Your Brand Name' stub",
+        ],
+        ["layouts/mailer.text.haml", "Plain-text equivalents of the footer"],
+        [
+          "layouts/bootcamp.haml",
+          "'Exercism', 'Bootcamp', nav: Levels/Exercises/Concepts/Library/FAQs, 'Back to Exercism →'",
+        ],
+        [
+          "layouts/nav/favorites.haml",
+          "'Your Favourites', empty-state copy, 'Get started', 'View all'",
+        ],
+      ],
+    ],
+    [
+      "Mixed templates — 3 of 6 have live hardcoded strings, ~85 total",
+      "Templates that are mostly keyed but leak. (courses/pay/_upsell, docs/index, tracks/build/show flagged clean — their raw-English blocks are inside non-rendering HAML -# comments.)",
+      [
+        [
+          "mailers/mailshots_mailer/jiki_launch.html.erb",
+          "~46 strings — the entire Jiki-launch newsletter body (a one-off campaign): intro, 'Introducing Jiki', 'Translating Exercism and Jiki', sponsor block, footer",
+        ],
+        [
+          "about/team.html.haml",
+          "19 strings — team member names (Katrina Owen, Jeremy Walker, Erik Schierboom, Áron Demeter, …) and 'GitHub'/'Twitter' social labels",
+        ],
+        [
+          "about/impact.html.haml",
+          "20 strings — supporter names/handles, 'Twitter' labels, org names (Mozilla, GoBridge…), a hardcoded 'Jeremy Walker' name inside an otherwise-keyed sentence",
+        ],
+      ],
+    ],
+  ];
+  const SERVER = [
+    [
+      "app/helpers/view_components/** & react_components/** — 36 files, ~155 strings",
+      "The structural leak. These Ruby objects generate copy for templates that are otherwise fully keyed.",
+      [
+        [
+          "view_components/site_header.rb",
+          "Nav (Learn/Discover/Contribute/More/Insiders), 'Sign up', 'Log in', 'Explore', mobile menu, banner promos ('Enjoying Exercism? We need your help…', Jiki/Front-end-Fundamentals promos), 'Search Exercism's docs…'",
+        ],
+        [
+          "view_components/nav_helpers/nav_submenus.rb",
+          "~45 strings — every dropdown item title + subtitle (Language Tracks, Your Journey, Perks, Community Videos, Discord, Forum, Docs, Contributors, Translators, Donate, About, Impact, GitHub Syncer, Insiders…)",
+        ],
+        [
+          "view_components/user_menu.rb",
+          "Dashboard/Tracks/Mentoring/Community/Insiders/Donate/Public Profile/Your Journey/Settings/Maintaining/Sign out",
+        ],
+        [
+          "view_components/settings_nav.rb + about_nav.rb + docs_main_nav.rb",
+          "All settings tabs, about tabs, docs nav sections",
+        ],
+        [
+          "view_components/mentor/header.rb + track/header.rb + track/exercise_header.rb",
+          "Mentoring workspace tabs, track Overview/Learn/Practice tabs, exercise Overview/Iterations/Dig Deeper/Community Solutions/Code Review, 'This tab is locked'",
+        ],
+        [
+          "view_components/track/exercise_status_tag.rb",
+          "Work In Progress / Available / Locked / In-progress / Completed / Published",
+        ],
+        [
+          "react_components/mentoring/* (queue, inbox, representations)",
+          "Sort-order option labels",
+        ],
+        [
+          "react_components/journey/journey_page.rb + profile/contributions_list.rb + impact/chart.rb",
+          "Tab labels (Solutions/Reputation/Overview/Badges), contribution categories, chart annotations",
+        ],
+      ],
+    ],
+    [
+      "app/controllers/** — 28 files, ~120 strings",
+      "Flash messages, error messages, and inline content data.",
+      [
+        [
+          "courses_controller.rb",
+          "~90 strings — testimonial bodies, person names, and roles hardcoded in use_testimonials!/use_quotes!",
+        ],
+        [
+          "insiders_controller.rb",
+          "Feature list — 'Dark Mode', 'Favorites', 'Ad-Free Experience', 'GitHub Sync Options', etc. + full descriptions",
+        ],
+        [
+          "admin/* controllers",
+          "'X was successfully created/updated/destroyed.' flashes across adverts/perks/partners/community_videos/streaming_events/mailshots",
+        ],
+        [
+          "settings/github_syncer_controller.rb",
+          "'We couldn't find data…', 'GitHub connected successfully', 'Missing installation ID'",
+        ],
+        [
+          "moderation/shadow_banned_users_controller.rb",
+          "'Could not find user with handle…', '… is already shadow banned', '… has been shadow banned', 'Shadow ban removed…'",
+        ],
+        [
+          "unsubscribe_controller.rb + auth/registrations_controller.rb",
+          "'You have been unsubscribed successfully', 'CAPTCHA verification failed. Please try again.'",
+        ],
+      ],
+    ],
+    [
+      "app/mailers/** — 6 of 6 files, 60 strings",
+      "Zero I18n. Every subject is a literal.",
+      [
+        [
+          "notifications_mailer.rb",
+          "~40 strings — all mentoring/badge/trophy/insiders/onboarding subjects + heading labels ('Your mentor has replied', 'Welcome to Exercism', 'You've unlocked a new badge', timeout/nudge subjects…)",
+        ],
+        [
+          "devise_mailer.rb",
+          "'[Exercism] Reset password request', '[Exercism] Confirm your account', '[Exercism] Your email address is being changed', '[Exercism] Your password has been changed'",
+        ],
+        [
+          "courses_mailer.rb + donations_mailer.rb + mailshots_mailer.rb",
+          "'🎓 Welcome to …' course subjects, 'Thank you for your donation', 'Learn to Build in the LLM Era. Meet Jiki.'",
+        ],
+        [
+          "application_mailer.rb",
+          "From/reply-to display names ('Exercism <hello@…>', 'Jeremy from Exercism <hello@…>')",
+        ],
+      ],
+    ],
+    [
+      "app/serializers/** — 7 of 72 files, 8 strings",
+      "Minor — a handful of user-facing labels.",
+      [
+        [
+          "serialize_student.rb / serialize_mentor_requests.rb / serialize_track_for_select.rb",
+          "'User in Anonymous mode', 'anonymous', 'First timer', 'All Tracks'",
+        ],
+        [
+          "serialize_*_for_sharing.rb",
+          "'Share this approach/article/blog post', 'View this solution on Exercism'",
+        ],
+      ],
+    ],
+  ];
+
+  function render(target, data) {
+    const el = document.getElementById(target);
+    data.forEach(([title, intro, files]) => {
+      const block = document.createElement("div");
+      block.className = "file-block";
+      const h = document.createElement("div");
+      h.className = "fname";
+      h.textContent = title;
+      block.appendChild(h);
+      if (intro) {
+        const p = document.createElement("p");
+        p.style.cssText = "font-size:12.5px;color:var(--ink-3);margin:0 0 8px;";
+        p.textContent = intro;
+        block.appendChild(p);
+      }
+      const ul = document.createElement("ul");
+      files.forEach(([f, desc]) => {
+        const li = document.createElement("li");
+        li.style.display = "block";
+        li.innerHTML =
+          '<code style="color:var(--accent)">' +
+          f +
+          '</code> — <span style="color:var(--ink-2)">' +
+          desc +
+          "</span>";
+        ul.appendChild(li);
+      });
+      block.appendChild(ul);
+      el.appendChild(block);
+    });
+  }
+  render("ex-views1", V1);
+  render("ex-views2", V2);
+  render("ex-server", SERVER);
+</script>

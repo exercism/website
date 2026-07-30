@@ -94,7 +94,7 @@ module ReactComponents
           {
             url: Exercism::Routes.doc_path(:using, "feedback/guide-to-being-mentored"),
             thumb: "https://exercism-static.s3.eu-west-1.amazonaws.com/blog/tutorial-making-the-most-of-being-mentored.png",
-            title: "Making the most of being mentored",
+            title: I18n.t("components.student.mentoring_session.videos.making_the_most_title"),
             date: Date.new(2021, 9, 1).iso8601
           }
         ]

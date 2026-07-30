@@ -1,3 +1,4 @@
+// i18n-namespace: components/Editor.tsx
 import React, {
   useRef,
   useCallback,
@@ -8,6 +9,7 @@ import React, {
 import { useQueryClient } from '@tanstack/react-query'
 import { getCacheKey } from '@/components/student'
 import { redirectTo } from '@/utils'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 import type { File } from './types'
 import { type TabContext } from './common'
 import { SplitPane } from './common/SplitPane'
@@ -111,6 +113,7 @@ export default ({
   features = { theme: false, keybindings: false },
   localTestRunner,
 }: Props): JSX.Element => {
+  const { t } = useAppTranslation('components/Editor.tsx')
   const editorRef = useRef<FileEditorHandle>()
   const runTestsButtonRef = useRef<HTMLButtonElement>(null)
   const submitButtonRef = useRef<HTMLButtonElement>(null)
@@ -200,7 +203,7 @@ export default ({
           if (error instanceof Error) {
             editorError = Promise.resolve({
               type: 'unknown',
-              message: 'Unable to submit file. Please try again.',
+              message: t('submitError.unableToSubmitFile'),
             })
           } else if (error instanceof Response) {
             editorError = error
@@ -209,7 +212,7 @@ export default ({
               .catch(() => {
                 return {
                   type: 'unknown',
-                  message: 'Unable to submit file. Please try again.',
+                  message: t('submitError.unableToSubmitFile'),
                 }
               })
           }
@@ -311,7 +314,7 @@ export default ({
         if (err instanceof Error) {
           editorError = Promise.resolve({
             type: 'unknown',
-            message: 'Unable to revert file, please try again.',
+            message: t('revertError.unableToRevertFile'),
           })
         } else if (err instanceof Response) {
           editorError = err
@@ -320,7 +323,7 @@ export default ({
             .catch(() => {
               return {
                 type: 'unknown',
-                message: 'Unable to revert file, please try again.',
+                message: t('revertError.unableToRevertFile'),
               }
             })
         }
@@ -360,7 +363,7 @@ export default ({
         if (err instanceof Error) {
           editorError = Promise.resolve({
             type: 'unknown',
-            message: 'Unable to revert file, please try again.',
+            message: t('revertError.unableToRevertFile'),
           })
         } else if (err instanceof Response) {
           editorError = err
@@ -369,7 +372,7 @@ export default ({
             .catch(() => {
               return {
                 type: 'unknown',
-                message: 'Unable to revert file, please try again.',
+                message: t('revertError.unableToRevertFile'),
               }
             })
         }

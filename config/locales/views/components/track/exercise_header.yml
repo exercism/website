@@ -1,0 +1,11 @@
+en:
+  components:
+    track:
+      exercise_header:
+        tabs:
+          overview: "Overview"
+          your_iterations: "Your iterations"
+          dig_deeper: "Dig Deeper"
+          community_solutions: "Community Solutions"
+          code_review: "Code Review"
+        locked_tab_aria_label: "This tab is locked"

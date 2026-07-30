@@ -1,3 +1,4 @@
+// i18n-namespace: components/mentoring/discussion/DiscussionPostList.tsx
 import React, { useContext } from 'react'
 import { usePostHighlighting } from './usePostHighlighting'
 import { QueryStatus, useQueryClient } from '@tanstack/react-query'
@@ -15,6 +16,7 @@ import {
 import { useListTrimming } from './discussion-post-list/use-list-trimming'
 import { useChannel } from './discussion-post-list/use-channel'
 import { DiscussionPost } from './DiscussionPost'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const DiscussionPostList = ({
   discussionUuid,
@@ -31,6 +33,9 @@ export const DiscussionPostList = ({
   onIterationScroll: (iteration: Iteration) => void
   status: QueryStatus
 }): JSX.Element | null => {
+  const { t } = useAppTranslation(
+    'components/mentoring/discussion/DiscussionPostList.tsx'
+  )
   const queryClient = useQueryClient()
   const { cacheKey } = useContext(PostsContext)
   const posts = usePosts(iterations)
@@ -56,7 +61,10 @@ export const DiscussionPostList = ({
 
   if (status === 'pending') {
     return (
-      <div role="status" aria-label="Discussion post list loading indicator">
+      <div
+        role="status"
+        aria-label={t('discussionPostList.loadingIndicatorAriaLabel')}
+      >
         <Loading />
       </div>
     )

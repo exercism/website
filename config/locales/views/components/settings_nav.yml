@@ -1,0 +1,11 @@
+en:
+  components:
+    settings_nav:
+      account_settings: "Account settings"
+      api_cli: "API / CLI"
+      integrations: "Integrations"
+      github_syncer: "GitHub Syncer"
+      preferences: "Preferences"
+      communication_preferences: "Communication Preferences"
+      donations: "Donations"
+      insiders: "Insiders"

@@ -16,6 +16,9 @@ en:
         badge_name: "Badge: %{name}"
       tags:
         exercism_founder: Exercism Founder
+        staff: Exercism Staff
+        maintainer: Maintainer
+        insider: Insider
       tabs:
         summary: Summary
         contributions: Contributions

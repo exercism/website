@@ -19,7 +19,7 @@ module ViewComponents
         tag.nav(class: "top") do
           tag.div(class: "title") do
             graphical_icon(:mentoring, hex: true) +
-              tag.span("Mentoring")
+              tag.span(I18n.t("components.mentor.header.title"))
           end + stats
         end
       end
@@ -28,7 +28,7 @@ module ViewComponents
         tag.nav(class: "bottom") do
           tag.div(safe_join(tabs), class: 'tabs') +
             link_to(Exercism::Routes.docs_section_path(:mentoring), class: "c-tab-2 guides") do
-              graphical_icon(:guides) + tag.span("Mentoring Guides")
+              graphical_icon(:guides) + tag.span(I18n.t("components.mentor.header.guides_link"))
             end
         end
       end
@@ -37,9 +37,11 @@ module ViewComponents
         tag.div(class: "stats") do
           safe_join(
             [
-              tag.div("#{current_user.num_solutions_mentored} discussions completed", class: "stat"),
+              tag.div(I18n.t("components.mentor.header.stats.discussions_completed",
+                count: current_user.num_solutions_mentored), class: "stat"),
               (if current_user.mentor_satisfaction_percentage
-                 tag.div("#{current_user.mentor_satisfaction_percentage}% satisfaction",
+                 tag.div(I18n.t("components.mentor.header.stats.satisfaction",
+                   percentage: current_user.mentor_satisfaction_percentage),
                    class: "stat")
                end)
             ].compact
@@ -55,7 +57,7 @@ module ViewComponents
           class: tab_class(:workspace)
         ) do
           graphical_icon(:overview) +
-            tag.span("Your Workspace") +
+            tag.span(I18n.t("components.mentor.header.tabs.workspace")) +
             tag.span(number_with_delimiter(inbox_size), class: 'count')
         end
       end
@@ -66,7 +68,7 @@ module ViewComponents
           class: tab_class(:queue)
         ) do
           graphical_icon(:queue) +
-            tag.span("Queue") +
+            tag.span(I18n.t("components.mentor.header.tabs.queue")) +
             tag.span(number_with_delimiter(queue_size), class: 'count')
         end
       end
@@ -77,7 +79,7 @@ module ViewComponents
           class: tab_class(:testimonials)
         ) do
           graphical_icon(:testimonials) +
-            tag.span("Testimonials") +
+            tag.span(I18n.t("components.mentor.header.tabs.testimonials")) +
             tag.span(number_with_delimiter(num_testimonials), class: 'count')
         end
       end
@@ -86,14 +88,14 @@ module ViewComponents
         unless current_user.automator?
           return tag.div(
             class: "#{tab_class(:automation)} locked",
-            'aria-label': 'This tab is locked',
+            'aria-label': I18n.t("components.mentor.header.locked_tab_aria_label"),
             'data-tooltip-type': 'automation-locked',
             'data-endpoint': Exercism::Routes.tooltip_locked_mentoring_automation_index_path,
             'data-placement': 'bottom',
             'data-interactive': true
           ) do
             graphical_icon(:automation) +
-            tag.span("Automation")
+            tag.span(I18n.t("components.mentor.header.tabs.automation"))
           end
         end
 
@@ -102,7 +104,7 @@ module ViewComponents
           class: tab_class(:automation)
         ) do
           graphical_icon(:automation) +
-            tag.span("Automation") # +
+            tag.span(I18n.t("components.mentor.header.tabs.automation")) # +
           # tag.span(number_with_delimiter(num_representations_without_feedback), class: 'count')
         end
       end

@@ -2,12 +2,12 @@
 
 \---
 \
-= t('.received_because', exercism_url: "https://exercism.org")
+= t('.text_received_because', exercism_url: "https://exercism.org")
 \
 
 - if @user && @unsubscribe_key
-  = t('.unsubscribe_line', unsubscribe_url: unsubscribe_url(token: @user.communication_preferences.token, key: @unsubscribe_key))
+  = t('.text_unsubscribe_line', unsubscribe_url: unsubscribe_url(token: @user.communication_preferences.token, key: @unsubscribe_key))
 - if @user
-  = t('.change_notification_settings_line', settings_url: unsubscribe_url(token: @user.communication_preferences.token))
+  = t('.text_change_notification_settings_line', settings_url: unsubscribe_url(token: @user.communication_preferences.token))
   \
-= t('.sent_by')
+= t('.text_sent_by')

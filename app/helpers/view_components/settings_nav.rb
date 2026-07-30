@@ -6,14 +6,15 @@ module ViewComponents
 
     def to_s
       items = [
-        item_for("Account settings", :settings, :general),
-        item_for("API / CLI", :api_cli_settings, :api_cli),
-        item_for("Integrations", :integrations_settings, :integrations),
-        item_for("GitHub Syncer", :settings_github_syncer, :github_syncer),
-        item_for("Preferences", :user_preferences_settings, :preferences),
-        item_for("Communication Preferences", :communication_preferences_settings, :communication),
-        item_for("Donations", :donations_settings, :donations),
-        item_for("Insiders", :insiders_settings, :insiders)
+        item_for(I18n.t("components.settings_nav.account_settings"), :settings, :general),
+        item_for(I18n.t("components.settings_nav.api_cli"), :api_cli_settings, :api_cli),
+        item_for(I18n.t("components.settings_nav.integrations"), :integrations_settings, :integrations),
+        item_for(I18n.t("components.settings_nav.github_syncer"), :settings_github_syncer, :github_syncer),
+        item_for(I18n.t("components.settings_nav.preferences"), :user_preferences_settings, :preferences),
+        item_for(I18n.t("components.settings_nav.communication_preferences"), :communication_preferences_settings,
+          :communication),
+        item_for(I18n.t("components.settings_nav.donations"), :donations_settings, :donations),
+        item_for(I18n.t("components.settings_nav.insiders"), :insiders_settings, :insiders)
       ]
 
       tag.nav(class: "settings-nav") do

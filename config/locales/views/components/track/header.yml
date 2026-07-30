@@ -1,0 +1,10 @@
+en:
+  components:
+    track:
+      header:
+        practice_mode: "Practice Mode"
+        overview: "Overview"
+        about: "About %{track_title}"
+        learn: "Learn"
+        practice: "Practice"
+        build_status: "Build Status"

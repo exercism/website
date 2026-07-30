@@ -1,0 +1,19 @@
+en:
+  components:
+    user_menu:
+      button_label: "Button to open the profile menu"
+      profile_menu_icon: "Profile Menu"
+      avatar_alt: "Your uploaded avatar"
+      open_public_profile: "Open public profile"
+      items:
+        dashboard: "Dashboard"
+        tracks: "Tracks"
+        mentoring: "Mentoring"
+        community: "Community"
+        insiders: "Insiders 💜"
+        donate: "Donate"
+        public_profile: "Public Profile"
+        your_journey: "Your Journey"
+        settings: "Settings"
+        maintaining: "Maintaining"
+        sign_out: "Sign out"

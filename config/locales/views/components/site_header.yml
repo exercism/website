@@ -1,0 +1,33 @@
+en:
+  components:
+    site_header:
+      announcement_bar:
+        downtime: "Server Upgrades: We'll be making infrastructure updates for the next 24 hours."
+        downtime_link_text: "Read more..."
+        coding_fundamentals: "Learning to code? Check out our new dedicated beginners platform -"
+        coding_fundamentals_link_text: "Jiki!"
+        front_end_fundamentals: "Learning web development? Check out our"
+        front_end_fundamentals_link_text: "Front-end Fundamentals"
+        front_end_fundamentals_suffix: "course!"
+        donation_ask: "Enjoying Exercism? We need your help to survive…"
+        donation_ask_link_text: "Please donate if you can!"
+      nav:
+        learn: "Learn"
+        discover: "Discover"
+        contribute: "Contribute"
+        more: "More"
+        insiders: "Insiders"
+      auth_buttons:
+        sign_up: "Sign up"
+        log_in: "Log in"
+      explore_menu:
+        button_label: "Button to open the navigation menu"
+        button_text: "Explore"
+        home: "Home"
+        language_tracks: "Language Tracks"
+        community: "Community"
+        mentoring: "Mentoring"
+        insiders: "Insiders 💜"
+        donate: "Donate"
+      docs_search:
+        placeholder: "Search Exercism's docs..."

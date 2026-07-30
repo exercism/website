@@ -9,7 +9,7 @@ module ReactComponents
           {
             discussions_request:,
             tracks_request:,
-            sort_options: SORT_OPTIONS,
+            sort_options:,
             links: {
               queue: Exercism::Routes.mentoring_queue_path
             }
@@ -17,18 +17,19 @@ module ReactComponents
         )
       end
 
-      SORT_OPTIONS = [
-        { value: :recent, label: 'Sort by recent first' },
-        { value: :oldest, label: 'Sort by oldest first' },
-        { value: :exercise, label: 'Sort by exercise' },
-        { value: :student, label: 'Sort by student' }
-      ].freeze
-      private_constant :SORT_OPTIONS
-
       DEFAULT_STATUS = "awaiting_mentor".freeze
       private_constant :DEFAULT_STATUS
 
       private
+      def sort_options
+        [
+          { value: :recent, label: I18n.t("components.mentoring.inbox.sort_options.recent_first") },
+          { value: :oldest, label: I18n.t("components.mentoring.inbox.sort_options.oldest_first") },
+          { value: :exercise, label: I18n.t("components.mentoring.inbox.sort_options.exercise") },
+          { value: :student, label: I18n.t("components.mentoring.inbox.sort_options.student") }
+        ]
+      end
+
       def discussions_request
         {
           endpoint: Exercism::Routes.api_mentoring_discussions_path(sideload: [:all_discussion_counts]),

@@ -11,7 +11,7 @@ module ViewComponents
 
               content << tag.li(
                 conditional_link(element[:path], external: element[:external]) do
-                  nav_dropdown_element(element[:title].(), element[:description].(), element[:icon], icon_filter,
+                  nav_dropdown_element(element[:title]&.(), element[:description]&.(), element[:icon], icon_filter,
                     element[:external], element[:is_new])
                 end << view
               )

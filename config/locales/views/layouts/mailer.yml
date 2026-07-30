@@ -13,8 +13,7 @@ en:
       change_notification_settings_link: "change your notification settings"
       sent_by: "Sent by Exercism:"
       address: "Unit G3; 81 Bournville Lane, United Kingdom"
-      text:
-        received_because: "You received this email because you've signed up to Exercism (%{exercism_url})"
-        unsubscribe_line: "Unsubscribe from this email: %{unsubscribe_url}"
-        change_notification_settings_line: "Change your notification settings: %{settings_url}"
-        sent_by: "Sent by Exercism: Unit G3; 81 Bournville Lane, United Kingdom"
+      text_received_because: "You received this email because you've signed up to Exercism (%{exercism_url})"
+      text_unsubscribe_line: "Unsubscribe from this email: %{unsubscribe_url}"
+      text_change_notification_settings_line: "Change your notification settings: %{settings_url}"
+      text_sent_by: "Sent by Exercism: Unit G3; 81 Bournville Lane, United Kingdom"

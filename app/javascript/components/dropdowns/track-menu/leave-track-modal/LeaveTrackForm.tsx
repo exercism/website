@@ -96,7 +96,7 @@ export const LeaveTrackForm = ({
           </li>
         </ul>
         <div className="info-box">
-          <Icon icon="info-circle" alt="Info" />
+          <Icon icon="info-circle" alt={t('leaveTrackModal.infoAlt')} />
           {t('leaveTrackModal.leaveTrackForm.infoBoxText')}
         </div>
       </div>

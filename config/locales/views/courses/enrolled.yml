@@ -1,6 +1,76 @@
 en:
   courses:
     enrolled:
+      spinner_alt_text: Loading
+      tag: Enrolled
+      congratulations_strong: Congratulations!
+      intro: You've successfully enrolled. Here's what happens next.
+      coding_fundamentals:
+        welcome_message: We're so excited to have you on board! 💙
+        access_granted_strong: Your Exercism account has been granted access to Coding Fundamentals.
+        access_granted_text: Please use the button below to get started.
+        email_welcome_html:
+          You should shortly receive an email welcoming you and asking
+          you to say hello. <strong>Please do reply</strong> and tell us your
+          story - it's both incredibly motivating for us to hear about who's
+          taking our courses, and also means we can better tailor what we're
+          making!
+        support_email_html:
+          If you have any questions, please email us at <strong><span
+          class="font-medium">%{email}</span></strong> and we'll be happy to
+          help.
+        questions_email_html:
+          If you have any questions, please email us at <strong><span
+          class="font-medium">%{email}</span></strong> and we'll be happy to
+          help.
+        go_to_bootcamp_button: Go to Coding Fundamentals
+        not_logged_in_strong:
+          As you're not logged into your Exercism account, we need to
+          connect things up for you.
+        not_logged_in_text: "Firstly, please make sure you have an Exercism account:"
+        login_suggestion: If you do, logging in should give you access.
+        create_account_suggestion_html:
+          If you don't, the easiest way to get access is to
+          %{link_to_create} with the email address "%{email_address}". If you
+          use a different email and don't get access, please email us at
+          %{support_email} with your Exercism username/handle and the email
+          address you've enrolled with (%{enrolled_email}) and we'll give you
+          access manually.
+        create_account_link_text: sign up
+        thanks_for_trusting_html: Thanks for trusting us with your learning 🙂
+      front_end_fundamentals:
+        welcome_message: We're so excited to have you on board! 💙
+        access_granted_strong: Your Exercism account has been granted access to Front-End Fundamentals.
+        access_granted_text: Please use the button below to get started.
+        email_welcome_html:
+          You should shortly receive an email welcoming you and asking
+          you to say hello. <strong>Please do reply</strong> and tell us your
+          story - it's both incredibly motivating for us to hear about who's
+          taking our courses, and also means we can better tailor what we're
+          making!
+        support_email_html:
+          If you have any questions, please email us at <strong><span
+          class="font-medium">%{email}</span></strong> and we'll be happy to
+          help.
+        questions_email_html:
+          If you have any questions, please email us at <strong><span
+          class="font-medium">%{email}</span></strong> and we'll be happy to
+          help.
+        go_to_bootcamp_button: Go to Front-End Fundamentals
+        not_logged_in_strong:
+          As you're not logged into your Exercism account, we need to
+          connect things up for you.
+        not_logged_in_text: "Firstly, please make sure you have an Exercism account:"
+        login_suggestion: If you do, logging in should give you access.
+        create_account_suggestion_html:
+          If you don't, the easiest way to get access is to
+          %{link_to_create} with the email address "%{email_address}". If you
+          use a different email and don't get access, please email us at
+          %{support_email} with your Exercism username/handle and the email
+          address you've enrolled with (%{enrolled_email}) and we'll give you
+          access manually.
+        create_account_link_text: sign up
+        thanks_for_trusting_html: Thanks for trusting us with your learning 🙂
       bundle_coding_front_end:
         welcome_message: We're so excited to have you on board! 💙
         logged_in_access_html:
@@ -36,3 +106,4 @@ en:
           motivating for us to hear about who's joining the Bootcamp, and also
           means we can better tailor what we're making!
         thanks_for_trusting: Thanks for trusting us with your learning 🙂
+        create_one_here: create one here

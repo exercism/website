@@ -42,6 +42,8 @@ module ViewComponents
     def announcement_bar
       # return downtime_announcement_bar if user_signed_in?
 
+      return translatathon_announcement_bar if user_signed_in? && translatathon_banner
+
       return coding_fundamentals_announcement_bar unless user_signed_in?
       return front_end_fundamentals_announcement_bar if javascript_track? && current_user.seniority != :absolute_beginner
       return coding_fundamentals_announcement_bar if current_user.junior?
@@ -54,6 +56,23 @@ module ViewComponents
           tag.span("👋", class: 'emoji mr-6') +
             tag.span("Enjoying Exercism? We need your help to survive…") +
             tag.strong("Please donate if you can!")
+        end
+      end
+    end
+
+    memoize
+    def translatathon_banner
+      ViewComponents::TranslatathonBanner.(request.headers["Accept-Language"])
+    end
+
+    def translatathon_announcement_bar
+      banner = translatathon_banner
+      link_to(banner.url, class: "announcement-bar md:block hidden", target: "_blank", rel: "noopener", dir: banner.dir) do
+        tag.div(class: "lg-container") do
+          tag.span("🌍", class: 'emoji mr-6') +
+            tag.span(banner.pre) +
+            tag.strong(banner.link) +
+            tag.span(banner.post)
         end
       end
     end

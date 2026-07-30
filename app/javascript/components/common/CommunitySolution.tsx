@@ -1,6 +1,8 @@
+// i18n-namespace: components/common/CommunitySolution.tsx
 import React from 'react'
 import { shortFromNow } from '@/utils/time'
 import { useHighlighting } from '@/utils/highlight'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 import { ExerciseIcon } from './ExerciseIcon'
 import { ProcessingStatusSummary } from './ProcessingStatusSummary'
 import { GraphicalIcon, Icon } from '../common'
@@ -14,16 +16,19 @@ import {
 } from '../types'
 
 const PublishDetails = ({ solution }: { solution: CommunitySolutionProps }) => {
+  const { t } = useAppTranslation('components/common/CommunitySolution.tsx')
   return (
     <>
-      <time dateTime={solution.publishedAt}>{`Published ${shortFromNow(
-        solution.publishedAt
-      )}`}</time>
+      <time dateTime={solution.publishedAt}>
+        {t('communitySolution.published', {
+          time: shortFromNow(solution.publishedAt),
+        })}
+      </time>
       <div className="--counts">
         {solution.representationNumPublishedSolutions ? (
           <div
             className="--count"
-            title="Number of times someone has published a solution similar to this"
+            title={t('communitySolution.numTimesPublishedSimilar')}
           >
             <GraphicalIcon icon="upload" />
             <div className="--num">
@@ -34,16 +39,13 @@ const PublishDetails = ({ solution }: { solution: CommunitySolutionProps }) => {
         {solution.numLoc ? (
           <div
             className="--count"
-            title="Number of lines of code in the solution"
+            title={t('communitySolution.numLinesOfCode')}
           >
             <GraphicalIcon icon="loc" />
             <div className="--num">{solution.numLoc.toLocaleString()}</div>
           </div>
         ) : null}
-        <div
-          className="--count"
-          title="Number of times solution has been starred"
-        >
+        <div className="--count" title={t('communitySolution.numTimesStarred')}>
           <GraphicalIcon icon="star" />
           <div className="--num">{solution.numStars.toLocaleString()}</div>
         </div>
@@ -51,7 +53,7 @@ const PublishDetails = ({ solution }: { solution: CommunitySolutionProps }) => {
         !solution.representationNumPublishedSolutions ? (
           <div
             className="--count"
-            title="Number of times solution has been commented on"
+            title={t('communitySolution.numTimesCommented')}
           >
             <GraphicalIcon icon="comment" />
             <div className="--num">{solution.numComments.toLocaleString()}</div>
@@ -67,15 +69,16 @@ const ProcessingStatus = ({
 }: {
   solution: CommunitySolutionProps
 }) => {
+  const { t } = useAppTranslation('components/common/CommunitySolution.tsx')
   if (
     solution.publishedIterationHeadTestsStatus === SubmissionTestsStatus.PASSED
   ) {
     return (
-      <GenericTooltip content="This solution correctly solves the latest version of this exercise">
+      <GenericTooltip content={t('communitySolution.correctlySolvesLatest')}>
         <div>
           <Icon
             icon="golden-check"
-            alt="This solution passes the tests of the latest version of this exercise"
+            alt={t('communitySolution.passesLatestTests')}
             className="passed-up-to-date-tests"
           />
         </div>
@@ -89,11 +92,11 @@ const ProcessingStatus = ({
     solution.publishedIterationHeadTestsStatus === SubmissionTestsStatus.ERRORED
   ) {
     return (
-      <GenericTooltip content="This solution does not fully solve the latest version of this exercise">
+      <GenericTooltip content={t('communitySolution.doesNotFullySolveLatest')}>
         <div>
           <Icon
             icon="cross-circle"
-            alt="This solution does not fully solve the latest version of this exercise"
+            alt={t('communitySolution.doesNotFullySolveLatest')}
             className="failed-up-to-date-tests"
           />
         </div>
@@ -104,7 +107,7 @@ const ProcessingStatus = ({
   return (
     <>
       {solution.isOutOfDate ? (
-        <GenericTooltip content="This solution was solved against an older version of this exercise and may not fully solve the latest version.">
+        <GenericTooltip content={t('communitySolution.solvedAgainstOlder')}>
           <div>
             <Outdated />
           </div>
@@ -122,6 +125,7 @@ export default function CommunitySolution({
   solution: CommunitySolutionProps
   context: CommunitySolutionContext
 }): JSX.Element {
+  const { t } = useAppTranslation('components/common/CommunitySolution.tsx')
   const snippetRef = useHighlighting<HTMLPreElement>()
 
   const url =
@@ -144,23 +148,37 @@ export default function CommunitySolution({
         <div className="--info">
           {context == 'mentoring' ? (
             <>
-              <div className="--title">Your Solution</div>
+              <div className="--title">
+                {t('communitySolution.yourSolution')}
+              </div>
               <div className="--subtitle">
-                to {solution.exercise.title} in {solution.track.title}
+                {t('communitySolution.toExerciseInTrack', {
+                  exercise: solution.exercise.title,
+                  track: solution.track.title,
+                })}
               </div>
             </>
           ) : context == 'profile' ? (
             <>
               <div className="--title">{solution.exercise.title}</div>
-              <div className="--subtitle">in {solution.track.title}</div>
+              <div className="--subtitle">
+                {t('communitySolution.inTrack', {
+                  track: solution.track.title,
+                })}
+              </div>
             </>
           ) : (
             <>
               <div className="--title flex">
-                {solution.author.handle}&apos;s solution
+                {t('communitySolution.authorsSolution', {
+                  handle: solution.author.handle,
+                })}
               </div>
               <div className="--subtitle">
-                to {solution.exercise.title} in {solution.track.title}
+                {t('communitySolution.toExerciseInTrack', {
+                  exercise: solution.exercise.title,
+                  track: solution.track.title,
+                })}
               </div>
             </>
           )}
@@ -178,7 +196,9 @@ export default function CommunitySolution({
           <PublishDetails solution={solution} />
         ) : (
           <>
-            <div className="not-published">Not published</div>
+            <div className="not-published">
+              {t('communitySolution.notPublished')}
+            </div>
             <div className="--counts">
               <div className="--count">
                 <GraphicalIcon icon="loc" />

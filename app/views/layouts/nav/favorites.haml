@@ -1,12 +1,12 @@
 .flex.flex-col.items-center.items-stretch.pt-20.px-24
-  %h2.text-h3.mb-4 Your Favourites
+  %h2.text-h3.mb-4= t('.heading')
   %p.text-p-base.font-medium.mb-12
-    Store your favorite solutions from around Exercism and learn from them later.
+    = t('.intro')
 
   - if current_user.starred_solutions.empty?
     %hr.border-borderColor6.mb-12
-    %p.text-p-base.mb-12 You haven't added any favorites yet. Start exploring community solutions and add some interesting ones to your favorites!
-    = link_to "Get started", favorites_path, class: 'btn-primary btn-s mb-6'
+    %p.text-p-base.mb-12= t('.empty_state')
+    = link_to t('.get_started_button'), favorites_path, class: 'btn-primary btn-s mb-6'
   - else
     .flex.flex-col.gap-8.mb-12
       - current_user.starred_solutions.limit(3).includes(exercise: :track).each do |solution|
@@ -15,7 +15,7 @@
             = avatar(solution.user)
             .--info
               .--title.flex
-                #{solution.user.handle}'s solution
-              .--subtitle to #{solution.exercise.title} in #{solution.exercise.track.title}
+                = t('.solution_title', handle: solution.user.handle)
+              .--subtitle= t('.solution_subtitle', exercise: solution.exercise.title, track: solution.exercise.track.title)
 
-    = link_to "View all", favorites_path, class: 'btn-primary btn-s mb-6'
+    = link_to t('.view_all_button'), favorites_path, class: 'btn-primary btn-s mb-6'

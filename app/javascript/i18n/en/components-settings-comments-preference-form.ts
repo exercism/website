@@ -7,6 +7,7 @@ export default {
   'commentsPreferenceForm.updatePreference': 'Update preference',
   'commentsPreferenceForm.yourPreferencesHaveBeenUpdated':
     'Your preferences have been updated',
+  'commentsPreferenceForm.successAlt': 'Success',
   'manageExistingSolutions.manageExistingSolutions':
     'Manage existing solutions',
   'manageExistingSolutions.canCommentOnPublishedSolutions':

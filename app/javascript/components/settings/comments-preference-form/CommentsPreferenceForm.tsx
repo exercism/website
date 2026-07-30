@@ -108,7 +108,10 @@ const SuccessMessage = () => {
   )
   return (
     <div className="status success">
-      <Icon icon="completed-check-circle" alt="Success" />
+      <Icon
+        icon="completed-check-circle"
+        alt={t('commentsPreferenceForm.successAlt')}
+      />
       {t('commentsPreferenceForm.yourPreferencesHaveBeenUpdated')}
     </div>
   )

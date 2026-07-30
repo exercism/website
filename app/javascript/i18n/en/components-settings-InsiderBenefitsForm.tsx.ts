@@ -12,4 +12,5 @@ export default {
     'These are exclusive options for Exercism Insiders.',
   'insiderBenefits.donateToExercism':
     '<0>Donate to Exercism</0>\u00A0 to become an Insider to access benefits such as Dark Mode, ChatGPT integration, an advert-free experience, and more.',
+  'insiderBenefits.successAlt': 'Success',
 }

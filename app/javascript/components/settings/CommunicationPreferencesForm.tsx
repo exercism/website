@@ -120,7 +120,7 @@ const SuccessMessage = () => {
   )
   return (
     <div className="status success">
-      <Icon icon="completed-check-circle" alt="Success" />
+      <Icon icon="completed-check-circle" alt={t('successMessage.alt')} />
       {t('successMessage.updatedPreferences')}
     </div>
   )

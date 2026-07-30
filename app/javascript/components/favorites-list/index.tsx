@@ -17,6 +17,7 @@ import type {
   PaginatedResult,
 } from '../types'
 import { TooltipContent, TooltipWrapper } from '../common/FollowTooltip'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export type FavoritesListProps = {
   tracks: TrackData[]
@@ -24,13 +25,13 @@ export type FavoritesListProps = {
   isUserInsider: boolean
 }
 
-const DEFAULT_ERROR = new Error('Unable to pull solutions')
-
 export default function FavoritesList({
   tracks,
   request: initialRequest,
   isUserInsider,
 }: FavoritesListProps) {
+  const { t } = useAppTranslation('components/favorites-list')
+  const DEFAULT_ERROR = new Error(t('index.defaultError'))
   const {
     request,
     setCriteria: setRequestCriteria,
@@ -94,7 +95,7 @@ export default function FavoritesList({
           {!isUserInsider && (
             <TooltipContent>
               <span className="rounded-8 px-8 py-2 bg-backgroundColorH text-backgroundColorA text-xs shadow whitespace-nowrap">
-                Filtering restricted to Insiders
+                {t('index.filteringRestricted')}
               </span>
             </TooltipContent>
           )}
@@ -110,7 +111,7 @@ export default function FavoritesList({
             className="--search"
             onChange={(e) => setCriteria(e.target.value)}
             value={criteria}
-            placeholder="Search by author name"
+            placeholder={t('index.searchPlaceholder')}
             disabled={!isUserInsider}
           />
         </TooltipWrapper>
@@ -160,21 +161,23 @@ export default function FavoritesList({
 }
 
 function NoResults() {
+  const { t } = useAppTranslation('components/favorites-list')
   return (
     <FilterFallback
       icon="no-result-magnifier"
-      title="No solutions found."
-      description="Try changing your filters to find your favorite solutions."
+      title={t('index.noResults.title')}
+      description={t('index.noResults.description')}
     />
   )
 }
 
 function NoFavoritesYet() {
+  const { t } = useAppTranslation('components/favorites-list')
   return (
     <FilterFallback
       icon="no-result-magnifier"
-      title="No favorites yet."
-      description="Star solutions to add them to your favorites list."
+      title={t('index.noFavoritesYet.title')}
+      description={t('index.noFavoritesYet.description')}
     />
   )
 }

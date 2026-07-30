@@ -6,8 +6,8 @@ module ViewComponents
       def to_s
         ReactComponents::Common::ShareButton.new(
           {
-            title: "Share #{solution.user.handle}'s solution",
-            share_title: "View this solution on Exercism",
+            title: I18n.t("components.community_solutions.share_solution_button.title", handle: solution.user.handle),
+            share_title: I18n.t("components.community_solutions.share_solution_button.share_title"),
             share_link: Exercism::Routes.published_solution_url(solution)
           }
         ).to_s

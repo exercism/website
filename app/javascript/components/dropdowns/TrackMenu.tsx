@@ -52,7 +52,7 @@ export default function TrackMenu({
   return (
     <div className="c-track-menu">
       <button {...buttonAttributes}>
-        <Icon icon="more-horizontal" alt="Track options" />
+        <Icon icon="more-horizontal" alt={t('trackMenu.trackOptions')} />
       </button>
       {open ? (
         <div {...panelAttributes} className="c-dropdown-generic-menu">

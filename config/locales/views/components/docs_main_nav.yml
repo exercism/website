@@ -1,0 +1,9 @@
+en:
+  components:
+    docs_main_nav:
+      home: "Docs home"
+      using: "Using Exercism"
+      building: "Building Exercism"
+      mentoring: "Mentoring"
+      community: "Community"
+      tracks: "Track-specific"

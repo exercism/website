@@ -28,7 +28,7 @@ module ViewComponents
               content = tag.h6 do
                 safe_join([
                   title,
-                  (tag.span("New", class: "new") if is_new)
+                  (tag.span(I18n.t("components.nav_helpers.nav_dropdown_helper.new_badge"), class: "new") if is_new)
                 ].compact)
               end
               content << tag.p(description) unless description.nil?
@@ -36,7 +36,7 @@ module ViewComponents
             end
           ]
           if external
-            parts << icon("external-link", "The link opens in a new window or tab",
+            parts << icon("external-link", I18n.t("components.nav_helpers.nav_dropdown_helper.external_link"),
               css_class: "external-icon filter-textColor6")
           end
           safe_join(parts)

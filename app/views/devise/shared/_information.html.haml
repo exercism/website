@@ -313,14 +313,11 @@
 
 
   .content
-    %h2 Exercism is free for all people, everywhere
+    %h2= t('.information.heading')
     %p
-      Level up your programming skills with
-      = succeed(',') do
-        %strong #{Exercise.available.count} exercises across #{Track.num_active} languages
-      and insightful discussion with our dedicated team of welcoming mentors.
+      = t('.information.level_up_html', stats: content_tag(:strong, "#{t('.information.level_up_stats', exercise_count: Exercise.available.count, track_count: Track.num_active)},")).html_safe
     %p
-      %strong Exercism is 100% free forever.
+      %strong= t('.information.free_forever')
 
     .icons
       - Track.first(5).each do |track|

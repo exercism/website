@@ -23,7 +23,7 @@ export const ReputationIcon = forwardRef<
       })}
       {...buttonProps}
     >
-      <Icon icon="reputation" alt="Reputation" />
+      <Icon icon="reputation" alt={t('reputationIcon.reputationAlt')} />
       <span>{reputation}</span>
       <div className={'--notification ' + (isSeen ? '' : 'unseen')} />
     </button>

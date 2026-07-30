@@ -88,6 +88,7 @@ export default function Notifications({
 }: {
   endpoint: string
 }): JSX.Element {
+  const { t } = useAppTranslation('components/dropdowns')
   const queryClient = useQueryClient()
   const {
     data: resolvedData,
@@ -139,7 +140,7 @@ export default function Notifications({
     <React.Fragment>
       <NotificationsIcon
         count={resolvedData?.meta?.unreadCount || 0}
-        aria-label="Open notifications"
+        aria-label={t('notifications.openNotifications')}
         {...buttonAttributes}
       />
       {open ? (

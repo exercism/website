@@ -1,0 +1,12 @@
+en:
+  components:
+    contributing:
+      header:
+        title: "Let’s build the best coding education platform, together"
+        intro_before_link: "Exercism is an "
+        intro_link: "open source, not-for-profit project"
+        intro_after_link: " built by people from all backgrounds. With over one hundred dedicated maintainers and thousands of contributors, our goal is to create the best, free, code learning platform on the web."
+        contributing_help: "Contributing Help"
+        getting_started: "Getting Started"
+        explore_tasks: "Explore tasks"
+        contributors: "Contributors"

@@ -17,13 +17,13 @@ module ViewComponents
         tag.div(class: 'lg-container top-container') do
           tag.div(class: 'content') do
             graphical_icon("contributing-header") +
-              tag.h1("Let’s build the best coding education platform, together") +
+              tag.h1(I18n.t("components.contributing.header.title")) +
               tag.p do
                 safe_join(
                   [
-                    "Exercism is an ",
-                    link_to("open source, not-for-profit project", Exercism::Routes.about_path),
-                    " built by people from all backgrounds. With over one hundred dedicated maintainers and thousands of contributors, our goal is to create the best, free, code learning platform on the web." # rubocop:disable Layout/LineLength
+                    I18n.t("components.contributing.header.intro_before_link"),
+                    link_to(I18n.t("components.contributing.header.intro_link"), Exercism::Routes.about_path),
+                    I18n.t("components.contributing.header.intro_after_link")
                   ]
                 )
               end
@@ -37,7 +37,7 @@ module ViewComponents
         tag.div(class: 'lg-container nav-container', data: { scrollable_container: true }) do
           tag.div(safe_join(tabs), class: 'tabs') +
             link_to(Exercism::Routes.docs_section_path(:building), class: "c-tab-2 guides") do
-              graphical_icon(:guides) + tag.span("Contributing Help")
+              graphical_icon(:guides) + tag.span(I18n.t("components.contributing.header.contributing_help"))
             end
         end
       end
@@ -50,7 +50,7 @@ module ViewComponents
             data: scroll_into_view(:dashboard)
           ) do
             graphical_icon(:overview) +
-              tag.span("Getting Started")
+              tag.span(I18n.t("components.contributing.header.getting_started"))
           end,
 
           link_to(
@@ -59,7 +59,7 @@ module ViewComponents
             data: scroll_into_view(:tasks)
           ) do
             graphical_icon(:tasks) +
-              tag.span("Explore tasks") +
+              tag.span(I18n.t("components.contributing.header.explore_tasks")) +
               tag.span(number_with_delimiter(tasks_size), class: 'count')
           end,
 
@@ -69,7 +69,7 @@ module ViewComponents
             data: scroll_into_view(:contributors)
           ) do
             graphical_icon(:contributors) +
-              tag.span("Contributors") +
+              tag.span(I18n.t("components.contributing.header.contributors")) +
               tag.span(number_with_delimiter(contributors_size), class: 'count')
           end
 

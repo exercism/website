@@ -1,0 +1,9 @@
+en:
+  components:
+    handle_with_flair:
+      icon_alt: "%{title}'s flair"
+      titles:
+        insider: An Exercism Insider
+        lifetime_insider: A lifetime Insider
+        founder: Founder
+        staff: Staff

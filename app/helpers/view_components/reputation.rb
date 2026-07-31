@@ -13,14 +13,14 @@ module ViewComponents
       css_classes << (flashy ? "c-primary-reputation" : "c-reputation")
       css_classes << "--#{size}" if size
 
-      tag.div(inner, class: css_classes.join(" "), 'aria-label': "#{reputation} reputation")
+      tag.div(inner, class: css_classes.join(" "), 'aria-label': I18n.t("components.reputation.aria_label", reputation:))
     end
 
     private
     attr_reader :reputation, :size, :flashy
 
     def inner
-      icon(:reputation, "Reputation") + tag.span(reputation)
+      icon(:reputation, I18n.t("components.reputation.icon_alt")) + tag.span(reputation)
     end
   end
 end

@@ -1,0 +1,10 @@
+en:
+  components:
+    track:
+      exercise_status_tag:
+        work_in_progress: Work In Progress
+        available: Available
+        locked: Locked
+        in_progress: In-progress
+        completed: Completed
+        published: Published

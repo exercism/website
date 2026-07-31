@@ -69,7 +69,9 @@ module ViewComponents
       banner = translatathon_banner
       link_to(banner.url, class: "announcement-bar md:block hidden", target: "_blank", rel: "noopener", dir: banner.dir) do
         tag.div(class: "lg-container") do
-          tag.span("🌍", class: 'emoji mr-6') +
+          # margin-inline-end (not mr-6) so the gap sits between the emoji and the
+          # text in both LTR and RTL banners.
+          tag.span("🌍", class: 'emoji', style: 'margin-inline-end:8px') +
             tag.span(banner.pre) +
             tag.strong(banner.link) +
             tag.span(banner.post)

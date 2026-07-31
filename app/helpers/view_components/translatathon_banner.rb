@@ -43,42 +43,42 @@ module ViewComponents
     # the program's own locale ids. Multi-variant languages have one entry per
     # variant (es-419/es-ES, pt-BR/pt-pt, zh-CN/zh-TW); #program_locale maps a
     # browser tag to the right one. Each string is written in that language, with a
-    # translated phrase for the translation session; only "Jiki" stays as a proper
-    # noun.
+    # translated phrase for the translation session; only "Exercism" stays as a
+    # proper noun.
     COPY = {
-      "ar" => { pre: "هل تريد مساعدتنا في ترجمة Jiki إلى العربية؟ ", link: "انضمّ إلى جلسة الترجمة", post: "" },
-      "bn" => { pre: "Jiki-কে বাংলায় অনুবাদ করতে আমাদের সাহায্য করতে চান? ", link: "অনুবাদ সেশনে যোগ দিন", post: "" },
-      "ca" => { pre: "Vols ajudar-nos a traduir Jiki al català? ", link: "Uneix-te a la sessió de traducció", post: "" },
-      "de" => { pre: "Möchtest du uns helfen, Jiki ins Deutsche zu übersetzen? ", link: "Mach bei der Übersetzungssession mit", post: "" }, # rubocop:disable Layout/LineLength
-      "el" => { pre: "Θέλεις να μας βοηθήσεις να μεταφράσουμε το Jiki στα Ελληνικά; ", link: "Λάβε μέρος στη μεταφραστική συνεδρία", post: "" }, # rubocop:disable Layout/LineLength
-      "es-419" => { pre: "¿Quieres ayudarnos a traducir Jiki al español? ", link: "Únete a la sesión de traducción", post: "" },
-      "es-ES" => { pre: "¿Quieres ayudarnos a traducir Jiki al español? ", link: "Únete a la sesión de traducción", post: "" },
-      "fa" => { pre: "می‌خواهید در ترجمهٔ Jiki به فارسی به ما کمک کنید؟ ", link: "به نشست ترجمه بپیوندید", post: "" },
-      "fr" => { pre: "Vous voulez nous aider à traduire Jiki en français ? ", link: "Rejoignez la session de traduction", post: "" },
-      "hi" => { pre: "क्या आप Jiki का हिन्दी में अनुवाद करने में हमारी मदद करना चाहते हैं? ", link: "अनुवाद सत्र में शामिल हों", post: "" }, # rubocop:disable Layout/LineLength
-      "id" => { pre: "Ingin membantu kami menerjemahkan Jiki ke Bahasa Indonesia? ", link: "Ikuti sesi terjemahan", post: "" },
-      "it" => { pre: "Vuoi aiutarci a tradurre Jiki in italiano? ", link: "Partecipa alla sessione di traduzione", post: "" },
-      "ja" => { pre: "Jiki を日本語に翻訳するのを手伝いませんか？", link: "翻訳セッションに参加する", post: "" },
-      "ko" => { pre: "Jiki를 한국어로 번역하는 데 도움을 주시겠어요? ", link: "번역 세션에 참여하세요", post: "" },
-      "nl" => { pre: "Wil je ons helpen Jiki naar het Nederlands te vertalen? ", link: "Doe mee aan de vertaalsessie", post: "" },
-      "pl" => { pre: "Chcesz pomóc nam przetłumaczyć Jiki na polski? ", link: "Dołącz do sesji tłumaczeniowej", post: "" },
-      "pt-BR" => { pre: "Quer nos ajudar a traduzir o Jiki para o português? ", link: "Participe da sessão de tradução", post: "" },
-      "pt-pt" => { pre: "Quer ajudar-nos a traduzir o Jiki para português? ", link: "Junte-se à sessão de tradução", post: "" },
-      "ru" => { pre: "Хотите помочь нам перевести Jiki на русский? ", link: "Присоединяйтесь к сессии перевода", post: "" },
-      "sr" => { pre: "Желите да нам помогнете да преведемо Jiki на српски? ", link: "Придружите се преводилачкој сесији", post: "" },
-      "sw" => { pre: "Ungependa kutusaidia kutafsiri Jiki kwa Kiswahili? ", link: "Jiunge na kikao cha tafsiri", post: "" },
-      "tr" => { pre: "Jiki'yi Türkçeye çevirmemize yardım etmek ister misin? ", link: "Çeviri oturumuna katıl", post: "" },
-      "uk" => { pre: "Хочете допомогти нам перекласти Jiki українською? ", link: "Долучайтеся до сесії перекладу", post: "" },
-      "ur" => { pre: "کیا آپ Jiki کا اردو میں ترجمہ کرنے میں ہماری مدد کرنا چاہتے ہیں؟ ", link: "ترجمے کے سیشن میں شامل ہوں", post: "" }, # rubocop:disable Layout/LineLength
-      "vi" => { pre: "Bạn muốn giúp chúng tôi dịch Jiki sang Tiếng Việt? ", link: "Tham gia buổi dịch thuật", post: "" },
-      "zh-CN" => { pre: "想帮我们把 Jiki 翻译成中文吗？", link: "加入翻译活动", post: "" },
-      "zh-TW" => { pre: "想幫我們把 Jiki 翻譯成中文嗎？", link: "加入翻譯活動", post: "" }
+      "ar" => { pre: "هل تريد مساعدتنا في ترجمة Exercism إلى العربية؟ ", link: "انضمّ إلى جلسة الترجمة", post: "" },
+      "bn" => { pre: "Exercism-কে বাংলায় অনুবাদ করতে আমাদের সাহায্য করতে চান? ", link: "অনুবাদ সেশনে যোগ দিন", post: "" },
+      "ca" => { pre: "Vols ajudar-nos a traduir Exercism al català? ", link: "Uneix-te a la sessió de traducció", post: "" },
+      "de" => { pre: "Möchtest du uns helfen, Exercism ins Deutsche zu übersetzen? ", link: "Mach bei der Übersetzungssession mit", post: "" }, # rubocop:disable Layout/LineLength
+      "el" => { pre: "Θέλεις να μας βοηθήσεις να μεταφράσουμε το Exercism στα Ελληνικά; ", link: "Λάβε μέρος στη μεταφραστική συνεδρία", post: "" }, # rubocop:disable Layout/LineLength
+      "es-419" => { pre: "¿Quieres ayudarnos a traducir Exercism al español? ", link: "Únete a la sesión de traducción", post: "" },
+      "es-ES" => { pre: "¿Quieres ayudarnos a traducir Exercism al español? ", link: "Únete a la sesión de traducción", post: "" },
+      "fa" => { pre: "می‌خواهید در ترجمهٔ Exercism به فارسی به ما کمک کنید؟ ", link: "به نشست ترجمه بپیوندید", post: "" },
+      "fr" => { pre: "Vous voulez nous aider à traduire Exercism en français ? ", link: "Rejoignez la session de traduction", post: "" }, # rubocop:disable Layout/LineLength
+      "hi" => { pre: "क्या आप Exercism का हिन्दी में अनुवाद करने में हमारी मदद करना चाहते हैं? ", link: "अनुवाद सत्र में शामिल हों", post: "" }, # rubocop:disable Layout/LineLength
+      "id" => { pre: "Ingin membantu kami menerjemahkan Exercism ke Bahasa Indonesia? ", link: "Ikuti sesi terjemahan", post: "" },
+      "it" => { pre: "Vuoi aiutarci a tradurre Exercism in italiano? ", link: "Partecipa alla sessione di traduzione", post: "" },
+      "ja" => { pre: "Exercism を日本語に翻訳するのを手伝いませんか？", link: "翻訳セッションに参加する", post: "" },
+      "ko" => { pre: "Exercism을 한국어로 번역하는 데 도움을 주시겠어요? ", link: "번역 세션에 참여하세요", post: "" },
+      "nl" => { pre: "Wil je ons helpen Exercism naar het Nederlands te vertalen? ", link: "Doe mee aan de vertaalsessie", post: "" },
+      "pl" => { pre: "Chcesz pomóc nam przetłumaczyć Exercism na polski? ", link: "Dołącz do sesji tłumaczeniowej", post: "" },
+      "pt-BR" => { pre: "Quer nos ajudar a traduzir o Exercism para o português? ", link: "Participe da sessão de tradução", post: "" }, # rubocop:disable Layout/LineLength
+      "pt-pt" => { pre: "Quer ajudar-nos a traduzir o Exercism para português? ", link: "Junte-se à sessão de tradução", post: "" },
+      "ru" => { pre: "Хотите помочь нам перевести Exercism на русский? ", link: "Присоединяйтесь к сессии перевода", post: "" },
+      "sr" => { pre: "Желите да нам помогнете да преведемо Exercism на српски? ", link: "Придружите се преводилачкој сесији", post: "" }, # rubocop:disable Layout/LineLength
+      "sw" => { pre: "Ungependa kutusaidia kutafsiri Exercism kwa Kiswahili? ", link: "Jiunge na kikao cha tafsiri", post: "" },
+      "tr" => { pre: "Exercism'i Türkçeye çevirmemize yardım etmek ister misin? ", link: "Çeviri oturumuna katıl", post: "" },
+      "uk" => { pre: "Хочете допомогти нам перекласти Exercism українською? ", link: "Долучайтеся до сесії перекладу", post: "" },
+      "ur" => { pre: "کیا آپ Exercism کا اردو میں ترجمہ کرنے میں ہماری مدد کرنا چاہتے ہیں؟ ", link: "ترجمے کے سیشن میں شامل ہوں", post: "" }, # rubocop:disable Layout/LineLength
+      "vi" => { pre: "Bạn muốn giúp chúng tôi dịch Exercism sang Tiếng Việt? ", link: "Tham gia buổi dịch thuật", post: "" },
+      "zh-CN" => { pre: "想帮我们把 Exercism 翻译成中文吗？", link: "加入翻译活动", post: "" },
+      "zh-TW" => { pre: "想幫我們把 Exercism 翻譯成中文嗎？", link: "加入翻譯活動", post: "" }
     }.freeze
 
     # English display names for base language codes, used to fill in the English
-    # fallback banner ("Want to help us translate Jiki to <name>?"). Ruby has no
+    # fallback banner ("Want to help us translate Exercism to <name>?"). Ruby has no
     # Intl.DisplayNames, so we carry the names we care about. A code we can't name
-    # gets no banner (we never render "translate Jiki to xyz").
+    # gets no banner (we never render "translate Exercism to xyz").
     LANGUAGE_NAMES = {
       "af" => "Afrikaans", "am" => "Amharic", "ar" => "Arabic", "az" => "Azerbaijani",
       "be" => "Belarusian", "bg" => "Bulgarian", "bn" => "Bengali", "bs" => "Bosnian",
@@ -151,7 +151,7 @@ module ViewComponents
       return nil unless name
 
       Banner.new(
-        pre: "Want to help us translate Jiki to #{name}? ",
+        pre: "Want to help us translate Exercism to #{name}? ",
         link: "Join the Translatathon",
         post: "",
         url: TRANSLATATHON_URL,

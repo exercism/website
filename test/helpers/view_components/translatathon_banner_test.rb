@@ -25,7 +25,7 @@ class ViewComponents::TranslatathonBannerTest < ActiveSupport::TestCase
   test "shows the program banner in the target language" do
     banner = resolve("fr-FR,fr;q=0.9,en;q=0.8")
 
-    assert_equal "Vous voulez nous aider à traduire Jiki en français ? ", banner.pre
+    assert_equal "Vous voulez nous aider à traduire Exercism en français ? ", banner.pre
     assert_equal "Rejoignez la session de traduction", banner.link
     assert_equal "https://i18n.jiki.io", banner.url
     assert_equal "ltr", banner.dir
@@ -40,7 +40,7 @@ class ViewComponents::TranslatathonBannerTest < ActiveSupport::TestCase
   test "picks the first non-catalog language, skipping English" do
     banner = resolve("en-GB,en;q=0.9,de;q=0.8")
 
-    assert_equal "Möchtest du uns helfen, Jiki ins Deutsche zu übersetzen? ", banner.pre
+    assert_equal "Möchtest du uns helfen, Exercism ins Deutsche zu übersetzen? ", banner.pre
   end
 
   test "orders by q-value, not header order" do
@@ -53,7 +53,7 @@ class ViewComponents::TranslatathonBannerTest < ActiveSupport::TestCase
   test "falls back to English copy with the language name for non-program languages" do
     banner = resolve("sv-SE,sv;q=0.9")
 
-    assert_equal "Want to help us translate Jiki to Swedish? ", banner.pre
+    assert_equal "Want to help us translate Exercism to Swedish? ", banner.pre
     assert_equal "Join the Translatathon", banner.link
     assert_equal "ltr", banner.dir
   end

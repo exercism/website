@@ -9,7 +9,7 @@ module ViewComponents
             [
               track_icon(track),
               tag.div(track.title, class: 'title'),
-              tag.div(pluralize(doc_counts[track.id], "doc"), class: 'count')
+              tag.div(I18n.t("components.docs_track_list.doc_count", count: doc_counts[track.id]), class: 'count')
             ]
           )
         end

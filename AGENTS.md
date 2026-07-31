@@ -13,10 +13,6 @@ Exercism Website is a Ruby on Rails app (Ruby 3.4.4) with a React/TypeScript fro
 - **Frontend**: React/TypeScript in `app/javascript/`, styled with PostCSS + Tailwind (`app/css/`, `tailwind.config.js`), built with esbuild (`app/javascript/esbuild.js`).
 - **Routing**: three surfaces — standard user-facing routes, `/api` (Bearer-auth public/CLI/frontend endpoints, `config/routes/api.rb`), and `/spi` (internal AWS Lambda callbacks, no app-level auth, `config/routes/spi.rb`).
 
-### Exploring the codebase with graphify (optional)
-
-For a queryable knowledge graph of `app/` (call graphs, community structure, cross-module bridges), run `/graphify app` locally (or `graphify` CLI, installed via `uv tool install graphifyy`). It builds a code-only graph via deterministic AST — no LLM cost, ~30s — and writes `graphify-out/` (git-ignored). Regenerate it yourself rather than relying on a committed copy; the graph is a point-in-time snapshot and goes stale as code changes. Use `graphify query "<question>"` against the built graph to answer architecture questions.
-
 ## Complete Documentation
 
 For comprehensive documentation about the application architecture, setup, and patterns, see [`docs/context/overview.md`](docs/context/overview.md). The `docs/context/` directory contains detailed documentation on all aspects of the application:
@@ -65,13 +61,7 @@ yarn test path/to/Component.test.tsx                     # one JS test file (jes
 yarn test -t "renders the label"                         # JS tests matching a name
 ```
 
-**Lint only staged changes** (what the pre-commit hook runs — faster than a full pass):
-
-```bash
-bin/rubocop-quick     # rubocop --except Metrics on staged .rb, then re-stages
-bin/eslint-quick      # eslint on staged .js/.ts/.jsx/.tsx, then re-stages
-bin/haml-lint-quick   # haml-lint on staged .haml
-```
+You do NOT need to run lint or rubocop on files before committing. These will AUTOMATICALLY happen via a git hook. Running before this just wastes time.
 
 **Asset builds:**
 

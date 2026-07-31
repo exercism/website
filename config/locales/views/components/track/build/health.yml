@@ -1,0 +1,12 @@
+en:
+  components:
+    track:
+      build:
+        health:
+          verb:
+            singular: is
+            plural: are
+          exemplar: "%{verb} exemplar ✨"
+          healthy: "%{verb} healthy ✅"
+          needs_attention: needs attention ⚠️
+          missing: "%{verb} missing ❓"

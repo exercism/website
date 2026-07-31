@@ -1,0 +1,6 @@
+en:
+  components:
+    docs_track_list:
+      doc_count:
+        one: "%{count} doc"
+        other: "%{count} docs"

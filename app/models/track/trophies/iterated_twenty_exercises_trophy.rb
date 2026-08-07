@@ -5,14 +5,14 @@ class Track::Trophies::IteratedTwentyExercisesTrophy < Track::Trophy
 
   # rubocop:disable Layout/LineLength
   def criteria(track)
-    "Awarded for submitting multiple iterations in %<num_exercises>i exercises" % {
+    "Awarded for submitting multiple iterations in %<num_exercises>i separate exercises" % {
       num_exercises: NUM_EXERCISES,
       track_title: track.title
     }
   end
 
   def success_message(track)
-    "Congratulations on submitting multiple iterations for %<num_exercises>i exercises in %<track_title>s. Keep on refining your knowledge!" % {
+    "Congratulations on submitting multiple iterations for %<num_exercises>i separate exercises in %<track_title>s. Keep on refining your knowledge!" % {
       num_exercises: NUM_EXERCISES,
       track_title: track.title
     }

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { animate } from '@juliangarnierorg/anime-beta'
+import { animate } from 'animejs'
 import { useCSSExercisePageStore } from './store/cssExercisePageStore'
 import { CSSExercisePageContext } from './CSSExercisePageContext'
 import { getDiffCanvasFromIframes } from './utils/getDiffCanvasFromIframes'

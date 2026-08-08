@@ -1,6 +1,6 @@
 import Lottie from 'lottie-web'
 import hamsterJSON from './lottiefiles/hamster.json'
-import { animate } from '@juliangarnierorg/anime-beta'
+import { animate } from 'animejs'
 
 function initHamsterAnimation() {
   let hamsterAnimation = null

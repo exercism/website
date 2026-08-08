@@ -1,12 +1,12 @@
 import { type Frame } from '@/interpreter/frames'
-import { createTimeline, stagger } from '@juliangarnierorg/anime-beta'
+import { createTimeline, stagger } from 'animejs'
 import type {
   DefaultsParams,
   Timeline,
   AnimationParams,
   TargetSelector,
   TargetsParam,
-} from '@juliangarnierorg/anime-beta'
+} from 'animejs'
 import type { AnimeCSSProperties } from './types'
 
 export type Animation =

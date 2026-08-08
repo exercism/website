@@ -16,9 +16,6 @@ jobs:
             .dockerimages.json
           sparse-checkout-cone-mode: false
 
-      - name: Authenticate with private NPM package
-        run: echo -e "//npm.pkg.github.com/:_authToken=${{ secrets.NPM_TOKEN }}\n@juliangarnierorg:registry=https://npm.pkg.github.com" > ~/.npmrc
-
       - name: Define Docker images
         run: |
           echo "localstack_image=$(jq -r '.localstack' .dockerimages.json)" >> "$GITHUB_ENV"
@@ -38,9 +35,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
-
-      - name: Authenticate with private NPM package
-        run: echo -e "//npm.pkg.github.com/:_authToken=${{ secrets.NPM_TOKEN }}\n@juliangarnierorg:registry=https://npm.pkg.github.com" > ~/.npmrc
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@13e7a03dc3ac6c3798f4570bfead2aed4d96abfb
@@ -78,9 +72,6 @@ jobs:
       # Checkout using GitHub's checkout action
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
       ###
-
-      - name: Authenticate with private NPM package
-        run: echo -e "//npm.pkg.github.com/:_authToken=${{ secrets.NPM_TOKEN }}\n@juliangarnierorg:registry=https://npm.pkg.github.com" > ~/.npmrc
 
       # Caching using GitHub's caching action
       # https://github.com/actions/cache/blob/main/examples.md#node---yarn
@@ -177,9 +168,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
-
-      - name: Authenticate with private NPM package
-        run: echo -e "//npm.pkg.github.com/:_authToken=${{ secrets.NPM_TOKEN }}\n@juliangarnierorg:registry=https://npm.pkg.github.com" > ~/.npmrc
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@13e7a03dc3ac6c3798f4570bfead2aed4d96abfb
@@ -337,9 +325,6 @@ jobs:
       # Checkout using GitHub's checkout action
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
 
-      - name: Authenticate with private NPM package
-        run: echo -e "//npm.pkg.github.com/:_authToken=${{ secrets.NPM_TOKEN }}\n@juliangarnierorg:registry=https://npm.pkg.github.com" > ~/.npmrc
-
       ###
       # Setup Ruby - this needs to match the version in the Gemfile
       - name: Set up Ruby
@@ -449,9 +434,6 @@ jobs:
       ###
       # Checkout using GitHub's checkout action
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
-
-      - name: Authenticate with private NPM package
-        run: echo -e "//npm.pkg.github.com/:_authToken=${{ secrets.NPM_TOKEN }}\n@juliangarnierorg:registry=https://npm.pkg.github.com" > ~/.npmrc
 
       ###
       # Setup Ruby - this needs to match the version in the Gemfile

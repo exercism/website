@@ -4,7 +4,6 @@ ARG GEOIP_ACCOUNT_ID
 ARG GEOIP_LICENSE_KEY
 ARG GEOIP_CACHE_BUSTER
 ARG BUNDLER_VERSION
-ARG NPM_TOKEN
 ENV RAILS_ENV=production
 ENV NODE_ENV=production
 ENV NODE_OPTIONS="--max-old-space-size=6144"
@@ -45,8 +44,6 @@ RUN gem install devise -v 4.9.4 --no-document --install-dir=$BUNDLE_PATH
 # Only Gemfile and Gemfile.lock changes require a new bundle install
 COPY Gemfile Gemfile.lock ./
 RUN bundle install
-
-RUN echo "//npm.pkg.github.com/:_authToken=${NPM_TOKEN}\n@juliangarnierorg:registry=https://npm.pkg.github.com" > .npmrc
 
 # Only package.json and yarn.lock changes require a new yarn install
 COPY package.json yarn.lock ./

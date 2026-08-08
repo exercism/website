@@ -1,8 +1,11 @@
+// i18n-namespace: components/common/CLIWalkthroughButton.tsx
 import React, { useState } from 'react'
 import { CLIWalkthroughModal } from '../modals/CLIWalkthroughModal'
 import { GraphicalIcon, Icon } from '../common'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export default ({ html }: { html: string }): JSX.Element => {
+  const { t } = useAppTranslation('components/common/CLIWalkthroughButton.tsx')
   const [open, setOpen] = useState(false)
 
   return (
@@ -18,12 +21,18 @@ export default ({ html }: { html: string }): JSX.Element => {
           className="graphical-icon"
         />
         <div className="info">
-          <div className="--title">Install Exercism locally</div>
+          <div className="--title">
+            {t('cliWalkthroughButton.installExercismLocally')}
+          </div>
           <div className="--explanation">
-            Use our wizard to setup Exercism to work on your local machine.
+            {t('cliWalkthroughButton.useOurWizard')}
           </div>
         </div>
-        <Icon icon="modal" alt="Opens in a modal" className="modal-icon" />
+        <Icon
+          icon="modal"
+          alt={t('cliWalkthroughButton.opensInModal')}
+          className="modal-icon"
+        />
       </button>
       <CLIWalkthroughModal
         open={open}

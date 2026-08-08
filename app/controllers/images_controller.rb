@@ -20,9 +20,11 @@ class ImagesController < ApplicationController
     @top_three_tracks = ::Track.active.where(id: track_ids).sort_by { |t| track_ids.index(t.id) }
 
     @header_tags = []
-    @header_tags << { class: "tag staff", icon: :logo, title: "Exercism Staff" } if @user.staff?
-    @header_tags << { class: "tag maintainer", icon: :maintaining, title: "Maintainer" } if @user.maintainer?
-    @header_tags << { class: "tag insider", icon: :insiders, title: "Insider" } if @user.insider?
+    @header_tags << { class: "tag staff", icon: :logo, title: I18n.t("profiles.header.tags.staff") } if @user.staff?
+    if @user.maintainer?
+      @header_tags << { class: "tag maintainer", icon: :maintaining, title: I18n.t("profiles.header.tags.maintainer") }
+    end
+    @header_tags << { class: "tag insider", icon: :insiders, title: I18n.t("profiles.header.tags.insider") } if @user.insider?
     @header_tags = @header_tags.take(2)
   end
 

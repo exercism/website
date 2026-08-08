@@ -1,0 +1,5 @@
+en:
+  components:
+    mentoring:
+      try_mentoring_button:
+        default_text: "Try mentoring now"

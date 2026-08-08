@@ -1,0 +1,30 @@
+en:
+  about:
+    individual_supporters:
+      meta_title: Supporting Exercism
+      meta_description: These wonderful people have helped financially support Exercism
+      header:
+        title_html: Our %{highlight} individual donors
+        title_highlight: generous
+        subtitle: "%{count} generous people have donated to Exercism"
+      cta:
+        logo_alt: Exercism logo
+        title: Help us bring the joy of programming to everyone, everywhere!
+        description: Could you help support Exercism? Every little helps.
+        button: Donate now
+      donor:
+        avatar_alt: User-uploaded avatar of %{name}
+        first_supported: First supported %{time_ago} ago
+      missing:
+        title: Why am I not on this page?
+        body_html: >-
+          This page aims to show all individuals who have financially supported
+          Exercism. Technically, it lists everyone who have been awarded the
+          Supporter badge and who have enabled the "Appear on supporters page?"
+          toggle in their %{donations_settings_link}. Donating through the
+          Exercism website should automatically award you the Supporter badge.
+          However, donating through a third party website (e.g. GitHub) may
+          require you to email %{email_link} to ask us to manually award the
+          badge.
+        donations_settings_link_text: Donations Settings
+        email_link_text: donations@exercism.org

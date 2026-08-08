@@ -1,0 +1,6 @@
+en:
+  components:
+    community_solutions:
+      share_solution_button:
+        title: "Share %{handle}'s solution"
+        share_title: "View this solution on Exercism"

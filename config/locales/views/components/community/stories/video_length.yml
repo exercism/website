@@ -1,0 +1,12 @@
+en:
+  components:
+    community:
+      stories:
+        video_length:
+          label: LENGTH
+          hours:
+            one: HR
+            other: HRS
+          minutes:
+            one: MIN
+            other: MINS

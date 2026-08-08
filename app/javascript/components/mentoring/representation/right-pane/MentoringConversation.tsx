@@ -8,6 +8,7 @@ import {
 import { PreviewAutomationModal } from '../modals/PreviewAutomationModal'
 import { SubmittedAutomationModal } from '../modals/SubmittedAutomationModal'
 import { RepresentationFeedbackEditor } from './RepresentationFeedbackEditor'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export default function MentoringConversation({
   data,
@@ -16,6 +17,9 @@ export default function MentoringConversation({
   data: CompleteRepresentationData
   feedbackType: RepresentationFeedbackType
 }): JSX.Element {
+  const { t } = useAppTranslation(
+    'components/mentoring/representation/right-pane/MentoringConversation.tsx'
+  )
   const [value, setValue] = useState(
     data.representation.feedbackMarkdown ||
       data.representation.draftFeedbackMarkdown ||
@@ -28,7 +32,9 @@ export default function MentoringConversation({
       !!data.representation.draftFeedbackMarkdown ||
       false
   )
-  const [html, setHtml] = useState('<p>Loading..</p>')
+  const [html, setHtml] = useState(
+    `<p>${t('mentoringConversation.loading')}</p>`
+  )
 
   const handleChange = useCallback((value) => setValue(value), [setValue])
 

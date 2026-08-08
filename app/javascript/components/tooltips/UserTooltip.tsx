@@ -1,19 +1,20 @@
 import React from 'react'
 import { FetchedTooltip } from './FetchedTooltip'
 import { UserTooltipSkeleton } from '../common/skeleton/skeletons/UserTooltipSkeleton'
-
-const DEFAULT_ERROR = new Error('Unable to load user')
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export default function UserTooltip({
   endpoint,
 }: {
   endpoint: string
 }): JSX.Element | null {
+  const { t } = useAppTranslation('components/tooltips/UserTooltip.tsx')
+  const DEFAULT_ERROR = new Error(t('userTooltip.unableToLoadUser'))
   return (
     <FetchedTooltip
       endpoint={endpoint}
       className="c-user-tooltip"
-      loadingAlt="Loading user data"
+      loadingAlt={t('userTooltip.loadingUserData')}
       LoadingComponent={<UserTooltipSkeleton />}
       defaultError={DEFAULT_ERROR}
     />

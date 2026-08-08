@@ -1,0 +1,14 @@
+en:
+  components:
+    exercise:
+      unlock_on_complete_sentence:
+        with_concepts_html:
+          By marking %{exercise_title} as complete, you’ll unlock
+          %{concepts} (%{concept_names}) and %{exercises}.
+        without_concepts_html: By marking %{exercise_title} as complete, you’ll unlock %{exercises}.
+        concept_count:
+          one: "%{count} concept"
+          other: "%{count} concepts"
+        exercise_count:
+          one: "%{count} new exercise"
+          other: "%{count} new exercises"

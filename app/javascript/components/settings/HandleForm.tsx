@@ -98,7 +98,7 @@ const SuccessMessage = () => {
   const { t } = useAppTranslation('components/settings/HandleForm.tsx')
   return (
     <div className="status success">
-      <Icon icon="completed-check-circle" alt="Success" />
+      <Icon icon="completed-check-circle" alt={t('handleForm.successAlt')} />
       {t('handleForm.success')}
     </div>
   )

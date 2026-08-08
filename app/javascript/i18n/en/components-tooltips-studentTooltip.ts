@@ -18,4 +18,5 @@ export default {
   favorited: 'Favorited',
   trackObjectivesTitle: 'Track objectives',
   unableToLoad: 'Unable to load information',
+  locatedInAlt: 'Located in',
 }

@@ -1,3 +1,4 @@
+// namespace: components/modals/complete-exercise-modal
 export default {
   'exerciseCompletedModal.youCompleted': "You've completed {{exerciseTitle}}!",
   'exerciseCompletedModal.awesomeWorkLearning':

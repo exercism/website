@@ -1,0 +1,10 @@
+en:
+  components:
+    impact:
+      chart:
+        milestones:
+          reached_1m_users: Reached 1M users!
+          exercism_v3: Exercism v3
+          automated_feedback: Automated feedback!
+          exercism_v2: Exercism v2
+          exercism_launched: Exercism launched

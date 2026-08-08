@@ -23,6 +23,7 @@ en:
           Mentoring is a great way to expand your own knowledge while
           helping others discover the power and joy of Go.
         button: Become a Go mentor
+        video_title: Become an Exercism mentor
       learning_section:
         heading: Gain fluency in Go
         subheading: Learn and get mentored on Go-specific concepts and idioms

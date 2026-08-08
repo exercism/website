@@ -21,4 +21,5 @@ export default {
   'profileForm.juniorDeveloper': 'Junior Developer',
   'profileForm.midLevelDeveloper': 'Mid-level Developer',
   'profileForm.seniorDeveloper': 'Senior Developer',
+  'profileForm.successAlt': 'Success',
 }

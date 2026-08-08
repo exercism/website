@@ -44,7 +44,7 @@ export function ExerciseTagFilter({
         </div>
         <Icon
           icon="chevron-down"
-          alt="Click to change"
+          alt={t('exerciseTagFilter.exerciseTagFilter.clickToChange')}
           className="action-icon"
         />
       </button>

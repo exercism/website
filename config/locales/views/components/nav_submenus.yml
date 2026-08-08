@@ -1,0 +1,69 @@
+en:
+  components:
+    nav_submenus:
+      learn:
+        tracks:
+          title: "Language Tracks"
+          description: "Upskill in 65+ languages"
+        coding_fundamentals:
+          title: "Learn To Code with Jiki"
+          description: "Learn to code and build in the LLM-era."
+        journey:
+          title: "Your Journey"
+          description: "Explore your Exercism journey"
+        favorites:
+          title: "Your Favorites"
+          description: "Revisit your favorite solutions"
+      discover:
+        perks:
+          title: "Exercism Perks"
+          description: "Offers & discounts from our partners"
+        community_content:
+          title: "Community Videos"
+          description: "Streaming, walkthroughs & more"
+        brief_introductions:
+          title: "Brief Introduction Series"
+          description: "Short language overviews"
+        interviews:
+          title: "Interviews & Stories"
+          description: "Get inspired by people's stories"
+        discord:
+          title: "Discord"
+          description: "Chat & hang with the community"
+        forum:
+          title: "Forum"
+          description: "Dig deeper into topics"
+      contribute:
+        getting_started:
+          title: "Getting started"
+          description: "How you can help Exercism"
+        mentoring:
+          title: "Mentoring"
+          description: "Support others as they learn"
+        docs:
+          title: "Docs"
+          description: "Everything you need to help"
+        contributors:
+          title: "Contributors"
+          description: "Meet the people behind Exercism"
+        translators:
+          title: "Translators"
+          description: "Support our Localization project"
+      more:
+        donate:
+          title: "Donate"
+          description: "Help support our mission"
+        about:
+          title: "About Exercism"
+          description: "Learn about our organisation"
+        impact:
+          title: "Our Impact"
+          description: "Explore what we've achieved"
+        github_syncer:
+          title: "GitHub Syncer"
+          description: "Backup your solutions to GitHub"
+        insiders:
+          title: "Insiders"
+          description: "Our way of saying thank you"
+      views:
+        mentoring_details: "mentoring details"

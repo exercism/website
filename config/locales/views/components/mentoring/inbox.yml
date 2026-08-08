@@ -1,0 +1,9 @@
+en:
+  components:
+    mentoring:
+      inbox:
+        sort_options:
+          recent_first: "Sort by recent first"
+          oldest_first: "Sort by oldest first"
+          exercise: "Sort by exercise"
+          student: "Sort by student"

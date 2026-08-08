@@ -72,6 +72,7 @@ en:
             including Meducation, Wondr Medical, and %{kaido_link}, and holds a
             patent for AI used in heart surgery.
           personal_site_link: Jeremy's Personal Site
+          kaido_link_text: Kaido
       staff_team:
         title: Staff
         description:
@@ -106,6 +107,7 @@ en:
             Nicole is the Head of Product at %{kaido_link}. She spent two years as Head
             of Product for Exercism, guiding us from v1 to v2, and helping set
             the principles and ideas that still drive Exercism today.
+          kaido_link_text: Kaido
         charles_care:
           image_alt: An image of Charles Care
           bio:

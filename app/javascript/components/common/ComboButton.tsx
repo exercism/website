@@ -1,7 +1,9 @@
+// i18n-namespace: components/common/ComboButton.tsx
 import React, { useContext, forwardRef } from 'react'
 import ReactDOM from 'react-dom'
 import { usePanel } from '../../hooks/use-panel'
 import { Icon } from './Icon'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const ComboButtonContext = React.createContext({
   open: false,
@@ -12,6 +14,7 @@ type Props = React.PropsWithChildren<{ className?: string; enabled?: boolean }>
 
 export const ComboButton = forwardRef<HTMLDivElement, Props>(
   ({ className = '', children, enabled = true }, ref) => {
+    const { t } = useAppTranslation('components/common/ComboButton.tsx')
     const { open, setOpen, buttonAttributes, panelAttributes } = usePanel({
       placement: 'bottom-end',
       modifiers: [
@@ -42,7 +45,7 @@ export const ComboButton = forwardRef<HTMLDivElement, Props>(
             className="--dropdown-segment"
             disabled={!enabled}
           >
-            <Icon icon="chevron-down" alt="Open dropdown" />
+            <Icon icon="chevron-down" alt={t('comboButton.openDropdown')} />
           </button>
         </div>
       </ComboButtonContext.Provider>

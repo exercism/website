@@ -68,19 +68,19 @@ export const Info = ({
           {solution && solution.mentoringStatus == 'requested' ? (
             <Icon
               icon="mentoring-status-requested"
-              alt="Mentoring requested"
+              alt={t('mentoringStatus.requested')}
               className="--mentoring-status"
             />
           ) : solution && solution.mentoringStatus == 'in_progress' ? (
             <Icon
               icon="mentoring-status-in-progress"
-              alt="Mentoring in progress"
+              alt={t('mentoringStatus.inProgress')}
               className="--mentoring-status"
             />
           ) : solution && solution.mentoringStatus == 'finished' ? (
             <Icon
               icon="mentoring-status-finished"
-              alt="Mentoring finished"
+              alt={t('mentoringStatus.finished')}
               className="--mentoring-status"
             />
           ) : null}

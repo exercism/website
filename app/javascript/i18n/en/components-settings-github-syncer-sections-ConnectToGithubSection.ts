@@ -22,4 +22,10 @@ export default {
     "On the next screen you will be asked to give permission to that repository. Please ensure you <strong>select only one repository</strong> (sadly, GitHub doesn't give us a way to enforce that!)",
   'connectModal.connectGithubRepository': 'Connect a GitHub repository',
   'connectModal.cancel': 'Cancel',
+  'index.exercismAlt': 'Exercism',
+  'index.syncWithAlt': 'Sync with',
+  'index.githubAlt': 'Github',
+  'connectModal.exercismAlt': 'Exercism',
+  'connectModal.syncWithAlt': 'Sync with',
+  'connectModal.githubAlt': 'Github',
 }

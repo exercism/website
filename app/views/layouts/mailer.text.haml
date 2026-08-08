@@ -2,12 +2,12 @@
 
 \---
 \
-You received this email because you've signed up to Exercism (https://exercism.org)
+= t('.text_received_because', exercism_url: "https://exercism.org")
 \
 
 - if @user && @unsubscribe_key
-  Unsubscribe from this email: #{unsubscribe_url(token: @user.communication_preferences.token, key: @unsubscribe_key)}
+  = t('.text_unsubscribe_line', unsubscribe_url: unsubscribe_url(token: @user.communication_preferences.token, key: @unsubscribe_key))
 - if @user
-  Change your notification settings: #{unsubscribe_url(token: @user.communication_preferences.token)}
+  = t('.text_change_notification_settings_line', settings_url: unsubscribe_url(token: @user.communication_preferences.token))
   \
-Sent by Exercism: Unit G3; 81 Bournville Lane, United Kingdom
+= t('.text_sent_by')

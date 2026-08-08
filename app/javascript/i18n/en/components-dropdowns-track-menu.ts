@@ -74,4 +74,5 @@ export default {
     'No longer interested in learning {{trackTitle}}? No problem!',
   'leaveTrackModal.leave': 'Leave',
   'leaveTrackModal.leavePlusReset': 'Leave + Reset',
+  'leaveTrackModal.infoAlt': 'Info',
 }

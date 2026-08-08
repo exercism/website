@@ -1,6 +1,13 @@
 en:
   devise:
     shared:
+      information:
+        heading: Exercism is free for all people, everywhere
+        level_up_html:
+          Level up your programming skills with %{stats} and insightful
+          discussion with our dedicated team of welcoming mentors.
+        level_up_stats: "%{exercise_count} exercises across %{track_count} languages"
+        free_forever: Exercism is 100% free forever.
       links:
         already_have_account_prompt: Already got an account?
         log_in_link: Log in

@@ -15,6 +15,11 @@ FileUtils.chdir APP_ROOT do
 
   puts '== Installing dependencies =='
   system! 'gem install bundler --conservative'
+  
+  # Optimize bundle configuration for faster installs
+  puts '== Optimizing bundle configuration =='
+  system! 'bin/setup_bundle_optimization'
+  
   system('bundle check') || system!('bundle install')
 
   puts "\n== Setup DynamoDB Locally =="

@@ -5,7 +5,7 @@ import * as Jiki from '@/interpreter/jikiObjects'
 import { InterpretResult } from '@/interpreter/interpreter'
 import { AnimeCSSProperties } from '../../AnimationTimeline/types'
 import { buildWordleGame } from './WordleGame'
-import { utils } from '@juliangarnierorg/anime-beta'
+import { utils } from 'animejs'
 
 type state = 'absent' | 'present' | 'correct' | 'correct'
 

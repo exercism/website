@@ -1,4 +1,4 @@
-import { animate } from '@juliangarnierorg/anime-beta'
+import { animate } from 'animejs'
 document.addEventListener('DOMContentLoaded', () => {
   const marqueeElement = document.querySelector('.scrolling-testimonials ul')
   const container = document.querySelector('.scrolling-testimonials')

@@ -29,4 +29,12 @@ class ImagesController < ApplicationController
   def solution
     @solution = Solution.for!(params[:user_handle], params[:track_slug], params[:exercise_slug])
   end
+
+  # Feeds the image generator, which renders the share image without a browser
+  # and so needs the data rather than the page.
+  def solution_data
+    solution = Solution.for!(params[:user_handle], params[:track_slug], params[:exercise_slug])
+
+    render json: SerializeSolutionImage.(solution)
+  end
 end

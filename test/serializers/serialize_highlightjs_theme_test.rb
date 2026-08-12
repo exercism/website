@@ -53,7 +53,7 @@ class SerializeHighlightjsThemeTest < ActiveSupport::TestCase
 
     # The theme opens with a comment listing "base: #282c34" and friends. If
     # those leaked in we'd get scopes that highlight.js never emits.
-    assert theme.keys.all? { |scope| scope.match?(/\A[\w-]+\z/) }
+    assert(theme.keys.all? { |scope| scope.match?(/\A[\w-]+\z/) })
     refute theme.key?('base')
   end
 end

@@ -8,7 +8,7 @@
 class SerializeHighlightjsTheme
   include Mandate
 
-  CSS_PATH = Rails.root.join('app/css/highlighters/highlightjs-dark.css').freeze
+  CSS_PATH = Rails.root.join('app', 'css', 'highlighters', 'highlightjs-dark.css').freeze
   DEFAULT_SCOPE = 'default'.freeze
 
   # Any rule whose selectors mention .hljs, e.g.

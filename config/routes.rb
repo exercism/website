@@ -122,6 +122,10 @@ Rails.application.routes.draw do
   resources :solution_tagger, only: [:index]
 
   resource :images, controller: "images" do
+    # Declared before the HTML route so the trailing segment isn't swallowed by
+    # :user_handle. A path segment rather than a .json format because handles
+    # are user-supplied and shouldn't have to be format-safe.
+    get "solutions/:track_slug/:exercise_slug/:user_handle/data", to: "images#solution_data"
     get "solutions/:track_slug/:exercise_slug/:user_handle", to: "images#solution"
     get "profiles/:user_handle", to: "images#profile"
   end

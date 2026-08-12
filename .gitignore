@@ -65,3 +65,6 @@ vendor/bundle/
 
 # Git worktrees
 worktrees/
+
+# Graphify knowledge graph output
+graphify-out/

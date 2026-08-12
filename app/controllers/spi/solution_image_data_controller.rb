@@ -1,4 +1,11 @@
 module SPI
+  # Feeds the image generator, which draws a solution's share image without a
+  # browser and so needs the data rather than the page.
+  #
+  # Being on SPI means the generator reaches this over the internal ALB. Fetching
+  # the equivalent from the public site instead meant the lambda had to be
+  # allowlisted by source IP in Cloudflare - the coupling that left every image
+  # timing out for four days once bot mitigation was turned on.
   class SolutionImageDataController < BaseController
     def show
       solution = Solution.for!(
@@ -7,20 +14,7 @@ module SPI
         params[:exercise_slug]
       )
 
-      exercise = solution.exercise
-      track = exercise.track
-      file = solution.latest_published_iteration_submission.files.first
-      snippet = solution.snippet.presence || file.content[0, 10]
-      render json: {
-        solution: {
-          snippet:,
-          extension: File.extname(file.filename),
-          language: track.highlightjs_language,
-          track_icon_url: track.icon_url,
-          exercise_icon_url: exercise.icon_url,
-          user_avatar_url: solution.user.avatar_url
-        }
-      }
+      render json: SerializeSolutionImage.(solution)
     end
   end
 end

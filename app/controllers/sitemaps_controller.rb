@@ -95,10 +95,14 @@ class SitemapsController < ApplicationController
       pages << [track_exercise_url(track, exercise), exercise.updated_at, :monthly, 0.75]
       pages << [track_exercise_solutions_url(track, exercise), Time.zone.today, :daily, 0.7]
 
-      exercise.solutions.published.where('num_stars > 0').order(num_stars: :desc).limit(100).includes(:track, :exercise,
-        :user).each do |solution|
-        priority = 0.5 + [0.1, solution.num_stars / 100.0].min
-        pages << [Exercism::Routes.published_solution_url(solution), solution.updated_at, :monthly, priority]
+      # We already have the track and exercise in hand, so build the URL directly
+      # rather than going via published_solution_url, which would reload both per solution.
+      exercise.solutions.published.where('num_stars > 0').
+        order(num_stars: :desc).limit(100).
+        joins(:user).pluck(:num_stars, :updated_at, 'users.handle').each do |num_stars, updated_at, handle|
+        priority = 0.5 + [0.1, num_stars / 100.0].min
+        url = Exercism::Routes.track_exercise_solution_url(track.slug, exercise.slug, handle)
+        pages << [url, updated_at, :monthly, priority]
       end
 
       if exercise.has_approaches? # rubocop:disable Style/Next

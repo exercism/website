@@ -48,16 +48,41 @@ class Cloudflare::PurgeUrlsTest < ActiveSupport::TestCase
   end
 
   test "does nothing without credentials" do
-    Cloudflare::PurgeUrls.(["https://exercism.org/foo"])
+    with_purging_enabled do
+      Exercism.secrets.cloudflare_zone_id = ""
+      Exercism.secrets.cloudflare_api_token = ""
+
+      Cloudflare::PurgeUrls.(["https://exercism.org/foo"])
+    end
   end
 
-  private
-  def with_cloudflare_secrets
+  test "does nothing outside production" do
     Exercism.secrets.cloudflare_zone_id = "zone-123"
     Exercism.secrets.cloudflare_api_token = "token-123"
-    yield
+
+    # Deliberately not stubbing the environment: secrets carry fake values
+    # outside production, so this asserts we do not act on them.
+    Cloudflare::PurgeUrls.(["https://exercism.org/foo"])
   ensure
     Exercism.secrets.delete_field(:cloudflare_zone_id)
     Exercism.secrets.delete_field(:cloudflare_api_token)
+  end
+
+  private
+  def with_cloudflare_secrets(&)
+    with_purging_enabled do
+      Exercism.secrets.cloudflare_zone_id = "zone-123"
+      Exercism.secrets.cloudflare_api_token = "token-123"
+      yield
+    end
+  end
+
+  def with_purging_enabled
+    Rails.env.stubs(:test?).returns(false)
+    Rails.env.stubs(:development?).returns(false)
+    yield
+  ensure
+    Exercism.secrets.delete_field(:cloudflare_zone_id) if Exercism.secrets.respond_to?(:cloudflare_zone_id)
+    Exercism.secrets.delete_field(:cloudflare_api_token) if Exercism.secrets.respond_to?(:cloudflare_api_token)
   end
 end

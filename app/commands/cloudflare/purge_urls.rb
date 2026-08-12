@@ -6,6 +6,11 @@ class Cloudflare::PurgeUrls
   initialize_with :urls
 
   def call
+    # Secrets carry fake values outside production, so the blank checks below
+    # are not enough on their own to stop us firing real purge requests at
+    # Cloudflare every time someone publishes a solution locally.
+    return if Rails.env.test? || Rails.env.development?
+
     return if urls.blank?
     return if zone_id.blank?
     return if api_token.blank?

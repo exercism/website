@@ -42,13 +42,15 @@ end
 
 Rack::Attack.throttled_response_retry_after_header = true
 
-# Exempt verified search engine crawlers from all throttling.
+# Exempt verified search engine crawlers from all throttling, so that indexing
+# is never collateral damage of a limit aimed at everything else.
 #
-# The X-Search-Engine header is set by a Cloudflare transform rule, which sets
-# it to "false" by default and only to "true" for requests Cloudflare has
-# verified as Googlebot/bingbot/DuckDuckBot/Applebot. We deliberately do no
-# user-agent matching here - the header is the entire mechanism, because only
-# Cloudflare can actually verify a bot.
+# The X-Search-Engine header is set by a Cloudflare transform rule, which
+# decides which crawlers we want to exempt. We deliberately do no user-agent
+# matching here: a user agent is just a header and anyone can claim to be a
+# search engine, so only Cloudflare - which verifies crawlers by IP ownership
+# and reverse DNS - can answer this. Changing which engines are exempt is a
+# change to that rule, not to this file.
 #
 # The header is trustworthy because:
 # - The ALB security group only accepts traffic on 443 from Cloudflare's IP
@@ -59,8 +61,11 @@ Rack::Attack.safelist("verified search engines") do |req|
   req.env['HTTP_X_SEARCH_ENGINE'] == 'true'
 end
 
-# YandexBot (and friends) hammer two endpoints hard enough to be ~40% of the
-# traffic reaching origin. Cap unauthenticated crawling of them per-IP per-day.
+# These two endpoints are cheap to request and expensive to serve, and are
+# enumerable: there is one URL per exercise and one per submission, so anything
+# walking the site systematically can pull an unbounded number of them. Cap
+# unauthenticated access per-IP per-day. The limit is far above what any
+# person browsing the site would reach.
 CRAWLED_EXERCISE_PATH = %r{\A/tracks/[^/]+/exercises/[^/]+(/|\z)}
 Rack::Attack.throttle("Unauthenticated crawling of expensive endpoints", limit: 500, period: 1.day) do |req|
   next unless req.get?

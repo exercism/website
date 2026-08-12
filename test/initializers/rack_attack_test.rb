@@ -164,6 +164,19 @@ class RackAttackTest < Webhooks::BaseTestCase
     end
   end
 
+  test "routed_to returns nil rather than raising when the route cannot be resolved" do
+    # recognize_path raises RoutingError for unknown paths, but it can also
+    # raise other things - NoMethodError for paths mounted outside the router,
+    # or anything at all from a route constraint. None of them should escape
+    # into the middleware stack and 500 the request.
+    [ActionController::RoutingError, NoMethodError, RuntimeError].each do |error_class|
+      Rails.application.routes.stubs(:recognize_path).raises(error_class, "boom")
+
+      request = Rack::Attack::Request.new(Rack::MockRequest.env_for("/anything"))
+      assert_nil request.routed_to
+    end
+  end
+
   test "sidekiq is not blocked" do
     user = create :user, :admin
     setup_user(user)

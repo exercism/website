@@ -3,11 +3,20 @@ require 'http_authentication_token'
 class Rack::Attack::Request
   extend Mandate::Memoize
 
+  # Resolving a route from middleware is best-effort. recognize_path raises
+  # RoutingError for anything the router doesn't know, but it can also raise
+  # other things: paths mounted outside the router (/sidekiq) blow up with
+  # NoMethodError because Warden isn't in the env yet, and route constraints
+  # are arbitrary code that can fail in arbitrary ways.
+  #
+  # Every caller treats nil as "no route", so rescuing broadly is the safe
+  # behaviour. The alternative is a throttle definition raising inside
+  # middleware, which 500s the request before it ever reaches the app.
   memoize
   def routed_to
     route = Rails.application.routes.recognize_path(path, { method: request_method })
     "#{route[:controller]}##{route[:action]}"
-  rescue ActionController::RoutingError
+  rescue StandardError
     nil
   end
 
@@ -71,9 +80,9 @@ Rack::Attack.throttle("Unauthenticated crawling of expensive endpoints", limit: 
   next unless req.get?
   next if req.signed_in?
 
-  # Only resolve the route for the API endpoint (and only once we know the path
-  # is in the right namespace) - recognize_path is expensive and blows up on
-  # paths mounted outside the router, such as /sidekiq.
+  # Only resolve the route for the API endpoint, and only once we know the
+  # path is in the right namespace: recognize_path walks the whole route set,
+  # which is far too expensive to pay on every unauthenticated GET.
   matches = req.path.match?(CRAWLED_EXERCISE_PATH) ||
             (req.path.starts_with?('/api/v2/solutions') && req.routed_to == 'api/solutions/submission_files#index')
   next unless matches

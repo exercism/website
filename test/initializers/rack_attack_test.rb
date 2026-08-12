@@ -174,6 +174,112 @@ class RackAttackTest < Webhooks::BaseTestCase
     end
   end
 
+  test "unauthenticated exercise page requests under the limit are not throttled" do
+    create :practice_exercise
+    ip = "1.2.3.4"
+
+    freeze_time do
+      fill_crawl_throttle(ip, 499)
+
+      get "/tracks/ruby/exercises/bob", headers: crawler_headers(ip)
+      assert_response :ok
+    end
+  end
+
+  test "unauthenticated exercise page requests over the limit are throttled" do
+    create :practice_exercise
+    ip = "1.2.3.5"
+
+    freeze_time do
+      fill_crawl_throttle(ip, 500)
+
+      get "/tracks/ruby/exercises/bob", headers: crawler_headers(ip)
+      assert_response :too_many_requests
+    end
+  end
+
+  test "unauthenticated submission files requests over the limit are throttled" do
+    solution = create :practice_solution
+    submission = create(:submission, solution:)
+    ip = "1.2.3.6"
+
+    freeze_time do
+      fill_crawl_throttle(ip, 500)
+
+      get api_solution_submission_files_path(solution.uuid, submission.uuid), headers: crawler_headers(ip)
+      assert_response :too_many_requests
+    end
+  end
+
+  test "authenticated requests are not throttled by the crawl throttle" do
+    create :practice_exercise
+    ip = "1.2.3.7"
+
+    freeze_time do
+      fill_crawl_throttle(ip, 500)
+
+      get "/tracks/ruby/exercises/bob", headers: crawler_headers(ip).merge('HTTP_COOKIE' => '_exercism_user_id=123')
+      assert_response :ok
+    end
+  end
+
+  test "verified search engines are safelisted from the crawl throttle" do
+    create :practice_exercise
+    ip = "1.2.3.8"
+
+    freeze_time do
+      fill_crawl_throttle(ip, 500)
+
+      get "/tracks/ruby/exercises/bob", headers: crawler_headers(ip).merge('HTTP_X_SEARCH_ENGINE' => 'true')
+      assert_response :ok
+    end
+  end
+
+  test "unverified search engine header does not bypass the crawl throttle" do
+    create :practice_exercise
+    ip = "1.2.3.9"
+
+    freeze_time do
+      fill_crawl_throttle(ip, 500)
+
+      get "/tracks/ruby/exercises/bob", headers: crawler_headers(ip).merge('HTTP_X_SEARCH_ENGINE' => 'false')
+      assert_response :too_many_requests
+    end
+  end
+
+  test "other paths are unaffected by the crawl throttle" do
+    create :track
+    ip = "1.2.3.10"
+
+    freeze_time do
+      fill_crawl_throttle(ip, 500)
+
+      get tracks_path, headers: crawler_headers(ip)
+      assert_response :ok
+    end
+  end
+
+  test "the crawl throttle is keyed on CF-Connecting-IP, not the connecting address" do
+    create :practice_exercise
+
+    freeze_time do
+      fill_crawl_throttle("1.2.3.11", 500)
+
+      # A different real client behind the same Cloudflare PoP is unaffected
+      get "/tracks/ruby/exercises/bob", headers: crawler_headers("1.2.3.12")
+      assert_response :ok
+    end
+  end
+
+  def crawler_headers(ip)
+    { 'HTTP_CF_CONNECTING_IP' => ip }
+  end
+
+  def fill_crawl_throttle(ip, count)
+    key = "Unauthenticated crawling of expensive endpoints:unauthenticated-crawl|#{ip}"
+    count.times { Rack::Attack.cache.count(key, 1.day) }
+  end
+
   def setup_user(user = nil)
     @current_user = user || create(:user)
     @current_user.confirm

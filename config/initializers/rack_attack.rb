@@ -21,9 +21,65 @@ class Rack::Attack::Request
     auth_header = env['HTTP_AUTHORIZATION']
     auth_header&.match(/^Bearer\s+(.+)$/)&.captures&.first
   end
+
+  # In production we sit behind Cloudflare and then an ALB, which means the
+  # X-Forwarded-For chain can resolve to a Cloudflare PoP address rather than
+  # the real client. Throttling on that would throttle everyone behind the PoP.
+  # CF-Connecting-IP is always set by Cloudflare and is always the true client IP.
+  # It's only absent in local/test, where we fall back to req.ip.
+  def client_ip
+    env['HTTP_CF_CONNECTING_IP'].presence || ip
+  end
+
+  # Rack::Attack is middleware, so Devise's user_signed_in? isn't available.
+  # The _exercism_user_id cookie is set for every signed-in user (see
+  # ApplicationController#set_user_id_cookie) and is the same signal our
+  # Cloudflare cache rules use to bypass the cache for logged-in users.
+  def signed_in?
+    cookies['_exercism_user_id'].present?
+  end
 end
 
 Rack::Attack.throttled_response_retry_after_header = true
+
+# Exempt verified search engine crawlers from all throttling, so that indexing
+# is never collateral damage of a limit aimed at everything else.
+#
+# The X-Search-Engine header is set by a Cloudflare transform rule, which
+# decides which crawlers we want to exempt. We deliberately do no user-agent
+# matching here: a user agent is just a header and anyone can claim to be a
+# search engine, so only Cloudflare - which verifies crawlers by IP ownership
+# and reverse DNS - can answer this. Changing which engines are exempt is a
+# change to that rule, not to this file.
+#
+# The header is trustworthy because:
+# - The ALB security group only accepts traffic on 443 from Cloudflare's IP
+#   ranges, so requests cannot reach us without passing through Cloudflare.
+# - The transform rule *always* sets the header (to "false" when unverified),
+#   so a client-supplied value can never survive to the origin.
+Rack::Attack.safelist("verified search engines") do |req|
+  req.env['HTTP_X_SEARCH_ENGINE'] == 'true'
+end
+
+# These two endpoints are cheap to request and expensive to serve, and are
+# enumerable: there is one URL per exercise and one per submission, so anything
+# walking the site systematically can pull an unbounded number of them. Cap
+# unauthenticated access per-IP per-day. The limit is far above what any
+# person browsing the site would reach.
+CRAWLED_EXERCISE_PATH = %r{\A/tracks/[^/]+/exercises/[^/]+(/|\z)}
+Rack::Attack.throttle("Unauthenticated crawling of expensive endpoints", limit: 500, period: 1.day) do |req|
+  next unless req.get?
+  next if req.signed_in?
+
+  # Only resolve the route for the API endpoint (and only once we know the path
+  # is in the right namespace) - recognize_path is expensive and blows up on
+  # paths mounted outside the router, such as /sidekiq.
+  matches = req.path.match?(CRAWLED_EXERCISE_PATH) ||
+            (req.path.starts_with?('/api/v2/solutions') && req.routed_to == 'api/solutions/submission_files#index')
+  next unless matches
+
+  "unauthenticated-crawl|#{req.client_ip}"
+end
 
 api_non_get_limit_proc = proc do |req|
   next 4 if req.post? && req.routed_to == 'api/iterations#create'

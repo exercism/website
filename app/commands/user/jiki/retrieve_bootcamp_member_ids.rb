@@ -7,9 +7,8 @@ class User::Jiki::RetrieveBootcampMemberIds
 
   private
   def from_data
-    User.joins(:data).
-      where('user_data.bootcamp_attendee = TRUE OR user_data.bootcamp_mentor = TRUE').
-      pluck(:id)
+    User::Data.where(bootcamp_attendee: true).pluck(:user_id) +
+      User::Data.where(bootcamp_mentor: true).pluck(:user_id)
   end
 
   def from_bootcamp_data

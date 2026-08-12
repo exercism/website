@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_05_31_084553) do
+ActiveRecord::Schema[7.1].define(version: 2026_08_12_153931) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -1612,6 +1612,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_31_084553) do
     t.boolean "bootcamp_mentor", default: false, null: false
     t.string "locale"
     t.text "translator_locales"
+    t.index ["bootcamp_attendee", "user_id"], name: "index_user_data__bootcamp_attendees"
+    t.index ["bootcamp_mentor", "user_id"], name: "index_user_data__bootcamp_mentors"
     t.index ["discord_uid"], name: "index_user_data_on_discord_uid", unique: true
     t.index ["first_donated_at", "show_on_supporters_page", "user_id"], name: "index_user_data__supporters-page"
     t.index ["first_donated_at"], name: "index_user_data_on_first_donated_at"

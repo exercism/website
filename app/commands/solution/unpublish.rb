@@ -11,6 +11,7 @@ class Solution::Unpublish
     Solution::UpdateNumLoc.(solution)
 
     update_num_published_solutions_on_exercise!
+    Solution::InvalidateCloudflareCache.defer(solution)
   end
 
   private

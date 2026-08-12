@@ -66,4 +66,11 @@ class Solution::UnpublishTest < ActiveSupport::TestCase
     Solution::UpdateTags.expects(:call).with(solution)
     Solution::Unpublish.(solution)
   end
+
+  test "invalidates the cloudflare cache" do
+    solution = create(:concept_solution, :published)
+
+    Solution::InvalidateCloudflareCache.expects(:defer).with(solution)
+    Solution::Unpublish.(solution)
+  end
 end

@@ -23,6 +23,7 @@ class API::CommunitySolutionCommentsController < API::BaseController
     return render_403(:solution_comment_not_accessible) unless comment.author == current_user
 
     if comment.update(content_markdown: params[:content])
+      Solution::InvalidateCloudflareCache.defer(@solution)
       # TODO: Readd this
       # CommentListChannel.notify!(comment.solution)
       render json: { item: SerializeSolutionComment.(comment, current_user) }
@@ -38,6 +39,7 @@ class API::CommunitySolutionCommentsController < API::BaseController
     return render_403(:solution_comment_not_accessible) unless comment.author == current_user
 
     if comment.destroy
+      Solution::InvalidateCloudflareCache.defer(@solution)
       # TODO: Readd this
       # CommentListChannel.notify!(comment.solution)
       render json: { item: SerializeSolutionComment.(comment, current_user) }
@@ -48,12 +50,14 @@ class API::CommunitySolutionCommentsController < API::BaseController
 
   def enable
     @solution.update!(allow_comments: true)
+    Solution::InvalidateCloudflareCache.defer(@solution)
 
     render json: {}
   end
 
   def disable
     @solution.update!(allow_comments: false)
+    Solution::InvalidateCloudflareCache.defer(@solution)
 
     render json: {}
   end

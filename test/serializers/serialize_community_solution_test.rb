@@ -20,9 +20,7 @@ class SerializeCommunitySolutionTest < ActiveSupport::TestCase
       is_out_of_date: solution.out_of_date?,
       language: solution.track.highlightjs_language,
       author: {
-        handle: solution.user.handle,
-        flair: solution.user.flair,
-        avatar_url: solution.user.avatar_url
+        handle: solution.user.handle
       },
       exercise: {
         title: solution.exercise.title,

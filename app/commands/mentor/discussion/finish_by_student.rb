@@ -29,6 +29,9 @@ class Mentor::Discussion::FinishByStudent
     create_testimonial!
     Mentor::Discussion::ProcessFinished.(discussion)
     notify!
+
+    # The discussion appears on the published solution page from this point
+    Solution::InvalidateCloudflareCache.defer(discussion.solution)
   end
 
   private

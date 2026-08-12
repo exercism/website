@@ -93,7 +93,8 @@
               .contributor
                 = avatar(volunteer, css_class: "h-32 w-[32px] bg-cover bg-center rounded-circle mr-12")
                 = volunteer.handle
-              = render ViewComponents::Reputation.new(volunteer.reputation, flashy: true, size: :small)
+              -# Only the first three volunteers get a badge, so this is three requests, not one per volunteer.
+              = render ReactComponents::UserIdentity::Reputation.new(volunteer.handle, type: :primary, size: :small)
 
           .flex.flex-wrap.gap-16.mt-20.mb-16
             - @status.volunteers.users[3..].to_a.each do |volunteer|

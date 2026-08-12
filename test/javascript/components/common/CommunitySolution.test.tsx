@@ -197,9 +197,9 @@ test('shows author avatar if context is exercise', async () => {
 
   render(<CommunitySolution solution={solution} context="exercise" />)
 
-  expect(
-    screen.getByRole('img', { name: 'Uploaded avatar of handle' })
-  ).toHaveAttribute('src', 'url')
+  // The avatar URL is fetched client-side (see components/user-identity),
+  // so all that renders synchronously is the reserved placeholder.
+  expect(document.querySelector('.c-avatar')).toBeInTheDocument()
 })
 
 test('shows author avatar if context is mentoring', async () => {
@@ -236,9 +236,9 @@ test('shows author avatar if context is mentoring', async () => {
 
   render(<CommunitySolution solution={solution} context="mentoring" />)
 
-  expect(
-    screen.getByRole('img', { name: 'Uploaded avatar of handle' })
-  ).toHaveAttribute('src', 'url')
+  // The avatar URL is fetched client-side (see components/user-identity),
+  // so all that renders synchronously is the reserved placeholder.
+  expect(document.querySelector('.c-avatar')).toBeInTheDocument()
   expect(
     screen.queryByRole('img', { name: 'Icon for exercise called Exercise' })
   ).not.toBeInTheDocument()

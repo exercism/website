@@ -29,6 +29,9 @@ namespace :api do
     get "validate_token" => "validate_token#index"
     get "hiring/testimonials" => "hiring#testimonials"
 
+    # Public, anonymous, CDN-cacheable user identity data.
+    get "users/:handle" => "users/public#show", as: :public_user
+
     namespace :payments do
       # resources :payments, only: [:create]
       resources :payment_intents, only: [:create] do

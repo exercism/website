@@ -150,16 +150,26 @@ class ApplicationController < ActionController::Base
     redirect_to mentoring_inbox_path
   end
 
-  def cache_public_action!
+  # Actions can opt into a long *edge* TTL by passing edge_ttl. When they do,
+  # the browser TTL drops to a second, so that purging Cloudflare is
+  # authoritative everywhere (purging the edge cannot purge browser caches).
+  # Actions that don't opt in keep the existing 5-20 minute behaviour.
+  def cache_public_action!(edge_ttl: nil)
     return if devise_controller?
     return if Rails.env.test? || Rails.env.development?
     return if user_signed_in?
     return if cookies.signed[:_exercism_user_id].present?
 
-    # Cache for some seconds lasting between 5 and 20 minutes.
-    # Vary this so we don't get spikes of traffic when everything
-    # expires at the same time.
-    expires_in rand(300..1200), public: true
+    if edge_ttl
+      # Jitter the edge TTL by up to 10% so that, after a purge-everything,
+      # millions of pages don't all expire on the same day.
+      expires_in 1, public: true, "s-maxage": (edge_ttl.to_i * rand(0.9..1.0)).to_i
+    else
+      # Cache for some seconds lasting between 5 and 20 minutes.
+      # Vary this so we don't get spikes of traffic when everything
+      # expires at the same time.
+      expires_in rand(300..1200), public: true
+    end
   rescue StandardError
     # Don't blow up if we get here and something hasn't worked
     # as we're exiting in the tests so don't have coverage.

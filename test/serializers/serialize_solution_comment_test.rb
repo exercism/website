@@ -7,10 +7,7 @@ class SerializeSolutionCommentTest < ActiveSupport::TestCase
     expected = {
       uuid: comment.uuid,
       author: {
-        handle: comment.author.handle,
-        flair: comment.author.flair,
-        avatar_url: comment.author.avatar_url,
-        reputation: comment.author.formatted_reputation
+        handle: comment.author.handle
       },
       content_markdown: comment.content_markdown,
       content_html: comment.content_html,

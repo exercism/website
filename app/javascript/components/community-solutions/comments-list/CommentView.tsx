@@ -1,7 +1,12 @@
 import React from 'react'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 import { fromNow } from '../../../utils/time'
-import { Avatar, Reputation, Icon, HandleWithFlair } from '../../common'
+import { Icon } from '../../common'
+import {
+  UserAvatar,
+  UserHandleWithFlair,
+  UserReputation,
+} from '../../user-identity'
 import { ViewingComponentType } from '../../common/ListItem'
 import { SolutionComment } from '../../types'
 
@@ -15,16 +20,13 @@ export const CommentView = ({
   return (
     <div className="comment">
       <header className="flex items-center mb-16">
-        <Avatar src={comment.author.avatarUrl} handle={comment.author.handle} />
+        <UserAvatar handle={comment.author.handle} />
         <div className="flex flex-col">
           <div className="flex items-center">
             <div className="text-h6 mr-8">
-              <HandleWithFlair
-                handle={comment.author.handle}
-                flair={comment.author.flair}
-              />
+              <UserHandleWithFlair handle={comment.author.handle} />
             </div>
-            <Reputation value={comment.author.reputation} size="small" />
+            <UserReputation handle={comment.author.handle} size="small" />
           </div>
           <div className="text-tetColor6 leading-160">
             {fromNow(comment.updatedAt)}

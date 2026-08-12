@@ -151,4 +151,12 @@ class Iteration::DestroyTest < ActiveSupport::TestCase
     Solution::UpdateSnippet.expects(:call).with(solution)
     Iteration::Destroy.(iteration_2)
   end
+
+  test "invalidates the cloudflare cache" do
+    solution = create :concept_solution
+    iteration = create(:iteration, solution:)
+
+    Solution::InvalidateCloudflareCache.expects(:defer).with(solution).at_least_once
+    Iteration::Destroy.(iteration)
+  end
 end

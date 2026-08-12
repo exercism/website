@@ -9,7 +9,9 @@ class Solution::Comment::Create
       solution.comments.create!(
         author:,
         content_markdown:
-      ).tap do |comment|
+      ).tap do |_comment|
+        Solution::InvalidateCloudflareCache.defer(solution)
+
         # TODO: (Required) Notifications
 
         # TODO: (Requried) Add this

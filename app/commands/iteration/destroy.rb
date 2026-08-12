@@ -11,6 +11,10 @@ class Iteration::Destroy
 
     Solution::UpdateNumLoc.(solution)
 
+    # Deleting a non-pinned iteration changes what renders on the
+    # published solution page without going via Unpublish
+    Solution::InvalidateCloudflareCache.defer(solution)
+
     update_snippet!
   end
 

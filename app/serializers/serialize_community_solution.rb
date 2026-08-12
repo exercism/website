@@ -18,10 +18,11 @@ class SerializeCommunitySolution
       published_at: solution.published_at,
       is_out_of_date: solution.out_of_date?,
       language: track.highlightjs_language,
+      # Avatar and flair are deliberately absent: they're user-level data that
+      # changes independently of the solution, so they'd poison the cached HTML
+      # this gets embedded in. The client fetches them per-handle instead.
       author: {
-        handle: user.handle,
-        avatar_url: user.avatar_url,
-        flair: user.flair
+        handle: user.handle
       },
       exercise: {
         title: solution.exercise.title,

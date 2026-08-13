@@ -92,7 +92,7 @@ class API::SolutionsController < API::BaseController
   end
 
   def unpublish
-    Solution::RetractPublication.(@solution)
+    Solution::Unpublish.(@solution)
 
     render json: {
       solution: SerializeSolution.(@solution)

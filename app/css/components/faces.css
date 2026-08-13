@@ -9,7 +9,8 @@
         transition: margin 0.2s ease-out;
 
         & .c-avatar,
-        &.c-avatar {
+        &.c-avatar,
+        & .c-react-wrapper-user-identity-avatar {
             height: 32px;
             width: 32px;
         }

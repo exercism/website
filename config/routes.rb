@@ -117,8 +117,6 @@ Rails.application.routes.draw do
 
   resources :notifications, only: [:index]
 
-  resources :impact, only: [:index]
-
   resources :solution_tagger, only: [:index]
 
   resource :images, controller: "images" do

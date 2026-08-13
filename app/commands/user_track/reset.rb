@@ -13,8 +13,12 @@ class UserTrack::Reset
     user.solution_mentor_requests.joins(:solution).
       where(student: user, solution: user_track.solutions.select(:id), status: %i[pending cancelled]).
       destroy_all
-    user_track.viewed_community_solutions.destroy_all
-    user_track.viewed_exercise_approaches.destroy_all
+    # These models have no destroy callbacks or dependents, so deleting them
+    # in one statement rather than row-by-row is safe.
+    # The associations have no dependent strategy (they're scoped by track), so
+    # the strategy is passed explicitly to delete the rows rather than nullify.
+    user_track.viewed_community_solutions.delete_all(:delete_all)
+    user_track.viewed_exercise_approaches.delete_all(:delete_all)
     user_track.solutions.update_all(%{
       user_id = #{User::GHOST_USER_ID},
       unique_key = UUID(),

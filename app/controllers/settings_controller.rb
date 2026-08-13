@@ -17,7 +17,9 @@ class SettingsController < ApplicationController
   end
 
   def reset_account
-    User::ResetAccount.(current_user) if params[:handle] == current_user.handle
+    # This takes seconds for a large account, and nothing in the response
+    # depends on it having finished, so run it in the background.
+    User::ResetAccount.defer(current_user) if params[:handle] == current_user.handle
 
     render json: {
       links: {

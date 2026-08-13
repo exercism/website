@@ -11,4 +11,28 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to integrations_settings_path
     assert_nil user.reload.discord_uid
   end
+
+  test "reset_account resets in the background" do
+    user = create :user, bio: "Some bio"
+
+    sign_in!(user)
+    perform_enqueued_jobs do
+      patch reset_account_settings_path, params: { handle: user.handle }, as: :json
+    end
+
+    assert_response :ok
+    assert_nil user.reload.bio
+  end
+
+  test "reset_account does nothing with the wrong handle" do
+    user = create :user, bio: "Some bio"
+
+    sign_in!(user)
+    perform_enqueued_jobs do
+      patch reset_account_settings_path, params: { handle: "someone-else" }, as: :json
+    end
+
+    assert_response :ok
+    assert_equal "Some bio", user.reload.bio
+  end
 end

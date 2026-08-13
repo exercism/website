@@ -4,6 +4,13 @@ class User::ResetAccount
   initialize_with :user
 
   def call
+    # Do this before anything else. reset_associations! would delete these
+    # anyway, but UserTrack::Reset destroys its tokens one-by-one, and each
+    # destroy fires an after_commit that recalculates the user's reputation.
+    # Clearing them upfront (without callbacks) makes that a no-op. The
+    # reputation is explicitly zeroed below.
+    user.reputation_tokens.delete_all
+
     reset_tracks!
     reset_mentoring!
     reset_associations!
@@ -39,8 +46,10 @@ class User::ResetAccount
       UserTrack::Destroy.(user_track)
     end
 
-    user.viewed_community_solutions.destroy_all
-    user.viewed_exercise_approaches.destroy_all
+    # These models have no destroy callbacks or dependents, so deleting them
+    # in one statement rather than row-by-row is safe.
+    user.viewed_community_solutions.delete_all
+    user.viewed_exercise_approaches.delete_all
   end
 
   def reset_mentoring!

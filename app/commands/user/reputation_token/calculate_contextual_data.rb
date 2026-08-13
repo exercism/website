@@ -24,6 +24,12 @@ class User::ReputationToken::CalculateContextualData
   private
   memoize
   def data
+    prefetch_cached_values!
+
+    assembled_data.tap { flush_cached_values! }
+  end
+
+  def assembled_data
     user_ids.each_with_object({}) do |user_id, res|
       occs = reputation_occurrences(user_id)
       code_contributions = occs['building']
@@ -99,20 +105,47 @@ class User::ReputationToken::CalculateContextualData
   Data = Struct.new(:activity, :reputation)
   private_constant :Data
 
-  # This is memoized deliberately. In production Exercism.redis_cache_client
-  # returns a *new* Redis::Cluster every call, and each one does full cluster
-  # topology discovery (CLUSTER NODES + a connection to every node) on its
-  # first command - ~38ms measured against production. with_cache runs twice
-  # per user, so the contributors list was paying that 40 times per render.
+  CACHE_KEYS = %i[total details].freeze
+  private_constant :CACHE_KEYS
+
+  # Read every value in one pipelined call rather than an hget per user per
+  # key. The contributors list asks for 20 users, which would otherwise be 40
+  # sequential round-trips. Writes for the misses are batched the same way.
+  def prefetch_cached_values!
+    @cached_values = {}
+    return if user_ids.empty?
+
+    fields = user_ids.flat_map { |user_id| CACHE_KEYS.map { |key| [user_id, key] } }
+    values = redis.pipelined do |pipeline|
+      fields.each { |user_id, key| pipeline.hget(cache_hash_key(user_id), cache_value_key(key)) }
+    end
+
+    @cached_values = fields.zip(values).to_h
+  end
+
+  def flush_cached_values!
+    return if pending_writes.empty?
+
+    redis.pipelined do |pipeline|
+      pending_writes.each do |user_id, key, value|
+        pipeline.hset(cache_hash_key(user_id), cache_value_key(key), value.to_json)
+      end
+    end
+
+    pending_writes.clear
+  end
+
+  def pending_writes = @pending_writes ||= []
+
+  def cache_hash_key(user_id) = User::ReputationToken.cache_hash_for(user_id)
+  def cache_value_key(key) = ["contextual/#{key}", period, track_id, category].join("|")
+
   memoize
   def redis = Exercism.redis_cache_client
 
   def with_cache(user_id, key)
-    user_key = User::ReputationToken.cache_hash_for(user_id)
-    value_key = ["contextual/#{key}", period, track_id, category].join("|")
-
     # Check for a cached version
-    cached = redis.hget(user_key, value_key)
+    cached = @cached_values[[user_id, key]]
     if cached
       parsed_value = JSON.parse(cached)
 
@@ -123,9 +156,7 @@ class User::ReputationToken::CalculateContextualData
       return parsed_value if parsed_value.present? && parsed_value != 0
     end
 
-    # Or yield and cache a new one
-    yield.tap do |val|
-      redis.hset(user_key, value_key, val.to_json)
-    end
+    # Or yield and queue it up to be cached
+    yield.tap { |val| pending_writes << [user_id, key, val] }
   end
 end

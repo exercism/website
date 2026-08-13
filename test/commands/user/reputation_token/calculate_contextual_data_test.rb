@@ -153,6 +153,34 @@ class User::ReputationToken::CalculateContextualDataTest < ActiveSupport::TestCa
     assert_equal 10, data.reputation
   end
 
+  test "reads and writes the cache in one round-trip each, regardless of user count" do
+    users = Array.new(5) { create :user }
+    users.each { |user| create(:user_code_contribution_reputation_token, user:) }
+    generate_reputation_periods!
+
+    redis = Exercism.redis_cache_client
+    Exercism.stubs(redis_cache_client: redis)
+
+    # Cold: one pipelined read for the misses, one pipelined write for the results
+    redis.expects(:pipelined).twice.returns([])
+    redis.expects(:hget).never
+    redis.expects(:hset).never
+    User::ReputationToken::CalculateContextualData.(users.map(&:id))
+  end
+
+  test "caches values for every user" do
+    users = Array.new(5) { create :user }
+    users.each { |user| create(:user_code_contribution_reputation_token, user:) }
+    generate_reputation_periods!
+
+    user_ids = users.map(&:id)
+    expected = User::ReputationToken::CalculateContextualData.(user_ids)
+
+    # Second time round everything is cached, so nothing should hit the database
+    ActiveRecord::Relation.any_instance.expects(:sum).never
+    assert_equal expected, User::ReputationToken::CalculateContextualData.(user_ids)
+  end
+
   test "check cache is invalidated when a new token is created" do
     freeze_time do
       user = create :user

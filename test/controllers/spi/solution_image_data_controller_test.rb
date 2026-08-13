@@ -33,9 +33,12 @@ class SPI::SolutionImageDataControllerTest < ActionDispatch::IntegrationTest
     assert_response :ok
   end
 
-  test "404s for a solution that doesn't exist" do
-    get "/spi/solution_image_data/nope/nope/nope"
-
-    assert_response :not_found
+  test "raises for a solution that doesn't exist" do
+    # SPI::BaseController has no rescue_from, so Solution.for! propagates -
+    # Rails turns that into a 404 in production. The generator only needs a
+    # non-200 so it fails and logs rather than caching a broken image.
+    assert_raises ActiveRecord::RecordNotFound do
+      get "/spi/solution_image_data/nope/nope/nope"
+    end
   end
 end

@@ -45,19 +45,24 @@ class Exercise::Representation::Recache
       first
   end
 
+  # Picks the published solver with the highest reputation on this track,
+  # falling back to the oldest solution when nobody has any.
+  #
+  # This reads the denormalised user_tracks.reputation column instead of
+  # aggregating the whole reputation history of every published solver.
+  # The LEFT JOIN keeps every published solver in the candidate set: anyone
+  # without a user_tracks row simply scores 0, exactly as they would if they
+  # had no reputation tokens for the track.
   def prestigious_solution
-    user_id = User::ReputationToken.where(
-      track_id: exercise.track_id,
-      user_id: representation.published_solutions.select(:user_id)
-    ).
-      group(:user_id).
-      select("user_id, SUM(value) as total").
-      order('total DESC').
-      first&.user_id
-
-    return oldest_solution unless user_id
-
-    representation.published_solutions.find_by!(user_id:)
+    representation.published_solutions.
+      joins(<<~SQL.squish).
+        LEFT JOIN user_tracks
+          ON user_tracks.user_id = solutions.user_id
+          AND user_tracks.track_id = #{exercise.track_id.to_i}
+      SQL
+      where('COALESCE(user_tracks.reputation, 0) > 0').
+      order(Arel.sql('COALESCE(user_tracks.reputation, 0) DESC'), :id).
+      first || oldest_solution
   end
 
   memoize

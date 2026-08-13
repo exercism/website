@@ -258,11 +258,11 @@ class User < ApplicationRecord
   memoize
   def total_donated_in_dollars = total_donated_in_cents / BigDecimal(100)
 
+  # Reads the denormalised user_tracks.reputation column rather than summing
+  # the tokens live. Returns 0 for a track the user hasn't joined - which is
+  # also the answer for anyone who has never earned reputation on that track.
   def reputation_for_track(track)
-    User::ReputationToken.where(
-      track:,
-      user_id: id
-    ).sum(:value)
+    UserTrack.where(user_id: id, track:).pick(:reputation).to_i
   end
 
   def joined_track?(track)

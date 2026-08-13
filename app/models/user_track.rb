@@ -43,6 +43,14 @@ class UserTrack < ApplicationRecord
     self.summary_data = {}
   end
 
+  # A reputation token can be created for a (user, track) before the UserTrack
+  # itself exists. The token's own callback can't update a row that isn't there
+  # yet, which is why recently-created rows drifted understated. So on creation
+  # we adopt any reputation that has already been awarded for this track.
+  after_create_commit do
+    UserTrack::UpdateReputation.(self) if User::ReputationToken.where(user_id:, track_id:).exists?
+  end
+
   # Add some caching inside here for the duration
   # of the request cycle.
   def self.for!(user_param, track_param)

@@ -45,12 +45,38 @@ class UserTest < ActiveSupport::TestCase
   test "reputation_for_track" do
     user = create :user
     track = create :track
+    other_track = create :track, :random_slug
+    create(:user_track, user:, track:)
+    create(:user_track, user:, track: other_track)
 
     create :user_arbitrary_reputation_token, user:, track:, params: { arbitrary_value: 20, arbitrary_reason: "" }
     create :user_arbitrary_reputation_token, user:, track:, params: { arbitrary_value: 18, arbitrary_reason: "" }
     create :user_arbitrary_reputation_token, user:, track:, params: { arbitrary_value: 30, arbitrary_reason: "" }
+    create :user_arbitrary_reputation_token, user:, track: other_track,
+      params: { arbitrary_value: 5, arbitrary_reason: "" }
 
     assert_equal 20 + 18 + 30, user.reputation_for_track(track)
+    assert_equal 5, user.reputation_for_track(other_track)
+  end
+
+  test "reputation_for_track reads the denormalised column" do
+    user = create :user
+    track = create :track
+    user_track = create(:user_track, user:, track:)
+    create :user_arbitrary_reputation_token, user:, track:, params: { arbitrary_value: 20, arbitrary_reason: "" }
+
+    # Deliberately desync the column to prove we're not summing tokens live
+    user_track.update_column(:reputation, 999)
+    assert_equal 999, user.reputation_for_track(track)
+  end
+
+  test "reputation_for_track returns 0 for a track the user hasn't joined" do
+    user = create :user
+    track = create :track
+
+    create :user_arbitrary_reputation_token, user:, track:, params: { arbitrary_value: 20, arbitrary_reason: "" }
+
+    assert_equal 0, user.reputation_for_track(track)
   end
 
   test "formatted_reputation works" do

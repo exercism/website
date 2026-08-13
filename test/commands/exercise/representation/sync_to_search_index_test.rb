@@ -39,6 +39,7 @@ class Exercise::Representation::SyncToSearchIndexTest < ActiveSupport::TestCase
     oldest_solution.update(num_loc:)
     prestigious_solution = solutions.second
     prestigious_solution.user.update(reputation: 1234)
+    create(:user_track, user: prestigious_solution.user, track: exercise.track)
     create :user_arbitrary_reputation_token, user: prestigious_solution.user, track: exercise.track,
       params: { arbitrary_value: 20, arbitrary_reason: "" }
     create :user_arbitrary_reputation_token, user: prestigious_solution.user, track: exercise.track,

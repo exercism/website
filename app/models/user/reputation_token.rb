@@ -35,11 +35,17 @@ class User::ReputationToken < ApplicationRecord
     self.value = self.determine_value
   end
 
+  # This runs on create, update *and* destroy, which keeps both the
+  # users.reputation and user_tracks.reputation denormalised columns in
+  # sync in all three cases (tokens being deleted used to leave
+  # user_tracks.reputation overstated).
   after_commit do
     ActiveRecord::Base.transaction(isolation: Exercism::READ_COMMITTED) do
       reputation = user.reputation_tokens.sum(:value).to_i
       User.where(id: user.id).update_all(reputation:)
     end
+
+    update_user_track_reputation!
 
     # Invalidate reputation cache for this user
     Exercism.redis_cache_client.del(self.class.cache_hash_for(user_id))
@@ -80,6 +86,15 @@ class User::ReputationToken < ApplicationRecord
   end
 
   private
+  def update_user_track_reputation!
+    return if track_id.blank?
+
+    user_track = UserTrack.find_by(user_id:, track_id:)
+    return if user_track.blank?
+
+    UserTrack::UpdateReputation.(user_track)
+  end
+
   # Don't cahe seen as we don't need to recalculate
   # everything when it's marked as seen
   def non_cacheable_rendering_data

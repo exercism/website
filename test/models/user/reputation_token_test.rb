@@ -94,4 +94,61 @@ class User::ReputationTokenTest < ActiveSupport::TestCase
     assert_equal "/my-assets/assets/graphics/pull-request-open-8e7b2001eac43dd3a84577f0f5ccfca4c8cc9088.svg",
       reputation_token.rendering_data[:icon_url]
   end
+
+  test "maintains user_tracks.reputation on create, update and destroy" do
+    user = create :user
+    track = create :track
+    user_track = create(:user_track, user:, track:)
+
+    token = create :user_arbitrary_reputation_token, user:, track:,
+      params: { arbitrary_value: 20, arbitrary_reason: "" }
+    assert_equal 20, user_track.reload.reputation
+    assert_equal 20, user.reload.reputation
+
+    other = create :user_arbitrary_reputation_token, user:, track:,
+      params: { arbitrary_value: 5, arbitrary_reason: "" }
+    assert_equal 25, user_track.reload.reputation
+
+    other.destroy
+    assert_equal 20, user_track.reload.reputation
+    assert_equal 20, user.reload.reputation
+
+    token.destroy
+    assert_equal 0, user_track.reload.reputation
+    assert_equal 0, user.reload.reputation
+  end
+
+  test "destroy_all decrements user_tracks.reputation" do
+    user = create :user
+    track = create :track
+    user_track = create(:user_track, user:, track:)
+
+    create :user_arbitrary_reputation_token, user:, track:, params: { arbitrary_value: 20, arbitrary_reason: "" }
+    create :user_arbitrary_reputation_token, user:, track:, params: { arbitrary_value: 30, arbitrary_reason: "" }
+    assert_equal 50, user_track.reload.reputation
+
+    User::ReputationToken.where(user:, track:).destroy_all
+
+    assert_equal 0, user_track.reload.reputation
+  end
+
+  test "does not touch other tracks' user_tracks" do
+    user = create :user
+    track = create :track
+    other_track = create :track, :random_slug
+    user_track = create(:user_track, user:, track:)
+    other_user_track = create(:user_track, user:, track: other_track)
+
+    create :user_arbitrary_reputation_token, user:, track:, params: { arbitrary_value: 20, arbitrary_reason: "" }
+
+    assert_equal 20, user_track.reload.reputation
+    assert_equal 0, other_user_track.reload.reputation
+  end
+
+  test "a token with no track does not error" do
+    user = create :user
+    create :user_arbitrary_reputation_token, user:, track: nil, params: { arbitrary_value: 20, arbitrary_reason: "" }
+
+    assert_equal 20, user.reload.reputation
+  end
 end

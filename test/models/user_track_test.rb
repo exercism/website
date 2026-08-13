@@ -1,6 +1,29 @@
 require "test_helper"
 
 class UserTrackTest < ActiveSupport::TestCase
+  test "adopts reputation earned before the user_track existed" do
+    user = create :user
+    track = create :track
+    other_track = create :track, :random_slug
+
+    # Awarded before the user_track exists - this is the creation race that
+    # used to leave the column understated.
+    create :user_arbitrary_reputation_token, user:, track:, params: { arbitrary_value: 20, arbitrary_reason: "" }
+    create :user_arbitrary_reputation_token, user:, track:, params: { arbitrary_value: 5, arbitrary_reason: "" }
+    create :user_arbitrary_reputation_token, user:, track: other_track,
+      params: { arbitrary_value: 100, arbitrary_reason: "" }
+
+    user_track = UserTrack::Create.(user, track)
+
+    assert_equal 25, user_track.reload.reputation
+  end
+
+  test "starts at zero when there is no pre-existing reputation" do
+    user_track = UserTrack::Create.(create(:user), create(:track))
+
+    assert_equal 0, user_track.reload.reputation
+  end
+
   test ".for! with models" do
     ut = random_of_many(:user_track)
     assert_equal ut, UserTrack.for!(ut.user, ut.track)

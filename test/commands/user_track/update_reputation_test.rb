@@ -7,8 +7,8 @@ class UserTrack::UpdateReputationTest < ActiveSupport::TestCase
     track = create :track, :random_slug
     other_track = create :track, :random_slug
     user_track = create(:user_track, user:, track:, reputation: 0)
-    user_track_other_track = create(:user_track, user:, track: other_track, reputation: 11)
-    user_track_other_user = create(:user_track, user: other_user, track:, reputation: 33)
+    user_track_other_track = create(:user_track, user:, track: other_track)
+    user_track_other_user = create(:user_track, user: other_user, track:)
 
     create :user_arbitrary_reputation_token, user:, track:, params: { arbitrary_value: 20, arbitrary_reason: "" }
     create :user_arbitrary_reputation_token, user:, track:, params: { arbitrary_value: 18, arbitrary_reason: "" }
@@ -23,7 +23,10 @@ class UserTrack::UpdateReputationTest < ActiveSupport::TestCase
     UserTrack::UpdateReputation.(user_track)
 
     assert_equal 20 + 18 + 30, user_track.reload.reputation
-    assert_equal 11, user_track_other_track.reload.reputation
-    assert_equal 33, user_track_other_user.reload.reputation
+
+    # The other user_tracks only ever hold their own track/user's reputation,
+    # which is now maintained automatically by the token callbacks.
+    assert_equal 9, user_track_other_track.reload.reputation
+    assert_equal 7, user_track_other_user.reload.reputation
   end
 end

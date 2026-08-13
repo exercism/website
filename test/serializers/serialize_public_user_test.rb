@@ -23,6 +23,8 @@ class SerializePublicUserTest < ActiveSupport::TestCase
 
     ruby = create :track, slug: 'ruby'
     js = create :track, slug: 'javascript', title: "JavaScript"
+    create(:user_track, user:, track: ruby)
+    create(:user_track, user:, track: js)
     create(:user_reputation_token, user:, track: ruby, level: :medium)
     create(:user_reputation_token, user:, track: ruby, level: :medium)
     create(:user_reputation_token, user:, track: js, level: :medium)

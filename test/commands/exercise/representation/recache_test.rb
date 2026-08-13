@@ -86,6 +86,7 @@ class Exercise::Representation::RecacheTest < ActiveSupport::TestCase
       submission = create(:submission, solution:)
       create(:submission_file, submission:, content: "foo")
       create(:iteration, submission:)
+      create(:user_track, user:, track:)
     end
 
     # Should default to oldest solution if everyone's rep is the same
@@ -100,6 +101,74 @@ class Exercise::Representation::RecacheTest < ActiveSupport::TestCase
     # And then be the solution of the highest rated user
     Exercise::Representation::Recache.(representation)
     assert_equal users[1].solutions.first, representation.prestigious_solution
+  end
+
+  test "prestigious solution ignores reputation on other tracks" do
+    representation = create(:exercise_representation)
+    track = representation.track
+    other_track = create(:track, :random_slug)
+
+    users = create_list(:user, 2) do |user|
+      solution = create :practice_solution, :published, user:,
+        published_exercise_representation: representation,
+        published_iteration_head_tests_status: :passed
+      submission = create(:submission, solution:)
+      create(:submission_file, submission:, content: "foo")
+      create(:iteration, submission:)
+      create(:user_track, user:, track:)
+      create(:user_track, user:, track: other_track)
+    end
+
+    create :user_arbitrary_reputation_token, user: users[0], track:, params: { arbitrary_value: 5, arbitrary_reason: "" }
+    create :user_arbitrary_reputation_token, user: users[1], track: other_track,
+      params: { arbitrary_value: 500, arbitrary_reason: "" }
+
+    Exercise::Representation::Recache.(representation)
+    assert_equal users[0].solutions.first, representation.prestigious_solution
+  end
+
+  test "prestigious solution scores a published solver with no user_track as zero" do
+    representation = create(:exercise_representation)
+    track = representation.track
+
+    users = create_list(:user, 2) do |user|
+      solution = create :practice_solution, :published, user:,
+        published_exercise_representation: representation,
+        published_iteration_head_tests_status: :passed
+      submission = create(:submission, solution:)
+      create(:submission_file, submission:, content: "foo")
+      create(:iteration, submission:)
+    end
+
+    # users[1] has track reputation but has never joined the track, so has
+    # no user_tracks row and therefore scores zero. users[0] has joined and
+    # has less raw reputation, but wins.
+    create(:user_track, user: users[0], track:)
+    create :user_arbitrary_reputation_token, user: users[0], track:, params: { arbitrary_value: 1, arbitrary_reason: "" }
+    create :user_arbitrary_reputation_token, user: users[1], track:, params: { arbitrary_value: 100, arbitrary_reason: "" }
+
+    Exercise::Representation::Recache.(representation)
+    assert_equal users[0].solutions.first, representation.prestigious_solution
+  end
+
+  test "prestigious solution falls back to oldest solution when nobody has track reputation" do
+    representation = create(:exercise_representation)
+    track = representation.track
+
+    users = create_list(:user, 2) do |user|
+      solution = create :practice_solution, :published, user:,
+        published_exercise_representation: representation,
+        published_iteration_head_tests_status: :passed
+      submission = create(:submission, solution:)
+      create(:submission_file, submission:, content: "foo")
+      create(:iteration, submission:)
+      create(:user_track, user:, track:)
+    end
+
+    Exercise::Representation::Recache.(representation)
+
+    assert_equal users[0].solutions.first, representation.oldest_solution
+    assert_equal users[0].solutions.first, representation.prestigious_solution
   end
 
   test "chooses correct oldest solution" do

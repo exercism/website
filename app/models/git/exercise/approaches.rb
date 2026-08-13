@@ -29,13 +29,6 @@ class Git::Exercise::Approaches
   memoize
   def config_introduction = config[:introduction].to_h
 
-  memoize
-  def introduction_last_modified_at
-    return unless introduction_exists?
-
-    repo.file_last_modified_at(introduction_absolute_filepath)
-  end
-
   def introduction_edit_url
     url = introduction_exists? ? EDIT_GITHUB_URL : NEW_GITHUB_URL
 

@@ -1,7 +1,6 @@
 // i18n-key-prefix: diggingDeeper
 // i18n-namespace: components/track/dig-deeper-components
 import React from 'react'
-import dayjs from 'dayjs'
 import { GraphicalIcon, Icon } from '@/components/common'
 import Credits from '@/components/common/Credits'
 import { User } from '@/components/types'
@@ -16,7 +15,6 @@ export type ApproachIntroduction = {
   }
   numAuthors: number
   numContributors: number
-  updatedAt: string
 }
 
 export function DiggingDeeper({
@@ -65,13 +63,6 @@ function DiggingDeeperFooter({
           className="text-textColor1 font-semibold leading-150"
           users={introduction.users}
         />
-        {introduction.updatedAt && (
-          <div className="pl-24 ml-24 border-l-1 border-borderLight2 font-medium hidden sm:block">
-            {t('diggingDeeper.lastUpdated', {
-              date: dayjs(introduction.updatedAt).format('D MMM YYYY'),
-            })}
-          </div>
-        )}
       </div>
       <a
         href={introduction.links.edit}

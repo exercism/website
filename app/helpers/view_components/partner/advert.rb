@@ -12,13 +12,7 @@ module ViewComponents
       render(
         template: "components/advert",
         locals: { advert:, uuid: }
-      ).tap do
-        ::Partner::LogAdvertImpression.defer(
-          uuid,
-          advert, current_user, request.remote_ip,
-          Time.current, request.path
-        )
-      end
+      )
     end
 
     private

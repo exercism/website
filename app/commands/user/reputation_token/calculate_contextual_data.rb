@@ -99,8 +99,15 @@ class User::ReputationToken::CalculateContextualData
   Data = Struct.new(:activity, :reputation)
   private_constant :Data
 
+  # This is memoized deliberately. In production Exercism.redis_cache_client
+  # returns a *new* Redis::Cluster every call, and each one does full cluster
+  # topology discovery (CLUSTER NODES + a connection to every node) on its
+  # first command - ~38ms measured against production. with_cache runs twice
+  # per user, so the contributors list was paying that 40 times per render.
+  memoize
+  def redis = Exercism.redis_cache_client
+
   def with_cache(user_id, key)
-    redis = Exercism.redis_cache_client
     user_key = User::ReputationToken.cache_hash_for(user_id)
     value_key = ["contextual/#{key}", period, track_id, category].join("|")
 

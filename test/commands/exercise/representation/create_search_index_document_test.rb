@@ -57,6 +57,7 @@ class Exercise::Representation::CreateSearchIndexDocumentTest < ActiveSupport::T
       create(:iteration, submission:)
     end
     prestigious_solution.user.update!(reputation: 1234)
+    create(:user_track, user: prestigious_solution.user, track: prestigious_solution.track)
     create :user_arbitrary_reputation_token, user: prestigious_solution.user, track: prestigious_solution.track,
       params: { arbitrary_value: 20, arbitrary_reason: "" }
     create :user_arbitrary_reputation_token, user: prestigious_solution.user, track: prestigious_solution.track,

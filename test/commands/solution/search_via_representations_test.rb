@@ -477,6 +477,8 @@ class Solution::SearchViaRepresentationsTest < ActiveSupport::TestCase
       create_solution(exercise:, representation:)
     end
 
+    solutions.each { |solution| create(:user_track, user: solution.user, track:) }
+
     # We want the middle one to be the prestigious one that's returned
     create :user_arbitrary_reputation_token, user: solutions[0].user, track:, params: { arbitrary_value: 20, arbitrary_reason: "" }
     create :user_arbitrary_reputation_token, user: solutions[1].user, track:, params: { arbitrary_value: 50, arbitrary_reason: "" }

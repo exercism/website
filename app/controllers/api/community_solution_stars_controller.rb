@@ -2,8 +2,7 @@ class API::CommunitySolutionStarsController < API::BaseController
   before_action :use_solution
 
   def create
-    @solution.stars.create_or_find_by!(user: current_user)
-    Solution::InvalidateCloudflareCache.defer(@solution)
+    Solution::Star::Create.(@solution, current_user)
 
     render json: {
       star: {
@@ -14,8 +13,7 @@ class API::CommunitySolutionStarsController < API::BaseController
   end
 
   def destroy
-    @solution.stars.where(user: current_user).destroy_all
-    Solution::InvalidateCloudflareCache.defer(@solution)
+    Solution::Star::Destroy.(@solution, current_user)
 
     render json: {
       star: {

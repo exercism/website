@@ -28,6 +28,19 @@ module API
       )
     end
 
+    test "create uses Solution::Star::Create" do
+      setup_user
+      solution = create :practice_solution, :published
+
+      Solution::Star::Create.expects(:call).with(solution, @current_user)
+
+      post api_track_exercise_community_solution_star_path(
+        solution.track, solution.exercise, solution.user.handle
+      ), headers: @headers, as: :json
+
+      assert_response :ok
+    end
+
     ###########
     # Destroy #
     ###########
@@ -51,6 +64,20 @@ module API
         },
         JSON.parse(response.body)
       )
+    end
+
+    test "destroy uses Solution::Star::Destroy" do
+      setup_user
+      solution = create :practice_solution, :published
+      create :solution_star, solution:, user: @current_user
+
+      Solution::Star::Destroy.expects(:call).with(solution, @current_user)
+
+      delete api_track_exercise_community_solution_star_path(
+        solution.track, solution.exercise, solution.user.handle
+      ), headers: @headers, as: :json
+
+      assert_response :ok
     end
   end
 end

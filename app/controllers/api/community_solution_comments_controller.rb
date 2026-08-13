@@ -22,10 +22,7 @@ class API::CommunitySolutionCommentsController < API::BaseController
     return render_404(:solution_comment_not_found) if comment.blank?
     return render_403(:solution_comment_not_accessible) unless comment.author == current_user
 
-    if comment.update(content_markdown: params[:content])
-      Solution::InvalidateCloudflareCache.defer(@solution)
-      # TODO: Readd this
-      # CommentListChannel.notify!(comment.solution)
+    if Solution::Comment::Update.(comment, params[:content])
       render json: { item: SerializeSolutionComment.(comment, current_user) }
     else
       render_400(:failed_validations, errors: comment.errors)
@@ -38,10 +35,7 @@ class API::CommunitySolutionCommentsController < API::BaseController
     return render_404(:solution_comment_not_found) if comment.blank?
     return render_403(:solution_comment_not_accessible) unless comment.author == current_user
 
-    if comment.destroy
-      Solution::InvalidateCloudflareCache.defer(@solution)
-      # TODO: Readd this
-      # CommentListChannel.notify!(comment.solution)
+    if Solution::Comment::Destroy.(comment)
       render json: { item: SerializeSolutionComment.(comment, current_user) }
     else
       render_400(:solution_comment_not_deleted)
@@ -49,15 +43,13 @@ class API::CommunitySolutionCommentsController < API::BaseController
   end
 
   def enable
-    @solution.update!(allow_comments: true)
-    Solution::InvalidateCloudflareCache.defer(@solution)
+    Solution::AllowComments.(@solution)
 
     render json: {}
   end
 
   def disable
-    @solution.update!(allow_comments: false)
-    Solution::InvalidateCloudflareCache.defer(@solution)
+    Solution::DisallowComments.(@solution)
 
     render json: {}
   end

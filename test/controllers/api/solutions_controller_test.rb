@@ -603,6 +603,21 @@ class API::SolutionsControllerTest < API::BaseTestCase
     end
   end
 
+  test "unpublish uses Solution::RetractPublication" do
+    setup_user
+
+    exercise = create :concept_exercise
+    create :user_track, track: exercise.track, user: @current_user
+    solution = create :concept_solution, exercise:, user: @current_user, completed_at: Time.current
+    create(:iteration, solution:)
+
+    Solution::RetractPublication.expects(:call).with(solution)
+
+    patch unpublish_api_solution_path(solution.uuid), headers: @headers, as: :json
+
+    assert_response :ok
+  end
+
   ###############
   # Unlock help #
   ###############

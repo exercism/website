@@ -1,5 +1,7 @@
 class AddTrackReputationUserIndexToUserTracks < ActiveRecord::Migration[7.1]
   def change
+    return if Rails.env.production?
+    
     # Column order matters. reputation *second* is what lets
     # Exercise::Representation::Recache#prestigious_solution do a reverse
     # range scan with early termination (81ms on the worst representation).

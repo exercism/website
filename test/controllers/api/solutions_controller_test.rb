@@ -603,6 +603,41 @@ class API::SolutionsControllerTest < API::BaseTestCase
     end
   end
 
+  test "unpublish uses Solution::Unpublish" do
+    setup_user
+
+    exercise = create :concept_exercise
+    create :user_track, track: exercise.track, user: @current_user
+    solution = create :concept_solution, exercise:, user: @current_user, completed_at: Time.current
+    create(:iteration, solution:)
+
+    Solution::Unpublish.expects(:call).with(solution)
+
+    patch unpublish_api_solution_path(solution.uuid), headers: @headers, as: :json
+
+    assert_response :ok
+  end
+
+  test "unpublish decrements the exercise's num_published_solutions" do
+    setup_user
+
+    exercise = create :concept_exercise
+    create :user_track, track: exercise.track, user: @current_user
+    solution = create :concept_solution, :published, exercise:, user: @current_user
+    # num_loc must be set or Solution::UpdateNumLoc endlessly redefers itself inline
+    create(:iteration, solution:, num_loc: 10)
+
+    Exercise::CacheNumPublishedSolutions.(exercise)
+    assert_equal 1, exercise.reload.num_published_solutions
+
+    perform_enqueued_jobs do
+      patch unpublish_api_solution_path(solution.uuid), headers: @headers, as: :json
+    end
+
+    assert_response :ok
+    assert_equal 0, exercise.reload.num_published_solutions
+  end
+
   ###############
   # Unlock help #
   ###############

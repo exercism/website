@@ -182,8 +182,6 @@ export type CommunitySolution = {
   isOutOfDate: boolean
   author: {
     handle: string
-    avatarUrl: string
-    flair: Flair
   }
   exercise: {
     title: string
@@ -783,11 +781,10 @@ class BadgeRarityValue {
 
 export type SolutionComment = {
   uuid: string
+  // Avatar, flair and reputation are fetched client-side per handle so they
+  // stay out of cached HTML. See components/user-identity.
   author: {
-    avatarUrl: string
     handle: string
-    flair: Flair
-    reputation: string
   }
   updatedAt: string
   contentMarkdown: string

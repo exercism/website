@@ -10,6 +10,8 @@
 %meta{ name: "bug-reports-url", content: Exercism::Routes.api_bug_reports_url }
 %meta{ name: "parse-markdown-url", content: Exercism::Routes.api_parse_markdown_url }
 %meta{ name: "user-id", content: current_user&.id }
+-# Used client-side to cache-bust a user's own identity data. Safe to render because responses for signed-in users are never CDN-cached.
+%meta{ name: "user-handle", content: current_user&.handle }
 - unless Rails.env.test?
   %meta{ name: "stripe-publishable-key", content: Exercism.secrets.stripe_publishable_key }
 

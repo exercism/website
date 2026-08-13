@@ -92,7 +92,7 @@ class API::SolutionsController < API::BaseController
   end
 
   def unpublish
-    @solution.update!(published_at: nil, published_iteration_id: nil)
+    Solution::Unpublish.(@solution)
 
     render json: {
       solution: SerializeSolution.(@solution)

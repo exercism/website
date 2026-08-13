@@ -5,7 +5,7 @@
       .info
         .heading
           %h1= render ViewComponents::HandleWithFlair.new(user.handle, user.flair, size: :xlarge)
-          = render ViewComponents::Reputation.new(number_with_delimiter(user.reputation), flashy: true)
+          = render ReactComponents::UserIdentity::Reputation.new(user.handle, type: :primary)
           .tracks
             - top_three_tracks.each do |track|
               = track_icon track

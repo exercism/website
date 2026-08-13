@@ -205,10 +205,12 @@ import gh from './discussion-batch'
 import gi from './session-batch-1'
 import gj from './session-batch-2'
 import gk from './session-batch-3'
+import gl from './components-common-HandleWithFlair.tsx'
 
 export default {
   'automation-batch': aa,
   'components/common/exercise-widget': au,
+  'components/common/HandleWithFlair.tsx': gl,
   'components/common/Loading.tsx': av,
   'components/common/markdown-editor-form': aw,
   'components/common/MarkdownEditor.tsx': ax,

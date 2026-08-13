@@ -5,3 +5,11 @@
 .c-avatar {
     @apply c-bg-img rounded-circle flex-shrink-0;
 }
+
+/* The avatar is rendered client-side (see components/user-identity), so this
+   wrapper is empty until React mounts, and `--fitted` collapses it to zero.
+   Each context that sizes .c-avatar must size this too, or the surrounding
+   layout shifts once the avatar lands. */
+.c-react-wrapper-user-identity-avatar {
+    @apply flex-shrink-0;
+}

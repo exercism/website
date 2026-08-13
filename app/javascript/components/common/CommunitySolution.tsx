@@ -3,7 +3,8 @@ import { shortFromNow } from '@/utils/time'
 import { useHighlighting } from '@/utils/highlight'
 import { ExerciseIcon } from './ExerciseIcon'
 import { ProcessingStatusSummary } from './ProcessingStatusSummary'
-import { GraphicalIcon, Avatar, Icon } from '../common'
+import { GraphicalIcon, Icon } from '../common'
+import { UserAvatar } from '../user-identity'
 import { Outdated } from './exercise-widget/info/Outdated'
 import { GenericTooltip } from '../misc/ExercismTippy'
 import {
@@ -137,10 +138,7 @@ export default function CommunitySolution({
             title={solution.exercise.title}
           />
         ) : (
-          <Avatar
-            handle={solution.author.handle}
-            src={solution.author.avatarUrl}
-          />
+          <UserAvatar handle={solution.author.handle} />
         )}
 
         <div className="--info">

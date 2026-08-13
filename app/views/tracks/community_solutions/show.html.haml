@@ -32,21 +32,15 @@
       = track_icon @track
       .flex.items-start.sm:items-center
         .avatar.mr-16.sm:mr-32
-          - if @author.profile
-            = link_to avatar(@author), profile_path(@author)
-          - else
-            = avatar(@author)
+          = render ReactComponents::UserIdentity::Avatar.new(@author.handle, link: true)
 
         %h1
           .name
             - if @own_solution
               = t('.solution_heading.your_solution')
-            - elsif @author.profile
-              = link_to profile_path(@author), class: 'flex' do
-                = t('.solution_heading.authors_solution', author_handle: @author.handle)
             - else
-              = t('.solution_heading.authors_solution', author_handle: @author.handle)
-            = render ViewComponents::Reputation.new(@author.formatted_reputation, size: :small, flashy: true)
+              = render ReactComponents::UserIdentity::ProfileLink.new(@author.handle, t('.solution_heading.authors_solution', author_handle: @author.handle), class_name: 'flex')
+            = render ReactComponents::UserIdentity::Reputation.new(@author.handle, size: :small, type: :primary)
           .to
             = t('.solution_heading.to')
             = link_to @exercise.title, track_exercise_path(@track, @exercise)
@@ -67,11 +61,11 @@
           .inner
             .c-faces.--static
               - @mentor_discussions.each do |discussion|
-                .face= avatar discussion.mentor
+                .face= render ReactComponents::UserIdentity::Avatar.new(discussion.mentor.handle)
             .info
               .mentors
                 = t('.mentoring.mentored_by')
-                %strong= @mentor_discussions.map { |d| render(ViewComponents::HandleWithFlair.new(d.mentor.handle, d.mentor.flair)) }.map(&:to_s).to_sentence.html_safe
+                %strong= @mentor_discussions.map { |d| render(ReactComponents::UserIdentity::HandleWithFlair.new(d.mentor.handle)) }.map(&:to_s).to_sentence.html_safe
 
               = link_to doc_path(:using, 'feedback'), class: 'more' do
                 = graphical_icon "info-circle", css_class: 'filter-textColor6'
@@ -103,7 +97,8 @@
             .flex.flex-col
               .text-18.font-medium.text-textColor2.mb-8.flex.items-center.justify-center
                 = icon "reputation", t('.about_solution.reputation_alt_text'), css_class: "w-[16px] h-[16px] mr-6 filter-textColor2"
-                = number_with_delimiter(@exercise_representation.max_reputation)
+                -# This is the *prestigious solution author's* track-scoped reputation, which used to be a live SUM on every request. It's now fetched.
+                = render ReactComponents::UserIdentity::Reputation.new(@exercise_representation.prestigious_solution.user.handle, track: @track.slug, plain: true)
               .text-15= t('.about_solution.max_track_rep')
 
       - if @approach

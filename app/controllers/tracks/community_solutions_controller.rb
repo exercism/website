@@ -2,7 +2,8 @@ class Tracks::CommunitySolutionsController < ApplicationController
   include UseTrackExerciseSolutionConcern
   before_action :use_solution, except: [:show]
   before_action :use_exercise!, only: [:show]
-  before_action :cache_public_action!, only: %i[index show]
+  before_action :cache_public_action!, only: %i[index]
+  before_action :cache_show_action!, only: %i[show]
 
   skip_before_action :authenticate_user!
 
@@ -57,4 +58,12 @@ class Tracks::CommunitySolutionsController < ApplicationController
   end
 
   def tooltip_locked = render_template_as_json
+
+  private
+  # Published solution pages are purged from Cloudflare whenever anything
+  # on them changes (see Solution::InvalidateCloudflareCache), so they can
+  # be cached at the edge for a long time. The crawlers that make up the
+  # bulk of this traffic return roughly daily, so the TTL has to
+  # substantially exceed that to be worth anything.
+  def cache_show_action! = cache_public_action!(edge_ttl: 30.days)
 end

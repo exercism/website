@@ -10,5 +10,6 @@ class Solution::UpdatePublishedIterationHeadTestsStatus
 
     Solution::SyncToSearchIndex.defer(solution)
     Solution::UpdateTags.defer(solution)
+    Solution::InvalidateCloudflareCache.defer(solution)
   end
 end

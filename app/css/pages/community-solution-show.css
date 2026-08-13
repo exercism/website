@@ -17,7 +17,8 @@
                     @apply block;
                 }
 
-                & .c-avatar {
+                & .c-avatar,
+                & .c-react-wrapper-user-identity-avatar {
                     height: 48px;
                     width: 48px;
                     @apply sm:block;
@@ -170,7 +171,8 @@
                     & + .comment {
                         @apply mt-32;
                     }
-                    & .c-avatar {
+                    & .c-avatar,
+                    & .c-react-wrapper-user-identity-avatar {
                         height: 48px;
                         width: 48px;
                         @apply mr-16;

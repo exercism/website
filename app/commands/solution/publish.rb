@@ -24,6 +24,7 @@ class Solution::Publish
     log_metric!
     update_num_published_solutions_on_exercise!
     User::ResetCache.defer(user, :num_published_solutions)
+    Solution::InvalidateCloudflareCache.defer(solution)
   end
 
   private

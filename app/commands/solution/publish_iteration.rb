@@ -10,6 +10,8 @@ class Solution::PublishIteration
     Solution::UpdatePublishedExerciseRepresentation.(solution)
     Solution::UpdateSnippet.(solution)
     Solution::UpdateNumLoc.(solution)
+
+    Solution::InvalidateCloudflareCache.defer(solution)
   end
 
   private

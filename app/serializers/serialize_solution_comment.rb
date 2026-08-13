@@ -6,11 +6,12 @@ class SerializeSolutionComment
   def call
     {
       uuid: comment.uuid,
+      # Reputation, flair and avatar are deliberately absent. They change
+      # whenever the commenter does anything anywhere, so embedding them here
+      # would invalidate every page that person has ever commented on. The
+      # client fetches them from /api/v2/users/:handle.json instead.
       author: {
-        handle: comment.author.handle,
-        avatar_url: comment.author.avatar_url,
-        flair: comment.author.flair,
-        reputation: comment.author.formatted_reputation
+        handle: comment.author.handle
       },
       content_markdown: comment.content_markdown,
       content_html: comment.content_html,

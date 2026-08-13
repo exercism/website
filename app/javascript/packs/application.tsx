@@ -84,6 +84,17 @@ const TrackSlugsMultiselector = lazy(
 const ThemeToggleButton = lazy(
   () => import('@/components/common/ThemeToggleButton')
 )
+const UserReputation = lazy(
+  () => import('@/components/user-identity/UserReputation')
+)
+const UserHandleWithFlair = lazy(
+  () => import('@/components/user-identity/UserHandleWithFlair')
+)
+const UserAvatar = lazy(() => import('@/components/user-identity/UserAvatar'))
+const UserProfileLink = lazy(
+  () => import('@/components/user-identity/UserProfileLink')
+)
+
 const Icon = lazy(() => import('@/components/common/Icon'))
 const GraphicalIcon = lazy(() => import('@/components/common/GraphicalIcon'))
 const ProgressGraph = lazy(() => import('@/components/common/ProgressGraph'))
@@ -638,6 +649,47 @@ export const mappings = {
   ): JSX.Element => (
     <Suspense fallback={<ThemeToggleButtonSkeleton />}>
       <ThemeToggleButton {...data} defaultTheme={data.default_theme} />
+    </Suspense>
+  ),
+  // User identity components. These always fetch, with no branching on the
+  // current user, so that the HTML they sit in stays identical for everyone
+  // and can be cached at the edge. See PERF_DEBUGGING.md.
+  'user-identity-reputation': (data: any): JSX.Element => (
+    <Suspense fallback={null}>
+      <UserReputation
+        handle={data.handle}
+        track={data.track}
+        size={data.size}
+        type={data.type}
+        plain={data.plain}
+      />
+    </Suspense>
+  ),
+  'user-identity-handle-with-flair': (data: any): JSX.Element => (
+    <Suspense fallback={null}>
+      <UserHandleWithFlair
+        handle={data.handle}
+        size={data.size}
+        className={data.class_name}
+      />
+    </Suspense>
+  ),
+  'user-identity-avatar': (data: any): JSX.Element => (
+    <Suspense fallback={null}>
+      <UserAvatar
+        handle={data.handle}
+        link={data.link}
+        className={data.class_name}
+      />
+    </Suspense>
+  ),
+  'user-identity-profile-link': (data: any): JSX.Element => (
+    <Suspense fallback={null}>
+      <UserProfileLink
+        handle={data.handle}
+        text={data.text}
+        className={data.class_name}
+      />
     </Suspense>
   ),
   'common-icon': (data: any): JSX.Element => (

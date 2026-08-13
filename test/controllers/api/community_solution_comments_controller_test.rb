@@ -207,6 +207,24 @@ class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
     assert_equal expected, JSON.parse(response.body, symbolize_names: true)
   end
 
+  test "update: uses Solution::Comment::Update" do
+    user = create(:user, handle: "user")
+    setup_user(user)
+    solution = create :practice_solution
+    comment = create(:solution_comment, solution:, author: user)
+
+    Solution::Comment::Update.expects(:call).with(comment, "content").returns(true)
+
+    patch api_track_exercise_community_solution_comment_path(
+      solution.track, solution.exercise, solution.user.handle, comment
+    ),
+      params: { content: "content" },
+      headers: @headers,
+      as: :json
+
+    assert_response :ok
+  end
+
   ###
   # Destroy
   ###
@@ -266,5 +284,78 @@ class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
     expected = { item: SerializeSolutionComment.(comment, user) }
     assert_equal expected, JSON.parse(response.body, symbolize_names: true)
     refute Solution::Comment.exists?(comment.id)
+  end
+
+  test "destroy: uses Solution::Comment::Destroy" do
+    user = create(:user, handle: "user")
+    setup_user(user)
+    solution = create :practice_solution
+    comment = create(:solution_comment, solution:, author: user)
+
+    Solution::Comment::Destroy.expects(:call).with(comment).returns(true)
+
+    delete api_track_exercise_community_solution_comment_path(
+      solution.track, solution.exercise, solution.user.handle, comment
+    ), headers: @headers, as: :json
+
+    assert_response :ok
+  end
+
+  ###
+  # Enable
+  ###
+  test "enable allows comments" do
+    setup_user
+    solution = create :practice_solution, :published, allow_comments: false
+
+    patch enable_api_track_exercise_community_solution_comments_path(
+      solution.track, solution.exercise, solution.user.handle
+    ), headers: @headers, as: :json
+
+    assert_response :ok
+    assert_empty(JSON.parse(response.body))
+    assert solution.reload.allow_comments
+  end
+
+  test "enable uses Solution::AllowComments" do
+    setup_user
+    solution = create :practice_solution, :published, allow_comments: false
+
+    Solution::AllowComments.expects(:call).with(solution)
+
+    patch enable_api_track_exercise_community_solution_comments_path(
+      solution.track, solution.exercise, solution.user.handle
+    ), headers: @headers, as: :json
+
+    assert_response :ok
+  end
+
+  ###
+  # Disable
+  ###
+  test "disable disallows comments" do
+    setup_user
+    solution = create :practice_solution, :published, allow_comments: true
+
+    patch disable_api_track_exercise_community_solution_comments_path(
+      solution.track, solution.exercise, solution.user.handle
+    ), headers: @headers, as: :json
+
+    assert_response :ok
+    assert_empty(JSON.parse(response.body))
+    refute solution.reload.allow_comments
+  end
+
+  test "disable uses Solution::DisallowComments" do
+    setup_user
+    solution = create :practice_solution, :published, allow_comments: true
+
+    Solution::DisallowComments.expects(:call).with(solution)
+
+    patch disable_api_track_exercise_community_solution_comments_path(
+      solution.track, solution.exercise, solution.user.handle
+    ), headers: @headers, as: :json
+
+    assert_response :ok
   end
 end

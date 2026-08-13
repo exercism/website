@@ -1,5 +1,6 @@
 class SitemapsController < ApplicationController
   skip_before_action :authenticate_user!
+  before_action :cache_sitemap!, except: [:robots_txt]
 
   around_action do |_, action|
     ActiveRecord::Base.transaction(isolation: Exercism::READ_COMMITTED) do
@@ -122,6 +123,12 @@ class SitemapsController < ApplicationController
   end
 
   private
+  # Sitemaps are crawler-only and exist to be re-read roughly daily, so
+  # a day of staleness costs nothing and keeps the expensive per-track
+  # queries off the origin almost entirely. There is no purge path: these
+  # simply expire.
+  def cache_sitemap! = cache_public_action!(edge_ttl: 1.day)
+
   def pages_to_xml(pages)
     builder = Nokogiri::XML::Builder.new do |xml|
       xml.urlset(xmlns: "http://www.sitemaps.org/schemas/sitemap/0.9") do

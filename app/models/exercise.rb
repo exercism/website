@@ -2,6 +2,8 @@ class Exercise < ApplicationRecord
   extend FriendlyId
   extend Mandate::Memoize
 
+  TUTORIAL_SLUG = "hello-world".freeze
+
   friendly_id :slug, use: [:history]
 
   enum status: {
@@ -128,7 +130,7 @@ class Exercise < ApplicationRecord
   def concept_exercise? = is_a?(ConceptExercise)
   def practice_exercise? = is_a?(PracticeExercise)
   def approaches? = approaches.exists?
-  def tutorial? = slug == "hello-world"
+  def tutorial? = slug == TUTORIAL_SLUG
   def has_test_runner? = super && track.has_test_runner?
 
   memoize

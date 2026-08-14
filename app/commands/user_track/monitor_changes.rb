@@ -43,9 +43,11 @@ class UserTrack::MonitorChanges
     concept_progressions.reject! { |cp| cp[:to] == cp[:from] }
 
     # Inject the concept into each result, and remove id
+    # The track is included on each of these as callers serialize them into
+    # links, which needs the track's slug.
     progressed_concepts = Concept.where(
       id: concept_progressions.map { |c| c[:id] }
-    ).index_by(&:id)
+    ).includes(:track).index_by(&:id)
 
     concept_progressions.map do |cp|
       cp[:concept] = progressed_concepts[cp[:id]]
@@ -54,8 +56,8 @@ class UserTrack::MonitorChanges
 
     # And finally return it all as a neat hash
     {
-      unlocked_exercises: Exercise.where(id: unlocked_exercise_ids),
-      unlocked_concepts: Concept.where(id: unlocked_concept_ids),
+      unlocked_exercises: Exercise.where(id: unlocked_exercise_ids).includes(:track),
+      unlocked_concepts: Concept.where(id: unlocked_concept_ids).includes(:track),
       concept_progressions:
     }
   end

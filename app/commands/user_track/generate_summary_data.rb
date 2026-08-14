@@ -64,32 +64,51 @@ class UserTrack::GenerateSummaryData
     end
   end
 
+  # This deliberately plucks rather than instantiating ActiveRecord objects.
+  # A large track has 130+ exercises with several hundred rows across the
+  # concept join tables, and instantiating all of that costs far more time
+  # than the queries themselves - especially as we only want a few scalars
+  # off each row.
   def generate_exercises_data!
-    exercises = (
-      user_track.concept_exercises.includes(:taught_concepts, :prerequisites).to_a +
-      user_track.practice_exercises.includes(:practiced_concepts, :prerequisites).to_a
-    ).freeze
+    exercises = pluck_exercises(user_track.concept_exercises) +
+                pluck_exercises(user_track.practice_exercises)
 
-    @exercises_data = exercises.each_with_object({}) do |exercise, data|
-      prerequisite_concept_slugs = exercise.prerequisites.pluck(:slug)
-      practiced_concepts = exercise.practice_exercise? ? exercise.practiced_concepts.pluck(:slug) : []
+    exercise_ids = exercises.map(&:first)
+    prerequisites = concept_slugs_by_exercise_id(Exercise::Prerequisite, exercise_ids)
+    practiced = concept_slugs_by_exercise_id(Exercise::PracticedConcept, exercise_ids)
+    taught = concept_slugs_by_exercise_id(Exercise::TaughtConcept, exercise_ids)
 
-      solution_data = solutions_data[exercise.slug]
+    @exercises_data = exercises.each_with_object({}) do |(id, slug, type, position), data|
+      solution_data = solutions_data[slug]
+      concept_exercise = type == ConceptExercise.to_s
 
       exercise_data = {
-        id: exercise.id,
-        slug: exercise.slug,
-        type: exercise.git_type.to_sym,
-        position: exercise.position,
-        tutorial: exercise.tutorial?,
-        prerequisite_concept_slugs:,
-        practiced_concepts:,
+        id:,
+        slug:,
+        type: type.sub("Exercise", "").downcase.to_sym,
+        position:,
+        tutorial: slug == Exercise::TUTORIAL_SLUG,
+        prerequisite_concept_slugs: prerequisites[id],
+        practiced_concepts: concept_exercise ? [] : practiced[id],
         has_solution: !!solution_data,
         completed_at: solution_data&.fetch(:completed_at) || nil
       }
-      exercise_data[:taught_concepts] = exercise.taught_concepts.pluck(:slug) if exercise.concept_exercise?
-      data[exercise.slug] = exercise_data
+      exercise_data[:taught_concepts] = taught[id] if concept_exercise
+      data[slug] = exercise_data
     end
+  end
+
+  def pluck_exercises(exercises)
+    exercises.except(:includes).pluck(:id, :slug, :type, :position)
+  end
+
+  def concept_slugs_by_exercise_id(klass, exercise_ids)
+    klass.joins(:concept).
+      where(exercise_id: exercise_ids).
+      pluck(:exercise_id, :'track_concepts.slug').
+      each_with_object(Hash.new { |data, exercise_id| data[exercise_id] = [] }) do |(exercise_id, slug), data|
+        data[exercise_id] << slug
+      end
   end
 
   def calculate_unlocking!
@@ -118,14 +137,16 @@ class UserTrack::GenerateSummaryData
   def solutions_data
     return {} if user_track.external?
 
-    solutions = user_track.solutions.includes(:exercise)
-    solutions.each_with_object({}) do |solution, data|
-      data[solution.exercise.slug] = {
-        slug: solution.exercise.slug,
-        status: solution.status,
-        completed_at: solution.completed_at&.to_i
-      }
-    end
+    # As with the exercises, this plucks to avoid instantiating a Solution and
+    # an Exercise for each of the user's solutions on the track.
+    user_track.solutions.pluck(:'exercises.slug', :status, :completed_at).
+      each_with_object({}) do |(slug, status, completed_at), data|
+        data[slug] = {
+          slug:,
+          status: status.to_sym,
+          completed_at: completed_at&.to_i
+        }
+      end
   end
 
   def exercise_is_unlocked?(exercise_data, tutorial_pending)

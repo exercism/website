@@ -4,6 +4,14 @@ class UserTrack < ApplicationRecord
 
   MIN_REP_TO_TRAIN_ML = 50
 
+  # The summary cache key includes a digest of the generator, so that a change
+  # to how summaries are built invalidates every cached summary. The file can't
+  # change within the lifetime of a process, so we only read it once rather than
+  # on every summary lookup.
+  SUMMARY_GENERATOR_DIGEST = Digest::SHA1.hexdigest(
+    File.read(Rails.root.join('app', 'commands', 'user_track', 'generate_summary_data.rb'))
+  ).freeze
+
   serialize :summary_data, coder: JSON
 
   belongs_to :user
@@ -215,7 +223,7 @@ class UserTrack < ApplicationRecord
   def summary
     return @summary if @summary
 
-    digest = Digest::SHA1.hexdigest(File.read(Rails.root.join('app', 'commands', 'user_track', 'generate_summary_data.rb')))
+    digest = SUMMARY_GENERATOR_DIGEST
     track_updated_at = association(:track).loaded? ? track.updated_at : Track.where(id: track_id).pick(:updated_at)
     expected_key = "#{track_updated_at.to_f}:#{last_touched_at.to_f}:#{digest}"
 

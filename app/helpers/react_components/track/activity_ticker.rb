@@ -19,7 +19,7 @@ module ReactComponents
       ALLOWED_METRIC_TYPES = [
         'Metrics::PublishSolutionMetric',
         'Metrics::OpenPullRequestMetric',
-        'Metrics::StartSolutiontMetric',
+        'Metrics::StartSolutionMetric',
         'Metrics::MergePullRequestMetric',
         'Metrics::SubmitSubmissionMetric',
         'Metrics::CompleteSolutionMetric'

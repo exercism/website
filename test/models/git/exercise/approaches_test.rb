@@ -83,20 +83,6 @@ class Git::Exercise::ApproachesTest < ActiveSupport::TestCase
     assert_equal expected_filepaths, approaches.absolute_filepaths
   end
 
-  test "introduction_last_modified_at with approaches introduction" do
-    approaches = Git::Exercise::Approaches.new("bob", "practice", "HEAD",
-      repo_url: TestHelpers.git_repo_url("track"))
-
-    assert_equal Time.zone.utc_to_local(Time.utc(2023, 8, 31, 10, 27, 9)), approaches.introduction_last_modified_at
-  end
-
-  test "introduction_last_modified_at without approaches introduction" do
-    approaches = Git::Exercise::Approaches.new(:leap, "practice", "HEAD",
-      repo_url: TestHelpers.git_repo_url("track"))
-
-    assert_nil approaches.introduction_last_modified_at
-  end
-
   test "introduction_authors" do
     approaches = Git::Exercise::Approaches.new("bob", "practice", "HEAD",
       repo_url: TestHelpers.git_repo_url("track"))

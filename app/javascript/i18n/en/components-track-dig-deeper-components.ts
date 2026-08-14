@@ -13,7 +13,6 @@ export default {
   'diggingDeeper.digDeeper': 'Dig deeper',
   'diggingDeeper.author': 'author',
   'diggingDeeper.contributor': 'contributor',
-  'diggingDeeper.lastUpdated': 'Last updated {{date}}',
   'diggingDeeper.editViaGitHub': 'Edit via GitHub',
   'diggingDeeper.linkOpensInNewTab': 'The link opens in a new window or tab',
 }

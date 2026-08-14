@@ -40,7 +40,6 @@ class Tracks::DigDeeperController < ApplicationController
       users: introduction_users,
       num_authors: @exercise.approach_introduction_authors.count,
       num_contributors: @exercise.approach_introduction_contributors.count,
-      updated_at: @exercise.approaches_introduction_last_modified_at,
       links: {
         edit: @exercise.approaches_introduction_edit_url
       }

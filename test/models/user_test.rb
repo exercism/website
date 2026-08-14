@@ -16,6 +16,14 @@ class UserTest < ActiveSupport::TestCase
     assert_equal user, User.for!(user.handle)
   end
 
+  test "#for! with nil raises" do
+    create :user # Sanity
+
+    assert_raises ActiveRecord::RecordNotFound do
+      User.for!(nil)
+    end
+  end
+
   test "creates data" do
     user = create :user
     assert user.data

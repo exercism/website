@@ -203,6 +203,12 @@ class User < ApplicationRecord
     return param if param.is_a?(User)
     return find_by!(id: param) if param.is_a?(Numeric)
 
+    # A nil param (e.g. a signed-out user being passed to UserTrack.for)
+    # can never match a row, as handle is never NULL. Raising here gives
+    # the same result as the query below without the database round-trip,
+    # which is worth many millions of queries a day.
+    raise ActiveRecord::RecordNotFound if param.nil?
+
     find_by!(handle: param)
   end
 

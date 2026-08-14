@@ -127,6 +127,11 @@ class Solution < ApplicationRecord
   end
 
   def starred_by?(user)
+    # The community solutions pages are overwhelmingly viewed by
+    # anonymous users. Guarding here avoids millions of pointless
+    # queries for a star with a NULL user_id, which can never exist.
+    return false if user.nil?
+
     stars.exists?(user:)
   end
 

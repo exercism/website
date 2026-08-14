@@ -84,6 +84,24 @@ class Exercise < ApplicationRecord
     joins(:track).find_by('tracks.slug': track_slug, slug: exercise_slug)
   end
 
+  NUM_AVAILABLE_EXERCISES_CACHE_KEY = 'num_available_exercises'.freeze
+  def self.num_available
+    @num_available ||= Rails.cache.fetch(NUM_AVAILABLE_EXERCISES_CACHE_KEY, expires_in: 1.day) do
+      Exercise.available.count
+    end
+  end
+
+  def self.reset_num_available!
+    Rails.cache.delete(NUM_AVAILABLE_EXERCISES_CACHE_KEY)
+    @num_available = nil
+  end
+
+  # NOTE: this uses Exercise (not self.class) as exercises are STI,
+  # and the count/cache always lives on the base class.
+  after_save_commit do
+    Exercise.reset_num_available!
+  end
+
   delegate :files_for_editor, :exemplar_files, :introduction, :instructions, :source, :source_url,
     :approaches_introduction, :approaches_introduction_exists?,
     :approaches_introduction_edit_url, to: :git

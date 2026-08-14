@@ -1,6 +1,25 @@
 require 'test_helper'
 
 class ExerciseTest < ActiveSupport::TestCase
+  test "num_available caches count and is reset when an exercise is saved" do
+    Exercise.reset_num_available!
+
+    create :practice_exercise, status: :active
+    create :practice_exercise, status: :wip
+
+    assert_equal 1, Exercise.num_available
+
+    # Cached, so a change that skips callbacks doesn't change the value
+    Exercise.where(status: :wip).update_all(status: :active)
+    assert_equal 1, Exercise.num_available
+
+    # Saving an exercise busts the cache
+    create :practice_exercise, status: :beta
+    assert_equal 3, Exercise.num_available
+  ensure
+    Exercise.reset_num_available!
+  end
+
   test "to_slug" do
     exercise = create :concept_exercise
     assert_equal exercise.slug, exercise.to_param

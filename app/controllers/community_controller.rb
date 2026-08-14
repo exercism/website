@@ -1,5 +1,6 @@
 class CommunityController < ApplicationController
   skip_before_action :authenticate_user!
+  before_action :cache_community!
 
   def show
     @supporter_avatar_urls = AVATAR_URLS
@@ -57,4 +58,11 @@ class CommunityController < ApplicationController
     "https://avatars1.githubusercontent.com/u/5337876?v=4",
     "https://avatars2.githubusercontent.com/u/286476"
   ].freeze
+
+  private
+  # Signed-out visitors get the same page as each other, and everything on it
+  # (forum threads, community stories, videos, contributors) tolerates a day
+  # of staleness. There is no purge path, so new stories and videos take up to
+  # a day to appear for them. cache_public_action! no-ops for signed-in users.
+  def cache_community! = cache_public_action!(edge_ttl: 1.day)
 end

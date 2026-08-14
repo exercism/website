@@ -4,7 +4,10 @@ class ToolingJob::Process
   initialize_with :id
 
   def call
-    ToolingJob::DeleteFromEFS.(job.efs_dir)
+    # This is deferred because it's cleanup rather than part of processing -
+    # nothing below reads from EFS. It's an rm_rf over NFS, so every file is a
+    # network round trip, and there's no reason for the request to wait for it.
+    ToolingJob::DeleteFromEFS.defer(job.efs_dir)
 
     send("process_#{job.type}_job!")
     job.processed!

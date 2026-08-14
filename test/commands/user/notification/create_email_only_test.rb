@@ -35,5 +35,22 @@ class User::Notifications::CreateEmailOnlyTest < ActiveSupport::TestCase
     n_1 = User::Notification::CreateEmailOnly.(user, type, **params)
     n_2 = User::Notification::CreateEmailOnly.(user, type, **params)
     assert_equal n_1, n_2
+    assert_equal 1, User::Notification.count
+  end
+
+  test "duplicate is caught before hitting the database" do
+    user = create :user
+    type = :mentor_started_discussion
+    discussion = create(:mentor_discussion)
+    params = { discussion: }
+
+    n_1 = User::Notification::CreateEmailOnly.(user, type, **params)
+
+    # The second call should short-circuit on the pre-check, so neither
+    # the insert nor the email should happen again.
+    User::Notification::SendEmail.expects(:call).never
+    User::Notification.any_instance.expects(:save!).never
+
+    assert_equal n_1, User::Notification::CreateEmailOnly.(user, type, **params)
   end
 end

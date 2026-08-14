@@ -621,6 +621,22 @@ class SolutionTest < ActiveSupport::TestCase
     assert_equal 1, solution.num_stars
   end
 
+  test "starred_by?" do
+    solution = create :concept_solution
+    user = create :user
+
+    refute solution.starred_by?(user)
+    create(:solution_star, solution:, user:)
+    assert solution.starred_by?(user)
+  end
+
+  test "starred_by? is false for nil user" do
+    solution = create :concept_solution
+    create(:solution_star, solution:)
+
+    refute solution.starred_by?(nil)
+  end
+
   test "out_of_date" do
     exercise = create :concept_exercise
     solution = create(:concept_solution, exercise:)

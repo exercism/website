@@ -41,6 +41,12 @@ mark_outdated_reputation_year_periods:
   queue: reputation
   args: ["year"]
 
+# 3:30am every day
+sweep_metrics:
+  cron: "30 3 * * *"
+  class: "SweepMetricsJob"
+  queue: metrics
+
 sync_payments:
   cron: "0 5 * * *"
   class: "SyncPaymentsJob"

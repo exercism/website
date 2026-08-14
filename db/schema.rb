@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_08_13_120000) do
+ActiveRecord::Schema[7.1].define(version: 2026_08_14_215251) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -839,39 +839,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_13_120000) do
     t.index ["mentor_id", "revealed"], name: "index_mentor_testimonials_on_mentor_id_and_revealed"
     t.index ["student_id"], name: "index_mentor_testimonials_on_student_id"
     t.index ["uuid"], name: "index_mentor_testimonials_on_uuid"
-  end
-
-  create_table "metric_period_days", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.integer "day", limit: 1, default: 0, null: false
-    t.string "metric_type", null: false
-    t.bigint "track_id"
-    t.integer "count", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["metric_type", "track_id", "day"], name: "uniq", unique: true
-    t.index ["track_id"], name: "index_metric_period_days_on_track_id"
-  end
-
-  create_table "metric_period_minutes", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.integer "minute", limit: 2, default: 0, null: false
-    t.string "metric_type", null: false
-    t.bigint "track_id"
-    t.integer "count", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["metric_type", "track_id", "minute"], name: "uniq", unique: true
-    t.index ["track_id"], name: "index_metric_period_minutes_on_track_id"
-  end
-
-  create_table "metric_period_months", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.integer "month", limit: 1, default: 0, null: false
-    t.string "metric_type", null: false
-    t.bigint "track_id"
-    t.integer "count", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["metric_type", "track_id", "month"], name: "uniq", unique: true
-    t.index ["track_id"], name: "index_metric_period_months_on_track_id"
   end
 
   create_table "metrics", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|

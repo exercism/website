@@ -257,10 +257,6 @@ namespace :api do
       end
     end
 
-    namespace :metrics do
-      get 'periodic', to: "periodic#index"
-    end
-
     namespace :impact do
       resources :testimonials, only: %i[index], param: :uuid
     end

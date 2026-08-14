@@ -96,58 +96,22 @@ nudge_users_to_request_mentoring:
   class: "NudgeUsersToRequestMentoringJob"
   queue: dribble
 
-# At start of every minute
-update_minute_metrics:
-  cron: "* * * * *"
-  class: "UpdateMinuteMetricsJob"
-  queue: metrics
-
 # At start of every hour
 send_mentor_discussion_nudges:
   cron: "0 * * * *"
   class: "SendMentorDiscussionNudgesJob"
   queue: dribble
 
-# At start of every day
-update_day_metrics:
-  cron: "0 0 * * *"
-  class: "UpdateDayMetricsJob"
-  queue: metrics
-
-# At start of every month
-update_month_metrics:
-  cron: "0 0 1 * *"
-  class: "UpdateMonthMetricsJob"
-  queue: metrics
-
 reset_chatgpt_usage:
   cron: "0 0 1 * *"
   class: "ResetChatGPTUsageJob"
   queue: dribble
-
-# Every 15 minutes
-update_last_hour_metrics:
-  cron: "*/15 0 * * *"
-  class: "UpdateLastHourMetricsJob"
-  queue: metrics
 
 # Every 30 minutes
 create_onboarding_notifications:
   cron: "*/30 * * * *"
   class: "CreateOnboardingNotificationsJob"
   queue: background
-
-# Every day at noon
-update_last_week_metrics:
-  cron: "0 12 * * *"
-  class: "UpdateLastWeekMetricsJob"
-  queue: metrics
-
-# Every day at noon
-update_last_quarter_metrics:
-  cron: "0 12 * * *"
-  class: "UpdateLastQuarterMetricsJob"
-  queue: metrics
 
 # Every hour
 update_metric_stats:

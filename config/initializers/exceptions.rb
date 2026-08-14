@@ -55,12 +55,6 @@ class NoMentoringSlotsAvailableError < RuntimeError; end
 
 class ProfileCriteriaNotFulfilledError < RuntimeError; end
 
-class MissingMetricPeriodError < RuntimeError; end
-
-class InvalidMetricPeriodError < RuntimeError; end
-
-class InvalidMetricTypeError < RuntimeError; end
-
 class InvalidCommunityVideoUrlError < RuntimeError; end
 
 class ChatGPTTooManyRequestsError < RuntimeError; end

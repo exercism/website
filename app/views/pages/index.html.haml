@@ -46,7 +46,7 @@
           .section-header.mb-24.sm:mb-32
             = graphical_icon :exercises, hex: true
             %h2.text-h2
-              = t('.exercises_section.title_html', count: number_with_delimiter(Exercise.available.count)).html_safe
+              = t('.exercises_section.title_html', count: number_with_delimiter(Exercise.num_available)).html_safe
             %hr.c-divider
             %p.text-p-xlarge
               = t('.exercises_section.subtitle')

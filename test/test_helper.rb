@@ -171,6 +171,11 @@ class ActiveSupport::TestCase
     reset_redis!
     reset_rack_attack!
 
+    # The test cache store is an in-memory one that outlives each test, so
+    # anything cached in one test leaks into the next. Nothing rolls it back
+    # the way the transactional fixtures roll back the database.
+    Rails.cache.clear
+
     # We do it like this (rather than stub/unstub) so that we
     # can have this method globally without disabling mocha's
     # protections against unstubbing unecessary methods.

@@ -37,6 +37,10 @@ class Git::Sync
     filepath_in_diff?(head_git_track.config_filepath)
   end
 
+  # Changes to these attributes are bookkeeping rather than anything a
+  # visitor can see, so they don't justify a Cloudflare purge.
+  IGNORED_CHANGES = %w[synced_to_git_sha git_sha updated_at].freeze
+
   private
   memoize
   def current_git_track

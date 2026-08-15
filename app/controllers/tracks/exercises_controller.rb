@@ -3,7 +3,8 @@ class Tracks::ExercisesController < ApplicationController
   before_action :use_track!
   before_action :use_exercise!, only: %i[show start edit complete tooltip no_test_runner]
   before_action :use_solution, only: %i[show edit complete tooltip]
-  before_action :cache_public_action!, only: %i[index show tooltip]
+  before_action :cache_public_action!, only: %i[show tooltip]
+  before_action :cache_index_action!, only: %i[index]
 
   skip_before_action :authenticate_user!, only: %i[index show tooltip]
   skip_before_action :rate_limit_for_user!, only: %i[tooltip] # Scanning over this is a lot
@@ -48,6 +49,10 @@ class Tracks::ExercisesController < ApplicationController
   end
 
   private
+  # The exercise list only changes when the track syncs, which purges it.
+  # See Track::InvalidateCloudflareCache.
+  def cache_index_action! = cache_public_action!(edge_ttl: 1.day)
+
   def use_exercise!
     @exercise = @track.exercises.find(params[:id])
   rescue ActiveRecord::RecordNotFound

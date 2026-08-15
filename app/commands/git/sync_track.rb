@@ -58,6 +58,11 @@ class Git::SyncTrack < Git::Sync
     # Now that the concepts and exercises have synced successfully,
     # we can set the track's synced git SHA to the HEAD SHA
     track.update!(synced_to_git_sha: head_git_track.commit.oid)
+
+    # Only purge when this sync actually moved us on to a new commit. The
+    # weekly SyncTracksJob force-syncs every track, and without this guard
+    # that would fire a purge for every track every week for no reason.
+    Track::InvalidateCloudflareCache.defer(track) if track.saved_change_to_synced_to_git_sha?
   rescue StandardError => e
     begin
       oid = head_git_track.commit.oid

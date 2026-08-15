@@ -2,7 +2,8 @@ class TracksController < ApplicationController
   before_action :use_track, except: :index
   skip_before_action :authenticate_user!, only: %i[index show about]
 
-  before_action :cache_public_action!, only: %i[index show about]
+  before_action :cache_public_action!, only: %i[about]
+  before_action :cache_public_page!, only: %i[index show]
 
   def index
     etag = [Track.num_active]
@@ -57,6 +58,11 @@ class TracksController < ApplicationController
   end
 
   private
+  # Anonymous visitors to #show get the tracks/about template, and #index is
+  # the same page for all of them. Both change only when a track syncs, which
+  # purges them. See Track::InvalidateCloudflareCache.
+  def cache_public_page! = cache_public_action!(edge_ttl: 1.day)
+
   def use_track
     @track = Track.find(params[:id])
     @user_track = UserTrack.for(current_user, @track)

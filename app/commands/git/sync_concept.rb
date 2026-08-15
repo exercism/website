@@ -18,8 +18,17 @@ class Git::SyncConcept < Git::Sync
       synced_to_git_sha: head_git_concept.synced_git_sha
     )
 
+    # Capture this before the syncs below re-save the concept and reset its
+    # dirty tracking.
+    content_changed = concept.saved_changes.except(*IGNORED_CHANGES).present?
+
     Git::SyncConceptAuthors.(concept)
     Git::SyncConceptContributors.(concept)
+
+    # Only purge when something a visitor can see actually changed. A
+    # force-sync re-saves every concept on every track, and purging all of
+    # those would burn through Cloudflare's rate limits for nothing.
+    Concept::InvalidateCloudflareCache.defer(concept) if content_changed
   end
 
   private

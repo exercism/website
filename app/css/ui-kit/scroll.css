@@ -14,14 +14,14 @@
             white 20px,
             white 95%,
             transparent
-        );
+        ) !important;
         mask-image: linear-gradient(
             to right,
             transparent,
             white 20px,
             white 95%,
             transparent
-        );
+        ) !important;
         @apply pl-20 pr-[5%];
     }
 

@@ -12,6 +12,12 @@ class CommunityVideo < ApplicationRecord
   def platform = super.to_sym
 
   after_save_commit do
-    Exercise::UpdateHasApproaches.defer(exercise) if previous_changes.key?("status") && exercise.present?
+    next unless previous_changes.key?("status") && exercise.present?
+
+    Exercise::UpdateHasApproaches.defer(exercise)
+
+    # An approved video shows on the dig deeper page, which is cached at the
+    # edge for a day.
+    Exercise::InvalidateCloudflareCache.defer(exercise)
   end
 end

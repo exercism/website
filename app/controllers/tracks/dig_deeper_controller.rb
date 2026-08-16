@@ -4,6 +4,7 @@ class Tracks::DigDeeperController < ApplicationController
   before_action :guard_accessible!, except: :tooltip_locked
 
   skip_before_action :authenticate_user!
+  before_action :cache_show_action!, only: %i[show]
 
   def show
     @videos = @exercise.community_videos.approved
@@ -16,6 +17,11 @@ class Tracks::DigDeeperController < ApplicationController
   def tooltip_locked = render_template_as_json
 
   private
+  # Everything on this page (approaches, articles, videos, introduction) only
+  # changes when the track syncs or a community video is approved, both of
+  # which purge it. See Exercise::InvalidateCloudflareCache.
+  def cache_show_action! = cache_public_action!(edge_ttl: 1.day)
+
   def use_solution
     @track = Track.find(params[:track_id])
     @user_track = UserTrack.for(current_user, @track)

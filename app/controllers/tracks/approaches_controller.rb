@@ -5,6 +5,7 @@ class Tracks::ApproachesController < ApplicationController
   before_action :guard_accessible!
 
   skip_before_action :authenticate_user!
+  before_action :cache_public_page!, only: %i[index show]
 
   def index
     redirect_to track_exercise_dig_deeper_path(@track, @exercise)
@@ -22,6 +23,10 @@ class Tracks::ApproachesController < ApplicationController
   end
 
   private
+  # Approaches only change when the track syncs, which purges them.
+  # See Exercise::InvalidateCloudflareCache.
+  def cache_public_page! = cache_public_action!(edge_ttl: 1.day)
+
   def use_solution
     @track = Track.find(params[:track_id])
     @user_track = UserTrack.for(current_user, @track)

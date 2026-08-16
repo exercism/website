@@ -5,6 +5,10 @@ class Track::UpdateBuildStatus
 
   def call
     track.build_status = build_status
+
+    # The build page is rebuilt nightly by UpdateTracksBuildStatusJob. That is
+    # ~70 purges a night, so there is nothing to gate here.
+    Track::InvalidateCloudflareCache.defer(track)
   end
 
   private

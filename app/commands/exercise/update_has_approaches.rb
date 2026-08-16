@@ -9,6 +9,12 @@ class Exercise::UpdateHasApproaches
     ActiveRecord::Base.transaction(isolation: Exercism::READ_COMMITTED) do
       exercise.update(has_approaches:)
     end
+
+    # The exercise sync commands call this for every exercise on a force-sync,
+    # so only purge when the flag genuinely moved. Community video approval
+    # purges from CommunityVideo itself, which covers the case where an
+    # approved video changes the dig deeper page without moving this flag.
+    ::Exercise::InvalidateCloudflareCache.defer(exercise) if exercise.saved_change_to_has_approaches?
   end
 
   private

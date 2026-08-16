@@ -25,12 +25,22 @@ class Git::SyncConceptExercise < Git::Sync
       representer_version: head_git_exercise.representer_version
     )
 
+    # Capture this before the syncs below re-save the exercise and reset its
+    # dirty tracking.
+    content_changed = exercise.saved_changes.except(*IGNORED_CHANGES).present?
+
     Git::SyncExerciseAuthors.(exercise)
     Git::SyncExerciseContributors.(exercise)
     Git::SyncExerciseApproaches.(exercise)
     Git::SyncExerciseArticles.(exercise)
     ::Exercise::UpdateHasApproaches.(exercise)
     SiteUpdates::ProcessNewExerciseUpdate.(exercise)
+
+    # Only purge when something a visitor can see actually changed. The weekly
+    # SyncTracksJob force-syncs every track, and purging every exercise on
+    # every track would be ~150 exercises x several URLs x ~70 tracks, which
+    # would burst past Cloudflare's per-zone purge rate limits.
+    ::Exercise::InvalidateCloudflareCache.defer(exercise) if content_changed
   end
 
   private

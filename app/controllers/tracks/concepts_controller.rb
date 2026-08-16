@@ -6,6 +6,7 @@ class Tracks::ConceptsController < ApplicationController
   before_action :guard_practice_mode!, only: [:index]
   before_action :guard_course!, only: [:index]
   skip_before_action :authenticate_user!, only: %i[index show tooltip]
+  before_action :cache_index_action!, only: %i[index]
 
   def index
     @concept_map_data = Track::DetermineConceptMapLayout.(@user_track)
@@ -49,6 +50,12 @@ class Tracks::ConceptsController < ApplicationController
   end
 
   private
+  # The concept map only changes when the track syncs, which purges it.
+  # See Track::InvalidateCloudflareCache. The per-user status mappings that
+  # this action also builds are empty for the signed-out visitors that get
+  # cached, and cache_public_action! no-ops for everyone else.
+  def cache_index_action! = cache_public_action!(edge_ttl: 1.day)
+
   def use_track
     @track = Track.find(params[:track_id])
     @user_track = UserTrack.for(current_user, @track)

@@ -56,6 +56,37 @@ class TracksControllerTest < ActionDispatch::IntegrationTest
     assert_rendered_404
   end
 
+  # The updates article is wrapped in a fragment cache, and perform_caching is
+  # off for the rest of the suite, so without turning it on here nothing would
+  # ever exercise the cached branch of that block.
+  test "show: renders the cached updates article on both a miss and a hit" do
+    user = create :user
+    track = create :track, active: true
+    create(:hello_world_exercise, track:)
+    create(:user_track, user:, track:)
+
+    stub_latest_track_forum_threads(track)
+    sign_in!(user)
+
+    with_caching do
+      get track_url(track)
+
+      assert_response :ok
+      assert_select "section.contributors-section"
+      assert_select "section.updates-section"
+
+      # Proves the second render is served from the fragment rather than being
+      # rebuilt: the contributor search is the expensive thing inside it.
+      Track.any_instance.expects(:top_contributors).never
+
+      get track_url(track)
+
+      assert_response :ok
+      assert_select "section.contributors-section"
+      assert_select "section.updates-section"
+    end
+  end
+
   test "about shows for joined member" do
     user = create :user
     track = create :track

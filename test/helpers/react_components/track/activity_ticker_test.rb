@@ -25,6 +25,29 @@ class ReactComponents::Track::ActivityTickerTest < ReactComponentTestCase
     assert_equal 'start_solution_metric', component.initial_data[:type]
   end
 
+  test "initial_data is cached per track" do
+    ruby = create :track
+    original = create :start_solution_metric, track: ruby
+
+    assert_equal original.id, ReactComponents::Track::ActivityTicker.new(ruby).initial_data[:id]
+
+    create :start_solution_metric, track: ruby
+
+    # The ticker picks new activity up over the MetricsChannel rather than by
+    # re-reading this, so the newer metric is deliberately not reflected here.
+    assert_equal original.id, ReactComponents::Track::ActivityTicker.new(ruby).initial_data[:id]
+  end
+
+  test "initial_data is not shared between tracks" do
+    ruby = create :track
+    js = create :track, slug: 'js'
+    ruby_metric = create :start_solution_metric, track: ruby
+    js_metric = create :start_solution_metric, track: js
+
+    assert_equal ruby_metric.id, ReactComponents::Track::ActivityTicker.new(ruby).initial_data[:id]
+    assert_equal js_metric.id, ReactComponents::Track::ActivityTicker.new(js).initial_data[:id]
+  end
+
   test "initial_data ignores metrics from other tracks" do
     ruby = create :track
     js = create :track, slug: 'js'

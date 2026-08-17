@@ -62,8 +62,19 @@ class Exercise::Representation::Recache
   # solvers), the naive `SELECT solutions.* ... LEFT JOIN user_tracks
   # ORDER BY COALESCE(reputation, 0)` took 108,000ms against this shape's
   # 81ms.
+  #
+  # The FORCE INDEX is load-bearing too. Left to itself the optimiser
+  # flattens the IN into a LooseScan semijoin driven from solutions, then
+  # does an eq_ref into user_tracks *per solver* via
+  # index_user_tracks_on_track_id_and_user_id, which is not covering. On
+  # representation 77 (track 48, 43,275 published solvers) that was 42,387
+  # single-row lookups at 0.514ms each - 21.8s of a 22.08s query, with a
+  # filesort over 41,073 rows on top because the semijoin plan has no early
+  # exit. Forcing the ranking index restores materialise-then-reverse-scan,
+  # which stops at the first match: 22.08s -> 0.09s.
   def prestigious_solution
     user_id = UserTrack.
+      from('user_tracks FORCE INDEX (index_user_tracks_track_reputation_user)').
       where(track_id: exercise.track_id).
       # This condition is load-bearing for *performance*, not just for the
       # oldest_solution fallback below. Without it the optimiser abandons

@@ -33,6 +33,12 @@ module Website
     # Allow SVGs to render from active storage
     config.active_storage.content_types_to_serve_as_binary -= ['image/svg+xml']
 
+    # Public assets (partner logos, avatars) are served via ActiveStorage's
+    # blob redirect endpoint, which is hit on every page load. Extending the
+    # signed URL expiry lets browsers/CDNs cache the redirect for longer,
+    # cutting repeat hits to that endpoint.
+    config.active_storage.service_urls_expire_in = 1.day
+
     Rails.autoloaders.main.ignore(Rails.root.join('app', 'css'))
   end
 end

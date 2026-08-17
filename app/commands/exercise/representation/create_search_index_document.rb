@@ -55,8 +55,14 @@ class Exercise::Representation::CreateSearchIndexDocument
 
   memoize
   def last_analyzed_submission_representation
+    # FORCE INDEX is essential here. Without it MySQL sees the ORDER BY id DESC
+    # LIMIT 1, assumes it'll hit a match early, and walks the whole table
+    # backwards down the PRIMARY key - 12.1M rows examined and 30-45s per call.
+    # Driving off index_ex_rep instead cuts it to the few thousand rows that
+    # actually share the digest.
     representation.
       submission_representations.
+      from("submission_representations FORCE INDEX (index_ex_rep)").
       joins(submission: :analysis).
       where(submission: { analysis_status: :completed }).
       last

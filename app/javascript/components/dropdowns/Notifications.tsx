@@ -100,6 +100,7 @@ export default function Notifications({
     data: resolvedData,
     error,
     status,
+    refetch,
   } = usePaginatedRequestQuery<APIResponse, unknown>(
     [NOTIFICATIONS_CACHE_KEY],
     {
@@ -120,6 +121,10 @@ export default function Notifications({
   } = useNotificationDropdown(resolvedData)
 
   const connectionRef = useRef<NotificationsChannel | null>(null)
+  const hiddenRef = useRef(listAttributes.hidden)
+  const refetchRef = useRef(refetch)
+  hiddenRef.current = listAttributes.hidden
+  refetchRef.current = refetch
 
   useEffect(() => {
     if (!resolvedData) {
@@ -134,8 +139,13 @@ export default function Notifications({
       connectionRef.current = new NotificationsChannel((message) => {
         if (!message) return
 
-        if (message.type === 'notifications.changed' && hasOpenedOnce) {
-          queryClient.invalidateQueries({ queryKey: [NOTIFICATIONS_CACHE_KEY] })
+        // Refetch (which also refreshes the badge count) whenever the
+        // dropdown is closed, even if it's never been opened yet. `refetch`
+        // works regardless of the query's `enabled` state. While the
+        // dropdown is open we leave the visible list alone so it doesn't
+        // shift under the user.
+        if (message.type === 'notifications.changed' && hiddenRef.current) {
+          refetchRef.current()
         }
       })
     }
@@ -144,7 +154,7 @@ export default function Notifications({
       connectionRef.current?.disconnect()
       connectionRef.current = null
     }
-  }, [hasOpenedOnce, queryClient])
+  }, [])
 
   useEffect(() => {
     if (listAttributes.hidden) {

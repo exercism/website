@@ -599,7 +599,7 @@ initReact({
     <Suspense fallback={<NotificationsDropdownSkeleton />}>
       <NotificationsDropdown
         endpoint={data.endpoint}
-        defaultUnreadCount={data.defaultUnreadCount}
+        defaultUnreadCount={data.default_unread_count}
       />
     </Suspense>
   ),

@@ -164,29 +164,25 @@ export default function Reputation({
   }, [resolvedData])
 
   useEffect(() => {
-    if (listAttributes.hidden) {
+    if (listAttributes.hidden || hasOpenedOnce) {
       return
     }
 
-    if (!hasOpenedOnce) {
-      setHasOpenedOnce(true)
-      return
-    }
+    setHasOpenedOnce(true)
+  }, [listAttributes.hidden, hasOpenedOnce])
 
-    if (isStale) {
-      refetch()
-      setIsStale(false)
-    }
-  }, [isStale, listAttributes.hidden, hasOpenedOnce, refetch])
-
+  // Keep the badge (reputation/isSeen) fresh in the background whenever the
+  // dropdown is closed and a websocket event marks it stale — regardless of
+  // whether the list has ever been opened. `refetch` works even while the
+  // query is disabled (pre-first-open).
   useEffect(() => {
-    if (!hasOpenedOnce || !listAttributes.hidden || !isStale) {
+    if (!listAttributes.hidden || !isStale) {
       return
     }
 
     refetch()
     setIsStale(false)
-  }, [isStale, listAttributes.hidden, hasOpenedOnce, refetch])
+  }, [isStale, listAttributes.hidden, refetch])
 
   return (
     <React.Fragment>

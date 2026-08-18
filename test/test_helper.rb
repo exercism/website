@@ -295,6 +295,16 @@ class ActiveSupport::TestCase
     )
   end
 
+  # The cache bucket is created by terraform in production. Locally the
+  # config key doesn't exist, so tests set it and create the bucket in
+  # LocalStack on demand.
+  def setup_s3_cache_bucket!
+    Exercism.config.aws_cache_bucket = "exercism-cache"
+    Exercism.s3_client.create_bucket(bucket: Exercism.config.aws_cache_bucket)
+  rescue Aws::S3::Errors::BucketAlreadyOwnedByYou, Aws::S3::Errors::BucketAlreadyExists
+    # Already there from a previous test
+  end
+
   def upload_to_s3(bucket, key, body) # rubocop:disable Naming/VariableNumber
     Exercism.s3_client.put_object(
       bucket:,

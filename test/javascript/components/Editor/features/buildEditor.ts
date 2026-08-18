@@ -104,8 +104,19 @@ export const buildEditor = build<Props>({
     assistantChat: {
       chatUrl: 'https://chat.exercism.test',
       turnstileSiteKey: 'test-site-key',
+      userAvatarUrl: 'https://exercism.test/avatar.png',
+      userHandle: 'test-user',
       allowed: true,
       messages: [],
+      insidersUpsell: {
+        userSignedIn: true,
+        captchaRequired: false,
+        recaptchaSiteKey: 'test-recaptcha-key',
+        links: {
+          insiders: 'https://exercism.test/insiders',
+          paymentPending: 'https://exercism.test/insiders/payment_pending',
+        },
+      },
       links: {
         createToken: 'https://exercism.test/assistant_conversation',
         userMessages:

@@ -136,12 +136,32 @@ module ReactComponents
       {
         chat_url: Exercism.config.assistant_chat_url,
         turnstile_site_key: Exercism.secrets.turnstile_site_key,
+        user_avatar_url: solution.user.avatar_url,
+        user_handle: solution.user.handle,
         allowed: Solution::AssistantConversation::CheckUserAccess.(solution),
         messages: solution.assistant_conversation&.messages || [],
+        insiders_upsell:,
         links: {
           create_token: Exercism::Routes.api_solution_assistant_conversation_url(solution.uuid),
           user_messages: Exercism::Routes.user_messages_api_solution_assistant_conversation_url(solution.uuid),
           assistant_messages: Exercism::Routes.assistant_messages_api_solution_assistant_conversation_url(solution.uuid)
+        }
+      }
+    end
+
+    # Everything the in-editor Insiders upsell modal needs to run the same
+    # Stripe subscription flow as the /insiders page.
+    memoize
+    def insiders_upsell
+      {
+        # The editor is only reachable by the solution's owner, so we can read
+        # the user off the solution rather than the (absent) view context.
+        user_signed_in: true,
+        captcha_required: solution.user.captcha_required?,
+        recaptcha_site_key: ENV.fetch('RECAPTCHA_SITE_KEY', Exercism.secrets.recaptcha_site_key),
+        links: {
+          insiders: Exercism::Routes.insiders_url,
+          payment_pending: Exercism::Routes.payment_pending_insiders_url
         }
       }
     end

@@ -45,11 +45,24 @@ export interface AssistantChatLinks {
   assistantMessages: string
 }
 
+export interface InsidersUpsellConfig {
+  userSignedIn: boolean
+  captchaRequired: boolean
+  recaptchaSiteKey: string
+  links: {
+    insiders: string
+    paymentPending: string
+  }
+}
+
 // Server-rendered config for the assistant chat, from ReactComponents::Editor.
 export interface AssistantChatConfig {
   chatUrl: string | null
   turnstileSiteKey: string
+  userAvatarUrl: string
+  userHandle: string
   allowed: boolean
   messages: ChatMessage[]
+  insidersUpsell: InsidersUpsellConfig
   links: AssistantChatLinks
 }

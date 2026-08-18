@@ -55,17 +55,30 @@ class Exercise::Representation::CreateSearchIndexDocument
 
   memoize
   def last_analyzed_submission_representation
-    # FORCE INDEX is essential here. Without it MySQL sees the ORDER BY id DESC
-    # LIMIT 1, assumes it'll hit a match early, and walks the whole table
-    # backwards down the PRIMARY key - 12.1M rows examined and 30-45s per call.
-    # Driving off index_ex_rep instead cuts it to the few thousand rows that
-    # actually share the digest.
-    representation.
+    # Done as separate queries rather than one join. As a single query MySQL
+    # walks the candidates newest-first, doing random lookups into submissions
+    # and submission_analyses for each until it finds a match. Analysed
+    # submissions are almost all old - for one hot digest the newest analysed
+    # representation sat at position 22,367 of 25,113 - so it does nearly the
+    # full set of random lookups every time, taking ~17s to return one row.
+    #
+    # Fetching the candidates first (index-only on index_ex_rep) and then
+    # resolving them in bulk lets MySQL batch those lookups instead.
+    candidates = representation.
       submission_representations.
       from("submission_representations FORCE INDEX (index_ex_rep)").
-      joins(submission: :analysis).
-      where(submission: { analysis_status: :completed }).
-      last
+      order(id: :desc).
+      pluck(:id, :submission_id)
+    return nil if candidates.empty?
+
+    analyzed_submission_ids = Submission.
+      joins(:analysis).
+      where(id: candidates.map(&:second), analysis_status: :completed).
+      pluck(:id).
+      to_set
+
+    id, = candidates.find { |_, submission_id| analyzed_submission_ids.include?(submission_id) }
+    id ? Submission::Representation.find(id) : nil
   end
 
   attr_reader :solution, :published_iteration

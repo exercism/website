@@ -39,7 +39,7 @@ class AssembleNotificationsList
 
     ids = ids.to_a # Sets don't have `.index`
 
-    notifications = User::Notification.where(id: ids).
+    notifications = User::Notification.where(id: ids).includes(:track, :exercise).
       sort_by { |n| ids.index(n.id) }[0, 5]
 
     Kaminari.paginate_array(notifications, total_count: notifications.size).page(1).per(5)

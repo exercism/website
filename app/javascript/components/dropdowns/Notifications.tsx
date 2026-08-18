@@ -85,10 +85,17 @@ export const NOTIFICATIONS_CACHE_KEY = 'notifications'
 
 export default function Notifications({
   endpoint,
+  defaultUnreadCount,
 }: {
   endpoint: string
+  defaultUnreadCount: number
 }): JSX.Element {
   const queryClient = useQueryClient()
+  const [unreadCount, setUnreadCount] = useState(defaultUnreadCount)
+  // The badge is seeded from defaultUnreadCount (rendered server-side), so we
+  // don't need to fetch the notification list until the user actually opens
+  // the dropdown.
+  const [hasOpenedOnce, setHasOpenedOnce] = useState(false)
   const {
     data: resolvedData,
     error,
@@ -100,7 +107,7 @@ export default function Notifications({
       query: { per_page: MAX_NOTIFICATIONS },
       options: {
         staleTime: 30 * 1000,
-        refetchOnMount: true,
+        enabled: hasOpenedOnce,
       },
     }
   )
@@ -115,30 +122,47 @@ export default function Notifications({
   const connectionRef = useRef<NotificationsChannel | null>(null)
 
   useEffect(() => {
+    if (!resolvedData) {
+      return
+    }
+
+    setUnreadCount(resolvedData.meta.unreadCount)
+  }, [resolvedData])
+
+  useEffect(() => {
     if (!connectionRef.current) {
       connectionRef.current = new NotificationsChannel((message) => {
         if (!message) return
 
-        if (message.type === 'notifications.changed' && listAttributes.hidden) {
+        if (message.type === 'notifications.changed' && hasOpenedOnce) {
           queryClient.invalidateQueries({ queryKey: [NOTIFICATIONS_CACHE_KEY] })
         }
       })
-    }
-
-    if (!listAttributes.hidden) {
-      queryClient.refetchQueries({ queryKey: [NOTIFICATIONS_CACHE_KEY] })
     }
 
     return () => {
       connectionRef.current?.disconnect()
       connectionRef.current = null
     }
-  }, [listAttributes.hidden, queryClient])
+  }, [hasOpenedOnce, queryClient])
+
+  useEffect(() => {
+    if (listAttributes.hidden) {
+      return
+    }
+
+    if (!hasOpenedOnce) {
+      setHasOpenedOnce(true)
+      return
+    }
+
+    queryClient.refetchQueries({ queryKey: [NOTIFICATIONS_CACHE_KEY] })
+  }, [listAttributes.hidden, hasOpenedOnce, queryClient])
 
   return (
     <React.Fragment>
       <NotificationsIcon
-        count={resolvedData?.meta?.unreadCount || 0}
+        count={unreadCount}
         aria-label="Open notifications"
         {...buttonAttributes}
       />

@@ -49,7 +49,7 @@ class AssembleReputationTokens
 
     ids = ids.to_a # Sets don't have `.index`
 
-    tokens = User::ReputationToken.where(id: ids).
+    tokens = User::ReputationToken.where(id: ids).includes(:track, :exercise).
       sort_by { |rt| ids.index(rt.id) }[0, 5]
 
     Kaminari.paginate_array(tokens, total_count: tokens.size).page(1).per(5)

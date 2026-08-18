@@ -104,6 +104,10 @@ export default function Reputation({
   const [isStale, setIsStale] = useState(false)
   const [reputation, setReputation] = useState(defaultReputation)
   const [isSeen, setIsSeen] = useState(defaultIsSeen)
+  // The badge itself is seeded from defaultReputation/defaultIsSeen (rendered
+  // server-side), so we don't need to fetch the token list until the user
+  // actually opens the dropdown.
+  const [hasOpenedOnce, setHasOpenedOnce] = useState(false)
 
   const {
     data: resolvedData,
@@ -114,8 +118,8 @@ export default function Reputation({
     endpoint: endpoint,
     query: { per_page: MAX_TOKENS },
     options: {
-      staleTime: 30,
-      refetchOnMount: true,
+      staleTime: 30 * 1000,
+      enabled: hasOpenedOnce,
     },
   })
 
@@ -160,13 +164,29 @@ export default function Reputation({
   }, [resolvedData])
 
   useEffect(() => {
-    if (!listAttributes.hidden || !isStale) {
+    if (listAttributes.hidden) {
+      return
+    }
+
+    if (!hasOpenedOnce) {
+      setHasOpenedOnce(true)
+      return
+    }
+
+    if (isStale) {
+      refetch()
+      setIsStale(false)
+    }
+  }, [isStale, listAttributes.hidden, hasOpenedOnce, refetch])
+
+  useEffect(() => {
+    if (!hasOpenedOnce || !listAttributes.hidden || !isStale) {
       return
     }
 
     refetch()
     setIsStale(false)
-  }, [isStale, listAttributes.hidden, refetch])
+  }, [isStale, listAttributes.hidden, hasOpenedOnce, refetch])
 
   return (
     <React.Fragment>

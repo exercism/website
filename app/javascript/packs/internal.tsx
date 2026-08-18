@@ -597,7 +597,10 @@ initReact({
   ),
   'dropdowns-notifications': (data: any) => (
     <Suspense fallback={<NotificationsDropdownSkeleton />}>
-      <NotificationsDropdown endpoint={data.endpoint} />
+      <NotificationsDropdown
+        endpoint={data.endpoint}
+        defaultUnreadCount={data.defaultUnreadCount}
+      />
     </Suspense>
   ),
   'dropdowns-reputation': (data: any) => (

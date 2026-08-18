@@ -58,6 +58,12 @@ module Flows
           visit dashboard_path
           find(".c-notification").click
 
+          # The list is now fetched lazily on first open, so wait for that
+          # initial (empty) fetch to resolve before creating a notification -
+          # otherwise it can race the in-flight request and appear before
+          # the dropdown is closed and reopened.
+          assert_link "See all your notifications"
+
           create :mentor_started_discussion_notification, user:, params: { discussion: }, status: :unread
           NotificationsChannel.broadcast_changed!(user)
           wait_for_websockets

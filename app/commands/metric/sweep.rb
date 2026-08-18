@@ -15,17 +15,15 @@ class Metric::Sweep
   def call
     return if boundary_id.nil?
 
-    # The delete is a pure primary-key range, so it stays cheap however large
-    # a backlog has accumulated - we never read a row in order to evaluate a
-    # predicate. (Filtering on occurred_at directly would: there is no index
-    # leading with it, which is the whole reason we find the boundary by id.)
+    # A single primary-key range delete. We already know the id to delete
+    # before, so there is nothing left to look up: no row is read in order to
+    # evaluate a predicate. (Filtering on occurred_at directly would: there is
+    # no index leading with it, which is the whole reason we find the boundary
+    # by id.)
     #
     # delete_all deliberately skips callbacks. Metric only has a before_create
     # (setting uniqueness_key/params), so there is nothing to run on destroy.
-    #
-    # in_batches is insurance for the catch-up case after the job has not run
-    # for a while, rather than for the ~64,000-row steady state.
-    Metric.where(id: ...boundary_id).in_batches(of: STEP).delete_all
+    Metric.where(id: ...boundary_id).delete_all
   end
 
   private
@@ -36,9 +34,15 @@ class Metric::Sweep
   # This costs ~13 primary-key seeks in steady state, and stays proportional
   # to backlog/STEP rather than to the size of the backlog itself.
   #
-  # This relies on id order matching occurred_at order, which holds because
-  # Metric::Create sets occurred_at at insertion time. If anything ever
-  # backdated occurred_at, this would behave differently to a timestamp filter.
+  # This sweeps by insertion order, not by occurred_at, and those are not the
+  # same thing: the GitHub metrics pass the PR/issue's own timestamp and
+  # :sign_up passes user.created_at, so a webhook for an old PR inserts a high
+  # id with a months-old occurred_at. Production currently holds rows a month
+  # older than RETENTION_PERIOD for exactly this reason.
+  #
+  # That is fine. Those rows age out on insertion order like everything else,
+  # a few days late. Read the retention as "7 days of inserts", and don't
+  # expect MIN(occurred_at) to sit on the cutoff.
   memoize
   def boundary_id
     cutoff = RETENTION_PERIOD.ago

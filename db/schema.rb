@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_08_17_230840) do
+ActiveRecord::Schema[7.1].define(version: 2026_08_17_233107) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -856,7 +856,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_17_230840) do
     t.index ["track_id"], name: "index_metrics_on_track_id"
     t.index ["type", "track_id", "occurred_at"], name: "index_metrics_on_type_and_track_id_and_occurred_at"
     t.index ["uniqueness_key"], name: "index_metrics_on_uniqueness_key", unique: true
-    t.index ["user_id"], name: "index_metrics_on_user_id"
   end
 
   create_table "oauth_access_grants", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
@@ -1268,6 +1267,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_17_230840) do
     t.integer "exercise_representer_version", limit: 2, default: 1, null: false
     t.bigint "approach_id"
     t.json "tags"
+    t.index ["approach_id", "solution_id"], name: "index_submissions_on_approach_id_and_solution_id"
     t.index ["approach_id"], name: "index_submissions_on_approach_id"
     t.index ["exercise_id", "git_important_files_hash"], name: "index_submissions_on_exercise_id_and_git_important_files_hash"
     t.index ["git_important_files_hash", "solution_id"], name: "submissions-git-optimiser-2"

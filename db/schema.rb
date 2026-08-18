@@ -856,7 +856,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_17_233107) do
     t.index ["track_id"], name: "index_metrics_on_track_id"
     t.index ["type", "track_id", "occurred_at"], name: "index_metrics_on_type_and_track_id_and_occurred_at"
     t.index ["uniqueness_key"], name: "index_metrics_on_uniqueness_key", unique: true
-    t.index ["user_id"], name: "index_metrics_on_user_id"
   end
 
   create_table "oauth_access_grants", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|

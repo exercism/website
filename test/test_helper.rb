@@ -353,6 +353,17 @@ class ActiveSupport::TestCase
     assert_no_enqueued_jobs
   end
 
+  # Fragment caching is off across the suite, so a `cache` block in a view just
+  # yields and its cached branch never runs. Wrap an assertion in this to
+  # exercise the real thing.
+  def with_caching
+    original = ActionController::Base.perform_caching
+    ActionController::Base.perform_caching = true
+    yield
+  ensure
+    ActionController::Base.perform_caching = original
+  end
+
   def stub_latest_track_forum_threads(track)
     stub_request(:get, "https://forum.exercism.org/c/programming/#{track.slug}/l/latest.json")
   end

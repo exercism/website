@@ -12,7 +12,14 @@ class ProfilesController < ApplicationController
   def show
     return unless stale?(etag: @profile)
 
-    @solutions = Solution::SearchUserSolutions.(@user, status: :published, per: 3)
+    # This deliberately doesn't use Solution::SearchUserSolutions. There are no
+    # filters or paging here, so OpenSearch bought us nothing but a 114ms round
+    # trip on every request. index_solutions_profile_published_by_stars makes
+    # this a backward index scan that stops after 3 rows.
+    @solutions = @user.solutions.published.
+      order(num_stars: :desc, updated_at: :desc).
+      includes(:exercise, :track, :published_exercise_representation, :user).
+      limit(3)
 
     # TODO: Order by most prominent first (what is the most prominent testimonial?)
     @testimonials = @user.mentor_testimonials.published.first(3)

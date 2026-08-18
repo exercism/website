@@ -1149,6 +1149,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_17_233107) do
     t.index ["user_id", "exercise_id"], name: "index_solutions_on_user_id_and_exercise_id"
     t.index ["user_id", "status", "exercise_id"], name: "index_solutions_on_user_id_and_status_and_exercise_id"
     t.index ["user_id", "status"], name: "index_solutions_on_user_id_and_status"
+    t.index ["user_id", "status", "num_stars", "updated_at"], name: "index_solutions_profile_published_by_stars"
     t.index ["uuid"], name: "index_solutions_on_uuid"
   end
 

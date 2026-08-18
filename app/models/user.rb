@@ -35,6 +35,7 @@ class User < ApplicationRecord
   has_many :user_tracks, dependent: :destroy
   has_many :tracks, through: :user_tracks
   has_many :solutions, dependent: :destroy
+  has_many :assistant_conversations, class_name: "Solution::AssistantConversation", dependent: :destroy
   has_many :submissions, through: :solutions, dependent: :destroy
   has_many :iterations, through: :solutions
 

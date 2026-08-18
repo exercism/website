@@ -180,8 +180,13 @@ namespace :api do
         patch :unlock_help
       end
 
+      resource :assistant_conversation, only: %i[create], controller: "solutions/assistant_conversations" do
+        post :user_messages
+        post :assistant_messages
+      end
+      resource :assistant_context, only: %i[show], controller: "solutions/assistant_contexts"
+
       resources :submissions, only: %i[create], controller: "solutions/submissions", param: :uuid do
-        resource :ai_help, only: %i[create], controller: "solutions/submission_ai_help"
         resource :test_run, only: %i[show], controller: "solutions/submission_test_runs" do
           patch :cancel
         end

@@ -1,0 +1,496 @@
+/* The editor's AI assistant chat panel.
+   Ported from Jiki's ChatPanel/Conversation/ChatMessages/ChatInput CSS modules,
+   remapped onto Exercism's design tokens. */
+.c-assistant-chat {
+    @apply flex flex-col;
+    height: 100%;
+    background: var(--backgroundColorA);
+
+    /* --- Header ------------------------------------------------------ */
+    & .chat-header {
+        @apply pt-16 mb-20;
+        & h3 {
+            @apply text-h5 mb-4;
+            color: var(--textColor1);
+        }
+        & p {
+            @apply text-p-small;
+            color: var(--textColor6);
+        }
+    }
+
+    /* --- Scrolling message list -------------------------------------- */
+    & .chat-scroll {
+        @apply flex flex-col px-32;
+        flex: 1;
+        overflow-y: auto;
+        overscroll-behavior: none;
+        position: relative;
+    }
+
+    & .chat-messages {
+        @apply flex flex-col items-start;
+        flex: 1 0 auto;
+        position: relative;
+
+        /* Vertical timeline connecting the message avatars */
+        &::before {
+            content: "";
+            position: absolute;
+            top: 26px;
+            bottom: 0;
+            inset-inline-start: 17.5px;
+            width: 1px;
+            background: var(--borderColor6);
+            z-index: 0;
+        }
+    }
+
+    /* --- Individual messages ----------------------------------------- */
+    & .message {
+        @apply flex flex-row items-start gap-12 mb-16;
+        @apply text-15 leading-150;
+        color: var(--textColor2);
+        width: 100%;
+    }
+
+    & .avatar {
+        @apply flex items-center justify-center;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        margin-top: 5px;
+        position: relative;
+        z-index: 3;
+        background: var(--backgroundColorA);
+    }
+
+    & .avatar .c-avatar,
+    & .avatar img {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    /* The assistant's avatar is Exercism's face on a light purple disc */
+    & .message.assistant .avatar {
+        background: theme(colors.lightPurple);
+        box-shadow: 0 0 0 1px var(--borderColor6);
+        & .c-icon {
+            width: 22px;
+            height: 22px;
+            filter: var(--purple-filter);
+        }
+    }
+
+    & .message .content {
+        @apply p-12 rounded-8;
+        flex: 1;
+        min-width: 0;
+    }
+
+    & .message.user .content {
+        background: var(--backgroundColorE);
+        border: 1px solid var(--borderColor7);
+    }
+
+    & .message.assistant .content {
+        background: theme(colors.lightPurple);
+        border: 1px solid theme(colors.lavender);
+    }
+
+    /* --- Message content typography ---------------------------------- */
+    & .content > * {
+        @apply mb-8;
+    }
+    & .content > :last-child {
+        @apply mb-0;
+    }
+    & .content strong {
+        @apply font-semibold;
+    }
+    & .content ul {
+        list-style: disc;
+        margin-inline-start: 18px;
+    }
+    & .content ol {
+        list-style: decimal;
+        margin-inline-start: 18px;
+    }
+    & .content a {
+        @apply font-medium underline;
+        color: theme(colors.purple);
+    }
+    & .content code {
+        @apply font-mono text-13 px-6 py-2 rounded-3;
+        background: var(--backgroundColorD);
+        color: theme(colors.purple);
+    }
+    & .content pre {
+        @apply p-12 rounded-8;
+        background: var(--backgroundColorA);
+        border: 1px solid var(--borderColor7);
+        overflow-x: auto;
+    }
+    & .content pre code {
+        @apply p-0 text-14 leading-160;
+        background: none;
+        border-radius: 0;
+        color: inherit;
+    }
+
+    /* --- Thinking indicator ------------------------------------------ */
+    & .thinking {
+        @apply flex items-center gap-8 text-15;
+        color: var(--textColor6);
+        & span {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: theme(colors.purple);
+            animation: assistant-chat-pulse 1.4s ease-in-out infinite;
+        }
+        & span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        & span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+    }
+
+    /* --- Notice bars (error / usage) --------------------------------- */
+    & .chat-status {
+        @apply flex items-center justify-between gap-12 px-32 py-8;
+        background: theme(colors.superLightOrange);
+        border-top: 1px solid theme(colors.orange);
+        & .message-text {
+            @apply text-14;
+            color: var(--textColor2);
+        }
+        & button {
+            @apply text-14 font-medium underline;
+            color: theme(colors.purple);
+        }
+    }
+
+    & .chat-usage {
+        @apply px-32 py-8;
+        background: theme(colors.champagne);
+        border-top: 1px solid theme(colors.yellowPrompt);
+        & .usage-text {
+            @apply text-14;
+            color: var(--textColor2);
+        }
+        &.at-cap .usage-text {
+            @apply font-medium;
+        }
+    }
+
+    /* --- Composer ----------------------------------------------------- */
+    & .chat-input {
+        @apply flex flex-col gap-8 w-100;
+        @apply pt-10 px-32 pb-16;
+        flex-shrink: 0;
+        background: var(--backgroundColorG);
+        border-top: 1px solid var(--borderColor7);
+    }
+
+    & .chat-input-row {
+        @apply flex items-start gap-12;
+    }
+
+    & .chat-input-avatar {
+        position: relative;
+        flex-shrink: 0;
+        margin-top: 5px;
+        z-index: 10;
+
+        /* Stub of the timeline, joining the composer to the message list */
+        &::before {
+            content: "";
+            position: absolute;
+            bottom: 36px;
+            inset-inline-start: 50%;
+            transform: translateX(-50%);
+            width: 1px;
+            height: 25px;
+            background: var(--borderColor6);
+        }
+        & .c-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid theme(colors.gray);
+        }
+    }
+
+    & .chat-input-field {
+        @apply relative;
+        flex: 1;
+    }
+
+    & .chat-input-field textarea {
+        @apply block w-100 p-12 rounded-8 text-15 leading-150;
+        background: var(--backgroundColorA);
+        border: 2px solid theme(colors.lavender);
+        resize: none;
+        height: 96px;
+        transition: border-color 0.2s;
+        &:focus {
+            outline: none;
+            border-color: theme(colors.purple);
+        }
+        &::placeholder {
+            color: var(--textColor6);
+        }
+        &:disabled {
+            background: var(--backgroundColorD);
+        }
+    }
+
+    & .char-count {
+        @apply absolute text-12;
+        bottom: 12px;
+        inset-inline-start: 12px;
+        color: var(--textColor6);
+        z-index: 10;
+    }
+
+    & .send-button {
+        @apply absolute flex items-center justify-center;
+        @apply rounded-6;
+        bottom: 8px;
+        inset-inline-end: 8px;
+        padding: 8px 10px;
+        z-index: 10;
+        background: theme(colors.purple);
+        color: theme(colors.white);
+        cursor: pointer;
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        & .c-icon {
+            width: 13px;
+            height: 13px;
+            filter: var(--filter-FFFFFF);
+        }
+    }
+
+    /* --- Start state (no conversation yet) ---------------------------- */
+    & .chat-start {
+        @apply flex items-center justify-center rounded-12;
+        @apply p-40;
+        flex: 1;
+        margin: 24px 32px 32px;
+        background: theme(colors.lightPurple);
+    }
+
+    & .chat-start-content {
+        @apply text-center;
+        max-width: 480px;
+        margin: auto;
+        width: 100%;
+    }
+
+    & .chat-start-avatar {
+        @apply flex items-center justify-center mx-auto mb-16;
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: linear-gradient(
+            135deg,
+            theme(colors.purple) 0%,
+            theme(colors.purpleDarkened) 100%
+        );
+        box-shadow: inset 0 -8px 24px rgba(255, 255, 255, 0.4);
+        & .c-icon {
+            width: 32px;
+            height: 32px;
+            filter: var(--filter-FFFFFF);
+        }
+    }
+
+    & .chat-start-content h3 {
+        @apply text-h4 mb-8;
+        color: var(--textColor1);
+    }
+
+    & .chat-start-description {
+        @apply text-p-base mx-auto mb-24 leading-170;
+        max-width: 460px;
+        color: var(--textColor6);
+        & .rotating-text {
+            @apply font-medium;
+            color: theme(colors.purple);
+        }
+        & .cursor {
+            display: inline-block;
+            width: 1px;
+            height: 1em;
+            margin-inline-start: 2px;
+            vertical-align: text-bottom;
+            background: theme(colors.purple);
+            animation: assistant-chat-caret 1s steps(2, start) infinite;
+        }
+    }
+
+    & .chat-start-input {
+        @apply relative mb-12;
+        & textarea {
+            @apply block w-100 rounded-12 text-16 leading-150;
+            padding: 14px 16px 56px 16px;
+            background: var(--backgroundColorA);
+            border: 2px solid theme(colors.lavender);
+            resize: none;
+            overflow: hidden;
+            min-height: 100px;
+            transition: border-color 0.2s, height 0.1s ease;
+            animation: assistant-chat-glow 5s ease-in-out infinite;
+            &:focus {
+                outline: none;
+                border-color: theme(colors.purple);
+            }
+            &::placeholder {
+                color: var(--textColor6);
+            }
+        }
+    }
+
+    & .chat-start-send {
+        @apply absolute inline-flex items-center justify-center gap-6;
+        @apply rounded-8 text-16 font-medium;
+        bottom: 19px;
+        inset-inline-end: 14px;
+        padding: 8px 16px;
+        background: theme(colors.purpleHover);
+        color: theme(colors.purple);
+        opacity: 0.7;
+        cursor: default;
+        transition: all 0.3s ease;
+        & .c-icon {
+            width: 16px;
+            height: 16px;
+            filter: var(--purple-filter);
+        }
+        &.--active {
+            background: linear-gradient(
+                135deg,
+                theme(colors.purple) 0%,
+                theme(colors.purpleDarkened) 100%
+            );
+            color: theme(colors.white);
+            opacity: 1;
+            cursor: pointer;
+            & .c-icon {
+                filter: var(--filter-FFFFFF);
+            }
+        }
+    }
+
+    & .chat-start-included {
+        @apply flex items-center justify-center gap-6 text-15;
+        color: var(--textColor6);
+        & .c-icon {
+            width: 18px;
+            height: 18px;
+            filter: var(--textColor6-filter);
+        }
+    }
+
+    /* --- Locked / upsell states --------------------------------------- */
+    & .chat-locked {
+        @apply px-32 py-24 overflow-y-auto;
+    }
+
+    & .upsell {
+        @apply mx-auto;
+        max-width: 560px;
+    }
+
+    & .upsell-header {
+        @apply mb-16;
+        & h2 {
+            @apply text-h3 mb-4;
+            color: var(--textColor1);
+        }
+    }
+
+    & .upsell-subtitle {
+        @apply text-h6;
+        color: var(--textColor2);
+    }
+
+    & .upsell-blurb {
+        @apply text-p-base mb-24;
+        color: var(--textColor6);
+    }
+
+    & .upsell-benefits {
+        @apply grid gap-x-24 gap-y-16 mb-24;
+        grid-template-columns: 1fr;
+        @screen md {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        & li {
+            @apply flex items-start gap-12;
+        }
+        & .c-icon {
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+            margin-top: 2px;
+            filter: var(--purple-filter);
+        }
+        & h3 {
+            @apply text-p-base font-semibold mb-2;
+            color: var(--textColor1);
+        }
+        & p {
+            @apply text-p-small;
+            color: var(--textColor6);
+        }
+    }
+
+    & .upsell-cta {
+        @apply flex flex-col items-center gap-8;
+        padding-top: 24px;
+        border-top: 1px solid var(--borderColor7);
+        & p {
+            @apply text-p-small;
+            color: var(--textColor6);
+        }
+    }
+}
+
+@keyframes assistant-chat-pulse {
+    0%,
+    80%,
+    100% {
+        opacity: 0.25;
+        transform: scale(0.8);
+    }
+    40% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes assistant-chat-glow {
+    0%,
+    100% {
+        box-shadow: 0 0 12px rgba(96, 79, 205, 0.2);
+    }
+    50% {
+        box-shadow: 0 0 22px rgba(96, 79, 205, 0.3);
+    }
+}
+
+@keyframes assistant-chat-caret {
+    to {
+        visibility: hidden;
+    }
+}

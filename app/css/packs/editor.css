@@ -3,4 +3,5 @@
 
 @import "../pages/editor";
 @import "../modals/editor-hints";
-@import "../components/chatgpt";
+@import "../modals/assistant-chat-upsell";
+@import "../components/assistant-chat";

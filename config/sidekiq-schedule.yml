@@ -108,10 +108,23 @@ send_mentor_discussion_nudges:
   class: "SendMentorDiscussionNudgesJob"
   queue: dribble
 
-reset_chatgpt_usage:
+# At start of every day
+update_day_metrics:
+  cron: "0 0 * * *"
+  class: "UpdateDayMetricsJob"
+  queue: metrics
+
+# At start of every month
+update_month_metrics:
   cron: "0 0 1 * *"
-  class: "ResetChatGPTUsageJob"
-  queue: dribble
+  class: "UpdateMonthMetricsJob"
+  queue: metrics
+
+# Every 15 minutes
+update_last_hour_metrics:
+  cron: "*/15 0 * * *"
+  class: "UpdateLastHourMetricsJob"
+  queue: metrics
 
 # Every 30 minutes
 create_onboarding_notifications:

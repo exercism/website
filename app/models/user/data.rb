@@ -42,14 +42,6 @@ class User::Data < ApplicationRecord
 
   def usages = super || (self.usages = {})
 
-  def chatgpt_usage
-    us = usages['chatgpt'] || {}
-    {
-      '3.5' => us['3.5'] || 0,
-      '4.0' => us['4.0'] || 0
-    }
-  end
-
   %w[
     has_unrevealed_testimonials?
     has_unrevealed_badges?

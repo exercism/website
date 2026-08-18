@@ -100,7 +100,6 @@ export const useSubmissionsList = (
         cancel: '',
         submit: '',
         testRun: '',
-        aiHelp: '',
         initialFiles: '',
         lastIterationFiles: '',
       },

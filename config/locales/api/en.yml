@@ -38,6 +38,9 @@ en:
       file_too_large: "The submitted file was too large"
       too_many_requests: "A rate limit has been hit"
       sample_not_found: "The sample was not found"
+      invalid_captcha: "The captcha could not be verified"
+      invalid_signature: "The message signature could not be verified"
+      assistant_conversation_not_accessible: "You have used your free AI conversation. Join Exercism Insiders for unlimited conversations."
 
       mentor_request_not_found: "The mentor request was not found"
       mentor_request_locked: "This mentor request is locked by someone else."

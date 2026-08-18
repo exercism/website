@@ -18,7 +18,6 @@ export default {
   'getHelpPanelComponents.getHelpPanelCommunityHelp.forumDescription':
     'Dig deeper into topics and ideas on our forum.',
   'getHelpPanelComponents.getHelpAccordionSkeleton.getHelp': 'Get help',
-  'stuckButton.stuckAskChatGpt': 'Stuck? Ask ChatGPT',
   'stuckButton.stuckGetHelp': 'Stuck? Get help',
   'getHelpTab.getHelp': 'Get help',
 }

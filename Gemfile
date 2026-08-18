@@ -41,7 +41,7 @@ gem 'kaminari'
 gem 'oj', '~> 3.14.0'
 
 # Setup dependencies
-gem 'exercism-config', '>= 0.133.0'
+gem 'exercism-config', '>= 0.134.0'
 # gem 'exercism-config', path: '../config'
 
 # Model-level dependencies
@@ -61,7 +61,6 @@ gem 'humanize'
 # Authentication
 gem 'devise', '~> 4.7'
 gem 'doorkeeper', '~> 5.8'
-gem 'jwt'
 
 # Omniauth
 gem 'omniauth-github'

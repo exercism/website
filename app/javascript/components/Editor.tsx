@@ -531,6 +531,7 @@ export default ({
                 <AssistantChatPanel
                   config={assistantChat}
                   solutionUuid={solution.uuid}
+                  insider={insider}
                   getFiles={getFiles}
                 />
                 <GetHelpPanel

@@ -8,6 +8,7 @@ import { MAX_CHAT_MESSAGE_LENGTH } from './types'
 import { useChat } from './useChat'
 import { renderMarkdown } from './markdown'
 import { InsidersUpsellModal } from './InsidersUpsellModal'
+import { AssistantChatStartState } from './AssistantChatStartState'
 import {
   deriveUsageStatus,
   usageLimitText,
@@ -17,6 +18,7 @@ import {
 export function AssistantChatPanel(props: {
   config: AssistantChatConfig
   solutionUuid: string
+  insider: boolean
   getFiles: () => File[]
 }): JSX.Element {
   return (
@@ -29,10 +31,12 @@ export function AssistantChatPanel(props: {
 function AssistantChatContent({
   config,
   solutionUuid,
+  insider,
   getFiles,
 }: {
   config: AssistantChatConfig
   solutionUuid: string
+  insider: boolean
   getFiles: () => File[]
 }): JSX.Element {
   const chat = useChat(config, solutionUuid, getFiles)
@@ -42,7 +46,6 @@ function AssistantChatContent({
     return (
       <div className="c-assistant-chat">
         <div className="chat-locked">
-          <GraphicalIcon icon="insiders" className="upsell-watermark" />
           {chat.messages.length > 0 ? (
             <>
               <MessageList
@@ -57,6 +60,19 @@ function AssistantChatContent({
             <UpsellContent hasHistory={false} config={config} />
           )}
         </div>
+      </div>
+    )
+  }
+
+  // Before the first message, show the landing state rather than an empty
+  // transcript. The free conversation isn't consumed until a message is sent.
+  if (chat.messages.length === 0 && !chat.currentResponse) {
+    return (
+      <div className="c-assistant-chat">
+        <AssistantChatStartState
+          insider={insider}
+          onSendMessage={chat.sendMessage}
+        />
       </div>
     )
   }
@@ -326,7 +342,10 @@ function UpsellContent({
     <div className="upsell">
       <div className="upsell-header">
         <div className="upsell-title">
-          <h2>Join Exercism Insiders for more help</h2>
+          <h2>
+            Join <span className="text-gradient">Exercism Insiders</span> for
+            more help
+          </h2>
           <p className="upsell-subtitle">
             {hasHistory
               ? "You've used your free AI conversation on another exercise."

@@ -92,7 +92,6 @@
     }
 
     & .message.user .content {
-        @apply font-medium;
         background: var(--backgroundColorE);
         border: 1px solid var(--borderColor7);
     }
@@ -280,31 +279,135 @@
         }
     }
 
+    /* --- Start state (no conversation yet) ---------------------------- */
+    & .chat-start {
+        @apply flex items-center justify-center rounded-12;
+        @apply p-40;
+        flex: 1;
+        margin: 24px 32px 32px;
+        background: theme(colors.lightPurple);
+    }
+
+    & .chat-start-content {
+        @apply text-center;
+        max-width: 480px;
+        margin: auto;
+        width: 100%;
+    }
+
+    & .chat-start-avatar {
+        @apply flex items-center justify-center mx-auto mb-16;
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: linear-gradient(
+            135deg,
+            theme(colors.purple) 0%,
+            theme(colors.purpleDarkened) 100%
+        );
+        box-shadow: inset 0 -8px 24px rgba(255, 255, 255, 0.4);
+        & .c-icon {
+            width: 32px;
+            height: 32px;
+            filter: var(--filter-FFFFFF);
+        }
+    }
+
+    & .chat-start-content h3 {
+        @apply text-h4 mb-8;
+        color: var(--textColor1);
+    }
+
+    & .chat-start-description {
+        @apply text-p-base mx-auto mb-24 leading-170;
+        max-width: 460px;
+        color: var(--textColor6);
+        & .rotating-text {
+            @apply font-medium;
+            color: theme(colors.purple);
+        }
+        & .cursor {
+            display: inline-block;
+            width: 1px;
+            height: 1em;
+            margin-inline-start: 2px;
+            vertical-align: text-bottom;
+            background: theme(colors.purple);
+            animation: assistant-chat-caret 1s steps(2, start) infinite;
+        }
+    }
+
+    & .chat-start-input {
+        @apply relative mb-12;
+        & textarea {
+            @apply block w-100 rounded-12 text-16 leading-150;
+            padding: 14px 16px 56px 16px;
+            background: var(--backgroundColorA);
+            border: 2px solid theme(colors.lavender);
+            resize: none;
+            overflow: hidden;
+            min-height: 100px;
+            transition: border-color 0.2s, height 0.1s ease;
+            animation: assistant-chat-glow 5s ease-in-out infinite;
+            &:focus {
+                outline: none;
+                border-color: theme(colors.purple);
+            }
+            &::placeholder {
+                color: var(--textColor6);
+            }
+        }
+    }
+
+    & .chat-start-send {
+        @apply absolute inline-flex items-center justify-center gap-6;
+        @apply rounded-8 text-16 font-medium;
+        bottom: 19px;
+        inset-inline-end: 14px;
+        padding: 8px 16px;
+        background: theme(colors.purpleHover);
+        color: theme(colors.purple);
+        opacity: 0.7;
+        cursor: default;
+        transition: all 0.3s ease;
+        & .c-icon {
+            width: 16px;
+            height: 16px;
+            filter: var(--purple-filter);
+        }
+        &.--active {
+            background: linear-gradient(
+                135deg,
+                theme(colors.purple) 0%,
+                theme(colors.purpleDarkened) 100%
+            );
+            color: theme(colors.white);
+            opacity: 1;
+            cursor: pointer;
+            & .c-icon {
+                filter: var(--filter-FFFFFF);
+            }
+        }
+    }
+
+    & .chat-start-included {
+        @apply flex items-center justify-center gap-6 text-15;
+        color: var(--textColor6);
+        & .c-icon {
+            width: 18px;
+            height: 18px;
+            filter: var(--textColor6-filter);
+        }
+    }
+
     /* --- Locked / upsell states --------------------------------------- */
     & .chat-locked {
         @apply px-32 py-24 overflow-y-auto;
-        position: relative;
-        /* The watermark deliberately bleeds past the corner; clip it rather
-           than letting it introduce a horizontal scrollbar. */
-        overflow-x: hidden;
-    }
-
-    & .upsell-watermark {
-        position: absolute;
-        top: 12px;
-        inset-inline-end: -48px;
-        width: 140px;
-        height: 140px;
-        opacity: 0.1;
-        pointer-events: none;
-        z-index: 0;
     }
 
     & .upsell {
         @apply mx-auto;
         max-width: 560px;
-        position: relative;
-        z-index: 1;
     }
 
     & .upsell-header {
@@ -373,5 +476,21 @@
     40% {
         opacity: 1;
         transform: scale(1);
+    }
+}
+
+@keyframes assistant-chat-glow {
+    0%,
+    100% {
+        box-shadow: 0 0 12px rgba(96, 79, 205, 0.2);
+    }
+    50% {
+        box-shadow: 0 0 22px rgba(96, 79, 205, 0.3);
+    }
+}
+
+@keyframes assistant-chat-caret {
+    to {
+        visibility: hidden;
     }
 }

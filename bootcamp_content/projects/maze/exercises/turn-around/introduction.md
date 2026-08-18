@@ -18,4 +18,4 @@ It should simply call `turn_right()` (or `turn_left()`) twice.
 
 Then use that function in the solution in the final else statement.
 
-If you don't remember how to create functions, check this [Concept Page](/bootcamp/concepts/functions-defining).
+If you don't remember how to create functions, check this [Concept Page](/bootcamp/concepts/jikiscript/functions-defining).

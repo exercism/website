@@ -428,12 +428,6 @@ export const mappings = {
     </Suspense>
   ),
 
-  'track-build-analyzer-tags': (data: any): JSX.Element => (
-    <Suspense fallback={RenderLoader()}>
-      <AnalyzerTags {...camelizeKeysAs<AnalyzerTagsType>(data)} />
-    </Suspense>
-  ),
-
   'track-activity-ticker': (data: any): JSX.Element => (
     <Suspense fallback={RenderLoader()}>
       <ActivityTicker {...camelizeKeysAs<ActivityTickerProps>(data)} />
@@ -894,8 +888,6 @@ initReact(mappings)
 import { handleNavbarFocus, scrollIntoView, showSiteFooter } from '@/utils'
 import { lazyHighlightAll } from '@/utils/lazy-highlight-all'
 import { addAnchorsToDocsHeaders } from '@/utils/anchor-docs-headers'
-import { AnalyzerTags } from '@/components/track/build/AnalyzerTags'
-import { AnalyzerTagsType } from '@/components/track/build/analyzer-tags/AnalyzerTags.types'
 import { ActivityTickerProps } from '@/components/track/activity-ticker/ActivityTicker.types'
 
 import { UserTooltipSkeleton } from '@/components/common/skeleton/skeletons/UserTooltipSkeleton'

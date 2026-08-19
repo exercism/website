@@ -9,13 +9,12 @@ class Solution::SearchViaRepresentations
     DEFAULT_PER
   end
 
-  def initialize(exercise, page: nil, per: nil, order: nil, criteria: nil, tags: nil)
+  def initialize(exercise, page: nil, per: nil, order: nil, criteria: nil)
     @exercise = exercise
     @page = page.present? && page.to_i.positive? ? page.to_i : DEFAULT_PAGE
     @per = per.present? && per.to_i.positive? ? per.to_i : self.class.default_per
     @order = order&.to_sym || :most_popular
     @criteria = criteria&.split.to_a
-    @tags = tags.present? && tags.is_a?(String) ? tags.split : tags.to_a
   end
 
   def call
@@ -41,11 +40,11 @@ class Solution::SearchViaRepresentations
       page(page).per(per)
   rescue StandardError => e
     Sentry.capture_exception(e)
-    Fallback.(exercise, page, per, order, criteria, tags)
+    Fallback.(exercise, page, per, order, criteria)
   end
 
   private
-  attr_reader :exercise, :per, :page, :order, :solutions, :criteria, :tags
+  attr_reader :exercise, :per, :page, :order, :solutions, :criteria
 
   def search_body
     {
@@ -74,11 +73,6 @@ class Solution::SearchViaRepresentations
     ]
 
     parts << criteria_query if criteria_query.present?
-
-    # Tags are matched exactly
-    tags.each do |tag|
-      parts << { terms: { "tags.keyword": [tag] } }
-    end
 
     { bool: { must: parts } }
   end
@@ -129,13 +123,12 @@ class Solution::SearchViaRepresentations
   class Fallback
     include Mandate
 
-    initialize_with :exercise, :page, :per, :order, :criteria, :tags
+    initialize_with :exercise, :page, :per, :order, :criteria
 
     def call
       @representations = exercise.representations.where('num_published_solutions > 0')
 
       sort!
-      filter!
       paginate!
 
       @representations = @representations.includes(:prestigious_solution).page(page).per(per)
@@ -146,11 +139,6 @@ class Solution::SearchViaRepresentations
 
     private
     attr_reader :solutions
-
-    def filter!
-      # We can't filter on criteria as code is not stored in the database
-      @representations = @representations.joins(prestigious_solution: :tags).where(tags: { tag: tags }) if tags.present?
-    end
 
     def sort!
       case order

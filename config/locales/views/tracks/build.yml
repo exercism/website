@@ -112,13 +112,6 @@ en:
         mentoring_requests_column: Mentoring requests
         attempts_value: "%{num_submitted} (avg. %{avg_submitted})"
         deprecated_learning_exercises_summary: "%{count} deprecated learning exercises"
-      show_tags:
-        programming_tags_heading: Programming Tags
-        learn_more_button: Learn More
-        tags_description:
-          Help manage the tags used to group, filter and recommend
-          solutions, approaches and articles.
-        tags_summary: "%{count} tags"
       test_runner_tooltip:
         test_runner_heading: The %{track_title} test runner
         health_exemplar: Implements the latest version of the spec.

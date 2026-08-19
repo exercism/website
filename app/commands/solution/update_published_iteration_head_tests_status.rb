@@ -9,7 +9,6 @@ class Solution::UpdatePublishedIterationHeadTestsStatus
     solution.update_column(:published_iteration_head_tests_status, status)
 
     Solution::SyncToSearchIndex.defer(solution)
-    Solution::UpdateTags.defer(solution)
     Solution::InvalidateCloudflareCache.defer(solution)
   end
 end

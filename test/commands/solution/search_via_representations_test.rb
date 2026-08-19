@@ -163,52 +163,6 @@ class Solution::SearchViaRepresentationsTest < ActiveSupport::TestCase
     assert_equal [solution_1, solution_2], Solution::SearchViaRepresentations.(exercise, criteria: '  ma  ')
   end
 
-  test "filter: tag" do
-    exercise = create :practice_exercise
-
-    solution_tags = [
-      ["construct:throw", "paradigm:object-oriented"],
-      ["construct:if", "paradigm:object-oriented"],
-      ["construct:lambda", "paradigm:functional-programming"]
-    ]
-
-    data = %i[my your another].zip(solution_tags).each_with_object({}) do |(word, tags), d|
-      solution = create :concept_solution, exercise:, published_at: 2.days.ago,
-        git_important_files_hash: exercise.git_important_files_hash,
-        published_iteration_head_tests_status: :passed
-      submission = create :submission, solution:, tests_status: :passed, analysis_status: :completed
-      create :submission_file, submission:, filename: "main.rb", content: "def #{word}_main; end"
-      create(:iteration, solution:, submission:)
-
-      representation = create(:exercise_representation, exercise:, source_submission: submission)
-
-      create(:submission_representation, submission:, ast_digest: representation.ast_digest)
-      create(:submission_analysis, submission:, tags_data: { tags: })
-      representation.update!(oldest_solution: solution, prestigious_solution: solution)
-      solution.update(published_exercise_representation: representation)
-
-      d[word] = { representation:, solution: }
-    end
-
-    perform_enqueued_jobs do
-      Exercise::Representation::Recache.(data[:my][:representation])
-      Exercise::Representation::Recache.(data[:your][:representation])
-      Exercise::Representation::Recache.(data[:another][:representation])
-    end
-
-    # Sanity check: ensure that the results are not returned using the fallback
-    Solution::SearchViaRepresentations::Fallback.expects(:call).never
-
-    wait_for_opensearch_to_be_synced
-
-    assert_equal [data[:my][:solution]], Solution::SearchViaRepresentations.(exercise, tags: 'construct:throw')
-    assert_equal [data[:another][:solution]], Solution::SearchViaRepresentations.(exercise, tags: 'construct:lambda')
-    assert_equal [data[:my][:solution], data[:your][:solution]],
-      Solution::SearchViaRepresentations.(exercise, tags: 'paradigm:object-oriented')
-    assert_equal [data[:your][:solution]],
-      Solution::SearchViaRepresentations.(exercise, tags: ["construct:if", "paradigm:object-oriented"])
-  end
-
   test "pagination" do
     user = create :user, handle: 'john'
     other_user = create :user, handle: 'jane'
@@ -500,7 +454,7 @@ class Solution::SearchViaRepresentationsTest < ActiveSupport::TestCase
 
   test "fallback is called" do
     exercise = create :practice_exercise
-    Solution::SearchViaRepresentations::Fallback.expects(:call).with(exercise, 2, 15, :oldest_first, ["foobar"], [])
+    Solution::SearchViaRepresentations::Fallback.expects(:call).with(exercise, 2, 15, :oldest_first, ["foobar"])
     OpenSearch::Client.expects(:new).raises
 
     Solution::SearchViaRepresentations.(exercise, page: 2, per: 15, criteria: "foobar", order: "oldest_first")
@@ -524,7 +478,7 @@ class Solution::SearchViaRepresentationsTest < ActiveSupport::TestCase
     end
 
     exercise = create :practice_exercise
-    Solution::SearchViaRepresentations::Fallback.expects(:call).with(exercise, 2, 15, :oldest_first, ["foobar"], [])
+    Solution::SearchViaRepresentations::Fallback.expects(:call).with(exercise, 2, 15, :oldest_first, ["foobar"])
 
     Solution::SearchViaRepresentations.(exercise, page: 2, per: 15, criteria: "foobar", order: "oldest_first")
   end
@@ -568,7 +522,7 @@ class Solution::SearchViaRepresentationsTest < ActiveSupport::TestCase
     wait_for_opensearch_to_be_synced
 
     # Verify that solution_2, which has the same representation as solution_1, is _not_ included
-    assert_equal [solution_1, solution_3], Solution::SearchViaRepresentations::Fallback.(exercise, 1, 24, :most_popular, nil, [])
+    assert_equal [solution_1, solution_3], Solution::SearchViaRepresentations::Fallback.(exercise, 1, 24, :most_popular, nil)
   end
 
   test "fallback: only returns solutions of specified exercise" do
@@ -600,46 +554,8 @@ class Solution::SearchViaRepresentationsTest < ActiveSupport::TestCase
       Exercise::Representation::Recache.(other_exercise_representation)
     end
 
-    assert_equal [solution], Solution::SearchViaRepresentations::Fallback.(exercise, 1, 24, :most_popular, nil, [])
-    assert_equal [other_solution], Solution::SearchViaRepresentations::Fallback.(other_exercise, 1, 24, :most_popular, nil, [])
-  end
-
-  test "fallback: filter tags" do
-    exercise = create :practice_exercise
-    exercise_representation_1 = create(:exercise_representation, exercise:)
-    exercise_representation_2 = create(:exercise_representation, exercise:)
-
-    solution_1 = create :concept_solution, exercise:, published_at: 2.days.ago,
-      git_important_files_hash: exercise.git_important_files_hash,
-      published_iteration_head_tests_status: :passed,
-      published_exercise_representation: exercise_representation_1
-    submission = create :submission, solution: solution_1, tests_status: :passed
-    create :submission_representation, submission:, ast: exercise_representation_1.ast
-    create :submission_file, submission:, filename: "main.rb", content: "def my_main; end"
-    create(:iteration, solution: solution_1, submission:)
-    create :solution_tag, solution: solution_1, tag: "construct:if"
-    create :solution_tag, solution: solution_1, tag: "paradigm:object-oriented"
-
-    solution_2 = create :concept_solution, exercise:, published_at: 2.days.ago,
-      git_important_files_hash: exercise.git_important_files_hash,
-      published_iteration_head_tests_status: :passed,
-      published_exercise_representation: exercise_representation_2
-    submission = create :submission, solution: solution_2, tests_status: :passed
-    create :submission_representation, submission:, ast: exercise_representation_2.ast
-    create :submission_file, submission:, filename: "main.rb", content: "def your_main; end"
-    create(:iteration, solution: solution_2, submission:)
-    create :solution_tag, solution: solution_2, tag: "construct:while"
-    create :solution_tag, solution: solution_2, tag: "paradigm:object-oriented"
-
-    perform_enqueued_jobs do
-      Exercise::Representation::Recache.(exercise_representation_1)
-      Exercise::Representation::Recache.(exercise_representation_2)
-    end
-
-    assert_equal [solution_1], Solution::SearchViaRepresentations::Fallback.(exercise, 1, 24, :oldest_first, nil, ["construct:if"])
-    assert_equal [solution_2], Solution::SearchViaRepresentations::Fallback.(exercise, 1, 24, :oldest_first, nil, ["construct:while"])
-    assert_equal [solution_1, solution_2],
-      Solution::SearchViaRepresentations::Fallback.(exercise, 1, 24, :oldest_first, nil, ["paradigm:object-oriented"])
+    assert_equal [solution], Solution::SearchViaRepresentations::Fallback.(exercise, 1, 24, :most_popular, nil)
+    assert_equal [other_solution], Solution::SearchViaRepresentations::Fallback.(other_exercise, 1, 24, :most_popular, nil)
   end
 
   test "fallback: pagination" do
@@ -670,8 +586,8 @@ class Solution::SearchViaRepresentationsTest < ActiveSupport::TestCase
       Exercise::Representation::Recache.(exercise_representation_2)
     end
 
-    assert_equal [solution_1], Solution::SearchViaRepresentations::Fallback.(exercise, 1, 1, :most_popular, nil, [])
-    assert_equal [solution_2], Solution::SearchViaRepresentations::Fallback.(exercise, 2, 1, :most_popular, nil, [])
+    assert_equal [solution_1], Solution::SearchViaRepresentations::Fallback.(exercise, 1, 1, :most_popular, nil)
+    assert_equal [solution_2], Solution::SearchViaRepresentations::Fallback.(exercise, 2, 1, :most_popular, nil)
   end
 
   test "fallback: doesn't include nil records" do
@@ -683,7 +599,7 @@ class Solution::SearchViaRepresentationsTest < ActiveSupport::TestCase
     # Add a second without a prestigious solution
     create(:exercise_representation, exercise:, num_published_solutions: 2)
 
-    assert_equal [solution], Solution::SearchViaRepresentations::Fallback.(exercise, 1, 24, :most_popular, nil, [])
+    assert_equal [solution], Solution::SearchViaRepresentations::Fallback.(exercise, 1, 24, :most_popular, nil)
   end
 
   test "fallback: sort: most popular" do
@@ -694,7 +610,7 @@ class Solution::SearchViaRepresentationsTest < ActiveSupport::TestCase
     create(:exercise_representation, exercise:, num_published_solutions: 1, prestigious_solution: solution_1)
     create(:exercise_representation, exercise:, num_published_solutions: 2, prestigious_solution: solution_2)
 
-    assert_equal [solution_2, solution_1], Solution::SearchViaRepresentations::Fallback.(exercise, 1, 24, :most_popular, nil, [])
+    assert_equal [solution_2, solution_1], Solution::SearchViaRepresentations::Fallback.(exercise, 1, 24, :most_popular, nil)
   end
 
   test "fallback: sort: oldest" do
@@ -705,7 +621,7 @@ class Solution::SearchViaRepresentationsTest < ActiveSupport::TestCase
     create(:exercise_representation, exercise:, num_published_solutions: 1, prestigious_solution: solution_1)
     create(:exercise_representation, exercise:, num_published_solutions: 1, prestigious_solution: solution_2)
 
-    assert_equal [solution_1, solution_2], Solution::SearchViaRepresentations::Fallback.(exercise, 1, 24, :oldest, nil, [])
+    assert_equal [solution_1, solution_2], Solution::SearchViaRepresentations::Fallback.(exercise, 1, 24, :oldest, nil)
   end
 
   test "fallback: sort: newest" do
@@ -716,7 +632,7 @@ class Solution::SearchViaRepresentationsTest < ActiveSupport::TestCase
     create(:exercise_representation, exercise:, num_published_solutions: 1, prestigious_solution: solution_1)
     create(:exercise_representation, exercise:, num_published_solutions: 1, prestigious_solution: solution_2)
 
-    assert_equal [solution_2, solution_1], Solution::SearchViaRepresentations::Fallback.(exercise, 1, 24, :newest, nil, [])
+    assert_equal [solution_2, solution_1], Solution::SearchViaRepresentations::Fallback.(exercise, 1, 24, :newest, nil)
   end
 
   test "fallback: sort: num_loc" do
@@ -730,7 +646,7 @@ class Solution::SearchViaRepresentationsTest < ActiveSupport::TestCase
     create(:exercise_representation, exercise:, num_published_solutions: 1, prestigious_solution: solution_3)
 
     assert_equal [solution_2, solution_1, solution_3].map(&:id),
-      Solution::SearchViaRepresentations::Fallback.(exercise, 1, 24, :fewest_loc, nil, []).map(&:id)
+      Solution::SearchViaRepresentations::Fallback.(exercise, 1, 24, :fewest_loc, nil).map(&:id)
   end
 
   test "fallback: sort: highest_reputation" do
@@ -744,7 +660,7 @@ class Solution::SearchViaRepresentationsTest < ActiveSupport::TestCase
     create(:exercise_representation, exercise:, num_published_solutions: 1, prestigious_solution: solution_3)
 
     assert_equal [solution_3, solution_1, solution_2].map(&:id),
-      Solution::SearchViaRepresentations::Fallback.(exercise, 1, 24, :highest_reputation, nil, []).map(&:id)
+      Solution::SearchViaRepresentations::Fallback.(exercise, 1, 24, :highest_reputation, nil).map(&:id)
   end
 
   private

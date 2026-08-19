@@ -17,7 +17,11 @@ class Partner::Advert < ApplicationRecord
       select_for_track(track)&.id
     end
 
-    find_by(id:)
+    includes(
+      light_logo_attachment: :blob,
+      dark_logo_attachment: :blob,
+      partner: [light_logo_attachment: :blob, dark_logo_attachment: :blob]
+    ).find_by(id:)
   end
 
   def self.select_for_track(track)

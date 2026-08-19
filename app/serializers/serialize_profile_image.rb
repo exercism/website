@@ -11,6 +11,8 @@ class SerializeProfileImage
       header: {
         handle: user.handle,
         name: user.name,
+        # See SerializeSolutionImage for why both are sent.
+        avatar_data: User::AvatarDataUri.(user),
         avatar_url: user.avatar_url,
         flair: user.flair,
         reputation: user.reputation,

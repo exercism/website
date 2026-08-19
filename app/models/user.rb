@@ -158,7 +158,9 @@ class User < ApplicationRecord
   validates :location, length: { maximum: 255 }
 
   has_one_attached :avatar do |attachable|
-    attachable.variant :thumb, resize_to_fill: [200, 200]
+    # convert: :png because resize_to_fill on its own preserves the source
+    # format, and satori (in the image generator) cannot decode BMP or SVG.
+    attachable.variant :thumb, resize_to_fill: [200, 200], convert: :png
   end
 
   after_initialize do

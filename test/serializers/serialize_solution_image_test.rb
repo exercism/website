@@ -20,6 +20,22 @@ class SerializeSolutionImageTest < ActiveSupport::TestCase
     assert_equal 'Bob', actual[:footer][:exercise_title]
     assert_equal 'Ruby', actual[:footer][:track_title]
     assert_equal user.avatar_url, actual[:footer][:avatar_url]
+    # Nothing attached, so nothing to inline: the generator falls back to the url.
+    assert_nil actual[:footer][:avatar_data]
+  end
+
+  test "inlines the avatar so the generator needn't fetch it" do
+    user = create :user
+    user.avatar.attach(
+      io: File.open(Rails.root.join('app', 'images', 'blank.png')),
+      filename: 'blank.png',
+      content_type: 'image/png'
+    )
+    solution = create(:practice_solution, user:)
+
+    actual = SerializeSolutionImage.(solution)
+
+    assert actual[:footer][:avatar_data].start_with?("data:image/png;base64,")
   end
 
   test "includes the theme so the generator can colour code without a stylesheet" do

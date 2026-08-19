@@ -15,6 +15,22 @@ class SerializeProfileImageTest < ActiveSupport::TestCase
     assert_equal :founder, actual[:header][:flair]
   end
 
+  test "inlines an external avatar_url too, so the generator never fetches" do
+    # No attachment, just a GitHub URL. Rails fetches it and inlines the bytes,
+    # so the generator's Lambda never egresses through the NAT.
+    user = create :user, :external_avatar_url
+    create(:user_profile, user:)
+    stub_request(:get, user.attributes['avatar_url']).to_return(
+      body: File.binread(Rails.root.join("app", "images", "favicon.png")),
+      headers: { 'Content-Type' => 'image/png' }
+    )
+
+    actual = SerializeProfileImage.(user)
+
+    assert actual[:header][:avatar_data].start_with?("data:image/png;base64,")
+    assert_equal user.avatar_url, actual[:header][:avatar_url]
+  end
+
   # A missing or reordered category silently rotates the chart away from its labels.
   test "serializes all six categories in the order the chart assumes" do
     user = create :user

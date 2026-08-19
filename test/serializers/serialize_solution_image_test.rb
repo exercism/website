@@ -24,15 +24,19 @@ class SerializeSolutionImageTest < ActiveSupport::TestCase
     assert actual[:footer][:avatar_data].start_with?("data:image/png;base64,")
   end
 
-  test "sends no avatar_data when there is nothing to inline" do
+  test "inlines an external avatar_url too, so the generator never fetches" do
     # These users have an external avatar_url (GitHub) rather than an
-    # attachment, so the generator has to fetch it as before.
+    # attachment. Rails fetches it and inlines it, so the Lambda doesn't have to.
     user = create :user, :external_avatar_url
+    stub_request(:get, user.attributes['avatar_url']).to_return(
+      body: File.binread(Rails.root.join("app", "images", "favicon.png")),
+      headers: { 'Content-Type' => 'image/png' }
+    )
     solution = create(:practice_solution, user:)
 
     actual = SerializeSolutionImage.(solution)
 
-    assert_nil actual[:footer][:avatar_data]
+    assert actual[:footer][:avatar_data].start_with?("data:image/png;base64,")
     assert_equal user.avatar_url, actual[:footer][:avatar_url]
   end
 

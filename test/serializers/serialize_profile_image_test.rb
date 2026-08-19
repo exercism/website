@@ -10,6 +10,7 @@ class SerializeProfileImageTest < ActiveSupport::TestCase
     assert_equal 'ihid', actual[:header][:handle]
     assert_equal 'Jeremy Walker', actual[:header][:name]
     assert_equal user.avatar_url, actual[:header][:avatar_url]
+    assert actual[:header][:avatar_data].start_with?("data:image/png;base64,")
     assert_equal user.reputation, actual[:header][:reputation]
     assert_equal :founder, actual[:header][:flair]
   end

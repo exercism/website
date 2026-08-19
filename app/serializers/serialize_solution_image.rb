@@ -18,6 +18,11 @@ class SerializeSolutionImage
       },
       footer: {
         handle: solution.user.handle,
+        # Both, deliberately. avatar_data saves the generator a round trip out
+        # through the NAT gateway; avatar_url remains the fallback for users
+        # with no attached avatar, and means this deploys independently of the
+        # generator change.
+        avatar_data: User::AvatarDataUri.(solution.user),
         avatar_url: solution.user.avatar_url,
         exercise_title: solution.exercise.title,
         track_title: solution.track.title

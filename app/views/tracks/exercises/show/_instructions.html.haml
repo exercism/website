@@ -1,9 +1,9 @@
 %section.instructions.c-textual-content.--large.px-20.lg:px-32.py-20.lg:py-24
-  - introduction = solution ? solution.introduction : exercise.introduction
-  - if introduction.present?
+  - content = Exercise::CachedContent::Retrieve.(exercise, solution)
+  - if content[:introduction].present?
     .border-b-1.border-borderColor5{ class: "!pb-8 !mb-32" }
       %h2= t('.introduction_heading')
-      .mb-32= raw Markdown::Parse.(introduction)
+      .mb-32= raw content[:introduction]
 
   - if exercise.tutorial?
     %h2= t('.introduction_heading')
@@ -16,8 +16,7 @@
       = vimeo_embed("853440496?h=6abbdfc68f")
 
   %h2= t('.instructions_heading')
-  - instructions = solution ? solution.instructions : exercise.instructions
-  = raw Markdown::Parse.(instructions)
+  = raw content[:instructions]
 
   - if exercise.source.present? || exercise.source_url.present?
     .source

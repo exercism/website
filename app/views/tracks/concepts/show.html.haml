@@ -60,10 +60,11 @@
         %section.about.px-20.xl:px-32.py-20.xl:py-24
           .c-textual-content.--large
             %h2= t('.about.title', concept_name: @concept.name)
+            - content = Concept::CachedContent::Retrieve.(@concept)
             - if @user_track.external? || @user_track.concept_learnt?(@concept)
-              = raw Markdown::Parse.(@concept.about)
+              = raw content[:about]
             - else
-              = raw Markdown::Parse.(@concept.introduction)
+              = raw content[:introduction]
 
           - if @concept.links.present?
             .links

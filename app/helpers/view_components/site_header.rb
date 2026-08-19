@@ -127,7 +127,7 @@ module ViewComponents
             [
               new_testimonial_icon,
               new_badge_icon,
-              ReactComponents::Dropdowns::Notifications.new.to_s,
+              ReactComponents::Dropdowns::Notifications.new(current_user).to_s,
               render(ReactComponents::Dropdowns::Reputation.new(current_user)),
               render(ViewComponents::UserMenu.new)
             ]

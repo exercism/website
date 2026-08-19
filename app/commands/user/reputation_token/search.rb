@@ -21,7 +21,7 @@ class User::ReputationToken::Search
   end
 
   def call
-    @tokens = user.reputation_tokens
+    @tokens = user.reputation_tokens.includes(:track, :exercise)
 
     filter_criteria!
     filter_category!

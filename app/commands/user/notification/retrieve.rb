@@ -32,7 +32,7 @@ class User::Notification::Retrieve
   end
 
   def setup!
-    @notifications = user.notifications.visible
+    @notifications = user.notifications.visible.includes(:track, :exercise)
   end
 
   def sort!

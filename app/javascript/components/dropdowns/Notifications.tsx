@@ -85,14 +85,22 @@ export const NOTIFICATIONS_CACHE_KEY = 'notifications'
 
 export default function Notifications({
   endpoint,
+  defaultUnreadCount,
 }: {
   endpoint: string
+  defaultUnreadCount: number
 }): JSX.Element {
   const queryClient = useQueryClient()
+  const [unreadCount, setUnreadCount] = useState(defaultUnreadCount)
+  // The badge is seeded from defaultUnreadCount (rendered server-side), so we
+  // don't need to fetch the notification list until the user actually opens
+  // the dropdown.
+  const [hasOpenedOnce, setHasOpenedOnce] = useState(false)
   const {
     data: resolvedData,
     error,
     status,
+    refetch,
   } = usePaginatedRequestQuery<APIResponse, unknown>(
     [NOTIFICATIONS_CACHE_KEY],
     {
@@ -100,7 +108,7 @@ export default function Notifications({
       query: { per_page: MAX_NOTIFICATIONS },
       options: {
         staleTime: 30 * 1000,
-        refetchOnMount: true,
+        enabled: hasOpenedOnce,
       },
     }
   )
@@ -113,32 +121,58 @@ export default function Notifications({
   } = useNotificationDropdown(resolvedData)
 
   const connectionRef = useRef<NotificationsChannel | null>(null)
+  const hiddenRef = useRef(listAttributes.hidden)
+  const refetchRef = useRef(refetch)
+  hiddenRef.current = listAttributes.hidden
+  refetchRef.current = refetch
+
+  useEffect(() => {
+    if (!resolvedData) {
+      return
+    }
+
+    setUnreadCount(resolvedData.meta.unreadCount)
+  }, [resolvedData])
 
   useEffect(() => {
     if (!connectionRef.current) {
       connectionRef.current = new NotificationsChannel((message) => {
         if (!message) return
 
-        if (message.type === 'notifications.changed' && listAttributes.hidden) {
-          queryClient.invalidateQueries({ queryKey: [NOTIFICATIONS_CACHE_KEY] })
+        // Refetch (which also refreshes the badge count) whenever the
+        // dropdown is closed, even if it's never been opened yet. `refetch`
+        // works regardless of the query's `enabled` state. While the
+        // dropdown is open we leave the visible list alone so it doesn't
+        // shift under the user.
+        if (message.type === 'notifications.changed' && hiddenRef.current) {
+          refetchRef.current()
         }
       })
-    }
-
-    if (!listAttributes.hidden) {
-      queryClient.refetchQueries({ queryKey: [NOTIFICATIONS_CACHE_KEY] })
     }
 
     return () => {
       connectionRef.current?.disconnect()
       connectionRef.current = null
     }
-  }, [listAttributes.hidden, queryClient])
+  }, [])
+
+  useEffect(() => {
+    if (listAttributes.hidden) {
+      return
+    }
+
+    if (!hasOpenedOnce) {
+      setHasOpenedOnce(true)
+      return
+    }
+
+    queryClient.refetchQueries({ queryKey: [NOTIFICATIONS_CACHE_KEY] })
+  }, [listAttributes.hidden, hasOpenedOnce, queryClient])
 
   return (
     <React.Fragment>
       <NotificationsIcon
-        count={resolvedData?.meta?.unreadCount || 0}
+        count={unreadCount}
         aria-label="Open notifications"
         {...buttonAttributes}
       />

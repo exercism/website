@@ -104,6 +104,10 @@ export default function Reputation({
   const [isStale, setIsStale] = useState(false)
   const [reputation, setReputation] = useState(defaultReputation)
   const [isSeen, setIsSeen] = useState(defaultIsSeen)
+  // The badge itself is seeded from defaultReputation/defaultIsSeen (rendered
+  // server-side), so we don't need to fetch the token list until the user
+  // actually opens the dropdown.
+  const [hasOpenedOnce, setHasOpenedOnce] = useState(false)
 
   const {
     data: resolvedData,
@@ -114,8 +118,8 @@ export default function Reputation({
     endpoint: endpoint,
     query: { per_page: MAX_TOKENS },
     options: {
-      staleTime: 30,
-      refetchOnMount: true,
+      staleTime: 30 * 1000,
+      enabled: hasOpenedOnce,
     },
   })
 
@@ -159,6 +163,18 @@ export default function Reputation({
     setIsSeen(resolvedData.meta.unseenTotal === 0)
   }, [resolvedData])
 
+  useEffect(() => {
+    if (listAttributes.hidden || hasOpenedOnce) {
+      return
+    }
+
+    setHasOpenedOnce(true)
+  }, [listAttributes.hidden, hasOpenedOnce])
+
+  // Keep the badge (reputation/isSeen) fresh in the background whenever the
+  // dropdown is closed and a websocket event marks it stale — regardless of
+  // whether the list has ever been opened. `refetch` works even while the
+  // query is disabled (pre-first-open).
   useEffect(() => {
     if (!listAttributes.hidden || !isStale) {
       return

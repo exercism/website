@@ -8,7 +8,7 @@ class Solution::InvalidateCloudflareCache
   def call
     # The S3-cached serialized payload backs the same page, so it is
     # invalidated whenever the edge cache is.
-    Solution::CacheSerializedView::Invalidate.defer(solution)
+    Solution::CachedSerializedView::Invalidate.defer(solution)
 
     Cloudflare::PurgeUrls.(urls)
   end

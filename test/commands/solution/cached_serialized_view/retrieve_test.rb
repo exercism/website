@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Solution::CacheSerializedView::RetrieveTest < ActiveSupport::TestCase
+class Solution::CachedSerializedView::RetrieveTest < ActiveSupport::TestCase
   setup do
     setup_s3_cache_bucket!
   end
@@ -11,11 +11,11 @@ class Solution::CacheSerializedView::RetrieveTest < ActiveSupport::TestCase
     key = "solution-view/#{uuid[0, 2]}/#{uuid[2, 2]}/#{uuid}/#{solution.updated_at.to_i}.json"
     upload_to_s3(Exercism.config.aws_cache_bucket, key, { iterations: [], language: "cached" }.to_json)
 
-    Solution::CacheSerializedView::Store.expects(:defer).never
+    Solution::CachedSerializedView::Store.expects(:defer).never
 
     assert_equal(
       { iterations: [], language: "cached" },
-      Solution::CacheSerializedView::Retrieve.(solution)
+      Solution::CachedSerializedView::Retrieve.(solution)
     )
   end
 
@@ -23,11 +23,11 @@ class Solution::CacheSerializedView::RetrieveTest < ActiveSupport::TestCase
     solution = create(:practice_solution, :published)
     create(:iteration, solution:)
 
-    Solution::CacheSerializedView::Store.expects(:defer).with(solution)
+    Solution::CachedSerializedView::Store.expects(:defer).with(solution)
 
-    payload = Solution::CacheSerializedView::Retrieve.(solution)
+    payload = Solution::CachedSerializedView::Retrieve.(solution)
 
-    assert_equal Solution::CacheSerializedView::Generate.(solution), payload
+    assert_equal Solution::CachedSerializedView::Generate.(solution), payload
     assert_equal solution.track.highlightjs_language, payload[:language]
   end
 
@@ -38,9 +38,9 @@ class Solution::CacheSerializedView::RetrieveTest < ActiveSupport::TestCase
     upload_to_s3(Exercism.config.aws_cache_bucket, old_key, { language: "stale" }.to_json)
 
     solution.update!(updated_at: solution.updated_at + 1.hour)
-    Solution::CacheSerializedView::Store.expects(:defer).with(solution)
+    Solution::CachedSerializedView::Store.expects(:defer).with(solution)
 
-    payload = Solution::CacheSerializedView::Retrieve.(solution)
+    payload = Solution::CachedSerializedView::Retrieve.(solution)
 
     refute_equal "stale", payload[:language]
   end
@@ -51,8 +51,8 @@ class Solution::CacheSerializedView::RetrieveTest < ActiveSupport::TestCase
     Exercism.stubs(:s3_client).raises(RuntimeError, "s3 is down")
 
     assert_equal(
-      Solution::CacheSerializedView::Generate.(solution),
-      Solution::CacheSerializedView::Retrieve.(solution)
+      Solution::CachedSerializedView::Generate.(solution),
+      Solution::CachedSerializedView::Retrieve.(solution)
     )
   end
 end

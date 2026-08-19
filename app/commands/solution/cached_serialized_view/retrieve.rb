@@ -7,7 +7,7 @@
 # read again after the solution changes. The uuid is sharded into the
 # key to avoid hot S3 prefixes (uuids are compact hex, so their leading
 # characters are uniformly distributed).
-class Solution::CacheSerializedView::Retrieve
+class Solution::CachedSerializedView::Retrieve
   include Mandate
 
   initialize_with :solution
@@ -20,8 +20,8 @@ class Solution::CacheSerializedView::Retrieve
   def cached = S3Cache::Read.(cache_key)
 
   def generate!
-    Solution::CacheSerializedView::Generate.(solution).tap do
-      Solution::CacheSerializedView::Store.defer(solution)
+    Solution::CachedSerializedView::Generate.(solution).tap do
+      Solution::CachedSerializedView::Store.defer(solution)
     end
   end
 

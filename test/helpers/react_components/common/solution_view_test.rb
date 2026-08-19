@@ -6,7 +6,7 @@ class ReactComponents::Common::SolutionViewTest < ReactComponentTestCase
     viewer = create :user
 
     payload = { iterations: [], language: "ruby" }
-    Solution::CacheSerializedView::Retrieve.expects(:call).with(solution).returns(payload)
+    Solution::CachedSerializedView::Retrieve.expects(:call).with(solution).returns(payload)
 
     component = ReactComponents::Common::SolutionView.new(solution)
     component.stubs(current_user: viewer)
@@ -22,7 +22,7 @@ class ReactComponents::Common::SolutionViewTest < ReactComponentTestCase
     solution = create(:practice_solution, :published)
 
     payload = { iterations: [], language: "ruby" }
-    Solution::CacheSerializedView::Retrieve.expects(:call).with(solution).returns(payload)
+    Solution::CachedSerializedView::Retrieve.expects(:call).with(solution).returns(payload)
 
     component = ReactComponents::Common::SolutionView.new(solution)
     component.stubs(current_user: nil)
@@ -38,7 +38,7 @@ class ReactComponents::Common::SolutionViewTest < ReactComponentTestCase
     solution = create(:practice_solution, :published)
     create(:iteration, solution:)
 
-    Solution::CacheSerializedView::Retrieve.expects(:call).never
+    Solution::CachedSerializedView::Retrieve.expects(:call).never
 
     component = ReactComponents::Common::SolutionView.new(solution)
     component.stubs(current_user: solution.user)

@@ -11,13 +11,13 @@ module ReactComponents
       # The author sees unpublished iterations and gets extra links, so
       # their variant is always rendered live. Everyone else gets the
       # published-only payload, served from the S3 cache when warm (see
-      # Solution::CacheSerializedView::Retrieve). The author-only links
+      # Solution::CachedSerializedView::Retrieve). The author-only links
       # live outside the cached payload by design.
       def data
         if author?
           author_data
         else
-          Solution::CacheSerializedView::Retrieve.(solution).merge(
+          Solution::CachedSerializedView::Retrieve.(solution).merge(
             links: { change_iteration: nil, unpublish: nil }
           )
         end

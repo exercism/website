@@ -18,6 +18,17 @@ class S3Cache::DeletePrefixTest < ActiveSupport::TestCase
     assert_empty(S3Cache::Read.("test/delete/other/1.json"))
   end
 
+  test "spares except_key" do
+    bucket = Exercism.config.aws_cache_bucket
+    upload_to_s3(bucket, "test/except/1.json", "{}")
+    upload_to_s3(bucket, "test/except/2.json", "{}")
+
+    S3Cache::DeletePrefix.("test/except/", except_key: "test/except/2.json")
+
+    assert_nil S3Cache::Read.("test/except/1.json")
+    assert_empty(S3Cache::Read.("test/except/2.json"))
+  end
+
   test "no-ops on an empty prefix" do
     S3Cache::DeletePrefix.("test/delete/empty/")
   end

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Solution::CacheSerializedView::InvalidateTest < ActiveSupport::TestCase
+class Solution::CachedSerializedView::InvalidateTest < ActiveSupport::TestCase
   setup do
     setup_s3_cache_bucket!
   end
@@ -15,14 +15,18 @@ class Solution::CacheSerializedView::InvalidateTest < ActiveSupport::TestCase
     other_uuid = other_solution.uuid
     other_key = "solution-view/#{other_uuid[0, 2]}/#{other_uuid[2, 2]}/#{other_uuid}/123.json"
 
+    current_key = "#{prefix}#{solution.updated_at.to_i}.json"
+
     upload_to_s3(bucket, "#{prefix}100.json", "{}")
     upload_to_s3(bucket, "#{prefix}200.json", "{}")
+    upload_to_s3(bucket, current_key, "{}")
     upload_to_s3(bucket, other_key, "{}")
 
-    Solution::CacheSerializedView::Invalidate.(solution)
+    Solution::CachedSerializedView::Invalidate.(solution)
 
     assert_nil S3Cache::Read.("#{prefix}100.json")
     assert_nil S3Cache::Read.("#{prefix}200.json")
+    assert_empty(S3Cache::Read.(current_key))
     assert_empty(S3Cache::Read.(other_key))
   end
 
@@ -30,7 +34,7 @@ class Solution::CacheSerializedView::InvalidateTest < ActiveSupport::TestCase
     solution = create :practice_solution
 
     Cloudflare::PurgeUrls.stubs(:call)
-    Solution::CacheSerializedView::Invalidate.expects(:defer).with(solution)
+    Solution::CachedSerializedView::Invalidate.expects(:defer).with(solution)
 
     Solution::InvalidateCloudflareCache.(solution)
   end

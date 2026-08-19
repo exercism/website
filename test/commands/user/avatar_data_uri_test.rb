@@ -31,7 +31,7 @@ class User::AvatarDataUriTest < ActiveSupport::TestCase
     # satori sniffs magic bytes and ignores the data uri's mime label, so the
     # bytes themselves have to be a png regardless of what was uploaded.
     user = create :user, :external_avatar_url
-    jpeg = ImageProcessing::Vips.source(Rails.root.join("app", "images", "favicon.png")).convert("jpg").call
+    jpeg = ImageProcessing::Vips.source(Rails.root.join("app", "images", "favicon.png")).convert("jpg").()
     stub_request(:get, user.attributes['avatar_url']).to_return(
       body: File.binread(jpeg.path), headers: { 'Content-Type' => 'image/jpeg' }
     )

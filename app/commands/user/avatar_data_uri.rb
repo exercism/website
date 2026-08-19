@@ -71,8 +71,7 @@ class User::AvatarDataUri
     thumbnail = ImageProcessing::Vips.
       source(source.path).
       convert("png").
-      resize_to_fill(200, 200).
-      call
+      resize_to_fill(200, 200).()
 
     File.binread(thumbnail.path)
   ensure

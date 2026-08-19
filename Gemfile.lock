@@ -144,7 +144,7 @@ GEM
     base64 (0.3.0)
     bcrypt (3.1.20)
     benchmark (0.4.1)
-    bigdecimal (3.2.2)
+    bigdecimal (4.1.2)
     bindex (0.8.1)
     bootsnap (1.18.6)
       msgpack (~> 1.2)
@@ -350,8 +350,8 @@ GEM
       ruby2_keywords (>= 0.0.5)
     msgpack (1.8.0)
     multi_json (1.15.0)
-    multi_xml (0.7.2)
-      bigdecimal (~> 3.1)
+    multi_xml (0.9.1)
+      bigdecimal (>= 3.1, < 5)
     multipart-post (2.4.1)
     mutex_m (0.3.0)
     mysql2 (0.5.6)
@@ -694,7 +694,6 @@ DEPENDENCIES
   humanize
   image_processing (~> 1.2)
   jsbundling-rails
-  jwt
   kaminari
   listen (>= 3.0.5, < 4.0)
   mandate (~> 2.0)

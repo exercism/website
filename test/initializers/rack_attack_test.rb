@@ -224,6 +224,33 @@ class RackAttackTest < Webhooks::BaseTestCase
     end
   end
 
+  test "unauthenticated profile solutions requests over the limit are throttled" do
+    profile_user = create(:user_profile).user
+    ip = "1.2.3.20"
+
+    freeze_time do
+      fill_crawl_throttle(ip, 500)
+
+      get api_profile_solutions_path(profile_user), headers: crawler_headers(ip)
+      assert_response :too_many_requests
+    end
+  end
+
+  # Enumerating the handle space mostly produces 404s. Rack::Attack is
+  # middleware, so it counts the request before the app decides the profile
+  # doesn't exist — which is the whole point here, since a miss is exactly what
+  # a crawler walking usernames generates.
+  test "profile solutions requests for handles that do not exist still count towards the crawl throttle" do
+    ip = "1.2.3.21"
+
+    freeze_time do
+      fill_crawl_throttle(ip, 500)
+
+      get api_profile_solutions_path("no-such-handle"), headers: crawler_headers(ip)
+      assert_response :too_many_requests
+    end
+  end
+
   test "authenticated requests are not throttled by the crawl throttle" do
     create :practice_exercise
     ip = "1.2.3.7"

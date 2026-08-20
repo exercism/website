@@ -21,7 +21,6 @@ class Exercise < ApplicationRecord
   has_many :representations, dependent: :destroy
   has_many :community_videos, dependent: :destroy
   has_many :site_updates, dependent: :destroy
-  has_many :tags, dependent: :destroy
 
   has_many :approaches,
     class_name: "Exercise::Approach",

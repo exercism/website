@@ -59,14 +59,6 @@ class Solution::UnpublishTest < ActiveSupport::TestCase
     Solution::Unpublish.(solution)
   end
 
-  test "calls out to update tags" do
-    exercise = create(:concept_exercise)
-    solution = create(:concept_solution, :published, exercise:)
-
-    Solution::UpdateTags.expects(:call).with(solution)
-    Solution::Unpublish.(solution)
-  end
-
   test "invalidates the cloudflare cache" do
     solution = create(:concept_solution, :published)
 

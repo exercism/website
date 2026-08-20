@@ -4,7 +4,7 @@ module ReactComponents
       initialize_with :exercise, :params
 
       def to_s
-        super("track-exercise-community-solutions-list", { request:, tags: })
+        super("track-exercise-community-solutions-list", { request: })
       end
 
       private
@@ -24,22 +24,6 @@ module ReactComponents
       def search_params
         params.permit(*AssembleExerciseCommunitySolutionsList.permitted_params).to_h
       end
-
-      memoize
-      def tags
-        exercise.tags.
-          reject { |t| t.category == "uses" }.
-          group_by(&:category).
-          map { |category, tags| [category.titleize, tags.map(&:tag)] }.
-          filter { |c, _| TAG_CATEGORY_ORDER.include?(c) }.
-          sort_by { |(c, _)| TAG_CATEGORY_ORDER.index(c) }.
-          to_h
-      rescue StandardError
-        nil
-      end
-
-      TAG_CATEGORY_ORDER = %w[Technique Paradigm Construct].freeze
-      private_constant :TAG_CATEGORY_ORDER
     end
   end
 end

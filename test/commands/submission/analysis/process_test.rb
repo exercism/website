@@ -62,18 +62,6 @@ class Submission::Analysis::ProcessTest < ActiveSupport::TestCase
     Submission::Analysis::Process.(job)
   end
 
-  test "updates tags of solution" do
-    solution = create :practice_solution
-    submission = create(:submission, solution:)
-    create(:iteration, submission:)
-    data = { 'comments' => [] }
-
-    Solution::UpdateTags.expects(:call).with(submission.solution)
-
-    job = create_analyzer_job!(submission, execution_status: 200, data:)
-    Submission::Analysis::Process.(job)
-  end
-
   test "updates tags of submission" do
     solution = create :practice_solution
     submission = create(:submission, solution:)

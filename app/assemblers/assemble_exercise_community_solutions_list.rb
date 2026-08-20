@@ -3,7 +3,7 @@ class AssembleExerciseCommunitySolutionsList
 
   initialize_with :exercise, :params
 
-  def self.permitted_params = [:page, :order, :criteria, { tags: [] }]
+  def self.permitted_params = %i[page order criteria]
 
   def call
     SerializePaginatedCollection.(
@@ -21,8 +21,7 @@ class AssembleExerciseCommunitySolutionsList
       exercise,
       page: params[:page],
       order: params[:order],
-      criteria: params[:criteria],
-      tags: params[:tags]
+      criteria: params[:criteria]
     )
   end
 end

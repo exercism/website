@@ -18,8 +18,7 @@ class ReactComponents::Track::ExerciseCommunitySolutionsListTest < ReactComponen
                     total_pages: 0,
                     unscoped_total: 0 }
           } }
-        },
-        tags: {}
+        }
       }
     )
   end

@@ -38,7 +38,7 @@ module ReactComponents
       delegate :track, :exercise, to: :sample
 
       def tags
-        Site::Tag.where.not(tag: track.analyzer_tags.disabled.select(:tag)).order(:tag).pluck(:tag)
+        Site::Tag.order(:tag).pluck(:tag)
       end
     end
   end

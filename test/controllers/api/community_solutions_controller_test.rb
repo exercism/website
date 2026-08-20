@@ -13,8 +13,7 @@ module API
         exercise,
         page: '5',
         order: "newest",
-        criteria: "author",
-        tags: nil
+        criteria: "author"
       ).returns(Solution.page(1))
 
       get api_track_exercise_community_solutions_path(

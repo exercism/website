@@ -188,7 +188,6 @@ import f1 from './components-tooltips-ExerciseTooltip.tsx'
 import f2 from './components-tooltips-studentTooltip'
 import f3 from './components-tooltips-task-tooltip'
 import f4 from './components-track-activity-ticker'
-import f5 from './components-track-build-analyzer-tags'
 import f6 from './components-track-dig-deeper-components'
 import f7 from './components-track-dig-deeper-components-community-videos'
 import f8 from './components-track-dig-deeper-components-no-content-yet'
@@ -404,7 +403,6 @@ export default {
   'components/tooltips/student-tooltip': f2,
   'components/tooltips/task-tooltip': f3,
   'components/track/activity-ticker': f4,
-  'components/track/build/analyzer-tags': f5,
   'components/track/dig-deeper-components': f6,
   'components/track/dig-deeper-components/community-videos': f7,
   'components/track/dig-deeper-components/no-content-yet': f8,

@@ -22,8 +22,7 @@ class Track::UpdateBuildStatus
       practice_exercises:,
       test_runner:,
       representer:,
-      analyzer:,
-      tags:
+      analyzer:
     }
   end
 
@@ -99,14 +98,6 @@ class Track::UpdateBuildStatus
       health: test_runner_health,
       version: test_runner_version,
       version_target: test_runner_version_target
-    }
-  end
-
-  def tags
-    solution_counts = track.solution_tags.group(:tag).count
-
-    {
-      solution_counts:
     }
   end
 

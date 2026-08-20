@@ -11,6 +11,7 @@ For comprehensive documentation about the application architecture, setup, and p
 - `commands.md` - Mandate command pattern documentation
 - `API.md` - API architecture and authentication patterns
 - `SPI.md` - Internal service endpoints
+- `caching.md` - Edge caching with Cloudflare, ActiveStorage attachments, and purging
 - `testing/` - Comprehensive testing patterns and examples
   - `testing/screenshots.md` - Screenshot generation and visual testing with AI analysis
 - And more component-specific documentation

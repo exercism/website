@@ -16,6 +16,7 @@ There is a subdirectory called `docs/context` which contains detailed informatio
 - `assemblers.md` - Data assembly patterns for consistent API and SSR responses
 - `view-components.md` - Server-side component architecture with encapsulated logic
 - `react-components.md` - Client-side React component integration and data passing
+- `caching.md` - Edge caching with Cloudflare, ActiveStorage attachments, and purging
 - `testing/` - Comprehensive testing patterns for models, commands, controllers, and system tests
 
 These files provide comprehensive context that supplements the workflow guidance in this document.

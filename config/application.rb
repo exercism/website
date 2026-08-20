@@ -33,10 +33,18 @@ module Website
     # Allow SVGs to render from active storage
     config.active_storage.content_types_to_serve_as_binary -= ['image/svg+xml']
 
-    # Public assets (partner logos, avatars) are served via ActiveStorage's
-    # blob redirect endpoint, which is hit on every page load. Extending the
-    # signed URL expiry lets browsers/CDNs cache the redirect for longer,
-    # cutting repeat hits to that endpoint.
+    # Public assets (partner logos, avatars) are hit on every page load, so
+    # they need to be cacheable at the edge. The default blob *redirect*
+    # endpoint can never be: it 302s to a presigned S3 URL, so Rails marks the
+    # redirect `private` and caps its max-age at the signature's lifetime.
+    #
+    # Proxying instead means the URL is permanent and the response is served
+    # with `public, max-age=<forever>` (ActiveStorage::Blobs::ProxyController),
+    # so Cloudflare fetches each blob once and never asks again.
+    config.active_storage.resolve_model_to_route = :rails_storage_proxy
+
+    # Still relevant for anything that asks a blob for its service URL directly
+    # (direct downloads, the admin UI) rather than going through a route.
     config.active_storage.service_urls_expire_in = 1.day
 
     Rails.autoloaders.main.ignore(Rails.root.join('app', 'css'))

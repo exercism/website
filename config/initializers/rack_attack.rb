@@ -70,21 +70,22 @@ Rack::Attack.safelist("verified search engines") do |req|
   req.env['HTTP_X_SEARCH_ENGINE'] == 'true'
 end
 
-# These two endpoints are cheap to request and expensive to serve, and are
-# enumerable: there is one URL per exercise and one per submission, so anything
-# walking the site systematically can pull an unbounded number of them. Cap
-# unauthenticated access per-IP per-day. The limit is far above what any
-# person browsing the site would reach.
+# These endpoints are cheap to request and expensive to serve, and are
+# enumerable: there is one URL per exercise, one per submission, and one per
+# user handle, so anything walking the site systematically can pull an
+# unbounded number of them. Cap unauthenticated access per-IP per-day. The
+# limit is far above what any person browsing the site would reach.
 CRAWLED_EXERCISE_PATH = %r{\A/tracks/[^/]+/exercises/[^/]+(/|\z)}
 Rack::Attack.throttle("Unauthenticated crawling of expensive endpoints", limit: 500, period: 1.day) do |req|
   next unless req.get?
   next if req.signed_in?
 
-  # Only resolve the route for the API endpoint, and only once we know the
+  # Only resolve the route for the API endpoints, and only once we know the
   # path is in the right namespace: recognize_path walks the whole route set,
   # which is far too expensive to pay on every unauthenticated GET.
   matches = req.path.match?(CRAWLED_EXERCISE_PATH) ||
-            (req.path.starts_with?('/api/v2/solutions') && req.routed_to == 'api/solutions/submission_files#index')
+            (req.path.starts_with?('/api/v2/solutions') && req.routed_to == 'api/solutions/submission_files#index') ||
+            (req.path.starts_with?('/api/v2/profiles') && req.routed_to == 'api/profiles/solutions#index')
   next unless matches
 
   "unauthenticated-crawl|#{req.client_ip}"

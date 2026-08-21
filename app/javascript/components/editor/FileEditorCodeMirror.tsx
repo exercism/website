@@ -1,5 +1,6 @@
 import React, {
   useCallback,
+  useMemo,
   useRef,
   useState,
   useEffect,
@@ -33,6 +34,7 @@ export function FileEditorCodeMirror({
   files: defaultFiles,
   settings,
   readonly,
+  onRunTests,
 }: {
   editorDidMount: (editor: FileEditorHandle) => void
   language: string
@@ -121,6 +123,14 @@ export function FileEditorCodeMirror({
     editor?.focus()
   }, [tab])
 
+  const commands = useMemo(() => {
+    if (!onRunTests) {
+      return []
+    }
+
+    return [{ key: 'Mod-Enter', run: onRunTests }]
+  }, [onRunTests])
+
   useEffect(() => {
     editorDidMount({ getFiles, setFiles, focus })
   }, [editorDidMount, getFiles, setFiles, focus])
@@ -170,7 +180,7 @@ export function FileEditorCodeMirror({
                 readonly={
                   readonly || file.type === 'legacy' || file.type === 'readonly'
                 }
-                commands={[]}
+                commands={commands}
               />
             </Suspense>
           </Tab.Panel>

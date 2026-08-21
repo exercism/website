@@ -7,7 +7,7 @@
 # origin again: those missing icons were generating millions of requests a week.
 #
 # So we point straight at the local fallback asset when there isn't an icon.
-class Icons::DetermineURLFor
+class Icons::DetermineUrlFor
   include Mandate
   include Propshaft::Helper
 

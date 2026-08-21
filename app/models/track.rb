@@ -118,7 +118,7 @@ class Track < ApplicationRecord
     Track::Trophy.for_track(self)
   end
 
-  def icon_url = Icons::DetermineURLFor.("tracks/#{slug}.svg", Icons::DetermineURLFor::MISSING_TRACK_ICON)
+  def icon_url = Icons::DetermineUrlFor.("tracks/#{slug}.svg", Icons::DetermineUrlFor::MISSING_TRACK_ICON)
 
   def highlightjs_language
     super || slug

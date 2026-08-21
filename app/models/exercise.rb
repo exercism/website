@@ -167,7 +167,7 @@ class Exercise < ApplicationRecord
     end
   end
 
-  def icon_url = Icons::DetermineURLFor.("exercises/#{icon_name}.svg", Icons::DetermineURLFor::MISSING_EXERCISE_ICON)
+  def icon_url = Icons::DetermineUrlFor.("exercises/#{icon_name}.svg", Icons::DetermineUrlFor::MISSING_EXERCISE_ICON)
 
   memoize
   def mentoring_notes

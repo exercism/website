@@ -1,17 +1,17 @@
 require 'test_helper'
 
-class Icons::DetermineURLForTest < ActiveSupport::TestCase
+class Icons::DetermineUrlForTest < ActiveSupport::TestCase
   test "returns the bucket url when the icon exists" do
     stub_manifest(["exercises/bob.svg"])
 
     assert_equal "https://assets.exercism.org/exercises/bob.svg",
-      Icons::DetermineURLFor.("exercises/bob.svg", Icons::DetermineURLFor::MISSING_EXERCISE_ICON)
+      Icons::DetermineUrlFor.("exercises/bob.svg", Icons::DetermineUrlFor::MISSING_EXERCISE_ICON)
   end
 
   test "returns the fallback when the icon doesn't exist" do
     stub_manifest(["exercises/bob.svg"])
 
-    url = Icons::DetermineURLFor.("exercises/flower-field.svg", Icons::DetermineURLFor::MISSING_EXERCISE_ICON)
+    url = Icons::DetermineUrlFor.("exercises/flower-field.svg", Icons::DetermineUrlFor::MISSING_EXERCISE_ICON)
     assert_includes url, "missing-exercise"
     refute_includes url, "flower-field"
   end
@@ -21,7 +21,7 @@ class Icons::DetermineURLForTest < ActiveSupport::TestCase
     Sentry.stubs(:capture_exception)
 
     assert_equal "https://assets.exercism.org/exercises/flower-field.svg",
-      Icons::DetermineURLFor.("exercises/flower-field.svg", Icons::DetermineURLFor::MISSING_EXERCISE_ICON)
+      Icons::DetermineUrlFor.("exercises/flower-field.svg", Icons::DetermineUrlFor::MISSING_EXERCISE_ICON)
   end
 
   test "exercise and track icon urls use the manifest" do

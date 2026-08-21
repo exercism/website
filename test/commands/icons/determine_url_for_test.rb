@@ -1,27 +1,27 @@
 require 'test_helper'
 
-class IconsTest < ActiveSupport::TestCase
-  test "url_for returns the bucket url when the icon exists" do
+class Icons::DetermineURLForTest < ActiveSupport::TestCase
+  test "returns the bucket url when the icon exists" do
     stub_manifest(["exercises/bob.svg"])
 
     assert_equal "https://assets.exercism.org/exercises/bob.svg",
-      Icons.url_for("exercises/bob.svg", fallback: Icons::MISSING_EXERCISE_ICON)
+      Icons::DetermineURLFor.("exercises/bob.svg", Icons::DetermineURLFor::MISSING_EXERCISE_ICON)
   end
 
-  test "url_for returns the fallback when the icon doesn't exist" do
+  test "returns the fallback when the icon doesn't exist" do
     stub_manifest(["exercises/bob.svg"])
 
-    url = Icons.url_for("exercises/flower-field.svg", fallback: Icons::MISSING_EXERCISE_ICON)
+    url = Icons::DetermineURLFor.("exercises/flower-field.svg", Icons::DetermineURLFor::MISSING_EXERCISE_ICON)
     assert_includes url, "missing-exercise"
     refute_includes url, "flower-field"
   end
 
-  test "url_for assumes the icon exists when the manifest is unavailable" do
+  test "assumes the icon exists when the manifest is unavailable" do
     stub_request(:get, "https://assets.exercism.org/manifest.json").to_return(status: 500)
     Sentry.stubs(:capture_exception)
 
     assert_equal "https://assets.exercism.org/exercises/flower-field.svg",
-      Icons.url_for("exercises/flower-field.svg", fallback: Icons::MISSING_EXERCISE_ICON)
+      Icons::DetermineURLFor.("exercises/flower-field.svg", Icons::DetermineURLFor::MISSING_EXERCISE_ICON)
   end
 
   test "exercise and track icon urls use the manifest" do

@@ -11,7 +11,7 @@ class GenericExercise < ApplicationRecord
   def git = Git::ProblemSpecifications::Exercise.new(slug)
 
   def url = "https://github.com/exercism/problem-specifications/tree/main/exercises/#{slug}"
-  def icon_url = Icons.url_for("exercises/#{slug}.svg", fallback: Icons::MISSING_EXERCISE_ICON)
+  def icon_url = Icons::DetermineURLFor.("exercises/#{slug}.svg", Icons::DetermineURLFor::MISSING_EXERCISE_ICON)
 
   def self.for!(slug) = find_by!(slug:)
 

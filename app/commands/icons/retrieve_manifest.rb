@@ -15,8 +15,6 @@ class Icons::RetrieveManifest
     cached = Rails.cache.read(CACHE_KEY)
     return cached if cached
 
-    paths = retrieve
-
     # Don't hold onto a failure for the full expiry. A blip would otherwise
     # leave us checking nothing for an hour.
     Rails.cache.write(CACHE_KEY, paths, expires_in: paths.empty? ? FAILURE_CACHE_EXPIRY : CACHE_EXPIRY)
@@ -24,11 +22,12 @@ class Icons::RetrieveManifest
   end
 
   private
-  def retrieve
-    paths = JSON.parse(RestClient.get(url).body)
-    raise TypeError, "Icons manifest is not an array" unless paths.is_a?(Array)
+  memoize
+  def paths
+    parsed = JSON.parse(RestClient.get(url).body)
+    raise TypeError, "Icons manifest is not an array" unless parsed.is_a?(Array)
 
-    paths.to_set
+    parsed.to_set
   rescue StandardError => e
     Sentry.capture_exception(e)
     Set.new

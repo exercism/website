@@ -1,6 +1,6 @@
 # Retrieves the set of icon paths that actually exist in the icons bucket.
 #
-# The manifest is published to the bucket root by the sync workflow in the
+# The manifest is published to the bucket by the sync workflow in the
 # exercism/website-icons repo, so it updates whenever icons are added or
 # removed, without needing anything deployed here.
 #
@@ -24,7 +24,7 @@ class Icons::RetrieveManifest
   private
   memoize
   def paths
-    parsed = JSON.parse(RestClient.get(url).body)
+    parsed = JSON.parse(manifest)
     raise TypeError, "Icons manifest is not an array" unless parsed.is_a?(Array)
 
     parsed.to_set
@@ -33,10 +33,16 @@ class Icons::RetrieveManifest
     Set.new
   end
 
-  def url = "#{Exercism.config.website_icons_host}/manifest.json"
+  def manifest
+    Exercism.s3_client.get_object(
+      bucket: Exercism.config.aws_icons_bucket,
+      key: MANIFEST_KEY
+    ).body.read
+  end
 
   CACHE_KEY = "Icons::RetrieveManifest".freeze
+  MANIFEST_KEY = "manifest.json".freeze
   CACHE_EXPIRY = 1.hour.freeze
   FAILURE_CACHE_EXPIRY = 1.minute.freeze
-  private_constant :CACHE_KEY, :CACHE_EXPIRY, :FAILURE_CACHE_EXPIRY
+  private_constant :CACHE_KEY, :MANIFEST_KEY, :CACHE_EXPIRY, :FAILURE_CACHE_EXPIRY
 end

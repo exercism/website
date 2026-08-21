@@ -176,12 +176,6 @@ class ActiveSupport::TestCase
     # the way the transactional fixtures roll back the database.
     Rails.cache.clear
 
-    # Almost no test cares about the icons manifest, but anything that renders
-    # an icon url reaches for it. Default to an empty manifest (which means
-    # "assume every icon exists") and let the tests that care stub their own.
-    stub_request(:get, "#{Exercism.config.website_icons_host}/manifest.json").
-      to_return(status: 200, body: "[]")
-
     # We do it like this (rather than stub/unstub) so that we
     # can have this method globally without disabling mocha's
     # protections against unstubbing unecessary methods.
@@ -193,6 +187,7 @@ class ActiveSupport::TestCase
 
   teardown do
     reset_opensearch!
+    remove_s3_icons_manifest!
 
     Bullet.perform_out_of_channel_notifications if Bullet.notification?
     Bullet.end_request
@@ -300,6 +295,33 @@ class ActiveSupport::TestCase
       **params
     )
   end
+
+  # The icons bucket and its manifest live in production. Tests that care about
+  # icon urls create the bucket in LocalStack and upload their own manifest.
+  # Everything else gets a NoSuchBucket, which the command treats as "assume
+  # every icon exists" and so leaves urls untouched.
+  def setup_s3_icons_manifest!(paths)
+    @__uploaded_s3_icons_manifest__ = true
+
+    begin
+      Exercism.s3_client.create_bucket(bucket: Exercism.config.aws_icons_bucket)
+    rescue Aws::S3::Errors::BucketAlreadyOwnedByYou, Aws::S3::Errors::BucketAlreadyExists
+      # Already there from a previous test
+    end
+
+    upload_to_s3(Exercism.config.aws_icons_bucket, ICONS_MANIFEST_KEY, paths.to_json)
+  end
+
+  # S3 isn't rolled back between tests the way the database is, so a manifest
+  # left behind would change icon urls in every test that ran after it.
+  def remove_s3_icons_manifest!
+    return unless @__uploaded_s3_icons_manifest__
+
+    Exercism.s3_client.delete_object(bucket: Exercism.config.aws_icons_bucket, key: ICONS_MANIFEST_KEY)
+    @__uploaded_s3_icons_manifest__ = false
+  end
+
+  ICONS_MANIFEST_KEY = "manifest.json".freeze
 
   # The cache bucket is created by terraform in production. Locally the
   # config key doesn't exist, so tests set it and create the bucket in

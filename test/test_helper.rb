@@ -176,6 +176,12 @@ class ActiveSupport::TestCase
     # the way the transactional fixtures roll back the database.
     Rails.cache.clear
 
+    # Almost no test cares about the icons manifest, but anything that renders
+    # an icon url reaches for it. Default to an empty manifest (which means
+    # "assume every icon exists") and let the tests that care stub their own.
+    stub_request(:get, "#{Exercism.config.website_icons_host}/manifest.json").
+      to_return(status: 200, body: "[]")
+
     # We do it like this (rather than stub/unstub) so that we
     # can have this method globally without disabling mocha's
     # protections against unstubbing unecessary methods.

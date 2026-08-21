@@ -167,7 +167,7 @@ class Exercise < ApplicationRecord
     end
   end
 
-  def icon_url = "#{Exercism.config.website_icons_host}/exercises/#{icon_name}.svg"
+  def icon_url = Icons.url_for("exercises/#{icon_name}.svg", fallback: Icons::MISSING_EXERCISE_ICON)
 
   memoize
   def mentoring_notes

@@ -16,7 +16,7 @@ It is Ruby on Rails app, backed by various other services.
 These are instructions to get things working locally.
 While you are welcome to try and follow these instructions and set up this repo on your local machine, we provide no guarantee of things working on your specific local setup.
 
-### Prerequistes
+### Prerequisites
 
 You need the following installed:
 
@@ -89,7 +89,7 @@ EXERCISM_ENV=development bundle exec setup_exercism_local_aws
 
 ### Running the local servers
 
-We have a Procfile which executes the various commands need to run Exercism locally.
+We have a Procfile which executes the various commands needed to run Exercism locally.
 
 #### Mac-specific
 

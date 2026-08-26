@@ -16,7 +16,7 @@ It is Ruby on Rails app, backed by various other services.
 These are instructions to get things working locally.
 While you are welcome to try and follow these instructions and set up this repo on your local machine, we provide no guarantee of things working on your specific local setup.
 
-### Prerequistes
+### Prerequisites
 
 You need the following installed:
 

@@ -9,7 +9,7 @@
 [![View performance data on Skylight](https://badges.skylight.io/typical/VNpB7GqXZDpQ.svg)](https://oss.skylight.io/app/applications/VNpB7GqXZDpQ)
 
 This is the website component of Exercism.
-It is Ruby on Rails app, backed by various other services.
+It is a Ruby on Rails app, backed by various other services.
 
 ## Setup
 

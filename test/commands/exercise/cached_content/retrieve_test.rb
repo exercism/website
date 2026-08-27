@@ -13,7 +13,7 @@ class Exercise::CachedContent::RetrieveTest < ActiveSupport::TestCase
       { introduction: "<p>cached intro</p>", instructions: "<p>cached instructions</p>" }.to_json
     )
 
-    Exercise::CachedContent::Store.expects(:defer).never
+    S3Cache::Write.expects(:defer).never
 
     assert_equal(
       { introduction: "<p>cached intro</p>", instructions: "<p>cached instructions</p>" },
@@ -24,12 +24,22 @@ class Exercise::CachedContent::RetrieveTest < ActiveSupport::TestCase
   test "cache miss generates live and defers a write" do
     exercise = create :practice_exercise
 
-    Exercise::CachedContent::Store.expects(:defer).with(exercise, nil)
+    S3Cache::Write.expects(:defer).with(cache_key(exercise, exercise.git_sha), anything)
 
     assert_equal(
       Exercise::CachedContent::Generate.(exercise, nil),
       Exercise::CachedContent::Retrieve.(exercise, nil)
     )
+  end
+
+  test "cache miss parses once, handing the generated content to the write" do
+    exercise = create :practice_exercise
+    generated = { introduction: "<p>intro</p>", instructions: "<p>instructions</p>" }
+
+    Exercise::CachedContent::Generate.expects(:call).with(exercise, nil).once.returns(generated)
+    S3Cache::Write.expects(:defer).with(cache_key(exercise, exercise.git_sha), generated)
+
+    assert_equal generated, Exercise::CachedContent::Retrieve.(exercise, nil)
   end
 
   test "a solution reads the key for the sha it is pinned to" do
@@ -40,7 +50,7 @@ class Exercise::CachedContent::RetrieveTest < ActiveSupport::TestCase
       { introduction: "", instructions: "<p>pinned</p>" }.to_json
     )
 
-    Exercise::CachedContent::Store.expects(:defer).never
+    S3Cache::Write.expects(:defer).never
 
     assert_equal "<p>pinned</p>", Exercise::CachedContent::Retrieve.(exercise, solution)[:instructions]
   end
@@ -53,7 +63,7 @@ class Exercise::CachedContent::RetrieveTest < ActiveSupport::TestCase
       { introduction: "", instructions: "<p>shared</p>" }.to_json
     )
 
-    Exercise::CachedContent::Store.expects(:defer).never
+    S3Cache::Write.expects(:defer).never
 
     assert_equal "<p>shared</p>", Exercise::CachedContent::Retrieve.(exercise, solution)[:instructions]
   end
@@ -66,7 +76,7 @@ class Exercise::CachedContent::RetrieveTest < ActiveSupport::TestCase
     )
 
     exercise.update_columns(git_sha: OLD_GIT_SHA)
-    Exercise::CachedContent::Store.expects(:defer).with(exercise, nil)
+    S3Cache::Write.expects(:defer).with(cache_key(exercise, exercise.git_sha), anything)
 
     refute_equal "<p>stale</p>", Exercise::CachedContent::Retrieve.(exercise, nil)[:instructions]
   end

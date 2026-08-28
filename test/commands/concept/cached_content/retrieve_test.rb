@@ -12,7 +12,7 @@ class Concept::CachedContent::RetrieveTest < ActiveSupport::TestCase
       { about: "<p>cached about</p>", introduction: "<p>cached intro</p>" }.to_json
     )
 
-    Concept::CachedContent::Store.expects(:defer).never
+    S3Cache::Write.expects(:defer).never
 
     assert_equal(
       { about: "<p>cached about</p>", introduction: "<p>cached intro</p>" },
@@ -23,12 +23,22 @@ class Concept::CachedContent::RetrieveTest < ActiveSupport::TestCase
   test "cache miss generates live and defers a write" do
     concept = create :concept
 
-    Concept::CachedContent::Store.expects(:defer).with(concept)
+    S3Cache::Write.expects(:defer).with(cache_key(concept, concept.synced_to_git_sha), anything)
 
     assert_equal(
       Concept::CachedContent::Generate.(concept),
       Concept::CachedContent::Retrieve.(concept)
     )
+  end
+
+  test "cache miss parses once, handing the generated content to the write" do
+    concept = create :concept
+    generated = { about: "<p>about</p>", introduction: "<p>intro</p>" }
+
+    Concept::CachedContent::Generate.expects(:call).with(concept).once.returns(generated)
+    S3Cache::Write.expects(:defer).with(cache_key(concept, concept.synced_to_git_sha), generated)
+
+    assert_equal generated, Concept::CachedContent::Retrieve.(concept)
   end
 
   test "an old sha's cache entry is not read after the concept syncs" do
@@ -39,7 +49,7 @@ class Concept::CachedContent::RetrieveTest < ActiveSupport::TestCase
     )
 
     concept.update!(synced_to_git_sha: "new-sha")
-    Concept::CachedContent::Store.expects(:defer).with(concept)
+    S3Cache::Write.expects(:defer).with(cache_key(concept, concept.synced_to_git_sha), anything)
 
     refute_equal "<p>stale</p>", Concept::CachedContent::Retrieve.(concept)[:about]
   end

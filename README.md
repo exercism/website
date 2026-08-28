@@ -200,3 +200,5 @@ You need to run and set `solargraph.useBundler` to `true` in your config. I have
 
 - `bundle exec yard gems`
 - `solargraph bundle`
+
+test

@@ -5,6 +5,9 @@ class Github::TeamMember::Destroy
 
   def call
     team_member.delete
-    User::UpdateMaintainer.(team_member.user) if team_member.track_id
+    return unless team_member.track_id
+
+    User::UpdateMaintainer.(team_member.user)
+    Track::UpdateGithubMaintenanceStatus.defer(team_member.track)
   end
 end

@@ -342,7 +342,6 @@ GEM
       benchmark
       logger
     mini_mime (1.1.5)
-    mini_portile2 (2.8.9)
     minitest (5.25.5)
     minitest-retry (0.2.5)
       minitest (>= 5.0)
@@ -366,12 +365,11 @@ GEM
       net-protocol
     netrc (0.11.0)
     nio4r (2.7.4)
-    nokogiri (1.18.8)
-      mini_portile2 (~> 2.8.2)
+    nokogiri (1.19.3-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.18.8-arm64-darwin)
+    nokogiri (1.19.3-x64-mingw-ucrt)
       racc (~> 1.4)
-    nokogiri (1.18.8-x86_64-linux-gnu)
+    nokogiri (1.19.3-x86_64-linux-gnu)
       racc (~> 1.4)
     oauth2 (2.0.12)
       faraday (>= 0.17.3, < 4.0)
@@ -505,12 +503,6 @@ GEM
       actionpack (>= 5.2)
       railties (>= 5.2)
     rest-client (2.1.0)
-      http-accept (>= 1.7.0, < 2.0)
-      http-cookie (>= 1.0.2, < 2.0)
-      mime-types (>= 1.16, < 4.0)
-      netrc (~> 0.8)
-    rest-client (2.1.0-x64-mingw32)
-      ffi (~> 1.9)
       http-accept (>= 1.7.0, < 2.0)
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
@@ -661,7 +653,7 @@ GEM
 PLATFORMS
   arm64-darwin-23
   arm64-darwin-24
-  x64-mingw32
+  x64-mingw-ucrt
   x86_64-linux
 
 DEPENDENCIES

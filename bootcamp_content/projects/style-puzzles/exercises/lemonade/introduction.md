@@ -49,7 +49,7 @@ That's normally because they've missed an instruction, or taken a more "hacky" a
 Here are common mistakes people make.
 I recommend double-checking each of them!
 
-- Not checking the diff/curtain carefuly enough.
+- Not checking the diff/curtain carefully enough.
 - Not using `cover`, `top right` for the background.
 - Unncessarily using `background-repeat: no-repeat`. This makes no visual difference, but does change the subpixel rendering.
 - Not using `px` for all margins and padding.

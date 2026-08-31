@@ -7,6 +7,11 @@
             & .lhs {
                 @apply flex-grow flex flex-col;
             }
+            & h1 {
+                & strong {
+                    @apply font-bold leading-none;
+                }
+            }
             & p {
                 max-width: 680px;
                 & strong {

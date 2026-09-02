@@ -87,6 +87,25 @@ EXERCISM_ENV=development bundle exec setup_exercism_local_aws
 
 **Note: you will need to do this every time you reset dynamodb, which happens when Docker is restarted.**
 
+### Bundle Install Optimization
+
+Bundle install can take 30-40 minutes due to native extension compilation. To optimize this:
+
+```bash
+# Run the bundle optimization setup (includes system dependencies)
+bin/setup_bundle_optimization
+
+# Then install gems (will use parallel installation and caching)
+bundle install
+```
+
+This optimization provides:
+- **~75% faster installs** through parallel gem installation
+- **~90% faster subsequent installs** through gem caching  
+- **Faster native extension compilation** via system packages
+
+For more details, see [`docs/BUNDLE_OPTIMIZATION.md`](docs/BUNDLE_OPTIMIZATION.md).
+
 ### Running the local servers
 
 We have a Procfile which executes the various commands need to run Exercism locally.

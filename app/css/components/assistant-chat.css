@@ -1,6 +1,3 @@
-/* The editor's AI assistant chat panel.
-   Ported from Jiki's ChatPanel/Conversation/ChatMessages/ChatInput CSS modules,
-   remapped onto Exercism's design tokens. */
 .c-assistant-chat {
     @apply flex flex-col;
     height: 100%;
@@ -74,7 +71,6 @@
         object-fit: cover;
     }
 
-    /* The assistant's avatar is Exercism's face on a light purple disc */
     & .message.assistant .avatar {
         background: var(--backgroundColorF);
         box-shadow: 0 0 0 1px var(--borderColor6);
@@ -142,8 +138,7 @@
     }
 
     /* --- Thinking indicator ------------------------------------------ */
-    /* The dots are shorter than a line of text, so this row would leave the
-       avatar sitting below the bubble under the default top alignment. */
+    /* Dots are shorter than a line of text, so top alignment misplaces the avatar */
     & .message.thinking-row {
         @apply items-center;
         & .avatar {
@@ -289,37 +284,21 @@
     }
 
     /* --- Start state (no conversation yet) ---------------------------- */
-    /* The panel is a resizable editor pane, so its width is independent of
-       the viewport's. Everything below sizes off the container, not the
-       screen, and stays fluid between the two ends rather than snapping. */
+    /* Resizable pane: size off the container, not the viewport */
     & .chat-start {
         @apply flex items-center justify-center rounded-12;
         container-type: inline-size;
         container-name: chat-start;
         flex: 1;
-        /* The tab panel this sits in is `overflow-y: scroll; height: 100%`,
-           so anything taller than it produces a scroll thumb on top of the
-           panel's always-drawn track. min-height:0 lets this flex child
-           shrink to the panel instead of overflowing it. */
+        /* Shrink to the scrolling tab panel rather than overflowing it */
         min-height: 0;
-        /* `safe` keeps the top of the content reachable if the panel is ever
-           shorter than the card. No overflow of its own — that would add a
-           second scroll container inside the panel. */
+        /* `safe` keeps the top reachable when the panel is shorter than the card */
         align-items: safe center;
-        /* Equal on all four sides, so the card sits evenly in the panel */
         margin: 16px;
         padding: 32px 16px;
         background: var(--backgroundColorF);
 
-        /* Fixed power-of-two spacing scale for the empty state. Two groups
-           make up this surface — the identity block (mark, heading,
-           description) and the action block (field, caption) — so the scale
-           needs three roles:
-             bind   holds an item to the one it labels
-             group  spaces rows inside a group
-             break  separates the two groups
-           Fixed rather than fluid: these are small, and interpolating them
-           made the rhythm drift instead of reading as one system. */
+        /* Spacing scale: bind an item to its label, group rows, break between groups */
         --space-bind: 4px;
         --space-group: 16px;
         --space-break: 32px;
@@ -334,7 +313,6 @@
 
     & .chat-start-avatar {
         @apply flex items-center justify-center mx-auto;
-        /* A mark introducing the heading, not a row of its own */
         margin-bottom: var(--space-group);
         width: 64px;
         height: 64px;
@@ -346,7 +324,6 @@
         );
         box-shadow: inset 0 -8px 24px rgba(255, 255, 255, 0.4);
         & .c-icon {
-            /* Track the disc so the glyph keeps its inset as it shrinks */
             width: 32px;
             height: 32px;
             filter: var(--filter-FFFFFF);
@@ -355,7 +332,6 @@
 
     & .chat-start-content h3 {
         @apply text-h4;
-        /* The description explains this heading — bind them */
         margin-bottom: var(--space-bind);
         text-wrap: balance;
         color: var(--textColor1);
@@ -363,25 +339,19 @@
 
     & .chat-start-description {
         @apply text-p-base mx-auto;
-        /* Body leading (1.7) is too airy for a short centred sentence that
-           wraps: the halves drift apart and read as two rows. Tighter
-           leading keeps it as one phrase. */
+        /* Tighter than body leading so a wrapped sentence reads as one phrase */
         line-height: 1.45;
-        /* The one real break: identity block ends, action block begins */
         margin-bottom: var(--space-break);
         max-width: 460px;
         text-wrap: pretty;
         color: var(--textColor6);
-        /* Narrow panels are where the typewriter's longest phrases wrap to a
-           second line. Reserve that line up front so the input below holds
-           still instead of hopping on every keystroke of the animation. */
+        /* Reserve the second line so the typewriter doesn't shift the input */
         @container chat-start (max-width: 340px) {
             min-height: calc(2 * 1.45em);
         }
         & .rotating-text {
             @apply font-medium;
-            /* Keep the phrase and its caret together on one line rather than
-               orphaning a word; it only breaks when a phrase can't fit. */
+            /* Keeps the phrase and its caret together on one line */
             display: inline-block;
             color: var(--colorPurpleToBrightPurple);
         }
@@ -398,16 +368,11 @@
 
     & .chat-start-input {
         @apply relative;
-        /* The note below is a caption on this field, so it stays close */
         margin-bottom: var(--space-group);
         & textarea {
             @apply block w-100 rounded-12 leading-150;
             font-size: 16px;
-            /* The send button is overlaid in the bottom-right corner. Its
-               height is fixed (16px text × 1.4 + 8px padding top and bottom
-               = 40px) and it sits 16px from the bottom, so reserving
-               16 + 40 + 8 of breathing room guarantees the text can never
-               run underneath it, at any width. */
+            /* Bottom padding clears the overlaid send button (16 + 40 + 8) */
             padding: 16px 16px 64px;
             background: var(--backgroundColorA);
             border: 2px solid var(--borderColor6);
@@ -433,11 +398,8 @@
         bottom: 16px;
         inset-inline-end: 16px;
         padding: 8px 16px;
-        /* One line always: a wrapped label would grow taller than the room
-           the textarea reserves for it and collide with the placeholder. */
+        /* A wrapped label would outgrow the padding the textarea reserves for it */
         white-space: nowrap;
-        /* Never wider than the field it sits in; truncate rather than
-           overflow if the panel is squeezed extremely narrow. */
         max-width: calc(100% - 32px);
         overflow: hidden;
         text-overflow: ellipsis;
@@ -450,12 +412,9 @@
             width: 16px;
             height: 16px;
             flex-shrink: 0;
-            /* Pairs with the label's --colorPurpleToBrightPurple so the icon
-               and text stay the same colour in both themes. */
+            /* Matches the label's --colorPurpleToBrightPurple in both themes */
             filter: var(--purple-to-bright-purple-filter);
         }
-        /* Below this the icon costs more room than it earns; the label alone
-           still names the action. */
         @container chat-start (max-width: 200px) {
             & .c-icon {
                 display: none;
@@ -476,10 +435,7 @@
         }
     }
 
-    /* The tick is set inline with the copy rather than as a flex row beside
-       it. That keeps the line on one row whenever it fits, and when the panel
-       is too narrow the tick simply flows with the first word instead of
-       stranding itself at the edge of a full-width row. */
+    /* Tick is set inline, not as a flex row, so it flows with the copy when narrow */
     & .chat-start-included {
         font-size: 14px;
         line-height: 1.4;
@@ -490,7 +446,6 @@
             width: 16px;
             height: 16px;
             margin-inline-end: 8px;
-            /* Sits on the text's own baseline */
             vertical-align: -3px;
             filter: var(--textColor6-filter);
         }

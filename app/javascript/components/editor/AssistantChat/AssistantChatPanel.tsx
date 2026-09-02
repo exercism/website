@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Tab, GraphicalIcon, Avatar } from '@/components/common'
 import { TabsContext } from '@/components/Editor'
 import { highlightAll } from '@/utils/highlight'
@@ -22,7 +22,7 @@ export function AssistantChatPanel(props: {
   getFiles: () => File[]
 }): JSX.Element {
   return (
-    <Tab.Panel id="assistant" context={TabsContext}>
+    <Tab.Panel id="assistant" context={TabsContext} alwaysAttachToDOM>
       <AssistantChatContent {...props} />
     </Tab.Panel>
   )
@@ -91,10 +91,12 @@ function Conversation({
   const usageStatus = deriveUsageStatus(chat.usage)
   const scrollRef = useRef<HTMLDivElement>(null)
   const configured = Boolean(config.chatUrl)
+  const { current: currentTab } = useContext(TabsContext)
 
   useEffect(() => {
+    if (currentTab !== 'assistant') return
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight })
-  }, [chat.messages.length, chat.currentResponse])
+  }, [chat.messages.length, chat.currentResponse, currentTab])
 
   const send = () => {
     const message = draft.trim()
@@ -171,6 +173,8 @@ function Conversation({
               placeholder={
                 usageStatus?.atCap
                   ? "You've reached your message limit"
+                  : chat.isDisabled
+                  ? 'Waiting for the assistant to reply…'
                   : chat.messages.length > 0
                   ? 'Respond to the assistant…'
                   : 'Ask about your code, the tests, or the exercise…'
@@ -235,7 +239,7 @@ function MessageList({
       ))}
 
       {status === 'thinking' ? (
-        <div className="message assistant">
+        <div className="message assistant thinking-row">
           <div className="avatar">
             <GraphicalIcon icon="exercism-face" />
           </div>

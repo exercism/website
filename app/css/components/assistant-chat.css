@@ -142,6 +142,15 @@
     }
 
     /* --- Thinking indicator ------------------------------------------ */
+    /* The dots are shorter than a line of text, so this row would leave the
+       avatar sitting below the bubble under the default top alignment. */
+    & .message.thinking-row {
+        @apply items-center;
+        & .avatar {
+            margin-top: 0;
+        }
+    }
+
     & .thinking {
         @apply flex items-center gap-8 text-15;
         color: var(--textColor6);

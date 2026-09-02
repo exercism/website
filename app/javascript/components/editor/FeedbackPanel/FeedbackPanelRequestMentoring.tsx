@@ -17,9 +17,9 @@ export function RequestMentoring({
   const { t } = useAppTranslation('components/editor/FeedbackPanel')
 
   return (
-    <section className="pt-10">
+    <section className="pt-10 request-mentoring">
       <div className="pb-20 mb-20 border-b-1 border-borderColor5">
-        <div className="flex items-start">
+        <div className="flex items-start --intro">
           <div>
             <h2 className="text-h4 mb-4">
               {t('feedbackPanelRequestMentoring.takeSolutionToNextLevel')}
@@ -39,7 +39,7 @@ export function RequestMentoring({
             className="ml-48 mt-20"
           />
         </div>
-        <div className="flex">
+        <div className="flex --cta">
           <a className="btn-primary btn-m mb-8" href={mentorDiscussionsLink}>
             {t('feedbackPanelRequestMentoring.submitForCodeReview')}
           </a>
@@ -60,7 +60,7 @@ export function RequestMentoring({
         </h4>
         <p className="text-p-base">
           <Trans
-            i18nKey="feedbackPanelRequestMentoring.feedbackPanelRequestMentoring.whyGetFeedbackDescription"
+            i18nKey="feedbackPanelRequestMentoring.learningALanguage"
             ns="components/editor/FeedbackPanel"
             components={{ bold: <strong className="font-semibold" /> }}
           />

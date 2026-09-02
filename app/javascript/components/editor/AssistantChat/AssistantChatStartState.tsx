@@ -61,12 +61,14 @@ export function AssistantChatStartState({
     textareaRef.current?.focus()
   }, [])
 
-  // Grow the textarea with its contents
+  // Grow the textarea with its contents. The minimum lives in CSS (it varies
+  // with the panel's width), so scrollHeight is used as-is and min-height
+  // does the flooring.
   useEffect(() => {
     const el = textareaRef.current
     if (!el) return
     el.style.height = 'auto'
-    el.style.height = `${Math.max(100, el.scrollHeight)}px`
+    el.style.height = `${el.scrollHeight}px`
   }, [message])
 
   const send = () => {
@@ -117,9 +119,11 @@ export function AssistantChatStartState({
 
         <p className="chat-start-included">
           <GraphicalIcon icon="check-circle" />
-          {insider
-            ? 'Unlimited conversations, included with Insiders'
-            : 'Get assistant help on this exercise - 100% free.'}
+          <span>
+            {insider
+              ? 'Unlimited conversations, included with Insiders'
+              : 'Get assistant help on this exercise - 100% free.'}
+          </span>
         </p>
       </div>
     </div>

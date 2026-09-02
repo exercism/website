@@ -49,6 +49,15 @@
     @apply uses-suspense;
 }
 
+/* `body` reserves a scrollbar gutter globally (see defaults.css) so pages
+   don't jump horizontally as the scrollbar comes and goes. The editor is
+   `position: fixed` at 100% height and never scrolls the body, so on this
+   page that rule can only ever draw an empty, unusable track down the right
+   edge. Reclaim the gutter here; every other page keeps the default. */
+body:has(.c-react-wrapper-editor) {
+    overflow-y: hidden;
+}
+
 #page-editor {
     @apply fixed flex flex-col;
     width: 100%;
@@ -339,8 +348,13 @@
                 }
             }
 
+            /* `auto`, not `scroll`: several of these panels (Results,
+               Feedback, the assistant's empty state) have nothing to scroll,
+               and `scroll` paints an empty track down their right edge
+               regardless. The panels that do overflow — Instructions, Get
+               help — still get their scrollbar. */
             & > .--tab-panel {
-                overflow-y: scroll;
+                overflow-y: auto;
                 height: 100%;
             }
 
@@ -372,6 +386,45 @@
                             & .--summary {
                                 @apply pb-6;
                             }
+                        }
+                    }
+                }
+            }
+
+            /* The panel is a resizable pane, so its width is independent
+               of the viewport's — these size off the container, not the
+               screen. */
+            section.request-mentoring {
+                container-type: inline-size;
+                container-name: request-mentoring;
+
+                /* The illustration is a fixed 110px and doesn't shrink, so
+                   beside the prose it leaves a column a couple of words wide.
+                   Stack it above the copy instead: it keeps its full size and
+                   the text gets the whole width. */
+                & .--intro {
+                    @container request-mentoring (max-width: 460px) {
+                        @apply flex-col items-start;
+
+                        /* Lead with the illustration, then the copy. Left
+                           aligned like the buttons and prose below it, so the
+                           stacked layout keeps one edge throughout. */
+                        & > .c-icon {
+                            @apply order-first;
+                            @apply ml-0 mt-0 mb-16;
+                        }
+                    }
+                }
+
+                /* Side by side the two don't fit: the "100% free" badge is
+                   squeezed until its label breaks over three lines. Stack
+                   them and each keeps its natural width. */
+                & .--cta {
+                    @container request-mentoring (max-width: 420px) {
+                        @apply flex-col items-start;
+
+                        & > * + * {
+                            @apply ml-0 mt-8;
                         }
                     }
                 }

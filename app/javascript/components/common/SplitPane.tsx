@@ -49,9 +49,19 @@ export const SplitPane = ({
         return
       }
 
-      setLeftWidth(clientX)
+      // `clientX` is viewport-relative, so offset it by where the pane
+      // starts. Clamping here (rather than relying on the panes' CSS
+      // min-widths alone) keeps the stored width in step with the divider:
+      // otherwise dragging past a limit keeps growing the number while the
+      // divider stays put, and the cursor has to travel all the way back
+      // before the pane responds again.
+      const bounds = splitPaneRef.current.getBoundingClientRect()
+      const maxLeft = bounds.width - rightMinWidth
+      const nextLeft = clientX - bounds.left
+
+      setLeftWidth(Math.min(Math.max(nextLeft, leftMinWidth), maxLeft))
     },
-    [dragging]
+    [dragging, leftMinWidth, rightMinWidth]
   )
 
   const onMouseDown = useCallback(() => {
@@ -104,13 +114,22 @@ export const SplitPane = ({
 
   const { isBelowLgWidth = false } = useContext(ScreenSizeContext) || {}
 
+  // A width persisted from a wider window (or from before a min-width was
+  // introduced) can exceed what's available now. The right pane's own
+  // min-width stops it collapsing, so cap the left pane to match rather than
+  // letting the two disagree and overflow the container.
+  const cappedLeftWidth =
+    typeof leftWidth === 'number'
+      ? `min(${leftWidth}px, 100% - ${rightMinWidth}px)`
+      : leftWidth
+
   return (
     <div className={classNames} ref={splitPaneRef}>
       {!isBelowLgWidth && (
         <div
           className="--split-lhs"
           ref={leftRef}
-          style={{ width: leftWidth, minWidth: leftMinWidth }}
+          style={{ width: cappedLeftWidth, minWidth: leftMinWidth }}
         >
           {left}
         </div>

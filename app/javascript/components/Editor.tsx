@@ -437,6 +437,12 @@ export default ({
 
           <SplitPane
             id="editor"
+            // Below this the right-hand panels stop being usable. The
+            // binding constraint is the feedback panel: its illustration is a
+            // fixed 110px plus a 48px margin and doesn't shrink, so the prose
+            // beside it gets `width - 209px`. 400 keeps that column around
+            // 190px; much less and it wraps to a couple of words a line.
+            rightMinWidth={400}
             left={
               <>
                 <FileEditorCodeMirror

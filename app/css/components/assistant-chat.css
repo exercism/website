@@ -76,12 +76,12 @@
 
     /* The assistant's avatar is Exercism's face on a light purple disc */
     & .message.assistant .avatar {
-        background: theme(colors.lightPurple);
+        background: var(--backgroundColorF);
         box-shadow: 0 0 0 1px var(--borderColor6);
         & .c-icon {
             width: 22px;
             height: 22px;
-            filter: var(--purple-filter);
+            filter: var(--purple-light-white-dark-filter);
         }
     }
 
@@ -97,8 +97,8 @@
     }
 
     & .message.assistant .content {
-        background: theme(colors.lightPurple);
-        border: 1px solid theme(colors.lavender);
+        background: var(--backgroundColorF);
+        border: 1px solid var(--borderColor6);
     }
 
     /* --- Message content typography ---------------------------------- */
@@ -121,12 +121,12 @@
     }
     & .content a {
         @apply font-medium underline;
-        color: theme(colors.purple);
+        color: var(--colorPurpleToBrightPurple);
     }
     & .content code {
         @apply font-mono text-13 px-6 py-2 rounded-3;
         background: var(--backgroundColorD);
-        color: theme(colors.purple);
+        color: var(--colorPurpleToBrightPurple);
     }
     & .content pre {
         @apply p-12 rounded-8;
@@ -149,7 +149,7 @@
             width: 6px;
             height: 6px;
             border-radius: 50%;
-            background: theme(colors.purple);
+            background: var(--colorPurpleToBrightPurple);
             animation: assistant-chat-pulse 1.4s ease-in-out infinite;
         }
         & span:nth-child(2) {
@@ -163,25 +163,25 @@
     /* --- Notice bars (error / usage) --------------------------------- */
     & .chat-status {
         @apply flex items-center justify-between gap-12 px-32 py-8;
-        background: theme(colors.superLightOrange);
+        background: var(--backgroundColorCAlert);
         border-top: 1px solid theme(colors.orange);
         & .message-text {
             @apply text-14;
-            color: var(--textColor2);
+            color: var(--textColorCAlert);
         }
         & button {
             @apply text-14 font-medium underline;
-            color: theme(colors.purple);
+            color: var(--colorPurpleToBrightPurple);
         }
     }
 
     & .chat-usage {
         @apply px-32 py-8;
-        background: theme(colors.champagne);
+        background: var(--backgroundColorCAlert);
         border-top: 1px solid theme(colors.yellowPrompt);
         & .usage-text {
             @apply text-14;
-            color: var(--textColor2);
+            color: var(--textColorCAlert);
         }
         &.at-cap .usage-text {
             @apply font-medium;
@@ -222,7 +222,7 @@
             width: 36px;
             height: 36px;
             border-radius: 50%;
-            border: 1px solid theme(colors.gray);
+            border: 1px solid var(--borderColor6);
         }
     }
 
@@ -234,13 +234,13 @@
     & .chat-input-field textarea {
         @apply block w-100 p-12 rounded-8 text-15 leading-150;
         background: var(--backgroundColorA);
-        border: 2px solid theme(colors.lavender);
+        border: 2px solid var(--borderColor6);
         resize: none;
         height: 96px;
         transition: border-color 0.2s;
         &:focus {
             outline: none;
-            border-color: theme(colors.purple);
+            border-color: var(--colorPurpleToBrightPurple);
         }
         &::placeholder {
             color: var(--textColor6);
@@ -280,12 +280,40 @@
     }
 
     /* --- Start state (no conversation yet) ---------------------------- */
+    /* The panel is a resizable editor pane, so its width is independent of
+       the viewport's. Everything below sizes off the container, not the
+       screen, and stays fluid between the two ends rather than snapping. */
     & .chat-start {
         @apply flex items-center justify-center rounded-12;
-        @apply p-40;
+        container-type: inline-size;
+        container-name: chat-start;
         flex: 1;
-        margin: 24px 32px 32px;
-        background: theme(colors.lightPurple);
+        /* The tab panel this sits in is `overflow-y: scroll; height: 100%`,
+           so anything taller than it produces a scroll thumb on top of the
+           panel's always-drawn track. min-height:0 lets this flex child
+           shrink to the panel instead of overflowing it. */
+        min-height: 0;
+        /* `safe` keeps the top of the content reachable if the panel is ever
+           shorter than the card. No overflow of its own — that would add a
+           second scroll container inside the panel. */
+        align-items: safe center;
+        /* Equal on all four sides, so the card sits evenly in the panel */
+        margin: 16px;
+        padding: 32px 16px;
+        background: var(--backgroundColorF);
+
+        /* Fixed power-of-two spacing scale for the empty state. Two groups
+           make up this surface — the identity block (mark, heading,
+           description) and the action block (field, caption) — so the scale
+           needs three roles:
+             bind   holds an item to the one it labels
+             group  spaces rows inside a group
+             break  separates the two groups
+           Fixed rather than fluid: these are small, and interpolating them
+           made the rhythm drift instead of reading as one system. */
+        --space-bind: 4px;
+        --space-group: 16px;
+        --space-break: 32px;
     }
 
     & .chat-start-content {
@@ -296,7 +324,9 @@
     }
 
     & .chat-start-avatar {
-        @apply flex items-center justify-center mx-auto mb-16;
+        @apply flex items-center justify-center mx-auto;
+        /* A mark introducing the heading, not a row of its own */
+        margin-bottom: var(--space-group);
         width: 64px;
         height: 64px;
         border-radius: 50%;
@@ -307,6 +337,7 @@
         );
         box-shadow: inset 0 -8px 24px rgba(255, 255, 255, 0.4);
         & .c-icon {
+            /* Track the disc so the glyph keeps its inset as it shrinks */
             width: 32px;
             height: 32px;
             filter: var(--filter-FFFFFF);
@@ -314,17 +345,36 @@
     }
 
     & .chat-start-content h3 {
-        @apply text-h4 mb-8;
+        @apply text-h4;
+        /* The description explains this heading — bind them */
+        margin-bottom: var(--space-bind);
+        text-wrap: balance;
         color: var(--textColor1);
     }
 
     & .chat-start-description {
-        @apply text-p-base mx-auto mb-24 leading-170;
+        @apply text-p-base mx-auto;
+        /* Body leading (1.7) is too airy for a short centred sentence that
+           wraps: the halves drift apart and read as two rows. Tighter
+           leading keeps it as one phrase. */
+        line-height: 1.45;
+        /* The one real break: identity block ends, action block begins */
+        margin-bottom: var(--space-break);
         max-width: 460px;
+        text-wrap: pretty;
         color: var(--textColor6);
+        /* Narrow panels are where the typewriter's longest phrases wrap to a
+           second line. Reserve that line up front so the input below holds
+           still instead of hopping on every keystroke of the animation. */
+        @container chat-start (max-width: 340px) {
+            min-height: calc(2 * 1.45em);
+        }
         & .rotating-text {
             @apply font-medium;
-            color: theme(colors.purple);
+            /* Keep the phrase and its caret together on one line rather than
+               orphaning a word; it only breaks when a phrase can't fit. */
+            display: inline-block;
+            color: var(--colorPurpleToBrightPurple);
         }
         & .cursor {
             display: inline-block;
@@ -332,26 +382,34 @@
             height: 1em;
             margin-inline-start: 2px;
             vertical-align: text-bottom;
-            background: theme(colors.purple);
+            background: var(--colorPurpleToBrightPurple);
             animation: assistant-chat-caret 1s steps(2, start) infinite;
         }
     }
 
     & .chat-start-input {
-        @apply relative mb-12;
+        @apply relative;
+        /* The note below is a caption on this field, so it stays close */
+        margin-bottom: var(--space-group);
         & textarea {
-            @apply block w-100 rounded-12 text-16 leading-150;
-            padding: 14px 16px 56px 16px;
+            @apply block w-100 rounded-12 leading-150;
+            font-size: 16px;
+            /* The send button is overlaid in the bottom-right corner. Its
+               height is fixed (16px text × 1.4 + 8px padding top and bottom
+               = 40px) and it sits 16px from the bottom, so reserving
+               16 + 40 + 8 of breathing room guarantees the text can never
+               run underneath it, at any width. */
+            padding: 16px 16px 64px;
             background: var(--backgroundColorA);
-            border: 2px solid theme(colors.lavender);
+            border: 2px solid var(--borderColor6);
             resize: none;
             overflow: hidden;
-            min-height: 100px;
+            min-height: 128px;
             transition: border-color 0.2s, height 0.1s ease;
             animation: assistant-chat-glow 5s ease-in-out infinite;
             &:focus {
                 outline: none;
-                border-color: theme(colors.purple);
+                border-color: var(--colorPurpleToBrightPurple);
             }
             &::placeholder {
                 color: var(--textColor6);
@@ -361,19 +419,38 @@
 
     & .chat-start-send {
         @apply absolute inline-flex items-center justify-center gap-6;
-        @apply rounded-8 text-16 font-medium;
-        bottom: 19px;
-        inset-inline-end: 14px;
+        @apply rounded-8 font-medium;
+        font-size: 16px;
+        bottom: 16px;
+        inset-inline-end: 16px;
         padding: 8px 16px;
-        background: theme(colors.purpleHover);
-        color: theme(colors.purple);
+        /* One line always: a wrapped label would grow taller than the room
+           the textarea reserves for it and collide with the placeholder. */
+        white-space: nowrap;
+        /* Never wider than the field it sits in; truncate rather than
+           overflow if the panel is squeezed extremely narrow. */
+        max-width: calc(100% - 32px);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        background: var(--backgroundColorBtnSecondary);
+        color: var(--colorPurpleToBrightPurple);
         opacity: 0.7;
         cursor: default;
         transition: all 0.3s ease;
         & .c-icon {
             width: 16px;
             height: 16px;
-            filter: var(--purple-filter);
+            flex-shrink: 0;
+            /* Pairs with the label's --colorPurpleToBrightPurple so the icon
+               and text stay the same colour in both themes. */
+            filter: var(--purple-to-bright-purple-filter);
+        }
+        /* Below this the icon costs more room than it earns; the label alone
+           still names the action. */
+        @container chat-start (max-width: 200px) {
+            & .c-icon {
+                display: none;
+            }
         }
         &.--active {
             background: linear-gradient(
@@ -390,12 +467,22 @@
         }
     }
 
+    /* The tick is set inline with the copy rather than as a flex row beside
+       it. That keeps the line on one row whenever it fits, and when the panel
+       is too narrow the tick simply flows with the first word instead of
+       stranding itself at the edge of a full-width row. */
     & .chat-start-included {
-        @apply flex items-center justify-center gap-6 text-15;
+        font-size: 14px;
+        line-height: 1.4;
+        text-wrap: balance;
         color: var(--textColor6);
         & .c-icon {
-            width: 18px;
-            height: 18px;
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            margin-inline-end: 8px;
+            /* Sits on the text's own baseline */
+            vertical-align: -3px;
             filter: var(--textColor6-filter);
         }
     }

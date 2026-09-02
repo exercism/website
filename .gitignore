@@ -68,3 +68,6 @@ worktrees/
 
 # Graphify knowledge graph output
 graphify-out/
+
+# Impeccable
+.impeccable/

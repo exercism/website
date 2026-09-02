@@ -51,6 +51,38 @@ export class ChatRateLimitedError extends Error {
   }
 }
 
+/**
+ * Turns a failure with no message of its own into something a student can act
+ * on. The typed errors (rate limit, usage cap, captcha) already carry their own
+ * text and are handled by the caller - this only covers the cases that would
+ * otherwise surface as raw transport text like "HTTP 500: Internal Server Error".
+ */
+export function describeChatError(error: unknown): string {
+  if (error instanceof ChatApiError) {
+    const type =
+      error.data && typeof error.data === 'object'
+        ? (error.data as Record<string, unknown>).error
+        : undefined
+
+    if (type === 'model_overloaded' || error.status === 503) {
+      return 'The assistant is overloaded. Please try again shortly.'
+    }
+    if (error.status === 504) {
+      return 'The assistant timed out. Please try again.'
+    }
+    if (error.status && error.status >= 500) {
+      return 'The assistant is unavailable. Please try again shortly.'
+    }
+  }
+
+  // Network failures surface as a TypeError from fetch, with no status.
+  if (error instanceof TypeError) {
+    return 'Connection lost. Please check your network.'
+  }
+
+  return 'Something went wrong. Please try again.'
+}
+
 export async function sendChatMessage(
   chatUrl: string,
   payload: ChatRequestPayload,

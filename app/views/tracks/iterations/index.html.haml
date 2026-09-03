@@ -17,7 +17,8 @@
           - if @exercise.has_test_runner?
             .editor
               %h4= t('.zero_state.editor_heading')
-              = link_to edit_track_exercise_path(@track, @exercise), class: 'editor-btn btn-primary btn-m' do
+              -# data-turbo: false so the editor gets a real navigation (see CrossOriginIsolation)
+              = link_to edit_track_exercise_path(@track, @exercise), class: 'editor-btn btn-primary btn-m', data: { turbo: false } do
                 = graphical_icon "editor"
                 %span= t('.zero_state.editor_button')
 

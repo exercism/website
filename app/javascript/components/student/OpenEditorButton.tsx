@@ -79,7 +79,11 @@ const Button = (props: Props & { className?: string }) => {
     case 'published':
     case 'completed':
       return props.editorEnabled ? (
-        <a href={props.links.exercise} className={props.className}>
+        <a
+          href={props.links.exercise}
+          className={props.className}
+          data-turbo="false"
+        >
           {t('openEditor.openInEditor')}
         </a>
       ) : (
@@ -89,7 +93,11 @@ const Button = (props: Props & { className?: string }) => {
       )
     default:
       return props.editorEnabled ? (
-        <a href={props.links.exercise} className={props.className}>
+        <a
+          href={props.links.exercise}
+          className={props.className}
+          data-turbo="false"
+        >
           {t('openEditor.continueInEditor')}
         </a>
       ) : (

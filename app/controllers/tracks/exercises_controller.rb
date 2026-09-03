@@ -1,11 +1,21 @@
 class Tracks::ExercisesController < ApplicationController
   include UseTrackExerciseSolutionConcern
+  include CrossOriginIsolation
+
+  # The editor needs cross-origin isolation for SharedArrayBuffer, and that only
+  # applies to a real browser navigation. Rendering the full layout (rather than
+  # the turbo_frame one) means a frame request receives a whole document, whose
+  # turbo-visit-control meta tag then tells Turbo to reload the page properly.
+  # See the meta tag in edit.html.haml.
+  layout -> { "turbo_frame" if turbo_frame_request? && action_name != "edit" }
+
   before_action :use_track!
   before_action :use_exercise!, only: %i[show start edit complete tooltip no_test_runner]
   before_action :use_solution, only: %i[show edit complete tooltip]
   before_action :cache_public_action!, only: %i[tooltip]
   before_action :cache_show_action!, only: %i[show]
   before_action :cache_index_action!, only: %i[index]
+  before_action :cross_origin_isolate!, only: %i[edit]
 
   skip_before_action :authenticate_user!, only: %i[index show tooltip]
   skip_before_action :rate_limit_for_user!, only: %i[tooltip] # Scanning over this is a lot

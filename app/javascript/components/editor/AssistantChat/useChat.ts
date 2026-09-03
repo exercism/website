@@ -5,6 +5,7 @@ import { useChatState } from './useChatState'
 import { useTurnstile } from './useTurnstile'
 import {
   sendChatMessage,
+  describeChatError,
   ChatTokenExpiredError,
   ChatUsageLimitError,
   ChatRateLimitedError,
@@ -183,9 +184,7 @@ export function useChat(
           return
         }
 
-        const errorMessage =
-          error instanceof Error ? error.message : 'Something went wrong'
-        chatState.setError(errorMessage)
+        chatState.setError(describeChatError(error))
         chatState.setStatus('error')
       }
     },

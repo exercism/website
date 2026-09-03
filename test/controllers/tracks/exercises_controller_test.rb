@@ -159,6 +159,62 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
     assert_template "tracks/exercises/edit"
   end
 
+  test "edit: is cross-origin isolated" do
+    user = create :user
+    track = create :track
+    exercise = create(:practice_exercise, track:, slug: "hello-world")
+
+    create(:user_track, user:, track:)
+    create(:practice_solution, user:, exercise:)
+
+    sign_in!(user)
+
+    get edit_track_exercise_url(track, exercise)
+
+    # SharedArrayBuffer needs both of these. See CrossOriginIsolation.
+    assert_equal "same-origin", response.headers["Cross-Origin-Opener-Policy"]
+    assert_equal "credentialless", response.headers["Cross-Origin-Embedder-Policy"]
+  end
+
+  test "edit: tells turbo to do a full page load" do
+    user = create :user
+    track = create :track
+    exercise = create(:practice_exercise, track:, slug: "hello-world")
+
+    create(:user_track, user:, track:)
+    create(:practice_solution, user:, exercise:)
+
+    sign_in!(user)
+
+    # Cross-origin isolation is a property of the document, so the editor is
+    # only isolated when the browser really navigates to it. Rendering into the
+    # turbo frame would silently lose it, so a frame request must still get a
+    # full document carrying the turbo-visit-control meta tag.
+    get edit_track_exercise_url(track, exercise), headers: { "Turbo-Frame" => "tf-main" }
+
+    assert_response :success
+
+    # A full document, not the bare turbo_frame layout...
+    assert_select "head"
+    # ...carrying the tag that makes Turbo hand over to a real page load.
+    assert_select "meta[name=?][content=?]", "turbo-visit-control", "reload"
+  end
+
+  test "show: still renders into the turbo frame" do
+    user = create :user
+    track = create :track
+    create(:user_track, user:, track:)
+    exercise = create(:practice_exercise, track:)
+
+    sign_in!(user)
+
+    get track_exercise_url(track, exercise), headers: { "Turbo-Frame" => "tf-main" }
+
+    assert_response :success
+    assert_select "turbo-frame#tf-main"
+    assert_select "head", count: 0
+  end
+
   test "edit: creates a solution if one is missing" do
     user = create :user
     track = create :track

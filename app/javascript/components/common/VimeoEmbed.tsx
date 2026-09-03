@@ -16,6 +16,10 @@ export default function VimeoEmbed({
         width="560"
         height="315"
         src={src}
+        // Vimeo doesn't send COEP, so on a cross-origin isolated page (the
+        // editor) this iframe would be blocked outright without this.
+        // Not in @types/react yet, hence the cast.
+        {...({ credentialless: '' } as Record<string, string>)}
         frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen

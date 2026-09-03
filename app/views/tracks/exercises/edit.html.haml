@@ -1,3 +1,12 @@
+-#
+  The editor is cross-origin isolated (see CrossOriginIsolation) so that
+  SharedArrayBuffer is available. Isolation is a property of the document, so it
+  is only granted on a real browser navigation - a Turbo visit would swap the
+  body of a non-isolated document and silently lose it. This tells Turbo to do a
+  full page load whenever it would otherwise render this page itself.
+- content_for :meta_tags do
+  %meta{ name: "turbo-visit-control", content: "reload" }
+
 - require_stylesheet "editor"
 - require_stylesheet "track"
 

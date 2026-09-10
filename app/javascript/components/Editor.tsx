@@ -149,6 +149,30 @@ export default ({
     testRunStatus === TestRunStatus.CANCELLED
   const queryClient = useQueryClient()
 
+  // Get whatever this track needs to run tests in the browser on its way
+  // while the student reads the exercise, rather than after they ask for a
+  // run. For the kernel-based tracks that is several megabytes to fetch and
+  // unpack, so it is the difference between a run starting immediately and a
+  // run starting after a visible pause.
+  useEffect(() => {
+    let released = false
+
+    import('./editor/ClientSideTestRunner/generalTestRunner')
+      .then(({ prefetch }) => {
+        if (!released) prefetch(track.slug)
+      })
+      .catch(() => {
+        // Best effort: a failure here just means the first run does the work.
+      })
+
+    return () => {
+      released = true
+      import('./editor/ClientSideTestRunner/generalTestRunner')
+        .then(({ release }) => release())
+        .catch(() => {})
+    }
+  }, [track.slug])
+
   useEffect(() => {
     if (
       status === EditorStatus.CREATING_SUBMISSION ||

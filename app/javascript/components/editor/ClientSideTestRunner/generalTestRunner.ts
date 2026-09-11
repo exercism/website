@@ -10,7 +10,8 @@ type FileMap = Record<string, string>
 interface RunTestsClientSideParams {
   trackSlug: string
   exerciseSlug: string
-  config?: { files?: FileMap }
+  // Null, not just absent, when the exercise has no local test runner config.
+  config?: { files?: FileMap } | null
   files: File[]
   signal?: AbortSignal
 }
@@ -26,7 +27,7 @@ interface RunTestsClientSideParams {
 export async function runTestsClientSide({
   trackSlug,
   exerciseSlug,
-  config = {},
+  config,
   files,
   signal,
 }: RunTestsClientSideParams): Promise<OutputInterface | null> {
@@ -57,7 +58,7 @@ export async function runTestsClientSide({
     // The exercise's own files first, so a student can only ever overwrite
     // them with their own submission, never remove one.
     const allFiles: FileMap = {
-      ...(config.files || {}),
+      ...(config?.files || {}),
       ...studentFileMap,
     }
 

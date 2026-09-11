@@ -108,6 +108,7 @@ export default ({
   hasAvailableMentoringSlot,
   features = { theme: false, keybindings: false },
   localTestRunner,
+  experimental = false,
 }: Props): JSX.Element => {
   const editorRef = useRef<FileEditorHandle>()
   const runTestsButtonRef = useRef<HTMLButtonElement>(null)
@@ -149,12 +150,14 @@ export default ({
     testRunStatus === TestRunStatus.CANCELLED
   const queryClient = useQueryClient()
 
-  // Get whatever this track needs to run tests in the browser on its way
-  // while the student reads the exercise, rather than after they ask for a
-  // run. For the kernel-based tracks that is several megabytes to fetch and
-  // unpack, so it is the difference between a run starting immediately and a
-  // run starting after a visible pause.
+  // Get whatever this track needs to run tests in the browser on its way while
+  // the student reads the exercise, rather than after they ask for a run. For
+  // the kernel-based tracks that is several megabytes to fetch and unpack, so
+  // it is the difference between a run starting immediately and a run starting
+  // after a visible pause.
   useEffect(() => {
+    if (!experimental) return
+
     let released = false
 
     import('./editor/ClientSideTestRunner/generalTestRunner')
@@ -171,7 +174,7 @@ export default ({
         .then(({ release }) => release())
         .catch(() => {})
     }
-  }, [track.slug])
+  }, [experimental, track.slug])
 
   useEffect(() => {
     if (
@@ -187,19 +190,21 @@ export default ({
     dispatch({ status: EditorStatus.CREATING_SUBMISSION })
 
     let testResults: any = null
-    try {
-      const { runTestsClientSide } = await import(
-        './editor/ClientSideTestRunner/generalTestRunner'
-      )
+    if (experimental) {
+      try {
+        const { runTestsClientSide } = await import(
+          './editor/ClientSideTestRunner/generalTestRunner'
+        )
 
-      testResults = await runTestsClientSide({
-        trackSlug: track.slug,
-        exerciseSlug: exercise.slug,
-        config: localTestRunner,
-        files,
-      })
-    } catch (e) {
-      console.warn('There was an error running tests clientside:', e)
+        testResults = await runTestsClientSide({
+          trackSlug: track.slug,
+          exerciseSlug: exercise.slug,
+          config: localTestRunner,
+          files,
+        })
+      } catch (e) {
+        console.warn('There was an error running tests clientside:', e)
+      }
     }
 
     createSubmission(
@@ -240,7 +245,7 @@ export default ({
         },
       }
     )
-  }, [createSubmission, dispatch, files])
+  }, [createSubmission, dispatch, experimental, files])
 
   const showFeedbackModal = useCallback(() => {
     setFeedbackModalOpen(true)

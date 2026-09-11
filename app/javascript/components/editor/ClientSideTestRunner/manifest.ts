@@ -3,9 +3,9 @@ import { ManifestEntry } from './types'
 /**
  * Which languages can run their tests in the browser, and what to load.
  *
- * Served same-origin from `/test-runners/`, which Cloudflare routes to the
- * assets CloudFront distribution. Same-origin is not incidental: `new Worker()`
- * only accepts a same-origin script URL, and the kernel runs in a worker.
+ * Served same-origin from `/test-runners/`, which the website reads out of S3
+ * and serves itself. Same-origin is not incidental: `new Worker()` only accepts
+ * a same-origin script URL, and the kernel runs in a worker.
  *
  * `<language>/latest.json` is cached for a minute; everything it points at is
  * immutable and cached for a year. So this fetch is cheap, and it is what lets
@@ -32,11 +32,29 @@ export function lookup(language: string): Promise<ManifestEntry | null> {
 
   const request = fetch(`${BASE}${language}/latest.json`)
     .then((response) => (response.ok ? response.json() : null))
-    .then((entry) => (isValid(entry) ? entry : null))
+    .then((entry) => (isValid(entry) ? resolve(entry) : null))
     .catch(() => null)
 
   cache.set(language, request)
   return request
+}
+
+/**
+ * The manifest holds root-relative paths, so that what is published says
+ * nothing about which host serves it. Resolving them here means everything
+ * downstream deals in absolute URLs and never has to think about it.
+ */
+function resolve(entry: ManifestEntry): ManifestEntry {
+  const absolute = (path: string) =>
+    new URL(path, globalThis.location.href).href
+
+  return {
+    ...entry,
+    kernel: absolute(entry.kernel),
+    boot: absolute(entry.boot),
+    sysroot: absolute(entry.sysroot),
+    testRunner: absolute(entry.testRunner),
+  }
 }
 
 /**

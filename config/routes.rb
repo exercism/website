@@ -172,6 +172,10 @@ Rails.application.routes.draw do
     resources :site_updates, except: [:destroy]
     resources :track_maintainers, only: %i[index create]
     resources :track_categories, only: %i[index create]
+
+    # The editor, with experimental features turned on. Exists so they can be
+    # exercised against a real exercise without being exposed to students.
+    resources :experimental_editors, only: %i[index show], param: :exercise_slug
   end
 
   namespace :localization do
@@ -306,16 +310,15 @@ Rails.application.routes.draw do
   get "ihid", to: 'pages#ihid'
   get "javascript-browser-test-runner-worker.mjs", to: 'pages#javascript_browser_test_runner_worker'
 
-  # Client-side test runner artifacts. In production these never reach Rails:
-  # Cloudflare routes /test-runners/* to the assets CloudFront distribution, so
-  # the browser gets them same-origin without the app being involved.
+  # Client-side test runner artifacts, read from S3 and served from our own
+  # origin - which is the whole point, since the editor boots the wasm kernel in
+  # a worker and `new Worker()` refuses a cross-origin URL. Cloudflare caches
+  # the result, so this is not a hot path. See PagesController.
   #
-  # Nothing serves them anywhere else though, so without this the editor's
-  # manifest lookup raises a routing error in dev and test - which Capybara
-  # turns into a failed system test. A 404 is the honest answer: it is exactly
-  # what the runner reads as "this track has no client-side runner", and it
-  # falls back to running the tests on the server.
-  get "test-runners/*path", to: 'pages#test_runner_artifact'
+  # format: false because a glob segment otherwise swallows the extension as a
+  # format - "jq/latest.json" arrives as "jq/latest" - and these are real
+  # filenames in a bucket, not formats of a resource.
+  get "test-runners/*path", to: 'pages#test_runner_artifact', format: false
   root to: "pages#index"
 
   ##############

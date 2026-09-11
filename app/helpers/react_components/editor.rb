@@ -1,6 +1,10 @@
 module ReactComponents
   class Editor < ReactComponent
-    initialize_with :solution
+    # experimental opts this editor in to features that are not ready for
+    # students. It is false for the real editor, and true only on the
+    # maintainers' page that exists to try them - so work behind the flag can
+    # ship without touching what students use.
+    initialize_with :solution, experimental: false
     def to_s
       super("editor", data)
     end
@@ -10,6 +14,7 @@ module ReactComponents
         default_submissions: submissions,
         default_files: SerializeEditorFiles.(solution.files_for_editor),
         insider: solution.user.insider?,
+        experimental:,
         assistant_chat:,
         default_settings: {
           tab_size: track.indent_size,
@@ -102,7 +107,7 @@ module ReactComponents
     end
 
     def local_test_runner
-      Solution::GenerateTestRunConfig.(solution)
+      Solution::GenerateTestRunConfig.(solution, experimental:)
     end
 
     def mark_video_as_seen_endpoint

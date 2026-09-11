@@ -118,7 +118,7 @@ class PagesController < ApplicationController
     head :not_found
   end
 
-def javascript_browser_test_runner_worker
+  def javascript_browser_test_runner_worker
     base_path = Rails.root.join('node_modules', '@exercism', 'javascript-browser-test-runner')
     # extract version from the installed package.json file
     pkg_path = base_path.join('package.json')

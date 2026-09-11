@@ -125,6 +125,7 @@ export default ({
   const [hasLatestIteration, setHasLatestIteration] = useState(false)
   const {
     create: createSubmission,
+    begin: beginSubmission,
     current: submission,
     set: setSubmission,
     remove: removeSubmission,
@@ -188,6 +189,10 @@ export default ({
 
   const runTests = useCallback(async () => {
     dispatch({ status: EditorStatus.CREATING_SUBMISSION })
+    // The results panel only knows a run is happening once there is a
+    // submission with a queued test run. Say so now, before a client-side run
+    // that may take seconds, rather than leaving it to createSubmission after.
+    beginSubmission()
 
     let testResults: any = null
     if (experimental) {
@@ -245,7 +250,7 @@ export default ({
         },
       }
     )
-  }, [createSubmission, dispatch, experimental, files])
+  }, [beginSubmission, createSubmission, dispatch, experimental, files])
 
   const showFeedbackModal = useCallback(() => {
     setFeedbackModalOpen(true)

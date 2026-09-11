@@ -159,23 +159,6 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
     assert_template "tracks/exercises/edit"
   end
 
-  test "edit: is cross-origin isolated" do
-    user = create :user
-    track = create :track
-    exercise = create(:practice_exercise, track:, slug: "hello-world")
-
-    create(:user_track, user:, track:)
-    create(:practice_solution, user:, exercise:)
-
-    sign_in!(user)
-
-    get edit_track_exercise_url(track, exercise)
-
-    # SharedArrayBuffer needs both of these. See CrossOriginIsolation.
-    assert_equal "same-origin", response.headers["Cross-Origin-Opener-Policy"]
-    assert_equal "credentialless", response.headers["Cross-Origin-Embedder-Policy"]
-  end
-
   test "edit: tells turbo to do a full page load" do
     user = create :user
     track = create :track

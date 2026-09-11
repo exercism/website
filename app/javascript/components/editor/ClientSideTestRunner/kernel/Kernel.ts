@@ -69,7 +69,7 @@ export class Kernel {
       throw new UnsupportedError(
         'Client-side test runs need a cross-origin isolated page ' +
           '(Cross-Origin-Opener-Policy: same-origin, ' +
-          'Cross-Origin-Embedder-Policy: credentialless).'
+          'Cross-Origin-Embedder-Policy: require-corp).'
       )
     }
 

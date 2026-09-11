@@ -106,7 +106,7 @@ class PagesController < ApplicationController
     # worker script has to declare a policy compatible with its owner's - this
     # is required even though the script is same-origin. Without it the worker
     # refuses to start, and reports nothing more useful than "error".
-    response.set_header("Cross-Origin-Embedder-Policy", "credentialless")
+    response.set_header("Cross-Origin-Embedder-Policy", "require-corp")
     response.set_header("Cross-Origin-Resource-Policy", "same-origin")
 
     send_data object.body.read, type: artifact_content_type(key), disposition: :inline

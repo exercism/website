@@ -23,6 +23,7 @@ export const useSubmissionsList = (
     params: CreateSubmissionParams,
     config?: { onSuccess: () => void; onError: (error: unknown) => void }
   ) => void
+  begin: () => void
   set: (uuid: string, data: Submission) => void
   remove: (uuid: string) => void
 } => {
@@ -90,8 +91,14 @@ export const useSubmissionsList = (
     [setList]
   )
 
-  // append a faux submission at the moment someone clicks "Run Tests"
-  // to force the UI into the "Running tests" state
+  // Append a faux submission to force the UI into the "Running tests" state.
+  //
+  // Everything on the results side keys off `current.testRun.status`, so this
+  // is how the panel shows a run is in flight before there is a real
+  // submission to show. `create` appends one just before its POST, which is
+  // instant enough when the tests run on the server. When they run in the
+  // browser the run happens *before* the POST, so the caller appends it at
+  // the click instead, via `begin`. Either way there is only ever one.
   const appendFaux = useCallback(() => {
     const fauxSubmission: Submission = {
       testsStatus: SubmissionTestsStatus.NOT_QUEUED,
@@ -105,28 +112,32 @@ export const useSubmissionsList = (
       },
     }
 
-    setList((prev) => [
-      ...prev,
-      {
-        ...fauxSubmission,
-        testRun: {
-          uuid: null,
-          submissionUuid: fauxSubmission.uuid,
-          version: 0,
-          status: TestRunStatus.QUEUED,
-          tests: [],
-          message: '',
-          messageHtml: '',
-          output: '',
-          outputHtml: '',
-          highlightjsLanguage: '',
-          links: {
-            self: '',
+    setList((prev) => {
+      if (prev.some((s) => s.uuid === fauxSubmission.uuid)) return prev
+
+      return [
+        ...prev,
+        {
+          ...fauxSubmission,
+          testRun: {
+            uuid: null,
+            submissionUuid: fauxSubmission.uuid,
+            version: 0,
+            status: TestRunStatus.QUEUED,
+            tests: [],
+            message: '',
+            messageHtml: '',
+            output: '',
+            outputHtml: '',
+            highlightjsLanguage: '',
+            links: {
+              self: '',
+            },
+            tasks: [],
           },
-          tasks: [],
         },
-      },
-    ])
+      ]
+    })
   }, [setList])
 
   const remove = useCallback(
@@ -164,5 +175,5 @@ export const useSubmissionsList = (
       })
   }, [set])
 
-  return { current, create, set, remove }
+  return { current, create, begin: appendFaux, set, remove }
 }

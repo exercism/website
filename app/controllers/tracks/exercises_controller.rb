@@ -1,5 +1,14 @@
 class Tracks::ExercisesController < ApplicationController
   include UseTrackExerciseSolutionConcern
+
+  # Kept for when the editor is cross-origin isolated again - see
+  # CrossOriginIsolation, currently used only by the maintainers' experimental
+  # editor. Isolation applies only to a real browser navigation, so rendering
+  # the full layout (rather than the turbo_frame one) means a frame request
+  # receives a whole document, whose turbo-visit-control meta tag then tells
+  # Turbo to reload the page properly. See the meta tag in edit.html.haml.
+  layout -> { "turbo_frame" if turbo_frame_request? && action_name != "edit" }
+
   before_action :use_track!
   before_action :use_exercise!, only: %i[show start edit complete tooltip no_test_runner]
   before_action :use_solution, only: %i[show edit complete tooltip]

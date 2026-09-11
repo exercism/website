@@ -13,7 +13,8 @@
 
     - if exercise.has_test_runner?
       %h4= t('.via_editor_heading')
-      = link_to edit_track_exercise_path(track, exercise), class: "editor-btn btn-primary btn-m" do
+      -# data-turbo: false so the editor gets a real navigation (see CrossOriginIsolation)
+      = link_to edit_track_exercise_path(track, exercise), class: "editor-btn btn-primary btn-m", data: { turbo: false } do
         = graphical_icon :editor
         = t('.start_in_editor_button')
 

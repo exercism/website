@@ -1,0 +1,12 @@
+-#
+  Cross-origin isolation is a property of the document and is only granted on a
+  real navigation, so a Turbo visit would swap the body of a non-isolated
+  document and silently lose it - taking SharedArrayBuffer, and the kernel, with
+  it. This tells Turbo to do a full page load. Same as tracks/exercises/edit.
+- content_for :meta_tags do
+  %meta{ name: "turbo-visit-control", content: "reload" }
+
+- require_stylesheet "editor"
+- require_stylesheet "track"
+
+= ReactComponents::Editor.new(@solution, experimental: true)

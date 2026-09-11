@@ -1,8 +1,27 @@
 class PagesController < ApplicationController
   skip_before_action :authenticate_user!
-  protect_from_forgery except: :javascript_browser_test_runner_worker
+  # Rails raises InvalidCrossOriginRequest for any non-XHR GET that responds
+  # with a JavaScript content type, whatever its origin. The kernel is loaded by
+  # a dynamic import(), which is not an XHR, so serving it trips that check.
+  protect_from_forgery except: %i[javascript_browser_test_runner_worker test_runner_artifact]
 
   before_action :cache_public_action!, only: %i[index]
+
+  # Guessed content types break the editor: WebAssembly.instantiateStreaming
+  # rejects anything that is not application/wasm, and a module worker needs a
+  # JavaScript type. S3's own metadata is not trusted for the same reason.
+  ARTIFACT_CONTENT_TYPES = {
+    ".wasm" => "application/wasm",
+    ".mjs" => "text/javascript",
+    ".js" => "text/javascript",
+    ".json" => "application/json",
+    ".tar" => "application/x-tar"
+  }.freeze
+
+  # Only the shapes we publish. S3 keys are literal so dot segments are not
+  # traversal, but there is no reason to pass them on either.
+  SAFE_ARTIFACT_PATH = %r{\A[a-zA-Z0-9][a-zA-Z0-9._/-]*\z}
+  private_constant :ARTIFACT_CONTENT_TYPES, :SAFE_ARTIFACT_PATH
 
   def index
     return redirect_to dashboard_path if user_signed_in?
@@ -53,6 +72,52 @@ class PagesController < ApplicationController
     render json: { "Hello": "iHiD" } if stale
   end
 
+  # Client-side test runner artifacts: the wasm kernel, and the per-language
+  # sysroots and runner tarballs the editor boots to run tests in the browser.
+  #
+  # These have to come from our own origin. `new Worker()` refuses a
+  # cross-origin script URL - no header lifts that - and the editor runs the
+  # kernel in a worker, so serving them from the assets host is not an option.
+  # Nothing else can put them on this origin either: exercism.org resolves to
+  # the ALB, and rerouting a path at the edge needs Cloudflare features we do
+  # not have. So the app reads them from S3 and serves the bytes itself.
+  #
+  # That is cheaper than it sounds. Everything here is immutable and cached by
+  # Cloudflare, including for logged-in users, so a given artifact is read from
+  # here roughly once per edge location per release.
+  def test_runner_artifact
+    return head :not_found unless test_runners_bucket
+
+    path = params[:path].to_s
+    return head :not_found unless SAFE_ARTIFACT_PATH.match?(path)
+    return head :not_found if path.include?("..")
+
+    key = "test-runners/#{path}"
+
+    object = Exercism.s3_client.get_object(bucket: test_runners_bucket, key:)
+
+    # latest.json is the only mutable object - it is how a language is pointed
+    # at a new build - so it gets a short life. Everything it points at lives
+    # under a uuid and never changes.
+    cache_control = key.end_with?("latest.json") ? "public, max-age=60" : "public, max-age=31536000, immutable"
+    response.set_header("Cache-Control", cache_control)
+
+    # The kernel runs in a worker spawned by a cross-origin isolated page, and a
+    # worker script has to declare a policy compatible with its owner's - this
+    # is required even though the script is same-origin. Without it the worker
+    # refuses to start, and reports nothing more useful than "error".
+    response.set_header("Cross-Origin-Embedder-Policy", "require-corp")
+    response.set_header("Cross-Origin-Resource-Policy", "same-origin")
+
+    send_data object.body.read, type: artifact_content_type(key), disposition: :inline
+  rescue Aws::S3::Errors::ServiceError
+    # A missing key reads as AccessDenied rather than NoSuchKey, because the app
+    # can get objects but not list the bucket. Either way there is nothing to
+    # serve, and the editor treats that as "no client-side runner for this
+    # track" and runs the tests on the server instead.
+    head :not_found
+  end
+
   def javascript_browser_test_runner_worker
     base_path = Rails.root.join('node_modules', '@exercism', 'javascript-browser-test-runner')
     # extract version from the installed package.json file
@@ -64,5 +129,16 @@ class PagesController < ApplicationController
     file_path = base_path.join('output', 'javascript-browser-test-runner-worker.mjs')
 
     render file: file_path, content_type: 'application/javascript'
+  end
+
+  private
+  def artifact_content_type(key) = ARTIFACT_CONTENT_TYPES.fetch(File.extname(key), "application/octet-stream")
+
+  # Absent until the bucket is configured for the environment, which is how dev
+  # and test get a clean 404 rather than an error.
+  def test_runners_bucket
+    return nil unless Exercism.config.respond_to?(:aws_test_runners_bucket)
+
+    Exercism.config.aws_test_runners_bucket
   end
 end

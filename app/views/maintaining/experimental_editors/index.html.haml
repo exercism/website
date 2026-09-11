@@ -1,0 +1,20 @@
+- require_stylesheet "maintaining"
+
+#page-maintaining-dashboard
+  .lg-container.container
+    %h1 Experimental editor
+
+    %p
+      The normal editor, with experimental features turned on. Right now that
+      means running the tests in the browser on a wasm kernel, rather than
+      sending them to the tooling fleet.
+    %p
+      Students never see this: the editor they use passes the flag as false and
+      is unchanged.
+
+    .links
+      %h2= "#{@track.title} exercises"
+      %ul
+        - @exercises.each do |exercise|
+          %li
+            = link_to exercise.title, maintaining_experimental_editor_path(exercise.slug)

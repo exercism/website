@@ -86,6 +86,13 @@ type Help = {
 export type Props = {
   timeout?: number
   insider: boolean
+  /**
+   * Opt this editor in to features that are not ready for students yet.
+   *
+   * False everywhere but the maintainers' page that exists to exercise them, so
+   * a change behind this flag can ship without touching the normal editor.
+   */
+  experimental?: boolean
   defaultSubmissions: Submission[]
   assistantChat: AssistantChatConfig
   defaultFiles: File[]

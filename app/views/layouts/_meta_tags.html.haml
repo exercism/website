@@ -42,7 +42,11 @@
 %link{ rel: "icon", type: "image/png", sizes: "32x32", href: "#{Exercism.config.website_icons_host}/meta/favicon-32x32.png" }
 %link{ rel: "icon", type: "image/png", sizes: "16x16", href: "#{Exercism.config.website_icons_host}/meta/favicon-16x16.png" }
 - if Rails.env.production?
-  %link{ rel: "manifest", href: "/site.webmanifest" }
+  -#
+    crossorigin: use-credentials so the fetch carries cookies. A manifest is
+    fetched without them by default, and Cloudflare challenges the cookieless
+    request, so the manifest comes back as a 403.
+  %link{ rel: "manifest", href: "/site.webmanifest", crossorigin: "use-credentials" }
 
 -# RSS: See: https://rknight.me/blog/please-expose-your-rss/
 %link{ rel: "alternate", type: "application/rss+xml", title: "Exercism's Blog", href: blog_posts_url(format: :rss) }

@@ -27,6 +27,10 @@ export const loadLanguageCompartment = async (
       const { gleam } = await import('@exercism/codemirror-lang-gleam')
       return compartment.of(gleam())
     }
+    case 'go': {
+      const { go } = await import('@codemirror/lang-go')
+      return compartment.of(go())
+    }
     case 'javascript':
     case 'typescript': {
       const { javascript } = await import('@codemirror/lang-javascript')
@@ -157,10 +161,6 @@ export const loadLanguageCompartment = async (
     case 'gnu-apl': {
       const { apl } = await import('@codemirror/legacy-modes/mode/apl')
       return compartment.of(StreamLanguage.define(apl))
-    }
-    case 'go': {
-      const { go } = await import('@codemirror/legacy-modes/mode/go')
-      return compartment.of(StreamLanguage.define(go))
     }
     case 'groovy': {
       const { groovy } = await import('@codemirror/legacy-modes/mode/groovy')

@@ -1102,6 +1102,17 @@
     "@lezer/common" "^1.0.2"
     "@lezer/css" "^1.1.7"
 
+"@codemirror/lang-go@^6.0.1":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/@codemirror/lang-go/-/lang-go-6.0.1.tgz#598222c90f56eae28d11069c612ca64d0306b057"
+  integrity sha512-7fNvbyNylvqCphW9HD6WFnRpcDjr+KXX/FgqXy5H5ZS0eC5edDljukm/yNgYkwTsgp2busdod50AOTIy6Jikfg==
+  dependencies:
+    "@codemirror/autocomplete" "^6.0.0"
+    "@codemirror/language" "^6.6.0"
+    "@codemirror/state" "^6.0.0"
+    "@lezer/common" "^1.0.0"
+    "@lezer/go" "^1.0.0"
+
 "@codemirror/lang-html@^6.0.0":
   version "6.4.9"
   resolved "https://registry.yarnpkg.com/@codemirror/lang-html/-/lang-html-6.4.9.tgz#d586f2cc9c341391ae07d1d7c545990dfa069727"
@@ -1853,6 +1864,15 @@
     "@lezer/common" "^1.2.0"
     "@lezer/highlight" "^1.0.0"
     "@lezer/lr" "^1.0.0"
+
+"@lezer/go@^1.0.0":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@lezer/go/-/go-1.0.1.tgz#3004b54f5e4c9719edcba98653f380baf8c0d1a2"
+  integrity sha512-xToRsYxwsgJNHTgNdStpcvmbVuKxTapV0dM0wey1geMMRc9aggoVyKgzYp41D2/vVOx+Ii4hmE206kvxIXBVXQ==
+  dependencies:
+    "@lezer/common" "^1.2.0"
+    "@lezer/highlight" "^1.0.0"
+    "@lezer/lr" "^1.3.0"
 
 "@lezer/highlight@^1.0.0", "@lezer/highlight@^1.1.3", "@lezer/highlight@^1.2.0":
   version "1.2.1"

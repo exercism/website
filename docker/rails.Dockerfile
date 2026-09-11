@@ -9,10 +9,6 @@ ENV NODE_ENV=production
 ENV NODE_OPTIONS="--max-old-space-size=6144"
 ENV NODE_MAJOR=22
 
-# Debian bullseye is EOL, so its security repo's Release file is expired and
-# apt rejects the index outright. Accept the stale metadata so builds proceed.
-RUN echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99no-check-valid-until
-
 RUN apt-get update && \
     apt-get install -y ca-certificates curl gnupg && \
     mkdir -p /etc/apt/keyrings && \
@@ -78,10 +74,6 @@ FROM ruby:3.4.4-bookworm AS runtime
 
 ENV RAILS_ENV=production
 ENV NODE_ENV=production
-
-# Debian bullseye is EOL, so its security repo's Release file is expired and
-# apt rejects the index outright. Accept the stale metadata so builds proceed.
-RUN echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99no-check-valid-until
 
 RUN apt-get update && \
     apt-get install -y graphicsmagick libvips42

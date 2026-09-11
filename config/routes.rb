@@ -305,6 +305,17 @@ Rails.application.routes.draw do
 
   get "ihid", to: 'pages#ihid'
   get "javascript-browser-test-runner-worker.mjs", to: 'pages#javascript_browser_test_runner_worker'
+
+  # Client-side test runner artifacts. In production these never reach Rails:
+  # Cloudflare routes /test-runners/* to the assets CloudFront distribution, so
+  # the browser gets them same-origin without the app being involved.
+  #
+  # Nothing serves them anywhere else though, so without this the editor's
+  # manifest lookup raises a routing error in dev and test - which Capybara
+  # turns into a failed system test. A 404 is the honest answer: it is exactly
+  # what the runner reads as "this track has no client-side runner", and it
+  # falls back to running the tests on the server.
+  get "test-runners/*path", to: 'pages#test_runner_artifact'
   root to: "pages#index"
 
   ##############

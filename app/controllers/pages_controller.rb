@@ -53,6 +53,12 @@ class PagesController < ApplicationController
     render json: { "Hello": "iHiD" } if stale
   end
 
+  # See the route: these are served by Cloudflare in production and by nothing
+  # at all anywhere else.
+  def test_runner_artifact
+    head :not_found
+  end
+
   def javascript_browser_test_runner_worker
     base_path = Rails.root.join('node_modules', '@exercism', 'javascript-browser-test-runner')
     # extract version from the installed package.json file

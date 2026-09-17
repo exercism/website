@@ -15,6 +15,7 @@ export const ResultsPanel = ({
   isSubmitDisabled,
   testRunner,
   hasCancelled,
+  isCancellable = false,
 }: {
   submission: Submission | null
   timeout: number
@@ -24,6 +25,7 @@ export const ResultsPanel = ({
   isSubmitDisabled: boolean
   testRunner: TestRunner
   hasCancelled: boolean
+  isCancellable?: boolean
 }): JSX.Element => {
   const { t } = useAppTranslation('components/editor/panels')
   return (
@@ -44,6 +46,7 @@ export const ResultsPanel = ({
             onUpdate={onUpdate}
             onSubmit={onSubmit}
             isSubmitDisabled={isSubmitDisabled}
+            isCancellable={isCancellable}
           />
         </section>
       ) : (

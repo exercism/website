@@ -1,5 +1,6 @@
 import { File } from '../../types'
 import { runTests } from './clientSideRunner'
+import { AbortedRunError } from './kernel/errors'
 import { OutputInterface } from './types'
 
 export { prefetch, release } from './clientSideRunner'
@@ -70,6 +71,9 @@ export async function runTestsClientSide({
       signal
     )
   } catch (error) {
+    // Not a failure: `null` would mean "run it on the server", which cancelling isn't.
+    if (error instanceof AbortedRunError) throw error
+
     console.error('runTestsClientSide failed:', error)
     return null
   }

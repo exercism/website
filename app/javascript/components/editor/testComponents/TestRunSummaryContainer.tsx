@@ -15,6 +15,7 @@ export const TestRunSummaryContainer = ({
   onSubmit,
   isSubmitDisabled,
   cancelLink,
+  isCancellable = false,
 }: {
   testRun: TestRun
   testRunner: TestRunner
@@ -23,6 +24,7 @@ export const TestRunSummaryContainer = ({
   onSubmit: () => void
   isSubmitDisabled: boolean
   cancelLink: string
+  isCancellable?: boolean
 }): JSX.Element | null => {
   const { data } = useRequestQuery<{ testRun: TestRun }>(
     [`test-run-${testRun.submissionUuid}`],
@@ -55,7 +57,8 @@ export const TestRunSummaryContainer = ({
   const cancel = useCallback(() => {
     setTestRun({ ...testRun, status: TestRunStatus.CANCELLED })
 
-    fetchJSON(cancelLink, { method: 'PATCH' })
+    // A faux submission has no server-side run to PATCH, and an empty link 404s.
+    if (cancelLink) fetchJSON(cancelLink, { method: 'PATCH' })
   }, [cancelLink, setTestRun, JSON.stringify(testRun)])
 
   useEffect(() => {
@@ -112,6 +115,7 @@ export const TestRunSummaryContainer = ({
       isSubmitDisabled={isSubmitDisabled}
       onCancel={cancel}
       showSuccessBox={true}
+      isCancellable={isCancellable}
     />
   )
 }

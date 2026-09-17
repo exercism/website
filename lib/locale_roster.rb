@@ -32,6 +32,16 @@ module LocaleRoster
     def wip?(locale) = served?(locale) && !production?(locale)
     def default?(locale) = locale&.to_sym == default
 
+    # The URL prefix for a locale. English is naked, so it has none.
+    def path_segment(locale)
+      return nil if locale.blank? || default?(locale)
+
+      locale.to_s
+    end
+
+    # Matches the locale path segment. English is never prefixed.
+    def route_constraint = Regexp.union((known - [default]).map(&:to_s))
+
     def reload! = @data = nil
 
     private

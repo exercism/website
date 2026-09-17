@@ -35,7 +35,7 @@ module Flows
         use_capybara_host do
           sign_in!(user)
           visit dashboard_path
-          wait_for_websockets
+          wait_for_websocket_subscriptions
 
           create :mentor_started_discussion_notification, user:, params: { discussion: }, status: :unread
 

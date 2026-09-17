@@ -98,7 +98,7 @@ module Flows
       use_capybara_host do
         sign_in!(user)
         visit dashboard_path
-        wait_for_websockets
+        wait_for_websocket_subscriptions
         create :user_code_review_reputation_token,
           user:,
           created_at: 2.days.ago,

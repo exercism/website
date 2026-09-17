@@ -36,6 +36,8 @@ class Solution::CachedSerializedView::Retrieve
 
   def cache_key
     uuid = solution.uuid
-    "solution-view/#{uuid[0, 2]}/#{uuid[2, 2]}/#{uuid}/#{solution.updated_at.to_i}.json"
+    # The payload holds links, which carry the locale.
+    locale = ".#{I18n.locale}" unless LocaleRoster.default?(I18n.locale)
+    "solution-view/#{uuid[0, 2]}/#{uuid[2, 2]}/#{uuid}/#{solution.updated_at.to_i}#{locale}.json"
   end
 end

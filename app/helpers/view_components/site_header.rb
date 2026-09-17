@@ -24,7 +24,7 @@ module ViewComponents
       return html if user_signed_in?
 
       # Cache the header for signed-out users to improve performance
-      cache_key = "site-header-2"
+      cache_key = "site-header-2/#{TranslationStore.cache_key}"
       Rails.cache.fetch(cache_key, expires_in: 1.day) do
         html
       end

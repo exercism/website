@@ -16,6 +16,8 @@ class Cache::GenerateEtag
   def extra_args
     [
       Cache::KeyForFooter.(current_user),
+      # The locale and its catalog hashes, so a published translation fix is never a 304
+      TranslationStore.cache_key,
       current_user&.preferences&.theme
     ].compact
   end

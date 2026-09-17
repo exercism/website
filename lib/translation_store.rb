@@ -45,6 +45,12 @@ module TranslationStore
       "#{Rails.application.config.asset_host}/#{PUBLISHED_PREFIX}/website/#{locale}/frontend-#{hash}.json"
     end
 
+    # Goes in every cache key and ETag that covers rendered text, so that
+    # no locale is served another's text, and publishing a fix busts them.
+    def cache_key(locale = I18n.locale)
+      [locale, *CATALOG_KINDS.map { |kind| current_hash(locale, kind) }].compact.join("-")
+    end
+
     def catalog_path(locale, kind, hash) = root / "website" / locale.to_s / "#{kind}-#{hash}.json"
 
     def content_path(locale, blob_id, extension)

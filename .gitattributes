@@ -5,6 +5,11 @@
 *.jpg binary
 *.webp binary
 *.gif binary
+# Fonts are binary too: the `text` rule above once CRLF-mangled a woff2
+# on commit, and Chrome refused the font.
+*.woff2 binary
+*.woff binary
+*.ttf binary
 
 # The bare repositories used for testing purposes
 # should be treated as binary files

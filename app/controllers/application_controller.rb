@@ -228,15 +228,21 @@ class ApplicationController < ActionController::Base
 
     {
       default:,
-      connect: ["'self'", websockets, spellchecker, sentry],
+      connect: ["'self'", websockets, spellchecker, sentry, "https://cloudflareinsights.com"],
       img: %w['self' data: https://*],
       media: %w[*],
-      script: default + [stripe, spellchecker, *captcha],
-      frame: [stripe, *captcha],
+      # 'wasm-unsafe-eval' is what compiling the client-side test runner's
+      # kernel needs; it permits WebAssembly only, not eval().
+      script: default + ["'wasm-unsafe-eval'", stripe, spellchecker, *captcha,
+                         "https://challenges.cloudflare.com", "https://static.cloudflareinsights.com"],
+      frame: [stripe, *captcha, "https://challenges.cloudflare.com", "https://player.vimeo.com"],
       font: default + [fontawesome],
       style: default + ["'unsafe-inline'", fontawesome],
+      # The client-side test runner boots a wasm kernel in a Worker whose
+      # script is served from /test-runners/ on our own origin. Nothing else
+      # here creates workers, and no worker is ever loaded cross-origin.
+      worker: %w['self'],
       child: %w['none']
-
     }.map do |type, domains|
       "#{type}-src #{domains.join(' ')}"
     end.join("; ")

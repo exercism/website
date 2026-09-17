@@ -1,5 +1,9 @@
 - if canonical_url.present?
   %link{ rel: "canonical", href: canonical_url }
+- hreflang_alternates.each do |hreflang, href|
+  %link{ rel: "alternate", hreflang: hreflang, href: href }
+- if noindex_locale?
+  %meta{ name: "robots", content: "noindex" }
 
 = csrf_meta_tags
 = csp_meta_tag

@@ -10,6 +10,7 @@ require 'json'
 #   planned:    known, but not served anywhere.
 module LocaleRoster
   STATUSES = %w[production wip planned].freeze
+  RTL_LANGUAGES = %w[ar dv fa he ku ps sd ug ur yi].freeze
   PATH = File.expand_path('../config/locale_roster.json', __dir__)
 
   class << self
@@ -31,6 +32,10 @@ module LocaleRoster
     def production?(locale) = production.include?(locale&.to_sym)
     def wip?(locale) = served?(locale) && !production?(locale)
     def default?(locale) = locale&.to_sym == default
+
+    # TODO(iHiD): OPEN. Whether RTL is in scope for launch. The direction is
+    # declared on <html> either way, but no stylesheet is RTL-aware yet.
+    def direction(locale) = RTL_LANGUAGES.include?(locale.to_s.split("-").first) ? "rtl" : "ltr"
 
     # The URL prefix for a locale. English is naked, so it has none.
     def path_segment(locale)

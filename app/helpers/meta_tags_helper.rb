@@ -23,9 +23,25 @@ module MetaTagsHelper
     content_for?(:meta_url) ? content_for(:meta_url) : request.original_url.gsub(%r{/$}, "")
   end
 
+  # Pages are self-canonical: /hu/tracks canonicalises to itself, never to /tracks.
   def canonical_url
-    content_for(:canonical_url).presence
+    return content_for(:canonical_url) if content_for?(:canonical_url)
+    return unless locale_scoped_route?
+
+    "#{request.base_url}#{request.path}".delete_suffix("/")
   end
+
+  def hreflang_alternates
+    return {} unless canonical_url.present? && locale_scoped_route? && !noindex_locale?
+
+    Locale::Alternates.(canonical_url)
+  end
+
+  # Work in progress locales stay out of search engines.
+  def noindex_locale? = !LocaleRoster.production?(I18n.locale)
+
+  def html_lang = LocaleRoster.default?(I18n.locale) ? "en-US" : I18n.locale.to_s
+  def html_dir = LocaleRoster.direction(I18n.locale)
 
   def track_meta_tags(user_track)
     content_for :meta_title, "#{user_track.track_title} on Exercism"

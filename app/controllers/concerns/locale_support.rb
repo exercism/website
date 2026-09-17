@@ -2,7 +2,7 @@ module LocaleSupport
   extend ActiveSupport::Concern
 
   included do
-    helper_method :current_locale, :url_for_locale, :path_for_locale
+    helper_method :current_locale, :url_for_locale, :path_for_locale, :locale_scoped_route?
   end
 
   def current_locale = I18n.locale

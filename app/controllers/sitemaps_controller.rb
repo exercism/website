@@ -129,15 +129,25 @@ class SitemapsController < ApplicationController
   # simply expire.
   def cache_sitemap! = cache_public_action!(edge_ttl: 1.day)
 
+  # Every production locale gets its own <url>, and every one of them
+  # carries the same set of alternates as the page's <head> does.
   def pages_to_xml(pages)
     builder = Nokogiri::XML::Builder.new do |xml|
-      xml.urlset(xmlns: "http://www.sitemaps.org/schemas/sitemap/0.9") do
+      xml.urlset(xmlns: "http://www.sitemaps.org/schemas/sitemap/0.9", "xmlns:xhtml": "http://www.w3.org/1999/xhtml") do
         pages.each do |page|
-          xml.url do
-            xml.loc page[0]
-            xml.lastmod page[1].xmlschema
-            xml.changefreq page[2]
-            xml.priority page[3]
+          alternates = Locale::Alternates.(page[0])
+          locs = alternates.except("x-default").values.presence || [page[0]]
+
+          locs.each do |loc|
+            xml.url do
+              xml.loc loc
+              xml.lastmod page[1].xmlschema
+              xml.changefreq page[2]
+              xml.priority page[3]
+              alternates.each do |hreflang, href|
+                xml['xhtml'].link(rel: 'alternate', hreflang:, href:)
+              end
+            end
           end
         end
       end

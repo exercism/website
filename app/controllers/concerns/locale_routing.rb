@@ -13,6 +13,8 @@ module LocaleRouting
     locale = locale_from_path || I18n.default_locale
     return render_404 unless may_view_locale?(locale)
 
+    response.headers['X-Robots-Tag'] = 'noindex' unless LocaleRoster.production?(locale)
+
     I18n.with_locale(locale, &)
   end
 

@@ -37,5 +37,8 @@ module LocaleRouting
   # TODO(iHiD): OPEN. What "the user's locale" is. Today it is the single
   # user_data.locale column. Jiki's model is an explicit choice plus the
   # stored Accept-Language, with the explicit choice winning.
+  #
+  # TODO(iHiD): OPEN. Where a user picks their language. Nothing writes
+  # user_data.locale yet.
   def user_locale = normalize_locale(current_user&.locale)
 end

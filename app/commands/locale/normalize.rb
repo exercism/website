@@ -12,6 +12,9 @@ class Locale::Normalize
   #   scripts:  script subtag => variant (checked before the region)
   #   regions:  region subtag => variant
   #   fallback: any other region
+  #
+  # TODO(iHiD): OPEN. Whether split variants such as es-419/es-ES will ship.
+  # This table only does anything once the roster holds a variant.
   VARIANTS = {
     "es" => { bare: "es-419", regions: { "ES" => "es-ES", "419" => "es-419" }, fallback: "es-419" },
     "pt" => { bare: "pt-BR", regions: { "BR" => "pt-BR" }, fallback: "pt-PT" },

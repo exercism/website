@@ -22,6 +22,11 @@ module LocaleSupport
 
   def html_navigation? = request.get? && request.format.html? && !request.xhr?
 
+  # TODO(iHiD): OPEN. What a first-time signed-out visitor sees. This is
+  # the input for it. The leading idea is a one-line banner in their browser's
+  # language. It must never be a modal that opens for English speakers, and
+  # never an edge redirect, because pages are CDN-cached by URL. nil (no
+  # header, as crawlers send) must mean no banner and no redirect.
   def browser_locale = Locale::FromAcceptLanguage.(request.headers["Accept-Language"])
 
   def may_view_locale?(locale) = Locale::MayView.(locale, current_user)

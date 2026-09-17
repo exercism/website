@@ -179,6 +179,9 @@ end
 # ########################### #
 
 unless Rails.env.production?
+  # In production the assets host serves these. Locally there isn't one.
+  get "i18n/website/:catalog_locale/:filename", to: "pages#i18n_catalog", format: false, constraints: { filename: /frontend-[0-9a-f]{12}\.json/ }
+
   # TODO: Remove these before launching
   namespace :temp do
     resources :tracks, only: [:create]

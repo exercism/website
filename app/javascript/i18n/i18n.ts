@@ -1,23 +1,136 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
-import LanguageDetector from 'i18next-browser-languagedetector'
+import * as Sentry from '@sentry/react'
 
 import en from './en'
+import { DEFAULT_LOCALE, isProductionLocale } from '@/utils/locale-roster'
 
-// Initialize i18n at module load
+// English is bundled and is the fallback. Every other locale's catalog is
+// fetched from the exact, immutable URL Rails renders into the page, so
+// the browser never has to ask which version is current.
+const LOCALE_META = 'exercism-locale'
+const CATALOG_META = 'exercism-i18n-catalog'
+
+type Catalog = Record<string, Record<string, unknown>>
+
+const loadedCatalogs = new Map<string, string>()
+const reported = new Set<string>()
+let queue: Promise<void> = Promise.resolve()
+
+function meta(name: string): string | null {
+  if (typeof document === 'undefined') return null
+
+  return (
+    document.querySelector(`meta[name="${name}"]`)?.getAttribute('content') ||
+    null
+  )
+}
+
+// The URL decides the language, and Rails tells us what it decided.
+export const pageLocale = (): string => meta(LOCALE_META) || DEFAULT_LOCALE
+const pageCatalogUrl = (): string | null => meta(CATALOG_META)
+
+// A production locale must never show English. Both of these mean it has.
+function report(kind: string, locale: string, key: string): void {
+  if (!isProductionLocale(locale)) return
+
+  const id = `${kind}:${locale}:${key}`
+  if (reported.has(id)) return
+  reported.add(id)
+
+  Sentry.captureMessage(`${kind} ${locale} translation: ${key}`, {
+    level: 'warning',
+    tags: { locale },
+    fingerprint: ['i18n-missing', locale, key],
+  })
+}
+
 if (!i18n.isInitialized) {
   i18n
-    .use(LanguageDetector)
     .use(initReactI18next)
+    .use({
+      type: 'postProcessor',
+      name: 'reportFallback',
+      process(value: string, key: string | string[], options: any) {
+        const resolved = options.i18nResolved
+        if (resolved?.usedLng && resolved.usedLng !== i18n.language) {
+          report(
+            'Missing',
+            i18n.language,
+            `${resolved.usedNS}:${resolved.usedKey}`
+          )
+        }
+        return value
+      },
+    })
     .init({
-      fallbackLng: 'en',
-      lng: 'en',
-      debug: true,
+      fallbackLng: DEFAULT_LOCALE,
+      lng: pageLocale(),
+      debug: process.env.NODE_ENV === 'development',
       interpolation: {
         escapeValue: false,
       },
       resources: {
         en,
       },
+      postProcess: ['reportFallback'],
+      postProcessPassResolved: true,
+      saveMissing: true,
+      missingKeyHandler: (_lngs, ns, key) =>
+        report('Unknown', i18n.language, `${ns}:${key}`),
     })
 }
+
+async function loadCatalog(locale: string, url: string): Promise<void> {
+  try {
+    const response = await fetch(url, { mode: 'cors' })
+    if (!response.ok) throw new Error(`${response.status} for ${url}`)
+
+    const catalog: Catalog = await response.json()
+
+    // A new catalog replaces the old one outright. It is never merged in,
+    // or keys that were removed upstream would live on until a reload.
+    Object.keys(i18n.getDataByLanguage(locale) || {}).forEach((ns) =>
+      i18n.removeResourceBundle(locale, ns)
+    )
+    Object.entries(catalog).forEach(([ns, resources]) =>
+      i18n.addResourceBundle(locale, ns, resources)
+    )
+    loadedCatalogs.set(locale, url)
+  } catch (e) {
+    // English is better than a page that never renders
+    Sentry.captureException(e)
+  }
+}
+
+export function localeIsReady(): boolean {
+  const locale = pageLocale()
+  if (i18n.language !== locale) return false
+  if (locale === DEFAULT_LOCALE) return true
+
+  const url = pageCatalogUrl()
+  return !url || loadedCatalogs.get(locale) === url
+}
+
+// Turbo keeps this module (and so the i18next instance) alive between
+// pages, so nothing here can assume the language it started with.
+export function ensureLocale(): Promise<void> {
+  queue = queue.then(async () => {
+    if (localeIsReady()) return
+
+    const locale = pageLocale()
+    const url = pageCatalogUrl()
+    if (locale !== DEFAULT_LOCALE && url) await loadCatalog(locale, url)
+    if (i18n.language !== locale) await i18n.changeLanguage(locale)
+  })
+  return queue
+}
+
+// Rendering waits for the catalog, so nobody sees a flash of English.
+export function whenLocaleReady(callback: () => void): void {
+  if (localeIsReady()) return callback()
+
+  ensureLocale().then(callback)
+}
+
+export default i18n

@@ -1,6 +1,7 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 import * as Sentry from '@sentry/react'
+import { whenLocaleReady } from '../i18n/i18n'
 import { ExercismTippy } from '../components/misc/ExercismTippy'
 import { QueryClientProvider } from '@tanstack/react-query'
 import {
@@ -300,10 +301,11 @@ const setTurboStyle = (style: string) => {
 }
 
 export function initReact(mappings: Mappings): void {
-  const renderThings = () => {
-    renderComponents(document.body, mappings)
-    renderTooltips(document.body, mappings)
-  }
+  const renderThings = () =>
+    whenLocaleReady(() => {
+      renderComponents(document.body, mappings)
+      renderTooltips(document.body, mappings)
+    })
 
   // This adds rendering for all future turbo clicks
   document.addEventListener('turbo:load', () => {

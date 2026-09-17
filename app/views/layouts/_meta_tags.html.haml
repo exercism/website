@@ -5,6 +5,12 @@
 - if noindex_locale?
   %meta{ name: "robots", content: "noindex" }
 
+-# app/javascript/i18n/i18n.ts reads these. Rendering waits for the catalog, so it is preloaded.
+%meta{ name: "exercism-locale", content: I18n.locale }
+- if frontend_catalog_url
+  %link{ rel: "preload", href: frontend_catalog_url, as: "fetch", type: "application/json", crossorigin: "anonymous" }
+  %meta{ name: "exercism-i18n-catalog", content: frontend_catalog_url }
+
 = csrf_meta_tags
 = csp_meta_tag
 = action_cable_meta_tag

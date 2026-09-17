@@ -11,6 +11,7 @@ require 'json'
 # English is never in here. It ships with the website.
 module TranslationStore
   CATALOG_KINDS = %i[backend frontend].freeze
+  PUBLISHED_PREFIX = "i18n".freeze
   HASH_FORMAT = /\A[0-9a-f]{12}\z/
   BLOB_ID_FORMAT = /\A[0-9a-f]{40}\z/
 
@@ -33,6 +34,15 @@ module TranslationStore
 
       @pointers_read_at = now
       @pointers = read_pointers
+    end
+
+    # Where the browser fetches a locale's frontend catalog from: the same
+    # key exercism/i18n uploads it under, on the assets host. Immutable,
+    # as the hash is in the URL. nil for English or when nothing is published.
+    def frontend_catalog_url(locale)
+      hash = current_hash(locale, :frontend) or return
+
+      "#{Rails.application.config.asset_host}/#{PUBLISHED_PREFIX}/website/#{locale}/frontend-#{hash}.json"
     end
 
     def catalog_path(locale, kind, hash) = root / "website" / locale.to_s / "#{kind}-#{hash}.json"

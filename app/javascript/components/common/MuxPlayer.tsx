@@ -1,6 +1,7 @@
 import React from 'react'
 import MuxPlayerReact from '@mux/mux-player-react'
 import { assembleClassNames } from '@/utils/assemble-classnames'
+import { assetUrl } from '@/utils/assets'
 
 /**
  * A Mux-hosted video, played inline.
@@ -16,16 +17,21 @@ import { assembleClassNames } from '@/utils/assemble-classnames'
 export default function MuxPlayer({
   playbackId,
   title,
+  poster,
   className,
 }: {
   playbackId: string
   title: string
+  /** An app/images path. Served from our assets host, which sends CORP;
+   *  Mux's own thumbnails don't, so they're blocked on the isolated editor. */
+  poster: string
   className?: string
 }): JSX.Element {
   return (
     <div className={assembleClassNames('c-mux-container', className)}>
       <MuxPlayerReact
         playbackId={playbackId}
+        poster={assetUrl(poster)}
         streamType="on-demand"
         crossOrigin="anonymous"
         accentColor="#604FCD"

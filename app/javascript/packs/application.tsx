@@ -305,7 +305,11 @@ export const mappings = {
 
   'common-mux-player': (data: any): JSX.Element => (
     <Suspense fallback={RenderLoader()}>
-      <MuxPlayer playbackId={data.playback_id} title={data.title} />
+      <MuxPlayer
+        playbackId={data.playback_id}
+        title={data.title}
+        poster={data.poster}
+      />
     </Suspense>
   ),
 

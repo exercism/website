@@ -47,6 +47,7 @@ function HelloWorldVideo() {
       <MuxPlayer
         playbackId={HELLO_WORLD_VIDEO.playbackId}
         title={HELLO_WORLD_VIDEO.title}
+        poster={HELLO_WORLD_VIDEO.poster}
         className="rounded-5"
       />
     </>

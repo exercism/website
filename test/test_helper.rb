@@ -209,6 +209,44 @@ class ActiveSupport::TestCase
     LocaleRoster.unstub(:served)
   end
 
+  # Publishes catalogs the way exercism/i18n's publish.mjs does, into a
+  # throwaway root. e.g. with_published_translations(hu: { backend: { greeting: "Szia" } })
+  def with_published_translations(catalogs)
+    Dir.mktmpdir do |dir|
+      TranslationStore.root = dir
+      catalogs.each do |locale, kinds|
+        kinds.each { |kind, tree| publish_translation_catalog!(locale, kind, tree) }
+      end
+      I18n.reload!
+
+      yield
+    end
+  ensure
+    TranslationStore.root = nil
+    TranslationStore.expire!
+    I18n.reload!
+  end
+
+  def travel_monotonic(seconds)
+    now = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+    Process.stubs(:clock_gettime).with(Process::CLOCK_MONOTONIC).returns(now + seconds)
+    yield
+  ensure
+    Process.unstub(:clock_gettime)
+  end
+
+  def publish_translation_catalog!(locale, kind, tree)
+    json = (kind.to_sym == :backend ? { locale => tree } : tree).to_json
+    hash = Digest::SHA256.hexdigest(json)[0, 12]
+
+    dir = TranslationStore.root / "website" / locale.to_s
+    FileUtils.mkdir_p(dir)
+    File.write(dir / "#{kind}-#{hash}.json", json)
+    File.write(dir / "#{kind}.current.json", { hash: }.to_json)
+    TranslationStore.expire!
+    hash
+  end
+
   def assert_equal_structs(expected, actual)
     assert_equal(JSON.parse(expected.to_json, object_class: OpenStruct), actual)
   end

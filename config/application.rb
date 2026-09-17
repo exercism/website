@@ -7,6 +7,7 @@ require "rails/all"
 Bundler.require(*Rails.groups)
 
 require_relative '../lib/locale_roster'
+require_relative '../lib/translation_store'
 
 module Website
   class Application < Rails::Application
@@ -20,6 +21,10 @@ module Website
     # rails-i18n reads this too, and only loads the locales listed here.
     config.i18n.default_locale = LocaleRoster.default
     config.i18n.available_locales = LocaleRoster.known
+
+    # English is the safety net in every environment, never the plan:
+    # TranslationStore::Backend reports it when a production locale falls back.
+    config.i18n.fallbacks = true
     config.active_record.default_timezone = :utc
     config.action_view.form_with_generates_remote_forms = false
 

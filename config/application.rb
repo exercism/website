@@ -15,6 +15,11 @@ module Website
     config.active_job.queue_adapter = :sidekiq
 
     config.time_zone = "UTC"
+
+    # Locales come from the roster, never from the YAML on the load path.
+    # rails-i18n reads this too, and only loads the locales listed here.
+    config.i18n.default_locale = LocaleRoster.default
+    config.i18n.available_locales = LocaleRoster.known
     config.active_record.default_timezone = :utc
     config.action_view.form_with_generates_remote_forms = false
 

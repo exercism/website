@@ -13,7 +13,7 @@
       %p.mb-20
         = t('.watch_video_prompt')
 
-      = vimeo_embed("853440496?h=6abbdfc68f")
+      = render ReactComponents::Common::MuxPlayer.new(*Exercism.hello_world_video)
 
   %h2= t('.instructions_heading')
   = raw content[:instructions]

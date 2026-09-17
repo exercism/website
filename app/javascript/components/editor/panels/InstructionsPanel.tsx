@@ -6,7 +6,8 @@ import { TaskHintsModal } from '../../modals/TaskHintsModal'
 import { GraphicalIcon, Icon } from '../../common'
 import { useHighlighting } from '../../../utils/highlight'
 import { useReducedMotion } from '../../../hooks/use-reduced-motion'
-import VimeoEmbed from '../../common/VimeoEmbed'
+import MuxPlayer from '../../common/MuxPlayer'
+import { HELLO_WORLD_VIDEO } from '../../common/videos'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const InstructionsPanel = ({
@@ -43,7 +44,11 @@ function HelloWorldVideo() {
     <>
       <h2>{t('instructionsPanel.introduction')}</h2>
       <p className="mb-20">{t('instructionsPanel.watchOurVideo')}</p>
-      <VimeoEmbed id="853440496?h=6abbdfc68f" className="rounded-5" />
+      <MuxPlayer
+        playbackId={HELLO_WORLD_VIDEO.playbackId}
+        title={HELLO_WORLD_VIDEO.title}
+        className="rounded-5"
+      />
     </>
   )
 }

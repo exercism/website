@@ -228,9 +228,12 @@ class ApplicationController < ActionController::Base
 
     {
       default:,
-      connect: ["'self'", websockets, spellchecker, sentry, "https://cloudflareinsights.com"],
+      # Mux: the player fetches HLS from stream.mux.com and reports playback
+      # to Mux Data at *.litix.io; hls.js feeds the video element a blob: URL.
+      connect: ["'self'", websockets, spellchecker, sentry, "https://cloudflareinsights.com",
+                "https://stream.mux.com", "https://*.litix.io"],
       img: %w['self' data: https://*],
-      media: %w[*],
+      media: %w[* blob:],
       # 'wasm-unsafe-eval' is what compiling the client-side test runner's
       # kernel needs; it permits WebAssembly only, not eval().
       script: default + ["'wasm-unsafe-eval'", stripe, spellchecker, *captcha,

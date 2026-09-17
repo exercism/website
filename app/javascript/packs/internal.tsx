@@ -685,7 +685,10 @@ initReact({
   ),
   'student-update-exercise-notice': (data: any) => (
     <Suspense fallback={RenderLoader()}>
-      <UpdateExerciseNotice links={data.links} />
+      <UpdateExerciseNotice
+        links={data.links}
+        docsForNewerVersion={data.docs_for_newer_version}
+      />
     </Suspense>
   ),
 

@@ -40,6 +40,14 @@ class Concept::CachedContent::Retrieve
 
   def cache_key
     uuid = concept.uuid
-    "concept-content/#{uuid[0, 2]}/#{uuid[2, 2]}/#{uuid}/#{concept.synced_to_git_sha}.json"
+    "concept-content/#{uuid[0, 2]}/#{uuid[2, 2]}/#{uuid}/#{concept.synced_to_git_sha}#{locale_suffix}.json"
+  end
+
+  # Outside English the sha does not pin the content, as a translation can be
+  # corrected or arrive late. See Exercise::CachedContent::Retrieve.
+  def locale_suffix
+    return if LocaleRoster.default?(I18n.locale)
+
+    ".#{I18n.locale}-#{Digest::SHA1.hexdigest("#{concept.about}\0#{concept.introduction}")[0, 12]}"
   end
 end

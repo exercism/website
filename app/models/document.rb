@@ -31,7 +31,7 @@ class Document < ApplicationRecord
   memoize
   def markdown
     repo = Git::Repository.new(repo_url: git_repo, branch_ref: ENV['GIT_DOCS_BRANCH'])
-    repo.read_text_blob(repo.head_commit, git_path)
+    repo.read_translated_text_blob(repo.head_commit, git_path)
   end
 
   memoize

@@ -100,3 +100,48 @@ class Git::TranslatedContentTest < ActiveSupport::TestCase
     end
   end
 end
+
+class Git::TranslatedOtherContentTest < ActiveSupport::TestCase
+  test "track and site documents" do
+    doc = create :document
+    repo = Git::Repository.new(repo_url: doc.git_repo)
+
+    with_published_translations({}) do
+      publish_translated_content!(:hu, repo, repo.head_commit, doc.git_path, "# Tesztek\n\nFuttasd a teszteket")
+
+      I18n.with_locale(:hu) { assert_includes Document.find(doc.id).content_html, "Futtasd a teszteket" }
+      assert_includes Document.find(doc.id).content_html, "Execute the tests with"
+    end
+  end
+
+  test "blog posts" do
+    TestHelpers.use_blog_test_repo!
+    repo = Git::Repository.new(repo_url: TestHelpers.git_repo_url("blog"))
+    post = create :blog_post, slug: "sorry-for-the-wait"
+
+    with_published_translations({}) do
+      publish_translated_content!(:hu, repo, repo.head_commit, "posts/sorry-for-the-wait.md", "Elnézést a várakozásért")
+
+      I18n.with_locale(:hu) { assert_includes post.content_html, "Elnézést a várakozásért" }
+      refute_includes post.content_html, "Elnézést"
+    end
+  end
+
+  test "analyzer comments keep their placeholders for interpolation" do
+    TestHelpers.use_website_copy_test_repo!
+    repo = Git::Repository.new(repo_url: TestHelpers.git_repo_url("website-copy"))
+    path = "analyzer-comments/ruby/two-fer/string_interpolation.md"
+
+    with_published_translations({}) do
+      # rubocop:disable Style/FormatStringToken
+      publish_translated_content!(:hu, repo, repo.head_commit, path, "Használd ezt: %{name_variable}, 100%%")
+      # rubocop:enable Style/FormatStringToken
+
+      analysis = create :submission_analysis, data: {
+        comments: [{ comment: "ruby.two-fer.string_interpolation", params: { name_variable: "név" } }]
+      }
+
+      I18n.with_locale(:hu) { assert_equal "<p>Használd ezt: név, 100%</p>\n", analysis.comments.first[:html] }
+    end
+  end
+end

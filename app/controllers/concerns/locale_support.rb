@@ -24,12 +24,5 @@ module LocaleSupport
 
   def browser_locale = Locale::FromAcceptLanguage.(request.headers["Accept-Language"])
 
-  # A work in progress locale is only for staff and its own translators.
-  def may_view_locale?(locale)
-    return false unless LocaleRoster.served?(locale)
-    return true if LocaleRoster.production?(locale)
-    return false unless user_signed_in?
-
-    current_user.staff? || Array(current_user.translator_locales).map(&:to_s).include?(locale.to_s)
-  end
+  def may_view_locale?(locale) = Locale::MayView.(locale, current_user)
 end

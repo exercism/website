@@ -21,6 +21,27 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
+  # The kernel worker takes its CSP from the artifact response, and that
+  # response is cached for a year, so the page-only headers must not be on it.
+  test "test runner artifacts carry no page headers" do
+    Exercism.config.stubs(:respond_to?).with(:aws_test_runners_bucket).returns(true)
+    Exercism.config.stubs(:aws_test_runners_bucket).returns("bucket")
+    object = stub(body: StringIO.new("// kernel"))
+    Exercism.s3_client.stubs(:get_object).
+      with(bucket: "bucket", key: "test-runners/kernel/abc/kernel.js").
+      returns(object)
+
+    get "/test-runners/kernel/abc/kernel.js"
+
+    assert_response :ok
+    assert_equal "text/javascript", response.media_type
+    assert_includes response.headers["Cache-Control"], "immutable"
+    assert_nil response.headers["Content-Security-Policy-Report-Only"]
+    assert_nil response.headers["Link"]
+    assert_nil response.headers["Exercism-Body-Class"]
+    refute_includes response.headers["Vary"].to_s, "Turbo-Frame"
+  end
+
   test "health_check works" do
     user = create :user, :system
 

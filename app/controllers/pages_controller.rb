@@ -7,6 +7,17 @@ class PagesController < ApplicationController
 
   before_action :cache_public_action!, only: %i[index]
 
+  # Artifacts are cached for a year, at the edge and in every browser, so any
+  # header on them is frozen at first fetch. The page-level ones are wrong on
+  # a worker script anyway: the kernel worker takes its CSP from *this*
+  # response, so a stale policy here means every kernel reports violations
+  # until its uuid changes, however the page's policy moves on. A worker with
+  # no policy of its own is governed by the page that created it, which is
+  # the one that matters. The Link preloads, body class and Vary are page
+  # concerns too, and Vary just fragments the cache.
+  skip_after_action :set_csp_header, :set_link_header, :set_body_class_header, :set_vary_header,
+    only: %i[test_runner_artifact]
+
   # Guessed content types break the editor: WebAssembly.instantiateStreaming
   # rejects anything that is not application/wasm, and a module worker needs a
   # JavaScript type. S3's own metadata is not trusted for the same reason.

@@ -118,6 +118,7 @@ const ExerciseCommunitySolutionsList = lazy(
   () => import('@/components/track/ExerciseCommunitySolutionsList')
 )
 
+const MuxPlayer = lazy(() => import('@/components/common/MuxPlayer'))
 const YoutubePlayerWithMutation = lazy(
   () => import('@/components/common/YoutubePlayerWithMutation')
 )
@@ -298,6 +299,16 @@ export const mappings = {
       <YoutubePlayerWithMutation
         id={data.id}
         markAsSeenEndpoint={data.mark_as_seen_endpoint}
+      />
+    </Suspense>
+  ),
+
+  'common-mux-player': (data: any): JSX.Element => (
+    <Suspense fallback={RenderLoader()}>
+      <MuxPlayer
+        playbackId={data.playback_id}
+        title={data.title}
+        poster={data.poster}
       />
     </Suspense>
   ),

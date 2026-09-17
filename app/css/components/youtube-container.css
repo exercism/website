@@ -32,3 +32,13 @@
         }
     }
 }
+
+.c-mux-container {
+    @apply relative overflow-hidden;
+
+    & mux-player {
+        display: block;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+    }
+}

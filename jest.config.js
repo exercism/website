@@ -12,6 +12,8 @@ const config = {
     '^[./a-zA-Z0-9$_-]+\\.svg$':
       '<rootDir>/app/javascript/images/GlobalImageStub.js',
     'manifest.json$': '<rootDir>/app/javascript/__mocks__/fileMock.js',
+    '^@mux/mux-player-react$':
+      '<rootDir>/app/javascript/__mocks__/muxPlayerMock.tsx',
     '@/(.*)': '<rootDir>/app/javascript/$1',
     '\\.(css)$': 'identity-obj-proxy',
   },

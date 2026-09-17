@@ -125,6 +125,7 @@ Rails.application.routes.draw do
   end
 
   resource :insiders, only: [:show], controller: "insiders" do
+    get :join
     get :payment_pending
   end
 

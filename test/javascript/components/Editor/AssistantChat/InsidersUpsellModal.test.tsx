@@ -16,7 +16,11 @@ const config = {
   userSignedIn: true,
   captchaRequired: false,
   recaptchaSiteKey: '',
-  links: { insiders: '/insiders', paymentPending: '/payment-pending' },
+  links: {
+    insiders: '/insiders',
+    join: '/insiders/join?return_to=%2Ftracks%2Fjq%2Fexercises%2Fhello-world%2Fedit',
+    paymentPending: '/payment-pending',
+  },
 }
 
 function setIsolated(value: boolean | undefined) {
@@ -44,6 +48,6 @@ test('links out to the Insiders page on a cross-origin isolated page', () => {
   expect(screen.queryByTestId('stripe-form')).not.toBeInTheDocument()
   expect(screen.getByText('Become an Insider')).toHaveAttribute(
     'href',
-    '/insiders'
+    '/insiders/join?return_to=%2Ftracks%2Fjq%2Fexercises%2Fhello-world%2Fedit'
   )
 })

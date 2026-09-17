@@ -51,6 +51,7 @@ export interface InsidersUpsellConfig {
   recaptchaSiteKey: string
   links: {
     insiders: string
+    join: string
     paymentPending: string
   }
 }

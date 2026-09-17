@@ -1,11 +1,28 @@
 class InsidersController < ApplicationController
-  skip_before_action :authenticate_user!
+  skip_before_action :authenticate_user!, except: %i[join]
   before_action :cache_public_action!, only: %i[show]
 
   def show
     return external unless current_user&.insider?
 
     @videos = VIDEOS
+  end
+
+  # Just the form, for somewhere that wants to send a user off to join and
+  # have them come straight back: the editor's assistant upsell, which cannot
+  # render Stripe inline on a cross-origin isolated page. `return_to` is where
+  # they go afterwards, and only ever a path on this site.
+  def join
+    @return_to = safe_return_to
+    redirect_to(@return_to || insiders_path) if current_user.insider?
+  end
+
+  def paypal_pending; end
+
+  def paypal_cancelled; end
+
+  def payment_pending
+    @return_to = safe_return_to
   end
 
   def external
@@ -18,10 +35,6 @@ class InsidersController < ApplicationController
 
     render action: :external
   end
-
-  def paypal_pending; end
-
-  def paypal_cancelled; end
 
   VIDEOS = [
     [:vimeo, "1050039855?h=02119c5213", "insiders-15.jpg"],
@@ -72,4 +85,9 @@ class InsidersController < ApplicationController
 
   ].freeze
   # rubocop:enable Layout/LineLength
+
+  private
+  # url_from rejects anything that isn't this host, so a value pasted in
+  # from elsewhere cannot turn this into an open redirect.
+  def safe_return_to = url_from(params[:return_to])
 end

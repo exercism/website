@@ -60,8 +60,9 @@ export function InsidersUpsellModal({
 // On a cross-origin isolated page (the editor on tracks that run tests in the
 // browser) a cross-origin iframe is blocked outright unless the embedded
 // document sends COEP, and Stripe's Elements frames don't. So there is no
-// inline form there: the upgrade happens on the Insiders page, which isn't
-// isolated. A navigation is unaffected by isolation.
+// inline form there: the same form lives on /insiders/join, which isn't
+// isolated and sends the user back here afterwards. A navigation is
+// unaffected by isolation.
 function isCrossOriginIsolated(): boolean {
   return typeof window !== 'undefined' && window.crossOriginIsolated === true
 }
@@ -74,12 +75,12 @@ function LinkOutContent({
   return (
     <>
       <UpsellHeader />
-      <a href={config.links.insiders} className="btn-l btn-primary w-100">
+      <a href={config.links.join} className="btn-l btn-primary w-100">
         Become an Insider
       </a>
       <p className="text-p-small mt-20">
-        You&apos;ll come back to this exercise afterwards; your work is saved as
-        you type.
+        You&apos;ll be brought straight back to this exercise afterwards; your
+        work is saved as you type.
       </p>
     </>
   )

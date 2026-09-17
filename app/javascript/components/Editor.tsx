@@ -113,6 +113,8 @@ export default ({
   const editorRef = useRef<FileEditorHandle>()
   const runTestsButtonRef = useRef<HTMLButtonElement>(null)
   const submitButtonRef = useRef<HTMLButtonElement>(null)
+  // Lets Cancel stop a client-side run; server-side runs cancel via the API.
+  const clientSideRun = useRef<AbortController | undefined>()
 
   const [hasCancelled, setHasCancelled] = useSubmissionCancelling()
   const [tab, setTab] = useState<TabIndex>('instructions')
@@ -125,6 +127,7 @@ export default ({
   const [hasLatestIteration, setHasLatestIteration] = useState(false)
   const {
     create: createSubmission,
+    begin: beginSubmission,
     current: submission,
     set: setSubmission,
     remove: removeSubmission,
@@ -188,9 +191,16 @@ export default ({
 
   const runTests = useCallback(async () => {
     dispatch({ status: EditorStatus.CREATING_SUBMISSION })
+    // The results panel only knows a run is happening once there is a
+    // submission with a queued test run. Say so now, before a client-side run
+    // that may take seconds, rather than leaving it to createSubmission after.
+    beginSubmission()
 
     let testResults: any = null
     if (experimental) {
+      const controller = new AbortController()
+      clientSideRun.current = controller
+
       try {
         const { runTestsClientSide } = await import(
           './editor/ClientSideTestRunner/generalTestRunner'
@@ -201,9 +211,18 @@ export default ({
           exerciseSlug: exercise.slug,
           config: localTestRunner,
           files,
+          signal: controller.signal,
         })
       } catch (e) {
+        // Cancelling is a decision, not a failure: don't fall through to a server run.
+        if (controller.signal.aborted) {
+          dispatch({ status: EditorStatus.INITIALIZED })
+          return
+        }
+
         console.warn('There was an error running tests clientside:', e)
+      } finally {
+        clientSideRun.current = undefined
       }
     }
 
@@ -245,7 +264,7 @@ export default ({
         },
       }
     )
-  }, [createSubmission, dispatch, experimental, files])
+  }, [beginSubmission, createSubmission, dispatch, experimental, files])
 
   const showFeedbackModal = useCallback(() => {
     setFeedbackModalOpen(true)
@@ -417,6 +436,9 @@ export default ({
       return
     }
 
+    // Stops the kernel if the run is in this tab; a no-op for server-side runs.
+    clientSideRun.current?.abort()
+
     removeSubmission(submission.uuid)
     setHasCancelled(true)
   }, [removeSubmission, setHasCancelled, submission?.uuid])
@@ -549,6 +571,7 @@ export default ({
                   onSubmit={submit}
                   isSubmitDisabled={isSubmitDisabled}
                   hasCancelled={hasCancelled}
+                  isCancellable={experimental}
                   {...panels.results}
                 />
                 {iteration ? (

@@ -16,6 +16,7 @@ export const TestRunSummary = ({
   isSubmitDisabled,
   onCancel,
   showSuccessBox,
+  isCancellable = false,
 }: {
   testRun: TestRun
   testRunner: TestRunner
@@ -23,6 +24,8 @@ export const TestRunSummary = ({
   isSubmitDisabled?: boolean
   onCancel?: () => void
   showSuccessBox: boolean
+  // Shows Cancel for a faux submission, whose run is abortable in this tab.
+  isCancellable?: boolean
 }): JSX.Element => {
   const { t } = useAppTranslation('components/editor/testComponents')
 
@@ -37,6 +40,7 @@ export const TestRunSummary = ({
           isSubmitDisabled={isSubmitDisabled}
           onCancel={onCancel}
           showSuccessBox={showSuccessBox}
+          isCancellable={isCancellable}
         />
       </div>
     )
@@ -190,6 +194,7 @@ const TestRunSummaryContent = ({
   isSubmitDisabled,
   onCancel,
   showSuccessBox,
+  isCancellable = false,
 }: {
   testRun: TestRun
   testRunner: TestRunner
@@ -197,6 +202,7 @@ const TestRunSummaryContent = ({
   isSubmitDisabled?: boolean
   onCancel?: () => void
   showSuccessBox: boolean
+  isCancellable?: boolean
 }) => {
   const { t } = useAppTranslation('components/editor/testComponents')
 
@@ -269,7 +275,7 @@ const TestRunSummaryContent = ({
             </span>
           </p>
           {onCancel !== undefined &&
-          testRun.submissionUuid !== 'faux-submission' ? (
+          (isCancellable || testRun.submissionUuid !== 'faux-submission') ? (
             <button
               type="button"
               onClick={() => onCancel()}

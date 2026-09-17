@@ -227,6 +227,15 @@ class ActiveSupport::TestCase
     I18n.reload!
   end
 
+  # Files a translation under the blob id of the English file, as exercism/i18n does.
+  # Call inside with_published_translations.
+  def publish_translated_content!(locale, repo, commit, path, text)
+    blob_id = repo.find_file_oid(commit, path)
+    file = TranslationStore.content_path(locale, blob_id, File.extname(path))
+    FileUtils.mkdir_p(file.dirname)
+    File.write(file, text)
+  end
+
   def travel_monotonic(seconds)
     now = Process.clock_gettime(Process::CLOCK_MONOTONIC)
     Process.stubs(:clock_gettime).with(Process::CLOCK_MONOTONIC).returns(now + seconds)

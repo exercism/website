@@ -53,6 +53,24 @@ module TranslationStore
       root / "content" / locale.to_s / blob_id[0, 2] / blob_id[2, 2] / "#{blob_id[4..]}#{extension}"
     end
 
+    # The translation of the English file with this git blob id, or nil.
+    # A blob id names exact bytes forever, so there is no staleness to check.
+    def content(locale, blob_id, extension)
+      File.read(content_path(locale, blob_id, extension))
+    rescue Errno::ENOENT
+      nil
+    end
+
+    # English is a safety net. For a production locale, using it is a bug.
+    def report_missing_content!(locale, blob_id, path)
+      return unless LocaleRoster.production?(locale)
+
+      message = "Missing #{locale} content: #{path} (#{blob_id})"
+      Rails.logger.warn(message)
+      Sentry.capture_message(message, level: :warning, tags: { locale: locale.to_s },
+        fingerprint: ["i18n-missing-content", locale.to_s, blob_id])
+    end
+
     def expire! = @pointers_read_at = nil
 
     private

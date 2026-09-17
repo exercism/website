@@ -7,13 +7,13 @@ module Git
 
     delegate :head_sha, :fetch!, :lookup_commit, :head_commit, to: :repo
 
-    git_filepath :about, file: "docs/ABOUT.md"
+    git_filepath :about, file: "docs/ABOUT.md", translatable: true
     git_filepath :snippet, file: "docs/SNIPPET.txt"
     git_filepath :representer_normalizations, file: "docs/REPRESENTER_NORMALIZATIONS.md"
-    git_filepath :debugging_instructions, file: "exercises/shared/.docs/debug.md"
-    git_filepath :help, file: "exercises/shared/.docs/help.md"
-    git_filepath :tests, file: "exercises/shared/.docs/tests.md"
-    git_filepath :representations, file: "exercises/shared/.docs/representations.md"
+    git_filepath :debugging_instructions, file: "exercises/shared/.docs/debug.md", translatable: true
+    git_filepath :help, file: "exercises/shared/.docs/help.md", translatable: true
+    git_filepath :tests, file: "exercises/shared/.docs/tests.md", translatable: true
+    git_filepath :representations, file: "exercises/shared/.docs/representations.md", translatable: true
     git_filepath :config, file: "config.json"
 
     def initialize(git_sha = "HEAD", repo_url: nil, repo: nil)

@@ -7,7 +7,7 @@ module Maintaining
 
       use_capybara_host do
         visit test_components_maintaining_submissions_summary_table_url
-        wait_for_websockets
+        wait_for_websocket_subscriptions
 
         solution = create :concept_solution
         submission = create(:submission, solution:)
@@ -15,7 +15,6 @@ module Maintaining
         submission.tests_passed!
         submission.broadcast!
 
-        wait_for_websockets
         assert_text submission.uuid
       end
     end

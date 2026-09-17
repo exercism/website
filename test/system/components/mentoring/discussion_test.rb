@@ -373,7 +373,7 @@ module Components
             author: mentor,
             content_markdown: "Hello",
             updated_at: Time.current)
-          2.times { wait_for_websockets }
+          wait_for_websocket_subscriptions
           DiscussionPostListChannel.notify!(discussion)
         end
 

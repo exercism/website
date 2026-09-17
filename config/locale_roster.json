@@ -1,0 +1,7 @@
+{
+  "default": "en",
+  "locales": [
+    { "code": "en", "status": "production" },
+    { "code": "hu", "status": "wip" }
+  ]
+}

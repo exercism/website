@@ -201,6 +201,14 @@ class ActiveSupport::TestCase
     Array(num).map { create(model, params) }.sample
   end
 
+  # Tests run in English only. This serves extra locales for a block.
+  def with_served_locales(*locales)
+    LocaleRoster.stubs(served: [LocaleRoster.default, *locales.map(&:to_sym)].uniq)
+    yield
+  ensure
+    LocaleRoster.unstub(:served)
+  end
+
   def assert_equal_structs(expected, actual)
     assert_equal(JSON.parse(expected.to_json, object_class: OpenStruct), actual)
   end

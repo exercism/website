@@ -34,6 +34,17 @@ en:
         your_recent_tracks: Your recent tracks
         see_all_button: See all
         last_touched: Last touched %{time_ago}
+      favorites:
+        heading: Your Favourites
+        intro: Store your favorite solutions from around Exercism and learn from
+          them later.
+        empty_state:
+          You haven't added any favorites yet. Start exploring community
+          solutions and add some interesting ones to your favorites!
+        get_started_button: Get started
+        solution_title: "%{handle}'s solution"
+        solution_subtitle: to %{exercise} in %{track}
+        view_all_button: View all
       journey:
         reputation_label: Reputation
         badges_label: Badges

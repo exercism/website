@@ -10,5 +10,7 @@ export default {
   'solution.favoriteStudent': 'Favorite student',
   'solution.mentoredPreviously': 'Mentored previously',
   'trackFilterList.clickToChange': 'Click to change',
+  'trackFilterList.openTheTrackFilter': 'Open the track filter',
   'trackFilterList.changeTheTracksYouMentor': 'Change the tracks you mentor',
+  'trackFilterList.unableToFetchTracks': 'Unable to fetch tracks',
 }

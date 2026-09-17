@@ -1,6 +1,8 @@
+// i18n-namespace: components/common/MultipleSelect.tsx
 import React, { useState, useCallback, useEffect } from 'react'
 import { Icon, GraphicalIcon } from '.'
 import { useDropdown } from '../dropdowns/useDropdown'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const MultipleSelect = <T extends unknown>({
   value,
@@ -21,6 +23,7 @@ export const MultipleSelect = <T extends unknown>({
   ResetComponent: React.ComponentType
   className?: string
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/common/MultipleSelect.tsx')
   const [selected, setSelected] = useState<T[]>(value)
   const [changed, setChanged] = useState(false)
   const {
@@ -98,7 +101,7 @@ export const MultipleSelect = <T extends unknown>({
         </div>
         <Icon
           icon="chevron-down"
-          alt="Click to change"
+          alt={t('multipleSelect.clickToChange')}
           className="action-icon"
         />
       </button>

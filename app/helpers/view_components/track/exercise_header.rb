@@ -22,7 +22,7 @@ module ViewComponents
               [
                 link_to(
                   graphical_icon('overview') +
-                  tag.span("Overview", "data-text": "Overview"),
+                  tag.span(overview_label, "data-text": overview_label),
                   Exercism::Routes.track_exercise_path(track, exercise),
                   class: tab_class(:overview),
                   data: tab_scroll_into_view(:overview)
@@ -47,7 +47,7 @@ module ViewComponents
       def iterations_tab
         parts = []
         parts << graphical_icon('iteration')
-        parts << tag.span("Your iterations", "data-text": "Your iterations")
+        parts << tag.span(iterations_label, "data-text": iterations_label)
         parts << tag.span(solution.iterations.size, class: "count") if solution&.iterations.present?
 
         link_to(
@@ -61,7 +61,7 @@ module ViewComponents
       def dig_deeper_tab
         parts = [
           graphical_icon('dig-deeper'),
-          tag.span("Dig Deeper", "data-text": "Dig Deeper")
+          tag.span(dig_deeper_label, "data-text": dig_deeper_label)
         ]
         lockable_tab(
           safe_join(parts),
@@ -76,7 +76,7 @@ module ViewComponents
       def community_solutions_tab
         parts = [
           graphical_icon('community-solutions'),
-          tag.span("Community Solutions", "data-text": "Community Solutions")
+          tag.span(community_solutions_label, "data-text": community_solutions_label)
         ]
         lockable_tab(
           safe_join(parts),
@@ -91,7 +91,7 @@ module ViewComponents
       def mentoring_tab
         parts = []
         parts << graphical_icon('mentoring')
-        parts << tag.span("Code Review", "data-text": "Mentoring")
+        parts << tag.span(code_review_label, "data-text": code_review_label)
 
         if solution
           count = solution.mentor_discussions.count + solution.mentor_requests.pending.count
@@ -107,6 +107,12 @@ module ViewComponents
         )
       end
 
+      def overview_label = I18n.t("components.track.exercise_header.tabs.overview")
+      def iterations_label = I18n.t("components.track.exercise_header.tabs.your_iterations")
+      def dig_deeper_label = I18n.t("components.track.exercise_header.tabs.dig_deeper")
+      def community_solutions_label = I18n.t("components.track.exercise_header.tabs.community_solutions")
+      def code_review_label = I18n.t("components.track.exercise_header.tabs.code_review")
+
       def show_iterations_tab? = !user_track.external?
       def show_dig_deeper_tab? = !exercise.tutorial? && exercise.has_approaches?
       def show_community_solutions_tab? = !exercise.tutorial?
@@ -115,7 +121,8 @@ module ViewComponents
       def lockable_tab(html, href, class_name, locked, locked_attrs = {})
         css_class = tab_class(class_name, locked:)
 
-        locked ? tag.div(html, class: css_class, 'aria-label': 'This tab is locked', **locked_attrs) :
+        locked ? tag.div(html, class: css_class,
+          'aria-label': I18n.t("components.track.exercise_header.locked_tab_aria_label"), **locked_attrs) :
           link_to(html, href, class: css_class, data: tab_scroll_into_view(class_name))
       end
 

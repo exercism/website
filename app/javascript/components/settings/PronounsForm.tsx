@@ -81,8 +81,8 @@ export default function PronounsForm({
             type="text"
             value={pronounParts[0] || ''}
             pattern="^[^\s]{0,255}$"
-            title="Pronoun cannot contain whitespace and must be no longer than 255 characters"
-            placeholder="e.g. They"
+            title={t('pronounsForm.pronounValidationTitle')}
+            placeholder={t('pronounsForm.placeholderThey')}
             onChange={(e) => setPronounPart(e.target.value, 0)}
           />
           {t('pronounsForm.testimonialAnswered')}
@@ -90,8 +90,8 @@ export default function PronounsForm({
             type="text"
             value={pronounParts[1] || ''}
             pattern="^[^\s]{0,255}$"
-            title="Pronoun cannot contain whitespace and must be no longer than 255 characters"
-            placeholder="e.g. them"
+            title={t('pronounsForm.pronounValidationTitle')}
+            placeholder={t('pronounsForm.placeholderThem')}
             onChange={(e) => setPronounPart(e.target.value, 1)}
           />
           {t('pronounsForm.testimonialToOthersBecause')}
@@ -99,8 +99,8 @@ export default function PronounsForm({
             type="text"
             value={pronounParts[2] || ''}
             pattern="^[^\s]{0,255}$"
-            title="Pronoun cannot contain whitespace and must be no longer than 255 characters"
-            placeholder="e.g. their"
+            title={t('pronounsForm.pronounValidationTitle')}
+            placeholder={t('pronounsForm.placeholderTheir')}
             onChange={(e) => setPronounPart(e.target.value, 2)}
           />
           {t('pronounsForm.testimonialAdviceHelpful')}
@@ -155,7 +155,7 @@ const SuccessMessage = () => {
   const { t } = useAppTranslation('components/settings/PronounsForm.tsx')
   return (
     <div className="status success">
-      <Icon icon="completed-check-circle" alt="Success" />
+      <Icon icon="completed-check-circle" alt={t('pronounsForm.successAlt')} />
       {t('pronounsForm.yourPronounsHaveBeenUpdated')}
     </div>
   )

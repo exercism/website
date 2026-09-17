@@ -17,4 +17,7 @@ export default {
   'difficulty.hard': 'Hard',
   'exerciseTypeTag.learningExercise': 'Learning Exercise',
   'exerciseTypeTag.tutorialExercise': 'Tutorial Exercise',
+  'mentoringStatus.requested': 'Mentoring requested',
+  'mentoringStatus.inProgress': 'Mentoring in progress',
+  'mentoringStatus.finished': 'Mentoring finished',
 }

@@ -1,11 +1,11 @@
+// i18n-namespace: components/common/Introducer.tsx
 import React, { useRef, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
 import { GraphicalIcon, Icon } from './'
 import { FormButton } from './FormButton'
 import { ErrorBoundary, ErrorMessage } from '../ErrorBoundary'
-
-const DEFAULT_ERROR = new Error('Unable to hide introducer')
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type IntroducerSize = 'small' | 'base'
 
@@ -23,6 +23,8 @@ export default function Introducer({
   size?: IntroducerSize
   additionalClassNames?: string
 }>): JSX.Element | null {
+  const { t } = useAppTranslation('components/common/Introducer.tsx')
+  const DEFAULT_ERROR = new Error(t('introducer.unableToHide'))
   const [hidden, setHidden] = useState(false)
   const ref = useRef<HTMLDivElement | null>(null)
   const {
@@ -72,10 +74,12 @@ export default function Introducer({
             onClick={() => mutation()}
             status={status}
           >
-            <div className="lg:hidden btn-s btn-enhanced">Got it 👍</div>
+            <div className="lg:hidden btn-s btn-enhanced">
+              {t('introducer.gotIt')}
+            </div>
             <Icon
               icon="close"
-              alt="Permanently hide this introducer"
+              alt={t('introducer.permanentlyHide')}
               className="hidden lg:block"
             />
           </FormButton>

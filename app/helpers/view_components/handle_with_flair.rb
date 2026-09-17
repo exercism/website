@@ -26,12 +26,12 @@ module ViewComponents
     end
 
     def icon_alt
-      "#{icon_title}'s flair"
+      I18n.t("components.handle_with_flair.icon_alt", title: icon_title)
     end
 
     memoize
     def icon_title
-      TITLES[flair.to_sym]
+      I18n.t("components.handle_with_flair.titles.#{flair}")
     end
 
     memoize
@@ -62,13 +62,6 @@ module ViewComponents
       lifetime_insider: 'lifetime-insiders',
       founder: 'staff-flair',
       staff: 'staff-flair'
-    }.freeze
-
-    TITLES = {
-      insider: 'An Exercism Insider',
-      lifetime_insider: 'A lifetime Insider',
-      founder: 'Founder',
-      staff: 'Staff'
     }.freeze
   end
 end

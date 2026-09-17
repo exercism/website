@@ -25,9 +25,12 @@ module ViewComponents
 
       def header_tags
         tags = []
-        tags << { class: "tag staff", icon: :logo, title: "Exercism Staff" } if @user.staff?
-        tags << { class: "tag maintainer", icon: :maintaining, title: "Maintainer" } if @user.maintainer?
-        tags << { class: "tag insider", icon: :insiders, title: "Insider" } if @user.insider?
+        tags << { class: "tag staff", icon: :logo, title: I18n.t("profiles.header.tags.staff") } if @user.staff?
+        if @user.maintainer?
+          tags << { class: "tag maintainer", icon: :maintaining,
+                     title: I18n.t("profiles.header.tags.maintainer") }
+        end
+        tags << { class: "tag insider", icon: :insiders, title: I18n.t("profiles.header.tags.insider") } if @user.insider?
         tags.take(2)
       end
     end

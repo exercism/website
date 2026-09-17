@@ -47,6 +47,8 @@ export function InsidersUpsellModal({
       <div className="--modal-content-inner">
         {succeeded ? (
           <SuccessContent onContinue={reload} />
+        ) : isCrossOriginIsolated() ? (
+          <LinkOutContent config={config} />
         ) : (
           <PaymentContent config={config} onSuccess={handleSuccess} />
         )}
@@ -55,13 +57,35 @@ export function InsidersUpsellModal({
   )
 }
 
-function PaymentContent({
+// On a cross-origin isolated page (the editor on tracks that run tests in the
+// browser) a cross-origin iframe is blocked outright unless the embedded
+// document sends COEP, and Stripe's Elements frames don't. So there is no
+// inline form there: the upgrade happens on the Insiders page, which isn't
+// isolated. A navigation is unaffected by isolation.
+function isCrossOriginIsolated(): boolean {
+  return typeof window !== 'undefined' && window.crossOriginIsolated === true
+}
+
+function LinkOutContent({
   config,
-  onSuccess,
 }: {
   config: InsidersUpsellConfig
-  onSuccess: () => void
 }): JSX.Element {
+  return (
+    <>
+      <UpsellHeader />
+      <a href={config.links.insiders} className="btn-l btn-primary w-100">
+        Become an Insider
+      </a>
+      <p className="text-p-small mt-20">
+        You&apos;ll come back to this exercise afterwards; your work is saved as
+        you type.
+      </p>
+    </>
+  )
+}
+
+function UpsellHeader(): JSX.Element {
   return (
     <>
       <div className="flex flex-row items-center gap-32 mb-12">
@@ -85,6 +109,20 @@ function PaymentContent({
       </p>
 
       <hr className="mb-20 border-borderColor5" />
+    </>
+  )
+}
+
+function PaymentContent({
+  config,
+  onSuccess,
+}: {
+  config: InsidersUpsellConfig
+  onSuccess: () => void
+}): JSX.Element {
+  return (
+    <>
+      <UpsellHeader />
 
       <ExercismStripeElements
         mode="subscription"

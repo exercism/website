@@ -93,6 +93,12 @@ export type Props = {
    * a change behind this flag can ship without touching the normal editor.
    */
   experimental?: boolean
+  /**
+   * Run tests in the browser, on the wasm kernel, rather than on the server.
+   * Set for the tracks in Track::CLIENT_SIDE_TEST_RUNNER_SLUGS; the page is
+   * cross-origin isolated for those, which the kernel needs.
+   */
+  clientSideTests?: boolean
   defaultSubmissions: Submission[]
   assistantChat: AssistantChatConfig
   defaultFiles: File[]

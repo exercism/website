@@ -109,7 +109,11 @@ export default ({
   features = { theme: false, keybindings: false },
   localTestRunner,
   experimental = false,
+  clientSideTests = false,
 }: Props): JSX.Element => {
+  // The experimental editor runs everything in the browser; the student
+  // editor only does so on the tracks the server has opted in.
+  const runsClientSide = experimental || clientSideTests
   const editorRef = useRef<FileEditorHandle>()
   const runTestsButtonRef = useRef<HTMLButtonElement>(null)
   const submitButtonRef = useRef<HTMLButtonElement>(null)
@@ -159,7 +163,7 @@ export default ({
   // it is the difference between a run starting immediately and a run starting
   // after a visible pause.
   useEffect(() => {
-    if (!experimental) return
+    if (!runsClientSide) return
 
     let released = false
 
@@ -177,7 +181,7 @@ export default ({
         .then(({ release }) => release())
         .catch(() => {})
     }
-  }, [experimental, track.slug])
+  }, [runsClientSide, track.slug])
 
   useEffect(() => {
     if (
@@ -197,7 +201,7 @@ export default ({
     beginSubmission()
 
     let testResults: any = null
-    if (experimental) {
+    if (runsClientSide) {
       const controller = new AbortController()
       clientSideRun.current = controller
 
@@ -264,7 +268,7 @@ export default ({
         },
       }
     )
-  }, [beginSubmission, createSubmission, dispatch, experimental, files])
+  }, [beginSubmission, createSubmission, dispatch, runsClientSide, files])
 
   const showFeedbackModal = useCallback(() => {
     setFeedbackModalOpen(true)
@@ -571,7 +575,7 @@ export default ({
                   onSubmit={submit}
                   isSubmitDisabled={isSubmitDisabled}
                   hasCancelled={hasCancelled}
-                  isCancellable={experimental}
+                  isCancellable={runsClientSide}
                   {...panels.results}
                 />
                 {iteration ? (

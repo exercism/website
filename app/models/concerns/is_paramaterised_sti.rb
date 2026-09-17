@@ -21,6 +21,16 @@
 # method, which should call super.({...}) for any data that is
 # used in rendering and cacheable.
 #
+# The cached data holds rendered text and urls, so it is kept per locale:
+# { "locales" => { "hu" => { "catalog" => "<hash>", "data" => {...} } } }
+# A record is usually created in Sidekiq, in English. Every other locale
+# is rendered and stored the first time it is asked for. An entry is only
+# used while the locale's backend catalog is the one it was rendered
+# with, so a published translation fix re-renders it. Rows written
+# before locales existed hold the data at the top level, which is read
+# as English. We key by locale rather than rendering text live, because
+# the text is what needs the n+1 lookups this cache exists to avoid.
+#
 # Caches can be expired by setting rendering_data_cache to {}
 # Objects will then rebuild the cache next time they load.
 #
@@ -74,14 +84,14 @@ module IsParamaterisedSTI
       self.uniqueness_key = generate_uniqueness_key!
       self.params = {} if self.params.blank?
       self.version = latest_i18n_version
-      self.rendering_data_cache = cacheable_rendering_data
+      self.rendering_data_cache = build_rendering_data_cache
     end
 
     before_save unless: :new_record? do
       # If any attributes have changed since the last time
-      # this was saved, then rebuild the cache.
-      non_cache_changes = (changed_attributes.keys - non_rendered_attributes.map(&:to_s) - [rendering_data_cache]).present?
-      self.rendering_data_cache = cacheable_rendering_data if non_cache_changes
+      # this was saved, then rebuild the cache, for every locale.
+      non_cache_changes = (changed_attributes.keys - non_rendered_attributes.map(&:to_s) - ["rendering_data_cache"]).present?
+      self.rendering_data_cache = build_rendering_data_cache if non_cache_changes
     end
   end
 
@@ -112,13 +122,39 @@ module IsParamaterisedSTI
   end
 
   def rendering_data
-    data = rendering_data_cache
-    if data.blank?
-      data = cacheable_rendering_data
-      update!(rendering_data_cache: data)
+    data = cached_rendering_data
+    unless data
+      cache = build_rendering_data_cache(rendering_data_cache_locales)
+      update!(rendering_data_cache: cache)
+      data = cache.dig("locales", I18n.locale.to_s, "data")
     end
 
     data.with_indifferent_access.merge(non_cacheable_rendering_data)
+  end
+
+  # The current locale's entry, if it was rendered with the current catalog.
+  def cached_rendering_data
+    entry = rendering_data_cache_locales[I18n.locale.to_s]
+    return unless entry.present? && entry["data"].present?
+    return unless entry["catalog"] == TranslationStore.current_hash(I18n.locale, :backend)
+
+    entry["data"]
+  end
+
+  def rendering_data_cache_locales
+    cache = rendering_data_cache
+    return {} if cache.blank?
+    return cache["locales"] if cache.key?("locales")
+
+    { LocaleRoster.default.to_s => { "catalog" => nil, "data" => cache } }
+  end
+
+  def build_rendering_data_cache(existing = {})
+    entry = {
+      "catalog" => TranslationStore.current_hash(I18n.locale, :backend),
+      "data" => JSON.parse(cacheable_rendering_data.to_json)
+    }
+    { "locales" => existing.merge(I18n.locale.to_s => entry) }
   end
 
   # Save each class from manually overriding this

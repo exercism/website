@@ -58,6 +58,23 @@ export type TabIndex =
   | 'get-help'
   | 'assistant'
 
+const TAB_IDS: TabIndex[] = [
+  'instructions',
+  'tests',
+  'results',
+  'get-help',
+  'assistant',
+]
+
+// A tab can be asked for on the URL, e.g. /edit#assistant, which is how the
+// Insiders join page sends someone back to the conversation they were about
+// to start. Anything else opens on the instructions as usual.
+const initialTab = (): TabIndex => {
+  if (typeof window === 'undefined') return 'instructions'
+  const requested = window.location.hash.slice(1) as TabIndex
+  return TAB_IDS.includes(requested) ? requested : 'instructions'
+}
+
 const filesEqual = (files: File[], other: File[]) => {
   if (!files || !other) return false
   if (files.length !== other.length) {
@@ -121,7 +138,7 @@ export default ({
   const clientSideRun = useRef<AbortController | undefined>()
 
   const [hasCancelled, setHasCancelled] = useSubmissionCancelling()
-  const [tab, setTab] = useState<TabIndex>('instructions')
+  const [tab, setTab] = useState<TabIndex>(initialTab)
   const [task, setTask] = useState<number | null>(null)
   const [settings, setSettings] = useDefaultSettings(defaultSettings)
   const [{ status, error }, dispatch] = useEditorStatus()

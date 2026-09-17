@@ -17,6 +17,15 @@ class InsidersControllerTest < ActionDispatch::IntegrationTest
       "/tracks/jq/exercises/hello-world/edit"
   end
 
+  test "join: keeps the fragment on return_to, which picks the editor tab" do
+    sign_in!(create(:user))
+
+    get join_insiders_path(return_to: "/tracks/jq/exercises/hello-world/edit#assistant")
+
+    assert_response :success
+    assert_select ".c-react-wrapper-insiders-join[data-react-data*=?]", "edit#assistant"
+  end
+
   test "join: drops a return_to that is not this site" do
     sign_in!(create(:user))
 

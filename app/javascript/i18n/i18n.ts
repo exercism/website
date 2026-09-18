@@ -3,8 +3,7 @@ import { initReactI18next } from 'react-i18next'
 import * as Sentry from '@sentry/react'
 
 import en from './en'
-import { DEFAULT_LOCALE, isProductionLocale } from '@/utils/locale-roster'
-import { metaContent, pageLocale } from '@/utils/page-locale'
+import { DEFAULT_LOCALE, metaContent, pageLocale } from '@/utils/page-locale'
 
 const CATALOG_META = 'exercism-i18n-catalog'
 
@@ -18,8 +17,6 @@ export { pageLocale }
 const pageCatalogUrl = (): string | null => metaContent(CATALOG_META)
 
 function report(kind: string, locale: string, key: string): void {
-  if (!isProductionLocale(locale)) return
-
   const id = `${kind}:${locale}:${key}`
   if (reported.has(id)) return
   reported.add(id)

@@ -201,11 +201,11 @@ class ActiveSupport::TestCase
     Array(num).map { create(model, params) }.sample
   end
 
-  def with_served_locales(*locales)
-    LocaleRoster.stubs(served: [LocaleRoster.default, *locales.map(&:to_sym)].uniq)
+  def with_available_locales(*locales)
+    I18n.stubs(available_locales: [I18n.default_locale, *locales.map(&:to_sym)].uniq)
     yield
   ensure
-    LocaleRoster.unstub(:served)
+    I18n.unstub(:available_locales)
   end
 
   # e.g. with_published_translations(hu: { backend: { greeting: "Szia" } })

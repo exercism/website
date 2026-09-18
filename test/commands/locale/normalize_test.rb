@@ -24,8 +24,8 @@ class Locale::NormalizeTest < ActiveSupport::TestCase
   end
 
   test "defaults to the served locales" do
-    assert_nil Locale::Normalize.("hu")
-    with_served_locales(:hu) { assert_equal :hu, Locale::Normalize.("hu") }
+    assert_equal :hu, Locale::Normalize.("hu")
+    assert_nil Locale::Normalize.("de")
   end
 
   test "spanish variants do not collapse" do

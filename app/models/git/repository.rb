@@ -43,7 +43,7 @@ module Git
     end
 
     def read_translated_text_blob(commit, path)
-      return read_text_blob(commit, path) if LocaleRoster.default?(I18n.locale)
+      return read_text_blob(commit, path) if I18n.locale == I18n.default_locale
 
       oid = find_file_oid(commit, path)
       translation = TranslationRepo.content(I18n.locale, oid, File.extname(path))
@@ -56,7 +56,7 @@ module Git
     end
 
     def translated?(commit, path)
-      return true if LocaleRoster.default?(I18n.locale)
+      return true if I18n.locale == I18n.default_locale
 
       File.exist?(TranslationRepo.content_path(I18n.locale, find_file_oid(commit, path), File.extname(path)))
     rescue Rugged::TreeError

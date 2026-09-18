@@ -1,4 +1,4 @@
-import { DEFAULT_LOCALE } from './locale-roster'
+export const DEFAULT_LOCALE = 'en'
 
 const LOCALE_META = 'exercism-locale'
 

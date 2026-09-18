@@ -27,7 +27,7 @@ class TranslationRepo::Backend < I18n::Backend::Simple
   end
 
   def on_fallback(original_locale, fallback_locale, key, _options)
-    return unless LocaleRoster.production?(original_locale) && LocaleRoster.default?(fallback_locale)
+    return unless fallback_locale.to_sym == I18n.default_locale
     return unless @reported.add?([original_locale.to_sym, key.to_s])
 
     message = "Missing #{original_locale} translation: #{key}"
@@ -65,7 +65,7 @@ class TranslationRepo::Backend < I18n::Backend::Simple
     end
   end
 
-  def locales = LocaleRoster.known - [LocaleRoster.default]
+  def locales = I18n.available_locales - [I18n.default_locale]
 
   def catalog_for(locale, version)
     return @catalogs[locale] if version && @catalogs[locale]&.first == version

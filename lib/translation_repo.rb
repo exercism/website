@@ -20,7 +20,7 @@ module TranslationRepo
     end
 
     def cache_key(locale = I18n.locale)
-      return locale.to_s if LocaleRoster.default?(locale)
+      return locale.to_s if locale.to_sym == I18n.default_locale
 
       [locale, version].compact.join("-")
     end
@@ -29,7 +29,7 @@ module TranslationRepo
     def frontend_catalog_path(locale) = root / "locales" / locale.to_s / "website" / "frontend.json"
 
     def frontend_catalog_url(locale)
-      return if LocaleRoster.default?(locale)
+      return if locale.to_sym == I18n.default_locale
 
       hash = frontend_catalog_hash(locale) or return
       "/i18n/#{locale}/frontend-#{hash}.json"
@@ -59,7 +59,7 @@ module TranslationRepo
     end
 
     def report_missing_content!(locale, blob_id, path)
-      return unless LocaleRoster.production?(locale)
+      return unless I18n.available_locales.include?(locale.to_sym)
 
       message = "Missing #{locale} content: #{path} (#{blob_id})"
       Rails.logger.warn(message)

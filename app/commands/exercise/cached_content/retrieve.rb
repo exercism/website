@@ -47,7 +47,7 @@ class Exercise::CachedContent::Retrieve
   end
 
   def locale_suffix
-    return if LocaleRoster.default?(I18n.locale)
+    return if I18n.locale == I18n.default_locale
 
     source = solution || exercise
     ".#{I18n.locale}-#{Digest::SHA1.hexdigest("#{source.introduction}\0#{source.instructions}")[0, 12]}"

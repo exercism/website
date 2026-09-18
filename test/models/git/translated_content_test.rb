@@ -66,7 +66,6 @@ class Git::TranslatedContentTest < ActiveSupport::TestCase
       I18n.with_locale(:hu) { assert_includes @exercise.hints, "Hints" }
     end
 
-    LocaleRoster.stubs(production: %i[en hu])
     with_published_translations({}) do
       Sentry.expects(:capture_message).once.with { |message, **| message.include?("exercises/practice/bob/.docs/hints.md") }
       I18n.with_locale(:hu) { assert_includes Git::Exercise.new(:bob, "practice", "HEAD", repo_url: TestHelpers.git_repo_url("track")).hints, "Hints" }

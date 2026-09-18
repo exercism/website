@@ -10,30 +10,27 @@ class LocaleFrontendCatalogTest < ActionDispatch::IntegrationTest
   end
 
   test "a localised page renders and preloads the exact immutable catalog url" do
-    with_served_locales(:hu) do
-      with_published_translations(hu: { frontend: { "components/tracks": { title: "Nyelvek" } } }) do
-        LocaleRoster.stubs(production: %i[en hu])
-        url = TranslationRepo.frontend_catalog_url(:hu)
-        assert_match %r{\A/i18n/hu/frontend-[0-9a-f]{12}\.json\z}, url
+    with_published_translations(hu: { frontend: { "components/tracks": { title: "Nyelvek" } } }) do
+      url = TranslationRepo.frontend_catalog_url(:hu)
+      assert_match %r{\A/i18n/hu/frontend-[0-9a-f]{12}\.json\z}, url
 
-        get "/hu/tracks"
-        assert_select "meta[name='exercism-locale'][content=hu]"
-        assert_select "meta[name='exercism-i18n-catalog'][content='#{url}']"
-        assert_select "link[rel=preload][as=fetch][crossorigin=anonymous][href='#{url}']"
+      get "/hu/tracks"
+      assert_select "meta[name='exercism-locale'][content=hu]"
+      assert_select "meta[name='exercism-i18n-catalog'][content='#{url}']"
+      assert_select "link[rel=preload][as=fetch][crossorigin=anonymous][href='#{url}']"
 
-        get "/tracks"
-        assert_select "meta[name='exercism-i18n-catalog']", count: 0
+      get "/tracks"
+      assert_select "meta[name='exercism-i18n-catalog']", count: 0
 
-        get url
-        assert_response :ok
-        assert_equal "max-age=31536000, public, immutable", response.headers["Cache-Control"]
-        assert_equal({ "components/tracks" => { "title" => "Nyelvek" } }, response.parsed_body)
+      get url
+      assert_response :ok
+      assert_equal "max-age=31536000, public, immutable", response.headers["Cache-Control"]
+      assert_equal({ "components/tracks" => { "title" => "Nyelvek" } }, response.parsed_body)
 
-        get "/i18n/hu/frontend-0123456789ab.json"
-        assert_response :not_found
+      get "/i18n/hu/frontend-0123456789ab.json"
+      assert_response :not_found
 
-        assert_raises(ActionController::RoutingError) { get "/i18n/nl/frontend-0123456789ab.json" }
-      end
+      assert_raises(ActionController::RoutingError) { get "/i18n/nl/frontend-0123456789ab.json" }
     end
   end
 

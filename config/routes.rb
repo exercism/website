@@ -18,7 +18,7 @@ Rails.application.routes.draw do
     ["/#{params[:path]}", req.query_string.presence].compact.join("?")
   }
 
-  scope "(:locale)", constraints: { locale: LocaleRoster.route_constraint } do
+  scope "(:locale)", constraints: { locale: LOCALE_ROUTE_CONSTRAINT } do
     draw(:website)
   end
 

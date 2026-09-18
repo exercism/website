@@ -18,7 +18,7 @@ class ExerciseDocsLocaleTest < ActionDispatch::IntegrationTest
   end
 
   test "the banner is shown to a user whose docs are for a newer version" do
-    with_served_locales(:hu) do
+    with_available_locales(:hu) do
       with_published_translations({}) do
         publish_latest!
 
@@ -33,7 +33,7 @@ class ExerciseDocsLocaleTest < ActionDispatch::IntegrationTest
   end
 
   test "exercise_locale=en renders the pinned english docs with no banner" do
-    with_served_locales(:hu) do
+    with_available_locales(:hu) do
       with_published_translations({}) do
         publish_latest!
 
@@ -48,7 +48,7 @@ class ExerciseDocsLocaleTest < ActionDispatch::IntegrationTest
   end
 
   test "any other value is ignored" do
-    with_served_locales(:hu) do
+    with_available_locales(:hu) do
       with_published_translations({}) do
         publish_latest!
 
@@ -63,7 +63,7 @@ class ExerciseDocsLocaleTest < ActionDispatch::IntegrationTest
   test "the param has no effect on an up to date solution" do
     @solution.update!(git_sha: @exercise.git_sha)
 
-    with_served_locales(:hu) do
+    with_available_locales(:hu) do
       with_published_translations({}) do
         publish_latest!
 
@@ -77,6 +77,8 @@ class ExerciseDocsLocaleTest < ActionDispatch::IntegrationTest
   end
 
   test "the param has no effect in english" do
+    @user.update!(locale: "en")
+
     get track_exercise_url(@track, @exercise)
     assert_select "html[lang='en-US']"
     assert_includes response.body, pinned_english_instructions

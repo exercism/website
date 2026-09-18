@@ -6,10 +6,6 @@ jest.mock('@/i18n/en', () => ({
   __esModule: true,
   default: { 'test/ns': { hello: 'Hello', onlyEnglish: 'Only English' } },
 }))
-jest.mock('@/utils/locale-roster', () => ({
-  DEFAULT_LOCALE: 'en',
-  isProductionLocale: (locale: string) => ['en', 'hu'].includes(locale),
-}))
 
 const CATALOG_URL = '/i18n/hu/frontend-0123456789ab.json'
 
@@ -116,7 +112,7 @@ test('a catalog is fetched once per url, and a new hash replaces the old one', a
   ).toBe(false)
 })
 
-test('a production locale falling back to english is reported, once', async () => {
+test('a locale falling back to english is reported, once', async () => {
   setPage('hu', CATALOG_URL)
   mockCatalog({ 'test/ns': { hello: 'Szia' } })
   const { default: i18n, ensureLocale } = loadModule()

@@ -20,7 +20,7 @@ class TranslationRepo::SyncTest < ActiveSupport::TestCase
   end
 
   test "clones shallow, on main, with only the served locales" do
-    with_served_locales(:hu) { sync! }
+    sync!
 
     assert_equal head, TranslationRepo.version
     assert_equal %w[locales.json locales/hu/website/backend.json], checked_out
@@ -29,11 +29,11 @@ class TranslationRepo::SyncTest < ActiveSupport::TestCase
   end
 
   test "pulls what was pushed and widens to newly served locales" do
-    with_served_locales(:hu) { sync! }
+    sync!
 
     write!("locales/hu/website/backend.json", { a: "hu2" }.to_json)
     commit!("two")
-    with_served_locales(:hu, :nl) { sync! }
+    with_available_locales(:hu, :nl) { sync! }
 
     assert_equal head, TranslationRepo.version
     assert_equal %w[locales.json locales/hu/website/backend.json locales/nl/website/backend.json], checked_out
@@ -41,7 +41,7 @@ class TranslationRepo::SyncTest < ActiveSupport::TestCase
   end
 
   test "a second sync skips while the first holds the lock" do
-    with_served_locales(:hu) { sync! }
+    sync!
     before = head
 
     write!("locales/hu/website/backend.json", { a: "hu2" }.to_json)
@@ -49,11 +49,11 @@ class TranslationRepo::SyncTest < ActiveSupport::TestCase
 
     File.open(TranslationRepo.root.dirname / "i18n.lock", File::RDWR | File::CREAT) do |lock|
       lock.flock(File::LOCK_EX)
-      with_served_locales(:hu) { sync! }
+      sync!
       assert_equal before, TranslationRepo.version
     end
 
-    with_served_locales(:hu) { sync! }
+    sync!
     TranslationRepo.expire!
     assert_equal head, TranslationRepo.version
   end

@@ -1,5 +1,5 @@
 module LocaleUrlOptions
-  def self.ambient = LocaleRoster.path_segment(I18n.locale)
+  def self.ambient = I18n.locale == I18n.default_locale ? nil : I18n.locale.to_s
 
   module RouteSet
     def url_for(options, route_name = nil, *args)

@@ -36,17 +36,15 @@ module MetaTagsHelper
   end
 
   def hreflang_alternates
-    return {} unless canonical_url.present? && locale_scoped_route? && !noindex_locale?
+    return {} unless canonical_url.present? && locale_scoped_route?
 
     Locale::Alternates.(canonical_url)
   end
 
-  def noindex_locale? = !LocaleRoster.production?(I18n.locale)
-
   def frontend_catalog_url = TranslationRepo.frontend_catalog_url(I18n.locale)
 
-  def html_lang = LocaleRoster.default?(I18n.locale) ? "en-US" : I18n.locale.to_s
-  def html_dir = LocaleRoster.direction(I18n.locale)
+  def html_lang = I18n.locale == I18n.default_locale ? "en-US" : I18n.locale.to_s
+  def html_dir = Locale::Direction.(I18n.locale)
 
   def track_meta_tags(user_track)
     content_for :meta_title, "#{user_track.track_title} on Exercism"

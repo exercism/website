@@ -20,20 +20,8 @@ class API::BaseControllerLocaleTest < API::BaseTestCase
     assert_english(header: "en", user_locale: "hu")
   end
 
-  test "a page locale the user may not view is ignored" do
-    assert_english(header: "hu", production: false)
-  end
-
-  test "a user locale the user may not view is ignored" do
-    assert_english(user_locale: "hu", production: false)
-  end
-
-  test "a translator may view their own work in progress locale" do
-    assert_hungarian(header: "hu", production: false, translator: true)
-  end
-
-  test "a locale this environment does not serve is ignored" do
-    assert_english(header: "de", production: false)
+  test "a locale that is not served is ignored" do
+    assert_english(header: "de")
   end
 
   test "responses vary on the locale header" do
@@ -59,11 +47,10 @@ class API::BaseControllerLocaleTest < API::BaseTestCase
     assert_equal @english, actual
   end
 
-  def notification_text(header: nil, user_locale: nil, production: true, translator: false)
-    with_hungarian(production:) do
+  def notification_text(header: nil, user_locale: nil)
+    with_hungarian do
       setup_user
       @current_user.update!(locale: user_locale) if user_locale
-      @current_user.update!(translator_locales: ["hu"]) if translator
       @english = create_notification.text
 
       headers = header ? @headers.merge('X-Exercism-Locale' => header) : @headers
@@ -81,13 +68,10 @@ class API::BaseControllerLocaleTest < API::BaseTestCase
       params: { discussion: create(:mentor_discussion) }
   end
 
-  def with_hungarian(production:, &)
+  def with_hungarian(&)
     Dir.mktmpdir do |dir|
       TranslationRepo.stubs(root: Pathname.new(dir) / "i18n")
-      with_served_locales(:hu) do
-        LocaleRoster.stubs(production: %i[en hu]) if production
-        with_published_translations(hu: { backend: CATALOG }, &)
-      end
+      with_published_translations(hu: { backend: CATALOG }, &)
     end
   end
 end

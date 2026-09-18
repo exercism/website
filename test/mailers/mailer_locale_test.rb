@@ -23,66 +23,48 @@ class MailerLocaleTest < ActionMailer::TestCase
   end
 
   test "emails stay english, with english links, while the decision is open" do
-    with_served_locales(:hu) do
-      body = notification_email(hungarian_user).html_part.body.to_s
-      assert_includes body, "https://test.exercism.org/tracks/"
-      refute_includes body, "https://test.exercism.org/hu/"
-    end
+    body = notification_email(hungarian_user).html_part.body.to_s
+    assert_includes body, "https://test.exercism.org/tracks/"
+    refute_includes body, "https://test.exercism.org/hu/"
   end
 
   test "renders in the recipient's locale, with locale-correct links, outside any request" do
     localise_emails!
 
-    with_served_locales(:hu) do
-      LocaleRoster.stubs(production: %i[en hu])
-      user = hungarian_user
-      locales = []
-      NotificationsMailer.any_instance.stubs(:setup_advert!).with { locales << I18n.locale }
+    user = hungarian_user
+    locales = []
+    NotificationsMailer.any_instance.stubs(:setup_advert!).with { locales << I18n.locale }
 
-      body = Thread.new { notification_email(user).html_part.body.to_s }.value
+    body = Thread.new { notification_email(user).html_part.body.to_s }.value
 
-      assert_equal [:hu], locales
-      assert_includes body, "https://test.exercism.org/hu/tracks/"
-      refute_includes body, %(href="https://test.exercism.org/tracks/)
-      assert_equal :en, I18n.locale
-    end
+    assert_equal [:hu], locales
+    assert_includes body, "https://test.exercism.org/hu/tracks/"
+    refute_includes body, %(href="https://test.exercism.org/tracks/)
+    assert_equal :en, I18n.locale
   end
 
-  test "english, unknown and unviewable locales get english" do
+  test "english and unknown locales get english" do
     localise_emails!
 
-    with_served_locales(:hu) do
-      body = notification_email(hungarian_user).html_part.body.to_s
-      refute_includes body, "https://test.exercism.org/hu/"
+    other = create(:user).tap { |u| u.update!(locale: "xx") }
+    refute_includes notification_email(other).html_part.body.to_s, "https://test.exercism.org/hu/"
 
-      translator = hungarian_user.tap { |u| u.update!(translator_locales: ["hu"]) }
-      assert_includes notification_email(translator).html_part.body.to_s, "https://test.exercism.org/hu/"
-
-      other = create(:user).tap { |u| u.update!(locale: "xx") }
-      refute_includes notification_email(other).html_part.body.to_s, "https://test.exercism.org/hu/"
-    end
+    english = create(:user).tap { |u| u.update!(locale: "en") }
+    refute_includes notification_email(english).html_part.body.to_s, "https://test.exercism.org/hu/"
   end
 
   test "devise emails find their recipient too" do
     localise_emails!
 
-    with_served_locales(:hu) do
-      LocaleRoster.stubs(production: %i[en hu])
-
-      email = DeviseMailer.confirmation_instructions(hungarian_user, "token")
-      assert_includes email.html_part.body.to_s, "https://test.exercism.org/hu/users/confirmation?confirmation_token=token"
-    end
+    email = DeviseMailer.confirmation_instructions(hungarian_user, "token")
+    assert_includes email.html_part.body.to_s, "https://test.exercism.org/hu/users/confirmation?confirmation_token=token"
   end
 
   test "mailshots only exist in english, so they are sent in english" do
     localise_emails!
 
-    with_served_locales(:hu) do
-      mailshot = create :mailshot
-
-      user = hungarian_user.tap { |u| u.update!(translator_locales: ["hu"]) }
-      email = MailshotsMailer.with(user:, mailshot:).mailshot
-      refute_includes email.html_part.body.to_s, "https://test.exercism.org/hu/"
-    end
+    mailshot = create :mailshot
+    email = MailshotsMailer.with(user: hungarian_user, mailshot:).mailshot
+    refute_includes email.html_part.body.to_s, "https://test.exercism.org/hu/"
   end
 end

@@ -85,8 +85,6 @@ class TranslationRepo::BackendTest < ActiveSupport::TestCase
   end
 
   test "a production locale falling back to english is reported, once per key" do
-    LocaleRoster.stubs(production: %i[en hu])
-
     with_published_translations(hu: { backend: { store_test: { a: "egy" } } }) do
       I18n.backend.store_translations(:en, store_test: { only_english: "Hello" })
       Sentry.expects(:capture_message).once.with do |message, **opts|

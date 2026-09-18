@@ -6,7 +6,6 @@ require "rails/all"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-require_relative '../lib/locale_roster'
 require_relative '../lib/translation_repo'
 
 module Website
@@ -17,8 +16,8 @@ module Website
 
     config.time_zone = "UTC"
 
-    config.i18n.default_locale = LocaleRoster.default
-    config.i18n.available_locales = LocaleRoster.known
+    config.i18n.default_locale = :en
+    config.i18n.available_locales = %i[en hu]
 
     config.i18n.fallbacks = true
     config.active_record.default_timezone = :utc

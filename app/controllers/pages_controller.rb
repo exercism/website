@@ -85,7 +85,7 @@ class PagesController < ApplicationController
 
   def frontend_catalog
     locale = params[:catalog_locale]
-    return head :not_found unless LocaleRoster.known?(locale)
+    return head :not_found unless I18n.available_locales.include?(locale&.to_sym)
 
     json = File.binread(TranslationRepo.frontend_catalog_path(locale))
     return head :not_found unless TranslationRepo.catalog_hash(json) == params[:hash]

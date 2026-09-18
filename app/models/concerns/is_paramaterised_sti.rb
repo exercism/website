@@ -135,7 +135,7 @@ module IsParamaterisedSTI
     return {} if cache.blank?
     return cache["locales"] if cache.key?("locales")
 
-    { LocaleRoster.default.to_s => { "version" => nil, "data" => cache } }
+    { I18n.default_locale.to_s => { "version" => nil, "data" => cache } }
   end
 
   def build_rendering_data_cache(existing = {})
@@ -147,7 +147,7 @@ module IsParamaterisedSTI
   end
 
   def translation_version
-    return if LocaleRoster.default?(I18n.locale)
+    return if I18n.locale == I18n.default_locale
 
     TranslationRepo.version
   end

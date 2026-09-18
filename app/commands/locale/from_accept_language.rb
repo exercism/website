@@ -1,7 +1,7 @@
 class Locale::FromAcceptLanguage
   include Mandate
 
-  def initialize(header, locales = LocaleRoster.served)
+  def initialize(header, locales = I18n.available_locales)
     @header = header
     @locales = locales
   end

@@ -16,7 +16,7 @@ module APILocale
   def switch_api_locale!(&) = I18n.with_locale(api_locale, &)
 
   def api_locale
-    [request_locale, user_locale].compact.find { |locale| may_view_locale?(locale) } || I18n.default_locale
+    [request_locale, user_locale].compact.first || I18n.default_locale
   end
 
   def request_locale = normalize_locale(request.headers[HEADER])

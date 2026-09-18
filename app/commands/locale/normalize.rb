@@ -13,7 +13,7 @@ class Locale::Normalize
     }
   }.freeze
 
-  def initialize(tag, locales = LocaleRoster.served)
+  def initialize(tag, locales = I18n.available_locales)
     @tag = tag.to_s.tr('_', '-')
     @locales = locales.map(&:to_s)
   end

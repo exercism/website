@@ -1,10 +1,10 @@
 require "test_helper"
 
 class LocaleInitializerTest < ActiveSupport::TestCase
-  test "rails-i18n is loaded for the roster, and only the roster" do
+  test "rails-i18n is loaded for the available locales, and only those" do
     rails_i18n = I18n.load_path.map(&:to_s).select { |path| path.include?("rails-i18n") && path.include?("/rails/locale/") }
 
-    assert_equal LocaleRoster.known.map(&:to_s).sort, rails_i18n.map { |path| File.basename(path, ".yml") }.sort
+    assert_equal I18n.available_locales.map(&:to_s).sort, rails_i18n.map { |path| File.basename(path, ".yml") }.sort
   end
 
   test "dates and numbers are localised" do

@@ -1,8 +1,3 @@
-jest.mock('@/utils/locale-roster', () => ({
-  DEFAULT_LOCALE: 'en',
-  isProductionLocale: (locale: string) => ['en', 'hu'].includes(locale),
-}))
-
 import { localeHeaders, LOCALE_HEADER } from '@/utils/locale-header'
 import { fetchJSON } from '@/utils/fetch-json'
 

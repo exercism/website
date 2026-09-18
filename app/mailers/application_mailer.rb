@@ -77,9 +77,7 @@ class ApplicationMailer < ActionMailer::Base
   def recipient_locale(args)
     return I18n.default_locale unless LOCALISE_EMAILS
 
-    user = recipient(args)
-    locale = Locale::Normalize.(user&.locale)
-    locale && Locale::MayView.(locale, user) ? locale : I18n.default_locale
+    Locale::Normalize.(recipient(args)&.locale) || I18n.default_locale
   end
 
   def recipient(args)

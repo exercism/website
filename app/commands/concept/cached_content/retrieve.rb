@@ -44,7 +44,7 @@ class Concept::CachedContent::Retrieve
   end
 
   def locale_suffix
-    return if LocaleRoster.default?(I18n.locale)
+    return if I18n.locale == I18n.default_locale
 
     ".#{I18n.locale}-#{Digest::SHA1.hexdigest("#{concept.about}\0#{concept.introduction}")[0, 12]}"
   end

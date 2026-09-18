@@ -15,7 +15,7 @@ class TranslationRepo::Sync
   private
   def root = TranslationRepo.root
 
-  def sparse_dirs = (LocaleRoster.served - [LocaleRoster.default]).map { |locale| "locales/#{locale}" }
+  def sparse_dirs = (I18n.available_locales - [I18n.default_locale]).map { |locale| "locales/#{locale}" }
 
   def clone!
     git!("clone", "--depth", "1", "--single-branch", "--branch", TranslationRepo::BRANCH, "--no-checkout",

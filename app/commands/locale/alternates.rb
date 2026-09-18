@@ -7,10 +7,10 @@ class Locale::Alternates
   initialize_with :url
 
   def call
-    return {} if LocaleRoster.production.one?
+    return {} if I18n.available_locales.one?
 
-    { "x-default" => url_for(LocaleRoster.default) }.merge(
-      LocaleRoster.production.to_h { |locale| [hreflang(locale), url_for(locale)] }
+    { "x-default" => url_for(I18n.default_locale) }.merge(
+      I18n.available_locales.to_h { |locale| [hreflang(locale), url_for(locale)] }
     )
   end
 

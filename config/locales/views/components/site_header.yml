@@ -6,9 +6,6 @@ en:
         downtime_link_text: "Read more..."
         coding_fundamentals: "Learning to code? Check out our new dedicated beginners platform -"
         coding_fundamentals_link_text: "Jiki!"
-        front_end_fundamentals: "Learning web development? Check out our"
-        front_end_fundamentals_link_text: "Front-end Fundamentals"
-        front_end_fundamentals_suffix: "course!"
         donation_ask: "Enjoying Exercism? We need your help to survive…"
         donation_ask_link_text: "Please donate if you can!"
       nav:

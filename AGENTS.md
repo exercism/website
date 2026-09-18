@@ -99,7 +99,7 @@ Hardcoded UI strings are being extracted into i18n. Two parallel systems:
 
 - **Rails/HAML**: keys live in `config/locales/` (organized by area, e.g. `pages/`, `views/`). Reference with the standard `t('...')` / `I18n.t`.
 - **React/TypeScript**: keys live in `app/javascript/i18n/en/`, one file **per component**, named after the component's path (e.g. `components-common-Loading.tsx.ts`). Each file `export default`s a nested object; the top comment records the namespace. In components, use `useAppTranslation('<namespace>')` from `@/i18n/useAppTranslation` and call `t('key.path')`. `app/javascript/i18n/generateIndexFile.ts` regenerates the aggregated `app/javascript/i18n/en/index.ts` from the per-component files.
-- Some areas are intentionally **excluded** from extraction (bootcamp, courses, admin, hiring, campaigns, dead mailers). Confirm scope before extracting strings in an unfamiliar area.
+- Some areas are intentionally **excluded** from extraction (bootcamp, admin, hiring, campaigns, dead mailers). Confirm scope before extracting strings in an unfamiliar area.
 - **Translations** live in `exercism/i18n`, read by `lib/translation_repo.rb` from a plain checkout at `<efs_repositories_mount_point>/i18n` (`/opt/exercism/efs/repos/i18n` locally). To see a locale other than English, clone it there: `git clone --depth 1 --single-branch https://github.com/exercism/i18n.git /opt/exercism/efs/repos/i18n`, or run `bin/rails runner 'TranslationRepo::Sync.()'`, which clones and pulls the served locales the way production does. Without it every locale falls back to English.
 
 ## Git Usage

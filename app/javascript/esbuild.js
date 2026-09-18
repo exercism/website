@@ -11,7 +11,6 @@ function build() {
         './app/javascript/packs/core.tsx',
         './app/javascript/packs/internal.tsx',
         './app/javascript/packs/landing.tsx',
-        './app/javascript/packs/courses.tsx',
         './app/javascript/packs/bootcamp-js.tsx',
         ...(process.env.RAILS_ENV === 'test'
           ? ['./app/javascript/packs/test.tsx']

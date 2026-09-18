@@ -248,20 +248,5 @@ unless Rails.env.production?
   end
 end
 
-###########
-# Courses #
-###########
-get "/courses" => "courses#index"
-
-get "/courses/testimonials" => "courses#testimonials"
-get "/courses/enrolled" => "courses#enrolled", as: :courses_enrolled
-get "/courses/:id" => "courses#show", as: :course
-
-get "/courses/:id/enroll" => "courses#start_enrolling", as: :course_start_enrolling
-post "/courses/:id/enroll" => "courses#enroll", as: :course_enroll
-get "/courses/:id/pay" => "courses#pay", as: :course_pay
-
-post "/courses/stripe/create-checkout-session" => "courses#stripe_create_checkout_session", as: :courses_stripe_create_checkout_session
-get "/courses/stripe/session-status" => "courses#stripe_session_status", as: :courses_stripe_session_status
-
+get "/courses(/*path)" => redirect("https://jiki.io")
 get "/bootcamp" => redirect("https://jiki.io"), as: :bootcamp

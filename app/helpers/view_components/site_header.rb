@@ -45,7 +45,6 @@ module ViewComponents
       return translatathon_announcement_bar if user_signed_in? && translatathon_banner
 
       return coding_fundamentals_announcement_bar unless user_signed_in?
-      return front_end_fundamentals_announcement_bar if javascript_track? && current_user.seniority != :absolute_beginner
       return coding_fundamentals_announcement_bar if current_user.junior?
 
       return tag.span("") if current_user.current_subscription
@@ -95,17 +94,6 @@ module ViewComponents
           tag.span("👋", class: 'emoji mr-6') +
             tag.span(I18n.t("components.site_header.announcement_bar.coding_fundamentals")) +
             tag.strong(I18n.t("components.site_header.announcement_bar.coding_fundamentals_link_text"))
-        end
-      end
-    end
-
-    def front_end_fundamentals_announcement_bar
-      link_to(Courses::FrontEndFundamentals.url, class: "announcement-bar md:block hidden") do
-        tag.div(class: "lg-container") do
-          tag.span("👋", class: 'emoji mr-6') +
-            tag.span(I18n.t("components.site_header.announcement_bar.front_end_fundamentals")) +
-            tag.strong(I18n.t("components.site_header.announcement_bar.front_end_fundamentals_link_text")) +
-            tag.span(I18n.t("components.site_header.announcement_bar.front_end_fundamentals_suffix"))
         end
       end
     end

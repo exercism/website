@@ -4,8 +4,8 @@ import * as Sentry from '@sentry/react'
 
 import en from './en'
 import { DEFAULT_LOCALE, isProductionLocale } from '@/utils/locale-roster'
+import { metaContent, pageLocale } from '@/utils/page-locale'
 
-const LOCALE_META = 'exercism-locale'
 const CATALOG_META = 'exercism-i18n-catalog'
 
 type Catalog = Record<string, Record<string, unknown>>
@@ -14,17 +14,8 @@ const loadedCatalogs = new Map<string, string>()
 const reported = new Set<string>()
 let queue: Promise<void> = Promise.resolve()
 
-function meta(name: string): string | null {
-  if (typeof document === 'undefined') return null
-
-  return (
-    document.querySelector(`meta[name="${name}"]`)?.getAttribute('content') ||
-    null
-  )
-}
-
-export const pageLocale = (): string => meta(LOCALE_META) || DEFAULT_LOCALE
-const pageCatalogUrl = (): string | null => meta(CATALOG_META)
+export { pageLocale }
+const pageCatalogUrl = (): string | null => metaContent(CATALOG_META)
 
 function report(kind: string, locale: string, key: string): void {
   if (!isProductionLocale(locale)) return

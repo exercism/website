@@ -13,15 +13,16 @@ class Github::TeamMember::DestroyTest < ActiveSupport::TestCase
     refute Github::TeamMember.where(user:, team_name:).exists?
   end
 
-  test "update maintainer role when track team" do
+  test "update maintainer role and sync maintenance status when track team" do
     github_uid = '137131'
     team_name = 'fsharp'
 
     user = create(:user, uid: github_uid)
-    create(:track, slug: team_name)
+    track = create(:track, slug: team_name)
     team_member = create(:github_team_member, team_name:, user:)
 
     User::UpdateMaintainer.expects(:call).with(user).once
+    Track::UpdateGithubMaintenanceStatus.expects(:defer).with(track).once
 
     Github::TeamMember::Destroy.(team_member)
   end
@@ -34,6 +35,7 @@ class Github::TeamMember::DestroyTest < ActiveSupport::TestCase
     team_member = create(:github_team_member, team_name:, user:)
 
     User::UpdateMaintainer.expects(:call).never
+    Track::UpdateGithubMaintenanceStatus.expects(:defer).never
 
     Github::TeamMember::Destroy.(team_member)
   end

@@ -24,10 +24,15 @@ module MetaTagsHelper
   end
 
   def canonical_url
-    return content_for(:canonical_url) if content_for?(:canonical_url)
-    return unless locale_scoped_route?
+    if content_for?(:canonical_url)
+      url = content_for(:canonical_url)
+    else
+      return unless locale_scoped_route?
 
-    "#{request.base_url}#{request.path}".delete_suffix("/")
+      url = "#{request.base_url}#{request.path}"
+    end
+
+    locale_scoped_route? ? Locale::SwapInUrl.(url, I18n.locale) : url
   end
 
   def hreflang_alternates

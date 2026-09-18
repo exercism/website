@@ -64,86 +64,57 @@ class LocaleRoutingTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "signed-in users are not redirected while the decision is open" do
+  test "a signed-out visitor gets english on a naked url" do
+    get "/tracks"
+
+    assert_response :ok
+    assert_select "html[lang='en-US']"
+  end
+
+  test "a signed-in user's own locale is rendered on a naked url, with no redirect" do
     with_served_locales(:hu) do
       user = create :user, :staff
       user.update!(locale: "hu")
       sign_in!(user)
 
       get "/tracks"
+
       assert_response :ok
+      assert_select "html[lang=hu]"
+      assert_select "meta[name=exercism-locale][content=hu]"
+      assert_equal "private, no-store", response.headers["Cache-Control"]
+
+      get "/hu/tracks"
+      refute_equal "private, no-store", response.headers["Cache-Control"]
     end
   end
 
-  class RedirectTest < ActionDispatch::IntegrationTest
-    setup do
-      LocaleRouting.send(:remove_const, :REDIRECT_SIGNED_IN_USERS)
-      LocaleRouting.const_set(:REDIRECT_SIGNED_IN_USERS, true)
+  test "the url wins over the user's locale" do
+    with_served_locales(:hu, :nl) do
+      user = create :user, :staff
+      user.update!(locale: "nl")
+      sign_in!(user)
 
-      @user = create :user, :staff
-      @user.update!(locale: "hu")
-      sign_in!(@user)
-    end
+      get "/hu/tracks"
 
-    teardown do
-      LocaleRouting.send(:remove_const, :REDIRECT_SIGNED_IN_USERS)
-      LocaleRouting.const_set(:REDIRECT_SIGNED_IN_USERS, false)
-    end
-
-    test "redirects a naked url to the user's locale, uncached, with no loop-breaker" do
-      with_served_locales(:hu) do
-        get "/tracks?criteria=ruby"
-
-        assert_redirected_to "/hu/tracks?criteria=ruby"
-        assert_equal 302, response.status
-        assert_includes response.headers["Cache-Control"], "no-store"
-
-        follow_redirect!
-        assert_response :ok
-      end
-    end
-
-    test "the url wins over the preference" do
-      with_served_locales(:hu, :nl) do
-        @user.update!(locale: "nl")
-
-        get "/hu/tracks"
-        assert_response :ok
-      end
-    end
-
-    test "never redirects onto a route that has no localised version" do
-      with_served_locales(:hu) do
-        get "/moderation/shadow_banned_users"
-        refute_includes response.location.to_s, "/hu/"
-
-        get "/admin"
-        refute_equal "/hu/admin", URI(response.location.to_s).path
-      end
-    end
-
-    test "only html navigations redirect" do
-      with_served_locales(:hu) do
-        get "/api/v2/tracks", as: :json
-        refute response.redirect?
-
-        post "/tracks/ruby/join"
-        refute_includes response.location.to_s, "/hu/tracks/ruby/join"
-      end
-    end
-
-    test "english, unknown and unviewable preferences do nothing" do
-      with_served_locales(:hu) do
-        ["en", "en-GB", "xx", nil].each do |locale|
-          @user.update!(locale:)
-          get "/tracks"
-          assert_response :ok
-        end
-      end
-
-      @user.update!(locale: "hu")
-      get "/tracks"
       assert_response :ok
+      assert_select "html[lang=hu]"
+    end
+  end
+
+  test "english, unknown and unviewable user locales fall back to english" do
+    with_served_locales(:hu) do
+      user = create :user
+      sign_in!(user)
+
+      ["en", "en-GB", "xx", "hu", nil].each do |locale|
+        user.update!(locale:)
+        get "/tracks"
+
+        assert_response :ok
+        assert_select "html[lang='en-US']"
+        refute_equal "private, no-store", response.headers["Cache-Control"]
+      end
     end
   end
 end

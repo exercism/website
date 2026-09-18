@@ -17,10 +17,5 @@ class Locale::Alternates
   private
   def hreflang(locale) = HREFLANG.fetch(locale.to_s, locale.to_s)
 
-  def url_for(locale)
-    uri.dup.tap { |u| u.path = Locale::SwapInPath.(uri.path, locale) }.to_s.delete_suffix("/")
-  end
-
-  memoize
-  def uri = Addressable::URI.parse(url)
+  def url_for(locale) = Locale::SwapInUrl.(url, locale)
 end

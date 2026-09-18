@@ -12,7 +12,6 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   before_action :rate_limit_for_user!
   before_action :ensure_onboarded!
-  before_action :redirect_to_user_locale!
   around_action :mark_notifications_as_read!
   before_action :set_request_context
   after_action :set_user_id_cookie

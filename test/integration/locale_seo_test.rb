@@ -56,6 +56,24 @@ class LocaleSeoTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "a naked page rendered in the user's locale is canonical at its prefixed url" do
+    track = create :track, slug: "ruby"
+
+    with_served_locales(:hu) do
+      LocaleRoster.stubs(production: %i[en hu])
+      user = create :user
+      user.update!(locale: "hu")
+      sign_in!(user)
+
+      get "/tracks"
+      assert_select "link[rel=canonical][href='http://test.exercism.org/hu/tracks']"
+      assert_select "link[rel=alternate][hreflang=en][href='http://test.exercism.org/tracks']"
+
+      get "/tracks/ruby"
+      assert_select "link[rel=canonical][href='http://test.exercism.org/hu/tracks/#{track.slug}']"
+    end
+  end
+
   test "rtl locales declare their direction" do
     assert_equal "rtl", LocaleRoster.direction(:ar)
     assert_equal "rtl", LocaleRoster.direction("fa-IR")

@@ -9,9 +9,6 @@ class ApplicationMailer < ActionMailer::Base
   rescue_from(Net::SMTPSyntaxError) {}
   rescue_from(Net::SMTPFatalError) {}
 
-  # TODO(iHiD): OPEN. Whether emails are localised from launch.
-  LOCALISE_EMAILS = false
-
   def process(action, *args)
     I18n.with_locale(recipient_locale(args)) { super }
   end
@@ -74,11 +71,7 @@ class ApplicationMailer < ActionMailer::Base
 
   private
   # TODO(iHiD): OPEN. What "the user's locale" is.
-  def recipient_locale(args)
-    return I18n.default_locale unless LOCALISE_EMAILS
-
-    Locale::Normalize.(recipient(args)&.locale) || I18n.default_locale
-  end
+  def recipient_locale(args) = Locale::Normalize.(recipient(args)&.locale) || I18n.default_locale
 
   def recipient(args)
     return args.first if args.first.is_a?(User) # Devise passes the user positionally

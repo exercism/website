@@ -69,9 +69,6 @@ class API::BaseControllerLocaleTest < API::BaseTestCase
   end
 
   def with_hungarian(&)
-    Dir.mktmpdir do |dir|
-      TranslationRepo.stubs(root: Pathname.new(dir) / "i18n")
-      with_published_translations(hu: { backend: CATALOG }, &)
-    end
+    with_published_translations(hu: { backend: CATALOG }, &)
   end
 end

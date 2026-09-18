@@ -2,7 +2,8 @@ require "test_helper"
 
 class TranslationRepo::SyncTest < ActiveSupport::TestCase
   setup do
-    raise "#{TranslationRepo.root} already exists" if File.exist?(TranslationRepo.root)
+    @root = Pathname.new(Dir.mktmpdir)
+    TranslationRepo.stubs(root: @root / "i18n")
 
     @upstream = Pathname.new(Dir.mktmpdir)
     git!("init", "-q", "-b", "main")
@@ -14,9 +15,10 @@ class TranslationRepo::SyncTest < ActiveSupport::TestCase
   end
 
   teardown do
-    FileUtils.rm_rf(TranslationRepo.root)
-    FileUtils.rm_rf(@upstream)
     TranslationRepo.expire!
+    TranslationRepo.unstub(:root)
+    FileUtils.rm_rf(@root)
+    FileUtils.rm_rf(@upstream)
   end
 
   test "clones shallow, on main, with only the served locales" do

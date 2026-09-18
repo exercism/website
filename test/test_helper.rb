@@ -210,20 +210,22 @@ class ActiveSupport::TestCase
 
   # e.g. with_published_translations(hu: { backend: { greeting: "Szia" } })
   def with_published_translations(catalogs)
-    raise "#{TranslationRepo.root} already exists" if File.exist?(TranslationRepo.root)
+    Dir.mktmpdir do |dir|
+      TranslationRepo.stubs(root: Pathname.new(dir) / "i18n")
 
-    begin
-      catalogs.each do |locale, kinds|
-        kinds.each { |kind, tree| publish_translation_catalog!(locale, kind, tree) }
+      begin
+        catalogs.each do |locale, kinds|
+          kinds.each { |kind, tree| publish_translation_catalog!(locale, kind, tree) }
+        end
+        commit_translations!
+        I18n.reload!
+
+        yield
+      ensure
+        TranslationRepo.expire!
+        TranslationRepo.unstub(:root)
+        I18n.reload!
       end
-      commit_translations!
-      I18n.reload!
-
-      yield
-    ensure
-      FileUtils.rm_rf(TranslationRepo.root)
-      TranslationRepo.expire!
-      I18n.reload!
     end
   end
 

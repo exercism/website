@@ -126,12 +126,14 @@ export const SizeSwitcher = ({
   value: TaskSize[]
   setValue: (sizes: TaskSize[]) => void
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/contributing')
+
   return (
     <MultipleSelect<TaskSize>
       options={['tiny', 'small', 'medium', 'large', 'massive']}
       value={value}
       setValue={setValue}
-      label="Size"
+      label={t('tasksList.sizeSwitcher.label')}
       SelectedComponent={SelectedComponent}
       ResetComponent={ResetComponent}
       OptionComponent={SizeOption}

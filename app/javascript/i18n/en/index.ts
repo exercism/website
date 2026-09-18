@@ -230,6 +230,9 @@ import gn from './session-batch-2'
 import go from './session-batch-3'
 import hwf from './components-common-HandleWithFlair.tsx'
 import acx from './components-editor-AssistantChat'
+import mdl from './components-modals-Modal.tsx'
+import rzn from './components-ResultsZone.tsx'
+import ice from './components-impact-chart-elements'
 
 export default {
   'automation-batch': aa,
@@ -473,4 +476,7 @@ export default {
   'session-batch-3': go,
   'components/common/HandleWithFlair.tsx': hwf,
   'components/editor/AssistantChat': acx,
+  'components/modals/Modal.tsx': mdl,
+  'components/ResultsZone.tsx': rzn,
+  'components/impact/chart-elements': ice,
 }

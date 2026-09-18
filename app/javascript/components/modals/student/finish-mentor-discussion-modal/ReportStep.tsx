@@ -137,7 +137,7 @@ export const ReportStep = ({
                     required
                     ref={messageRef}
                     id="message"
-                    placeholder="Please provide exactly why you are making this report, and tell us what happened."
+                    placeholder={t('reportStep.reportPlaceholder')}
                   />
                 </div>
                 <div className="assurance">

@@ -4,6 +4,7 @@ import { GraphicalIcon } from '../../common/GraphicalIcon'
 import { TestsGroup, TestWithToggle } from './TestsGroup'
 import { TestSummary } from './TestSummary'
 import { TasksContext } from '../../Editor'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type TaskWithTestsWithToggle = AssignmentTask & {
   id: number
@@ -38,6 +39,7 @@ const JumpToInstructionButton = ({
 }: {
   taskId: number
 }): JSX.Element | null => {
+  const { t } = useAppTranslation('components/editor/testComponents')
   const { switchToTask, showJumpToInstructionButton } = useContext(TasksContext)
 
   return showJumpToInstructionButton ? (
@@ -46,7 +48,7 @@ const JumpToInstructionButton = ({
       type="button"
       onClick={() => switchToTask(taskId)}
     >
-      Jump to Instructions
+      {t('jumpToInstructionButton.jumpToInstructions')}
     </button>
   ) : null
 }

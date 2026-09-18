@@ -33,4 +33,6 @@ export default {
   'solutionFilter.filterBy': 'Filter by',
   'solutionFilter.applyFilters': 'Apply filters',
   'solutionFilter.close': 'Close',
+  'solutionFilter.filterTracksLabel':
+    'A series of options to filter Exercism tracks',
 }

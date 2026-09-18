@@ -32,4 +32,6 @@ export default {
     'Unable to create mentor request',
   'mentoringRequestForm.openForMentor':
     'Once you submit, your request will be open for a mentor to join and start providing feedback.',
+  'mentoringRequestInfo.opensInANewWindowOrTab':
+    'The link opens in a new window or tab',
 }

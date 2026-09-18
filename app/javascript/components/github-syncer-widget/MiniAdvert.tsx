@@ -10,19 +10,19 @@ export function MiniAdvert({ settingsLink }: { settingsLink: string }) {
         <Icon
           icon="exercism-face"
           category="icons"
-          alt="Exercism"
+          alt={t('miniAdvert.exercism')}
           className="h-[64px]"
         />
         <Icon
           icon="sync"
           category="graphics"
-          alt="Sync with"
+          alt={t('miniAdvert.syncWith')}
           className="h-[45px]"
         />
         <Icon
           icon="external-site-github"
           category="icons"
-          alt="Github"
+          alt={t('miniAdvert.github')}
           className="h-[64px]"
         />
       </div>

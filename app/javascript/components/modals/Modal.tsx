@@ -2,6 +2,7 @@ import React from 'react'
 import { Aria, default as ReactModal, Props } from 'react-modal'
 import { Icon } from '../common/Icon'
 import { Wrapper } from '../common/Wrapper'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 import { ActiveBackground, Confetti } from '@exercism/active-background'
 
 type Theme = 'light' | 'dark' | 'unset'
@@ -89,9 +90,11 @@ export function Modal({
 export type CloseButtonProps = Pick<ModalProps, 'onClose'>
 
 function CloseButton({ onClose }: CloseButtonProps) {
+  const { t } = useAppTranslation('components/modals/Modal.tsx')
+
   return (
     <button type="button" onClick={onClose} className="--close-button">
-      <Icon icon="cross" alt="Close modal" />
+      <Icon icon="cross" alt={t('modal.closeModal')} />
     </button>
   )
 }

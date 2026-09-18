@@ -86,4 +86,6 @@ export default {
   'donationStep.continueWithoutDonating': 'Continue without donating',
   'donationStep.lessThanOnePercentDonate':
     'Fewer than 1% of who use Exercism choose to donate. If you can afford to do so, please be one of them.',
+  'reportStep.reportPlaceholder':
+    'Please provide exactly why you are making this report, and tell us what happened.',
 }

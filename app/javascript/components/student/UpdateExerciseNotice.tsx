@@ -22,7 +22,7 @@ export default function UpdateExerciseNotice({
     <React.Fragment>
       {docsForNewerVersion ? (
         <div className="update-bar">
-          <Icon icon="warning" alt="Warning" />
+          <Icon icon="warning" alt={t('updateExerciseNotice.warning')} />
           <span>
             <Trans
               t={t}
@@ -46,7 +46,7 @@ export default function UpdateExerciseNotice({
           className="update-bar"
           onClick={() => setOpen(!open)}
         >
-          <Icon icon="warning" alt="Warning" />
+          <Icon icon="warning" alt={t('updateExerciseNotice.warning')} />
           {t('updateExerciseNotice.exerciseUpdated')}
           <div className="faux-link">
             {t('updateExerciseNotice.seeWhatsChanged')}

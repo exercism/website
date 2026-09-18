@@ -83,7 +83,7 @@ function SomethingWentWrongWithRefetch({ refetch }) {
       <button
         className="btn-m btn-default"
         onClick={refetch}
-        aria-label="Retry"
+        aria-label={t('taggableCodeList.retry')}
       >
         {t('taggableCodeList.retry')}
       </button>

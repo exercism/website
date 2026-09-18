@@ -11,7 +11,6 @@ export const KNOWN_LOCALES = locales.map((l) => l.code)
 export const PRODUCTION_LOCALES = withStatus('production')
 export const WIP_LOCALES = withStatus('wip')
 
-// Mirrors LocaleRoster.served: tests run in English only.
 export const SERVED_LOCALES =
   process.env.NODE_ENV === 'test'
     ? [DEFAULT_LOCALE]

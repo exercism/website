@@ -43,8 +43,6 @@ class Concept::CachedContent::Retrieve
     "concept-content/#{uuid[0, 2]}/#{uuid[2, 2]}/#{uuid}/#{concept.synced_to_git_sha}#{locale_suffix}.json"
   end
 
-  # Outside English the sha does not pin the content, as a translation can be
-  # corrected or arrive late. See Exercise::CachedContent::Retrieve.
   def locale_suffix
     return if LocaleRoster.default?(I18n.locale)
 

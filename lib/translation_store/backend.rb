@@ -1,13 +1,5 @@
 require 'i18n'
 
-# The I18n backend. English and rails-i18n come from the load path as
-# usual, and each locale's published backend catalog is laid over them.
-#
-# The whole tree is held in memory. When a pointer names a new hash, a
-# fresh tree is built and then swapped in with one assignment, so a
-# lookup only ever sees a complete catalog. Nothing is merged in place.
-# The check is made lazily from lookups, so it works the same in Puma
-# workers and in Sidekiq, with no thread to survive a fork.
 class TranslationStore::Backend < I18n::Backend::Simple
   include I18n::Backend::Pluralization
   include I18n::Backend::Fallbacks
@@ -34,8 +26,6 @@ class TranslationStore::Backend < I18n::Backend::Simple
     super
   end
 
-  # English is only a safety net. A production locale falling back to it
-  # means a user is looking at untranslated text, so it is reported.
   def on_fallback(original_locale, fallback_locale, key, _options)
     return unless LocaleRoster.production?(original_locale) && LocaleRoster.default?(fallback_locale)
     return unless @reported.add?([original_locale.to_sym, key.to_s])
@@ -47,8 +37,6 @@ class TranslationStore::Backend < I18n::Backend::Simple
   end
 
   private
-  # Costs one object comparison per lookup: the pointers are only a
-  # different object once TranslationStore has re-read them.
   def refresh_if_stale!
     return unless initialized?
 
@@ -63,8 +51,6 @@ class TranslationStore::Backend < I18n::Backend::Simple
     pointers.filter_map { |(locale, kind), hash| [locale, hash] if kind == :backend }.to_h
   end
 
-  # One builder at a time. Everyone else keeps serving the current tree,
-  # except at boot, when there is no tree yet and they have to wait.
   def build_and_swap!(wait: false)
     return unless wait ? @swap.lock : @swap.try_lock
 
@@ -86,8 +72,6 @@ class TranslationStore::Backend < I18n::Backend::Simple
     end
   end
 
-  # [hash, tree]. An artifact we can't read (the mirror writes it before
-  # the pointer, so this shouldn't happen) leaves the locale as it was.
   def catalog_for(locale, hash)
     return @catalogs[locale] if @catalogs[locale]&.first == hash
 

@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
 
   # around_action :set_log_level
   before_action :store_session_variables
-  around_action :switch_locale! # First, so that auth redirects are localised too
+  around_action :switch_locale! # Before authenticate_user!, so its redirects are localised
   before_action :authenticate_user!
   before_action :rate_limit_for_user!
   before_action :ensure_onboarded!

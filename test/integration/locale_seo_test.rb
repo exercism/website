@@ -39,7 +39,6 @@ class LocaleSeoTest < ActionDispatch::IntegrationTest
       assert_equal "noindex", response.headers["X-Robots-Tag"]
       assert_select "link[rel=alternate][hreflang]", count: 0
 
-      # And english pages don't point at it
       get "/tracks"
       assert_select "link[rel=alternate][hreflang]", count: 0
     end

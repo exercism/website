@@ -1,11 +1,8 @@
-# Everything here is drawn inside the optional /:locale scope in routes.rb,
-# so it is served at both /tracks and /hu/tracks.
-
 # #### #
 # Auth #
 # #### #
 
-# Omniauth callbacks cannot sit in a dynamic scope. They live in special.rb.
+# Devise's omniauth callbacks cannot sit in a dynamic scope.
 devise_for :users, skip: :omniauth_callbacks, controllers: {
   sessions: "auth/sessions",
   registrations: "auth/registrations",

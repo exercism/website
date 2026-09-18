@@ -6,11 +6,7 @@
 
 module API
   class BaseController < ApplicationController
-    # TODO(iHiD): OPEN. How API responses learn their locale. API routes are
-    # not locale-scoped, so everything here renders in English today, links
-    # included. The leading idea is for the site's fetch wrapper to send the
-    # page's locale in a header, with the user's preference as the fallback.
-    # The CLI's v1 endpoints stay English.
+    # TODO(iHiD): OPEN. How API responses learn their locale.
     skip_before_action :verify_authenticity_token
     skip_after_action :set_body_class_header
     skip_around_action :mark_notifications_as_read!

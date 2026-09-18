@@ -27,19 +27,16 @@ function setPage(locale: string | null, catalogUrl: string | null = null) {
 }
 
 function mockCatalog(catalog: unknown, ok = true) {
-  const fetchMock = jest
-    .fn()
-    .mockResolvedValue({
-      ok,
-      status: ok ? 200 : 404,
-      json: async () => catalog,
-    })
+  const fetchMock = jest.fn().mockResolvedValue({
+    ok,
+    status: ok ? 200 : 404,
+    json: async () => catalog,
+  })
   global.fetch = fetchMock as unknown as typeof fetch
   return fetchMock
 }
 
-// i18n.ts initialises on import, so each test gets a fresh copy of it,
-// of i18next, and of the Sentry mock it reports to.
+// i18n.ts initialises on import, so each test loads a fresh copy
 let Sentry: { captureMessage: jest.Mock; captureException: jest.Mock }
 
 function loadModule(): typeof import('@/i18n/i18n') {

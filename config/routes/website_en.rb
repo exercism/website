@@ -1,5 +1,4 @@
-# Pages that exist in English only. They are never locale-scoped, and
-# LocaleRouting never redirects a user onto them with a prefix.
+# Pages that exist in English only.
 
 ##############
 # Challenges #

@@ -55,7 +55,6 @@ class Solution::ResolveDocsTest < ActiveSupport::TestCase
         assert_equal "új hints.md", @solution.hints
       end
 
-      # English still shows the student their own version
       refute @solution.docs_for_newer_version?
       refute_includes @solution.instructions, "új"
     end

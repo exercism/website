@@ -141,7 +141,6 @@ class LocaleRoutingTest < ActionDispatch::IntegrationTest
         end
       end
 
-      # hu is not served here
       @user.update!(locale: "hu")
       get "/tracks"
       assert_response :ok

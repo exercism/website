@@ -4,9 +4,6 @@ module Git
     # - A member named "repo" of type Git::Repository
     # - A method named "absolute_filepath" that takes a relative path
     #   to a git file and returns its absolute path
-    #
-    # translatable: true reads the file (and its append file, which is a
-    # separate blob with its own translation) in the current locale.
     def git_filepath(field, file:, append_file: nil, translatable: false)
       if translatable
         read_method = "read_translated_text_blob"
@@ -57,8 +54,7 @@ module Git
         absolute_filepath(send("#{field}_filepath"))
       end
 
-      # Define a <field>_translated? method. True in English, or when the file
-      # (and its append file) have translations for exactly these versions
+      # Define a <field>_translated? method to allow checking if the file has a translation in the current locale
       if translatable
         define_method "#{field}_translated?" do
           [send("#{field}_absolute_filepath"), (absolute_filepath(append_file) if append_file)].compact.

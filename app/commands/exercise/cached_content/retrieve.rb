@@ -13,12 +13,6 @@
 # solutions that are up to date share a single entry, and only
 # out-of-date solutions get objects of their own.
 #
-# A translation lives at a stable path and can be corrected, or can arrive
-# after we have served the English, so outside English the sha alone does
-# not make the content immutable. Those keys also carry the locale and a
-# digest of the text being parsed. Reading that text is cheap. The parse
-# is what the cache saves.
-#
 # The uuid is sharded into the key to avoid hot S3 prefixes (uuids are
 # compact hex, so their leading characters are uniformly distributed).
 class Exercise::CachedContent::Retrieve

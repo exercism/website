@@ -53,7 +53,7 @@ class TranslationStore::BackendTest < ActiveSupport::TestCase
         File.write(dir / "backend.current.json", { hash: "0123456789ab" }.to_json)
         assert_equal "egy", I18n.t("store_test.a")
 
-        travel_monotonic(TranslationStore::CHECK_INTERVAL + 1) do
+        travel_monotonic(TranslationStore::CHECK_INTERVAL_SECONDS + 1) do
           assert_equal "EGY", I18n.t("store_test.a")
         end
       end

@@ -1,6 +1,3 @@
-# The first locale we serve that the browser asks for, or nil.
-# No header means nil: crawlers send none, and they must never be
-# redirected or prompted.
 class Locale::FromAcceptLanguage
   include Mandate
 

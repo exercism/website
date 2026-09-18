@@ -1,13 +1,7 @@
-# The reciprocal hreflang map for a page: one absolute URL per production
-# locale plus x-default. The same map goes in every variant's <head> and
-# in the sitemap, so the two can never drift.
 class Locale::Alternates
   include Mandate
 
-  # Search engines only accept an ISO 639-1 language with an optional
-  # ISO 3166-1 region. A UN M.49 region such as 419 is silently ignored,
-  # so those locales are declared by language alone. Only the hreflang
-  # value changes: URLs and <html lang> keep the full code.
+  # hreflang ignores UN M.49 regions such as 419, so those locales are declared by language alone.
   HREFLANG = { "es-419" => "es" }.freeze
 
   initialize_with :url

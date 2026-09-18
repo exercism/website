@@ -201,7 +201,6 @@ class ActiveSupport::TestCase
     Array(num).map { create(model, params) }.sample
   end
 
-  # Tests run in English only. This serves extra locales for a block.
   def with_served_locales(*locales)
     LocaleRoster.stubs(served: [LocaleRoster.default, *locales.map(&:to_sym)].uniq)
     yield
@@ -209,8 +208,7 @@ class ActiveSupport::TestCase
     LocaleRoster.unstub(:served)
   end
 
-  # Publishes catalogs the way exercism/i18n's publish.mjs does, into a
-  # throwaway root. e.g. with_published_translations(hu: { backend: { greeting: "Szia" } })
+  # e.g. with_published_translations(hu: { backend: { greeting: "Szia" } })
   def with_published_translations(catalogs)
     Dir.mktmpdir do |dir|
       TranslationStore.root = dir
@@ -227,8 +225,7 @@ class ActiveSupport::TestCase
     I18n.reload!
   end
 
-  # Files a translation under the blob id of the English file, as exercism/i18n does.
-  # Call inside with_published_translations.
+  # Call inside with_published_translations
   def publish_translated_content!(locale, repo, commit, path, text)
     blob_id = repo.find_file_oid(commit, path)
     file = TranslationStore.content_path(locale, blob_id, File.extname(path))

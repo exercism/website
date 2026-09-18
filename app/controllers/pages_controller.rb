@@ -83,6 +83,16 @@ class PagesController < ApplicationController
     render json: { "Hello": "iHiD" } if stale
   end
 
+  def i18n_catalog
+    return head :not_found unless LocaleRoster.known?(params[:catalog_locale])
+
+    hash = params[:filename][/[0-9a-f]{12}/]
+    send_file TranslationStore.catalog_path(params[:catalog_locale], :frontend, hash),
+      type: "application/json", disposition: :inline
+  rescue ActionController::MissingFile
+    head :not_found
+  end
+
   # Client-side test runner artifacts: the wasm kernel, and the per-language
   # sysroots and runner tarballs the editor boots to run tests in the browser.
   #
@@ -96,17 +106,6 @@ class PagesController < ApplicationController
   # That is cheaper than it sounds. Everything here is immutable and cached by
   # Cloudflare, including for logged-in users, so a given artifact is read from
   # here roughly once per edge location per release.
-  # Development and test only. In production the assets host serves these.
-  def i18n_catalog
-    return head :not_found unless LocaleRoster.known?(params[:catalog_locale])
-
-    hash = params[:filename][/[0-9a-f]{12}/]
-    send_file TranslationStore.catalog_path(params[:catalog_locale], :frontend, hash),
-      type: "application/json", disposition: :inline
-  rescue ActionController::MissingFile
-    head :not_found
-  end
-
   def test_runner_artifact
     return head :not_found unless test_runners_bucket
 

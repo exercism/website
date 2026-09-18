@@ -21,16 +21,6 @@
 # method, which should call super.({...}) for any data that is
 # used in rendering and cacheable.
 #
-# The cached data holds rendered text and urls, so it is kept per locale:
-# { "locales" => { "hu" => { "catalog" => "<hash>", "data" => {...} } } }
-# A record is usually created in Sidekiq, in English. Every other locale
-# is rendered and stored the first time it is asked for. An entry is only
-# used while the locale's backend catalog is the one it was rendered
-# with, so a published translation fix re-renders it. Rows written
-# before locales existed hold the data at the top level, which is read
-# as English. We key by locale rather than rendering text live, because
-# the text is what needs the n+1 lookups this cache exists to avoid.
-#
 # Caches can be expired by setting rendering_data_cache to {}
 # Objects will then rebuild the cache next time they load.
 #
@@ -89,7 +79,7 @@ module IsParamaterisedSTI
 
     before_save unless: :new_record? do
       # If any attributes have changed since the last time
-      # this was saved, then rebuild the cache, for every locale.
+      # this was saved, then rebuild the cache.
       non_cache_changes = (changed_attributes.keys - non_rendered_attributes.map(&:to_s) - ["rendering_data_cache"]).present?
       self.rendering_data_cache = build_rendering_data_cache if non_cache_changes
     end
@@ -132,7 +122,6 @@ module IsParamaterisedSTI
     data.with_indifferent_access.merge(non_cacheable_rendering_data)
   end
 
-  # The current locale's entry, if it was rendered with the current catalog.
   def cached_rendering_data
     entry = rendering_data_cache_locales[I18n.locale.to_s]
     return unless entry.present? && entry["data"].present?

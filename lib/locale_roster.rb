@@ -1,13 +1,5 @@
 require 'json'
 
-# The one list of locales the site knows about. It is read from
-# config/locale_roster.json, which app/javascript/utils/locale-roster.ts
-# also imports, so Ruby and JavaScript can never disagree.
-#
-# A locale's status is one of:
-#   production: served to everyone, indexed, and must never show English.
-#   wip:        routable for staff and that locale's translators only.
-#   planned:    known, but not served anywhere.
 module LocaleRoster
   STATUSES = %w[production wip planned].freeze
   RTL_LANGUAGES = %w[ar dv fa he ku ps sd ug ur yi].freeze
@@ -19,8 +11,6 @@ module LocaleRoster
     def production = data[:production]
     def wip = data[:wip]
 
-    # The locales this environment routes. Tests run in English
-    # unless they opt in via with_served_locales.
     def served
       return [default] if Rails.env.test?
 
@@ -33,18 +23,15 @@ module LocaleRoster
     def wip?(locale) = served?(locale) && !production?(locale)
     def default?(locale) = locale&.to_sym == default
 
-    # TODO(iHiD): OPEN. Whether RTL is in scope for launch. The direction is
-    # declared on <html> either way, but no stylesheet is RTL-aware yet.
+    # TODO(iHiD): OPEN. Whether RTL is in scope for launch.
     def direction(locale) = RTL_LANGUAGES.include?(locale.to_s.split("-").first) ? "rtl" : "ltr"
 
-    # The URL prefix for a locale. English is naked, so it has none.
     def path_segment(locale)
       return nil if locale.blank? || default?(locale)
 
       locale.to_s
     end
 
-    # Matches the locale path segment. English is never prefixed.
     def route_constraint = Regexp.union((known - [default]).map(&:to_s))
 
     def reload! = @data = nil

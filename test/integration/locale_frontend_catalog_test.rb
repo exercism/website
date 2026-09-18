@@ -21,7 +21,6 @@ class LocaleFrontendCatalogTest < ActionDispatch::IntegrationTest
         assert_select "meta[name='exercism-i18n-catalog'][content='#{url}']"
         assert_select "link[rel=preload][as=fetch][crossorigin=anonymous][href='#{url}']"
 
-        # English pages don't pay for it
         get "/tracks"
         assert_select "meta[name='exercism-i18n-catalog']", count: 0
 

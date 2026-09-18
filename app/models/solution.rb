@@ -103,7 +103,6 @@ class Solution < ApplicationRecord
   delegate :instructions, :introduction, :hints, to: :docs
   delegate :for_newer_version?, to: :docs, prefix: true
 
-  # The pinned version's docs, unless only a newer version's are translated.
   def docs
     @docs ||= {}
     @docs[I18n.locale] ||= Solution::ResolveDocs.(self)

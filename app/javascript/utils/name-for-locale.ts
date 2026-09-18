@@ -1,5 +1,3 @@
-// A language's name, by default in that language itself ("Magyar"),
-// which is how a language picker should list it.
 export function nameForLocale(
   locale: string,
   options: { displayInEnglish?: boolean } = {}
@@ -12,7 +10,7 @@ export function nameForLocale(
     }).of(locale)
     if (!name) return locale
 
-    // Many languages write their own name in lowercase ("magyar", "español")
+    // Intl gives many names in lowercase ("magyar", "español")
     return name.charAt(0).toLocaleUpperCase(displayLocale) + name.slice(1)
   } catch {
     return locale

@@ -1,20 +1,7 @@
-# Maps a language tag (from a browser, a stored preference, or anywhere
-# else) onto one of our locales, or nil. Regional variants never collapse
-# into each other: a tag resolves to the variant its region belongs to, and
-# to nothing if we don't have that variant.
 class Locale::Normalize
   include Mandate
 
-  # Which variant a tag gets when we ship more than one for its language.
-  # Chromium sends es-419, Firefox and Safari send es-CL or es-AR, and
-  # plenty of browsers send a bare pt or zh.
-  #   bare:     a tag with no script or region
-  #   scripts:  script subtag => variant (checked before the region)
-  #   regions:  region subtag => variant
-  #   fallback: any other region
-  #
   # TODO(iHiD): OPEN. Whether split variants such as es-419/es-ES will ship.
-  # This table only does anything once the roster holds a variant.
   VARIANTS = {
     "es" => { bare: "es-419", regions: { "ES" => "es-ES", "419" => "es-419" }, fallback: "es-419" },
     "pt" => { bare: "pt-BR", regions: { "BR" => "pt-BR" }, fallback: "pt-PT" },
@@ -42,8 +29,6 @@ class Locale::Normalize
 
   def canonical = [language, region].compact.join("-")
 
-  # Only consulted while we ship a variant of this language. If we ship
-  # a plain "es", every Spanish tag falls through to it.
   def variant
     return unless config && locales.any? { |l| l.start_with?("#{language}-") }
 

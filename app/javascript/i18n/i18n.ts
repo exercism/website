@@ -5,9 +5,6 @@ import * as Sentry from '@sentry/react'
 import en from './en'
 import { DEFAULT_LOCALE, isProductionLocale } from '@/utils/locale-roster'
 
-// English is bundled and is the fallback. Every other locale's catalog is
-// fetched from the exact, immutable URL Rails renders into the page, so
-// the browser never has to ask which version is current.
 const LOCALE_META = 'exercism-locale'
 const CATALOG_META = 'exercism-i18n-catalog'
 
@@ -26,11 +23,9 @@ function meta(name: string): string | null {
   )
 }
 
-// The URL decides the language, and Rails tells us what it decided.
 export const pageLocale = (): string => meta(LOCALE_META) || DEFAULT_LOCALE
 const pageCatalogUrl = (): string | null => meta(CATALOG_META)
 
-// A production locale must never show English. Both of these mean it has.
 function report(kind: string, locale: string, key: string): void {
   if (!isProductionLocale(locale)) return
 
@@ -88,8 +83,7 @@ async function loadCatalog(locale: string, url: string): Promise<void> {
 
     const catalog: Catalog = await response.json()
 
-    // A new catalog replaces the old one outright. It is never merged in,
-    // or keys that were removed upstream would live on until a reload.
+    // addResourceBundle merges, so keys removed upstream would live on without this
     Object.keys(i18n.getDataByLanguage(locale) || {}).forEach((ns) =>
       i18n.removeResourceBundle(locale, ns)
     )
@@ -98,7 +92,7 @@ async function loadCatalog(locale: string, url: string): Promise<void> {
     )
     loadedCatalogs.set(locale, url)
   } catch (e) {
-    // English is better than a page that never renders
+    // Falling back to English beats a page that never renders
     Sentry.captureException(e)
   }
 }
@@ -112,8 +106,7 @@ export function localeIsReady(): boolean {
   return !url || loadedCatalogs.get(locale) === url
 }
 
-// Turbo keeps this module (and so the i18next instance) alive between
-// pages, so nothing here can assume the language it started with.
+// Turbo keeps this module alive between pages, so the language can change under it
 export function ensureLocale(): Promise<void> {
   queue = queue.then(async () => {
     if (localeIsReady()) return
@@ -126,7 +119,6 @@ export function ensureLocale(): Promise<void> {
   return queue
 }
 
-// Rendering waits for the catalog, so nobody sees a flash of English.
 export function whenLocaleReady(callback: () => void): void {
   if (localeIsReady()) return callback()
 

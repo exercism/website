@@ -13,8 +13,6 @@ class LocaleRoutesTest < ActionDispatch::IntegrationTest
     assert_raises(ActionController::RoutingError) { Rails.application.routes.recognize_path("/hungary/tracks") }
   end
 
-  # Third parties call these at fixed URLs, or they are English-only.
-  # If one of these starts resolving, a route has moved into website.rb by mistake.
   test "routes that must never be locale-scoped" do
     [
       [:get, "/hu/users/auth/github/callback"],

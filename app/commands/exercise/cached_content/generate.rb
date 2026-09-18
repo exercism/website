@@ -14,7 +14,6 @@ class Exercise::CachedContent::Generate
     {
       introduction: Markdown::Parse.(source.introduction),
       instructions: Markdown::Parse.(source.instructions),
-      # Only ever true in another locale. See Solution::ResolveDocs.
       for_newer_version: !!solution&.docs_for_newer_version?
     }
   end

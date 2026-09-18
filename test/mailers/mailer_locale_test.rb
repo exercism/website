@@ -52,7 +52,6 @@ class MailerLocaleTest < ActionMailer::TestCase
     localise_emails!
 
     with_served_locales(:hu) do
-      # hu is work in progress, and this user is not one of its translators
       body = notification_email(hungarian_user).html_part.body.to_s
       refute_includes body, "https://test.exercism.org/hu/"
 

@@ -42,8 +42,6 @@ module Git
       read_file_blob(commit, path, "")
     end
 
-    # The file in the current locale. Translations are stored under the blob id
-    # of the English file, which the tree gives us without reading the English.
     def read_translated_text_blob(commit, path)
       return read_text_blob(commit, path) if LocaleRoster.default?(I18n.locale)
 

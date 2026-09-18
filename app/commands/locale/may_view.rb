@@ -1,5 +1,3 @@
-# Production locales are for everyone. A work in progress locale is only
-# for staff and for that locale's translators.
 class Locale::MayView
   include Mandate
 

@@ -41,7 +41,7 @@ class TranslationStoreTest < ActiveSupport::TestCase
 
       assert_equal first, TranslationStore.current_hash(:hu, :backend)
 
-      travel_monotonic(TranslationStore::CHECK_INTERVAL + 1) do
+      travel_monotonic(TranslationStore::CHECK_INTERVAL_SECONDS + 1) do
         assert_equal "0123456789ab", TranslationStore.current_hash(:hu, :backend)
       end
     end

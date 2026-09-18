@@ -23,7 +23,6 @@ module MetaTagsHelper
     content_for?(:meta_url) ? content_for(:meta_url) : request.original_url.gsub(%r{/$}, "")
   end
 
-  # Pages are self-canonical: /hu/tracks canonicalises to itself, never to /tracks.
   def canonical_url
     return content_for(:canonical_url) if content_for?(:canonical_url)
     return unless locale_scoped_route?
@@ -37,7 +36,6 @@ module MetaTagsHelper
     Locale::Alternates.(canonical_url)
   end
 
-  # Work in progress locales stay out of search engines.
   def noindex_locale? = !LocaleRoster.production?(I18n.locale)
 
   def frontend_catalog_url = TranslationStore.frontend_catalog_url(I18n.locale)

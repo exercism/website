@@ -88,13 +88,11 @@ class User::ActivityTest < ActiveSupport::TestCase
         assert_equal "Elkezdted: <strong>Strings</strong>", activity.rendering_data[:text]
         assert_equal "/hu/tracks/ruby/exercises/strings", activity.rendering_data[:url]
 
-        # And it is read back from the cache
         activity = User::Activity.find(activity.id)
         activity.expects(:cacheable_rendering_data).never
         assert_equal "Elkezdted: <strong>Strings</strong>", activity.rendering_data[:text]
       end
 
-      # English was rendered at creation and is untouched
       activity = User::Activity.find(activity.id)
       activity.expects(:cacheable_rendering_data).never
       assert_equal "You started <strong>Strings</strong>", activity.rendering_data[:text]

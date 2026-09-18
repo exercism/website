@@ -1,5 +1,4 @@
-# Routes that must never carry a locale prefix: third parties call them at
-# fixed URLs, or they are staff tools, assets and legacy redirects.
+# Routes that never carry a locale prefix: third parties call them at fixed URLs, or they are staff tools.
 
 # ###### #
 # Devise #
@@ -179,7 +178,7 @@ end
 # ########################### #
 
 unless Rails.env.production?
-  # In production the assets host serves these. Locally there isn't one.
+  # In production the assets host serves these.
   get "i18n/website/:catalog_locale/:filename", to: "pages#i18n_catalog", format: false, constraints: { filename: /frontend-[0-9a-f]{12}\.json/ }
 
   # TODO: Remove these before launching

@@ -49,7 +49,7 @@ class TranslationRepo::Backend < I18n::Backend::Simple
 
     begin
       version = TranslationRepo.version
-      catalogs = locales.to_h { |locale| [locale, catalog_for(locale, version)] }.compact
+      catalogs = locales.index_with { |locale| catalog_for(locale, version) }.compact
 
       builder = I18n::Backend::Simple.new
       builder.load_translations

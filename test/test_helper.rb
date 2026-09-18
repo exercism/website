@@ -210,17 +210,14 @@ class ActiveSupport::TestCase
 
   # e.g. with_published_translations(hu: { backend: { greeting: "Szia" } })
   def with_published_translations(catalogs)
-    Dir.mktmpdir do |dir|
-      TranslationStore.root = dir
-      catalogs.each do |locale, kinds|
-        kinds.each { |kind, tree| publish_translation_catalog!(locale, kind, tree) }
-      end
-      I18n.reload!
-
-      yield
+    catalogs.each do |locale, kinds|
+      kinds.each { |kind, tree| publish_translation_catalog!(locale, kind, tree) }
     end
+    I18n.reload!
+
+    yield
   ensure
-    TranslationStore.root = nil
+    FileUtils.rm_rf(TranslationStore.root)
     TranslationStore.expire!
     I18n.reload!
   end

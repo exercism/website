@@ -7,15 +7,13 @@ class TranslationStoreTest < ActiveSupport::TestCase
   end
 
   test "paths match exercism/i18n's published layout" do
-    TranslationStore.root = "/mnt/efs/i18n"
+    Exercism.config.stubs(efs_i18n_mount_point: "/mnt/efs/i18n")
 
     assert_equal "/mnt/efs/i18n/website/hu/backend-0123456789ab.json",
       TranslationStore.catalog_path(:hu, :backend, "0123456789ab").to_s
     assert_equal "/mnt/efs/i18n/content/hu/ab/cd/ef0123456789abcdef0123456789abcdef01.md",
       TranslationStore.content_path(:hu, "abcdef0123456789abcdef0123456789abcdef01", ".md").to_s
     assert_raises(ArgumentError) { TranslationStore.content_path(:hu, "../../etc/passwd", ".md") }
-  ensure
-    TranslationStore.root = nil
   end
 
   test "reads the pointer, and ignores a malformed one" do

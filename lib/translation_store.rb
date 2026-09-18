@@ -10,9 +10,7 @@ module TranslationStore
   CHECK_INTERVAL_SECONDS = 10
 
   class << self
-    attr_writer :root
-
-    def root = Pathname.new(@root || ENV["EXERCISM_I18N_DIR"].presence || default_root)
+    def root = Pathname.new(Exercism.config.efs_i18n_mount_point)
 
     def current_hash(locale, kind) = pointers[[locale.to_sym, kind.to_sym]]
 
@@ -60,14 +58,6 @@ module TranslationStore
     def expire! = @pointers_read_at = nil
 
     private
-    def default_root
-      return Rails.root / "test" / "tmp" / "i18n" if Rails.env.test?
-      return Rails.root / "tmp" / "i18n" if Rails.env.development?
-
-      # TODO: Give exercism-config an efs_i18n_mount_point and use it here.
-      File.join(File.dirname(Exercism.config.efs_repositories_mount_point), "i18n")
-    end
-
     def read_pointers
       (LocaleRoster.known - [LocaleRoster.default]).product(CATALOG_KINDS).filter_map do |locale, kind|
         hash = read_pointer(locale, kind)

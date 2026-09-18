@@ -13,6 +13,9 @@ class API::Users::PublicController < API::BaseController
   skip_before_action :rate_limit_for_user!
   skip_after_action :set_user_id_cookie
 
+  # Nothing in this payload is translated, and a shared edge copy is the point.
+  skip_after_action :set_locale_vary_header
+
   before_action :skip_session!
 
   def show

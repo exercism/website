@@ -6,7 +6,8 @@
 
 module API
   class BaseController < ApplicationController
-    # TODO(iHiD): OPEN. How API responses learn their locale.
+    include APILocale
+
     skip_before_action :verify_authenticity_token
     skip_after_action :set_body_class_header
     skip_around_action :mark_notifications_as_read!

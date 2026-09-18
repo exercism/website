@@ -5,4 +5,5 @@ export default {
   'updateExerciseNotice.seeWhatsChanged': "See what's changed…",
   'updateExerciseNotice.docsForNewerVersion':
     'These instructions are for a newer version of the exercise. <english>Switch to English</english> to see your version, or <update>Update to the latest version</update>.',
+  'updateExerciseNotice.warning': 'Warning',
 }

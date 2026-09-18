@@ -19,7 +19,9 @@ const ActionOption = ({
           <GraphicalIcon icon="task-action-create" className="task-icon" />
           <div className="info">
             <div className="title">{t('tasksList.actionSwitcher.create')}</div>
-            <div className="description">Work on something from scratch</div>
+            <div className="description">
+              {t('tasksList.actionSwitcher.createDescription')}
+            </div>
           </div>
         </React.Fragment>
       )
@@ -30,7 +32,7 @@ const ActionOption = ({
           <div className="info">
             <div className="title">{t('tasksList.actionSwitcher.sync')}</div>
             <div className="description">
-              Sync content with its latest version
+              {t('tasksList.actionSwitcher.syncDescription')}
             </div>
           </div>
         </React.Fragment>
@@ -42,7 +44,7 @@ const ActionOption = ({
           <div className="info">
             <div className="title">{t('tasksList.actionSwitcher.improve')}</div>
             <div className="description">
-              Improve existing functionality / content
+              {t('tasksList.actionSwitcher.improveDescription')}
             </div>
           </div>
         </React.Fragment>
@@ -55,7 +57,9 @@ const ActionOption = ({
             <div className="title">
               {t('tasksList.actionSwitcher.proofread')}
             </div>
-            <div className="description">Proofread text</div>
+            <div className="description">
+              {t('tasksList.actionSwitcher.proofreadDescription')}
+            </div>
           </div>
         </React.Fragment>
       )
@@ -65,7 +69,9 @@ const ActionOption = ({
           <GraphicalIcon icon="task-action-fix" className="task-icon" />
           <div className="info">
             <div className="title">{t('tasksList.actionSwitcher.fix')}</div>
-            <div className="description">Fix an issue</div>
+            <div className="description">
+              {t('tasksList.actionSwitcher.fixDescription')}
+            </div>
           </div>
         </React.Fragment>
       )
@@ -75,7 +81,7 @@ const ActionOption = ({
 const SelectedComponent = ({ value: action }: { value: TaskAction[] }) => {
   const { t } = useAppTranslation('components/contributing')
   if (action.length > 1) {
-    return <>Multiple</>
+    return <>{t('tasksList.actionSwitcher.multiple')}</>
   }
 
   switch (action[0]) {
@@ -113,12 +119,14 @@ export const ActionSwitcher = ({
   value: TaskAction[]
   setValue: (action: TaskAction[]) => void
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/contributing')
+
   return (
     <MultipleSelect<TaskAction>
       options={['create', 'fix', 'improve', 'proofread', 'sync']}
       value={value}
       setValue={setValue}
-      label="Action"
+      label={t('tasksList.actionSwitcher.label')}
       SelectedComponent={SelectedComponent}
       ResetComponent={ResetComponent}
       OptionComponent={ActionOption}

@@ -48,7 +48,7 @@ export const Mentoring = ({
           />
           <a href={links.learnMoreAboutMentoringArticle} className="learn-more">
             {t('mentoring.learnMore')}
-            <Icon icon="external-link" alt="Opens in new tab" />
+            <Icon icon="external-link" alt={t('mentoring.opensInNewTab')} />
           </a>
         </>
       )}

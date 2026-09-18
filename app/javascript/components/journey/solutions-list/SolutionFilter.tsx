@@ -123,7 +123,7 @@ export const SolutionFilter = ({
         ref={dialogRef}
         tabIndex={-1}
         role="dialog"
-        aria-label="A series of options to filter Exercism tracks"
+        aria-label={t('solutionFilter.filterTracksLabel')}
         {...(expanded ? {} : { hidden: true })}
       >
         <div className="md-container container">

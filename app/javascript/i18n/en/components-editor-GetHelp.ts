@@ -20,4 +20,6 @@ export default {
   'getHelpPanelComponents.getHelpAccordionSkeleton.getHelp': 'Get help',
   'stuckButton.stuckGetHelp': 'Stuck? Get help',
   'getHelpTab.getHelp': 'Get help',
+  'getHelpPanelComponents.getHelpPanelCommunityHelp.communityHelp':
+    'Community help',
 }

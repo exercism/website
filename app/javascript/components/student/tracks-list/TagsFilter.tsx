@@ -96,7 +96,7 @@ export const TagsFilter = ({
         ref={dialogRef}
         tabIndex={-1}
         role="dialog"
-        aria-label="A series of checkboxes to filter Exercism tracks"
+        aria-label={t('tagsFilter.filterTracksLabel')}
         className="--tag-option-list"
         {...(expanded ? {} : { hidden: true })}
       >

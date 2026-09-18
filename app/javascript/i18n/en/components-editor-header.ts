@@ -16,4 +16,10 @@ export default {
   'more.revertToLastIteration': 'Revert to last iteration',
   'more.reportABug': 'Report a bug',
   backToExercise: 'Back to Exercise',
+  'settings.vim': 'Vim',
+  'settings.emacs': 'Emacs',
+  'settings.settings': 'Settings',
+  'settings.editorConfigurationLabel':
+    "A series of radio buttons to configure the Exercism's code editor",
+  keyboardShortcuts: 'Keyboard Shortcuts',
 }

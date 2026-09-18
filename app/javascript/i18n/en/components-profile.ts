@@ -28,4 +28,8 @@ export default {
   'avatarSelector.uploadNewPhoto': 'Upload new photo',
   'avatarSelector.deletePhoto': 'Delete photo',
   'testimonialsList.unableToLoadTestimonials': 'Unable to load testimonials',
+  'testimonialsSummary.testimonials': 'Testimonials',
+  'testimonialsSummary.mentoredBy': 'Mentored by',
+  'testimonialsSummary.exerciseInTrack':
+    '<exercise>{{exercise}}</exercise> in <track>{{track}}</track>',
 }

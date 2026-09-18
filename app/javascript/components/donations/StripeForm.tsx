@@ -125,7 +125,11 @@ export function StripeForm({
         }
       >
         {processing ? (
-          <Icon icon="spinner" alt="Progressing" className="animate-spin" />
+          <Icon
+            icon="spinner"
+            alt={t('stripeForm.progressing')}
+            className="animate-spin"
+          />
         ) : null}
         <span>{generateStripeButtonText(paymentIntentType, amount)}</span>
       </button>

@@ -39,6 +39,8 @@ Header.ActionKeyboardShortcuts = forwardRef<
   HTMLButtonElement,
   { onClick: () => void }
 >(({ onClick }, ref) => {
+  const { t } = useAppTranslation('components/editor/header')
+
   return (
     <button
       ref={ref}
@@ -47,7 +49,7 @@ Header.ActionKeyboardShortcuts = forwardRef<
       }}
       className="keyboard-shortcuts-btn"
     >
-      <Icon icon="keyboard" alt="Keyboard Shortcuts" />
+      <Icon icon="keyboard" alt={t('keyboardShortcuts')} />
     </button>
   )
 })

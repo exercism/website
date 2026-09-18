@@ -4,7 +4,7 @@ class Solution::GenerateTestRunConfig
   initialize_with :solution, experimental: false
 
   def call
-    return nil unless javascript? || experimental
+    return nil unless javascript? || experimental || track.client_side_test_runner?
 
     {
       files: exercise_repo.tooling_files

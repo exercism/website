@@ -17,7 +17,6 @@ class User::GenerateNewSessionPath
     return false if controller.is_a?(::DeviseController)
 
     return false if request.fullpath == '/site.webmanifest'
-    return false if request.fullpath.starts_with?('/courses/stripe')
 
     true
   end

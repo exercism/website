@@ -50,9 +50,9 @@ module Git
       return translation if translation
 
       TranslationStore.report_missing_content!(I18n.locale, oid, path)
-      read_blob(oid, +"")
+      read_blob(oid, "")
     rescue Rugged::TreeError
-      +""
+      ""
     end
 
     def translated?(commit, path)

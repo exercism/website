@@ -22,8 +22,4 @@ FactoryBot.define do
     checkout_session_id { SecureRandom.hex(8) }
     access_code { SecureRandom.hex(8) }
   end
-
-  trait :india do
-    country_code_2 { "IN" }
-  end
 end

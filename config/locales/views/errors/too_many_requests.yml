@@ -1,0 +1,10 @@
+en:
+  errors:
+    too_many_requests:
+      title: Too Many Requests
+      description: You've done too many things in too short a space of time.
+      rate_limits: "Exercism gets constantly attacked by bots so we have
+        rate-limits to stop abuse. Please wait one minute then try again (note:
+        hammering refresh will reset the time-out...)"
+      forum_html: If you see this frequently, please let us know %{link}!
+      forum_link: on the forum

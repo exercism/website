@@ -15,7 +15,7 @@ module ViewComponents
         tag.nav(class: "top") do
           tag.div(class: "title") do
             graphical_icon(:mentoring, hex: true) +
-              tag.span("Training Data")
+              tag.span(I18n.t("training_data.header.title"))
           end
         end
       end
@@ -25,7 +25,7 @@ module ViewComponents
           tag.div(safe_join(tabs), class: 'tabs') +
             # TODO: update this path
             link_to(Exercism::Routes.docs_section_path(:mentoring), class: "c-tab-2 guides") do
-              graphical_icon(:guides) + tag.span("Tagging Guides")
+              graphical_icon(:guides) + tag.span(I18n.t("training_data.header.tagging_guides"))
             end
         end
       end
@@ -38,7 +38,7 @@ module ViewComponents
           class: tab_class(:tags)
         ) do
           graphical_icon(:overview) +
-            tag.span("Tags")
+            tag.span(I18n.t("training_data.header.tags"))
         end
       end
 

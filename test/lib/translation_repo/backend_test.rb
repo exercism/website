@@ -1,10 +1,10 @@
 require "test_helper"
 
 class TranslationRepo::BackendTest < ActiveSupport::TestCase
-  test "is the I18n backend, with pluralization and fallbacks" do
+  test "is the I18n backend, with pluralization and no fallbacks" do
     assert_instance_of TranslationRepo::Backend, I18n.backend
     assert_includes I18n.backend.class.ancestors, I18n::Backend::Pluralization
-    assert_includes I18n.backend.class.ancestors, I18n::Backend::Fallbacks
+    refute_includes I18n.backend.class.ancestors, I18n::Backend::Fallbacks
   end
 
   test "a published catalog is served, over rails-i18n, with english underneath" do
@@ -22,7 +22,6 @@ class TranslationRepo::BackendTest < ActiveSupport::TestCase
         assert_equal "5 dolog", I18n.t("store_test.things", count: 5)
         assert_equal "%Y. %B %-d. (published)", I18n.t("date.formats.long")
         assert_equal "január", I18n.t("date.month_names")[1] # still rails-i18n
-        assert_kind_of String, I18n.t("devise.failure.invalid") # still english
       end
       assert_equal "gone", I18n.t("store_test.greeting", name: "x", default: "gone")
     end
@@ -84,7 +83,7 @@ class TranslationRepo::BackendTest < ActiveSupport::TestCase
     end
   end
 
-  test "a production locale falling back to english is reported, once per key" do
+  test "english is never rendered in another locale, and the missing key is reported once" do
     with_published_translations(hu: { backend: { store_test: { a: "egy" } } }) do
       I18n.backend.store_translations(:en, store_test: { only_english: "Hello" })
       Sentry.expects(:capture_message).once.with do |message, **opts|
@@ -92,19 +91,10 @@ class TranslationRepo::BackendTest < ActiveSupport::TestCase
       end
 
       I18n.with_locale(:hu) do
-        assert_equal "Hello", I18n.t("store_test.only_english")
-        assert_equal "Hello", I18n.t("store_test.only_english")
+        refute_includes I18n.t("store_test.only_english"), "Hello"
+        refute_includes I18n.t("store_test.only_english"), "Hello"
         assert_equal "egy", I18n.t("store_test.a")
       end
-    end
-  end
-
-  test "a work in progress locale falls back quietly" do
-    with_published_translations(hu: { backend: {} }) do
-      I18n.backend.store_translations(:en, store_test: { only_english: "Hello" })
-      Sentry.expects(:capture_message).never
-
-      I18n.with_locale(:hu) { assert_equal "Hello", I18n.t("store_test.only_english") }
     end
   end
 

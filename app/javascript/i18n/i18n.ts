@@ -16,12 +16,12 @@ let queue: Promise<void> = Promise.resolve()
 export { pageLocale }
 const pageCatalogUrl = (): string | null => metaContent(CATALOG_META)
 
-function report(kind: string, locale: string, key: string): void {
-  const id = `${kind}:${locale}:${key}`
+function report(locale: string, key: string): void {
+  const id = `${locale}:${key}`
   if (reported.has(id)) return
   reported.add(id)
 
-  Sentry.captureMessage(`${kind} ${locale} translation: ${key}`, {
+  Sentry.captureMessage(`Missing ${locale} translation: ${key}`, {
     level: 'warning',
     tags: { locale },
     fingerprint: ['i18n-missing', locale, key],
@@ -31,23 +31,8 @@ function report(kind: string, locale: string, key: string): void {
 if (!i18n.isInitialized) {
   i18n
     .use(initReactI18next)
-    .use({
-      type: 'postProcessor',
-      name: 'reportFallback',
-      process(value: string, key: string | string[], options: any) {
-        const resolved = options.i18nResolved
-        if (resolved?.usedLng && resolved.usedLng !== i18n.language) {
-          report(
-            'Missing',
-            i18n.language,
-            `${resolved.usedNS}:${resolved.usedKey}`
-          )
-        }
-        return value
-      },
-    })
     .init({
-      fallbackLng: DEFAULT_LOCALE,
+      fallbackLng: false,
       lng: pageLocale(),
       debug: process.env.NODE_ENV === 'development',
       interpolation: {
@@ -56,11 +41,9 @@ if (!i18n.isInitialized) {
       resources: {
         en,
       },
-      postProcess: ['reportFallback'],
-      postProcessPassResolved: true,
       saveMissing: true,
       missingKeyHandler: (_lngs, ns, key) =>
-        report('Unknown', i18n.language, `${ns}:${key}`),
+        report(i18n.language, `${ns}:${key}`),
     })
 }
 
@@ -80,7 +63,6 @@ async function loadCatalog(locale: string, url: string): Promise<void> {
     )
     loadedCatalogs.set(locale, url)
   } catch (e) {
-    // Falling back to English beats a page that never renders
     Sentry.captureException(e)
   }
 }

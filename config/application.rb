@@ -19,7 +19,6 @@ module Website
     config.i18n.default_locale = :en
     config.i18n.available_locales = %i[en hu]
 
-    config.i18n.fallbacks = true
     config.active_record.default_timezone = :utc
     config.action_view.form_with_generates_remote_forms = false
 

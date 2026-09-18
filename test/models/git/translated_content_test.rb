@@ -39,12 +39,12 @@ class Git::TranslatedContentTest < ActiveSupport::TestCase
     end
   end
 
-  test "a part with no translation falls back to english on its own" do
+  test "a part with no translation is left out on its own" do
     with_published_translations({}) do
       publish!(".docs/instructions.md", "# Utasítások\n")
 
       I18n.with_locale(:hu) do
-        assert_equal "# Utasítások\n\n# Instructions append\n\nExtra instructions for bob", @exercise.instructions
+        assert_equal "# Utasítások", @exercise.instructions
         refute @exercise.instructions_translated?
       end
     end
@@ -60,15 +60,10 @@ class Git::TranslatedContentTest < ActiveSupport::TestCase
     end
   end
 
-  test "english fallback is reported for a production locale only" do
-    with_published_translations({}) do
-      Sentry.expects(:capture_message).never
-      I18n.with_locale(:hu) { assert_includes @exercise.hints, "Hints" }
-    end
-
+  test "a missing translation renders empty and is reported" do
     with_published_translations({}) do
       Sentry.expects(:capture_message).once.with { |message, **| message.include?("exercises/practice/bob/.docs/hints.md") }
-      I18n.with_locale(:hu) { assert_includes Git::Exercise.new(:bob, "practice", "HEAD", repo_url: TestHelpers.git_repo_url("track")).hints, "Hints" }
+      I18n.with_locale(:hu) { assert_equal "", @exercise.hints }
     end
   end
 

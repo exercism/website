@@ -2,7 +2,8 @@ require 'i18n'
 
 class TranslationRepo::Backend < I18n::Backend::Simple
   include I18n::Backend::Pluralization
-  include I18n::Backend::Fallbacks
+
+  REQUESTED_KEY = :translation_repo_requested_key
 
   def initialize
     super
@@ -12,6 +13,17 @@ class TranslationRepo::Backend < I18n::Backend::Simple
   end
 
   def reload! = build_and_swap!(wait: true)
+
+  def translate(locale, key, options = EMPTY_HASH)
+    return super if Thread.current[REQUESTED_KEY]
+
+    Thread.current[REQUESTED_KEY] = [locale, key]
+    begin
+      super
+    ensure
+      Thread.current[REQUESTED_KEY] = nil
+    end
+  end
 
   def translations(do_init: false)
     refresh_if_stale! if do_init
@@ -23,20 +35,19 @@ class TranslationRepo::Backend < I18n::Backend::Simple
 
   def lookup(locale, key, scope = [], options = EMPTY_HASH)
     refresh_if_stale!
-    super
-  end
-
-  def on_fallback(original_locale, fallback_locale, key, _options)
-    return unless fallback_locale.to_sym == I18n.default_locale
-    return unless @reported.add?([original_locale.to_sym, key.to_s])
-
-    message = "Missing #{original_locale} translation: #{key}"
-    Rails.logger.warn(message)
-    Sentry.capture_message(message, level: :warning, tags: { locale: original_locale.to_s },
-      fingerprint: ["i18n-missing", original_locale.to_s, key.to_s])
+    super.tap { |entry| report_missing!(locale, key) if entry.nil? && Thread.current[REQUESTED_KEY] == [locale, key] }
   end
 
   private
+  def report_missing!(locale, key)
+    return unless @reported.add?([locale.to_sym, key.to_s])
+
+    message = "Missing #{locale} translation: #{key}"
+    Rails.logger.warn(message)
+    Sentry.capture_message(message, level: :warning, tags: { locale: locale.to_s },
+      fingerprint: ["i18n-missing", locale.to_s, key.to_s])
+  end
+
   def refresh_if_stale!
     return unless initialized?
 
@@ -65,7 +76,7 @@ class TranslationRepo::Backend < I18n::Backend::Simple
     end
   end
 
-  def locales = I18n.available_locales - [I18n.default_locale]
+  def locales = Rails.application.config.i18n.available_locales - [I18n.default_locale]
 
   def catalog_for(locale, version)
     return @catalogs[locale] if version && @catalogs[locale]&.first == version

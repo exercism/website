@@ -59,8 +59,6 @@ module TranslationRepo
     end
 
     def report_missing_content!(locale, blob_id, path)
-      return unless I18n.available_locales.include?(locale.to_sym)
-
       message = "Missing #{locale} content: #{path} (#{blob_id})"
       Rails.logger.warn(message)
       Sentry.capture_message(message, level: :warning, tags: { locale: locale.to_s },

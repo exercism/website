@@ -112,14 +112,14 @@ test('a catalog is fetched once per url, and a new hash replaces the old one', a
   ).toBe(false)
 })
 
-test('a locale falling back to english is reported, once', async () => {
+test('a key the locale has not translated never renders english, and is reported once', async () => {
   setPage('hu', CATALOG_URL)
   mockCatalog({ 'test/ns': { hello: 'Szia' } })
   const { default: i18n, ensureLocale } = loadModule()
   await ensureLocale()
 
-  expect(i18n.t('onlyEnglish', { ns: 'test/ns' })).toBe('Only English')
-  expect(i18n.t('onlyEnglish', { ns: 'test/ns' })).toBe('Only English')
+  expect(i18n.t('onlyEnglish', { ns: 'test/ns' })).toBe('onlyEnglish')
+  expect(i18n.t('onlyEnglish', { ns: 'test/ns' })).toBe('onlyEnglish')
   i18n.t('hello', { ns: 'test/ns' })
 
   expect(Sentry.captureMessage).toHaveBeenCalledTimes(1)
@@ -135,17 +135,17 @@ test('a key that exists nowhere is reported by the missing-key handler', async (
 
   i18n.t('nope', { ns: 'test/ns' })
   expect(Sentry.captureMessage).toHaveBeenCalledWith(
-    'Unknown en translation: test/ns:nope',
+    'Missing en translation: test/ns:nope',
     expect.anything()
   )
 })
 
-test('a catalog that fails to load still renders, in english, and says so', async () => {
+test('a catalog that fails to load still renders, and says so', async () => {
   setPage('hu', CATALOG_URL)
   mockCatalog({}, false)
   const { default: i18n, whenLocaleReady } = loadModule()
 
   await new Promise((resolve) => whenLocaleReady(() => resolve(null)))
   expect(Sentry.captureException).toHaveBeenCalledTimes(1)
-  expect(i18n.t('hello', { ns: 'test/ns' })).toBe('Hello')
+  expect(i18n.t('hello', { ns: 'test/ns' })).toBe('hello')
 })

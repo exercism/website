@@ -36,4 +36,26 @@ class ViewComponents::SiteFooterTest < ActionView::TestCase
     assert_includes html, "Nim"
     assert_includes html, "Ruby"
   end
+
+  test "is cached per locale, and a published fix busts it" do
+    create :track, title: 'Ruby'
+    catalog = lambda { |text|
+      { components: { footer: { shared: { site_links: { legal_and_policies: { terms_of_usage_link: text } } } } } }
+    }
+
+    with_published_translations(hu: { backend: catalog.("Felhasználási feltételek") }) do
+      assert_includes render(ViewComponents::SiteFooter.new), "Terms of usage"
+
+      I18n.with_locale(:hu) do
+        html = render(ViewComponents::SiteFooter.new)
+        assert_includes html, "Felhasználási feltételek"
+        assert_includes html, %(href="/hu/)
+
+        publish_translation_catalog!(:hu, :backend, catalog.("Javított feltételek"))
+        assert_includes render(ViewComponents::SiteFooter.new), "Javított feltételek"
+      end
+
+      assert_includes render(ViewComponents::SiteFooter.new), "Terms of usage"
+    end
+  end
 end

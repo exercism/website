@@ -7,11 +7,11 @@ module Git
     delegate :head_sha, :lookup_commit, :head_commit, to: :repo
     delegate :introduction, :introduction_exists?, :introduction_edit_url, to: :approaches, prefix: true
 
-    git_filepath :instructions, file: ".docs/instructions.md", append_file: ".docs/instructions.append.md"
-    git_filepath :introduction, file: ".docs/introduction.md", append_file: ".docs/introduction.append.md"
-    git_filepath :instructions_append, file: ".docs/instructions.append.md"
-    git_filepath :introduction_append, file: ".docs/introduction.append.md"
-    git_filepath :hints, file: ".docs/hints.md"
+    git_filepath :instructions, file: ".docs/instructions.md", append_file: ".docs/instructions.append.md", translatable: true
+    git_filepath :introduction, file: ".docs/introduction.md", append_file: ".docs/introduction.append.md", translatable: true
+    git_filepath :instructions_append, file: ".docs/instructions.append.md", translatable: true
+    git_filepath :introduction_append, file: ".docs/introduction.append.md", translatable: true
+    git_filepath :hints, file: ".docs/hints.md", translatable: true
     git_filepath :config, file: ".meta/config.json"
 
     SPECIAL_FILEPATHS = {

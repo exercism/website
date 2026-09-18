@@ -1,11 +1,15 @@
 import React from 'react'
 import { Icon } from '../../../../common'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const TrackProgressBar = ({
   completion,
 }: {
   completion: number
 }): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/journey/overview/learning-section/track-summary/TrackProgressBar.tsx'
+  )
   const isComplete = completion === 100
   const classNames = [
     'c-progress',
@@ -20,7 +24,7 @@ export const TrackProgressBar = ({
         <div className="completed-icon">
           <Icon
             icon="completed-check-circle"
-            alt="Completed"
+            alt={t('trackProgressBar.completed')}
             className="completed"
           />
         </div>

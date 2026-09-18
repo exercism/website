@@ -79,9 +79,23 @@ class Solution::CachedSerializedView::RetrieveTest < ActiveSupport::TestCase
     )
   end
 
+  test "another locale is keyed by locale and translation version" do
+    solution = create(:practice_solution, :published)
+
+    with_published_translations({}) do
+      I18n.with_locale(:hu) do
+        S3Cache::Read.expects(:call).with(cache_key_for(solution, "hu-#{TranslationRepo.version}")).returns(nil)
+        S3Cache::Write.expects(:defer).with(cache_key_for(solution, "hu-#{TranslationRepo.version}"), anything)
+
+        Solution::CachedSerializedView::Retrieve.(solution)
+      end
+    end
+  end
+
   private
-  def cache_key_for(solution)
+  def cache_key_for(solution, locale = nil)
     uuid = solution.uuid
-    "solution-view/#{uuid[0, 2]}/#{uuid[2, 2]}/#{uuid}/#{solution.updated_at.to_i}.json"
+    suffix = ".#{locale}" if locale
+    "solution-view/#{uuid[0, 2]}/#{uuid[2, 2]}/#{uuid}/#{solution.updated_at.to_i}#{suffix}.json"
   end
 end

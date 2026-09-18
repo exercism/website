@@ -1,9 +1,11 @@
+// i18n-namespace: components/mentoring/discussion/DiscussionDetails.tsx
 import React, { useState } from 'react'
 import { Iteration, MentorDiscussion } from '../../types'
 import { FinishedWizard, ModalStep } from './FinishedWizard'
 import { DiscussionPostList } from './DiscussionPostList'
 import { QueryStatus } from '@tanstack/react-query'
 import { FavoritableStudent } from '../session/FavoriteButton'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const DiscussionDetails = ({
   discussion,
@@ -22,6 +24,9 @@ export const DiscussionDetails = ({
   onIterationScroll: (iteration: Iteration) => void
   status: QueryStatus
 }): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/mentoring/discussion/DiscussionDetails.tsx'
+  )
   const [defaultWizardStep] = useState<ModalStep>(
     discussion.isFinished ? 'finish' : 'mentorAgain'
   )
@@ -46,8 +51,10 @@ export const DiscussionDetails = ({
           setStudent={setStudent}
           timelineContent={
             timedOut
-              ? 'This discussion timed out'
-              : `You've finished your discussion with ${student.handle}.`
+              ? t('discussionDetails.discussionTimedOut')
+              : t('discussionDetails.finishedDiscussionWith', {
+                  studentHandle: student.handle,
+                })
           }
         />
       ) : null}

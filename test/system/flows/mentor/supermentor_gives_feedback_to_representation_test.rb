@@ -198,26 +198,19 @@ module Flows
           assert_text exercise_1.title
           assert_text exercise_2.title
 
-          first_element_title = find('.--representer:first-child .--exercise-title div').text
-          assert_equal exercise_1.title, first_element_title
+          assert_selector '.--representer:first-child .--exercise-title div', text: exercise_1.title
 
           find('.automation-sorter button').click
           find("label", text: "Sort by recent first").click
 
-          # wait for page to render
-          assert_text exercise_2.title
-
-          first_element_title = find('.--representer:first-child .--exercise-title div').text
-          assert_equal exercise_2.title, first_element_title
+          # wait for the re-sorted list to render
+          assert_selector '.--representer:first-child .--exercise-title div', text: exercise_2.title
 
           find('.automation-sorter button').click
-          find("label", text: "Sort by highest occurence").click
+          find("label", text: "Sort by highest occurrence").click
 
-          # wait for page to render
-          assert_text exercise_1.title
-
-          first_element_title = find('.--representer:first-child .--exercise-title div').text
-          assert_equal exercise_1.title, first_element_title
+          # wait for the re-sorted list to render
+          assert_selector '.--representer:first-child .--exercise-title div', text: exercise_1.title
         end
       end
 

@@ -1,0 +1,6 @@
+en:
+  components:
+    nav_helpers:
+      nav_dropdown_helper:
+        new_badge: "New"
+        external_link: "The link opens in a new window or tab"

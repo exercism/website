@@ -1,5 +1,5 @@
 %section.instructions.c-textual-content.--large.px-20.lg:px-32.py-20.lg:py-24
-  - content = Exercise::CachedContent::Retrieve.(exercise, solution)
+  - content = I18n.with_locale(exercise_docs_locale) { Exercise::CachedContent::Retrieve.(exercise, solution) }
   - if content[:introduction].present?
     .border-b-1.border-borderColor5{ class: "!pb-8 !mb-32" }
       %h2= t('.introduction_heading')

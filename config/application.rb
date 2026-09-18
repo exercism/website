@@ -6,6 +6,8 @@ require "rails/all"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+require_relative '../lib/translation_repo'
+
 module Website
   class Application < Rails::Application
     config.load_defaults 7.0
@@ -13,6 +15,10 @@ module Website
     config.active_job.queue_adapter = :sidekiq
 
     config.time_zone = "UTC"
+
+    config.i18n.default_locale = :en
+    config.i18n.available_locales = %i[en hu]
+
     config.active_record.default_timezone = :utc
     config.action_view.form_with_generates_remote_forms = false
 

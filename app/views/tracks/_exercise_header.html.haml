@@ -14,7 +14,7 @@
 
 - if solution&.out_of_date?
   .lg-container
-    = render ReactComponents::Student::UpdateExerciseNotice.new(solution)
+    = render ReactComponents::Student::UpdateExerciseNotice.new(solution, english_exercise_docs?)
 
 - elsif solution&.completed?
   .lg-container

@@ -27,19 +27,19 @@ export function ConnectModal({
           <Icon
             icon="exercism-face"
             category="icons"
-            alt="Exercism"
+            alt={t('connectModal.exercismAlt')}
             className="mb-16 h-[64px]"
           />
           <Icon
             icon="sync"
             category="graphics"
-            alt="Sync with"
+            alt={t('connectModal.syncWithAlt')}
             className="mb-16 h-[64px]"
           />
           <Icon
             icon="external-site-github"
             category="icons"
-            alt="Github"
+            alt={t('connectModal.githubAlt')}
             className="mb-16 h-[64px]"
           />
         </div>

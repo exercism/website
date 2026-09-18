@@ -9,5 +9,7 @@ export default {
   'trackMenu.leaveTrack': 'Leave track…',
   'notifications.seeAllYourNotifications': 'See all your notifications',
   'notifications.unableToLoad': 'Unable to load notifications',
+  'notifications.openNotifications': 'Open notifications',
   'reputation.unableToRetrieve': 'Unable to retrieve reputation tokens',
+  'trackMenu.trackOptions': 'Track options',
 }

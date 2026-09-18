@@ -22,4 +22,8 @@ class MailshotsMailer < ApplicationMailer
     @email_communication_preferences_key = :receive_product_updates
     bulk_mail(@user, subject)
   end
+
+  private
+  # TODO(iHiD): OPEN. What happens to bulk mail that only exists in English.
+  def recipient_locale(_args) = I18n.default_locale
 end

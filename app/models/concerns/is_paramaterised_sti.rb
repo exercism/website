@@ -74,14 +74,14 @@ module IsParamaterisedSTI
       self.uniqueness_key = generate_uniqueness_key!
       self.params = {} if self.params.blank?
       self.version = latest_i18n_version
-      self.rendering_data_cache = cacheable_rendering_data
+      self.rendering_data_cache = build_rendering_data_cache
     end
 
     before_save unless: :new_record? do
       # If any attributes have changed since the last time
       # this was saved, then rebuild the cache.
-      non_cache_changes = (changed_attributes.keys - non_rendered_attributes.map(&:to_s) - [rendering_data_cache]).present?
-      self.rendering_data_cache = cacheable_rendering_data if non_cache_changes
+      non_cache_changes = (changed_attributes.keys - non_rendered_attributes.map(&:to_s) - ["rendering_data_cache"]).present?
+      self.rendering_data_cache = build_rendering_data_cache if non_cache_changes
     end
   end
 
@@ -112,13 +112,44 @@ module IsParamaterisedSTI
   end
 
   def rendering_data
-    data = rendering_data_cache
-    if data.blank?
-      data = cacheable_rendering_data
-      update!(rendering_data_cache: data)
+    data = cached_rendering_data
+    unless data
+      cache = build_rendering_data_cache(rendering_data_cache_locales)
+      update!(rendering_data_cache: cache)
+      data = cache.dig("locales", I18n.locale.to_s, "data")
     end
 
     data.with_indifferent_access.merge(non_cacheable_rendering_data)
+  end
+
+  def cached_rendering_data
+    entry = rendering_data_cache_locales[I18n.locale.to_s]
+    return unless entry.present? && entry["data"].present?
+    return unless entry["version"] == translation_version
+
+    entry["data"]
+  end
+
+  def rendering_data_cache_locales
+    cache = rendering_data_cache
+    return {} if cache.blank?
+    return cache["locales"] if cache.key?("locales")
+
+    { I18n.default_locale.to_s => { "version" => nil, "data" => cache } }
+  end
+
+  def build_rendering_data_cache(existing = {})
+    entry = {
+      "version" => translation_version,
+      "data" => JSON.parse(cacheable_rendering_data.to_json)
+    }
+    { "locales" => existing.merge(I18n.locale.to_s => entry) }
+  end
+
+  def translation_version
+    return if I18n.locale == I18n.default_locale
+
+    TranslationRepo.version
   end
 
   # Save each class from manually overriding this

@@ -14,7 +14,7 @@ module Git
 
     def analysis_comment_for(code)
       filepath = "analyzer-comments/#{code.tr('.', '/')}.md"
-      repo.read_text_blob(head_commit, filepath)
+      repo.read_translated_text_blob(head_commit, filepath)
     end
 
     def mentor_notes_for_exercise(track_slug, exercise_slug)

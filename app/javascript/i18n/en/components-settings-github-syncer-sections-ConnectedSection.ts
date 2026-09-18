@@ -16,6 +16,15 @@ export default {
   'dangerZoneSection.thisActionCannotUndone': 'This action cannot be undone.',
   'dangerZoneSection.disconnectSyncerConfirm': 'Disconnect Syncer',
   'dangerZoneSection.cancel': 'Cancel',
+  'dangerZoneSection.areYouSurePauseSyncing':
+    'Are you sure you want to pause syncing solutions with GitHub?',
+  'dangerZoneSection.pause': 'Pause',
+  'dangerZoneSection.pausedCodeSync': 'Paused code sync with GitHub.',
+  'dangerZoneSection.failedToChangeStatus': 'Failed to change status.',
+  'dangerZoneSection.githubSyncDeleted': 'GitHub sync deleted successfully',
+  'dangerZoneSection.failedToDeleteSync': 'Failed to delete GitHub sync.',
+  'dangerZoneSection.unexpectedErrorDeleting':
+    'Oops! We received an unexpected error while deleting the GitHub sync.',
   'fileStructureSection.fileStructure': 'File structure',
   'fileStructureSection.configureFolderStructure':
     'Use this option to configure the folder structure for your repository.',
@@ -51,6 +60,9 @@ export default {
   'statusSection.areYouSureResumeSyncing':
     'Are you sure you want to resume syncing solutions with GitHub?',
   'statusSection.resume': 'Resume',
+  'statusSection.cancel': 'Cancel',
+  'statusSection.resumedCodeSync': 'Resumed code sync with GitHub.',
+  'statusSection.failedToChangeStatus': 'Failed to change status.',
   'commitMessageTemplateSection.heading': 'Commit message template',
   'commitMessageTemplateSection.intro':
     'Use this option to determine what your commit and PR messages should look like.',

@@ -37,8 +37,6 @@ const TrackFilter = ({
   )
 }
 
-const DEFAULT_ERROR = new Error('Unable to fetch tracks')
-
 export const TrackFilterList = ({
   status,
   error,
@@ -47,6 +45,8 @@ export const TrackFilterList = ({
 }: React.PropsWithChildren<
   Props & { status: QueryStatus; error: unknown }
 >): JSX.Element => {
+  const { t } = useAppTranslation('components/mentoring/queue')
+  const DEFAULT_ERROR = new Error(t('trackFilterList.unableToFetchTracks'))
   return (
     <FetchingBoundary
       error={error}
@@ -126,7 +126,7 @@ const Component = ({
       <ResultsZone isFetching={isFetching}>
         <button
           className="current-track"
-          aria-label="Open the track filter"
+          aria-label={t('trackFilterList.openTheTrackFilter')}
           {...buttonAttributes}
         >
           <TrackIcon iconUrl={value.iconUrl} title={value.title} />

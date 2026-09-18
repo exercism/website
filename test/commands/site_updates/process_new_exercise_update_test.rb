@@ -18,7 +18,8 @@ class SiteUpdates::ProcessNewExerciseUpdateTest < ActiveSupport::TestCase
 
       SiteUpdates::ProcessNewExerciseUpdate.(exercise)
 
-      assert_equal JSON.parse(update.cacheable_rendering_data.to_json), update.reload.rendering_data_cache
+      assert_empty update.reload.rendering_data_cache
+      assert_equal JSON.parse(update.cacheable_rendering_data.to_json), update.rendering_data.to_h
     end
   end
 

@@ -41,7 +41,7 @@ class User::ActivityTest < ActiveSupport::TestCase
         'text' => "You started <strong>Strings</strong>",
         'icon_name' => "editor"
       }
-      assert_equal({ "locales" => { "en" => { "catalog" => nil, "data" => cache_data } } }, activity.rendering_data_cache)
+      assert_equal({ "locales" => { "en" => { "version" => nil, "data" => cache_data } } }, activity.rendering_data_cache)
       assert_equal "/tracks/ruby/exercises/strings", activity.rendering_data[:url]
       assert_equal "You started <strong>Strings</strong>", activity.rendering_data[:text]
       assert_equal Time.current, activity.rendering_data[:occurred_at]
@@ -71,7 +71,7 @@ class User::ActivityTest < ActiveSupport::TestCase
         'text' => "You started <strong>Strings</strong>",
         'icon_name' => "editor"
       }
-      assert_equal({ "locales" => { "en" => { "catalog" => nil, "data" => cache_data } } }, activity.rendering_data_cache)
+      assert_equal({ "locales" => { "en" => { "version" => nil, "data" => cache_data } } }, activity.rendering_data_cache)
     end
   end
 

@@ -10,4 +10,4 @@
   I18n.load_path += Dir[Rails.root.join('config', 'locales', category, '*.{rb,yml}')]
 end
 
-I18n.backend = TranslationStore::Backend.new
+I18n.backend = TranslationRepo::Backend.new

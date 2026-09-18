@@ -210,24 +210,47 @@ class ActiveSupport::TestCase
 
   # e.g. with_published_translations(hu: { backend: { greeting: "Szia" } })
   def with_published_translations(catalogs)
-    catalogs.each do |locale, kinds|
-      kinds.each { |kind, tree| publish_translation_catalog!(locale, kind, tree) }
-    end
-    I18n.reload!
+    raise "#{TranslationRepo.root} already exists" if File.exist?(TranslationRepo.root)
 
-    yield
-  ensure
-    FileUtils.rm_rf(TranslationStore.root)
-    TranslationStore.expire!
-    I18n.reload!
+    begin
+      catalogs.each do |locale, kinds|
+        kinds.each { |kind, tree| publish_translation_catalog!(locale, kind, tree) }
+      end
+      commit_translations!
+      I18n.reload!
+
+      yield
+    ensure
+      FileUtils.rm_rf(TranslationRepo.root)
+      TranslationRepo.expire!
+      I18n.reload!
+    end
+  end
+
+  # Call inside with_published_translations
+  def publish_translation_catalog!(locale, kind, tree)
+    write_translation!(TranslationRepo.root / "locales" / locale.to_s / "website" / "#{kind}.json", tree.to_json)
   end
 
   # Call inside with_published_translations
   def publish_translated_content!(locale, repo, commit, path, text)
     blob_id = repo.find_file_oid(commit, path)
-    file = TranslationStore.content_path(locale, blob_id, File.extname(path))
+    write_translation!(TranslationRepo.content_path(locale, blob_id, File.extname(path)), text)
+  end
+
+  def write_translation!(file, text)
     FileUtils.mkdir_p(file.dirname)
     File.write(file, text)
+    commit_translations!
+  end
+
+  def commit_translations!(sha = SecureRandom.hex(20))
+    git = TranslationRepo.root / ".git"
+    FileUtils.mkdir_p(git / "refs" / "heads")
+    File.write(git / "HEAD", "ref: refs/heads/main\n")
+    File.write(git / "refs" / "heads" / "main", "#{sha}\n")
+    TranslationRepo.expire!
+    sha
   end
 
   def travel_monotonic(seconds)
@@ -236,18 +259,6 @@ class ActiveSupport::TestCase
     yield
   ensure
     Process.unstub(:clock_gettime)
-  end
-
-  def publish_translation_catalog!(locale, kind, tree)
-    json = (kind.to_sym == :backend ? { locale => tree } : tree).to_json
-    hash = Digest::SHA256.hexdigest(json)[0, 12]
-
-    dir = TranslationStore.root / "website" / locale.to_s
-    FileUtils.mkdir_p(dir)
-    File.write(dir / "#{kind}-#{hash}.json", json)
-    File.write(dir / "#{kind}.current.json", { hash: }.to_json)
-    TranslationStore.expire!
-    hash
   end
 
   def assert_equal_structs(expected, actual)

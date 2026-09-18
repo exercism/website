@@ -1,8 +1,8 @@
 require "test_helper"
 
-class TranslationStore::BackendTest < ActiveSupport::TestCase
+class TranslationRepo::BackendTest < ActiveSupport::TestCase
   test "is the I18n backend, with pluralization and fallbacks" do
-    assert_instance_of TranslationStore::Backend, I18n.backend
+    assert_instance_of TranslationRepo::Backend, I18n.backend
     assert_includes I18n.backend.class.ancestors, I18n::Backend::Pluralization
     assert_includes I18n.backend.class.ancestors, I18n::Backend::Fallbacks
   end
@@ -30,7 +30,7 @@ class TranslationStore::BackendTest < ActiveSupport::TestCase
     I18n.with_locale(:hu) { assert_equal "gone", I18n.t("store_test.greeting", name: "x", default: "gone") }
   end
 
-  test "a new pointer swaps the whole catalog in, dropping keys that went away" do
+  test "a new version swaps the whole catalog in, dropping keys that went away" do
     with_published_translations(hu: { backend: { store_test: { a: "egy", b: "kettő" } } }) do
       I18n.with_locale(:hu) do
         assert_equal "egy", I18n.t("store_test.a")
@@ -42,32 +42,29 @@ class TranslationStore::BackendTest < ActiveSupport::TestCase
     end
   end
 
-  test "a pointer change is only noticed after the check interval" do
+  test "a version change is only noticed after the check interval" do
     with_published_translations(hu: { backend: { store_test: { a: "egy" } } }) do
       I18n.with_locale(:hu) do
         assert_equal "egy", I18n.t("store_test.a")
 
-        dir = TranslationStore.root / "website/hu"
-        json = { hu: { store_test: { a: "EGY" } } }.to_json
-        File.write(dir / "backend-0123456789ab.json", json)
-        File.write(dir / "backend.current.json", { hash: "0123456789ab" }.to_json)
+        File.write(TranslationRepo.backend_catalog_path(:hu), { store_test: { a: "EGY" } }.to_json)
+        File.write(TranslationRepo.root / ".git/refs/heads/main", "0123456789abcdef0123456789abcdef01234567\n")
         assert_equal "egy", I18n.t("store_test.a")
 
-        travel_monotonic(TranslationStore::CHECK_INTERVAL_SECONDS + 1) do
+        travel_monotonic(TranslationRepo::CHECK_INTERVAL_SECONDS + 1) do
           assert_equal "EGY", I18n.t("store_test.a")
         end
       end
     end
   end
 
-  test "a pointer to an artifact that isn't there keeps the current catalog, and says so once" do
+  test "a catalog that no longer parses keeps the current one, and says so" do
     with_published_translations(hu: { backend: { store_test: { a: "egy" } } }) do
       I18n.with_locale(:hu) do
         assert_equal "egy", I18n.t("store_test.a")
 
         Sentry.expects(:capture_exception).once
-        File.write(TranslationStore.root / "website/hu/backend.current.json", { hash: "0123456789ab" }.to_json)
-        TranslationStore.expire!
+        write_translation!(TranslationRepo.backend_catalog_path(:hu), "{ half writ")
 
         assert_equal "egy", I18n.t("store_test.a")
         assert_equal "egy", I18n.t("store_test.a")
@@ -75,15 +72,15 @@ class TranslationStore::BackendTest < ActiveSupport::TestCase
     end
   end
 
-  test "an artifact for the wrong locale is refused" do
-    Sentry.expects(:capture_exception).at_least_once
-    with_published_translations(hu: { backend: {} }) do
-      dir = TranslationStore.root / "website/hu"
-      File.write(dir / "backend-0123456789ab.json", { nl: { store_test: { a: "een" } } }.to_json)
-      File.write(dir / "backend.current.json", { hash: "0123456789ab" }.to_json)
-      TranslationStore.expire!
+  test "a catalog that went away takes its keys with it" do
+    with_published_translations(hu: { backend: { store_test: { a: "egy" } } }) do
+      I18n.with_locale(:hu) do
+        assert_equal "egy", I18n.t("store_test.a")
 
-      I18n.with_locale(:hu) { assert_equal "gone", I18n.t("store_test.a", default: "gone") }
+        File.delete(TranslationRepo.backend_catalog_path(:hu))
+        commit_translations!
+        assert_equal "gone", I18n.t("store_test.a", default: "gone")
+      end
     end
   end
 

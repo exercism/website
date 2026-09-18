@@ -10,7 +10,7 @@ class Git::TranslatedContentTest < ActiveSupport::TestCase
   end
 
   test "english never touches the store" do
-    TranslationStore.expects(:content).never
+    TranslationRepo.expects(:content).never
 
     assert_includes @exercise.instructions, "Instructions for bob"
     assert @exercise.instructions_translated?

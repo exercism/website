@@ -38,7 +38,7 @@ module MetaTagsHelper
 
   def noindex_locale? = !LocaleRoster.production?(I18n.locale)
 
-  def frontend_catalog_url = TranslationStore.frontend_catalog_url(I18n.locale)
+  def frontend_catalog_url = TranslationRepo.frontend_catalog_url(I18n.locale)
 
   def html_lang = LocaleRoster.default?(I18n.locale) ? "en-US" : I18n.locale.to_s
   def html_dir = LocaleRoster.direction(I18n.locale)

@@ -7,7 +7,7 @@ require "rails/all"
 Bundler.require(*Rails.groups)
 
 require_relative '../lib/locale_roster'
-require_relative '../lib/translation_store'
+require_relative '../lib/translation_repo'
 
 module Website
   class Application < Rails::Application

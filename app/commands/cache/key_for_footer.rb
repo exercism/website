@@ -9,7 +9,7 @@ class Cache::KeyForFooter
     parts << ::Track.num_active
     parts << user_part
     parts << stripe_version
-    parts << TranslationStore.cache_key
+    parts << TranslationRepo.cache_key
     parts << "v3"
 
     parts.join(':')

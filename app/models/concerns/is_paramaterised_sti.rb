@@ -125,7 +125,7 @@ module IsParamaterisedSTI
   def cached_rendering_data
     entry = rendering_data_cache_locales[I18n.locale.to_s]
     return unless entry.present? && entry["data"].present?
-    return unless entry["catalog"] == TranslationStore.current_hash(I18n.locale, :backend)
+    return unless entry["version"] == translation_version
 
     entry["data"]
   end
@@ -135,15 +135,21 @@ module IsParamaterisedSTI
     return {} if cache.blank?
     return cache["locales"] if cache.key?("locales")
 
-    { LocaleRoster.default.to_s => { "catalog" => nil, "data" => cache } }
+    { LocaleRoster.default.to_s => { "version" => nil, "data" => cache } }
   end
 
   def build_rendering_data_cache(existing = {})
     entry = {
-      "catalog" => TranslationStore.current_hash(I18n.locale, :backend),
+      "version" => translation_version,
       "data" => JSON.parse(cacheable_rendering_data.to_json)
     }
     { "locales" => existing.merge(I18n.locale.to_s => entry) }
+  end
+
+  def translation_version
+    return if LocaleRoster.default?(I18n.locale)
+
+    TranslationRepo.version
   end
 
   # Save each class from manually overriding this

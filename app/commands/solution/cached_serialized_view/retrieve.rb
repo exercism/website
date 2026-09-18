@@ -36,7 +36,7 @@ class Solution::CachedSerializedView::Retrieve
 
   def cache_key
     uuid = solution.uuid
-    locale = ".#{I18n.locale}" unless LocaleRoster.default?(I18n.locale)
+    locale = ".#{TranslationRepo.cache_key}" unless LocaleRoster.default?(I18n.locale)
     "solution-view/#{uuid[0, 2]}/#{uuid[2, 2]}/#{uuid}/#{solution.updated_at.to_i}#{locale}.json"
   end
 end

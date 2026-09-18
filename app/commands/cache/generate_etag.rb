@@ -16,7 +16,7 @@ class Cache::GenerateEtag
   def extra_args
     [
       Cache::KeyForFooter.(current_user),
-      TranslationStore.cache_key,
+      TranslationRepo.cache_key,
       current_user&.preferences&.theme
     ].compact
   end

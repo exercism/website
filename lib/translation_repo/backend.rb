@@ -1,6 +1,6 @@
 require 'i18n'
 
-class TranslationStore::Backend < I18n::Backend::Simple
+class TranslationRepo::Backend < I18n::Backend::Simple
   include I18n::Backend::Pluralization
   include I18n::Backend::Fallbacks
 
@@ -40,30 +40,23 @@ class TranslationStore::Backend < I18n::Backend::Simple
   def refresh_if_stale!
     return unless initialized?
 
-    pointers = TranslationStore.pointers
-    return if pointers.equal?(@pointers)
-
-    build_and_swap! unless published_hashes(pointers) == @built_from
-    @pointers = pointers
-  end
-
-  def published_hashes(pointers)
-    pointers.filter_map { |(locale, kind), hash| [locale, hash] if kind == :backend }.to_h
+    version = TranslationRepo.version
+    build_and_swap! unless version == @built_from
   end
 
   def build_and_swap!(wait: false)
     return unless wait ? @swap.lock : @swap.try_lock
 
     begin
-      hashes = published_hashes(TranslationStore.pointers)
-      catalogs = hashes.to_h { |locale, hash| [locale, catalog_for(locale, hash)] }.compact
+      version = TranslationRepo.version
+      catalogs = locales.to_h { |locale| [locale, catalog_for(locale, version)] }.compact
 
       builder = I18n::Backend::Simple.new
       builder.load_translations
       catalogs.each { |locale, (_, tree)| builder.store_translations(locale, tree) }
 
       @catalogs = catalogs
-      @built_from = hashes
+      @built_from = version
       @reported.clear
       @translations = builder.translations
       @initialized = true
@@ -72,12 +65,15 @@ class TranslationStore::Backend < I18n::Backend::Simple
     end
   end
 
-  def catalog_for(locale, hash)
-    return @catalogs[locale] if @catalogs[locale]&.first == hash
+  def locales = LocaleRoster.known - [LocaleRoster.default]
 
-    artifact = JSON.parse(File.read(TranslationStore.catalog_path(locale, :backend, hash)))
-    [hash, artifact.fetch(locale.to_s)]
-  rescue Errno::ENOENT, JSON::ParserError, KeyError => e
+  def catalog_for(locale, version)
+    return @catalogs[locale] if version && @catalogs[locale]&.first == version
+
+    [version, JSON.parse(File.read(TranslationRepo.backend_catalog_path(locale)))]
+  rescue Errno::ENOENT
+    nil
+  rescue JSON::ParserError => e
     Sentry.capture_exception(e, tags: { locale: locale.to_s })
     @catalogs[locale]
   end

@@ -78,7 +78,7 @@ if (!i18n.isInitialized) {
 
 async function loadCatalog(locale: string, url: string): Promise<void> {
   try {
-    const response = await fetch(url, { mode: 'cors' })
+    const response = await fetch(url)
     if (!response.ok) throw new Error(`${response.status} for ${url}`)
 
     const catalog: Catalog = await response.json()

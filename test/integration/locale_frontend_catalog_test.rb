@@ -13,8 +13,8 @@ class LocaleFrontendCatalogTest < ActionDispatch::IntegrationTest
     with_served_locales(:hu) do
       with_published_translations(hu: { frontend: { "components/tracks": { title: "Nyelvek" } } }) do
         LocaleRoster.stubs(production: %i[en hu])
-        hash = TranslationStore.current_hash(:hu, :frontend)
-        url = "/i18n/website/hu/frontend-#{hash}.json"
+        url = TranslationRepo.frontend_catalog_url(:hu)
+        assert_match %r{\A/i18n/hu/frontend-[0-9a-f]{12}\.json\z}, url
 
         get "/hu/tracks"
         assert_select "meta[name='exercism-locale'][content=hu]"
@@ -26,21 +26,34 @@ class LocaleFrontendCatalogTest < ActionDispatch::IntegrationTest
 
         get url
         assert_response :ok
+        assert_equal "max-age=31536000, public, immutable", response.headers["Cache-Control"]
         assert_equal({ "components/tracks" => { "title" => "Nyelvek" } }, response.parsed_body)
 
-        get "/i18n/website/hu/frontend-0123456789ab.json"
+        get "/i18n/hu/frontend-0123456789ab.json"
         assert_response :not_found
+
+        assert_raises(ActionController::RoutingError) { get "/i18n/nl/frontend-0123456789ab.json" }
       end
     end
   end
 
-  test "the catalog url is on the assets host" do
-    with_published_translations(hu: { frontend: {} }) do
-      Rails.application.config.stubs(asset_host: "https://assets.exercism.org")
-      hash = TranslationStore.current_hash(:hu, :frontend)
+  test "a catalog is never served under a stale hash" do
+    with_published_translations(hu: { frontend: { ns: { a: "b" } } }) do
+      url = TranslationRepo.frontend_catalog_url(:hu)
+      File.write(TranslationRepo.frontend_catalog_path(:hu), { ns: { a: "c" } }.to_json)
 
-      assert_equal "https://assets.exercism.org/i18n/website/hu/frontend-#{hash}.json", TranslationStore.frontend_catalog_url(:hu)
-      assert_nil TranslationStore.frontend_catalog_url(:en)
+      get url
+      assert_response :not_found
+
+      commit_translations!
+      get TranslationRepo.frontend_catalog_url(:hu)
+      assert_response :ok
+      assert_equal({ "ns" => { "a" => "c" } }, response.parsed_body)
     end
+  end
+
+  test "no catalog without a checkout" do
+    get "/i18n/hu/frontend-0123456789ab.json"
+    assert_response :not_found
   end
 end

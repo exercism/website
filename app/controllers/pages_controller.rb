@@ -16,7 +16,7 @@ class PagesController < ApplicationController
   # the one that matters. The Link preloads, body class and Vary are page
   # concerns too, and Vary just fragments the cache.
   skip_after_action :set_csp_header, :set_link_header, :set_body_class_header, :set_vary_header,
-    only: %i[test_runner_artifact]
+    only: %i[test_runner_artifact frontend_catalog]
 
   # Guessed content types break the editor: WebAssembly.instantiateStreaming
   # rejects anything that is not application/wasm, and a module worker needs a
@@ -83,13 +83,16 @@ class PagesController < ApplicationController
     render json: { "Hello": "iHiD" } if stale
   end
 
-  def i18n_catalog
-    return head :not_found unless LocaleRoster.known?(params[:catalog_locale])
+  def frontend_catalog
+    locale = params[:catalog_locale]
+    return head :not_found unless LocaleRoster.known?(locale)
 
-    hash = params[:filename][/[0-9a-f]{12}/]
-    send_file TranslationStore.catalog_path(params[:catalog_locale], :frontend, hash),
-      type: "application/json", disposition: :inline
-  rescue ActionController::MissingFile
+    json = File.binread(TranslationRepo.frontend_catalog_path(locale))
+    return head :not_found unless TranslationRepo.catalog_hash(json) == params[:hash]
+
+    response.set_header("Cache-Control", "public, max-age=31536000, immutable")
+    send_data json, type: "application/json", disposition: :inline
+  rescue Errno::ENOENT
     head :not_found
   end
 

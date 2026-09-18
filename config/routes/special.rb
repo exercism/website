@@ -84,6 +84,9 @@ get "javascript-browser-test-runner-worker.mjs", to: 'pages#javascript_browser_t
 # filenames in a bucket, not formats of a resource.
 get "test-runners/*path", to: 'pages#test_runner_artifact', format: false
 
+get "i18n/:catalog_locale/frontend-:hash.json", to: 'pages#frontend_catalog', format: false,
+  constraints: { catalog_locale: LocaleRoster.route_constraint, hash: /[0-9a-f]{12}/ }
+
 ##############
 # ELB routes #
 ##############
@@ -178,9 +181,6 @@ end
 # ########################### #
 
 unless Rails.env.production?
-  # In production the assets host serves these.
-  get "i18n/website/:catalog_locale/:filename", to: "pages#i18n_catalog", format: false, constraints: { filename: /frontend-[0-9a-f]{12}\.json/ }
-
   # TODO: Remove these before launching
   namespace :temp do
     resources :tracks, only: [:create]

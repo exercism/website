@@ -11,8 +11,7 @@ jest.mock('@/utils/locale-roster', () => ({
   isProductionLocale: (locale: string) => ['en', 'hu'].includes(locale),
 }))
 
-const CATALOG_URL =
-  'https://assets.exercism.org/i18n/website/hu/frontend-0123456789ab.json'
+const CATALOG_URL = '/i18n/hu/frontend-0123456789ab.json'
 
 function setPage(locale: string | null, catalogUrl: string | null = null) {
   document.head.innerHTML = ''
@@ -75,7 +74,7 @@ test('another locale is not pinned to english, and rendering waits for its catal
   await new Promise((resolve) => whenLocaleReady(() => resolve(null)))
   expect(rendered).toHaveBeenCalledTimes(1)
   expect(fetchMock).toHaveBeenCalledTimes(1)
-  expect(fetchMock).toHaveBeenCalledWith(CATALOG_URL, { mode: 'cors' })
+  expect(fetchMock).toHaveBeenCalledWith(CATALOG_URL)
   expect(i18n.t('hello', { ns: 'test/ns' })).toBe('Szia')
 })
 
@@ -110,7 +109,7 @@ test('a catalog is fetched once per url, and a new hash replaces the old one', a
   const secondFetch = mockCatalog({ 'test/ns': { hello: 'Szia!' } })
   await ensureLocale()
 
-  expect(secondFetch).toHaveBeenCalledWith(newUrl, { mode: 'cors' })
+  expect(secondFetch).toHaveBeenCalledWith(newUrl)
   expect(i18n.t('hello', { ns: 'test/ns' })).toBe('Szia!')
   expect(
     i18n.exists('gone', { ns: 'test/ns', lng: 'hu', fallbackLng: [] })

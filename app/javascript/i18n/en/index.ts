@@ -229,6 +229,7 @@ import gm from './session-batch-1'
 import gn from './session-batch-2'
 import go from './session-batch-3'
 import hwf from './components-common-HandleWithFlair.tsx'
+import acx from './components-editor-AssistantChat'
 
 export default {
   'automation-batch': aa,
@@ -471,4 +472,5 @@ export default {
   'session-batch-2': gn,
   'session-batch-3': go,
   'components/common/HandleWithFlair.tsx': hwf,
+  'components/editor/AssistantChat': acx,
 }

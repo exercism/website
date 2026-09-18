@@ -1,3 +1,7 @@
+// i18n-key-prefix: chatApi
+// i18n-namespace: components/editor/AssistantChat
+import i18n from '@/i18n/i18n'
+
 export class ChatTokenError extends Error {
   constructor(message: string, public status?: number, public data?: unknown) {
     super(message)
@@ -69,7 +73,12 @@ async function parseErrorBody(response: Response): Promise<unknown> {
     }
     return await response.text()
   } catch {
-    return { error: 'unknown', message: 'Failed to parse error response' }
+    return {
+      error: 'unknown',
+      message: i18n.t(
+        'components/editor/AssistantChat:chatApi.failedToParseErrorResponse'
+      ),
+    }
   }
 }
 

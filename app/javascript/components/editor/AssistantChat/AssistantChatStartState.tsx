@@ -1,13 +1,16 @@
-import React, { useEffect, useRef, useState } from 'react'
+// i18n-key-prefix: assistantChatStartState
+// i18n-namespace: components/editor/AssistantChat
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { GraphicalIcon } from '@/components/common'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 import { MAX_CHAT_MESSAGE_LENGTH } from './types'
 
-const ROTATING_PHRASES = [
-  'why this isn’t working',
-  'how to fix this bug',
-  'what this error means',
-  'how to approach this',
-  'how to get unstuck',
+const ROTATING_PHRASE_KEYS = [
+  'whyThisIsntWorking',
+  'howToFixThisBug',
+  'whatThisErrorMeans',
+  'howToApproachThis',
+  'howToGetUnstuck',
 ]
 
 const TYPE_MS = 50
@@ -52,9 +55,17 @@ export function AssistantChatStartState({
   insider: boolean
   onSendMessage: (message: string) => void
 }): JSX.Element {
+  const { t } = useAppTranslation('components/editor/AssistantChat')
   const [message, setMessage] = useState('')
   const textareaRef = useRef<HTMLTextAreaElement>(null)
-  const phrase = useRotatingPhrase(ROTATING_PHRASES)
+  const phrases = useMemo(
+    () =>
+      ROTATING_PHRASE_KEYS.map((key) =>
+        t(`assistantChatStartState.rotatingPhrases.${key}`)
+      ),
+    [t]
+  )
+  const phrase = useRotatingPhrase(phrases)
   const hasMessage = message.trim().length > 0
 
   useEffect(() => {
@@ -83,9 +94,9 @@ export function AssistantChatStartState({
         <div className="chat-start-avatar">
           <GraphicalIcon icon="conversation-chat" />
         </div>
-        <h3>Feeling Stuck?</h3>
+        <h3>{t('assistantChatStartState.feelingStuck')}</h3>
         <p className="chat-start-description">
-          Ask our Assistant about{' '}
+          {t('assistantChatStartState.askOurAssistantAbout')}{' '}
           <span className="rotating-text">
             {phrase}
             <span className="cursor" />
@@ -97,7 +108,7 @@ export function AssistantChatStartState({
             ref={textareaRef}
             value={message}
             maxLength={MAX_CHAT_MESSAGE_LENGTH}
-            placeholder="Tell us what you're stuck on, and what you've already tried…"
+            placeholder={t('assistantChatStartState.tellUsWhatYoureStuckOn')}
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === 'Enter' && !e.shiftKey) {
@@ -113,7 +124,7 @@ export function AssistantChatStartState({
             onClick={send}
           >
             <GraphicalIcon icon="conversation-chat" />
-            Ask our Assistant
+            {t('assistantChatStartState.askOurAssistant')}
           </button>
         </div>
 
@@ -121,8 +132,8 @@ export function AssistantChatStartState({
           <GraphicalIcon icon="check-circle" />
           <span>
             {insider
-              ? 'Unlimited conversations, included with Insiders'
-              : 'Get assistant help on this exercise - 100% free.'}
+              ? t('assistantChatStartState.unlimitedConversations')
+              : t('assistantChatStartState.getAssistantHelpFree')}
           </span>
         </p>
       </div>

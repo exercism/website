@@ -46,4 +46,5 @@ export default {
   'deleteIterationModal.unableToDeleteIteration': 'Unable to delete iteration',
   'iterationReport.thisIterationHasBeenDeleted':
     'This iteration has been deleted',
+  'analyzerFeedback.opensInANewTab': 'Opens in a new tab',
 }

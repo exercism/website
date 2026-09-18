@@ -15,7 +15,9 @@ const TypeOption = ({ option: type }: { option: TaskType }): JSX.Element => {
           <GraphicalIcon icon="task-type-docs" className="task-icon" />
           <div className="info">
             <div className="title">{t('tasksList.typeSwitcher.docs')}</div>
-            <div className="description">Help build Exercism's docs</div>
+            <div className="description">
+              {t('tasksList.typeSwitcher.docsDescription')}
+            </div>
           </div>
         </React.Fragment>
       )
@@ -26,7 +28,7 @@ const TypeOption = ({ option: type }: { option: TaskType }): JSX.Element => {
           <div className="info">
             <div className="title">{t('tasksList.typeSwitcher.ci')}</div>
             <div className="description">
-              Automation and continuous integration
+              {t('tasksList.typeSwitcher.ciDescription')}
             </div>
           </div>
         </React.Fragment>
@@ -37,7 +39,9 @@ const TypeOption = ({ option: type }: { option: TaskType }): JSX.Element => {
           <GraphicalIcon icon="task-type-docker" className="task-icon" />
           <div className="info">
             <div className="title">{t('tasksList.typeSwitcher.docker')}</div>
-            <div className="description">Help improve our Dockerfiles</div>
+            <div className="description">
+              {t('tasksList.typeSwitcher.dockerDescription')}
+            </div>
           </div>
         </React.Fragment>
       )
@@ -47,7 +51,9 @@ const TypeOption = ({ option: type }: { option: TaskType }): JSX.Element => {
           <GraphicalIcon icon="task-type-coding" className="task-icon" />
           <div className="info">
             <div className="title">{t('tasksList.typeSwitcher.coding')}</div>
-            <div className="description">Write production code</div>
+            <div className="description">
+              {t('tasksList.typeSwitcher.codingDescription')}
+            </div>
           </div>
         </React.Fragment>
       )
@@ -57,7 +63,9 @@ const TypeOption = ({ option: type }: { option: TaskType }): JSX.Element => {
           <GraphicalIcon icon="task-type-content" className="task-icon" />
           <div className="info">
             <div className="title">{t('tasksList.typeSwitcher.content')}</div>
-            <div className="description">Develop exercises and concepts</div>
+            <div className="description">
+              {t('tasksList.typeSwitcher.contentDescription')}
+            </div>
           </div>
         </React.Fragment>
       )
@@ -67,7 +75,7 @@ const TypeOption = ({ option: type }: { option: TaskType }): JSX.Element => {
 const SelectedComponent = ({ value: action }: { value: TaskType[] }) => {
   const { t } = useAppTranslation('components/contributing')
   if (action.length > 1) {
-    return <>Multiple</>
+    return <>{t('tasksList.typeSwitcher.multiple')}</>
   }
 
   switch (action[0]) {
@@ -105,12 +113,14 @@ export const TypeSwitcher = ({
   value: TaskType[]
   setValue: (types: TaskType[]) => void
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/contributing')
+
   return (
     <MultipleSelect<TaskType>
       options={['docs', 'ci', 'coding', 'docker', 'content']}
       value={value}
       setValue={setValue}
-      label="Type"
+      label={t('tasksList.typeSwitcher.label')}
       SelectedComponent={SelectedComponent}
       ResetComponent={ResetComponent}
       OptionComponent={TypeOption}

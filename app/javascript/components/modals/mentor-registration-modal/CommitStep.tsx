@@ -87,7 +87,7 @@ export const CommitStep = ({
                   <Icon
                     key="icon"
                     icon="external-link"
-                    alt="Opens in a new tab"
+                    alt={t('commitStep.opensInANewTab')}
                   />,
                 ]}
               />
@@ -113,7 +113,7 @@ export const CommitStep = ({
                   <Icon
                     key="icon"
                     icon="external-link"
-                    alt="Opens in a new tab"
+                    alt={t('commitStep.opensInANewTab')}
                   />,
                 ]}
               />

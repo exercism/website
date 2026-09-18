@@ -52,4 +52,5 @@ export default {
   'publishSolutionForm.noMarkComplete':
     'No, I just want to mark the exercise as complete.',
   'publishSolutionForm.confirm': 'Confirm',
+  'publishSolutionForm.loading': 'loading',
 }

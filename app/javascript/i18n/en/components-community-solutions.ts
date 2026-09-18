@@ -13,4 +13,7 @@ export default {
     'You have disabled comments on this solution. Use the "Options" cog above to toggle this option.',
   'commentsList.listDisabled.disabledComments': 'Comments have been disabled',
   'commentsList.header.writeAComment': 'Write a comment',
+  'starButton.numberOfStars': 'Number of stars',
+  'starButton.favorite': 'Favorite',
+  'starButton.favorited': 'Favorited',
 }

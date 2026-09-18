@@ -96,7 +96,7 @@ const SelectedComponent = ({ value: action }: { value: TaskModule[] }) => {
   const { t } = useAppTranslation('components/contributing')
 
   if (action.length > 1) {
-    return <>{t('tasksList.moduleSwitcher.multiple')}</> // You can localize this if needed
+    return <>{t('tasksList.moduleSwitcher.multiple')}</>
   }
 
   switch (action[0]) {
@@ -138,6 +138,8 @@ export const ModuleSwitcher = ({
   value: TaskModule[]
   setValue: (module: TaskModule[]) => void
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/contributing')
+
   return (
     <MultipleSelect<TaskModule>
       options={[
@@ -151,7 +153,7 @@ export const ModuleSwitcher = ({
       ]}
       value={value}
       setValue={setValue}
-      label="Module"
+      label={t('tasksList.moduleSwitcher.label')}
       SelectedComponent={SelectedComponent}
       ResetComponent={ResetComponent}
       OptionComponent={ModuleOption}

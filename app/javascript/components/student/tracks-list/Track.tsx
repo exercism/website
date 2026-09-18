@@ -49,7 +49,7 @@ export const Track = ({ track }: { track: StudentTrack }): JSX.Element => {
         </div>
         <ul className="--counts">
           <li>
-            <Icon icon="exercises" alt="Number of exercises" />
+            <Icon icon="exercises" alt={t('track.numberOfExercisesAlt')} />
             {track.numCompletedExercises == undefined
               ? null
               : `${track.numCompletedExercises}/`}
@@ -58,7 +58,7 @@ export const Track = ({ track }: { track: StudentTrack }): JSX.Element => {
 
           {track.course && (
             <li>
-              <Icon icon="concepts" alt="Number of concepts" />
+              <Icon icon="concepts" alt={t('track.numberOfConceptsAlt')} />
               {track.numCompletedConcepts == undefined
                 ? null
                 : `${track.numCompletedConcepts}/`}

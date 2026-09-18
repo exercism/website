@@ -15,34 +15,13 @@ const DEFAULT_ERROR = new Error('Unable to save seniority level.')
 
 export const SENIORITIES: {
   key: string
-  label: string
   value: SeniorityLevel
 }[] = [
-  {
-    key: 'absoluteBeginner',
-    label: 'Absolute Beginner',
-    value: 'absolute_beginner',
-  },
-  {
-    key: 'beginner',
-    label: 'Beginner',
-    value: 'beginner',
-  },
-  {
-    key: 'juniorDeveloper',
-    label: 'Junior Developer',
-    value: 'junior',
-  },
-  {
-    key: 'midLevelDeveloper',
-    label: 'Mid-level Developer',
-    value: 'mid',
-  },
-  {
-    key: 'seniorDeveloper',
-    label: 'Senior Developer',
-    value: 'senior',
-  },
+  { key: 'absoluteBeginner', value: 'absolute_beginner' },
+  { key: 'beginner', value: 'beginner' },
+  { key: 'juniorDeveloper', value: 'junior' },
+  { key: 'midLevelDeveloper', value: 'mid' },
+  { key: 'seniorDeveloper', value: 'senior' },
 ]
 
 export function InitialView() {

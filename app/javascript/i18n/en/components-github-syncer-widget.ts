@@ -18,4 +18,14 @@ export default {
   'activeManualSync.automaticSyncsDisabled':
     'You have automatic syncs disabled',
   'activeManualSync.clickToBackupSolution': 'Click to back up your solution',
+  'miniAdvert.exercism': 'Exercism',
+  'miniAdvert.syncWith': 'Sync with',
+  'miniAdvert.github': 'Github',
+  'activeAutomaticSync.unknownError': 'Unknown error',
+  'activeAutomaticSync.errorQueuing':
+    'Error queuing backup for all tracks: {{message}}',
+  'activeAutomaticSync.backupQueued':
+    'Your backup has been queued and should be completed within a few minutes.',
+  'activeAutomaticSync.somethingWentWrong':
+    'Something went wrong while queuing the backup for all tracks. Please try again.',
 }

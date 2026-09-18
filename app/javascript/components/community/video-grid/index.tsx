@@ -149,6 +149,7 @@ type VideoProps = {
   video: CommunityVideoType
 }
 function Video({ video }: VideoProps): JSX.Element {
+  const { t } = useAppTranslation('components/community')
   const [isOpen, setIsOpen] = useState(false)
 
   return (
@@ -161,7 +162,7 @@ function Video({ video }: VideoProps): JSX.Element {
           style={{ objectFit: 'cover', width: '100%', height: '150px' }}
           className="rounded-8 self-center mb-12"
           src={video.thumbnailUrl}
-          alt="thumbnail"
+          alt={t('videoGrid.thumbnail')}
         />
         <h5 className="text-h5">{video.title}</h5>
         {video.author && (

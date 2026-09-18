@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { Icon } from './common/Icon'
 import { assembleClassNames } from '@/utils/assemble-classnames'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const DELAY_MS = 250
 
@@ -10,6 +11,7 @@ export const ResultsZone = (
     className?: string | null
   }>
 ): JSX.Element => {
+  const { t } = useAppTranslation('components/ResultsZone.tsx')
   const [isFetching, setIsFetching] = useState(false)
   const timerRef = useRef<number | null>(null)
 
@@ -46,7 +48,7 @@ export const ResultsZone = (
         <Icon
           icon="spinner"
           className="animate-spin-slow filter-textColor6"
-          alt="Loading data"
+          alt={t('resultsZone.loadingData')}
         />
       </div>
     </div>

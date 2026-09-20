@@ -11,7 +11,9 @@ module Auth
         if user.persisted?
           User::Bootstrap.(
             user,
-            course_access_code: session[:course_access_code]
+            course_access_code: session[:course_access_code],
+            locale: locale_from_path,
+            accept_language: request.headers["Accept-Language"]
           )
         end
       end

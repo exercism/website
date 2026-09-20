@@ -98,4 +98,45 @@ class User::BootstrapTest < ActiveSupport::TestCase
     refute user.reload.bootcamp_attendee?
     refute_equal user.id, enrollment.reload.user_id
   end
+
+  test "seeds the locale from the page the visitor signed up on" do
+    user = create :user
+
+    User::Bootstrap.(user, locale: "hu", accept_language: "en")
+
+    assert_equal "hu", user.reload.data.locale
+  end
+
+  test "seeds the locale from accept-language on a naked page" do
+    user = create :user
+
+    User::Bootstrap.(user, locale: nil, accept_language: "hu,en;q=0.5")
+
+    assert_equal "hu", user.reload.data.locale
+  end
+
+  test "the default locale in the path is not a signal" do
+    user = create :user
+
+    User::Bootstrap.(user, locale: "en", accept_language: "hu")
+
+    assert_equal "hu", user.reload.data.locale
+  end
+
+  test "an unsupported accept-language seeds nothing" do
+    user = create :user
+
+    User::Bootstrap.(user, accept_language: "nl,de;q=0.8")
+
+    assert_nil user.reload.data.locale
+  end
+
+  test "an existing locale is never overwritten" do
+    user = create :user
+    user.data.update!(locale: "en")
+
+    User::Bootstrap.(user, accept_language: "hu")
+
+    assert_equal "en", user.reload.data.locale
+  end
 end

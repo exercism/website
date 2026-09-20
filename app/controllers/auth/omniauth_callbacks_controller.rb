@@ -11,7 +11,8 @@ module Auth
         return redirect_to integrations_settings_path
       end
 
-      @user = User::AuthenticateFromOmniauth.(request.env["omniauth.auth"], session:)
+      @user = User::AuthenticateFromOmniauth.(request.env["omniauth.auth"], session:, locale: locale_from_path,
+        accept_language: request.headers["Accept-Language"])
 
       if @user.persisted?
         remember_me(@user)

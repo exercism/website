@@ -2,16 +2,7 @@ class Locale::Normalize
   include Mandate
 
   # TODO(iHiD): OPEN. Whether split variants such as es-419/es-ES will ship.
-  VARIANTS = {
-    "es" => { bare: "es-419", regions: { "ES" => "es-ES", "419" => "es-419" }, fallback: "es-419" },
-    "pt" => { bare: "pt-BR", regions: { "BR" => "pt-BR" }, fallback: "pt-PT" },
-    "zh" => {
-      bare: "zh-CN",
-      scripts: { "Hans" => "zh-CN", "Hant" => "zh-TW" },
-      regions: { "TW" => "zh-TW", "HK" => "zh-TW", "MO" => "zh-TW" },
-      fallback: "zh-CN"
-    }
-  }.freeze
+  VARIANTS = LocaleConfig::VARIANTS
 
   def initialize(tag, locales = I18n.available_locales)
     @tag = tag.to_s.tr('_', '-')

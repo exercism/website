@@ -8,8 +8,8 @@ module LocaleRouting
   # locale-prefixed routes. The stateful flows (auth, settings, unsubscribe)
   # carry per-user state through the URL, and bouncing someone mid-flow risks
   # breaking the flow for no benefit.
-  PUBLIC_SECTIONS = %w[/tracks /docs /community /profiles /contributing].freeze
-  PUBLIC_PAGES = ["/", "/insiders"].freeze
+  PUBLIC_SECTIONS = LocaleConfig::PUBLIC_SECTIONS
+  PUBLIC_PAGES = LocaleConfig::PUBLIC_PAGES
 
   included do
     before_action :redirect_to_preferred_locale!

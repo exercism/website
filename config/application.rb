@@ -6,6 +6,7 @@ require "rails/all"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+require_relative '../lib/locale_config'
 require_relative '../lib/translation_repo'
 
 module Website
@@ -16,9 +17,8 @@ module Website
 
     config.time_zone = "UTC"
 
-    config.i18n.default_locale = :en
-    # Deploying a locale: see AGENTS.md (i18n repo first, this, then the Cloudflare Worker).
-    config.i18n.available_locales = %i[en hu]
+    config.i18n.default_locale = LocaleConfig::DEFAULT
+    config.i18n.available_locales = LocaleConfig::SERVED
 
     config.active_record.default_timezone = :utc
     config.action_view.form_with_generates_remote_forms = false

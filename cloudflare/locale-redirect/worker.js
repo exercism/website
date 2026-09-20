@@ -48,11 +48,6 @@ const PREF_COOKIE_NAME = "_exercism_locale_pref";
 // two agree on who is anonymous.
 const USER_COOKIE_NAME = "_exercism_user_id";
 
-// Paths that never render a localizable HTML page. Cheaper to reject here than
-// to walk the public-path lists, and it keeps the Worker off the hot paths
-// that carry the most traffic.
-const SKIP_PREFIXES = ["/api/", "/cable", "/spi/", "/assets/", "/test-runners/", "/i18n/", "/webhooks/"];
-
 /** Read one cookie out of a raw Cookie header. Returns null when absent. */
 export function readCookie(cookieHeader, name) {
   if (!cookieHeader) return null;
@@ -172,7 +167,6 @@ export function shouldSkip(request, locales = SERVED_LOCALES) {
   if (readCookie(headers.get("Cookie"), USER_COOKIE_NAME) != null) return true;
 
   const { pathname } = new URL(request.url);
-  if (SKIP_PREFIXES.some((prefix) => pathname.startsWith(prefix))) return true;
 
   // A file extension on the last segment means a static asset, never a page.
   if (/\.[A-Za-z0-9]+$/.test(pathname.split("/").pop() ?? "")) return true;

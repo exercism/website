@@ -28,20 +28,6 @@ describe("skip rules", () => {
     }
   });
 
-  it("skips the non-page path prefixes", () => {
-    const paths = [
-      "/api/v2/tracks",
-      "/cable",
-      "/spi/tooling_jobs",
-      "/assets/app.css",
-      "/test-runners/ruby",
-      "/i18n/hu.json",
-      "/webhooks/stripe"
-    ];
-    for (const path of paths) {
-      assert.equal(shouldSkip(req(path), LOCALES), true, path);
-    }
-  });
 
   it("skips paths with a file extension", () => {
     assert.equal(shouldSkip(req("/favicon.ico"), LOCALES), true);

@@ -10,6 +10,7 @@ import { InputWithValidation } from './inputs/InputWithValidation'
 import { createMaxLengthAttributes } from './useInvalidField'
 import { SeniorityLevel } from '../modals/welcome-modal/WelcomeModal'
 import { SingleSelect } from '../common/SingleSelect'
+import { useLanguageField } from './profile-form/useLanguageField'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type User = {
@@ -25,8 +26,15 @@ type Profile = {
   linkedin: string
 }
 
+export type Language = {
+  code: string
+  native: string
+  english: string
+}
+
 type Links = {
   update: string
+  updateLanguage: string
 }
 
 const DEFAULT_ERROR = new Error('Unable to save profile')
@@ -34,15 +42,23 @@ const DEFAULT_ERROR = new Error('Unable to save profile')
 export default function ProfileForm({
   defaultUser,
   defaultProfile,
+  languages,
+  defaultLocale,
   links,
 }: {
   defaultUser: User
   defaultProfile: Profile | null
+  languages: Language[]
+  defaultLocale: string
   links: Links
 }): JSX.Element {
   const [user, setUser] = useState<User>(defaultUser)
   const [profile, setProfile] = useState<Profile | null>(defaultProfile)
   const { t } = useAppTranslation('components/settings/ProfileForm.tsx')
+  const { locale, select: selectLocale } = useLanguageField(
+    defaultLocale,
+    links.updateLanguage
+  )
 
   const { mutation, status, error } = useSettingsMutation<{
     user: User
@@ -88,6 +104,16 @@ export default function ProfileForm({
             onChange={(e) => setUser({ ...user, location: e.target.value })}
             icon="location"
             {...createMaxLengthAttributes('Location', 255, t)}
+          />
+        </div>
+        <div className="language field">
+          <label htmlFor="user_locale" className="label">
+            {t('profileForm.language')}
+          </label>
+          <LanguageSelect
+            languages={languages}
+            locale={locale}
+            setLocale={selectLocale}
           />
         </div>
       </div>
@@ -202,6 +228,38 @@ function OptionComponent({ option }: { option: SeniorityLevel }): JSX.Element {
     case 'senior':
       return <div>{t('profileForm.seniorDeveloper')}</div>
   }
+}
+
+function LanguageOption({ option }: { option: Language }): JSX.Element {
+  return (
+    <div className="flex items-baseline text-left">
+      <span lang={option.code}>{option.native}</span>
+      <span className="ml-8 text-textColor6">({option.english})</span>
+    </div>
+  )
+}
+
+function LanguageSelect({
+  languages,
+  locale,
+  setLocale,
+}: {
+  languages: Language[]
+  locale: string
+  setLocale: (locale: string) => void
+}): JSX.Element {
+  const selected =
+    languages.find((language) => language.code === locale) || languages[0]
+
+  return (
+    <SingleSelect<Language>
+      options={languages}
+      value={selected}
+      setValue={(language) => setLocale(language.code)}
+      SelectedComponent={LanguageOption}
+      OptionComponent={LanguageOption}
+    />
+  )
 }
 
 function SenioritySelect({

@@ -1,6 +1,24 @@
 require "test_helper"
 
 class SettingsControllerTest < ActionDispatch::IntegrationTest
+  test "language field is rendered inside the profile form" do
+    user = create :user
+    sign_in!(user)
+
+    get settings_path
+
+    assert_response :ok
+    assert_select "div[data-react-id=?]", "settings-profile-form" do |elements|
+      data = JSON.parse(elements.first["data-react-data"])
+      assert_equal I18n.default_locale.to_s, data["default_locale"]
+      assert_includes data["languages"], { "code" => "en", "native" => "English", "english" => "English" }
+      assert_equal Exercism::Routes.api_settings_language_url, data.dig("links", "update_language")
+    end
+
+    assert_select "div[data-react-id=?]", "settings-language-form", count: 0
+    assert_select "section.language-section", count: 0
+  end
+
   test "user disconnects from discord" do
     user = create :user, discord_uid: 123
     assert user.discord_uid # Sanity

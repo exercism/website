@@ -25,11 +25,6 @@ export function useLanguageField(
     endpoint,
     method: 'PATCH',
     body: { language: { locale } },
-    // A full reload rather than swapping the language in place. Everything the
-    // server already rendered for this request is in the old language: the
-    // header, the nav, the page shell. Reloading re-resolves the whole page
-    // against the preference the save just wrote, so the language changes
-    // everywhere at once instead of in patches.
     onSuccess: () => window.location.reload(),
   })
 

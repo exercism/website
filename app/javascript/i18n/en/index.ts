@@ -1,4 +1,3 @@
-import slf from './components-settings-LanguageForm.tsx'
 import aa from './automation-batch'
 import ab from './components-common-CLIWalkthroughButton.tsx'
 import ac from './components-common-ComboButton.tsx'
@@ -480,5 +479,4 @@ export default {
   'components/modals/Modal.tsx': mdl,
   'components/ResultsZone.tsx': rzn,
   'components/impact/chart-elements': ice,
-  'components/settings/LanguageForm.tsx': slf,
 }

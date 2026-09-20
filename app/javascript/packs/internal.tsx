@@ -110,7 +110,6 @@ const StudentMentoringSession = lazy(
 const JourneyPage = lazy(() => import('@/components/journey/JourneyPage'))
 
 const ProfileForm = lazy(() => import('@/components/settings/ProfileForm'))
-const LanguageForm = lazy(() => import('@/components/settings/LanguageForm'))
 const PhotoForm = lazy(() => import('@/components/settings/PhotoForm'))
 const DeleteProfileForm = lazy(
   () => import('@/components/settings/DeleteProfileForm')
@@ -455,22 +454,17 @@ initReact({
       />
     </Suspense>
   ),
-  'settings-language-form': (data: any) => (
-    <Suspense fallback={RenderLoader()}>
-      <LanguageForm
-        languages={data.languages}
-        defaultLocale={data.default_locale}
-        links={data.links}
-      />
-    </Suspense>
-  ),
-
   'settings-profile-form': (data: any) => (
     <Suspense fallback={RenderLoader()}>
       <ProfileForm
         defaultUser={data.user}
         defaultProfile={data.profile}
-        links={data.links}
+        languages={data.languages}
+        defaultLocale={data.default_locale}
+        links={{
+          update: data.links.update,
+          updateLanguage: data.links.update_language,
+        }}
       />
     </Suspense>
   ),

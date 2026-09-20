@@ -3,6 +3,7 @@ export default {
   'profileForm.profile': 'Profile',
   'profileForm.name': 'Name',
   'profileForm.location': 'Location',
+  'profileForm.language': 'Language',
   'profileForm.bio': 'Bio',
   'profileForm.tellTheWorldAboutYouEmojisEncouraged':
     'Tell the world about you 🌎. Emojis encouraged!',

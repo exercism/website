@@ -1,0 +1,9 @@
+{
+  "name": "exercism-locale-redirect-worker",
+  "private": true,
+  "type": "module",
+  "description": "Cloudflare Worker that moves a first-time visitor onto their language ahead of the cache. No dependencies: wrangler bundles worker.js and its config/i18n.json import. This file exists so that `node --test` reads the sources as ES modules.",
+  "scripts": {
+    "test": "node --test"
+  }
+}

@@ -71,6 +71,10 @@ rm -rf .built-assets/              # Clear asset cache if needed
 - Always use Bearer token authentication for API
 - Delegate business logic to commands, keep controllers thin
 
+## Internationalisation (i18n)
+
+`config/i18n.json` is the one list of the locales the site serves, along with the public paths a first-time visitor may be moved between and the region/script variants of the multi-variant languages. Rails and the Cloudflare Worker in `cloudflare/locale-redirect/` both read it, and the Worker deploys in the same GitHub Actions run as the site, so serving a new locale means adding it to `served`. The Worker's Cloudflare routes live in `exercism/terraform` (`terraform/cloudflare/workers.tf`).
+
 ## Git Usage
 
 - **Do not use `git -C <path>`**. Instead, `cd` to the correct directory before running git commands. This avoids issues with worktrees and ensures hooks run in the right context.

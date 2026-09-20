@@ -5,3 +5,6 @@ stub.js
 stub.css
 lib/tasks/screenshot.rake
 test/visual/*
+
+# Prettier 2 cannot parse the Worker's `with { type: "json" }` import.
+cloudflare/

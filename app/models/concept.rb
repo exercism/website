@@ -1,6 +1,7 @@
 class Concept < ApplicationRecord
   extend FriendlyId
   extend Mandate::Memoize
+  include HasTranslatedMetadata
 
   # TODO: Remove at ETL
   self.table_name = "track_concepts"
@@ -57,6 +58,11 @@ class Concept < ApplicationRecord
   end
 
   delegate :about, :introduction, :links, to: :git
+  delegate :translation_metadata_repo_name, to: :track
+
+  def name = translated_metadata("concept:#{slug}:name", super)
+  def blurb = translated_metadata("concept:#{slug}:blurb", super)
+
   memoize
   def git
     Git::Concept.new(slug, "HEAD", repo_url: track.repo_url)

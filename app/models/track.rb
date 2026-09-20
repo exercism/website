@@ -2,6 +2,7 @@ class Track < ApplicationRecord
   extend FriendlyId
   extend Mandate::Memoize
   include Track::BuildStatus
+  include HasTranslatedMetadata
 
   friendly_id :slug, use: [:history]
 
@@ -27,7 +28,7 @@ class Track < ApplicationRecord
 
   scope :active, -> { where(active: true) }
 
-  delegate :key_features, :about, :snippet,
+  delegate :about, :snippet,
     :indent_style, :indent_size, :foregone_exercises,
     to: :git
 
@@ -69,9 +70,34 @@ class Track < ApplicationRecord
 
   def to_param = slug
 
+  def translation_metadata_repo_name = repo_url.split("/").last
+
+  def blurb = translated_metadata("track:blurb", super)
+
+  def key_features
+    features = git.key_features
+    return features if I18n.locale == I18n.default_locale
+
+    seen = Hash.new(0)
+    features.map do |feature|
+      id = key_feature_unit_id(feature, seen)
+      feature.merge(
+        title: translated_metadata("key_feature:#{id}:title", feature[:title]),
+        content: translated_metadata("key_feature:#{id}:content", feature[:content])
+      )
+    end
+  end
+
   memoize
   def git
     Git::Track.new(synced_to_git_sha, repo_url:)
+  end
+
+  def key_feature_unit_id(feature, seen)
+    icon = feature[:icon].to_s
+    icon = "feature" if icon.blank? || icon.include?(":")
+    seen[icon] += 1
+    seen[icon] > 1 ? "#{icon}~#{seen[icon]}" : icon
   end
 
   memoize

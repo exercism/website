@@ -5,6 +5,7 @@ module TranslationRepo
   URL = "https://github.com/exercism/i18n.git".freeze
   BRANCH = "main".freeze
   OID_FORMAT = /\A[0-9a-f]{40}\z/
+  REPO_NAME_FORMAT = /\A[A-Za-z0-9][A-Za-z0-9._-]*\z/
 
   CHECK_INTERVAL_SECONDS = 10
 
@@ -68,6 +69,7 @@ module TranslationRepo
     def expire!
       @version_read_at = nil
       @frontend_catalog_hashes = nil
+      @metadata_catalogs = nil
     end
 
     private
@@ -97,4 +99,5 @@ module TranslationRepo
   end
 end
 
+require_relative 'translation_repo/metadata'
 require_relative 'translation_repo/backend'

@@ -18,7 +18,7 @@ class Solution::CreateSearchIndexDocument
       exercise: {
         id: solution.exercise.id,
         slug: solution.exercise.slug,
-        title: solution.exercise.title
+        title: solution.exercise[:title]
       },
       track: {
         id: solution.track.id,

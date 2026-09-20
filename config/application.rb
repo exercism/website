@@ -17,6 +17,7 @@ module Website
     config.time_zone = "UTC"
 
     config.i18n.default_locale = :en
+    # Deploying a locale: see AGENTS.md (i18n repo first, this, then the Cloudflare Worker).
     config.i18n.available_locales = %i[en hu]
 
     config.active_record.default_timezone = :utc

@@ -60,7 +60,7 @@ class LocaleSeoTest < ActionDispatch::IntegrationTest
     assert_meta_tags "Ruby on Exercism",
       "Get fluent in Ruby by solving #{track.reload.num_exercises} exercises. And then level up with mentoring from our world-class team." # rubocop:disable Layout/LineLength
 
-    with_hu_meta_tags(track: { title: "%<track_title>s az Exercismen", description: "%<num_exercises>s feladat %<track_title>s nyelven." }) do # rubocop:disable Layout/LineLength
+    with_hu_meta_tags({ track: { title: "%<track_title>s az Exercismen", description: "%<num_exercises>s feladat %<track_title>s nyelven." } }) do # rubocop:disable Layout/LineLength
       get "/hu/tracks/ruby"
       assert_meta_tags "Ruby az Exercismen", "0 feladat Ruby nyelven."
     end
@@ -73,7 +73,7 @@ class LocaleSeoTest < ActionDispatch::IntegrationTest
     assert_meta_tags "Bob in Ruby on Exercism",
       "Can you solve Bob in Ruby? Improve your Ruby skills with support from our world-class team of mentors."
 
-    with_hu_meta_tags(exercise: { title: "%<exercise_title>s a(z) %<track_title>s nyelven", description: "Megoldod a(z) %<exercise_title>s feladatot?" }) do # rubocop:disable Layout/LineLength
+    with_hu_meta_tags({ exercise: { title: "%<exercise_title>s a(z) %<track_title>s nyelven", description: "Megoldod a(z) %<exercise_title>s feladatot?" } }, metadata: { "exercise:#{exercise.slug}:name" => "Bob" }) do # rubocop:disable Layout/LineLength
       get track_exercise_url(exercise.track, exercise, locale: :hu)
       assert_meta_tags "Bob a(z) Ruby nyelven", "Megoldod a(z) Bob feladatot?"
     end
@@ -88,7 +88,7 @@ class LocaleSeoTest < ActionDispatch::IntegrationTest
     assert_meta_tags "Strings in #{track.title} on Exercism",
       "Master Strings in #{track.title} by solving #{num_exercises} exercises, with support from our world-class team."
 
-    with_hu_meta_tags(concept: { title: "%<concept_name>s fogalom", description: "%<num_exercises>s feladat a(z) %<concept_name>s fogalomhoz." }) do # rubocop:disable Layout/LineLength
+    with_hu_meta_tags({ concept: { title: "%<concept_name>s fogalom", description: "%<num_exercises>s feladat a(z) %<concept_name>s fogalomhoz." } }, metadata: { "concept:#{concept.slug}:name" => "Strings" }) do # rubocop:disable Layout/LineLength
       get track_concept_url(track, concept, locale: :hu)
       assert_meta_tags "Strings fogalom", "#{num_exercises} feladat a(z) Strings fogalomhoz."
     end
@@ -97,7 +97,7 @@ class LocaleSeoTest < ActionDispatch::IntegrationTest
   test "the default description is taken through the catalogs" do
     get "/tracks"
     assert_meta_tags "Exercism", "Learn, practice and get world-class mentoring in over 50 languages. 100% free."
-    with_hu_meta_tags(default_description: "Tanulj és kapj világszínvonalú mentorálást.") do
+    with_hu_meta_tags({ default_description: "Tanulj és kapj világszínvonalú mentorálást." }) do
       get "/hu/tracks"
       assert_meta_tags "Exercism", "Tanulj és kapj világszínvonalú mentorálást."
     end
@@ -120,7 +120,13 @@ class LocaleSeoTest < ActionDispatch::IntegrationTest
   end
 
   private
-  def with_hu_meta_tags(tree, &) = with_published_translations(hu: { backend: { helpers: { meta_tags: tree } } }, &)
+  def with_hu_meta_tags(tree, metadata: nil)
+    with_published_translations(hu: { backend: { helpers: { meta_tags: tree } } }) do
+      publish_translated_metadata!(:hu, "track", metadata) if metadata
+
+      yield
+    end
+  end
 
   def assert_meta_tags(title, description)
     assert_select "title", text: title

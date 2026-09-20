@@ -235,6 +235,11 @@ class ActiveSupport::TestCase
   end
 
   # Call inside with_published_translations
+  def publish_translated_metadata!(locale, repo_name, catalog)
+    write_translation!(TranslationRepo.metadata_path(locale, repo_name), catalog.to_json)
+  end
+
+  # Call inside with_published_translations
   def publish_translated_content!(locale, repo, commit, path, text)
     blob_id = repo.find_file_oid(commit, path)
     write_translation!(TranslationRepo.content_path(locale, blob_id, File.extname(path)), text)

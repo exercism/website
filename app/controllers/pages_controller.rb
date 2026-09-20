@@ -90,7 +90,8 @@ class PagesController < ApplicationController
     json = File.binread(TranslationRepo.frontend_catalog_path(locale))
     return head :not_found unless TranslationRepo.catalog_hash(json) == params[:hash]
 
-    response.set_header("Cache-Control", "public, max-age=31536000, immutable")
+    scope = user_signed_in? || cookies.signed[:_exercism_user_id].present? ? "private" : "public"
+    response.set_header("Cache-Control", "#{scope}, max-age=31536000, immutable")
     send_data json, type: "application/json", disposition: :inline
   rescue Errno::ENOENT
     head :not_found

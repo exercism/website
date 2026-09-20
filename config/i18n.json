@@ -1,0 +1,31 @@
+{
+  "$comment": "Locale routing, in one place. `default` is the unprefixed locale and `served` lists every locale the site actually serves; `public_sections` (prefix match) and `public_pages` (exact match) are the pages a first-time visitor may be moved between, and `variants` maps a language with more than one content variant onto the right one for a browser's region or script. Rails and the Cloudflare Worker in cloudflare/locale-redirect both read this file, so the two always agree. Serving a new locale means adding it to `served`: the Worker ships with the same deploy as the site.",
+  "default": "en",
+  "served": ["en"],
+  "public_sections": [
+    "/tracks",
+    "/docs",
+    "/community",
+    "/profiles",
+    "/contributing"
+  ],
+  "public_pages": ["/", "/insiders"],
+  "variants": {
+    "es": {
+      "bare": "es-419",
+      "regions": { "ES": "es-ES", "419": "es-419" },
+      "fallback": "es-419"
+    },
+    "pt": {
+      "bare": "pt-BR",
+      "regions": { "BR": "pt-BR" },
+      "fallback": "pt-PT"
+    },
+    "zh": {
+      "bare": "zh-CN",
+      "scripts": { "Hans": "zh-CN", "Hant": "zh-TW" },
+      "regions": { "TW": "zh-TW", "HK": "zh-TW", "MO": "zh-TW" },
+      "fallback": "zh-CN"
+    }
+  }
+}

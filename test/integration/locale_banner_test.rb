@@ -1,57 +1,47 @@
 require "test_helper"
 
 class LocaleBannerTest < ActionDispatch::IntegrationTest
-  test "no banner for a visitor already on the language they chose" do
-    cookies[Locale::PREF_COOKIE_NAME] = "en"
-    get "/tracks", headers: { "Accept-Language" => "hu" }
+  test "the page ships copy for every served locale" do
+    get "/tracks"
 
     assert_response :ok
-    refute_includes response.body, "data-locale-banner"
+    data = banner_data
+
+    assert_equal %w[en hu], data.keys.sort
+    assert_equal "English", data["en"]["name"]
+    assert_equal "magyar", data["hu"]["name"]
+    assert_equal "ltr", data["hu"]["dir"]
+    assert_equal "This page is in English.", data["en"]["pre"]
+    assert_equal "View it in English", data["en"]["link"]
+    assert_equal "Dismiss", data["en"]["dismiss"]
+    assert data["hu"].values_at("pre", "link", "dismiss").all?(&:present?)
   end
 
-  test "a hungarian-speaking visitor pinned to english is offered hungarian" do
-    get "/hu/tracks", headers: { "Accept-Language" => "en-GB,en;q=0.9" }
+  test "each locale carries the current path under its own prefix" do
+    get "/hu/tracks?page=2"
 
-    assert_response :ok
-    assert_select "[data-locale-banner=en]"
-    assert_select ".c-locale-banner a[href='/tracks']"
+    data = banner_data
+
+    assert_equal "/tracks?page=2", data["en"]["path"]
+    assert_equal "/hu/tracks?page=2", data["hu"]["path"]
   end
 
-  test "the banner makes the page uncacheable" do
+  test "no banner is server-rendered" do
     get "/hu/tracks", headers: { "Accept-Language" => "en" }
 
-    assert_equal "private, no-store", response.headers["Cache-Control"]
-    assert_includes response.headers["Vary"], "Accept-Language"
-  end
-
-  test "no banner when the page is already the offered language" do
-    get "/hu/tracks", headers: { "Accept-Language" => "hu" }
-
     assert_response :ok
-    refute_includes response.body, "data-locale-banner"
+    refute_includes response.body, "c-locale-banner"
+    refute_includes response.body, "data-locale-banner="
   end
 
-  test "no banner for a client sending no accept-language" do
-    get "/hu/tracks"
-
-    assert_response :ok
-    refute_includes response.body, "data-locale-banner"
-  end
-
-  test "a signed-in user is offered their account language" do
-    user = create :user
-    user.update!(locale: "hu")
-    sign_in!(user)
-
-    get "/tracks", headers: { "Accept-Language" => "en" }
-
-    assert_response :ok
-    refute_includes response.body, "data-locale-banner"
-  end
-
-  test "the switch link records the choice" do
+  test "an anonymous public page stays cacheable" do
     get "/hu/tracks", headers: { "Accept-Language" => "en" }
 
-    assert_select ".c-locale-banner a[data-locale-pref=en]"
+    refute_equal "private, no-store", response.headers["Cache-Control"]
+  end
+
+  private
+  def banner_data
+    JSON.parse(css_select("meta[name='exercism-locale-banner']").first["content"])
   end
 end

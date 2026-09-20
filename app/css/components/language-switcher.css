@@ -1,0 +1,41 @@
+.c-language-switcher {
+    @apply relative ml-12;
+
+    & > .toggle {
+        @apply flex items-center cursor-pointer select-none;
+        @apply text-14 text-textColor6;
+        @apply px-10 py-6 rounded-8 border-1 border-borderColor6;
+
+        &::-webkit-details-marker {
+            @apply hidden;
+        }
+
+        & .c-icon {
+            @apply ml-6 w-[10px] h-[10px];
+            filter: var(--textColor6-filter);
+        }
+    }
+
+    & > .options {
+        @apply absolute right-0 z-dropdown mt-4;
+        @apply bg-backgroundColorA rounded-8 shadow-lg border-1 border-borderColor6;
+        @apply py-8 min-w-[220px] max-h-[320px] overflow-y-auto;
+
+        & a {
+            @apply flex flex-col px-16 py-8;
+            @apply hover:bg-backgroundColorD;
+
+            & .native {
+                @apply text-15 text-textColor1 font-medium;
+            }
+
+            & .english {
+                @apply text-13 text-textColor6;
+            }
+        }
+
+        & a[aria-current="true"] {
+            @apply bg-backgroundColorD;
+        }
+    }
+}

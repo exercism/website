@@ -1,3 +1,6 @@
+import { initLocalePrefLinks } from '@/utils/locale-pref-cookie'
+initLocalePrefLinks()
+
 import { annotateLanding } from '../utils/annotate-landing'
 annotateLanding()
 

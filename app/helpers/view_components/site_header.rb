@@ -11,13 +11,18 @@ module ViewComponents
       decorated_cached_html
     end
 
+    # The switcher's links are per-path, and the signed-out header is cached
+    # for a day, so it is substituted in per request the same way the session
+    # path is.
+    LANGUAGE_SWITCHER_SLOT = "<!--language-switcher-->".freeze
+
     def decorated_cached_html
       return cached_html if user_signed_in?
 
       raw cached_html.gsub(
         Exercism::Routes.new_user_session_path,
         User::GenerateNewSessionPath.(request, controller)
-      )
+      ).gsub(LANGUAGE_SWITCHER_SLOT) { render(ViewComponents::LanguageSwitcher.new) }
     end
 
     def cached_html
@@ -163,6 +168,7 @@ module ViewComponents
       safe_join(
         [
           signed_out_nav,
+          raw(LANGUAGE_SWITCHER_SLOT),
           tag.div(class: "auth-buttons") do
             link_to(I18n.t("components.site_header.auth_buttons.sign_up"), Exercism::Routes.new_user_registration_path,
               class: "btn-primary btn-xs") +

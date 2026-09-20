@@ -1,0 +1,13 @@
+name = "locale-redirect"
+main = "worker.js"
+compatibility_date = "2026-09-01"
+
+# Routes live in exercism/terraform (terraform/cloudflare/workers.tf), so one
+# system owns zone routing: the main pattern and the seven script-less
+# exclusions that keep the Worker off /api, /assets and the other non-page
+# paths are a set, and splitting them across two tools makes the effective
+# routing unreadable. Wrangler only uploads the script.
+workers_dev = false
+
+# account_id comes from CLOUDFLARE_ACCOUNT_ID in the deploy environment,
+# alongside the CLOUDFLARE_API_TOKEN wrangler authenticates with.

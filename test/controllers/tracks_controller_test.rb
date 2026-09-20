@@ -87,6 +87,30 @@ class TracksControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "show: the external header takes the concepts clause through the catalogs" do
+    track = create :track, slug: "ruby", title: "Ruby", course: true
+    create(:concept, track:)
+    num_concepts = track.reload.num_concepts
+
+    get track_url(track)
+    assert_includes response.body, "grouped into #{num_concepts} Ruby Concepts,"
+
+    with_published_translations(hu: { backend: { tracks: { about: { header: {
+      concepts_part_course: "amelyek %<num_concepts>s %<track_title>s fogalomba vannak csoportosítva,"
+    } } } } }) do
+      get track_url(track, locale: :hu)
+      assert_includes response.body, "amelyek #{num_concepts} Ruby fogalomba vannak csoportosítva,"
+      refute_includes response.body, "grouped into"
+    end
+  end
+
+  test "show: the external header omits the concepts clause off-course" do
+    track = create :track, slug: "ruby", title: "Ruby", course: false
+
+    get track_url(track)
+    refute_includes response.body, "grouped into"
+  end
+
   test "about shows for joined member" do
     user = create :user
     track = create :track

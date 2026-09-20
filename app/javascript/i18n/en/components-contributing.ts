@@ -19,17 +19,45 @@ export default {
   'tasksList.actionSwitcher.proofread': 'Proofread',
   'tasksList.actionSwitcher.fix': 'Fix',
   'tasksList.actionSwitcher.all': 'All',
+  'tasksList.actionSwitcher.multiple': 'Multiple',
+  'tasksList.actionSwitcher.label': 'Action',
+  'tasksList.actionSwitcher.createDescription':
+    'Work on something from scratch',
+  'tasksList.actionSwitcher.syncDescription':
+    'Sync content with its latest version',
+  'tasksList.actionSwitcher.improveDescription':
+    'Improve existing functionality / content',
+  'tasksList.actionSwitcher.proofreadDescription': 'Proofread text',
+  'tasksList.actionSwitcher.fixDescription': 'Fix an issue',
   'tasksList.typeSwitcher.docs': 'Docs',
   'tasksList.typeSwitcher.ci': 'CI',
   'tasksList.typeSwitcher.coding': 'Coding',
   'tasksList.typeSwitcher.docker': 'Docker',
   'tasksList.typeSwitcher.content': 'Content',
   'tasksList.typeSwitcher.allTypes': 'All types',
+  'tasksList.typeSwitcher.multiple': 'Multiple',
+  'tasksList.typeSwitcher.label': 'Type',
+  'tasksList.typeSwitcher.docsDescription': "Help build Exercism's docs",
+  'tasksList.typeSwitcher.ciDescription':
+    'Automation and continuous integration',
+  'tasksList.typeSwitcher.dockerDescription': 'Help improve our Dockerfiles',
+  'tasksList.typeSwitcher.codingDescription': 'Write production code',
+  'tasksList.typeSwitcher.contentDescription': 'Develop exercises and concepts',
   'tasksList.knowledgeSwitcher.none': 'None',
   'tasksList.knowledgeSwitcher.elementary': 'Elementary',
   'tasksList.knowledgeSwitcher.intermediate': 'Intermediate',
   'tasksList.knowledgeSwitcher.advanced': 'Advanced',
   'tasksList.knowledgeSwitcher.anyKnowledge': 'Any knowledge',
+  'tasksList.knowledgeSwitcher.multiple': 'Multiple',
+  'tasksList.knowledgeSwitcher.label': 'Knowledge',
+  'tasksList.knowledgeSwitcher.noneDescription':
+    'No existing Exercism knowledge required',
+  'tasksList.knowledgeSwitcher.elementaryDescription':
+    'Little Exercism knowledge required',
+  'tasksList.knowledgeSwitcher.intermediateDescription':
+    'Quite a bit of Exercism knowledge required',
+  'tasksList.knowledgeSwitcher.advancedDescription':
+    'Comprehensive Exercism knowledge required',
   'tasksList.moduleSwitcher.generator': 'Generator',
   'tasksList.moduleSwitcher.learningExercise': 'Learning Exercise',
   'tasksList.moduleSwitcher.practiceExercise': 'Practice Exercise',
@@ -39,6 +67,7 @@ export default {
   'tasksList.moduleSwitcher.analyzer': 'Analyzer',
   'tasksList.moduleSwitcher.multiple': 'Multiple',
   'tasksList.moduleSwitcher.allModules': 'All modules',
+  'tasksList.moduleSwitcher.label': 'Module',
   'tasksList.sorter.sortByMostRecent': 'Sort by most recent',
   'tasksList.sorter.sortByOldest': 'Sort by oldest',
   'tasksList.sorter.sortByTrack': 'Sort by track',
@@ -56,4 +85,5 @@ export default {
   'tasksList.sizeSwitcher.massive.description': 'Massive amount of work',
   'tasksList.sizeSwitcher.multiple': 'Multiple',
   'tasksList.sizeSwitcher.extraSmall': 'Extra Small',
+  'tasksList.sizeSwitcher.label': 'Size',
 }

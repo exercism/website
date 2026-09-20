@@ -3,39 +3,11 @@ import { HowImportantProps } from './HowImportant'
 import RadioButton from './RadioButton'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
-const RADIO_DATA = [
-  {
-    label: 'Essential',
-    value: 'essential',
-    tooltip: {
-      title: 'If you mark this as Essential',
-      body: 'Student is prompted heavily to action this before proceeding. Essential enhancement.',
-    },
-  },
-  {
-    label: 'Recommended',
-    value: 'actionable',
-    tooltip: {
-      title: 'If you mark this as Recommended',
-      body: 'Student is prompted to action this before proceeding, but not considered essential. High-value enhancement.',
-    },
-  },
-  {
-    label: 'Optional',
-    value: 'non_actionable',
-    tooltip: {
-      title: 'If you mark this as Optional',
-      body: 'Student is not prompted to action this before proceeding, entirely a low-value enhancement.',
-    },
-  },
-  {
-    label: 'Celebratory',
-    value: 'celebratory',
-    tooltip: {
-      title: 'If you mark this as Celebratory',
-      body: 'Student is not prompted to action this before proceeding, congratulates the student on their solution.',
-    },
-  },
+const RADIO_VALUES = [
+  'essential',
+  'actionable',
+  'non_actionable',
+  'celebratory',
 ]
 export default function RadioGroup({
   feedbackType,
@@ -53,16 +25,16 @@ export default function RadioGroup({
 
   return (
     <div>
-      {RADIO_DATA.map((i) => (
+      {RADIO_VALUES.map((value) => (
         <RadioButton
-          key={i.label}
-          value={i.value}
-          checked={feedbackType == i.value}
+          key={value}
+          value={value}
+          checked={feedbackType == value}
           onChange={handleRadioCheck}
-          label={t(`radioGroup.${i.value}`)}
+          label={t(`radioGroup.${value}`)}
           tooltip={{
-            title: t(`radioGroup.${i.value}TooltipTitle`),
-            body: t(`radioGroup.${i.value}TooltipBody`),
+            title: t(`radioGroup.${value}TooltipTitle`),
+            body: t(`radioGroup.${value}TooltipBody`),
           }}
         />
       ))}

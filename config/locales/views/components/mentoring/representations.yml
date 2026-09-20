@@ -5,3 +5,5 @@ en:
         sort_options:
           highest_occurrence: "Sort by highest occurrence"
           recent_first: "Sort by recent first"
+          most_recent_feedback: "Most recent feedbacks"
+          least_recent_feedback: "Least recent feedbacks"

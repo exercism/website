@@ -50,4 +50,5 @@ export default {
   'testSummary.testError': 'Test Error',
   'testSummary.yourOutput': 'Your Output',
   'testContentWrapper.fileNotFound': 'File not found',
+  'jumpToInstructionButton.jumpToInstructions': 'Jump to Instructions',
 }

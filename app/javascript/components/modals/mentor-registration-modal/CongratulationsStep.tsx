@@ -25,7 +25,7 @@ export const CongratulationsStep = ({
       </p>
       <div className="video-frame">
         <header className="video-header">
-          <Icon icon="video" alt="This is a video" />
+          <Icon icon="video" alt={t('congratulationsStep.thisIsAVideo')} />
           <div className="info">
             <h3>{t('congratulationsStep.welcomeToMentorTeam')}</h3>
             <p>{t('congratulationsStep.video')}</p>

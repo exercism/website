@@ -65,25 +65,25 @@ export function BootcampAdvertismentView({
             <div className="grid grid-cols-4 gap-10">
               <Icon
                 category="bootcamp"
-                alt="Image of a space invaders game"
+                alt={t('bootcampAd.gameAlt.spaceInvaders')}
                 icon="space-invaders.gif"
                 className="w-full"
               />
               <Icon
                 category="bootcamp"
-                alt="Image of a tic-tac-toe game"
+                alt={t('bootcampAd.gameAlt.ticTacToe')}
                 icon="tic-tac-toe.gif"
                 className="w-full"
               />
               <Icon
                 category="bootcamp"
-                alt="Image of a breakout game"
+                alt={t('bootcampAd.gameAlt.breakout')}
                 icon="breakout.gif"
                 className="w-full"
               />
               <Icon
                 category="bootcamp"
-                alt="Image of a maze game"
+                alt={t('bootcampAd.gameAlt.maze')}
                 icon="maze.gif"
                 className="w-full"
               />

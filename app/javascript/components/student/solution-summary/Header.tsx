@@ -79,7 +79,12 @@ export const Header = ({
                       target="_blank"
                     />
                   ),
-                  icon: <Icon icon="external-link" alt="Opens in a new tab" />,
+                  icon: (
+                    <Icon
+                      icon="external-link"
+                      alt={t('header.opensInANewTab')}
+                    />
+                  ),
                 }}
               />
             </p>

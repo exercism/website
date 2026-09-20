@@ -20,4 +20,8 @@ export default {
   'tagsFilter.resetFilters': 'Reset filters',
   'tagOptionList.apply': 'Apply',
   'tagOptionList.close': 'Close',
+  'track.numberOfExercisesAlt': 'Number of exercises',
+  'track.numberOfConceptsAlt': 'Number of concepts',
+  'tagsFilter.filterTracksLabel':
+    'A series of checkboxes to filter Exercism tracks',
 }

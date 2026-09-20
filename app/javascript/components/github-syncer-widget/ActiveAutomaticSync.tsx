@@ -3,6 +3,7 @@ import toast, { Toaster } from 'react-hot-toast'
 import { SyncObj } from './GithubSyncerWidget'
 import { GraphicalIcon } from '../common'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
+import i18n from '@/i18n/i18n'
 
 // Syncer enabled + automatic: Say "Your solution will auto-backup to GitHub. If it does not for some reason, please click this button to manually start the backup."
 export function ActiveAutomaticSync({ sync }: { sync: SyncObj }): JSX.Element {
@@ -46,7 +47,9 @@ export async function handleSync({ sync }: { sync: SyncObj }) {
 
     if (!response.ok) {
       const text = await response.text()
-      let errorMessage = 'Unknown error'
+      let errorMessage = i18n.t(
+        'components/github-syncer-widget:activeAutomaticSync.unknownError'
+      )
 
       if (text) {
         try {
@@ -55,18 +58,29 @@ export async function handleSync({ sync }: { sync: SyncObj }) {
         } catch {}
       }
 
-      toast.error(`Error queuing backup for all tracks: ${errorMessage}`)
+      toast.error(
+        i18n.t(
+          'components/github-syncer-widget:activeAutomaticSync.errorQueuing',
+          {
+            message: errorMessage,
+          }
+        )
+      )
       return
     }
 
     toast.success(
-      `Your backup has been queued and should be completed within a few minutes.`,
+      i18n.t(
+        'components/github-syncer-widget:activeAutomaticSync.backupQueued'
+      ),
       { duration: 5000 }
     )
   } catch (error) {
     console.error('Error:', error)
     toast.error(
-      'Something went wrong while queuing the backup for all tracks. Please try again.'
+      i18n.t(
+        'components/github-syncer-widget:activeAutomaticSync.somethingWentWrong'
+      )
     )
   }
 }

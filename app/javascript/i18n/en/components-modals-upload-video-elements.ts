@@ -20,4 +20,6 @@ export default {
     'Submit a community workthrough',
   'uploadVideoModalHeader.producedAVideoOfWorkingThroughThisExerciseYourselfWantToShareItWithTheExercismCommunity':
     'Produced a video of working through this exercise yourself? Want to share it with the Exercism community? <strong className="font-medium text">Submit the form below and Jeremy will review and approve it.</strong>',
+  'uploadVideoForm.videoThumbnail': 'video thumbnail',
+  'uploadVideoForm.reset': 'Reset',
 }

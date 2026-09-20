@@ -15,4 +15,8 @@ export default {
   'moduleTag.trackGenerators': 'Track Generators',
   'moduleTag.trackConcepts': 'Track Concepts',
   'actionIcon.action': 'Action: {{action}}',
+  'knowledgeTag.none': 'Knowledge: none',
+  'knowledgeTag.elementary': 'Knowledge: elementary',
+  'knowledgeTag.intermediate': 'Knowledge: intermediate',
+  'knowledgeTag.advanced': 'Knowledge: advanced',
 }

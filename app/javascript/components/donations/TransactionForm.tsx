@@ -69,7 +69,7 @@ export const TransactionForm = ({
           <CustomAmountInput
             onChange={handleCustomAmountChange}
             selected={customAmount !== ''}
-            placeholder="Specify amount"
+            placeholder={t('transactionForm.specifyAmount')}
             value={customAmount}
           />
         </div>

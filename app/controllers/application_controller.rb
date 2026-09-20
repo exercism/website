@@ -284,6 +284,7 @@ class ApplicationController < ActionController::Base
 
   def disable_cache_for_redirects
     return unless response.redirect?
+    return if response.headers["Cache-Control"] == "private, no-store"
 
     response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate"
     response.headers["Pragma"] = "no-cache"

@@ -12,6 +12,7 @@
     = render "layouts/meta_tags"
 
   %body{ class: body_class }
+    = render ViewComponents::LocaleBanner.new
     = render ViewComponents::SiteHeader.new
 
     = render template: "layouts/turbo_frame"

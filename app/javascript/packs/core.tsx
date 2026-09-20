@@ -6,4 +6,6 @@ import '@hotwired/turbo-rails'
 document.addEventListener('turbo:load', () => (window.turboLoaded = true))
 
 import { initLocalePrefLinks } from '@/utils/locale-pref-cookie'
+import { initLocaleBanner } from '@/utils/locale-banner'
 initLocalePrefLinks()
+initLocaleBanner()

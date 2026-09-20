@@ -202,9 +202,14 @@ class ActiveSupport::TestCase
   end
 
   def with_available_locales(*locales)
-    I18n.stubs(available_locales: [I18n.default_locale, *locales.map(&:to_sym)].uniq)
+    available = [I18n.default_locale, *locales.map(&:to_sym)].uniq
+    previous = I18n.config.available_locales
+
+    I18n.stubs(available_locales: available)
+    I18n.config.available_locales = available
     yield
   ensure
+    I18n.config.available_locales = previous
     I18n.unstub(:available_locales)
   end
 

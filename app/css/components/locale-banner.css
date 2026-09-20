@@ -1,0 +1,13 @@
+.c-locale-banner {
+    @apply flex items-center justify-center flex-wrap gap-8;
+    @apply px-16 py-8 text-14;
+    @apply bg-backgroundColorD text-textColor2;
+
+    & a {
+        @apply font-semibold text-textColor1 underline;
+    }
+
+    & .dismiss {
+        @apply ml-8 text-textColor6 cursor-pointer;
+    }
+}

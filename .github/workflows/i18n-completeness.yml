@@ -1,0 +1,98 @@
+# TEMPLATE. Installed in a repo that holds English, as
+# .github/workflows/i18n-completeness.yml. The filename matters: exercism/i18n's
+# rerun-source-check.yml finds this workflow's runs by it. Do not edit a copy in
+# a source repo; edit exercism/i18n/source-repo-workflows/ and re-sync.
+#
+# The blocking half of the translation loop. Make `completeness` a REQUIRED status
+# check on `main` and a PR that changes English cannot merge until exercism/i18n
+# holds the translation for every production locale, for new text and for edits
+# alike. That is the whole promise: a production-locale user never sees
+# untranslated text.
+#
+# All of the logic is exercism/i18n's scripts/completeness.mjs. This file fetches
+# two things and runs it, so that what "complete" means is decided in one place
+# and not in eighty-five copies of a workflow.
+#
+# ## Safe for fork PRs, by construction
+#
+#  - It runs on `pull_request`, so for a fork it gets a read-only token and NO
+#    secrets. It needs none: exercism/i18n is public, and so is this repo.
+#  - The PR is never checked out. Its merge ref is fetched into a bare repository
+#    as git OBJECTS, blobless, and read with `git ls-tree` / `git cat-file`. There
+#    is no working tree, so no hook, filter, LFS smudge, package script or config
+#    file from the PR ever exists on the runner, let alone runs.
+#  - The only code executed is exercism/i18n's, at its `main`.
+#  - The website's YAML and TypeScript bundles are PARSED as data, never
+#    evaluated (exercism/i18n scripts/lib/ts-object.mjs).
+#
+# ## Relative to the merge base, via the merge ref
+#
+# `refs/pull/<n>/merge` is what `main` would become, and its first parent is the
+# `main` it was merged into. The difference between the two is exactly what this
+# PR changes, with no merge-base arithmetic and two commits of history. Only that
+# difference is required of the PR, so a PR is never blocked by English it did not
+# touch while a repo's backlog is still being translated. A PR that GitHub cannot
+# merge cleanly has no merge ref, and fails here saying so.
+
+name: i18n completeness
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: i18n-completeness-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  completeness:
+    runs-on: ubuntu-latest
+    steps:
+      # The checker and the translations, from the repo that owns both. NEVER the
+      # PR: there is no `actions/checkout` of this repository anywhere in this file.
+      #
+      # TODO(iHiD): once locales/ holds a few hundred thousand files, make this a
+      # sparse checkout of scripts/, the two JSON files and the production
+      # locales only.
+      - name: Check out exercism/i18n (scripts and translations)
+        uses: actions/checkout@v7
+        with:
+          repository: exercism/i18n
+          ref: main
+          path: i18n
+          persist-credentials: false
+
+      - uses: pnpm/action-setup@v6
+        with:
+          package_json_file: i18n/package.json
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      # One dependency (`yaml`), needed only when this repo is the website.
+      - name: Install
+        run: pnpm install --frozen-lockfile --dir i18n
+
+      - name: Fetch the PR's merge ref as git objects (no working tree)
+        env:
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+          git init --quiet --bare pr
+          git -C pr remote add origin "https://github.com/${REPO}.git"
+          git -C pr config remote.origin.promisor true
+          git -C pr config remote.origin.partialclonefilter blob:none
+          if ! git -C pr fetch --quiet --depth=2 --filter=blob:none --no-tags origin "refs/pull/${PR}/merge"; then
+            echo "::error::This PR has no merge ref, which usually means it conflicts with main. Resolve the conflict and this check will run."
+            exit 1
+          fi
+
+      - name: Does exercism/i18n hold every translation this PR needs?
+        env:
+          REPO: ${{ github.repository }}
+        run: node i18n/scripts/completeness.mjs --source-repo=pr --repo="$REPO" --head=FETCH_HEAD --base='FETCH_HEAD^1'

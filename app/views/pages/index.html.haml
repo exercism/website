@@ -54,11 +54,12 @@
           .exercises
             - @showcase_exercises.each do |sample|
               .exercise.sm:items-center
-                = exercise_icon sample[:exercise]
+                - key = sample[:slug].underscore
+                = exercise_icon Exercise.new(icon_name: sample[:slug], title: t(".exercises_section.showcase.#{key}.title"))
                 .flex-grow.flex.flex-col.sm:flex-row.sm:items-center
                   .exercise-info.mb-8.sm:mb-0
-                    %h3= sample[:exercise].title
-                    %p= sample[:exercise].blurb
+                    %h3= t(".exercises_section.showcase.#{key}.title")
+                    %p= t(".exercises_section.showcase.#{key}.blurb")
                   .flex.items-center.flex-shrink-0
                     .track-icons.sm:ml-16
                       - @tracks.sort_by { rand }[0, 3].each do |track|

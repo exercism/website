@@ -141,7 +141,7 @@ class Exercise < ApplicationRecord
 
   def status = super.to_sym
 
-  delegate :translation_metadata_repo_name, to: :track
+  delegate :translation_metadata_repo_name, to: :track, allow_nil: true
 
   def title = translated_metadata("exercise:#{slug}:name", super)
   def blurb = translated_metadata("exercise:#{slug}:blurb", super)

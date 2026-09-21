@@ -6,6 +6,8 @@ module HasTranslatedMetadata
     return english if english.blank?
 
     repo_name = translation_metadata_repo_name
+    return english unless repo_name
+
     translated = TranslationRepo.metadata_text(I18n.locale, repo_name, unit_id)
     return translated if translated
 

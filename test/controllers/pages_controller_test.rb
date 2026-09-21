@@ -6,6 +6,18 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :ok
   end
 
+  test "index shows its showcase exercises in another locale" do
+    showcase = { allergies: { title: "Allergiák", blurb: "Blurb" } }
+    catalog = { pages: { index: { exercises_section: { showcase: } } } }
+
+    with_published_translations(hu: { backend: catalog }) do
+      get "/hu"
+    end
+
+    assert_response :ok
+    assert_includes response.body, "Allergiák"
+  end
+
   test "index redirects if logged n" do
     sign_in!
     get "/"

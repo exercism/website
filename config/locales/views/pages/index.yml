@@ -20,6 +20,16 @@ en:
           other: "%{count} students"
         all_tracks_link: See all %{num_tracks} Language Tracks
       exercises_section:
+        showcase:
+          allergies:
+            title: Allergies
+            blurb: Given a person's allergy score, determine whether or not they're allergic to a given item, and their full list of allergies.
+          queen_attack:
+            title: Queen Attack
+            blurb: Given the position of two queens on a chess board, indicate whether or not they are positioned so that they can attack each other
+          zebra_puzzle:
+            title: Zebra Puzzle
+            blurb: Which of the residents drinks water? Who owns the zebra? Can you solve the Zebra Puzzle with code?
         title_html: Over <strong>%{count} coding exercises.</strong> <br> From
           "Allergies" to "Zebra Puzzle".
         subtitle:

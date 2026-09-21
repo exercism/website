@@ -1,0 +1,42 @@
+name: Prepare assets
+description: Restore the built JS/CSS from cache, building them only when the sources have changed
+
+runs:
+  using: composite
+  steps:
+    - name: Restore built assets
+      id: built-assets
+      uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684
+      with:
+        path: |
+          .built-assets
+          app/javascript/.config
+        key: built-assets-v1-${{ hashFiles('app/javascript/**', 'app/css/**', 'app/images/**', 'app/fonts/**', 'app/views/**/*.haml', 'app/helpers/**', 'package.json', 'yarn.lock', 'tailwind.config.js', 'postcss.config.js', 'Gemfile.lock') }}
+
+    - name: Get yarn cache directory path
+      if: steps.built-assets.outputs.cache-hit != 'true'
+      id: yarn-cache-dir-path
+      shell: bash
+      run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+
+    - name: Cache yarn
+      if: steps.built-assets.outputs.cache-hit != 'true'
+      uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684
+      with:
+        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-yarn-
+
+    - name: Build assets
+      if: steps.built-assets.outputs.cache-hit != 'true'
+      shell: bash
+      env:
+        RAILS_ENV: test
+        NODE_ENV: development
+        EXERCISM_CI: true
+      run: |
+        yarn install --frozen-lockfile
+        bundle exec rails r bin/monitor-manifest
+        yarn build
+        yarn build:css

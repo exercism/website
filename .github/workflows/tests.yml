@@ -5,25 +5,12 @@ on:
     branches: [main]
   pull_request:
 
+# Cancel superseded runs on PRs so they don't compete for runners
+concurrency:
+  group: tests-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
-  setup_env:
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
-        with:
-          sparse-checkout: |
-            .dockerimages.json
-          sparse-checkout-cone-mode: false
-
-      - name: Define Docker images
-        run: |
-          echo "localstack_image=$(jq -r '.localstack' .dockerimages.json)" >> "$GITHUB_ENV"
-          echo "opensearch_image=$(jq -r '.opensearch' .dockerimages.json)" >> "$GITHUB_ENV"
-    outputs:
-      localstack_image: ${{ env.localstack_image }}
-      opensearch_image: ${{ env.opensearch_image }}
-
   ##################
   ##### RUBOCOP ####
   ##################
@@ -113,61 +100,27 @@ jobs:
 
       - id: test-files
         env:
-          FILES_PER_BATCH: 50
+          BATCHES: 9
         run: |
-          tests=$(find test -name '*_test.rb' -not -path 'test/system/*' -not -path 'test/visual/*' | xargs -n ${{ env.FILES_PER_BATCH }} | xargs -I {} echo '"{}"' | tr '\n' ',')
-          echo "matrix={\"tests\":[${tests}]}" >> $GITHUB_OUTPUT
+          echo "matrix=$(ruby .github/scripts/split-tests.rb ${{ env.BATCHES }} .github/test-timings.json $(find test -name '*_test.rb' -not -path 'test/system/*' -not -path 'test/visual/*'))" >> $GITHUB_OUTPUT
 
   ruby-tests:
     if: github.repository == 'exercism/website'
 
     needs:
       - ruby-test-files
-      - setup_env
     strategy:
       fail-fast: false
-      max-parallel: 15
       matrix: ${{ fromJson(needs.ruby-test-files.outputs.matrix) }}
 
     runs-on: ubuntu-22.04
     timeout-minutes: 30
-    services:
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_USER: exercism
-          MYSQL_PASSWORD: exercism
-          MYSQL_DATABASE: exercism_test
-          MYSQL_ROOT_PASSWORD: password
-        ports:
-          - 3306
-        #options: --health-cmd "mysqladmin ping" --health-interval 10s --health-timeout 5s --health-retries 10
-
-      redis:
-        image: redis
-        ports:
-          - 6379:6379
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 1s
-          --health-timeout 2s
-          --health-retries 10
-
-      aws:
-        image: ${{ needs.setup_env.outputs.localstack_image }}
-        ports:
-          - 4566
-
-      opensearch:
-        image: ${{ needs.setup_env.outputs.opensearch_image }}
-        env:
-          discovery.type: single-node
-        ports:
-          - 9200
-
     steps:
       - name: Checkout code
         uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
+
+      - name: Start services
+        run: .github/scripts/start-services.sh
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@13e7a03dc3ac6c3798f4570bfead2aed4d96abfb
@@ -175,60 +128,27 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
-      - name: Update package lists
-        run: sudo apt-get update
-
       - name: Install packages
-        run: sudo apt-get install graphicsmagick libvips
-
-      ###
-      # Caching using GitHub's caching action
-      # https://github.com/actions/cache/blob/main/examples.md#node---yarn
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-
-      - name: Cache yarn
-        uses: actions/cache@0c907a75c2c80ebcb7f088228285e798b750cf8f
-        id: yarn-cache
+        uses: awalsh128/cache-apt-pkgs-action@7ca5f46d061ad9aa95863cd9b214dd48edef361d
         with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+          packages: graphicsmagick libvips
+          version: 1.0
 
-      - name: Install yarn dependencies
-        run: yarn install
+      - name: Prepare assets
+        uses: ./.github/actions/prepare-assets
+
+      - name: Wait for services
+        run: .github/scripts/wait-for-services.sh
 
       - name: Setup Exercism services
         env:
           EXERCISM_ENV: test
           EXERCISM_CI: true
-          AWS_PORT: ${{ job.services.aws.ports['4566'] }}
-          MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
+          AWS_PORT: 4566
+          MYSQL_PORT: 3306
         run: |
           bundle exec setup_exercism_config
           bundle exec setup_exercism_local_aws
-
-      ###
-      # Precompile JS
-      - name: Precompile JS
-        env:
-          RAILS_ENV: test
-          NODE_ENV: development
-          EXERCISM_CI: true
-          AWS_PORT: ${{ job.services.aws.ports['4566'] }}
-          MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
-        run: |
-          bundle exec rails r bin/monitor-manifest
-          bundle exec rails test:prepare
-
-      ###
-      # Wait for everything to be ready
-      - name: Wait for open search to become ready
-        env:
-          OPENSEARCH_HOST: https://127.0.0.1:${{ job.services.opensearch.ports['9200'] }}
-        run: ./bin/wait_for_opensearch
 
       ###
       # Run the tests
@@ -236,15 +156,26 @@ jobs:
         env:
           RAILS_ENV: test
           EXERCISM_CI: true
-          AWS_PORT: ${{ job.services.aws.ports['4566'] }}
-          MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
-          OPENSEARCH_PORT: ${{ job.services.opensearch.ports['9200'] }}
-          OPENSEARCH_HOST: https://127.0.0.1:${{ job.services.opensearch.ports['9200'] }}
+          AWS_PORT: 4566
+          MYSQL_PORT: 3306
+          OPENSEARCH_PORT: 9200
+          OPENSEARCH_HOST: https://127.0.0.1:9200
           OPENSEARCH_VERIFY_SSL: false
+          SKIP_JS_BUILD: true
+          SKIP_CSS_BUILD: true
+          TEST_TIMINGS_FILE: test-timings.json
 
         run: |
-          bundle exec rails test:zeitwerk
+          bundle exec rails test:prepare test:zeitwerk
           bundle exec rails test ${{ matrix.tests }}
+
+      - name: Upload test timings
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: test-timings-${{ strategy.job-index }}-ruby
+          path: test-timings.json
+          if-no-files-found: ignore
 
   ruby-tests-completed:
     runs-on: ubuntu-22.04
@@ -268,62 +199,29 @@ jobs:
 
       - id: test-files
         env:
-          FILES_PER_BATCH: 12
+          BATCHES: 8
         run: |
-          tests=$(find test/system -name *_test.rb | xargs -n ${{ env.FILES_PER_BATCH }} | xargs -I {} echo '"{}"' | tr '\n' ',')
-          echo "matrix={\"tests\":[${tests}]}" >> $GITHUB_OUTPUT
+          echo "matrix=$(ruby .github/scripts/split-tests.rb ${{ env.BATCHES }} .github/test-timings.json $(find test/system -name '*_test.rb'))" >> $GITHUB_OUTPUT
 
   system-tests:
     if: github.repository == 'exercism/website'
 
     needs:
       - system-test-files
-      - setup_env
 
     strategy:
       fail-fast: false
-      max-parallel: 15
       matrix: ${{ fromJson(needs.system-test-files.outputs.matrix) }}
 
     runs-on: ubuntu-22.04
     timeout-minutes: 30
-    services:
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_USER: exercism
-          MYSQL_PASSWORD: exercism
-          MYSQL_DATABASE: exercism_test
-          MYSQL_ROOT_PASSWORD: password
-        ports:
-          - 3306
-
-      redis:
-        image: redis
-        ports:
-          - 6379:6379
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 1s
-          --health-timeout 2s
-          --health-retries 10
-
-      aws:
-        image: ${{ needs.setup_env.outputs.localstack_image }}
-        ports:
-          - 4566
-
-      opensearch:
-        image: ${{ needs.setup_env.outputs.opensearch_image }}
-        env:
-          discovery.type: single-node
-        ports:
-          - 9200
-
     steps:
       ###
       # Checkout using GitHub's checkout action
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
+
+      - name: Start services
+        run: .github/scripts/start-services.sh
 
       ###
       # Setup Ruby - this needs to match the version in the Gemfile
@@ -333,75 +231,27 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
-      - name: Update package lists
-        run: sudo apt-get update
-
       - name: Install packages
-        run: sudo apt-get install libvips
-
-      ###
-      # Caching using GitHub's caching action
-      # https://github.com/actions/cache/blob/main/examples.md#node---yarn
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-
-      - name: Cache yarn
-        uses: actions/cache@0c907a75c2c80ebcb7f088228285e798b750cf8f
-        id: yarn-cache
+        uses: awalsh128/cache-apt-pkgs-action@7ca5f46d061ad9aa95863cd9b214dd48edef361d
         with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+          packages: libvips
+          version: 1.0
 
-      - name: Install yarn dependencies
-        run: yarn install
+      - name: Prepare assets
+        uses: ./.github/actions/prepare-assets
+
+      - name: Wait for services
+        run: .github/scripts/wait-for-services.sh
 
       - name: Setup Exercism services
         env:
           EXERCISM_ENV: test
           EXERCISM_CI: true
-          AWS_PORT: ${{ job.services.aws.ports['4566'] }}
-          MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
+          AWS_PORT: 4566
+          MYSQL_PORT: 3306
         run: |
           bundle exec setup_exercism_config
           bundle exec setup_exercism_local_aws
-
-      - name: Install Chrome
-        run: |
-          # Install latest stable Chrome
-          wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-          sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
-          sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
-
-      - uses: nanasess/setup-chromedriver@v2
-      - name: Start chromedriver
-        run: |
-          set -x
-          chromedriver --url-base=/wd/hub &
-          # sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
-
-      ###
-      # Precompile JS
-      - name: Precompile JS
-        env:
-          RAILS_ENV: test
-          NODE_ENV: development
-          EXERCISM_CI: true
-          AWS_PORT: ${{ job.services.aws.ports['4566'] }}
-          MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
-        run: |
-          bundle exec rails r bin/monitor-manifest
-          bundle exec rails test:prepare
-
-      ###
-      # Wait for everything to be ready
-      - name: Wait for open search to become ready
-        env:
-          OPENSEARCH_HOST: https://127.0.0.1:${{ job.services.opensearch.ports['9200'] }}
-        run: ./bin/wait_for_opensearch
 
       ###
       # Run the tests
@@ -409,12 +259,25 @@ jobs:
         env:
           RAILS_ENV: test
           EXERCISM_CI: true
-          AWS_PORT: ${{ job.services.aws.ports['4566'] }}
-          MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
-          OPENSEARCH_PORT: ${{ job.services.opensearch.ports['9200'] }}
-          OPENSEARCH_HOST: https://127.0.0.1:${{ job.services.opensearch.ports['9200'] }}
+          AWS_PORT: 4566
+          MYSQL_PORT: 3306
+          OPENSEARCH_PORT: 9200
+          OPENSEARCH_HOST: https://127.0.0.1:9200
           OPENSEARCH_VERIFY_SSL: false
-        run: bundle exec rails test ${{ matrix.tests }}
+          SKIP_JS_BUILD: true
+          SKIP_CSS_BUILD: true
+          TEST_TIMINGS_FILE: test-timings.json
+        run: |
+          bundle exec rails test:prepare
+          bundle exec rails test ${{ matrix.tests }}
+
+      - name: Upload test timings
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: test-timings-${{ strategy.job-index }}-system
+          path: test-timings.json
+          if-no-files-found: ignore
 
   system-tests-completed:
     runs-on: ubuntu-22.04
@@ -466,9 +329,9 @@ jobs:
         env:
           EXERCISM_ENV: test
           EXERCISM_CI: true
-          AWS_PORT: ${{ job.services.aws.ports['4566'] }}
-          MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
-          OPENSEARCH_PORT: ${{ job.services.opensearch.ports['9200'] }}
+          AWS_PORT: 4566
+          MYSQL_PORT: 3306
+          OPENSEARCH_PORT: 9200
         run: |
           yarn install
 

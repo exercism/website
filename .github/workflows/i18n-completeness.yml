@@ -1,38 +1,37 @@
-# TEMPLATE. Installed in a repo that holds English, as
-# .github/workflows/i18n-completeness.yml. The filename matters: exercism/i18n's
-# rerun-source-check.yml finds this workflow's runs by it. Do not edit a copy in
-# a source repo; edit exercism/i18n/source-repo-workflows/ and re-sync.
+# Template. Installed as .github/workflows/i18n-completeness.yml in each repo
+# that holds English. Keep the filename: exercism/i18n's rerun-source-check.yml
+# finds this workflow's runs by it. Do not edit a copy in a source repo; edit
+# exercism/i18n/source-repo-workflows/ and re-sync.
 #
-# The blocking half of the translation loop. Make `completeness` a REQUIRED status
-# check on `main` and a PR that changes English cannot merge until exercism/i18n
-# holds the translation for every production locale, for new text and for edits
-# alike. That is the whole promise: a production-locale user never sees
-# untranslated text.
+# Fails a PR that changes English until exercism/i18n holds the translation for
+# every production locale, for new and edited text. Once `completeness` is a
+# required status check on `main`, such a PR cannot merge, so users of a
+# production locale never see untranslated text.
 #
-# All of the logic is exercism/i18n's scripts/completeness.mjs. This file fetches
-# two things and runs it, so that what "complete" means is decided in one place
-# and not in eighty-five copies of a workflow.
+# The logic is in exercism/i18n's scripts/completeness.mjs. This file only
+# fetches what the script needs and runs it, so every installed copy behaves
+# the same.
 #
-# ## Safe for fork PRs, by construction
+# Fork safety:
 #
-#  - It runs on `pull_request`, so for a fork it gets a read-only token and NO
-#    secrets. It needs none: exercism/i18n is public, and so is this repo.
-#  - The PR is never checked out. Its merge ref is fetched into a bare repository
-#    as git OBJECTS, blobless, and read with `git ls-tree` / `git cat-file`. There
-#    is no working tree, so no hook, filter, LFS smudge, package script or config
-#    file from the PR ever exists on the runner, let alone runs.
-#  - The only code executed is exercism/i18n's, at its `main`.
-#  - The website's YAML and TypeScript bundles are PARSED as data, never
+#  - It runs on `pull_request`, so fork PRs get a read-only token and no
+#    secrets. None are needed: exercism/i18n and this repo are both public.
+#  - The PR is never checked out. Its merge ref is fetched blobless into a bare
+#    repository and read with `git ls-tree` and `git cat-file`. With no working
+#    tree, no hook, filter, LFS smudge, package script or config file from the
+#    PR is written to the runner or run.
+#  - The only code that runs is exercism/i18n's, at its `main`.
+#  - The website's YAML and TypeScript bundles are parsed as data and never
 #    evaluated (exercism/i18n scripts/lib/ts-object.mjs).
 #
-# ## Relative to the merge base, via the merge ref
+# What is checked:
 #
-# `refs/pull/<n>/merge` is what `main` would become, and its first parent is the
-# `main` it was merged into. The difference between the two is exactly what this
-# PR changes, with no merge-base arithmetic and two commits of history. Only that
-# difference is required of the PR, so a PR is never blocked by English it did not
-# touch while a repo's backlog is still being translated. A PR that GitHub cannot
-# merge cleanly has no merge ref, and fails here saying so.
+# `refs/pull/<n>/merge` is what `main` would become, and its first parent is
+# the `main` it was merged into. The difference between the two is exactly what
+# the PR changes, and fetching two commits is enough to find it. Only that
+# difference is required, so a PR is not blocked by untranslated English it did
+# not touch. A PR that GitHub cannot merge cleanly has no merge ref, and this
+# check fails with a message saying so.
 
 name: i18n completeness
 
@@ -51,8 +50,8 @@ jobs:
   completeness:
     runs-on: ubuntu-latest
     steps:
-      # The checker and the translations, from the repo that owns both. NEVER the
-      # PR: there is no `actions/checkout` of this repository anywhere in this file.
+      # Checks out exercism/i18n for its scripts and translations. This
+      # repository is never checked out anywhere in this file.
       #
       # TODO(iHiD): once locales/ holds a few hundred thousand files, make this a
       # sparse checkout of scripts/, the two JSON files and the production
@@ -73,7 +72,8 @@ jobs:
         with:
           node-version: 24
 
-      # One dependency (`yaml`), needed only when this repo is the website.
+      # Installs `yaml`, the one dependency, which is only used when this repo
+      # is the website.
       - name: Install
         run: pnpm install --frozen-lockfile --dir i18n
 

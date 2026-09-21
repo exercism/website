@@ -102,8 +102,7 @@ jobs:
         env:
           BATCHES: 9
         run: |
-          tests=$(find test -name '*_test.rb' -not -path 'test/system/*' -not -path 'test/visual/*' | sort | awk -v n=${{ env.BATCHES }} '{ b[NR % n] = b[NR % n] " " $0 } END { for (i in b) print b[i] }' | jq -R -s -c 'split("\n") | map(select(length > 0) | ltrimstr(" "))')
-          echo "matrix={\"tests\":${tests}}" >> $GITHUB_OUTPUT
+          echo "matrix=$(ruby .github/scripts/split-tests.rb ${{ env.BATCHES }} .github/test-timings.json $(find test -name '*_test.rb' -not -path 'test/system/*' -not -path 'test/visual/*'))" >> $GITHUB_OUTPUT
 
   ruby-tests:
     if: github.repository == 'exercism/website'
@@ -202,8 +201,7 @@ jobs:
         env:
           BATCHES: 8
         run: |
-          tests=$(find test/system -name '*_test.rb' | sort | awk -v n=${{ env.BATCHES }} '{ b[NR % n] = b[NR % n] " " $0 } END { for (i in b) print b[i] }' | jq -R -s -c 'split("\n") | map(select(length > 0) | ltrimstr(" "))')
-          echo "matrix={\"tests\":${tests}}" >> $GITHUB_OUTPUT
+          echo "matrix=$(ruby .github/scripts/split-tests.rb ${{ env.BATCHES }} .github/test-timings.json $(find test/system -name '*_test.rb'))" >> $GITHUB_OUTPUT
 
   system-tests:
     if: github.repository == 'exercism/website'

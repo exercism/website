@@ -36,9 +36,24 @@ on:
   schedule:
     - cron: 0 */2 * * *
 
+# Nothing in this job reads or writes the repository through the Actions
+# token: AWS and Cloudflare are reached with their own credentials.
+permissions:
+  contents: read
+
+# A deploy rolls four ECS services and then uploads the Worker, so two runs
+# overlapping would race each other onto the cluster. Runs queue instead of
+# cancelling: a half-finished rollout is worse than a slow one.
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
 jobs:
   deploy:
-    if: github.repository == 'exercism/website-deployer'
+    # Forks of this repository get the workflow file along with everything
+    # else, and org secrets are not shared with them. This keeps the job to
+    # the one repository that is meant to deploy.
+    if: github.repository == 'exercism/website'
 
     name: Upload images to ECR, assets to S3, and definition to ECS
     runs-on: ubuntu-latest
@@ -103,6 +118,10 @@ jobs:
       #
       # provenance is off so ECR keeps receiving a plain image manifest, which
       # is what the task definitions below point at.
+      #
+      # This repository is public, and a pull request from a fork can restore
+      # caches written on main. The build takes no secrets, so there is
+      # nothing in these layers that is not already in the repository.
       - name: Build and Push Rails Docker
         uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc
         with:

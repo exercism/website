@@ -50,3 +50,10 @@ afterEach(async () => {
   await flushPromises()
   await act(async () => await null)
 })
+
+// uuid 14 needs the Web Crypto API, which jsdom doesn't provide
+if (!globalThis.crypto?.getRandomValues) {
+  Object.defineProperty(globalThis, 'crypto', {
+    value: require('node:crypto').webcrypto,
+  })
+}

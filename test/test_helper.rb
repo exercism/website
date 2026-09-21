@@ -29,7 +29,6 @@ Exercism.request_context = { country_code: 'US', coordinates: [37.751, -97.822] 
 Mocha.configure do |c|
   c.stubbing_method_unnecessarily = :prevent
   c.stubbing_non_existent_method = :prevent
-  c.stubbing_method_on_nil = :prevent
   c.stubbing_non_public_method = :prevent
 end
 

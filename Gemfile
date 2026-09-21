@@ -59,7 +59,7 @@ gem 'public_suffix'
 gem 'humanize'
 
 # Authentication
-gem 'devise', '~> 4.7'
+gem 'devise', '~> 5.0'
 gem 'doorkeeper', '~> 5.8'
 
 # Omniauth
@@ -107,7 +107,7 @@ end
 
 group :test do
   gem 'capybara', '>= 2.15'
-  gem 'minitest'
+  gem 'minitest', '< 6' # minitest 6 breaks Rails 7.1's test runner
   gem 'minitest-retry'
   gem 'mocha'
   gem 'selenium-webdriver'
@@ -132,3 +132,6 @@ gem 'rubyzip', '~> 2.3'
 
 gem 'toml', '~> 0.3.0'
 gem 'ruby-openai'
+
+# json 3 drops the quirks_mode option Rails 7.1's encoder passes
+gem 'json', '< 3'

@@ -5,6 +5,11 @@ on:
     branches: [main]
   pull_request:
 
+# Cancel superseded runs on PRs so they don't compete for runners
+concurrency:
+  group: tests-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   setup_env:
     runs-on: ubuntu-22.04
@@ -113,10 +118,10 @@ jobs:
 
       - id: test-files
         env:
-          FILES_PER_BATCH: 50
+          BATCHES: 9
         run: |
-          tests=$(find test -name '*_test.rb' -not -path 'test/system/*' -not -path 'test/visual/*' | xargs -n ${{ env.FILES_PER_BATCH }} | xargs -I {} echo '"{}"' | tr '\n' ',')
-          echo "matrix={\"tests\":[${tests}]}" >> $GITHUB_OUTPUT
+          tests=$(find test -name '*_test.rb' -not -path 'test/system/*' -not -path 'test/visual/*' | sort | awk -v n=${{ env.BATCHES }} '{ b[NR % n] = b[NR % n] " " $0 } END { for (i in b) print b[i] }' | jq -R -s -c 'split("\n") | map(select(length > 0) | ltrimstr(" "))')
+          echo "matrix={\"tests\":${tests}}" >> $GITHUB_OUTPUT
 
   ruby-tests:
     if: github.repository == 'exercism/website'
@@ -126,7 +131,6 @@ jobs:
       - setup_env
     strategy:
       fail-fast: false
-      max-parallel: 15
       matrix: ${{ fromJson(needs.ruby-test-files.outputs.matrix) }}
 
     runs-on: ubuntu-22.04
@@ -175,30 +179,14 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
-      - name: Update package lists
-        run: sudo apt-get update
-
       - name: Install packages
-        run: sudo apt-get install graphicsmagick libvips
-
-      ###
-      # Caching using GitHub's caching action
-      # https://github.com/actions/cache/blob/main/examples.md#node---yarn
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-
-      - name: Cache yarn
-        uses: actions/cache@0c907a75c2c80ebcb7f088228285e798b750cf8f
-        id: yarn-cache
+        uses: awalsh128/cache-apt-pkgs-action@7ca5f46d061ad9aa95863cd9b214dd48edef361d
         with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+          packages: graphicsmagick libvips
+          version: 1.0
 
-      - name: Install yarn dependencies
-        run: yarn install
+      - name: Prepare assets
+        uses: ./.github/actions/prepare-assets
 
       - name: Setup Exercism services
         env:
@@ -209,19 +197,6 @@ jobs:
         run: |
           bundle exec setup_exercism_config
           bundle exec setup_exercism_local_aws
-
-      ###
-      # Precompile JS
-      - name: Precompile JS
-        env:
-          RAILS_ENV: test
-          NODE_ENV: development
-          EXERCISM_CI: true
-          AWS_PORT: ${{ job.services.aws.ports['4566'] }}
-          MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
-        run: |
-          bundle exec rails r bin/monitor-manifest
-          bundle exec rails test:prepare
 
       ###
       # Wait for everything to be ready
@@ -241,9 +216,11 @@ jobs:
           OPENSEARCH_PORT: ${{ job.services.opensearch.ports['9200'] }}
           OPENSEARCH_HOST: https://127.0.0.1:${{ job.services.opensearch.ports['9200'] }}
           OPENSEARCH_VERIFY_SSL: false
+          SKIP_JS_BUILD: true
+          SKIP_CSS_BUILD: true
 
         run: |
-          bundle exec rails test:zeitwerk
+          bundle exec rails test:prepare test:zeitwerk
           bundle exec rails test ${{ matrix.tests }}
 
   ruby-tests-completed:
@@ -268,10 +245,10 @@ jobs:
 
       - id: test-files
         env:
-          FILES_PER_BATCH: 12
+          BATCHES: 8
         run: |
-          tests=$(find test/system -name *_test.rb | xargs -n ${{ env.FILES_PER_BATCH }} | xargs -I {} echo '"{}"' | tr '\n' ',')
-          echo "matrix={\"tests\":[${tests}]}" >> $GITHUB_OUTPUT
+          tests=$(find test/system -name '*_test.rb' | sort | awk -v n=${{ env.BATCHES }} '{ b[NR % n] = b[NR % n] " " $0 } END { for (i in b) print b[i] }' | jq -R -s -c 'split("\n") | map(select(length > 0) | ltrimstr(" "))')
+          echo "matrix={\"tests\":${tests}}" >> $GITHUB_OUTPUT
 
   system-tests:
     if: github.repository == 'exercism/website'
@@ -282,7 +259,6 @@ jobs:
 
     strategy:
       fail-fast: false
-      max-parallel: 15
       matrix: ${{ fromJson(needs.system-test-files.outputs.matrix) }}
 
     runs-on: ubuntu-22.04
@@ -333,30 +309,14 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
-      - name: Update package lists
-        run: sudo apt-get update
-
       - name: Install packages
-        run: sudo apt-get install libvips
-
-      ###
-      # Caching using GitHub's caching action
-      # https://github.com/actions/cache/blob/main/examples.md#node---yarn
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-
-      - name: Cache yarn
-        uses: actions/cache@0c907a75c2c80ebcb7f088228285e798b750cf8f
-        id: yarn-cache
+        uses: awalsh128/cache-apt-pkgs-action@7ca5f46d061ad9aa95863cd9b214dd48edef361d
         with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+          packages: libvips
+          version: 1.0
 
-      - name: Install yarn dependencies
-        run: yarn install
+      - name: Prepare assets
+        uses: ./.github/actions/prepare-assets
 
       - name: Setup Exercism services
         env:
@@ -367,34 +327,6 @@ jobs:
         run: |
           bundle exec setup_exercism_config
           bundle exec setup_exercism_local_aws
-
-      - name: Install Chrome
-        run: |
-          # Install latest stable Chrome
-          wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-          sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
-          sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
-
-      - uses: nanasess/setup-chromedriver@v2
-      - name: Start chromedriver
-        run: |
-          set -x
-          chromedriver --url-base=/wd/hub &
-          # sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
-
-      ###
-      # Precompile JS
-      - name: Precompile JS
-        env:
-          RAILS_ENV: test
-          NODE_ENV: development
-          EXERCISM_CI: true
-          AWS_PORT: ${{ job.services.aws.ports['4566'] }}
-          MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
-        run: |
-          bundle exec rails r bin/monitor-manifest
-          bundle exec rails test:prepare
 
       ###
       # Wait for everything to be ready
@@ -414,7 +346,11 @@ jobs:
           OPENSEARCH_PORT: ${{ job.services.opensearch.ports['9200'] }}
           OPENSEARCH_HOST: https://127.0.0.1:${{ job.services.opensearch.ports['9200'] }}
           OPENSEARCH_VERIFY_SSL: false
-        run: bundle exec rails test ${{ matrix.tests }}
+          SKIP_JS_BUILD: true
+          SKIP_CSS_BUILD: true
+        run: |
+          bundle exec rails test:prepare
+          bundle exec rails test ${{ matrix.tests }}
 
   system-tests-completed:
     runs-on: ubuntu-22.04

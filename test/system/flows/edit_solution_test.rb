@@ -446,7 +446,6 @@ module Components
           sleep(0.5)
           click_on "Continue without waiting"
           refute_text "Deep Dive into Strings!"
-          wait_for_redirect
           assert_text "Iteration 2"
         end
       end
@@ -483,7 +482,6 @@ module Components
           sleep(0.5)
           click_on "Continue without waiting"
           refute_text "Deep Dive into Strings!"
-          wait_for_redirect
           assert_text "Iteration 1"
         end
       end

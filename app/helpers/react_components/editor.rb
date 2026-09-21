@@ -15,6 +15,7 @@ module ReactComponents
         default_files: SerializeEditorFiles.(solution.files_for_editor),
         insider: solution.user.insider?,
         experimental:,
+        client_side_tests: track.client_side_test_runner?,
         assistant_chat:,
         default_settings: {
           tab_size: track.indent_size,
@@ -166,6 +167,13 @@ module ReactComponents
         recaptcha_site_key: ENV.fetch('RECAPTCHA_SITE_KEY', Exercism.secrets.recaptcha_site_key),
         links: {
           insiders: Exercism::Routes.insiders_url,
+          # For when the form can't render inline (the editor is cross-origin
+          # isolated on some tracks): join on its own page, then come back here.
+          # Back to the assistant tab, which is where they were: Editor.tsx
+          # reads the tab off the hash.
+          join: Exercism::Routes.join_insiders_url(
+            return_to: "#{Exercism::Routes.edit_track_exercise_path(track, exercise)}#assistant"
+          ),
           payment_pending: Exercism::Routes.payment_pending_insiders_url
         }
       }

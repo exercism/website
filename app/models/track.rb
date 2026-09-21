@@ -27,6 +27,18 @@ class Track < ApplicationRecord
 
   scope :active, -> { where(active: true) }
 
+  # Tracks whose tests run in the student's browser, on the wasm kernel. Being
+  # on this list does two things to the editor: it opts the page in to
+  # cross-origin isolation (see CrossOriginIsolation - not free, it blocks any
+  # cross-origin iframe, which is why the Insiders upsell links out there), and
+  # it sends the editor the exercise files the runner needs.
+  #
+  # A list here rather than a lookup of the published manifest, because
+  # isolating a page is a deliberate per-track decision, not a side effect of
+  # something landing in S3.
+  CLIENT_SIDE_TEST_RUNNER_SLUGS = %w[jq].freeze
+  def client_side_test_runner? = CLIENT_SIDE_TEST_RUNNER_SLUGS.include?(slug)
+
   delegate :key_features, :about, :snippet,
     :indent_style, :indent_size, :foregone_exercises,
     to: :git

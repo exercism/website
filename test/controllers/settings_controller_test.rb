@@ -11,7 +11,11 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
     assert_select "div[data-react-id=?]", "settings-profile-form" do |elements|
       data = JSON.parse(elements.first["data-react-data"])
       assert_equal I18n.default_locale.to_s, data["default_locale"]
-      assert_includes data["languages"], { "code" => "en", "native" => "English", "english" => "English" }
+      english = data["languages"].find { |language| language["code"] == "en" }
+      assert_equal "English", english["native"]
+      assert_equal "English", english["english"]
+      assert_match %r{/assets/flags/3x2/gb.*\.svg}, english["flag_url"]
+      assert_includes data["coming_soon_languages"].map { |language| language["code"] }, "fr"
       assert_equal Exercism::Routes.api_settings_language_url, data.dig("links", "update_language")
     end
 

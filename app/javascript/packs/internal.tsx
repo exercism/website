@@ -50,6 +50,7 @@ import type { Request } from '@/hooks/request-query'
 import type { Request as MentoringInboxRequest } from '@/components/mentoring/Inbox'
 import type { AutomationProps } from '@/components/mentoring/automation/Representation'
 import type { ThemePreferenceLinks } from '@/components/settings/ThemePreferenceForm'
+import type { Language as ProfileFormLanguage } from '@/components/settings/profile-form/LanguageField'
 
 import type { Props as EditorProps } from '@/components/editor/Props'
 import type {
@@ -459,7 +460,10 @@ initReact({
       <ProfileForm
         defaultUser={data.user}
         defaultProfile={data.profile}
-        languages={data.languages}
+        languages={camelizeKeysAs<ProfileFormLanguage[]>(data.languages)}
+        comingSoonLanguages={camelizeKeysAs<ProfileFormLanguage[]>(
+          data.coming_soon_languages
+        )}
         defaultLocale={data.default_locale}
         links={{
           update: data.links.update,

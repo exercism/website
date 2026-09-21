@@ -3,7 +3,7 @@
 body.namespace-tracks,
 body.namespace-.controller-tracks {
     .auth-buttons {
-        a:nth-child(2) {
+        a.btn-secondary {
             @apply sm:flex hidden;
         }
     }

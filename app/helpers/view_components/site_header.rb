@@ -29,7 +29,7 @@ module ViewComponents
       return html if user_signed_in?
 
       # Cache the header for signed-out users to improve performance
-      cache_key = "site-header-2/#{TranslationRepo.cache_key}"
+      cache_key = "site-header-3/#{TranslationRepo.cache_key}"
       Rails.cache.fetch(cache_key, expires_in: 1.day) do
         html
       end
@@ -168,10 +168,10 @@ module ViewComponents
       safe_join(
         [
           signed_out_nav,
-          raw(LANGUAGE_SWITCHER_SLOT),
           tag.div(class: "auth-buttons") do
-            link_to(I18n.t("components.site_header.auth_buttons.sign_up"), Exercism::Routes.new_user_registration_path,
-              class: "btn-primary btn-xs") +
+            raw(LANGUAGE_SWITCHER_SLOT) +
+              link_to(I18n.t("components.site_header.auth_buttons.sign_up"), Exercism::Routes.new_user_registration_path,
+                class: "btn-primary btn-xs") +
               link_to(I18n.t("components.site_header.auth_buttons.log_in"), Exercism::Routes.new_user_session_path,
                 class: "btn-secondary btn-xs")
           end,

@@ -1,41 +1,104 @@
 .c-language-switcher {
-    @apply relative ml-12;
+    @apply relative;
 
     & > .toggle {
-        @apply flex items-center cursor-pointer select-none;
-        @apply text-14 text-textColor6;
-        @apply px-10 py-6 rounded-8 border-1 border-borderColor6;
+        @apply flex items-center justify-center cursor-pointer select-none;
+        @apply px-12 rounded-5 border-1 border-borderColor6;
+        @apply bg-backgroundColorA;
+        height: 40px;
+
+        @screen lg {
+            height: 32px;
+        }
 
         &::-webkit-details-marker {
             @apply hidden;
         }
 
-        & .c-icon {
-            @apply ml-6 w-[10px] h-[10px];
+        &:hover {
+            @apply bg-backgroundColorD;
+        }
+
+        & > .c-icon {
+            @apply ml-8 w-[10px] h-[10px];
             filter: var(--textColor6-filter);
         }
     }
 
     & > .options {
-        @apply absolute right-0 z-dropdown mt-4;
-        @apply bg-backgroundColorA rounded-8 shadow-lg border-1 border-borderColor6;
-        @apply py-8 min-w-[220px] max-h-[320px] overflow-y-auto;
+        @apply absolute right-0 z-dropdown mt-8 p-6;
+        @apply bg-backgroundColorA rounded-12 shadow-lg border-1 border-borderColor6;
+        @apply w-[320px] overflow-y-auto;
+        max-height: min(420px, calc(100vh - 120px));
 
-        & a {
-            @apply flex flex-col px-16 py-8;
-            @apply hover:bg-backgroundColorD;
+        & .group {
+            @apply list-none;
+        }
 
-            & .native {
-                @apply text-15 text-textColor1 font-medium;
-            }
+        & .group-heading {
+            @apply mt-4 px-10 pt-10 pb-6;
+            @apply border-t-1 border-borderColor6;
+            @apply text-[11px] font-semibold uppercase tracking-wider text-textColor6;
+        }
 
-            & .english {
-                @apply text-13 text-textColor6;
+        & .option {
+            @apply flex items-center w-full;
+            @apply px-10 py-8 rounded-8 text-left;
+
+            & > .flag {
+                @apply mr-10;
             }
         }
 
-        & a[aria-current="true"] {
+        & a.option:hover {
             @apply bg-backgroundColorD;
         }
+
+        & a.option[aria-current="true"] {
+            @apply bg-purpleHover;
+
+            & .native {
+                @apply text-purple;
+            }
+        }
+
+        .theme-dark & a.option[aria-current="true"] {
+            @apply bg-purpleDarkened;
+
+            & .native {
+                @apply text-brightPurple;
+            }
+        }
+
+        & .option.--disabled {
+            @apply opacity-70 cursor-default;
+        }
+
+        & .names {
+            @apply flex flex-col min-w-0 leading-130;
+        }
+
+        & .native {
+            @apply text-15 font-medium text-textColor1;
+        }
+
+        & .english {
+            @apply text-13 text-textColor6;
+        }
+
+        & .badge {
+            @apply ml-auto flex-shrink-0;
+            @apply px-6 py-2 rounded-100;
+            @apply bg-backgroundColorD text-textColor6;
+            @apply text-[11px] font-semibold uppercase tracking-wide;
+        }
+    }
+
+    & .flag {
+        @apply flex-shrink-0 rounded-3;
+        width: 24px;
+        height: 17px;
+        object-fit: cover;
+        box-shadow: inset 0 0 0 1px rgba(var(--shadowColorMain), 0.2);
     }
 }

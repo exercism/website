@@ -2,3 +2,5 @@ en:
   components:
     language_switcher:
       label: "Choose your language"
+      coming_soon: "Coming soon"
+      coming_soon_badge: "Soon"

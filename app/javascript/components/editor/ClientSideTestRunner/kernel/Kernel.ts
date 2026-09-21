@@ -120,12 +120,9 @@ export class Kernel {
     return toEnv(this.config.env)
   }
 
-  writeFile(path: string, contents: string | Uint8Array): void {
-    const bytes =
-      typeof contents === 'string'
-        ? new TextEncoder().encode(contents)
-        : contents
-    this.#client.writeFile(path, toArrayBuffer(bytes))
+  /** Unpack a tar archive at `path`, creating the directories it names. */
+  async untar(path: string, archive: ArrayBuffer): Promise<void> {
+    await this.#client.untar(path, archive)
   }
 
   async readFile(path: string): Promise<string> {
@@ -324,13 +321,6 @@ function makeSession(): Session {
 
 function toEnv(env: Record<string, string>): string[] {
   return Object.entries(env).map(([key, value]) => `${key}=${value}`)
-}
-
-function toArrayBuffer(bytes: Uint8Array): ArrayBuffer {
-  return bytes.buffer.slice(
-    bytes.byteOffset,
-    bytes.byteOffset + bytes.byteLength
-  ) as ArrayBuffer
 }
 
 function text(chunks: Uint8Array[]): string {

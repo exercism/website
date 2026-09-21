@@ -27,4 +27,37 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
 
     assert_nil user.last_visited_on
   end
+
+  test "sets the request context from the Cloudflare visitor location headers" do
+    get "/", headers: {
+      "CF-IPCountry" => "jp",
+      "CF-IPLatitude" => "35.6837",
+      "CF-IPLongitude" => "139.6805"
+    }
+
+    assert_equal(
+      { country_code: "JP", coordinates: [35.6837, 139.6805] },
+      Exercism.request_context
+    )
+  end
+
+  test "leaves the request context empty without the Cloudflare headers" do
+    get "/"
+
+    assert_equal({ country_code: nil, coordinates: nil }, Exercism.request_context)
+  end
+
+  %w[XX T1].each do |code|
+    test "treats a #{code} country code as unknown" do
+      get "/", headers: { "CF-IPCountry" => code }
+
+      assert_nil Exercism.request_context[:country_code]
+    end
+  end
+
+  test "ignores an incomplete pair of coordinate headers" do
+    get "/", headers: { "CF-IPCountry" => "JP", "CF-IPLatitude" => "35.6837" }
+
+    assert_nil Exercism.request_context[:coordinates]
+  end
 end

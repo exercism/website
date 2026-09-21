@@ -7,7 +7,7 @@ class Metrics::PublishSolutionTest < ActiveSupport::TestCase
       user = create :user, id: 3
       solution = create :concept_solution, id: 4
       occurred_at = Time.current - 5.seconds
-      request_context = { remote_ip: '127.0.0.1' }
+      request_context = { country_code: 'US' }
 
       metric = Metric::Create.(:publish_solution, occurred_at, solution:, track:, user:, request_context:)
 

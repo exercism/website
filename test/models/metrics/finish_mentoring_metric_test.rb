@@ -7,7 +7,7 @@ class Metrics::FinishMentoringTest < ActiveSupport::TestCase
       user = create :user, id: 3
       discussion = create :mentor_discussion, id: 4
       occurred_at = Time.current - 5.seconds
-      request_context = { remote_ip: '127.0.0.1' }
+      request_context = { country_code: 'US' }
 
       metric = Metric::Create.(:finish_mentoring, occurred_at, discussion:, track:, user:, request_context:)
 

@@ -30,25 +30,9 @@ class Metric::Create
   private
   attr_reader :type, :occurred_at, :params, :request_context
 
-  def country_code
-    geocoded&.country_code.presence
-  end
+  def country_code = request_context[:country_code].presence
 
-  def country_name
-    geocoded&.country.presence
-  end
+  def country_name = Country.name_for(country_code)
 
-  def coordinates
-    geocoded&.coordinates.presence
-  end
-
-  memoize
-  def geocoded
-    return if remote_ip.blank?
-
-    Geocoder.search(remote_ip).first
-  end
-
-  memoize
-  def remote_ip = request_context[:remote_ip]
+  def coordinates = request_context[:coordinates].presence
 end

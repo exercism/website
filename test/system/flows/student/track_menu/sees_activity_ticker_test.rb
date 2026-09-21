@@ -8,18 +8,13 @@ module Flows
         include CapybaraHelpers
 
         setup do
-          Geocoder::Lookup::Test.add_stub(
-            "133.200.0.160",
-            [{ 'country_code' => 'JP', 'country' => 'Japan', 'coordinates' => [35.6837, 139.6805] }]
-          )
-
           @user = create :user
           @track = create :track, title: "Ruby"
           create(:hello_world_exercise, track: @track)
           @exercise = create(:concept_exercise, track: @track)
           create(:user_track, user: @user, track: @track)
 
-          @request_context = { remote_ip: "133.200.0.160" }
+          @request_context = { country_code: "JP", coordinates: [35.6837, 139.6805] }
 
           stub_latest_track_forum_threads(@track)
         end

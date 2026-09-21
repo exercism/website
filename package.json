@@ -60,7 +60,7 @@
     "actioncable": "^5.2.4-3",
     "animejs": "^4.5.0",
     "astring": "^1.9.0",
-    "autoprefixer": "latest",
+    "autoprefixer": "^10.6.1",
     "browserslist-to-esbuild": "^1.1.1",
     "canvas-confetti": "^1.9.3",
     "chart.js": "^3.1.0",
@@ -112,7 +112,7 @@
     "mousetrap": "^1.6.5",
     "nim-codemirror-mode": "^0.3.0",
     "pluralize": "^8.0.0",
-    "postcss": "latest",
+    "postcss": "^8.5.28",
     "postcss-cli": "^9.1.0",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-hexrgba": "^2.1.0",
@@ -145,7 +145,7 @@
     "ua-parser-js": "^1.0.37",
     "use-is-mounted": "^1.0.0",
     "use-memory-value": "^1.2.0",
-    "uuid": "^8.3.1",
+    "uuid": "^14.0.0",
     "xstate": "^4.38.2",
     "xxhashjs": "^0.2.2",
     "yaml": "^2.8.0",
@@ -225,6 +225,6 @@
     "prepare": "husky install"
   },
   "resolutions": {
-    "@codemirror/state": "6.5.0"
+    "@codemirror/state": "6.7.5"
   }
 }

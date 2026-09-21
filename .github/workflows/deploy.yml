@@ -29,6 +29,12 @@ env:
   # TODO: (Required) Move this to be a secret
   s3_bucket: "exercism-v3-assets"
 
+  # The only config the Rails image build needs: both are compiled into the
+  # JS, which every browser downloads. The build boots the app without AWS
+  # (see config/image_build.rb), so it has no route to any other setting.
+  website_assets_host: "https://assets.exercism.org"
+  sentry_js_dsn: ${{ vars.SENTRY_JS_DSN }}
+
 on:
   push:
     branches: [main]
@@ -120,8 +126,9 @@ jobs:
       # is what the task definitions below point at.
       #
       # This repository is public, and a pull request from a fork can restore
-      # caches written on main. The build takes no secrets, so there is
-      # nothing in these layers that is not already in the repository.
+      # caches written on main. The build takes no secrets and no AWS
+      # credentials, so these layers hold nothing beyond the repository and
+      # the two public values above.
       - name: Build and Push Rails Docker
         uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc
         with:
@@ -135,6 +142,8 @@ jobs:
             ${{ steps.login_to_ecr.outputs.registry }}/${{ env.ecr_repository_rails }}:latest
           build-args: |
             BUNDLER_VERSION=${{ steps.images.outputs.bundler_version }}
+            WEBSITE_ASSETS_HOST=${{ env.website_assets_host }}
+            SENTRY_JS_DSN=${{ env.sentry_js_dsn }}
           cache-from: type=gha,scope=rails
           cache-to: type=gha,mode=max,scope=rails,timeout=30m
 
@@ -154,6 +163,8 @@ jobs:
           outputs: type=local,dest=assets
           build-args: |
             BUNDLER_VERSION=${{ steps.images.outputs.bundler_version }}
+            WEBSITE_ASSETS_HOST=${{ env.website_assets_host }}
+            SENTRY_JS_DSN=${{ env.sentry_js_dsn }}
           cache-from: type=gha,scope=rails
 
       - name: Upload assets to s3

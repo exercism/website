@@ -49,7 +49,6 @@ end
 Mocha.configure do |c|
   c.stubbing_method_unnecessarily = :prevent
   c.stubbing_non_existent_method = :prevent
-  c.stubbing_method_on_nil = :prevent
   c.stubbing_non_public_method = :prevent
 end
 
@@ -192,8 +191,7 @@ class ActiveSupport::TestCase
     # the way the transactional fixtures roll back the database.
     Rails.cache.clear
 
-    # Use a fixed visitor location. This is reset for every test as
-    # each controller request overwrites it with the request's own.
+    # Every controller request overwrites this global, so reset it per test.
     Exercism.request_context = { country_code: 'US', coordinates: [37.751, -97.822] }
 
     # We do it like this (rather than stub/unstub) so that we

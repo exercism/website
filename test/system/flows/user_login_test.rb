@@ -96,7 +96,7 @@ module Flows
           fill_in "Email", with: "user@exercism.org"
           click_on "Log In"
 
-          assert_text "Invalid Email or password."
+          assert_text "Invalid email or password."
         end
       end
     end

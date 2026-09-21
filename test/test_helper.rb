@@ -26,7 +26,6 @@ Minitest::Retry.use!(retry_count: 3) if ENV["EXERCISM_CI"]
 Mocha.configure do |c|
   c.stubbing_method_unnecessarily = :prevent
   c.stubbing_non_existent_method = :prevent
-  c.stubbing_method_on_nil = :prevent
   c.stubbing_non_public_method = :prevent
 end
 

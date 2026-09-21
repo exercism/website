@@ -70,6 +70,13 @@ RUN bundle exec rails r bin/monitor-manifest
 RUN bundle exec rails assets:precompile
 RUN bin/cleanup-css
 
+# Deployment uploads the compiled assets to S3. They come out of here as a
+# filesystem export of this stage, so extracting them never has to load the
+# multi-gigabyte image into a Docker daemon first. Kept above `runtime` so the
+# default build target is still the image we ship.
+FROM scratch AS assets
+COPY --from=build /opt/exercism/website/public/assets /
+
 FROM ruby:3.4.4-bookworm AS runtime
 
 ENV RAILS_ENV=production

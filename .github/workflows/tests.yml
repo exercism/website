@@ -100,7 +100,7 @@ jobs:
 
       - id: test-files
         env:
-          BATCHES: 11
+          BATCHES: 9
         run: |
           echo "matrix=$(ruby .github/scripts/split-tests.rb ${{ env.BATCHES }} .github/test-timings.json $(find test -name '*_test.rb' -not -path 'test/system/*' -not -path 'test/visual/*'))" >> $GITHUB_OUTPUT
 
@@ -199,7 +199,7 @@ jobs:
 
       - id: test-files
         env:
-          BATCHES: 10
+          BATCHES: 8
         run: |
           echo "matrix=$(ruby .github/scripts/split-tests.rb ${{ env.BATCHES }} .github/test-timings.json $(find test/system -name '*_test.rb'))" >> $GITHUB_OUTPUT
 

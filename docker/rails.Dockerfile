@@ -56,8 +56,13 @@ RUN bundle exec bootsnap precompile --gemfile app/ lib/
 # During deployment the assets are copied from this image and
 # uploaded into s3. The assets left on the machine are not actually
 # used leave the assets on here.
-RUN bundle exec rails r bin/monitor-manifest
-RUN bundle exec rails assets:precompile
+#
+# EXERCISM_IMAGE_BUILD boots the app without AWS (see config/image_build.rb),
+# and these two public values are the only config that ends up in the assets.
+ARG WEBSITE_ASSETS_HOST
+ARG SENTRY_JS_DSN
+RUN EXERCISM_IMAGE_BUILD=1 bundle exec rails r bin/monitor-manifest
+RUN EXERCISM_IMAGE_BUILD=1 bundle exec rails assets:precompile
 RUN bin/cleanup-css
 
 # Deployment uploads the compiled assets to S3. They come out of here as a

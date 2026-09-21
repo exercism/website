@@ -1,6 +1,4 @@
 .c-language-field {
-    max-width: 480px;
-
     & .flag {
         @apply flex-shrink-0 rounded-3;
         width: 24px;

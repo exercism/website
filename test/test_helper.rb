@@ -45,9 +45,6 @@ if ENV["TEST_TIMINGS_FILE"]
   Minitest.extensions << "timings"
 end
 
-# use a fixed visitor location
-Exercism.request_context = { country_code: 'US', coordinates: [37.751, -97.822] }
-
 # Configure mocha to be safe
 Mocha.configure do |c|
   c.stubbing_method_unnecessarily = :prevent
@@ -194,6 +191,10 @@ class ActiveSupport::TestCase
     # anything cached in one test leaks into the next. Nothing rolls it back
     # the way the transactional fixtures roll back the database.
     Rails.cache.clear
+
+    # Use a fixed visitor location. This is reset for every test as
+    # each controller request overwrites it with the request's own.
+    Exercism.request_context = { country_code: 'US', coordinates: [37.751, -97.822] }
 
     # We do it like this (rather than stub/unstub) so that we
     # can have this method globally without disabling mocha's

@@ -100,7 +100,7 @@ jobs:
 
       - id: test-files
         env:
-          BATCHES: 9
+          BATCHES: 11
         run: |
           echo "matrix=$(ruby .github/scripts/split-tests.rb ${{ env.BATCHES }} .github/test-timings.json $(find test -name '*_test.rb' -not -path 'test/system/*' -not -path 'test/visual/*'))" >> $GITHUB_OUTPUT
 
@@ -118,13 +118,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
-
-      - name: Restore service images
-        id: service-images
-        uses: actions/cache/restore@5a3ec84eff668545956fd18022155c47e93e2684
-        with:
-          path: ~/docker-images
-          key: service-images-v1-${{ hashFiles('.dockerimages.json', '.github/scripts/start-services.sh') }}
 
       - name: Start services
         run: .github/scripts/start-services.sh
@@ -146,17 +139,6 @@ jobs:
 
       - name: Wait for services
         run: .github/scripts/wait-for-services.sh
-
-      - name: Save service images
-        if: steps.service-images.outputs.cache-hit != 'true' && strategy.job-index == 0
-        run: .github/scripts/save-service-images.sh
-
-      - name: Cache service images
-        if: steps.service-images.outputs.cache-hit != 'true' && strategy.job-index == 0
-        uses: actions/cache/save@5a3ec84eff668545956fd18022155c47e93e2684
-        with:
-          path: ~/docker-images
-          key: ${{ steps.service-images.outputs.cache-primary-key }}
 
       - name: Setup Exercism services
         env:
@@ -217,7 +199,7 @@ jobs:
 
       - id: test-files
         env:
-          BATCHES: 8
+          BATCHES: 10
         run: |
           echo "matrix=$(ruby .github/scripts/split-tests.rb ${{ env.BATCHES }} .github/test-timings.json $(find test/system -name '*_test.rb'))" >> $GITHUB_OUTPUT
 
@@ -237,13 +219,6 @@ jobs:
       ###
       # Checkout using GitHub's checkout action
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
-
-      - name: Restore service images
-        id: service-images
-        uses: actions/cache/restore@5a3ec84eff668545956fd18022155c47e93e2684
-        with:
-          path: ~/docker-images
-          key: service-images-v1-${{ hashFiles('.dockerimages.json', '.github/scripts/start-services.sh') }}
 
       - name: Start services
         run: .github/scripts/start-services.sh
@@ -267,17 +242,6 @@ jobs:
 
       - name: Wait for services
         run: .github/scripts/wait-for-services.sh
-
-      - name: Save service images
-        if: steps.service-images.outputs.cache-hit != 'true' && strategy.job-index == 0
-        run: .github/scripts/save-service-images.sh
-
-      - name: Cache service images
-        if: steps.service-images.outputs.cache-hit != 'true' && strategy.job-index == 0
-        uses: actions/cache/save@5a3ec84eff668545956fd18022155c47e93e2684
-        with:
-          path: ~/docker-images
-          key: ${{ steps.service-images.outputs.cache-primary-key }}
 
       - name: Setup Exercism services
         env:

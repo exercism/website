@@ -135,3 +135,6 @@ gem 'ruby-openai'
 
 # json 3 drops the quirks_mode option Rails 7.1's encoder passes
 gem 'json', '< 3'
+
+# connection_pool 3 takes keyword arguments only; Rails 7.1's RedisCacheStore passes a hash
+gem 'connection_pool', '< 3'

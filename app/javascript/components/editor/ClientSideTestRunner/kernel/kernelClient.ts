@@ -35,7 +35,6 @@ export interface Interface {
 }
 
 export interface KernelClient {
-  writeFile(path: string, data: ArrayBuffer): void
   readFile(path: string): Request<ArrayBuffer>
   boot(
     sysroot: string,

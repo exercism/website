@@ -22,9 +22,6 @@ GenerateJSConfig.generate!
 # Handle flakey tests in CI
 Minitest::Retry.use!(retry_count: 3) if ENV["EXERCISM_CI"]
 
-# use a fixed visitor location
-Exercism.request_context = { country_code: 'US', coordinates: [37.751, -97.822] }
-
 # Configure mocha to be safe
 Mocha.configure do |c|
   c.stubbing_method_unnecessarily = :prevent
@@ -171,6 +168,9 @@ class ActiveSupport::TestCase
     # anything cached in one test leaks into the next. Nothing rolls it back
     # the way the transactional fixtures roll back the database.
     Rails.cache.clear
+
+    # Every controller request overwrites this global, so reset it per test.
+    Exercism.request_context = { country_code: 'US', coordinates: [37.751, -97.822] }
 
     # We do it like this (rather than stub/unstub) so that we
     # can have this method globally without disabling mocha's

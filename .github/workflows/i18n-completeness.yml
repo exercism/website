@@ -1,0 +1,98 @@
+# Template. Installed as .github/workflows/i18n-completeness.yml in each repo
+# that holds English. Keep the filename: exercism/i18n's rerun-source-check.yml
+# finds this workflow's runs by it. Do not edit a copy in a source repo; edit
+# exercism/i18n/source-repo-workflows/ and re-sync.
+#
+# Fails a PR that changes English until exercism/i18n holds the translation for
+# every production locale, for new and edited text. Once `completeness` is a
+# required status check on `main`, such a PR cannot merge, so users of a
+# production locale never see untranslated text.
+#
+# The logic is in exercism/i18n's scripts/completeness.mjs. This file only
+# fetches what the script needs and runs it, so every installed copy behaves
+# the same.
+#
+# Fork safety:
+#
+#  - It runs on `pull_request`, so fork PRs get a read-only token and no
+#    secrets. None are needed: exercism/i18n and this repo are both public.
+#  - The PR is never checked out. Its merge ref is fetched blobless into a bare
+#    repository and read with `git ls-tree` and `git cat-file`. With no working
+#    tree, no hook, filter, LFS smudge, package script or config file from the
+#    PR is written to the runner or run.
+#  - The only code that runs is exercism/i18n's, at its `main`.
+#  - The website's YAML and TypeScript bundles are parsed as data and never
+#    evaluated (exercism/i18n scripts/lib/ts-object.mjs).
+#
+# What is checked:
+#
+# `refs/pull/<n>/merge` is what `main` would become, and its first parent is
+# the `main` it was merged into. The difference between the two is exactly what
+# the PR changes, and fetching two commits is enough to find it. Only that
+# difference is required, so a PR is not blocked by untranslated English it did
+# not touch. A PR that GitHub cannot merge cleanly has no merge ref, and this
+# check fails with a message saying so.
+
+name: i18n completeness
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: i18n-completeness-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  completeness:
+    runs-on: ubuntu-latest
+    steps:
+      # Checks out exercism/i18n for its scripts and translations. This
+      # repository is never checked out anywhere in this file.
+      #
+      # TODO(iHiD): once locales/ holds a few hundred thousand files, make this a
+      # sparse checkout of scripts/, the two JSON files and the production
+      # locales only.
+      - name: Check out exercism/i18n (scripts and translations)
+        uses: actions/checkout@v7
+        with:
+          repository: exercism/i18n
+          ref: main
+          path: i18n
+          persist-credentials: false
+
+      - uses: pnpm/action-setup@v6
+        with:
+          package_json_file: i18n/package.json
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      # Installs `yaml`, the one dependency, which is only used when this repo
+      # is the website.
+      - name: Install
+        run: pnpm install --frozen-lockfile --dir i18n
+
+      - name: Fetch the PR's merge ref as git objects (no working tree)
+        env:
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+          git init --quiet --bare pr
+          git -C pr remote add origin "https://github.com/${REPO}.git"
+          git -C pr config remote.origin.promisor true
+          git -C pr config remote.origin.partialclonefilter blob:none
+          if ! git -C pr fetch --quiet --depth=2 --filter=blob:none --no-tags origin "refs/pull/${PR}/merge"; then
+            echo "::error::This PR has no merge ref, which usually means it conflicts with main. Resolve the conflict and this check will run."
+            exit 1
+          fi
+
+      - name: Does exercism/i18n hold every translation this PR needs?
+        env:
+          REPO: ${{ github.repository }}
+        run: node i18n/scripts/completeness.mjs --source-repo=pr --repo="$REPO" --head=FETCH_HEAD --base='FETCH_HEAD^1'

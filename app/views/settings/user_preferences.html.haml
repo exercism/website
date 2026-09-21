@@ -5,6 +5,9 @@
     %article
       %h1= t('.general_preferences.heading')
 
+      %section{ id: 'language-preference-form' }
+        = render ReactComponents::Settings::LanguagePreferenceForm.new
+
       %section{ id: 'theme-preferences-form' }
         = render ReactComponents::Settings::ThemePreferenceForm.new
 

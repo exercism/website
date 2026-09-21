@@ -1,5 +1,5 @@
-// i18n-key-prefix: profileForm
-// i18n-namespace: components/settings/ProfileForm.tsx
+// i18n-key-prefix: languagePreferenceForm
+// i18n-namespace: components/settings/LanguagePreferenceForm.tsx
 import React, { useState } from 'react'
 import { Icon } from '@/components/common'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
@@ -23,7 +23,9 @@ function matchesQuery(language: Language, query: string): boolean {
 }
 
 function Flag({ language }: { language: Language }): JSX.Element {
-  return <img src={language.flagUrl} alt="" aria-hidden="true" className="flag" />
+  return (
+    <img src={language.flagUrl} alt="" aria-hidden="true" className="flag" />
+  )
 }
 
 function LanguageLabel({ language }: { language: Language }): JSX.Element {
@@ -53,7 +55,9 @@ export function LanguageField({
   saving: boolean
   onSelect: (locale: string) => void
 }): JSX.Element {
-  const { t } = useAppTranslation('components/settings/ProfileForm.tsx')
+  const { t } = useAppTranslation(
+    'components/settings/LanguagePreferenceForm.tsx'
+  )
   const [editing, setEditing] = useState(false)
   const [query, setQuery] = useState('')
 
@@ -93,7 +97,9 @@ export function LanguageField({
           aria-expanded={editing}
           onClick={() => (editing ? close() : setEditing(true))}
         >
-          {editing ? t('profileForm.languageDone') : t('profileForm.languageEdit')}
+          {editing
+            ? t('languagePreferenceForm.done')
+            : t('languagePreferenceForm.change')}
         </button>
       </div>
 
@@ -111,8 +117,8 @@ export function LanguageField({
               className="search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder={t('profileForm.languageSearchPlaceholder')}
-              aria-label={t('profileForm.languageSearchLabel')}
+              placeholder={t('languagePreferenceForm.searchPlaceholder')}
+              aria-label={t('languagePreferenceForm.searchLabel')}
               autoComplete="off"
             />
           </div>
@@ -125,7 +131,9 @@ export function LanguageField({
                     <button
                       type="button"
                       className="option"
-                      aria-current={language.code === locale ? 'true' : undefined}
+                      aria-current={
+                        language.code === locale ? 'true' : undefined
+                      }
                       disabled={saving}
                       onClick={() => select(language.code)}
                     >
@@ -133,7 +141,7 @@ export function LanguageField({
                       {language.code === locale ? (
                         <Icon
                           icon="checkmark"
-                          alt={t('profileForm.languageSelected')}
+                          alt={t('languagePreferenceForm.selected')}
                           className="check"
                         />
                       ) : null}
@@ -146,7 +154,7 @@ export function LanguageField({
             {comingSoon.length > 0 ? (
               <React.Fragment>
                 <p className="group-heading">
-                  {t('profileForm.languageComingSoon')}
+                  {t('languagePreferenceForm.comingSoon')}
                 </p>
                 <ul className="group">
                   {comingSoon.map((language) => (
@@ -154,7 +162,7 @@ export function LanguageField({
                       <span className="option --disabled">
                         <LanguageLabel language={language} />
                         <span className="badge">
-                          {t('profileForm.languageComingSoonBadge')}
+                          {t('languagePreferenceForm.comingSoonBadge')}
                         </span>
                       </span>
                     </li>
@@ -164,7 +172,7 @@ export function LanguageField({
             ) : null}
 
             {live.length === 0 && comingSoon.length === 0 ? (
-              <p className="empty">{t('profileForm.languageNoMatches')}</p>
+              <p className="empty">{t('languagePreferenceForm.noMatches')}</p>
             ) : null}
           </div>
         </div>

@@ -10,8 +10,6 @@ import { InputWithValidation } from './inputs/InputWithValidation'
 import { createMaxLengthAttributes } from './useInvalidField'
 import { SeniorityLevel } from '../modals/welcome-modal/WelcomeModal'
 import { SingleSelect } from '../common/SingleSelect'
-import { useLanguageField } from './profile-form/useLanguageField'
-import { LanguageField, type Language } from './profile-form/LanguageField'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type User = {
@@ -29,7 +27,6 @@ type Profile = {
 
 type Links = {
   update: string
-  updateLanguage: string
 }
 
 const DEFAULT_ERROR = new Error('Unable to save profile')
@@ -37,26 +34,15 @@ const DEFAULT_ERROR = new Error('Unable to save profile')
 export default function ProfileForm({
   defaultUser,
   defaultProfile,
-  languages,
-  comingSoonLanguages,
-  defaultLocale,
   links,
 }: {
   defaultUser: User
   defaultProfile: Profile | null
-  languages: Language[]
-  comingSoonLanguages: Language[]
-  defaultLocale: string
   links: Links
 }): JSX.Element {
   const [user, setUser] = useState<User>(defaultUser)
   const [profile, setProfile] = useState<Profile | null>(defaultProfile)
   const { t } = useAppTranslation('components/settings/ProfileForm.tsx')
-  const {
-    locale,
-    select: selectLocale,
-    status: localeStatus,
-  } = useLanguageField(defaultLocale, links.updateLanguage)
 
   const { mutation, status, error } = useSettingsMutation<{
     user: User
@@ -104,16 +90,6 @@ export default function ProfileForm({
             {...createMaxLengthAttributes('Location', 255, t)}
           />
         </div>
-      </div>
-      <div className="language field">
-        <label className="label">{t('profileForm.language')}</label>
-        <LanguageField
-          languages={languages}
-          comingSoonLanguages={comingSoonLanguages}
-          locale={locale}
-          saving={localeStatus === 'loading'}
-          onSelect={selectLocale}
-        />
       </div>
       <div className="bio field">
         <label htmlFor="user_bio" className="label">

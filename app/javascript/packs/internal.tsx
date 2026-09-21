@@ -50,7 +50,7 @@ import type { Request } from '@/hooks/request-query'
 import type { Request as MentoringInboxRequest } from '@/components/mentoring/Inbox'
 import type { AutomationProps } from '@/components/mentoring/automation/Representation'
 import type { ThemePreferenceLinks } from '@/components/settings/ThemePreferenceForm'
-import type { Language as ProfileFormLanguage } from '@/components/settings/profile-form/LanguageField'
+import type { LanguagePreferenceFormProps } from '@/components/settings/LanguagePreferenceForm'
 
 import type { Props as EditorProps } from '@/components/editor/Props'
 import type {
@@ -136,6 +136,9 @@ const BootcampFreeCouponForm = lazy(
   () => import('@/components/settings/BootcampFreeCouponForm')
 )
 const TokenForm = lazy(() => import('@/components/settings/TokenForm'))
+const LanguagePreferenceForm = lazy(
+  () => import('@/components/settings/LanguagePreferenceForm')
+)
 const ThemePreferenceForm = lazy(
   () => import('@/components/settings/ThemePreferenceForm')
 )
@@ -460,15 +463,7 @@ initReact({
       <ProfileForm
         defaultUser={data.user}
         defaultProfile={data.profile}
-        languages={camelizeKeysAs<ProfileFormLanguage[]>(data.languages)}
-        comingSoonLanguages={camelizeKeysAs<ProfileFormLanguage[]>(
-          data.coming_soon_languages
-        )}
-        defaultLocale={data.default_locale}
-        links={{
-          update: data.links.update,
-          updateLanguage: data.links.update_language,
-        }}
+        links={data.links}
       />
     </Suspense>
   ),
@@ -558,6 +553,13 @@ initReact({
   'settings-github-syncer-form': (data: GitHubSyncerFormProps) => (
     <Suspense fallback={RenderLoader()}>
       <GitHubSyncerForm {...camelizeKeysAs<GitHubSyncerFormProps>(data)} />
+    </Suspense>
+  ),
+  'settings-language-preference-form': (data: any) => (
+    <Suspense fallback={RenderLoader()}>
+      <LanguagePreferenceForm
+        {...camelizeKeysAs<LanguagePreferenceFormProps>(data)}
+      />
     </Suspense>
   ),
   'settings-theme-preference-form': (data: any) => (

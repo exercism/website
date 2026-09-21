@@ -36,12 +36,27 @@ on:
   schedule:
     - cron: 0 */2 * * *
 
+# Nothing in this job reads or writes the repository through the Actions
+# token: AWS and Cloudflare are reached with their own credentials.
+permissions:
+  contents: read
+
+# A deploy rolls four ECS services and then uploads the Worker, so two runs
+# overlapping would race each other onto the cluster. Runs queue instead of
+# cancelling: a half-finished rollout is worse than a slow one.
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
 jobs:
   deploy:
-    if: github.repository == 'exercism/website-deployer'
+    # Forks of this repository get the workflow file along with everything
+    # else, and org secrets are not shared with them. This keeps the job to
+    # the one repository that is meant to deploy.
+    if: github.repository == 'exercism/website'
 
     name: Upload images to ECR, assets to S3, and definition to ECS
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
       ###############
@@ -51,6 +66,20 @@ jobs:
       ###############
       - name: Checkout
         uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
+
+      # The Rails image, its build stage and the BuildKit cache together need
+      # more than a hosted runner has spare, so the preinstalled toolchains we
+      # never touch are deleted first. This buys about 20GB in under a minute.
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc \
+            /usr/local/.ghcup /opt/hostedtoolcache/CodeQL
+          df -h /
+
+      # The gha cache backend below is unavailable to the default docker
+      # driver, so the builds run on a docker-container builder.
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@e1e17a757e536f70e52b5a12b2e8d1d1c60e04ef
@@ -68,45 +97,64 @@ jobs:
       # Build the Rails image #
       #########################
       #########################
-      - name: Build and Push Rails Docker
-        id: build_rails
+      # The bundler version is computed from the checkout, so it is resolved
+      # here and handed to both of the builds below unchanged: the assets
+      # export only reuses the build stage's cache if its arguments match the
+      # push build's byte for byte.
+      - name: Resolve image tags and build arguments
+        id: images
         env:
           ECR_REGISTRY: ${{ steps.login_to_ecr.outputs.registry }}
-          ECR_REPOSITORY: ${{ env.ecr_repository_rails }}
-          IMAGE_NAME: "${{ steps.login_to_ecr.outputs.registry}}/${{ env.ecr_repository_rails }}:${{ github.sha }}"
-          DOCKERFILE: ${{ env.dockerfile_rails }}
-          GEOIP_LICENSE_KEY: ${{ secrets.GEOIP_LICENSE_KEY }}
-          GEOIP_ACCOUNT_ID: ${{ secrets.GEOIP_ACCOUNT_ID }}
         run: |
-          # Build a docker container and push it to ECR
-          docker build -t $IMAGE_NAME -f $DOCKERFILE \
-            --build-arg GEOIP_LICENSE_KEY=$GEOIP_LICENSE_KEY \
-            --build-arg GEOIP_ACCOUNT_ID=$GEOIP_ACCOUNT_ID \
-            --build-arg GEOIP_CACHE_BUSTER=$(date -d "`date +%Y%m01`" +%Y-%m-%d) \
-            --build-arg BUNDLER_VERSION=$(awk '/BUNDLED WITH/ {getline;$1=$1;print}' Gemfile.lock) \
-            .
-          docker push $IMAGE_NAME
+          {
+            echo "rails=$ECR_REGISTRY/${{ env.ecr_repository_rails }}:${{ github.sha }}"
+            echo "nginx=$ECR_REGISTRY/${{ env.ecr_repository_nginx }}:${{ github.sha }}"
+            echo "bundler_version=$(awk '/BUNDLED WITH/ {getline;$1=$1;print}' Gemfile.lock)"
+          } >> "$GITHUB_OUTPUT"
 
-          # Retag this as the latest
-          docker tag $IMAGE_NAME $ECR_REGISTRY/$ECR_REPOSITORY:latest
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
-
-          # Retag it as website below because the `:` hurts us otherwise
-          docker tag $IMAGE_NAME website
-
-          # Save the output for writing to the task definiton
-          echo "image=${IMAGE_NAME}" >> $GITHUB_OUTPUT
+      # mode=max so the build stage is cached too. Everything slow (bundle
+      # install, yarn install, assets:precompile) happens there, and a cache of
+      # the shipped image alone would still have to rebuild all of it.
+      #
+      # provenance is off so ECR keeps receiving a plain image manifest, which
+      # is what the task definitions below point at.
+      #
+      # This repository is public, and a pull request from a fork can restore
+      # caches written on main. The build takes no secrets, so there is
+      # nothing in these layers that is not already in the repository.
+      - name: Build and Push Rails Docker
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc
+        with:
+          context: .
+          file: ${{ env.dockerfile_rails }}
+          target: runtime
+          push: true
+          provenance: false
+          tags: |
+            ${{ steps.images.outputs.rails }}
+            ${{ steps.login_to_ecr.outputs.registry }}/${{ env.ecr_repository_rails }}:latest
+          build-args: |
+            BUNDLER_VERSION=${{ steps.images.outputs.bundler_version }}
+          cache-from: type=gha,scope=rails
+          cache-to: type=gha,mode=max,scope=rails,timeout=30m
 
       ##################################
       ##################################
       # Extact and upload assets to s3 #
       ##################################
       ##################################
+      # The build stage is still in the builder's cache from the step above, so
+      # this resolves in seconds and writes out only the compiled assets.
       - name: Copy assets from Dockerfile
-        run: |
-          container_id=$(docker create website)
-          docker cp ${container_id}:/opt/exercism/website/public/assets assets
-          docker rm ${container_id}
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc
+        with:
+          context: .
+          file: ${{ env.dockerfile_rails }}
+          target: assets
+          outputs: type=local,dest=assets
+          build-args: |
+            BUNDLER_VERSION=${{ steps.images.outputs.bundler_version }}
+          cache-from: type=gha,scope=rails
 
       - name: Upload assets to s3
         run: |
@@ -117,24 +165,18 @@ jobs:
       # Build the Nginx image #
       #########################
       #########################
+      # No layer cache: this is a base image and one COPY, so restoring a cache
+      # would cost more than the build it saves.
       - name: Build and Push Nginx Docker
-        id: build_nginx
-        env:
-          ECR_REGISTRY: ${{ steps.login_to_ecr.outputs.registry }}
-          ECR_REPOSITORY: ${{ env.ecr_repository_nginx }}
-          IMAGE_NAME: "${{ steps.login_to_ecr.outputs.registry}}/${{ env.ecr_repository_nginx }}:${{ github.sha }}"
-          DOCKERFILE: ${{ env.dockerfile_nginx }}
-        run: |
-          # Build a docker container and push it to ECR
-          docker build -t $IMAGE_NAME -f $DOCKERFILE .
-          docker push $IMAGE_NAME
-
-          # Retag this as the latest
-          docker tag $IMAGE_NAME $ECR_REGISTRY/$ECR_REPOSITORY:latest
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
-
-          # Save the output for writing to the task definiton
-          echo "image=${IMAGE_NAME}" >> $GITHUB_OUTPUT
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc
+        with:
+          context: .
+          file: ${{ env.dockerfile_nginx }}
+          push: true
+          provenance: false
+          tags: |
+            ${{ steps.images.outputs.nginx }}
+            ${{ steps.login_to_ecr.outputs.registry }}/${{ env.ecr_repository_nginx }}:latest
 
       ##################################
       ##################################
@@ -155,7 +197,7 @@ jobs:
         with:
           task-definition: website-task-definition.json
           container-name: puma
-          image: "${{ steps.build_rails.outputs.image }}"
+          image: "${{ steps.images.outputs.rails }}"
 
       - name: Update website | nginx container
         id: update_definition_for_website_nginx
@@ -163,7 +205,7 @@ jobs:
         with:
           task-definition: ${{ steps.update_definition_for_website_puma.outputs.task-definition }}
           container-name: nginx
-          image: "${{ steps.build_nginx.outputs.image }}"
+          image: "${{ steps.images.outputs.nginx }}"
 
       # Push the new definition up to ECS and deploy the new service from it
       - name: Deploy Website
@@ -193,7 +235,7 @@ jobs:
         with:
           task-definition: api-task-definition.json
           container-name: puma
-          image: "${{ steps.build_rails.outputs.image }}"
+          image: "${{ steps.images.outputs.rails }}"
 
       - name: Update api | nginx container
         id: update_definition_for_api_nginx
@@ -201,7 +243,7 @@ jobs:
         with:
           task-definition: ${{ steps.update_definition_for_api_puma.outputs.task-definition }}
           container-name: nginx
-          image: "${{ steps.build_nginx.outputs.image }}"
+          image: "${{ steps.images.outputs.nginx }}"
 
       # Push the new definition up to ECS and deploy the new service from it
       - name: Deploy API
@@ -231,7 +273,7 @@ jobs:
         with:
           task-definition: anycable-task-definition.json
           container-name: anycable_ruby
-          image: "${{ steps.build_rails.outputs.image }}"
+          image: "${{ steps.images.outputs.rails }}"
 
       - name: Update anycable | anycable_go container
         id: update_definition_for_anycable_go
@@ -247,7 +289,7 @@ jobs:
         with:
           task-definition: ${{ steps.update_definition_for_anycable_go.outputs.task-definition }}
           container-name: nginx
-          image: "${{ steps.build_nginx.outputs.image }}"
+          image: "${{ steps.images.outputs.nginx }}"
 
       # Push the new definition up to ECS and deploy the new service from it
       - name: Deploy Anycable
@@ -278,7 +320,7 @@ jobs:
         with:
           task-definition: sidekiq-task-definition.json
           container-name: sidekiq
-          image: "${{ steps.build_rails.outputs.image }}"
+          image: "${{ steps.images.outputs.rails }}"
 
       # Push the new definition up to ECS and deploy a new service from it.
       - name: Deploy Sidekiq
@@ -303,6 +345,6 @@ jobs:
       - name: Deploy locale-redirect Worker
         working-directory: cloudflare/locale-redirect
         env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_WORKERS_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: npx --yes wrangler@4 deploy
+        run: npx --yes wrangler@4.136.0 deploy

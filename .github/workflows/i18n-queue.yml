@@ -1,88 +1,56 @@
-# TEMPLATE. Installed in a repo that holds English, as
-# .github/workflows/i18n-queue.yml. Do not edit a copy in a source repo; edit
+# Template. Installed as .github/workflows/i18n-queue.yml in each repo that
+# holds English. Do not edit a copy in a source repo; edit
 # exercism/i18n/source-repo-workflows/ and re-sync.
 #
-# Tell exercism/i18n that a PR's English is ready to translate.
+# Queues a PR's English changes for translation by opening an issue in
+# exercism/i18n.
 #
-# This is the whole outbound integration with translation: one issue, opened in
-# exercism/i18n when a maintainer says a PR's English is final. ISSUES ARE THE
-# QUEUE. What is outstanding, who has it and when it was finished are questions
-# GitHub already answers, so nothing else answers them a second time.
+# How it works:
 #
-# ## The loop
+#   1. A PR changes English.
+#   2. When the copy is final, a maintainer adds the `ready-to-translate` label.
+#      Nothing is queued without it, whoever opened the PR. Only people with
+#      triage rights can add labels. The label must exist in this repo (see
+#      "Before installing" in exercism/i18n/source-repo-workflows/README.md).
+#   3. This workflow opens an issue in exercism/i18n listing the changed files,
+#      their blob ids and the PR's head commit.
+#   4. Once the translations are on exercism/i18n main, the issue is closed.
+#      That re-runs the PR's `i18n completeness` check, which then passes.
 #
-#   1. a PR here changes English
-#   2. a maintainer adds the `ready-to-translate` label once the copy is final
-#   3. this opens (or rewrites) an issue in exercism/i18n naming the files, their
-#      blob ids, and the PR's head commit at that moment
-#   4. the translations land on exercism/i18n `main`, and the issue is closed
-#   5. closing it re-runs this PR's `i18n completeness` check, which now passes
+# Jobs:
 #
-# ## The label is the gate
+#   queue     Runs when the label is added, and opens the issue (or updates the
+#             open one). Also runs after a push that changed no English, to move
+#             an open issue to the new head commit. A rebase or force-push can
+#             remove the old commit from the PR, and the translator only accepts
+#             commits that are in the PR.
+#   hold      Runs on each push while the label is on. If the push changed
+#             English, it removes the label and asks a maintainer to add it
+#             again once the copy is final.
+#   withdraw  Runs when the label is removed, and closes the open issue as
+#             "not planned". It also runs straight after `hold`, because a label
+#             removed with GITHUB_TOKEN does not trigger an `unlabeled` run.
 #
-# Nothing is queued without `ready-to-translate`, whoever wrote the PR:
-# maintainers' PRs get discussed too, and every issue may cost a translation
-# run. Only someone with triage rights here can add a label, and that is the
-# whole trust boundary. The label must exist in this repo: see "Before
-# installing" in exercism/i18n/source-repo-workflows/README.md.
+# Fork safety:
 #
-# Three jobs:
+# The workflow uses `pull_request_target` because it needs secrets and a token
+# that can edit labels, and fork PRs get neither under `pull_request`. These
+# runs have this repo's tokens, so checking out or running PR code would expose
+# them to the PR's author. To prevent that:
 #
-#   queue     `labeled` with the label: open or rewrite the issue at the head.
-#             Also after `hold` finds a push changed no English: if the issue is
-#             still open, move its sha to the new head (see below).
-#   hold      any push while the label is on: if the push changed English, take
-#             the label off and ask a maintainer to re-apply it once the copy is
-#             final.
-#   withdraw  the label came off (by `hold`, or by hand): close the open issue
-#             as "not planned", so the translator stops seeing it as queued. The
-#             next `ready-to-translate` opens a fresh one at the new head.
+#  - This repository is never checked out. The only checkout is exercism/i18n
+#    at main, for its scripts.
+#  - Changed files are read from the GitHub API (PR files, compare, trees and
+#    blobs) and treated as data. Nothing from the PR is cloned or run.
+#  - exercism/i18n's scripts/english-changes.mjs validates the API responses
+#    and escapes paths before they go into Markdown. The PR title is only
+#    passed as an environment variable, and the issue body is passed as a file.
+#  - Each job's GITHUB_TOKEN has only the permissions that job needs. The
+#    exercism/i18n token is a separate secret.
 #
-# A push that changes no English leaves the label on, but a rebase or
-# force-push can still drop the issue's sha out of the PR, and the translator
-# refuses a sha that is not a commit of the PR. So while the issue is open, such
-# a push rewrites it at the new head, which dispatches the translator again at a
-# sha it will accept. Once the issue is closed there is nothing to move: the
-# English is translated, and the new head's blob ids are the same ones.
-#
-# `hold` asks the same question the issue does ("which English?") through the
-# same script, so there is one list of what counts as English. The label coming
-# off by `hold` raises no `unlabeled` run (GitHub starts nothing for an event
-# made with GITHUB_TOKEN), which is why `withdraw` also runs after `hold`.
-#
-# ## Safe for fork PRs: no job touches PR code
-#
-# It has to run on `pull_request_target`, because a fork's `pull_request` run gets
-# no secrets and no write token, and this needs the token that opens an issue in
-# exercism/i18n and a token that can take a label off this PR.
-# `pull_request_target` runs in the BASE repo's context, which is exactly why the
-# usual mistake with it is fatal: checking the PR out, or running anything from
-# it, hands those tokens to the PR's author. So no job does either, and cannot:
-#
-#  - There is NO checkout of this repository at all, at any ref. The only
-#    checkout is exercism/i18n at `main`.
-#  - What a PR or a push changed comes from GitHub's APIs: the "list pull request
-#    files" API (each file's path AND its git blob sha), the compare API, and the
-#    recursive tree of a commit. A blob id is the key a translation is filed
-#    under, so for whole files those responses are everything there is to say.
-#    For a changed config.json or metadata.toml, the two versions of that one
-#    file are fetched BY BLOB ID through the blob API, so the issue can name the
-#    keys whose English changed. All of it is read as data: nothing is cloned,
-#    fetched with git, written into a working tree, or run.
-#  - Those responses are untrusted data. exercism/i18n's
-#    scripts/english-changes.mjs shape-checks every entry and neutralises paths
-#    before they reach Markdown. The PR's title reaches the shell only as an
-#    environment variable, is never interpolated into a script, and the issue
-#    body is passed as a file.
-#  - "What counts as English" is NOT in this file. It is exercism/i18n's content
-#    type registry, read through that script, so it cannot drift across the
-#    eighty-five repos this template is installed in.
-#  - Each job's GITHUB_TOKEN gets only what that job does: `queue` reads, `hold`
-#    may also write to pull requests (the label and the comment), `withdraw` only
-#    reads. The exercism/i18n token is a separate secret.
-#
-# Whatever a PR's label says, the completeness check still blocks every PR that
-# changes English until the translation is on exercism/i18n `main`.
+# Which files count as English is defined in exercism/i18n
+# (scripts/lib/content-types.mjs and scripts/lib/website-english.mjs), read
+# through english-changes.mjs. This file has no copy of that list.
 
 name: i18n queue
 
@@ -96,20 +64,20 @@ permissions: {}
 jobs:
   queue:
     needs: hold
-    # `always()`, because on a `labeled` event `hold` is skipped.
+    # Needs `always()` because `hold` is skipped on `labeled` events.
     if: ${{ always() && ((github.event.action == 'labeled' && github.event.label.name == 'ready-to-translate') || (github.event.action == 'synchronize' && needs.hold.outputs.english-changed == 'false')) }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
       pull-requests: read
-    # A label taken off and put back quickly leaves one run, writing the newest
-    # SHA. Pushes have their own group, so a push straight after the label cannot
-    # cancel the run that opens the issue.
+    # If the label is removed and added again quickly, only the latest run
+    # continues. Pushes use a separate group, so a push straight after the label
+    # is added cannot cancel the run that opens the issue.
     concurrency:
       group: i18n-queue-${{ github.event.pull_request.number }}-${{ github.event.action }}
       cancel-in-progress: true
     steps:
-      # exercism/i18n, at main. NEVER this repository: see the header.
+      # Checks out exercism/i18n only, never this repository (see the header).
       - name: Check out exercism/i18n (scripts only)
         uses: actions/checkout@v7
         with:
@@ -136,36 +104,35 @@ jobs:
         run: |
           set -euo pipefail
           gh api --paginate "repos/${REPO}/pulls/${PR_NUMBER}/files?per_page=100" > files.json
-          # The base commit's tree, for the OLD blob id of each changed metadata
-          # file (config.json, metadata.toml). An API response, not a checkout.
+          # The base commit's tree (from the API), used to find the old blob id
+          # of each changed config.json or metadata.toml.
           gh api "repos/${REPO}/git/trees/${BASE_SHA}?recursive=1" > base-tree.json
 
-          # Pass 1: which blobs would say WHICH names, titles and blurbs changed.
+          # First pass: list the blobs needed to work out which keys changed.
           node i18n/scripts/english-changes.mjs --repo="$REPO" --pr-files=files.json --base-tree=base-tree.json --needs=needs.txt > /dev/null
 
-          # Each line of needs.txt is 40 hex characters and nothing else: the script
-          # writes only ids it has shape-checked, and the loop checks again. The
-          # blobs are PR content, fetched as DATA through the API, written to files
-          # named by their id, and only ever parsed as JSON or flat TOML.
+          # needs.txt holds only 40-character hex ids, and the loop checks each
+          # line again. The blobs are fetched through the API, saved under their
+          # id, and only parsed as JSON or flat TOML.
           mkdir -p blobs
           while read -r sha; do
             [[ "$sha" =~ ^[0-9a-f]{40}$ ]] || continue
             gh api "repos/${REPO}/git/blobs/${sha}" --jq .content | base64 -d > "blobs/${sha}" || rm -f "blobs/${sha}"
           done < needs.txt
 
-          # Pass 2: the real answer. A blob that could not be fetched only means
-          # its file is reported as changed with its keys unknown.
+          # Second pass: the full result. If a blob could not be fetched, its
+          # file is still reported as changed, without the list of keys.
           node i18n/scripts/english-changes.mjs --repo="$REPO" --pr-files=files.json --base-tree=base-tree.json --blobs-dir=blobs --markdown=changes.md | tee out.txt
           grep '^count=' out.txt >> "$GITHUB_OUTPUT"
 
       - name: Open or update the i18n issue
         if: steps.changed.outputs.count != '0'
         env:
-          # An ORGANISATION secret on `exercism`, visible to every repo: a
-          # fine-grained PAT owned by iHiD with Issues read/write on exercism/i18n
-          # and nothing else. So the issues this opens are authored by `iHiD`.
+          # An organisation secret on `exercism`, available to every repo. It is
+          # a fine-grained PAT owned by iHiD with read/write access to issues on
+          # exercism/i18n and nothing else, so the issues are authored by iHiD.
           GH_TOKEN: ${{ secrets.EXERCISM_I18N_ISSUES_PAT }}
-          # This repo's own token, only to re-read the PR's labels.
+          # This repo's token, used only to re-read the PR's labels.
           READ_TOKEN: ${{ github.token }}
           I18N_REPO: exercism/i18n
           REPO: ${{ github.repository }}
@@ -180,8 +147,8 @@ jobs:
         run: |
           set -euo pipefail
 
-          # Is the label still on? A push that changed English may have taken it
-          # off since this run started (the `hold` job).
+          # Check the label is still on. `hold` may have removed it since this
+          # run started.
           labelled() {
             GH_TOKEN="$READ_TOKEN" gh api "repos/${REPO}/pulls/${PR_NUMBER}" \
               --jq '[.labels[].name] | index("ready-to-translate") != null'
@@ -191,7 +158,7 @@ jobs:
             exit 0
           fi
 
-          # Cut to a sane length, and keep it on one line. It is only ever a label.
+          # Limit the title's length and keep it on one line.
           SAFE_TITLE=$(printf '%s' "$PR_TITLE" | tr -d '\r\n' | cut -c1-120)
           PREFIX="Translate ${REPO}#${PR_NUMBER}:"
           TITLE="${PREFIX} ${SAFE_TITLE}"
@@ -213,7 +180,8 @@ jobs:
           EXISTING=$(gh issue list --repo "$I18N_REPO" --state open --label translation --search "in:title \"${PREFIX}\"" --limit 50 \
             --json number,title | PREFIX="$PREFIX" jq -r 'first(.[] | select(.title | startswith(env.PREFIX)) | .number) // empty')
 
-          # A push that changed no English only moves an issue that is still open.
+          # After a push with no English changes, only update an issue that is
+          # already open.
           if [ "$ACTION" = "synchronize" ] && [ -z "$EXISTING" ]; then
             echo "No open issue for ${REPO}#${PR_NUMBER}; nothing to move to ${HEAD_SHA}."
             exit 0
@@ -232,9 +200,9 @@ jobs:
           fi
           echo "Wrote ${I18N_REPO}#${NUMBER} at ${HEAD_SHA}."
 
-          # Checked again AFTER writing: `hold` takes the label off and THEN looks
-          # for an issue to close, so whichever of the two runs last sees the
-          # other's work, and no issue is left open for a label that is gone.
+          # Check the label again after writing. `hold` removes the label before
+          # looking for an issue to close, so whichever job runs second sees the
+          # other's change, and no issue is left open without the label.
           if [ "$(labelled)" = "false" ] && [[ "$NUMBER" =~ ^[1-9][0-9]*$ ]]; then
             gh issue close "$NUMBER" --repo "$I18N_REPO" --reason "not planned" \
               --comment "Withdrawn: \`ready-to-translate\` came off ${REPO}#${PR_NUMBER} while this was being written."
@@ -243,10 +211,10 @@ jobs:
   hold:
     if: ${{ github.event.action == 'synchronize' && contains(github.event.pull_request.labels.*.name, 'ready-to-translate') }}
     runs-on: ubuntu-latest
-    # No concurrency group: each push is judged on its own `before`..`after`, and
-    # GitHub cancels a PENDING run in a group even with cancel-in-progress off,
-    # which would let a push that changed English go unseen. Two runs taking the
-    # label off at once is settled by the API: only one removal succeeds.
+    # No concurrency group. Each push is checked on its own `before`..`after`,
+    # and GitHub cancels pending runs in a group even with cancel-in-progress
+    # off, which could miss a push that changed English. If two runs remove the
+    # label at once, only one removal succeeds.
     permissions:
       contents: read
       pull-requests: write
@@ -269,9 +237,10 @@ jobs:
         with:
           node-version: 24
 
-      # Did THIS push change English, in files the PR touches? Every input is an
-      # API response, as in `queue`. Anything that cannot be read counts as a
-      # change: the cost of a wrong "yes" is a maintainer re-applying a label.
+      # Checks whether this push changed English in the PR's files. As in
+      # `queue`, every input comes from the API. If anything cannot be read, the
+      # push counts as a change, since the only cost is a maintainer adding the
+      # label again.
       - name: Did this push change English
         id: changed
         env:
@@ -291,8 +260,8 @@ jobs:
           [[ "$BEFORE" =~ ^[0-9a-f]{40}$ && "$AFTER" =~ ^[0-9a-f]{40}$ ]] || unknown "The event names no before and after commit."
 
           gh api --paginate "repos/${REPO}/pulls/${PR_NUMBER}/files?per_page=100" > files.json || unknown "Could not list the PR's files."
-          # What the PR touched as of `before`, so English it has since dropped
-          # still counts.
+          # The files the PR changed as of `before`, so English that this push
+          # removed from the PR still counts.
           gh api "repos/${REPO}/compare/${BASE_SHA}...${BEFORE}" --jq '.files' > before-files.json || unknown "Could not compare the base with ${BEFORE}."
           gh api "repos/${REPO}/git/trees/${BEFORE}?recursive=1" > before-tree.json || unknown "Could not read the tree at ${BEFORE}."
           gh api "repos/${REPO}/git/trees/${AFTER}?recursive=1" > after-tree.json || unknown "Could not read the tree at ${AFTER}."
@@ -300,7 +269,7 @@ jobs:
           ARGS=(--push --repo="$REPO" --pr-files=files.json --before-files=before-files.json --before-tree=before-tree.json --after-tree=after-tree.json)
           node i18n/scripts/english-changes.mjs "${ARGS[@]}" --needs=needs.txt > /dev/null || unknown "english-changes.mjs failed."
 
-          # As in `queue`: 40-hex ids only, fetched as data, parsed as JSON or TOML.
+          # As in `queue`: hex ids only, fetched as data, parsed as JSON or TOML.
           mkdir -p blobs
           while read -r sha; do
             [[ "$sha" =~ ^[0-9a-f]{40}$ ]] || continue
@@ -320,7 +289,8 @@ jobs:
           AFTER: ${{ github.event.after }}
         run: |
           set -euo pipefail
-          # Already gone means another run or a person took it off, and said so.
+          # If the label is already gone, another run or a person removed it, so
+          # there is no comment to add.
           if ! gh api -X DELETE "repos/${REPO}/issues/${PR_NUMBER}/labels/ready-to-translate" > /dev/null; then
             echo "The label was already off; no comment."
             exit 0
@@ -335,16 +305,16 @@ jobs:
 
   withdraw:
     needs: hold
-    # `always()`, because on an `unlabeled` event `hold` is skipped.
+    # Needs `always()` because `hold` is skipped on `unlabeled` events.
     if: ${{ always() && ((github.event.action == 'unlabeled' && github.event.label.name == 'ready-to-translate') || needs.hold.outputs.english-changed == 'true') }}
     runs-on: ubuntu-latest
     permissions:
       pull-requests: read
     steps:
-      # Closed as "not planned", which exercism/i18n's rerun-source-check.yml
-      # ignores, and which takes the issue out of the translator's retry sweep
-      # (it lists open issues only). Left open, it would be translated at a SHA
-      # whose English is no longer the PR's.
+      # Closing as "not planned" means exercism/i18n's rerun-source-check.yml
+      # ignores it, and the translator's retry sweep (which lists open issues
+      # only) skips it. An open issue would be translated at a commit whose
+      # English is out of date.
       - name: Close the open i18n issue as not planned
         env:
           GH_TOKEN: ${{ secrets.EXERCISM_I18N_ISSUES_PAT }}
@@ -355,8 +325,8 @@ jobs:
           WHY: ${{ github.event.action == 'unlabeled' && 'someone took it off by hand' || 'a push changed English' }}
         run: |
           set -euo pipefail
-          # Put straight back on? Then `queue` owns the issue, and closing it here
-          # could close the one it has just written.
+          # If the label has been added back, leave the issue to `queue`. Closing
+          # it here could close the issue `queue` has just written.
           ON=$(GH_TOKEN="$READ_TOKEN" gh api "repos/${REPO}/pulls/${PR_NUMBER}" --jq '[.labels[].name] | index("ready-to-translate") != null')
           if [ "$ON" = "true" ]; then
             echo "ready-to-translate is on ${REPO}#${PR_NUMBER} again; leaving its issue to the queue job."

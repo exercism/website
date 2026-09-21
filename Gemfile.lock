@@ -173,7 +173,6 @@ GEM
       qonfig (>= 0.24)
     cssbundling-rails (1.4.3)
       railties (>= 6.0.0)
-    csv (3.3.5)
     date (3.4.1)
     devise (4.9.4)
       bcrypt (~> 3.0)
@@ -238,9 +237,6 @@ GEM
     fugit (1.11.1)
       et-orbi (~> 1, >= 1.2.11)
       raabro (~> 1.4)
-    geocoder (1.8.5)
-      base64 (>= 0.1.0)
-      csv (>= 3.0.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
     google-protobuf (4.31.1)
@@ -333,7 +329,6 @@ GEM
     mandate (2.2.0)
     marcel (1.0.4)
     matrix (0.4.3)
-    maxminddb (0.1.22)
     mime-types (3.7.0)
       logger
       mime-types-data (~> 3.2025, >= 3.2025.0507)
@@ -687,7 +682,6 @@ DEPENDENCIES
   exercism-config (>= 0.138.0)
   factory_bot_rails
   friendly_id (~> 5.4.0)
-  geocoder (~> 1.8)
   grpc (>= 1.53.0)
   haml_lint
   hamlit
@@ -697,7 +691,6 @@ DEPENDENCIES
   kaminari
   listen (>= 3.0.5, < 4.0)
   mandate (~> 2.0)
-  maxminddb (~> 0.1.22)
   mini_magick
   minitest
   minitest-retry

@@ -82,10 +82,10 @@ jobs:
       # Build the Rails image #
       #########################
       #########################
-      # Two of the build arguments are computed from the checkout, so they are
-      # resolved here and handed to both of the builds below unchanged: the
-      # assets export only reuses the build stage's cache if its arguments
-      # match the push build's byte for byte.
+      # The bundler version is computed from the checkout, so it is resolved
+      # here and handed to both of the builds below unchanged: the assets
+      # export only reuses the build stage's cache if its arguments match the
+      # push build's byte for byte.
       - name: Resolve image tags and build arguments
         id: images
         env:
@@ -94,7 +94,6 @@ jobs:
           {
             echo "rails=$ECR_REGISTRY/${{ env.ecr_repository_rails }}:${{ github.sha }}"
             echo "nginx=$ECR_REGISTRY/${{ env.ecr_repository_nginx }}:${{ github.sha }}"
-            echo "geoip_cache_buster=$(date -d "$(date +%Y%m01)" +%Y-%m-%d)"
             echo "bundler_version=$(awk '/BUNDLED WITH/ {getline;$1=$1;print}' Gemfile.lock)"
           } >> "$GITHUB_OUTPUT"
 
@@ -116,9 +115,6 @@ jobs:
             ${{ steps.images.outputs.rails }}
             ${{ steps.login_to_ecr.outputs.registry }}/${{ env.ecr_repository_rails }}:latest
           build-args: |
-            GEOIP_LICENSE_KEY=${{ secrets.GEOIP_LICENSE_KEY }}
-            GEOIP_ACCOUNT_ID=${{ secrets.GEOIP_ACCOUNT_ID }}
-            GEOIP_CACHE_BUSTER=${{ steps.images.outputs.geoip_cache_buster }}
             BUNDLER_VERSION=${{ steps.images.outputs.bundler_version }}
           cache-from: type=gha,scope=rails
           cache-to: type=gha,mode=max,scope=rails,timeout=30m
@@ -138,9 +134,6 @@ jobs:
           target: assets
           outputs: type=local,dest=assets
           build-args: |
-            GEOIP_LICENSE_KEY=${{ secrets.GEOIP_LICENSE_KEY }}
-            GEOIP_ACCOUNT_ID=${{ secrets.GEOIP_ACCOUNT_ID }}
-            GEOIP_CACHE_BUSTER=${{ steps.images.outputs.geoip_cache_buster }}
             BUNDLER_VERSION=${{ steps.images.outputs.bundler_version }}
           cache-from: type=gha,scope=rails
 

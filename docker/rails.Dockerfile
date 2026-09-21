@@ -1,8 +1,5 @@
 FROM ruby:3.4.4-bookworm AS build
 
-ARG GEOIP_ACCOUNT_ID
-ARG GEOIP_LICENSE_KEY
-ARG GEOIP_CACHE_BUSTER
 ARG BUNDLER_VERSION
 ENV RAILS_ENV=production
 ENV NODE_ENV=production
@@ -49,14 +46,7 @@ RUN bundle install
 COPY package.json yarn.lock ./
 RUN yarn install
 
-# Pause to download GeoIP
-WORKDIR /usr/share/GeoIP
-RUN curl -J -L -u "${GEOIP_ACCOUNT_ID}:${GEOIP_LICENSE_KEY}" --output geolite2-city.tar.gz 'https://download.maxmind.com/geoip/databases/GeoLite2-City/download?suffix=tar.gz' && \
-    tar -xvf geolite2-city.tar.gz --strip-components=1 --wildcards '*/GeoLite2-City.mmdb' && \
-    rm geolite2-city.tar.gz
-
 # Copy everything over now
-WORKDIR /opt/exercism/website
 COPY . ./
 
 # Speed things up by precompiling bootsnap
@@ -90,7 +80,6 @@ RUN usermod -a -G exercism-git root
 
 COPY --from=build /usr/local/bundle /usr/local/bundle
 COPY --from=build /opt/exercism/website /opt/exercism/website
-COPY --from=build /usr/share/GeoIP /usr/share/GeoIP
 
 WORKDIR /opt/exercism/website
 

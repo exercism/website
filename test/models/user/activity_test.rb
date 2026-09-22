@@ -83,14 +83,16 @@ class User::ActivityTest < ActiveSupport::TestCase
     catalog = { user_activities: { started_exercise: { "1": "Elkezdted: <strong>%{exercise_title}</strong>" } } } # rubocop:disable Style/FormatStringToken
 
     with_published_translations(hu: { backend: catalog }) do
+      publish_translated_metadata!(:hu, "track", { "exercise:strings:name" => "Szövegek" })
+
       I18n.with_locale(:hu) do
         activity = User::Activity.find(activity.id)
-        assert_equal "Elkezdted: <strong>Strings</strong>", activity.rendering_data[:text]
+        assert_equal "Elkezdted: <strong>Szövegek</strong>", activity.rendering_data[:text]
         assert_equal "/hu/tracks/ruby/exercises/strings", activity.rendering_data[:url]
 
         activity = User::Activity.find(activity.id)
         activity.expects(:cacheable_rendering_data).never
-        assert_equal "Elkezdted: <strong>Strings</strong>", activity.rendering_data[:text]
+        assert_equal "Elkezdted: <strong>Szövegek</strong>", activity.rendering_data[:text]
       end
 
       activity = User::Activity.find(activity.id)

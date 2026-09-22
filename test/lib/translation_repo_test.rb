@@ -58,11 +58,68 @@ class TranslationRepoTest < ActiveSupport::TestCase
     end
   end
 
-  test "the cache key is the locale and the version, and english needs neither" do
-    with_published_translations({}) do
-      assert_equal "hu-#{TranslationRepo.version}", TranslationRepo.cache_key(:hu)
+  test "the cache key is the locale and its own tree sha, and english needs neither" do
+    with_git_translations_checkout do
+      write_git_translation!("locales/hu/website/backend.json", { greeting: "Szia" }.to_json)
+
+      key = TranslationRepo.cache_key(:hu)
+
+      assert_match(/\Ahu-[0-9a-f]{40}\z/, key)
       assert_equal "en", TranslationRepo.cache_key(:en)
-      I18n.with_locale(:hu) { assert_equal "hu-#{TranslationRepo.version}", TranslationRepo.cache_key }
+      I18n.with_locale(:hu) { assert_equal key, TranslationRepo.cache_key }
+      I18n.with_locale(:en) { assert_equal "en", TranslationRepo.cache_key }
+    end
+  end
+
+  test "the cache key changes for any file under the locale, including a content blob keeping its name" do
+    with_git_translations_checkout do
+      write_git_translation!("locales/hu/website/backend.json", { greeting: "Szia" }.to_json)
+      write_git_translation!("locales/hu/content/ab/cd/ef0123456789abcdef0123456789abcdef01.md", "Első")
+
+      key = TranslationRepo.cache_key(:hu)
+
+      write_git_translation!("locales/hu/content/ab/cd/ef0123456789abcdef0123456789abcdef01.md", "Javított")
+      corrected = TranslationRepo.cache_key(:hu)
+
+      refute_equal key, corrected
+
+      write_git_translation!("locales/hu/website/backend.json", { greeting: "Helló" }.to_json)
+
+      refute_equal corrected, TranslationRepo.cache_key(:hu)
+    end
+  end
+
+  test "the cache key does not change when a commit touches nothing under the locale" do
+    with_git_translations_checkout do
+      write_git_translation!("locales/hu/website/backend.json", { greeting: "Szia" }.to_json)
+
+      key = TranslationRepo.cache_key(:hu)
+      version = TranslationRepo.version
+
+      write_git_translation!("locales/sl/website/backend.json", { greeting: "Zdravo" }.to_json)
+
+      refute_equal version, TranslationRepo.version
+      assert_equal key, TranslationRepo.cache_key(:hu)
+    end
+  end
+
+  test "a locale with no directory in the checkout is just the locale" do
+    with_git_translations_checkout do
+      write_git_translation!("locales/hu/website/backend.json", { greeting: "Szia" }.to_json)
+
+      assert_equal "sl", TranslationRepo.cache_key(:sl)
+    end
+  end
+
+  test "the locale's tree sha is read once per version" do
+    with_git_translations_checkout do
+      write_git_translation!("locales/hu/website/backend.json", { greeting: "Szia" }.to_json)
+
+      key = TranslationRepo.cache_key(:hu)
+
+      Open3.expects(:capture2e).never
+
+      assert_equal key, TranslationRepo.cache_key(:hu)
     end
   end
 

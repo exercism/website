@@ -274,6 +274,53 @@ class ActiveSupport::TestCase
     commit_translations!
   end
 
+  # Like with_published_translations, but backed by a real git checkout
+  def with_git_translations_checkout
+    Dir.mktmpdir do |dir|
+      root = Pathname.new(dir) / "i18n"
+      FileUtils.mkdir_p(root)
+      TranslationRepo.stubs(root:)
+
+      begin
+        git_translations!("init", "--initial-branch=main")
+        git_translations!("config", "user.email", "test@exercism.org")
+        git_translations!("config", "user.name", "Test")
+        git_translations!("config", "commit.gpgsign", "false")
+        commit_git_translations!
+        I18n.reload!
+
+        yield
+      ensure
+        TranslationRepo.expire!
+        TranslationRepo.unstub(:root)
+        I18n.reload!
+      end
+    end
+  end
+
+  # Call inside with_git_translations_checkout
+  def write_git_translation!(path, text)
+    file = TranslationRepo.root / path
+    FileUtils.mkdir_p(file.dirname)
+    File.write(file, text)
+    commit_git_translations!
+  end
+
+  # Call inside with_git_translations_checkout
+  def commit_git_translations!
+    git_translations!("add", "--all")
+    git_translations!("commit", "--allow-empty", "--message", "translations")
+    TranslationRepo.expire!
+    TranslationRepo.version
+  end
+
+  def git_translations!(*args)
+    output, status = Open3.capture2e("git", *args, chdir: TranslationRepo.root.to_s)
+    raise "git #{args.first} failed: #{output}" unless status.success?
+
+    output
+  end
+
   def commit_translations!(sha = SecureRandom.hex(20))
     git = TranslationRepo.root / ".git"
     FileUtils.mkdir_p(git / "refs" / "heads")

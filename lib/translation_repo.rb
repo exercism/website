@@ -1,5 +1,6 @@
 require 'json'
 require 'digest'
+require 'open3'
 
 module TranslationRepo
   URL = "https://github.com/exercism/i18n.git".freeze
@@ -23,7 +24,7 @@ module TranslationRepo
     def cache_key(locale = I18n.locale)
       return locale.to_s if locale.to_sym == I18n.default_locale
 
-      [locale, version].compact.join("-")
+      [locale, locale_tree_sha(locale)].compact.join("-")
     end
 
     def backend_catalog_path(locale) = root / "locales" / locale.to_s / "website" / "backend.json"
@@ -70,6 +71,7 @@ module TranslationRepo
       @version_read_at = nil
       @frontend_catalog_hashes = nil
       @metadata_catalogs = nil
+      @locale_tree_shas = nil
     end
 
     private
@@ -77,6 +79,29 @@ module TranslationRepo
       version = self.version
       @frontend_catalog_hashes = [version, {}] unless @frontend_catalog_hashes && @frontend_catalog_hashes.first == version
       @frontend_catalog_hashes.last
+    end
+
+    def locale_tree_sha(locale)
+      shas = locale_tree_shas
+      return shas[locale.to_sym] if shas.key?(locale.to_sym)
+
+      shas[locale.to_sym] = read_locale_tree_sha(locale)
+    end
+
+    def locale_tree_shas
+      version = self.version
+      @locale_tree_shas = [version, {}] unless @locale_tree_shas && @locale_tree_shas.first == version
+      @locale_tree_shas.last
+    end
+
+    def read_locale_tree_sha(locale)
+      output, status = Open3.capture2e("git", "rev-parse", "HEAD:locales/#{locale}", chdir: root.to_s)
+      return unless status.success?
+
+      sha = output.strip
+      sha if OID_FORMAT.match?(sha)
+    rescue Errno::ENOENT, Errno::ENOTDIR
+      nil
     end
 
     def read_head

@@ -30,7 +30,10 @@ module LocaleRouting
     locale unless locale.blank? || locale.to_sym == I18n.default_locale
   end
 
-  def user_locale = normalize_locale(current_user&.locale)
+  def user_locale = normalize_locale(locale_user&.locale)
+
+  # Devise's own actions authenticate from params, and must do so themselves.
+  def locale_user = devise_controller? ? warden.user(:user) : current_user
 
   # Move an anonymous visitor to the locale they want, the first time they
   # arrive. 302 rather than 301, and uncacheable: which locale a URL serves is

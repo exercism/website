@@ -432,6 +432,8 @@ module Components
 
           sign_in!(user)
           visit edit_track_exercise_path(solution.track, solution.exercise)
+          # The editor loads the existing submission, so the tests only run once the files change.
+          fill_in_editor "# changed"
           click_on "Run Tests"
           wait_for_submission
           2.times { wait_for_websockets }

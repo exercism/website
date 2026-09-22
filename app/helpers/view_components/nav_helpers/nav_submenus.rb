@@ -12,7 +12,7 @@ module ViewComponents
         {
           title: -> { I18n.t("components.nav_submenus.learn.coding_fundamentals.title") },
           description: -> { I18n.t("components.nav_submenus.learn.coding_fundamentals.description") },
-          path: "https://jiki.io",
+          path: -> { Jiki.url },
           icon: 'nav-coding-fundamentals',
           view: :coding_fundamentals
         },

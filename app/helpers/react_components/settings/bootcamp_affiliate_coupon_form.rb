@@ -9,7 +9,8 @@ module ReactComponents
           context:,
           links: {
             insiders_path: Exercism::Routes.insiders_path,
-            bootcamp_affiliate_coupon_code: Exercism::Routes.bootcamp_affiliate_coupon_code_api_settings_user_preferences_url
+            bootcamp_affiliate_coupon_code: Exercism::Routes.bootcamp_affiliate_coupon_code_api_settings_user_preferences_url,
+            jiki: Jiki.url(query: "utm_source=exercism&utm_medium=affiliate_settings")
           }
         })
       end

@@ -10,7 +10,7 @@ module ViewComponents
               icon_filter = element[:icon_filter] || 'none'
 
               content << tag.li(
-                conditional_link(element[:path], external: element[:external]) do
+                conditional_link(nav_element_path(element[:path]), external: element[:external]) do
                   nav_dropdown_element(element[:title]&.(), element[:description]&.(), element[:icon], icon_filter,
                     element[:external], element[:is_new])
                 end << view
@@ -19,6 +19,8 @@ module ViewComponents
           end
         end
       end
+
+      def nav_element_path(path) = path.respond_to?(:call) ? path.() : path
 
       def nav_dropdown_element(title, description, icon, icon_filter, external, is_new)
         tag.div(class: "nav-dropdown-element", role: 'menuitem') do

@@ -545,6 +545,7 @@ initReact({
         links={camelizeKeysAs<{
           insidersPath: string
           bootcampAffiliateCouponCode: string
+          jiki: string
         }>(data.links)}
       />
     </Suspense>

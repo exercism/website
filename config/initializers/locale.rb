@@ -10,4 +10,4 @@
   I18n.load_path += Dir[Rails.root.join('config', 'locales', category, '*.{rb,yml}')]
 end
 
-I18n.available_locales = %i[en hu nl]
+LOCALE_ROUTE_CONSTRAINT = Regexp.union((I18n.available_locales - [I18n.default_locale]).map(&:to_s)).freeze

@@ -47,6 +47,7 @@ export default function WelcomeToInsidersModal({
     <Modal
       cover={true}
       open={open}
+      style={{ content: { maxWidth: '1180px' } }}
       {...props}
       onClose={() => null}
       theme="dark"

@@ -103,11 +103,24 @@ class TranslationRepoTest < ActiveSupport::TestCase
     end
   end
 
-  test "a locale with no directory in the checkout is just the locale" do
+  test "a locale with no directory in the checkout falls back to the version" do
     with_git_translations_checkout do
       write_git_translation!("locales/hu/website/backend.json", { greeting: "Szia" }.to_json)
 
-      assert_equal "sl", TranslationRepo.cache_key(:sl)
+      assert_equal "sl-#{TranslationRepo.version}", TranslationRepo.cache_key(:sl)
+    end
+  end
+
+  test "a checkout whose tree shas cannot be read falls back to the version" do
+    with_published_translations(hu: { backend: { greeting: "Szia" } }) do
+      assert_equal "hu-#{TranslationRepo.version}", TranslationRepo.cache_key(:hu)
+
+      previous = TranslationRepo.version
+      commit_translations!
+
+      refute_equal previous, TranslationRepo.version
+      assert_equal "hu-#{TranslationRepo.version}", TranslationRepo.cache_key(:hu)
+      assert_equal "en", TranslationRepo.cache_key(:en)
     end
   end
 

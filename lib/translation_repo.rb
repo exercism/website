@@ -24,7 +24,7 @@ module TranslationRepo
     def cache_key(locale = I18n.locale)
       return locale.to_s if locale.to_sym == I18n.default_locale
 
-      [locale, locale_tree_sha(locale)].compact.join("-")
+      [locale, locale_tree_sha(locale) || version].compact.join("-")
     end
 
     def backend_catalog_path(locale) = root / "locales" / locale.to_s / "website" / "backend.json"

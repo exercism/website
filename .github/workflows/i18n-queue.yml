@@ -1,9 +1,9 @@
 # Template. Installed as .github/workflows/i18n-queue.yml in each repo that
-# holds English. Do not edit a copy in a source repo; edit
+# holds English. Don't edit a copy in a source repo. Edit
 # exercism/i18n/source-repo-workflows/ and re-sync.
 #
-# Queues a PR's English changes for translation by opening an issue in
-# exercism/i18n.
+# This workflow queues a PR's English changes for translation by opening an
+# issue in exercism/i18n.
 #
 # How it works:
 #
@@ -12,24 +12,29 @@
 #      Nothing is queued without it, whoever opened the PR. Only people with
 #      triage rights can add labels. The label must exist in this repo (see
 #      "Before installing" in exercism/i18n/source-repo-workflows/README.md).
-#   3. This workflow opens an issue in exercism/i18n listing the changed files,
-#      their blob ids and the PR's head commit.
-#   4. Once the translations are on exercism/i18n main, the issue is closed.
-#      That re-runs the PR's `i18n completeness` check, which then passes.
+#   3. This workflow opens an issue in exercism/i18n that lists the changed
+#      files, their blob ids and the PR's head commit.
+#   4. The translator translates the files, pushes them to exercism/i18n main
+#      and closes the issue. Closing the issue re-runs the PR's
+#      `i18n completeness` check, which then passes.
+#
+# The i18n issue records each step. The PR gets one reply, from
+# exercism/i18n's rerun-source-check.yml, once the translations have landed and
+# the check has re-run, so the maintainer knows the PR can be merged.
 #
 # Jobs:
 #
 #   queue     Runs when the label is added, and opens the issue (or updates the
-#             open one). Also runs after a push that changed no English, to move
-#             an open issue to the new head commit. A rebase or force-push can
-#             remove the old commit from the PR, and the translator only accepts
-#             commits that are in the PR.
+#             open one). It also runs after a push that changed no English, to
+#             move an open issue to the new head commit. A rebase or force-push
+#             can remove the old commit from the PR, and the translator only
+#             accepts commits that are in the PR.
 #   hold      Runs on each push while the label is on. If the push changed
 #             English, it removes the label and asks a maintainer to add it
 #             again once the copy is final.
 #   withdraw  Runs when the label is removed, and closes the open issue as
 #             "not planned". It also runs straight after `hold`, because a label
-#             removed with GITHUB_TOKEN does not trigger an `unlabeled` run.
+#             removed with GITHUB_TOKEN doesn't trigger an `unlabeled` run.
 #
 # Fork safety:
 #
@@ -38,19 +43,21 @@
 # runs have this repo's tokens, so checking out or running PR code would expose
 # them to the PR's author. To prevent that:
 #
-#  - This repository is never checked out. The only checkout is exercism/i18n
-#    at main, for its scripts.
-#  - Changed files are read from the GitHub API (PR files, compare, trees and
-#    blobs) and treated as data. Nothing from the PR is cloned or run.
+#  - The workflow never checks out this repository. It only checks out
+#    exercism/i18n at main, for its scripts.
+#  - The workflow reads the changed files from the GitHub API (PR files,
+#    compare, trees and blobs) and treats them as data. It never clones or runs
+#    anything from the PR.
 #  - exercism/i18n's scripts/english-changes.mjs validates the API responses
-#    and escapes paths before they go into Markdown. The PR title is only
-#    passed as an environment variable, and the issue body is passed as a file.
+#    and escapes paths before they go into Markdown. The workflow passes the PR
+#    title only as an environment variable, and the issue body as a file.
 #  - Each job's GITHUB_TOKEN has only the permissions that job needs. The
-#    exercism/i18n token is a separate secret.
+#    jobs that read the PR's files have read access only, except `hold`, which
+#    removes the label. The exercism/i18n token is a separate secret.
 #
-# Which files count as English is defined in exercism/i18n
-# (scripts/lib/content-types.mjs and scripts/lib/website-english.mjs), read
-# through english-changes.mjs. This file has no copy of that list.
+# exercism/i18n defines which files count as English, in
+# scripts/lib/content-types.mjs and scripts/lib/website-english.mjs.
+# english-changes.mjs reads those lists, so this workflow keeps no copy of them.
 
 name: i18n queue
 
@@ -77,7 +84,7 @@ jobs:
       group: i18n-queue-${{ github.event.pull_request.number }}-${{ github.event.action }}
       cancel-in-progress: true
     steps:
-      # Checks out exercism/i18n only, never this repository (see the header).
+      # Checks out exercism/i18n only. This repository is never checked out.
       - name: Check out exercism/i18n (scripts only)
         uses: actions/checkout@v7
         with:
@@ -126,6 +133,7 @@ jobs:
           grep '^count=' out.txt >> "$GITHUB_OUTPUT"
 
       - name: Open or update the i18n issue
+        id: issue
         if: steps.changed.outputs.count != '0'
         env:
           # An organisation secret on `exercism`, available to every repo. It is
@@ -260,8 +268,8 @@ jobs:
           [[ "$BEFORE" =~ ^[0-9a-f]{40}$ && "$AFTER" =~ ^[0-9a-f]{40}$ ]] || unknown "The event names no before and after commit."
 
           gh api --paginate "repos/${REPO}/pulls/${PR_NUMBER}/files?per_page=100" > files.json || unknown "Could not list the PR's files."
-          # The files the PR changed as of `before`, so English that this push
-          # removed from the PR still counts.
+          # Lists the files the PR changed as of `before`, so English that this
+          # push removed from the PR still counts.
           gh api "repos/${REPO}/compare/${BASE_SHA}...${BEFORE}" --jq '.files' > before-files.json || unknown "Could not compare the base with ${BEFORE}."
           gh api "repos/${REPO}/git/trees/${BEFORE}?recursive=1" > before-tree.json || unknown "Could not read the tree at ${BEFORE}."
           gh api "repos/${REPO}/git/trees/${AFTER}?recursive=1" > after-tree.json || unknown "Could not read the tree at ${AFTER}."

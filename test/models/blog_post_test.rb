@@ -47,4 +47,29 @@ class BlogPostTest < ActiveSupport::TestCase
     assert_equal "/my-assets/assets/graphics/blog-placeholder-article-242f2203f76126e572ded5bd56d8d7942e0475cf.svg",
       blog_post.image_url
   end
+
+  test "a blog post's title, marketing copy and description come from the blog catalog in a non-default locale" do
+    post = create :blog_post, slug: "hello", title: "Hello", marketing_copy: "Read this"
+    described = create :blog_post, slug: "described", title: "Described", marketing_copy: "Copy", description: "A description"
+
+    with_published_translations({}) do
+      publish_translated_metadata!(:hu, "blog", {
+        "post:hello:title" => "Szia",
+        "post:hello:marketing_copy" => "Olvasd el",
+        "post:described:title" => "Leírt",
+        "post:described:marketing_copy" => "Szöveg",
+        "post:described:description" => "Egy leírás"
+      })
+
+      assert_equal "Hello", post.title
+      assert_equal "Read this", post.description
+
+      I18n.with_locale(:hu) do
+        assert_equal "Szia", post.title
+        assert_equal "Olvasd el", post.marketing_copy
+        assert_equal "Olvasd el", post.description
+        assert_equal "Egy leírás", described.description
+      end
+    end
+  end
 end

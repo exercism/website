@@ -3,7 +3,7 @@ class Cloudflare::PurgeUrls
 
   queue_as :background
 
-  initialize_with :urls
+  initialize_with :urls, all_locales: false
 
   def call
     # Secrets carry fake values outside production, so the blank checks below
@@ -15,10 +15,18 @@ class Cloudflare::PurgeUrls
     return if zone_id.blank?
     return if api_token.blank?
 
-    urls.compact.uniq.each_slice(BATCH_SIZE) { |batch| purge!(batch) }
+    urls_to_purge.compact.uniq.each_slice(BATCH_SIZE) { |batch| purge!(batch) }
   end
 
   private
+  # Each locale is a separate URL and so a separate object in the cache, which
+  # means a page that changes has to be purged once per served locale.
+  def urls_to_purge
+    return urls unless all_locales
+
+    urls.compact.flat_map { |url| I18n.available_locales.map { |locale| Locale::SwapInUrl.(url, locale) } }
+  end
+
   def purge!(batch)
     RestClient.post(
       "https://api.cloudflare.com/client/v4/zones/#{zone_id}/purge_cache",

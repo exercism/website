@@ -41,6 +41,34 @@ class Cloudflare::PurgeUrlsTest < ActiveSupport::TestCase
     end
   end
 
+  test "purges every served locale when asked" do
+    with_cloudflare_secrets do
+      with_available_locales(:hu) do
+        stub = stub_request(:post, "https://api.cloudflare.com/client/v4/zones/zone-123/purge_cache").
+          with(body: { files: ["https://exercism.org/tracks", "https://exercism.org/hu/tracks"] }.to_json).
+          to_return(status: 200, body: { success: true }.to_json)
+
+        Cloudflare::PurgeUrls.(["https://exercism.org/tracks", nil], all_locales: true)
+
+        assert_requested stub
+      end
+    end
+  end
+
+  test "purges only the unprefixed url by default" do
+    with_cloudflare_secrets do
+      with_available_locales(:hu) do
+        stub = stub_request(:post, "https://api.cloudflare.com/client/v4/zones/zone-123/purge_cache").
+          with(body: { files: ["https://exercism.org/tracks"] }.to_json).
+          to_return(status: 200, body: { success: true }.to_json)
+
+        Cloudflare::PurgeUrls.(["https://exercism.org/tracks"])
+
+        assert_requested stub
+      end
+    end
+  end
+
   test "does nothing without urls" do
     with_cloudflare_secrets do
       Cloudflare::PurgeUrls.([])

@@ -11,7 +11,8 @@ class Track::InvalidateCloudflareCacheTest < ActiveSupport::TestCase
         "https://test.exercism.org/tracks/ruby/concepts",
         "https://test.exercism.org/tracks/ruby/build",
         "https://test.exercism.org/tracks"
-      ]
+      ],
+      all_locales: true
     )
 
     Track::InvalidateCloudflareCache.(track)

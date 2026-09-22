@@ -9,7 +9,8 @@ class Concept::InvalidateCloudflareCacheTest < ActiveSupport::TestCase
       [
         "https://test.exercism.org/tracks/ruby/concepts/strings",
         "https://test.exercism.org/tracks/ruby/concepts"
-      ]
+      ],
+      all_locales: true
     )
 
     Concept::InvalidateCloudflareCache.(concept)

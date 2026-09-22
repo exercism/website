@@ -46,7 +46,7 @@ export const AnalyzerFeedback = ({
           {t('analyzerFeedback.learnMore')}
           <Icon
             icon="external-link"
-            alt="Opens in a new tab"
+            alt={t('analyzerFeedback.opensInANewTab')}
             className="filter-lightBlue"
           />
         </a>

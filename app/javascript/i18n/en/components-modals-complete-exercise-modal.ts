@@ -1,3 +1,4 @@
+// namespace: components/modals/complete-exercise-modal
 export default {
   'exerciseCompletedModal.youCompleted': "You've completed {{exerciseTitle}}!",
   'exerciseCompletedModal.awesomeWorkLearning':
@@ -51,4 +52,5 @@ export default {
   'publishSolutionForm.noMarkComplete':
     'No, I just want to mark the exercise as complete.',
   'publishSolutionForm.confirm': 'Confirm',
+  'publishSolutionForm.loading': 'loading',
 }

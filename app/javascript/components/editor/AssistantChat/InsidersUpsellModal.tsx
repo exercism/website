@@ -1,9 +1,13 @@
+// i18n-key-prefix: insidersUpsellModal
+// i18n-namespace: components/editor/AssistantChat
 import React, { useCallback, useState } from 'react'
 import currency from 'currency.js'
 import { GraphicalIcon } from '@/components/common'
 import { Modal } from '@/components/modals'
 import { ExercismStripeElements } from '@/components/donations/ExercismStripeElements'
 import { StripeForm } from '@/components/donations/StripeForm'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 import type { InsidersUpsellConfig } from './types'
 
 // Insiders is a donation-funded tier, so joining from the editor runs exactly
@@ -72,28 +76,33 @@ function LinkOutContent({
 }: {
   config: InsidersUpsellConfig
 }): JSX.Element {
+  const { t } = useAppTranslation('components/editor/AssistantChat')
+
   return (
     <>
       <UpsellHeader />
       <a href={config.links.join} className="btn-l btn-primary w-100">
-        Become an Insider
+        {t('insidersUpsellModal.becomeAnInsider')}
       </a>
       <p className="text-p-small mt-20">
-        You&apos;ll be brought straight back to this exercise afterwards; your
-        work is saved as you type.
+        {t('insidersUpsellModal.broughtStraightBack')}
       </p>
     </>
   )
 }
 
 function UpsellHeader(): JSX.Element {
+  const { t } = useAppTranslation('components/editor/AssistantChat')
+
   return (
     <>
       <div className="flex flex-row items-center gap-32 mb-12">
         <div>
-          <h2 className="text-h2 mb-2">Unlock your AI Assistant</h2>
+          <h2 className="text-h2 mb-2">
+            {t('insidersUpsellModal.unlockYourAiAssistant')}
+          </h2>
           <p className="text-p-large">
-            Become an Insider for unlimited conversations on every exercise.
+            {t('insidersUpsellModal.becomeAnInsiderFor')}
           </p>
         </div>
         <GraphicalIcon
@@ -103,10 +112,14 @@ function UpsellHeader(): JSX.Element {
         />
       </div>
       <p className="text-p-base mb-20">
-        Exercism is funded by donations. Your{' '}
-        <strong>{MONTHLY_AMOUNT.format()}</strong> a month keeps Exercism free
-        for everyone, and unlocks the AI Assistant, dark mode, an ad-free
-        experience and more.
+        <Trans
+          ns="components/editor/AssistantChat"
+          i18nKey="insidersUpsellModal.fundedByDonations"
+          values={{ amount: MONTHLY_AMOUNT.format() }}
+          components={{
+            strong: <strong />,
+          }}
+        />
       </p>
 
       <hr className="mb-20 border-borderColor5" />
@@ -121,6 +134,8 @@ function PaymentContent({
   config: InsidersUpsellConfig
   onSuccess: () => void
 }): JSX.Element {
+  const { t } = useAppTranslation('components/editor/AssistantChat')
+
   return (
     <>
       <UpsellHeader />
@@ -141,7 +156,7 @@ function PaymentContent({
       </ExercismStripeElements>
 
       <p className="text-p-small mt-20">
-        You can change or cancel your donation at any time from your settings.
+        {t('insidersUpsellModal.changeOrCancel')}
       </p>
     </>
   )
@@ -152,6 +167,8 @@ function SuccessContent({
 }: {
   onContinue: () => void
 }): JSX.Element {
+  const { t } = useAppTranslation('components/editor/AssistantChat')
+
   return (
     <div className="text-center">
       <GraphicalIcon
@@ -159,21 +176,21 @@ function SuccessContent({
         category="graphics"
         className="w-[96px] h-[96px] mx-auto mb-16"
       />
-      <h2 className="text-h2 mb-8">You&apos;re an Insider! 💙</h2>
+      <h2 className="text-h2 mb-8">
+        {t('insidersUpsellModal.youreAnInsider')}
+      </h2>
       <p className="text-p-large mb-16">
-        Thank you for supporting Exercism. Your AI Assistant is unlocked on
-        every exercise, along with dark mode, an ad-free experience, and
-        everything else Insiders unlocks.
+        {t('insidersUpsellModal.thankYouForSupporting')}
       </p>
       <p className="text-p-base mb-24">
-        We&apos;ll pop a receipt in your inbox shortly.
+        {t('insidersUpsellModal.receiptInYourInbox')}
       </p>
       <button
         type="button"
         className="btn-l btn-primary w-100"
         onClick={onContinue}
       >
-        Start working with the Assistant
+        {t('insidersUpsellModal.startWorkingWithTheAssistant')}
       </button>
     </div>
   )

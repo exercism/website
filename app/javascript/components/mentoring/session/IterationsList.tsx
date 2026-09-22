@@ -29,7 +29,10 @@ const NavigationButtons = ({
         className="btn-keyboard-shortcut previous"
       >
         <div className="--kb">
-          <Icon icon="arrow-left" alt="Left arrow" />
+          <Icon
+            icon="arrow-left"
+            alt={t('components.mentoring.session.iterationsList.leftArrow')}
+          />
         </div>
         <div className="--hint">
           {t('components.mentoring.session.iterationsList.previous')}
@@ -48,7 +51,10 @@ const NavigationButtons = ({
           {t('components.mentoring.session.iterationsList.next')}
         </div>
         <div className="--kb">
-          <Icon icon="arrow-right" alt="Right arrow" />
+          <Icon
+            icon="arrow-right"
+            alt={t('components.mentoring.session.iterationsList.rightArrow')}
+          />
         </div>
       </button>
     </React.Fragment>

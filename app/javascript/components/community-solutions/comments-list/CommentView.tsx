@@ -34,7 +34,7 @@ export const CommentView = ({
         </div>
         {isEditable ? (
           <button type="button" className="edit-button" onClick={onEdit}>
-            <Icon icon="edit" alt="Edit" />
+            <Icon icon="edit" alt={t('commentsList.commentView.edit')} />
             <span>{t('commentsList.commentView.edit')}</span>
           </button>
         ) : null}

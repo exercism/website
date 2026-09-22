@@ -2,21 +2,21 @@ module ReactComponents
   module Settings
     class ProfileForm < ReactComponent
       def to_s
-        super("settings-profile-form", {
-          user: {
-            name: current_user.name,
-            location: current_user.location,
-            bio: current_user.bio,
-            seniority: current_user.seniority
-          },
-          profile:,
-          links: {
-            update: Exercism::Routes.api_settings_url
-          }
-        })
+        super("settings-profile-form", { user:, profile:, links: })
       end
 
       private
+      def user
+        {
+          name: current_user.name,
+          location: current_user.location,
+          bio: current_user.bio,
+          seniority: current_user.seniority
+        }
+      end
+
+      def links = { update: Exercism::Routes.api_settings_url }
+
       def profile
         return if current_user.profile.blank?
 

@@ -46,7 +46,7 @@ function HelloWorldVideo() {
       <p className="mb-20">{t('instructionsPanel.watchOurVideo')}</p>
       <MuxPlayer
         playbackId={HELLO_WORLD_VIDEO.playbackId}
-        title={HELLO_WORLD_VIDEO.title}
+        title={t('instructionsPanel.helloWorldVideoTitle')}
         poster={HELLO_WORLD_VIDEO.poster}
         className="rounded-5"
       />

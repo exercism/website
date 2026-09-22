@@ -23,7 +23,7 @@ const KnowledgeOption = ({
           <div className="info">
             <div className="title">{t('tasksList.knowledgeSwitcher.none')}</div>
             <div className="description">
-              No existing Exercism knowledge required
+              {t('tasksList.knowledgeSwitcher.noneDescription')}
             </div>
           </div>
         </React.Fragment>
@@ -39,7 +39,7 @@ const KnowledgeOption = ({
               {t('tasksList.knowledgeSwitcher.elementary')}
             </div>
             <div className="description">
-              Little Exercism knowledge required
+              {t('tasksList.knowledgeSwitcher.elementaryDescription')}
             </div>
           </div>
         </React.Fragment>
@@ -55,7 +55,7 @@ const KnowledgeOption = ({
               {t('tasksList.knowledgeSwitcher.intermediate')}
             </div>
             <div className="description">
-              Quite a bit of Exercism knowledge required
+              {t('tasksList.knowledgeSwitcher.intermediateDescription')}
             </div>
           </div>
         </React.Fragment>
@@ -71,7 +71,7 @@ const KnowledgeOption = ({
               {t('tasksList.knowledgeSwitcher.advanced')}
             </div>
             <div className="description">
-              Comprehensive Exercism knowledge required
+              {t('tasksList.knowledgeSwitcher.advancedDescription')}
             </div>
           </div>
         </React.Fragment>
@@ -86,7 +86,7 @@ const SelectedComponent = ({
 }) => {
   const { t } = useAppTranslation('components/contributing')
   if (knowledge.length > 1) {
-    return <>Multiple</>
+    return <>{t('tasksList.knowledgeSwitcher.multiple')}</>
   }
 
   switch (knowledge[0]) {
@@ -127,12 +127,14 @@ export const KnowledgeSwitcher = ({
   value: TaskKnowledge[]
   setValue: (knowledge: TaskKnowledge[]) => void
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/contributing')
+
   return (
     <MultipleSelect<TaskKnowledge>
       options={['none', 'elementary', 'intermediate', 'advanced']}
       value={value}
       setValue={setValue}
-      label="Knowledge"
+      label={t('tasksList.knowledgeSwitcher.label')}
       SelectedComponent={SelectedComponent}
       ResetComponent={ResetComponent}
       OptionComponent={KnowledgeOption}

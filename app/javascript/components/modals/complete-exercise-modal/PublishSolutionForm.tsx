@@ -35,7 +35,7 @@ const ConfirmButton = ({
             <Icon
               icon="spinner"
               className="animate-spin-slow filter-textColor6"
-              alt="loading"
+              alt={t('publishSolutionForm.loading')}
             />
           </div>
           <Loading />

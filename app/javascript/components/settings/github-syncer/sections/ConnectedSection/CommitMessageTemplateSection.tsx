@@ -37,19 +37,30 @@ export function CommitMessageTemplateSection() {
       })
         .then(async (response) => {
           if (response.ok) {
-            toast.success('Saved changes successfully!')
+            toast.success(
+              t(
+                'components/settings/github-syncer/sections/ConnectedSection/SyncBehaviourSection.tsx:syncBehaviour.savedChangesSuccessfully'
+              )
+            )
           } else {
-            await handleJsonErrorResponse(response, 'Failed to save changes.')
+            await handleJsonErrorResponse(
+              response,
+              t(
+                'components/settings/github-syncer/sections/ConnectedSection/SyncBehaviourSection.tsx:syncBehaviour.failedToSaveChanges'
+              )
+            )
           }
         })
         .catch((error) => {
           console.error('Error:', error)
           toast.error(
-            'Something went wrong while saving changes. Please try again.'
+            t(
+              'components/settings/github-syncer/sections/ConnectedSection/SyncBehaviourSection.tsx:syncBehaviour.somethingWentWrongWhileSaving'
+            )
           )
         })
     },
-    [links.settings, isUserInsider]
+    [links.settings, isUserInsider, t]
   )
 
   const handleRevertCommitMessageTemplate = useCallback(() => {

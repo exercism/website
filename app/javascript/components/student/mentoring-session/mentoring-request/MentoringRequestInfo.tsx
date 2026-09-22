@@ -107,7 +107,7 @@ export const MentoringRequestInfo = ({
                 />,
                 <Icon
                   icon="external-link"
-                  alt="The link opens in a new window or tab"
+                  alt={t('mentoringRequestInfo.opensInANewWindowOrTab')}
                 />,
               ]}
             />

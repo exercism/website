@@ -12,6 +12,7 @@ en:
           Partner with us or donate to support our mission to bringing free
           code learning and practice to the world.
       cta:
+        jeremy_walker_photo_alt: Photo of Jeremy Walker
         title: Want to discuss how you can help Exercism?
         description: Get in touch with <strong>Jeremy Walker</strong>,
           Exercism's CEO.
@@ -112,6 +113,7 @@ en:
             Partner with us or donate to support our mission to bringing free
             code learning and practice to the world.
         cta:
+          jeremy_walker_photo_alt: Photo of Jeremy Walker
           title: Want to discuss how you can help Exercism?
           description: Get in touch with <strong>Jeremy Walker</strong>,
             Exercism's CEO.

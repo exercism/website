@@ -3,6 +3,7 @@ import { GraphicalIcon, TrackIcon, Avatar } from '../../components/common'
 import { GenericTooltip } from '../../components/misc/ExercismTippy'
 import { MetricsChannel } from '../../channels/metricsChannel'
 import { Metric } from '../types'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const coordinatesToPosition = (latitude: number, longitude: number) => {
   const map_width = 724
@@ -85,6 +86,7 @@ const MetricPointUserWithTooltip = ({
 }
 
 const MetricPointInner = ({ metric }: { metric: Metric }): JSX.Element => {
+  const { t } = useAppTranslation('components/impact/map.tsx')
   switch (metric.type) {
     case 'sign_up_metric':
       const iconRef = useRef(null)
@@ -102,7 +104,7 @@ const MetricPointInner = ({ metric }: { metric: Metric }): JSX.Element => {
       return (
         <MetricPointWithTooltip
           metric={metric}
-          text={`Someone joined Exercism`}
+          text={t('map.someoneJoinedExercism')}
           duration={2000}
           content={content}
         />
@@ -127,28 +129,28 @@ const MetricPointInner = ({ metric }: { metric: Metric }): JSX.Element => {
       return (
         <MetricPointUserWithTooltip
           metric={metric}
-          text={`@${metric.user.handle} published a new solution`}
+          text={t('map.publishedNewSolution', { handle: metric.user.handle })}
         />
       )
     case 'open_issue_metric':
       return (
         <MetricPointUserWithTooltip
           metric={metric}
-          text={`@${metric.user.handle} opened an issue on Exercism's GitHub`}
+          text={t('map.openedIssue', { handle: metric.user.handle })}
         />
       )
     case 'open_pull_request_metric':
       return (
         <MetricPointUserWithTooltip
           metric={metric}
-          text={`@${metric.user.handle} submitted a Pull Request on Exercism's GitHub`}
+          text={t('map.submittedPullRequest', { handle: metric.user.handle })}
         />
       )
     case 'merge_pull_request_metric':
       return (
         <MetricPointUserWithTooltip
           metric={metric}
-          text={`@${metric.user.handle} had a Pull Request merged on Exercism's GitHub`}
+          text={t('map.mergedPullRequest', { handle: metric.user.handle })}
         />
       )
     default:

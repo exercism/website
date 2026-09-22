@@ -42,4 +42,9 @@ export default {
     'A complete Coding Fundamentals <strong className="font-semibold">syllabus</strong> designed to build knowledge & confidence.',
   'juniorView.aFormalCertificate':
     'A formal <strong className="font-semibold">certificate</strong> on completion.',
+  'juniorView.gameAlt.spaceInvaders': 'Image of a space invaders game',
+  'juniorView.gameAlt.ticTacToe': 'Image of a tic-tac-toe game',
+  'juniorView.gameAlt.breakout': 'Image of a breakout game',
+  'juniorView.gameAlt.maze': 'Image of a maze game',
+  'welcomeModal.communityTabVideoTitle': "Introducing the 'Community' tab",
 }

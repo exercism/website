@@ -35,8 +35,10 @@ export const StepIndicator = ({
   steps: StepProps[]
   currentStep: ModalStep
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/modals/mentor-registration-modal')
+
   return (
-    <ul aria-label="Become a mentor progress" className="steps">
+    <ul aria-label={t('stepIndicator.becomeAMentorProgress')} className="steps">
       {steps.map((step, i) => {
         return (
           <Step

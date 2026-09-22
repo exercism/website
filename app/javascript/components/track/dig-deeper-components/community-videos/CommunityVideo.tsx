@@ -26,7 +26,7 @@ export function CommunityVideo({
           style={{ objectFit: 'cover', height: '80px', width: '143px' }}
           className="mr-20 rounded-8"
           src={video.links.thumbnail}
-          alt="thumbnail"
+          alt={t('communityVideo.thumbnail')}
         />
         <div className="flex flex-col mr-auto">
           <h5 className="text-h5 mb-8 text-left">{video.title}</h5>
@@ -68,7 +68,7 @@ export function CommunityVideosFooter({
   )
   return (
     <footer className="text-p-small text-textColor6">
-      {t('communityVideoFooter.wantYourVideoFeatured')}{" "}
+      {t('communityVideoFooter.wantYourVideoFeatured')}{' '}
       <button onClick={onClick} className="underline">
         {t('communityVideoFooter.submitItHere')}
       </button>

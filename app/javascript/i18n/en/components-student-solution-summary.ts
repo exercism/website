@@ -61,4 +61,6 @@ export default {
     additionalComments_one: '{{count}} additional comment',
     additionalComments_other: '{{count}} additional comments',
   },
+  'header.opensInANewTab': 'Opens in a new tab',
+  'mentoring.opensInNewTab': 'Opens in new tab',
 }

@@ -1,0 +1,15 @@
+en:
+  components:
+    mentor:
+      header:
+        title: "Mentoring"
+        guides_link: "Mentoring Guides"
+        locked_tab_aria_label: "This tab is locked"
+        stats:
+          discussions_completed: "%{count} discussions completed"
+          satisfaction: "%{percentage}% satisfaction"
+        tabs:
+          workspace: "Your Workspace"
+          queue: "Queue"
+          testimonials: "Testimonials"
+          automation: "Automation"

@@ -12,7 +12,7 @@ module ReactComponents
               tracks: context[:admin][:tracks],
               counts: context.transform_values { |v| v[:representation_count] }.to_h,
               links:,
-              sort_options: SORT_OPTIONS,
+              sort_options:,
               is_introducer_hidden:
             }
           )
@@ -57,12 +57,17 @@ module ReactComponents
 
         def is_introducer_hidden = mentor.introducer_dismissed?(INTRODUCER_SLUG)
 
-        SORT_OPTIONS = [
-          { value: :most_recent_feedback, label: 'Most recent feedbacks' },
-          { value: :least_recent_feedback, label: 'Least recent feedbacks' }
-        ].freeze
+        def sort_options
+          [
+            { value: :most_recent_feedback,
+              label: I18n.t("components.mentoring.representations.sort_options.most_recent_feedback") },
+            { value: :least_recent_feedback,
+              label: I18n.t("components.mentoring.representations.sort_options.least_recent_feedback") }
+          ]
+        end
+
         INTRODUCER_SLUG = 'feedback_automation'.freeze
-        private_constant :SORT_OPTIONS, :INTRODUCER_SLUG
+        private_constant :INTRODUCER_SLUG
       end
     end
   end

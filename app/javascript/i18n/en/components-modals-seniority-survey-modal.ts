@@ -30,4 +30,8 @@ export default {
   'initialView.juniorDeveloper': 'Junior Developer',
   'initialView.midLevelDeveloper': 'Mid-level Developer',
   'initialView.seniorDeveloper': 'Senior Developer',
+  'bootcampAd.gameAlt.spaceInvaders': 'Image of a space invaders game',
+  'bootcampAd.gameAlt.ticTacToe': 'Image of a tic-tac-toe game',
+  'bootcampAd.gameAlt.breakout': 'Image of a breakout game',
+  'bootcampAd.gameAlt.maze': 'Image of a maze game',
 }

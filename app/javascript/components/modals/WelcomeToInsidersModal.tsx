@@ -91,7 +91,7 @@ export default function WelcomeToInsidersModal({
         >
           <iframe
             src="https://www.youtube-nocookie.com/embed/zomfphsDQrs"
-            title="Welcome to Exercism Insiders!"
+            title={t('welcomeToInsidersModal.videoTitle')}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
           />

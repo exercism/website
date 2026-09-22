@@ -4,19 +4,22 @@ import React from 'react'
 import { TaskKnowledge } from '../../../types'
 import { GraphicalIcon } from '../../../common'
 import { KnowledgeIcon } from './KnowledgeIcon'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const KnowledgeTag = ({
   knowledge,
 }: {
   knowledge?: TaskKnowledge
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/contributing/tasks-list/task')
+
   switch (knowledge) {
     case 'none':
       return (
         <div className="knowledge-tag">
           <GraphicalIcon icon="task-knowledge" />
           <KnowledgeIcon knowledge={knowledge} />
-          <div className="sr-only">Knowledge: none</div>
+          <div className="sr-only">{t('knowledgeTag.none')}</div>
         </div>
       )
     case 'elementary':
@@ -24,7 +27,7 @@ export const KnowledgeTag = ({
         <div className="knowledge-tag">
           <GraphicalIcon icon="task-knowledge" />
           <KnowledgeIcon knowledge={knowledge} />
-          <div className="sr-only">Knowledge: elementary</div>
+          <div className="sr-only">{t('knowledgeTag.elementary')}</div>
         </div>
       )
     case 'intermediate':
@@ -32,7 +35,7 @@ export const KnowledgeTag = ({
         <div className="knowledge-tag">
           <GraphicalIcon icon="task-knowledge" />
           <KnowledgeIcon knowledge={knowledge} />
-          <div className="sr-only">Knowledge: intermediate</div>
+          <div className="sr-only">{t('knowledgeTag.intermediate')}</div>
         </div>
       )
     case 'advanced':
@@ -40,7 +43,7 @@ export const KnowledgeTag = ({
         <div className="knowledge-tag">
           <GraphicalIcon icon="task-knowledge" />
           <KnowledgeIcon knowledge={knowledge} />
-          <div className="sr-only">Knowledge: advanced</div>
+          <div className="sr-only">{t('knowledgeTag.advanced')}</div>
         </div>
       )
     default:

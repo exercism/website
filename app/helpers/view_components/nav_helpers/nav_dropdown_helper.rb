@@ -10,15 +10,17 @@ module ViewComponents
               icon_filter = element[:icon_filter] || 'none'
 
               content << tag.li(
-                conditional_link(element[:path], external: element[:external]) do
-                  nav_dropdown_element(element[:title], element[:description], element[:icon], icon_filter, element[:external],
-                    element[:is_new])
+                conditional_link(nav_element_path(element[:path]), external: element[:external]) do
+                  nav_dropdown_element(element[:title]&.(), element[:description]&.(), element[:icon], icon_filter,
+                    element[:external], element[:is_new])
                 end << view
               )
             end
           end
         end
       end
+
+      def nav_element_path(path) = path.respond_to?(:call) ? path.() : path
 
       def nav_dropdown_element(title, description, icon, icon_filter, external, is_new)
         tag.div(class: "nav-dropdown-element", role: 'menuitem') do
@@ -28,7 +30,7 @@ module ViewComponents
               content = tag.h6 do
                 safe_join([
                   title,
-                  (tag.span("New", class: "new") if is_new)
+                  (tag.span(I18n.t("components.nav_helpers.nav_dropdown_helper.new_badge"), class: "new") if is_new)
                 ].compact)
               end
               content << tag.p(description) unless description.nil?
@@ -36,7 +38,7 @@ module ViewComponents
             end
           ]
           if external
-            parts << icon("external-link", "The link opens in a new window or tab",
+            parts << icon("external-link", I18n.t("components.nav_helpers.nav_dropdown_helper.external_link"),
               css_class: "external-icon filter-textColor6")
           end
           safe_join(parts)

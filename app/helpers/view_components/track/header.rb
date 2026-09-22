@@ -29,7 +29,7 @@ module ViewComponents
         if practice_mode
           ts << tag.div(class: 'c-tag --practice-mode --compact') do
             graphical_icon("practice-mode") +
-              tag.span("Practice Mode")
+              tag.span(I18n.t("components.track.header.practice_mode"))
           end
         end
 
@@ -42,7 +42,7 @@ module ViewComponents
           tabs << about_tab(:track_path)
         else
           tabs << link_to(
-            graphical_icon(:overview) + tag.span("Overview"),
+            graphical_icon(:overview) + tag.span(I18n.t("components.track.header.overview")),
             Exercism::Routes.track_path(track),
             class: tab_class(:overview),
             data: scroll_into_view(:overview)
@@ -59,7 +59,7 @@ module ViewComponents
 
       def about_tab(url)
         link_to(
-          graphical_icon('info-circle') + tag.span("About #{track.title}"),
+          graphical_icon('info-circle') + tag.span(I18n.t("components.track.header.about", track_title: track.title)),
           Exercism::Routes.send(url, track),
           class: tab_class(:about),
           data: scroll_into_view(:about)
@@ -68,7 +68,7 @@ module ViewComponents
 
       def concepts_tab
         link_to(
-          graphical_icon(:concepts) + tag.span("Learn"),
+          graphical_icon(:concepts) + tag.span(I18n.t("components.track.header.learn")),
           Exercism::Routes.track_concepts_path(track),
           class: tab_class(:concepts),
           data: scroll_into_view(:concepts)
@@ -77,7 +77,7 @@ module ViewComponents
 
       def exercises_tab
         link_to(
-          graphical_icon(:exercises) + tag.span("Practice"),
+          graphical_icon(:exercises) + tag.span(I18n.t("components.track.header.practice")),
           Exercism::Routes.track_exercises_path(track),
           class: tab_class(:exercises),
           data: scroll_into_view(:exercises)
@@ -86,7 +86,7 @@ module ViewComponents
 
       def build_tab
         link_to(
-          graphical_icon(:building) + tag.span("Build Status"),
+          graphical_icon(:building) + tag.span(I18n.t("components.track.header.build_status")),
           Exercism::Routes.track_build_path(track),
           class: tab_class(:build),
           data: scroll_into_view(:build)

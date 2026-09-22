@@ -52,7 +52,7 @@ const StudentTooltip = React.forwardRef<
 
             {data.student.location ? (
               <div className="location">
-                <Icon icon="location" alt="Located in" />
+                <Icon icon="location" alt={t('locatedInAlt')} />
                 {data.student.location}
               </div>
             ) : null}

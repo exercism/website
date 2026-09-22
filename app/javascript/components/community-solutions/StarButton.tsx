@@ -5,6 +5,7 @@ import { FormButton } from '@/components/common/FormButton'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 import { typecheck } from '@/utils'
 import { sendRequest } from '@/utils/send-request'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type Links = {
   star: string
@@ -28,6 +29,7 @@ export default function StarButton({
   defaultIsStarred: boolean
   links: Links
 }): JSX.Element {
+  const { t } = useAppTranslation('components/community-solutions')
   const [state, setState] = useState({
     numStars: defaultNumStars,
     isStarred: defaultIsStarred,
@@ -54,8 +56,8 @@ export default function StarButton({
   if (!userSignedIn) {
     return (
       <div className="btn-enhanced btn-s star-button --unstarred">
-        <Icon icon="star" alt="Number of stars" />
-        <span>Favorite</span>
+        <Icon icon="star" alt={t('starButton.numberOfStars')} />
+        <span>{t('starButton.favorite')}</span>
       </div>
     )
   }
@@ -71,7 +73,11 @@ export default function StarButton({
         status={status}
       >
         <GraphicalIcon icon={state.isStarred ? 'starred' : 'star'} />
-        <span>{state.isStarred ? 'Favorited' : 'Favorite'}</span>
+        <span>
+          {state.isStarred
+            ? t('starButton.favorited')
+            : t('starButton.favorite')}
+        </span>
       </FormButton>
       {status === 'error' ? (
         <ErrorBoundary>

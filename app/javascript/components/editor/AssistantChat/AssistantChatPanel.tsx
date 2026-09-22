@@ -1,3 +1,5 @@
+// i18n-key-prefix: assistantChatPanel
+// i18n-namespace: components/editor/AssistantChat
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Tab, GraphicalIcon, Avatar } from '@/components/common'
 import { TabsContext } from '@/components/Editor'
@@ -14,6 +16,8 @@ import {
   usageLimitText,
   usageWarningText,
 } from './chatUsage'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 export function AssistantChatPanel(props: {
   config: AssistantChatConfig
@@ -87,6 +91,7 @@ function Conversation({
   chat: ReturnType<typeof useChat>
   config: AssistantChatConfig
 }): JSX.Element {
+  const { t } = useAppTranslation('components/editor/AssistantChat')
   const [draft, setDraft] = useState('')
   const usageStatus = deriveUsageStatus(chat.usage)
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -116,11 +121,8 @@ function Conversation({
     <div className="c-assistant-chat">
       <div ref={scrollRef} className="chat-scroll">
         <div className="chat-header">
-          <h3>Stuck? Ask your AI Assistant</h3>
-          <p>
-            Ask about your code, the tests, or the exercise. The assistant
-            nudges you towards a solution rather than handing you the answer.
-          </p>
+          <h3>{t('assistantChatPanel.stuckAskYourAiAssistant')}</h3>
+          <p>{t('assistantChatPanel.askAboutYourCode')}</p>
         </div>
 
         <MessageList
@@ -136,7 +138,7 @@ function Conversation({
           <div className="message-text">{chat.error}</div>
           {chat.canRetry ? (
             <button type="button" onClick={chat.retryLastMessage}>
-              Try again
+              {t('assistantChatPanel.tryAgain')}
             </button>
           ) : null}
         </div>
@@ -145,7 +147,7 @@ function Conversation({
       {!configured ? (
         <div className="chat-status">
           <div className="message-text">
-            The AI assistant isn&apos;t available right now.
+            {t('assistantChatPanel.notAvailableRightNow')}
           </div>
         </div>
       ) : null}
@@ -172,12 +174,12 @@ function Conversation({
               maxLength={MAX_CHAT_MESSAGE_LENGTH}
               placeholder={
                 usageStatus?.atCap
-                  ? "You've reached your message limit"
+                  ? t('assistantChatPanel.reachedYourMessageLimit')
                   : chat.isDisabled
-                  ? 'Waiting for the assistant to reply…'
+                  ? t('assistantChatPanel.waitingForTheAssistant')
                   : chat.messages.length > 0
-                  ? 'Respond to the assistant…'
-                  : 'Ask about your code, the tests, or the exercise…'
+                  ? t('assistantChatPanel.respondToTheAssistant')
+                  : t('assistantChatPanel.askAboutYourCodePlaceholder')
               }
               value={draft}
               disabled={composerDisabled}
@@ -197,7 +199,7 @@ function Conversation({
             <button
               type="button"
               className="send-button"
-              aria-label="Send message"
+              aria-label={t('assistantChatPanel.sendMessage')}
               disabled={composerDisabled || !draft.trim()}
               onClick={send}
             >
@@ -221,14 +223,15 @@ function MessageList({
   status: string
   config: AssistantChatConfig
 }): JSX.Element {
+  const { t } = useAppTranslation('components/editor/AssistantChat')
+
   return (
     <div className="chat-messages">
       {messages.length === 0 && !currentResponse ? (
         <MessageItem
           message={{
             role: 'assistant',
-            content:
-              "Hi! What are you stuck on? Tell me what you've tried and I'll help you work it out.",
+            content: t('assistantChatPanel.whatAreYouStuckOn'),
           }}
           config={config}
         />
@@ -300,37 +303,13 @@ function MessageItem({
   )
 }
 
-const INSIDER_BENEFITS: { icon: string; title: string; desc: string }[] = [
-  {
-    icon: 'robot',
-    title: 'Unlimited AI Assistant',
-    desc: 'Unlimited conversations on every exercise, on every track.',
-  },
-  {
-    icon: 'perks',
-    title: 'Full Jiki Premium access',
-    desc: "Everything in Jiki's premium tier, included.",
-  },
-  {
-    icon: 'moon',
-    title: 'Dark mode',
-    desc: 'Our slick dark theme, easier on your eyes late at night.',
-  },
-  {
-    icon: 'feature-ad-free',
-    title: 'Ad-free experience',
-    desc: 'Turn off every advert across the whole platform.',
-  },
-  {
-    icon: 'feature-youtube',
-    title: 'Behind-the-scenes content',
-    desc: "Private livestreams and deep-dives into Exercism's stack.",
-  },
-  {
-    icon: 'logo',
-    title: 'Support Exercism',
-    desc: 'Keep free coding education alive for everyone. 💙',
-  },
+const INSIDER_BENEFITS: { icon: string; key: string }[] = [
+  { icon: 'robot', key: 'unlimitedAiAssistant' },
+  { icon: 'perks', key: 'jikiPremium' },
+  { icon: 'moon', key: 'darkMode' },
+  { icon: 'feature-ad-free', key: 'adFree' },
+  { icon: 'feature-youtube', key: 'behindTheScenes' },
+  { icon: 'logo', key: 'supportExercism' },
 ]
 
 function UpsellContent({
@@ -340,6 +319,7 @@ function UpsellContent({
   hasHistory: boolean
   config: AssistantChatConfig
 }): JSX.Element {
+  const { t } = useAppTranslation('components/editor/AssistantChat')
   const [modalOpen, setModalOpen] = useState(false)
 
   return (
@@ -347,20 +327,24 @@ function UpsellContent({
       <div className="upsell-header">
         <div className="upsell-title">
           <h2>
-            Join <span className="text-gradient">Exercism Insiders</span> for
-            more help
+            <Trans
+              ns="components/editor/AssistantChat"
+              i18nKey="assistantChatPanel.joinExercismInsiders"
+              components={{
+                gradient: <span className="text-gradient" />,
+              }}
+            />
           </h2>
           <p className="upsell-subtitle">
             {hasHistory
-              ? "You've used your free AI conversation on another exercise."
-              : "You've used your free AI conversation."}
+              ? t('assistantChatPanel.usedFreeConversationElsewhere')
+              : t('assistantChatPanel.usedFreeConversation')}
           </p>
         </div>
       </div>
 
       <p className="upsell-blurb">
-        Everyone gets an AI Assistant conversation on one exercise for free.
-        Become an Insider to unlock it everywhere, plus everything else below.
+        {t('assistantChatPanel.everyoneGetsAConversation')}
       </p>
 
       <ul className="upsell-benefits">
@@ -368,8 +352,12 @@ function UpsellContent({
           <li key={benefit.icon}>
             <GraphicalIcon icon={benefit.icon} />
             <div>
-              <h3>{benefit.title}</h3>
-              <p>{benefit.desc}</p>
+              <h3>
+                {t(`assistantChatPanel.insiderBenefits.${benefit.key}.title`)}
+              </h3>
+              <p>
+                {t(`assistantChatPanel.insiderBenefits.${benefit.key}.desc`)}
+              </p>
             </div>
           </li>
         ))}
@@ -381,9 +369,9 @@ function UpsellContent({
           className="btn-l btn-primary"
           onClick={() => setModalOpen(true)}
         >
-          Become an Insider
+          {t('assistantChatPanel.becomeAnInsider')}
         </button>
-        <p>$10/m. Cancel any time.</p>
+        <p>{t('assistantChatPanel.tenAMonth')}</p>
       </div>
 
       <InsidersUpsellModal

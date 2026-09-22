@@ -18,12 +18,12 @@ module ViewComponents
       tag.ul(data: { scrollable_container: true }) do
         safe_join(
           [
-            li_link("About Exercism"),
-            li_link("Our Impact", :impact),
-            li_link("Team", :team),
+            li_link(I18n.t("components.about_nav.about_exercism")),
+            li_link(I18n.t("components.about_nav.our_impact"), :impact),
+            li_link(I18n.t("components.about_nav.team"), :team),
             # li_link("Jobs", :hiring),
-            li_link("Supporters", :individual_supporters),
-            tag.li(link_to("Partners", Exercism::Routes.about_partners_path),
+            li_link(I18n.t("components.about_nav.supporters"), :individual_supporters),
+            tag.li(link_to(I18n.t("components.about_nav.partners"), Exercism::Routes.about_partners_path),
               class: selected_section == :organisation_supporters ? "selected" : nil, data: scroll_into_view(:organisation_supporters))
             # li_link("Community", :community),
             # li_link("Not-for-profit", :organisation),

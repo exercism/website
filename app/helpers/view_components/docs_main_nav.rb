@@ -19,21 +19,24 @@ module ViewComponents
         tag.ul(class: 'scroll-x-hidden', data: { scrollable_container: true }) do
           safe_join(
             [
-              tag.li(data: { scroll_into_view: (!selected_section ? ScrollAxis::X : nil) },
-                class: !selected_section ? "selected" : nil) do
-                link_to Exercism::Routes.docs_url do
-                  icon :home, "Docs home"
-                end
-              end,
-
-              li_link("Using Exercism", :using),
-              li_link("Building Exercism", :building),
-              li_link("Mentoring", :mentoring),
-              li_link("Community", :community),
+              home_li,
+              li_link(I18n.t("components.docs_main_nav.using"), :using),
+              li_link(I18n.t("components.docs_main_nav.building"), :building),
+              li_link(I18n.t("components.docs_main_nav.mentoring"), :mentoring),
+              li_link(I18n.t("components.docs_main_nav.community"), :community),
               # li_link("Not-for-profit", :organisation),
-              li_link("Track-specific", :tracks)
+              li_link(I18n.t("components.docs_main_nav.tracks"), :tracks)
             ]
           )
+        end
+      end
+    end
+
+    def home_li
+      tag.li(data: { scroll_into_view: (!selected_section ? ScrollAxis::X : nil) },
+        class: !selected_section ? "selected" : nil) do
+        link_to Exercism::Routes.docs_url do
+          icon :home, I18n.t("components.docs_main_nav.home")
         end
       end
     end

@@ -19,7 +19,7 @@
 
   .md-container.mb-48
     .cta.top-cta.flex.flex-col.lg:flex-row.lg:items-center.border-gradient.py-24.px-24.lg:px-40
-      = image_tag "team/jeremy-walker.jpg", alt: "Photo of Jeremy Walker", class: 'mb-12 md:mb-0 md:mr-24 rounded-100'
+      = image_tag "team/jeremy-walker.jpg", alt: t('.cta.jeremy_walker_photo_alt'), class: 'mb-12 md:mb-0 md:mr-24 rounded-100'
       .text
         %h2.text-h4.mb-4= t('.cta.title')
         %p.text-p-large= raw t('.cta.description')
@@ -85,7 +85,7 @@
       = render ViewComponents::ProminentLink.new(t('.individual_supporters.link_label', num_individual_supporters: @num_individual_supporters), individual_supporters_about_path)
 
     .cta.flex.flex-col.lg:flex-row.lg:items-center.border-gradient.py-24.px-24.lg:px-40
-      = image_tag "team/jeremy-walker.jpg", alt: "Photo of Jeremy Walker", class: 'mb-12 md:mb-0 md:mr-24 rounded-100'
+      = image_tag "team/jeremy-walker.jpg", alt: t('.cta.jeremy_walker_photo_alt'), class: 'mb-12 md:mb-0 md:mr-24 rounded-100'
       .text
         %h2.text-h4.mb-4= t('.cta.title')
         %p.text-p-large= raw t('.cta.description')

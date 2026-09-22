@@ -17,4 +17,10 @@ export default {
   'pronounsForm.leaveBlank': 'Leave blank',
   'pronounsForm.savePronouns': 'Save pronouns',
   'pronounsForm.yourPronounsHaveBeenUpdated': 'Your pronouns have been updated',
+  'pronounsForm.pronounValidationTitle':
+    'Pronoun cannot contain whitespace and must be no longer than 255 characters',
+  'pronounsForm.successAlt': 'Success',
+  'pronounsForm.placeholderThey': 'e.g. They',
+  'pronounsForm.placeholderThem': 'e.g. them',
+  'pronounsForm.placeholderTheir': 'e.g. their',
 }

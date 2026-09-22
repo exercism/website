@@ -1,6 +1,8 @@
+// i18n-namespace: components/common/CopyToClipboardButton.tsx
 import React, { useCallback, useEffect, useState, useRef } from 'react'
 import { copyToClipboard } from '../../utils/copyToClipboard'
 import { Icon } from './Icon'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const KEY_NAMES = Object.freeze({
   SPACE: ' ',
@@ -15,6 +17,7 @@ export default function CopyToClipboardButton({
 }: {
   textToCopy: string
 }): JSX.Element {
+  const { t } = useAppTranslation('components/common/CopyToClipboardButton.tsx')
   const buttonRef = useRef<HTMLButtonElement | null>(null)
   const [justCopied, setJustCopied] = useState(false)
 
@@ -77,11 +80,15 @@ export default function CopyToClipboardButton({
       onFocus={onFocus}
       onBlur={onBlur}
       className="c-copy-text-to-clipboard center-message"
-      aria-label={`Copy "${textToCopy}" to the cliboard`}
+      aria-label={t('copyToClipboardButton.copyToClipboardLabel', {
+        text: textToCopy,
+      })}
     >
       <div className="text">{textToCopy}</div>
-      <Icon icon="clipboard" alt="Copy to clipboard" />
-      {justCopied ? <span className="message">Copied</span> : null}
+      <Icon icon="clipboard" alt={t('copyToClipboardButton.copyToClipboard')} />
+      {justCopied ? (
+        <span className="message">{t('copyToClipboardButton.copied')}</span>
+      ) : null}
       <span data-test-clipboard data-content={textToCopy} />
     </button>
   )

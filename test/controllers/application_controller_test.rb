@@ -60,4 +60,19 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
 
     assert_nil Exercism.request_context[:coordinates]
   end
+
+  test "preloads only the latin Poppins subsets for the default locale" do
+    get "/"
+
+    assert_includes response.headers["Link"], "poppins-v20-latin-regular-"
+    assert_includes response.headers["Link"], "poppins-v20-latin-600-"
+    refute_includes response.headers["Link"], "poppins-v20-latin-ext-"
+  end
+
+  test "preloads the latin-ext Poppins subsets for other locales" do
+    get "/", params: { locale: "hu" }
+
+    assert_includes response.headers["Link"], "poppins-v20-latin-ext-regular-"
+    assert_includes response.headers["Link"], "poppins-v20-latin-ext-600-"
+  end
 end

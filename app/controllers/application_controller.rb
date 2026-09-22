@@ -329,6 +329,11 @@ class ApplicationController < ActionController::Base
       LinkHeaderLink.new('poppins-v20-latin-regular.woff2', rel: :preload, as: :font, type: "font/woff2", crossorigin: :anonymous),
       LinkHeaderLink.new('poppins-v20-latin-600.woff2', rel: :preload, as: :font, type: "font/woff2", crossorigin: :anonymous)
     ]
+    unless I18n.locale == I18n.default_locale
+      %w[poppins-v20-latin-ext-regular.woff2 poppins-v20-latin-ext-600.woff2].each do |font|
+        links << LinkHeaderLink.new(font, rel: :preload, as: :font, type: "font/woff2", crossorigin: :anonymous)
+      end
+    end
     response.set_header('Link', links.map(&:to_s).join(","))
   end
   LinkHeaderLink = Struct.new(:asset, :attrs) do

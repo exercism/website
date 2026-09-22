@@ -2,6 +2,7 @@ require "test_helper"
 
 class TranslationRepo::SyncTest < ActiveSupport::TestCase
   setup do
+    TranslationRepo.expire!
     @root = Pathname.new(Dir.mktmpdir)
     TranslationRepo.stubs(root: @root / "i18n")
 

@@ -421,7 +421,10 @@ module Components
           bob = create :concept_exercise
           create :user_track, user:, track: bob.track
           solution = create :concept_solution, user:, exercise: bob
-          create(:iteration, solution:)
+          # The submission must belong to this solution. The default submission
+          # factory builds its own concept solution, which adds a second "strings"
+          # exercise to the track and so the editor route can resolve to it instead.
+          create(:iteration, solution:, submission: create(:submission, solution:))
           deep_dive_youtube_id = 'yYnqweoy12'
           deep_dive_blurb = 'Explore 14 different ways to solve Anagram.'
           create(:generic_exercise, slug: solution.exercise.slug, blurb: solution.exercise.blurb, source: solution.exercise.source,
@@ -445,7 +448,7 @@ module Components
 
           sleep(0.5)
           click_on "Continue without waiting"
-          refute_text "Deep Dive into Strings!"
+          refute_text "Dig Deeper into Strings!"
           assert_text "Iteration 2"
         end
       end
@@ -481,7 +484,7 @@ module Components
 
           sleep(0.5)
           click_on "Continue without waiting"
-          refute_text "Deep Dive into Strings!"
+          refute_text "Dig Deeper into Strings!"
           assert_text "Iteration 1"
         end
       end

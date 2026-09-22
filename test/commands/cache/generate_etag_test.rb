@@ -10,18 +10,42 @@ class Cache::GenerateEtagTest < ActiveSupport::TestCase
     end
   end
 
-  test "a published translation fix changes it, for backend and frontend alike" do
-    with_published_translations(hu: { backend: { a: "b" }, frontend: { ns: { a: "b" } } }) do
+  test "a published translation fix changes it, for catalogs and content alike" do
+    with_git_translations_checkout do
+      write_git_translation!("locales/hu/website/backend.json", { a: "b" }.to_json)
+      write_git_translation!("locales/hu/website/frontend.json", { ns: { a: "b" } }.to_json)
+      write_git_translation!("locales/hu/content/ab/cd/ef.md", "Első")
+
       I18n.with_locale(:hu) do
         before = Cache::GenerateEtag.(["page"], nil)
         assert_equal before, Cache::GenerateEtag.(["page"], nil)
 
-        publish_translation_catalog!(:hu, :backend, { a: "fixed" })
+        write_git_translation!("locales/hu/website/backend.json", { a: "fixed" }.to_json)
         after_backend = Cache::GenerateEtag.(["page"], nil)
         refute_equal before, after_backend
 
-        publish_translation_catalog!(:hu, :frontend, { ns: { a: "fixed" } })
-        refute_equal after_backend, Cache::GenerateEtag.(["page"], nil)
+        write_git_translation!("locales/hu/website/frontend.json", { ns: { a: "fixed" } }.to_json)
+        after_frontend = Cache::GenerateEtag.(["page"], nil)
+        refute_equal after_backend, after_frontend
+
+        write_git_translation!("locales/hu/content/ab/cd/ef.md", "Javított")
+        refute_equal after_frontend, Cache::GenerateEtag.(["page"], nil)
+      end
+    end
+  end
+
+  test "a push that touches no file the locale reads leaves it alone" do
+    with_git_translations_checkout do
+      write_git_translation!("locales/hu/website/backend.json", { a: "b" }.to_json)
+
+      I18n.with_locale(:hu) do
+        before = Cache::GenerateEtag.(["page"], nil)
+        version = TranslationRepo.version
+
+        write_git_translation!("locales/sl/website/backend.json", { a: "b" }.to_json)
+
+        refute_equal version, TranslationRepo.version
+        assert_equal before, Cache::GenerateEtag.(["page"], nil)
       end
     end
   end

@@ -28,6 +28,8 @@ class MailerLocaleTest < ActionMailer::TestCase
       body = Thread.new { notification_email(user).html_part.body.to_s }.value
 
       assert_equal [:hu], locales
+      assert_includes body, %(<html lang="hu">)
+      assert_includes body, %(lang="hu" style=)
       assert_includes body, "https://test.exercism.org/hu/tracks/"
       refute_includes body, %(href="https://test.exercism.org/tracks/)
       assert_equal :en, I18n.locale
@@ -40,7 +42,9 @@ class MailerLocaleTest < ActionMailer::TestCase
       refute_includes notification_email(other).html_part.body.to_s, "https://test.exercism.org/hu/"
 
       english = create(:user).tap { |u| u.update!(locale: "en") }
-      refute_includes notification_email(english).html_part.body.to_s, "https://test.exercism.org/hu/"
+      body = notification_email(english).html_part.body.to_s
+      refute_includes body, "https://test.exercism.org/hu/"
+      assert_includes body, %(<html lang="en">)
     end
   end
 

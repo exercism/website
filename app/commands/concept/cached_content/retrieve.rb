@@ -40,6 +40,12 @@ class Concept::CachedContent::Retrieve
 
   def cache_key
     uuid = concept.uuid
-    "concept-content/#{uuid[0, 2]}/#{uuid[2, 2]}/#{uuid}/#{concept.synced_to_git_sha}.json"
+    "concept-content/#{uuid[0, 2]}/#{uuid[2, 2]}/#{uuid}/#{concept.synced_to_git_sha}#{locale_suffix}.json"
+  end
+
+  def locale_suffix
+    return if I18n.locale == I18n.default_locale
+
+    ".#{I18n.locale}-#{Digest::SHA1.hexdigest("#{concept.about}\0#{concept.introduction}")[0, 12]}"
   end
 end

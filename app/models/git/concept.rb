@@ -5,8 +5,8 @@ module Git
 
     delegate :head_sha, :head_commit, to: :repo
 
-    git_filepath :about, file: "about.md"
-    git_filepath :introduction, file: "introduction.md"
+    git_filepath :about, file: "about.md", translatable: true
+    git_filepath :introduction, file: "introduction.md", translatable: true
     git_filepath :links, file: "links.json"
     git_filepath :config, file: ".meta/config.json"
 

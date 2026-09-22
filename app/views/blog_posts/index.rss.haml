@@ -5,7 +5,7 @@
     %link= blog_posts_url(format: "rss")
     = tag "atom:link", href: blog_posts_url(format: "rss"), rel: "self", type: "application/rss+xml"
     %description= t('.rss.description')
-    %language en-US
+    %language= html_lang
     = tag.lastBuildDate @posts[0].published_at.rfc822
     = tag.webMaster "jeremy@exercism.org (Jeremy Walker)"
     = tag.managingEditor "jeremy@exercism.org (Jeremy Walker)"

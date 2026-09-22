@@ -11,3 +11,5 @@
 end
 
 LOCALE_ROUTE_CONSTRAINT = Regexp.union((I18n.available_locales - [I18n.default_locale]).map(&:to_s)).freeze
+
+I18n.backend = TranslationRepo::Backend.new

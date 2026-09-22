@@ -23,8 +23,51 @@ module MetaTagsHelper
   end
 
   def canonical_url
-    content_for(:canonical_url).presence
+    if content_for?(:canonical_url)
+      url = content_for(:canonical_url)
+    else
+      return unless locale_scoped_route?
+
+      url = "#{request.base_url}#{request.path}"
+    end
+
+    locale_scoped_route? ? Locale::SwapInUrl.(url, I18n.locale) : url
   end
+
+  def hreflang_alternates
+    return {} unless canonical_url.present? && locale_scoped_route?
+
+    Locale::Alternates.(canonical_url)
+  end
+
+  # The banner offering a visitor their own language is built client-side, so
+  # every served locale's copy, name and path ships with the page. It varies by
+  # URL alone, which is what keeps the page cacheable.
+  def locale_banner_data
+    return nil if I18n.available_locales.one?
+
+    page_name = Locale::Name.(I18n.locale).native
+
+    I18n.available_locales.index_with do |locale|
+      native = Locale::Name.(locale).native
+
+      I18n.with_locale(locale) do
+        {
+          name: native,
+          dir: Locale::Direction.(locale),
+          path: path_for_locale(locale),
+          pre: I18n.t("components.locale_banner.pre", current: page_name),
+          link: I18n.t("components.locale_banner.link", offered: native),
+          dismiss: I18n.t("components.locale_banner.dismiss")
+        }
+      end
+    end.to_json
+  end
+
+  def frontend_catalog_url = TranslationRepo.frontend_catalog_url(I18n.locale)
+
+  def html_lang = I18n.locale == I18n.default_locale ? "en-US" : I18n.locale.to_s
+  def html_dir = Locale::Direction.(I18n.locale)
 
   def track_meta_tags(user_track)
     content_for :meta_title, I18n.t("helpers.meta_tags.track.title", track_title: user_track.track_title)

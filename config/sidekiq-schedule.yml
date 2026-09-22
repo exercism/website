@@ -126,6 +126,12 @@ update_last_hour_metrics:
   class: "UpdateLastHourMetricsJob"
   queue: metrics
 
+# Every 10 minutes
+sync_translations:
+  cron: "*/10 * * * *"
+  class: "SyncTranslationsJob"
+  queue: dribble
+
 # Every 30 minutes
 create_onboarding_notifications:
   cron: "*/30 * * * *"

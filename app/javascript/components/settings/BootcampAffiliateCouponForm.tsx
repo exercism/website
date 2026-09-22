@@ -9,6 +9,7 @@ import { Trans } from 'react-i18next'
 type Links = {
   bootcampAffiliateCouponCode: string
   insidersPath: string
+  jiki: string
 }
 
 export default function BootcampAffiliateCouponForm({
@@ -67,6 +68,7 @@ export default function BootcampAffiliateCouponForm({
             isInsider={isInsider}
             insidersStatus={insidersStatus}
             insidersPath={links.insidersPath}
+            jikiUrl={links.jiki}
           />
 
           {couponCode ? (
@@ -130,10 +132,12 @@ export function InfoMessage({
   insidersStatus,
   insidersPath,
   isInsider,
+  jikiUrl,
 }: {
   insidersStatus: string
   insidersPath: string
   isInsider: boolean
+  jikiUrl: string
 }): JSX.Element {
   const { t } = useAppTranslation(
     'components/settings/BootcampAffiliateCouponForm.tsx'
@@ -146,7 +150,7 @@ export function InfoMessage({
             ns="components/settings/BootcampAffiliateCouponForm.tsx"
             i18nKey="bootcampAffiliateCouponForm.thankYouForBeingInsider"
             components={[
-              <a href="https://jiki.io?utm_source=exercism&utm_medium=affiliate_settings"></a>,
+              <a href={jikiUrl}></a>,
               <strong className="font-semibold" />,
             ]}
           />
@@ -185,9 +189,7 @@ export function InfoMessage({
             i18nKey="bootcampAffiliateCouponForm.insidersCanAccessDiscount"
             ns="components/settings/BootcampAffiliateCouponForm.tsx"
             components={{
-              link: (
-                <a href="https://jiki.io?utm_source=exercism&utm_medium=affiliate_settings"></a>
-              ),
+              link: <a href={jikiUrl}></a>,
             }}
           />
         </p>

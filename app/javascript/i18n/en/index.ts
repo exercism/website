@@ -233,6 +233,7 @@ import acx from './components-editor-AssistantChat'
 import mdl from './components-modals-Modal.tsx'
 import rzn from './components-ResultsZone.tsx'
 import ice from './components-impact-chart-elements'
+import lpf from './components-settings-LanguagePreferenceForm.tsx'
 
 export default {
   'automation-batch': aa,
@@ -479,4 +480,5 @@ export default {
   'components/modals/Modal.tsx': mdl,
   'components/ResultsZone.tsx': rzn,
   'components/impact/chart-elements': ice,
+  'components/settings/LanguagePreferenceForm.tsx': lpf,
 }

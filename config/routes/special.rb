@@ -84,6 +84,9 @@ get "javascript-browser-test-runner-worker.mjs", to: 'pages#javascript_browser_t
 # filenames in a bucket, not formats of a resource.
 get "test-runners/*path", to: 'pages#test_runner_artifact', format: false
 
+get "i18n/:catalog_locale/frontend-:hash.json", to: 'pages#frontend_catalog', format: false,
+  constraints: { catalog_locale: LOCALE_ROUTE_CONSTRAINT, hash: /[0-9a-f]{12}/ }
+
 ##############
 # ELB routes #
 ##############

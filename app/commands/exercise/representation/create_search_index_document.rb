@@ -19,7 +19,7 @@ class Exercise::Representation::CreateSearchIndexDocument
       exercise: {
         id: exercise.id,
         slug: exercise.slug,
-        title: exercise.title
+        title: exercise[:title]
       },
       track: {
         id: track.id,

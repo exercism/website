@@ -41,4 +41,22 @@ class CommunityStoryTest < ActiveSupport::TestCase
     expected = "<p>Because it's great!</p>\n"
     assert_equal expected, story.content_html
   end
+
+  test "a community story's title and blurb come from the blog catalog in a non-default locale" do
+    story = create :community_story, slug: "dont-be-productive"
+
+    with_published_translations({}) do
+      publish_translated_metadata!(:hu, "blog", {
+        "story:dont-be-productive:title" => "Ne légy produktív",
+        "story:dont-be-productive:blurb" => "Próbálj nem produktív lenni"
+      })
+
+      assert_equal "Don't be productive", story.title
+
+      I18n.with_locale(:hu) do
+        assert_equal "Ne légy produktív", story.title
+        assert_equal "Próbálj nem produktív lenni", story.blurb
+      end
+    end
+  end
 end

@@ -42,6 +42,27 @@ module Git
       read_file_blob(commit, path, "")
     end
 
+    def read_translated_text_blob(commit, path)
+      return read_text_blob(commit, path) if I18n.locale == I18n.default_locale
+
+      oid = find_file_oid(commit, path)
+      translation = TranslationRepo.content(I18n.locale, oid, File.extname(path))
+      return translation if translation
+
+      TranslationRepo.report_missing_content!(I18n.locale, oid, path)
+      ""
+    rescue Rugged::TreeError
+      ""
+    end
+
+    def translated?(commit, path)
+      return true if I18n.locale == I18n.default_locale
+
+      File.exist?(TranslationRepo.content_path(I18n.locale, find_file_oid(commit, path), File.extname(path)))
+    rescue Rugged::TreeError
+      true # No English, so nothing to translate
+    end
+
     def read_file_blob(commit, path, default = nil)
       oid = find_file_oid(commit, path)
       read_blob(oid, default)

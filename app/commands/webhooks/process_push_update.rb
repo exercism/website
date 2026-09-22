@@ -19,6 +19,8 @@ class Webhooks::ProcessPushUpdate
       Git::SyncToolingInvoker.defer
     when "tooling-manager"
       Git::SyncToolingManager.defer
+    when "i18n"
+      TranslationRepo::Sync.defer
     else
       track = Track.find_by(slug: repo_name)
       Git::SyncTrack.defer(track) if track

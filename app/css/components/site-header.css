@@ -265,14 +265,10 @@ body.keyboard-navigation .nav-element:hover .arrow {
         }
     }
     & .auth-buttons {
-        @apply flex items-center justify-end;
+        @apply flex items-center justify-end gap-8;
         @apply ml-auto;
-
-        & a:nth-child(2) {
-            @apply ml-8;
-        }
     }
-    & .auth-buttons a,
+    & .auth-buttons > a,
     & .explore-menu {
         height: 40px;
         @apply text-15 lg:text-14;
@@ -317,8 +313,11 @@ body.keyboard-navigation .nav-element:hover .arrow {
     @media screen and (max-width: 410px) {
         & .user-menu,
         & .explore-menu,
-        & .auth-buttons a {
+        & .auth-buttons > a {
             @apply px-10 text-14;
+        }
+        & .c-language-switcher > .toggle {
+            @apply px-8;
         }
         & .user-menu,
         & .explore-menu {

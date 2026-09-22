@@ -6,7 +6,7 @@ class Track::InvalidateCloudflareCache
   initialize_with :track
 
   def call
-    Cloudflare::PurgeUrls.(urls)
+    Cloudflare::PurgeUrls.(urls, all_locales: true)
   end
 
   private

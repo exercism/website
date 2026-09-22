@@ -10,7 +10,7 @@ class Solution::InvalidateCloudflareCache
     # invalidated whenever the edge cache is.
     Solution::CachedSerializedView::Invalidate.defer(solution)
 
-    Cloudflare::PurgeUrls.(urls)
+    Cloudflare::PurgeUrls.(urls, all_locales: true)
   end
 
   private

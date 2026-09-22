@@ -13,7 +13,8 @@ class Exercise::InvalidateCloudflareCacheTest < ActiveSupport::TestCase
         "https://test.exercism.org/tracks/ruby/exercises/bob/dig_deeper",
         "https://test.exercism.org/tracks/ruby/exercises/bob/approaches/gsub",
         "https://test.exercism.org/tracks/ruby/exercises/bob/articles/performance"
-      ]
+      ],
+      all_locales: true
     )
 
     Exercise::InvalidateCloudflareCache.(exercise)
@@ -27,7 +28,8 @@ class Exercise::InvalidateCloudflareCacheTest < ActiveSupport::TestCase
       [
         "https://test.exercism.org/tracks/ruby/exercises/bob",
         "https://test.exercism.org/tracks/ruby/exercises/bob/dig_deeper"
-      ]
+      ],
+      all_locales: true
     )
 
     Exercise::InvalidateCloudflareCache.(exercise)

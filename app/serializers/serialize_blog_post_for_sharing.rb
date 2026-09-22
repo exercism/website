@@ -5,7 +5,7 @@ class SerializeBlogPostForSharing
 
   def call
     {
-      title: "Share this blog post",
+      title: I18n.t("components.blog_post.share_title"),
       share_title: blog_post.title,
       share_link: Exercism::Routes.blog_post_url(blog_post)
     }

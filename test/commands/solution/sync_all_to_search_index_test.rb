@@ -5,8 +5,8 @@ class Solution::SyncAllToSearchIndexTest < ActiveSupport::TestCase
     Solution::QueueHeadTestRun.stubs(:defer)
 
     track = create :track
-    users = build_list(:user, 10)
-    exercises = build_list(:practice_exercise, 20, :random_slug, track:)
+    users = build_list(:user, 2)
+    exercises = build_list(:practice_exercise, 3, :random_slug, track:)
 
     exercises.product(users).each do |(exercise, user)|
       solution = create(:practice_solution, user:, exercise:)
@@ -22,7 +22,7 @@ class Solution::SyncAllToSearchIndexTest < ActiveSupport::TestCase
     wait_for_opensearch_to_be_synced
 
     counts = Exercism.opensearch_client.count(index: Solution::OPENSEARCH_INDEX)
-    assert 200, counts["counts"]
+    assert_equal 6, counts["count"]
   end
 
   test "indexes solution using correct information" do

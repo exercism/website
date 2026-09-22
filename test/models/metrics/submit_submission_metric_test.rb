@@ -7,7 +7,7 @@ class Metrics::SubmitSubmissionTest < ActiveSupport::TestCase
       user = create :user, id: 3
       submission = create :submission, id: 4
       occurred_at = Time.current - 5.seconds
-      request_context = { remote_ip: '127.0.0.1' }
+      request_context = { country_code: 'US' }
 
       metric = Metric::Create.(:submit_submission, occurred_at, submission:, track:, user:, request_context:)
 

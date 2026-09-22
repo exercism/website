@@ -2,5 +2,5 @@ en:
   mentoring:
     requests:
       unavailable:
-        unavailable: Unavailable.
+        unavailable: Sorry, this mentoring session is no longer available
         back_to_list: Back to list

@@ -8,4 +8,4 @@
     %p.text-p-large.mb-24= t('.payment_pending_message')
     = graphical_icon "spinner", css_class: 'filter-textColor6 h-[64px] w-[64px] animate-spin-slow'
 
-    = render ReactComponents::Insiders::PaymentPending.new
+    = render ReactComponents::Insiders::PaymentPending.new(return_to: @return_to)

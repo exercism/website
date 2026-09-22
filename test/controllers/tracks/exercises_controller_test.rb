@@ -183,6 +183,41 @@ class Tracks::ExercisesControllerTest < ActionDispatch::IntegrationTest
     assert_select "meta[name=?][content=?]", "turbo-visit-control", "reload"
   end
 
+  test "edit: is cross-origin isolated on a track that runs tests in the browser" do
+    user = create :user
+    track = create :track, slug: "jq"
+    exercise = create(:practice_exercise, track:, slug: "hello-world")
+    create(:user_track, user:, track:)
+    create(:practice_solution, user:, exercise:)
+
+    sign_in!(user)
+
+    get edit_track_exercise_url(track, exercise)
+
+    assert_response :success
+    # The kernel needs SharedArrayBuffer, which needs both. See CrossOriginIsolation.
+    assert_equal "same-origin", response.headers["Cross-Origin-Opener-Policy"]
+    assert_equal "require-corp", response.headers["Cross-Origin-Embedder-Policy"]
+  end
+
+  test "edit: is not cross-origin isolated on other tracks" do
+    user = create :user
+    track = create :track, slug: "ruby"
+    exercise = create(:practice_exercise, track:, slug: "hello-world")
+    create(:user_track, user:, track:)
+    create(:practice_solution, user:, exercise:)
+
+    sign_in!(user)
+
+    get edit_track_exercise_url(track, exercise)
+
+    assert_response :success
+    # Isolation blocks cross-origin iframes, so it is only paid for where the
+    # kernel needs it.
+    assert_nil response.headers["Cross-Origin-Opener-Policy"]
+    assert_nil response.headers["Cross-Origin-Embedder-Policy"]
+  end
+
   test "show: still renders into the turbo frame" do
     user = create :user
     track = create :track

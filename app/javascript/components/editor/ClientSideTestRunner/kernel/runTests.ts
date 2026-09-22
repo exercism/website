@@ -1,5 +1,6 @@
 import { Kernel } from './Kernel'
 import { take } from './pool'
+import { tar } from './tar'
 import { KernelManifestEntry, OutputInterface } from '../types'
 
 // The paths the production container uses, so run.sh sees exactly what it sees
@@ -46,11 +47,15 @@ async function run(
 ): Promise<OutputInterface> {
   // Stage the solution. Every submitted file goes in as-is, including
   // .meta/config.json and any test helpers: run.sh reads the config to find
-  // the test file, and helpers resolve beside it.
-  for (const [path, contents] of Object.entries(files)) {
-    kernel.writeFile(`${SOLUTION_DIR}/${path}`, contents)
+  // the test file, and helpers resolve beside it. They go in as one archive
+  // so that files in subdirectories get their directories made.
+  const staged: Record<string, string> = {
+    [`${relative(OUTPUT_DIR)}/.keep`]: '',
   }
-  kernel.writeFile(`${OUTPUT_DIR}/.keep`, '')
+  for (const [path, contents] of Object.entries(files)) {
+    staged[`${relative(SOLUTION_DIR)}/${path}`] = contents
+  }
+  await kernel.untar('/', tar(staged))
 
   const result = await kernel.run([RUN_SH, slug, SOLUTION_DIR, OUTPUT_DIR], {
     cwd: SOLUTION_DIR,
@@ -71,4 +76,9 @@ async function run(
   }
 
   return JSON.parse(report) as OutputInterface
+}
+
+// Archive paths are relative to where the archive is unpacked, which is /.
+function relative(path: string): string {
+  return path.replace(/^\//, '')
 }

@@ -1,4 +1,8 @@
 class ApplicationController < ActionController::Base
+  # CF-IPCountry uses these two in place of an ISO 3166-1 code, for a visitor
+  # Cloudflare has no location for and for one arriving over Tor.
+  UNKNOWN_COUNTRY_CODES = %w[XX T1].freeze
+
   extend Mandate::Memoize
   include Turbo::Redirection
   include Turbo::CustomFrameRequest
@@ -190,7 +194,29 @@ class ApplicationController < ActionController::Base
   end
 
   def set_request_context
-    Exercism.request_context = { remote_ip: request.remote_ip }
+    Exercism.request_context = {
+      country_code: visitor_country_code,
+      coordinates: visitor_coordinates
+    }
+  end
+
+  # Cloudflare's "Add visitor location headers" managed transform (see
+  # exercism/terraform) is what puts these headers on the request. Anything
+  # reaching the origin without passing through Cloudflare has no location,
+  # which is also true of local development and the test suite.
+  def visitor_country_code
+    code = request.headers['CF-IPCountry'].presence&.upcase
+    return nil if code.nil? || UNKNOWN_COUNTRY_CODES.include?(code)
+
+    code
+  end
+
+  def visitor_coordinates
+    latitude = Float(request.headers['CF-IPLatitude'], exception: false)
+    longitude = Float(request.headers['CF-IPLongitude'], exception: false)
+    return nil if latitude.nil? || longitude.nil?
+
+    [latitude, longitude]
   end
 
   # This is used by cloudfront to ensure that we never send
@@ -300,6 +326,11 @@ class ApplicationController < ActionController::Base
       LinkHeaderLink.new('poppins-v20-latin-regular.woff2', rel: :preload, as: :font, type: "font/woff2", crossorigin: :anonymous),
       LinkHeaderLink.new('poppins-v20-latin-600.woff2', rel: :preload, as: :font, type: "font/woff2", crossorigin: :anonymous)
     ]
+    unless I18n.locale == I18n.default_locale
+      %w[poppins-v20-latin-ext-regular.woff2 poppins-v20-latin-ext-600.woff2].each do |font|
+        links << LinkHeaderLink.new(font, rel: :preload, as: :font, type: "font/woff2", crossorigin: :anonymous)
+      end
+    end
     response.set_header('Link', links.map(&:to_s).join(","))
   end
   LinkHeaderLink = Struct.new(:asset, :attrs) do

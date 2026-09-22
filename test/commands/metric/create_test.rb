@@ -21,41 +21,43 @@ class Metric::CreateTest < ActiveSupport::TestCase
     end
   end
 
-  test "creates metric with remote ip can be matched to country code" do
+  test "stores the visitor location from the request context" do
     solution = create :concept_solution
     track = solution.track
     user = solution.user
-    remote_ip = SecureRandom.compact_uuid
-    country_code = 'NL'
 
-    request_context = { remote_ip: }
-    Geocoder::Lookup::Test.add_stub(remote_ip, [{ 'country_code' => country_code }])
+    request_context = { country_code: 'NL', coordinates: [52.3676, 4.9041] }
 
     Metric::Create.(:start_solution, Time.current, track:, user:, solution:, request_context:)
 
     assert_equal 1, Metric.count
-    assert_equal country_code, Metric.last.country_code
+    metric = Metric.last
+
+    assert_equal 'NL', metric.country_code
+    assert_equal 'Netherlands', metric.country_name
+    assert_equal [52.3676, 4.9041], metric.coordinates
   end
 
-  test "creates metric with remote ip cannot be matched to country code" do
+  test "creates metric with no request context" do
     solution = create :concept_solution
     track = solution.track
     user = solution.user
-    remote_ip = SecureRandom.compact_uuid
-
-    Geocoder::Lookup::Test.add_stub(remote_ip, [])
 
     Metric::Create.(:start_solution, Time.current, track:, user:, solution:)
 
     assert_equal 1, Metric.count
-    assert_nil Metric.last.country_code
+    metric = Metric.last
+
+    assert_nil metric.country_code
+    assert_nil metric.country_name
+    assert_nil metric.coordinates
   end
 
-  test "creates metric with remote ip is nil" do
+  test "creates metric with an unknown country code" do
     action = :start_solution
     solution = create :concept_solution
     occurred_at = Time.current - 2.seconds
-    request_context = { remote_ip: nil }
+    request_context = { country_code: nil, coordinates: nil }
 
     Metric::Create.(action, occurred_at, solution:, request_context:)
 
@@ -64,6 +66,8 @@ class Metric::CreateTest < ActiveSupport::TestCase
 
     assert_equal occurred_at, metric.occurred_at
     assert_nil metric.country_code
+    assert_nil metric.country_name
+    assert_nil metric.coordinates
   end
 
   test "creates metric that does not use remote ip" do
@@ -84,15 +88,14 @@ class Metric::CreateTest < ActiveSupport::TestCase
     solution = create :concept_solution
     track = solution.track
     user = solution.user
-    remote_ip = SecureRandom.compact_uuid
 
-    request_context = { remote_ip: }
-    Geocoder::Lookup::Test.add_stub(remote_ip, [{ 'country_code' => '' }])
+    request_context = { country_code: '' }
 
     Metric::Create.(:start_solution, Time.current, track:, user:, solution:, request_context:)
 
     assert_equal 1, Metric.count
     assert_nil Metric.last.country_code
+    assert_nil Metric.last.country_name
   end
 
   test "creates metric without track or user" do

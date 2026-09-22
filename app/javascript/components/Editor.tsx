@@ -60,6 +60,23 @@ export type TabIndex =
   | 'get-help'
   | 'assistant'
 
+const TAB_IDS: TabIndex[] = [
+  'instructions',
+  'tests',
+  'results',
+  'get-help',
+  'assistant',
+]
+
+// A tab can be asked for on the URL, e.g. /edit#assistant, which is how the
+// Insiders join page sends someone back to the conversation they were about
+// to start. Anything else opens on the instructions as usual.
+const initialTab = (): TabIndex => {
+  if (typeof window === 'undefined') return 'instructions'
+  const requested = window.location.hash.slice(1) as TabIndex
+  return TAB_IDS.includes(requested) ? requested : 'instructions'
+}
+
 const filesEqual = (files: File[], other: File[]) => {
   if (!files || !other) return false
   if (files.length !== other.length) {
@@ -111,8 +128,12 @@ export default ({
   features = { theme: false, keybindings: false },
   localTestRunner,
   experimental = false,
+  clientSideTests = false,
 }: Props): JSX.Element => {
   const { t } = useAppTranslation('components/Editor.tsx')
+  // The experimental editor runs everything in the browser; the student
+  // editor only does so on the tracks the server has opted in.
+  const runsClientSide = experimental || clientSideTests
   const editorRef = useRef<FileEditorHandle>()
   const runTestsButtonRef = useRef<HTMLButtonElement>(null)
   const submitButtonRef = useRef<HTMLButtonElement>(null)
@@ -120,7 +141,7 @@ export default ({
   const clientSideRun = useRef<AbortController | undefined>()
 
   const [hasCancelled, setHasCancelled] = useSubmissionCancelling()
-  const [tab, setTab] = useState<TabIndex>('instructions')
+  const [tab, setTab] = useState<TabIndex>(initialTab)
   const [task, setTask] = useState<number | null>(null)
   const [settings, setSettings] = useDefaultSettings(defaultSettings)
   const [{ status, error }, dispatch] = useEditorStatus()
@@ -162,7 +183,7 @@ export default ({
   // it is the difference between a run starting immediately and a run starting
   // after a visible pause.
   useEffect(() => {
-    if (!experimental) return
+    if (!runsClientSide) return
 
     let released = false
 
@@ -180,7 +201,7 @@ export default ({
         .then(({ release }) => release())
         .catch(() => {})
     }
-  }, [experimental, track.slug])
+  }, [runsClientSide, track.slug])
 
   useEffect(() => {
     if (
@@ -200,7 +221,7 @@ export default ({
     beginSubmission()
 
     let testResults: any = null
-    if (experimental) {
+    if (runsClientSide) {
       const controller = new AbortController()
       clientSideRun.current = controller
 
@@ -267,7 +288,7 @@ export default ({
         },
       }
     )
-  }, [beginSubmission, createSubmission, dispatch, experimental, files])
+  }, [beginSubmission, createSubmission, dispatch, runsClientSide, files])
 
   const showFeedbackModal = useCallback(() => {
     setFeedbackModalOpen(true)
@@ -574,7 +595,7 @@ export default ({
                   onSubmit={submit}
                   isSubmitDisabled={isSubmitDisabled}
                   hasCancelled={hasCancelled}
-                  isCancellable={experimental}
+                  isCancellable={runsClientSide}
                   {...panels.results}
                 />
                 {iteration ? (

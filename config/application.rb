@@ -8,6 +8,7 @@ Bundler.require(*Rails.groups)
 
 require_relative '../lib/locale_config'
 require_relative '../lib/translation_repo'
+require_relative 'image_build' if ENV['EXERCISM_IMAGE_BUILD']
 
 module Website
   class Application < Rails::Application

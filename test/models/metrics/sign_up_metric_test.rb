@@ -5,7 +5,7 @@ class Metrics::SignUpTest < ActiveSupport::TestCase
     freeze_time do
       user = create :user, id: 3
       occurred_at = Time.current - 5.seconds
-      request_context = { remote_ip: '127.0.0.1' }
+      request_context = { country_code: 'US' }
 
       metric = Metric::Create.(:sign_up, occurred_at, user:, request_context:)
 

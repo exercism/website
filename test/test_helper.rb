@@ -22,18 +22,33 @@ GenerateJSConfig.generate!
 # Handle flakey tests in CI
 Minitest::Retry.use!(retry_count: 3) if ENV["EXERCISM_CI"]
 
-# Have Geocoder use a fixed stub value
-Geocoder.configure(lookup: :test, ip_lookup: :test)
-Geocoder::Lookup::Test.add_stub('127.0.0.1', [{ 'country_code' => 'US' }])
+# In CI, record how long each test file takes so that the next run
+# can split files into batches of roughly equal duration
+if ENV["TEST_TIMINGS_FILE"]
+  module Minitest
+    class TimingsReporter < AbstractReporter
+      def initialize
+        super
+        @timings = Hash.new(0)
+      end
 
-# use a fixed remote IP
-Exercism.request_context = { remote_ip: '127.0.0.1' }
+      def record(result)
+        file = Pathname.new(result.source_location.first).relative_path_from(Rails.root).to_s
+        @timings[file] += result.time
+      end
+
+      def report = File.write(ENV.fetch("TEST_TIMINGS_FILE"), @timings.transform_values { |t| t.round(2) }.to_json)
+    end
+
+    def self.plugin_timings_init(_options) = reporter << TimingsReporter.new
+  end
+  Minitest.extensions << "timings"
+end
 
 # Configure mocha to be safe
 Mocha.configure do |c|
   c.stubbing_method_unnecessarily = :prevent
   c.stubbing_non_existent_method = :prevent
-  c.stubbing_method_on_nil = :prevent
   c.stubbing_non_public_method = :prevent
 end
 
@@ -175,6 +190,9 @@ class ActiveSupport::TestCase
     # anything cached in one test leaks into the next. Nothing rolls it back
     # the way the transactional fixtures roll back the database.
     Rails.cache.clear
+
+    # Every controller request overwrites this global, so reset it per test.
+    Exercism.request_context = { country_code: 'US', coordinates: [37.751, -97.822] }
 
     # We do it like this (rather than stub/unstub) so that we
     # can have this method globally without disabling mocha's

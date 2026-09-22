@@ -59,7 +59,7 @@ gem 'public_suffix'
 gem 'humanize'
 
 # Authentication
-gem 'devise', '~> 4.7'
+gem 'devise', '~> 5.0'
 
 # Dates, numbers, plural rules and ActiveRecord errors per locale.
 # Which of its locales get loaded is decided in config/initializers/locale.rb
@@ -111,7 +111,7 @@ end
 
 group :test do
   gem 'capybara', '>= 2.15'
-  gem 'minitest'
+  gem 'minitest', '< 6' # minitest 6 breaks Rails 7.1's test runner
   gem 'minitest-retry'
   gem 'mocha'
   gem 'selenium-webdriver'
@@ -132,10 +132,13 @@ gem 'opensearch-ruby'
 
 gem 'rack-attack', '~> 6.6'
 
-gem 'geocoder', '~> 1.8'
-gem 'maxminddb', '~> 0.1.22'
-
 gem 'rubyzip', '~> 2.3'
 
 gem 'toml', '~> 0.3.0'
 gem 'ruby-openai'
+
+# json 3 drops the quirks_mode option Rails 7.1's encoder passes
+gem 'json', '< 3'
+
+# connection_pool 3 takes keyword arguments only; Rails 7.1's RedisCacheStore passes a hash
+gem 'connection_pool', '< 3'

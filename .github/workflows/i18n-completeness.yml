@@ -1,0 +1,94 @@
+# Template. Installed as .github/workflows/i18n-completeness.yml in each repo
+# that holds English. Keep the filename, because exercism/i18n's
+# rerun-source-check.yml finds this workflow's runs by it. Don't edit a copy in
+# a source repo. Edit exercism/i18n/source-repo-workflows/ and re-sync.
+#
+# This workflow checks whether exercism/i18n holds the translation for every
+# production locale for all the English changed in a PR. If any translation is
+# missing, the check fails. Once `completeness` is a required status check on
+# `main`, a PR can't be merged until its translations exist.
+#
+# The logic lives in exercism/i18n's scripts/completeness.mjs. This workflow
+# fetches what that script needs and runs it.
+#
+# Fork safety:
+#
+#  - It runs on `pull_request`, so PRs from forks get a read-only token and no
+#    secrets. It doesn't need any, because both repos are public.
+#  - The PR is never checked out. Its merge ref is fetched into a bare
+#    repository without file contents and read with `git ls-tree` and
+#    `git cat-file`, so nothing from the PR is written to disk or run.
+#  - The only code that runs is exercism/i18n's scripts, from its `main` branch.
+#  - Website YAML and TypeScript files are parsed as data and never run.
+#
+# What counts as a change:
+#
+# GitHub's `refs/pull/<n>/merge` is what `main` would look like after the merge,
+# and its first parent is the current `main`. The check compares the two, so a
+# PR only needs translations for the English it adds or changes. If the PR has
+# a merge conflict, GitHub has no merge ref and the check fails with a message
+# saying so.
+
+name: i18n completeness
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: i18n-completeness-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  completeness:
+    runs-on: ubuntu-latest
+    steps:
+      # Checks out exercism/i18n for its scripts and translations. The PR's own
+      # repo is never checked out.
+      #
+      # TODO(iHiD): once locales/ holds a few hundred thousand files, make this a
+      # sparse checkout of scripts/, the two JSON files and the production
+      # locales only.
+      - name: Check out exercism/i18n (scripts and translations)
+        uses: actions/checkout@v7
+        with:
+          repository: exercism/i18n
+          ref: main
+          path: i18n
+          persist-credentials: false
+
+      - uses: pnpm/action-setup@v6
+        with:
+          package_json_file: i18n/package.json
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      # Installs the scripts' one dependency, `yaml`, which is only needed for
+      # the website.
+      - name: Install
+        run: pnpm install --frozen-lockfile --dir i18n
+
+      - name: Fetch the PR's merge ref as git objects (no working tree)
+        env:
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+          git init --quiet --bare pr
+          git -C pr remote add origin "https://github.com/${REPO}.git"
+          git -C pr config remote.origin.promisor true
+          git -C pr config remote.origin.partialclonefilter blob:none
+          if ! git -C pr fetch --quiet --depth=2 --filter=blob:none --no-tags origin "refs/pull/${PR}/merge"; then
+            echo "::error::This PR has no merge ref, which usually means it conflicts with main. Resolve the conflict and this check will run."
+            exit 1
+          fi
+
+      - name: Does exercism/i18n hold every translation this PR needs?
+        env:
+          REPO: ${{ github.repository }}
+        run: node i18n/scripts/completeness.mjs --source-repo=pr --repo="$REPO" --head=FETCH_HEAD --base='FETCH_HEAD^1'

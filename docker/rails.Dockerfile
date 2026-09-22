@@ -1,8 +1,5 @@
 FROM ruby:3.4.4-bookworm AS build
 
-ARG GEOIP_ACCOUNT_ID
-ARG GEOIP_LICENSE_KEY
-ARG GEOIP_CACHE_BUSTER
 ARG BUNDLER_VERSION
 ENV RAILS_ENV=production
 ENV NODE_ENV=production
@@ -49,14 +46,7 @@ RUN bundle install
 COPY package.json yarn.lock ./
 RUN yarn install
 
-# Pause to download GeoIP
-WORKDIR /usr/share/GeoIP
-RUN curl -J -L -u "${GEOIP_ACCOUNT_ID}:${GEOIP_LICENSE_KEY}" --output geolite2-city.tar.gz 'https://download.maxmind.com/geoip/databases/GeoLite2-City/download?suffix=tar.gz' && \
-    tar -xvf geolite2-city.tar.gz --strip-components=1 --wildcards '*/GeoLite2-City.mmdb' && \
-    rm geolite2-city.tar.gz
-
 # Copy everything over now
-WORKDIR /opt/exercism/website
 COPY . ./
 
 # Speed things up by precompiling bootsnap
@@ -66,9 +56,21 @@ RUN bundle exec bootsnap precompile --gemfile app/ lib/
 # During deployment the assets are copied from this image and
 # uploaded into s3. The assets left on the machine are not actually
 # used leave the assets on here.
-RUN bundle exec rails r bin/monitor-manifest
-RUN bundle exec rails assets:precompile
+#
+# EXERCISM_IMAGE_BUILD boots the app without AWS (see config/image_build.rb),
+# and these two public values are the only config that ends up in the assets.
+ARG WEBSITE_ASSETS_HOST
+ARG SENTRY_JS_DSN
+RUN EXERCISM_IMAGE_BUILD=1 bundle exec rails r bin/monitor-manifest
+RUN EXERCISM_IMAGE_BUILD=1 bundle exec rails assets:precompile
 RUN bin/cleanup-css
+
+# Deployment uploads the compiled assets to S3. They come out of here as a
+# filesystem export of this stage, so extracting them never has to load the
+# multi-gigabyte image into a Docker daemon first. Kept above `runtime` so the
+# default build target is still the image we ship.
+FROM scratch AS assets
+COPY --from=build /opt/exercism/website/public/assets /
 
 FROM ruby:3.4.4-bookworm AS runtime
 
@@ -83,7 +85,6 @@ RUN usermod -a -G exercism-git root
 
 COPY --from=build /usr/local/bundle /usr/local/bundle
 COPY --from=build /opt/exercism/website /opt/exercism/website
-COPY --from=build /usr/share/GeoIP /usr/share/GeoIP
 
 WORKDIR /opt/exercism/website
 

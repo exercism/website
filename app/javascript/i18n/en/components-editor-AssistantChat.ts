@@ -74,6 +74,9 @@ export default {
     'Exercism is funded by donations. Your <strong>{{amount}}</strong> a month keeps Exercism free for everyone, and unlocks the AI Assistant, dark mode, an ad-free experience and more.',
   'insidersUpsellModal.changeOrCancel':
     'You can change or cancel your donation at any time from your settings.',
+  'insidersUpsellModal.becomeAnInsider': 'Become an Insider',
+  'insidersUpsellModal.broughtStraightBack':
+    "You'll be brought straight back to this exercise afterwards; your work is saved as you type.",
   'insidersUpsellModal.youreAnInsider': "You're an Insider! 💙",
   'insidersUpsellModal.thankYouForSupporting':
     'Thank you for supporting Exercism. Your AI Assistant is unlocked on every exercise, along with dark mode, an ad-free experience, and everything else Insiders unlocks.',

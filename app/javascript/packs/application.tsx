@@ -39,6 +39,7 @@ import type { PerksModalButtonProps } from '@/components/perks/PerksModalButton.
 import type { PerksExternalModalButtonProps } from '@/components/perks/PerksExternalModalButton.js'
 import type { VideoGridProps } from '@/components/community/video-grid/index.js'
 import type { PaymentPendingProps } from '@/components/insiders/PaymentPending'
+import type { JoinProps } from '@/components/insiders/Join'
 import type { TrophiesProps, Trophy } from '@/components/track/Trophies'
 import type { CodeTaggerProps } from '@/components/training-data/code-tagger/CodeTagger.types'
 import type { DashboardProps } from '@/components/training-data/dashboard/Dashboard.types'
@@ -211,6 +212,7 @@ const Dashboard = lazy(() => import('@/components/training-data/Dashboard'))
 const PaymentPending = lazy(
   () => import('@/components/insiders/PaymentPending')
 )
+const InsidersJoin = lazy(() => import('@/components/insiders/Join'))
 const PerksModalButton = lazy(
   () => import('@/components/perks/PerksModalButton')
 )
@@ -856,6 +858,12 @@ export const mappings = {
   'insiders-status': (data: InsidersStatusData): JSX.Element => (
     <Suspense fallback={RenderLoader()}>
       <InsidersStatus {...camelizeKeysAs<InsidersStatusData>(data)} />
+    </Suspense>
+  ),
+
+  'insiders-join': (data: JoinProps): JSX.Element => (
+    <Suspense fallback={RenderLoader()}>
+      <InsidersJoin {...camelizeKeysAs<JoinProps>(data)} />
     </Suspense>
   ),
 

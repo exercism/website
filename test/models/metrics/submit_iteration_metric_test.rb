@@ -7,7 +7,7 @@ class Metrics::SubmitIterationTest < ActiveSupport::TestCase
       user = create :user, id: 3
       iteration = create :iteration, id: 4
       occurred_at = Time.current - 5.seconds
-      request_context = { remote_ip: '127.0.0.1' }
+      request_context = { country_code: 'US' }
 
       metric = Metric::Create.(:submit_iteration, occurred_at, iteration:, track:, user:, request_context:)
 

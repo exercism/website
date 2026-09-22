@@ -56,6 +56,7 @@ resource :images, controller: "images" do
 end
 
 resource :insiders, only: [:show], controller: "insiders" do
+  get :join
   get :payment_pending
 end
 

@@ -22,6 +22,5 @@ module LocaleSupport
 
   def html_navigation? = request.get? && request.format.html? && !request.xhr?
 
-  # TODO(iHiD): OPEN. What a first-time signed-out visitor sees.
   def browser_locale = Locale::FromAcceptLanguage.(request.headers["Accept-Language"])
 end

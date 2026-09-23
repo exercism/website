@@ -79,23 +79,79 @@ class Solution::CachedSerializedView::RetrieveTest < ActiveSupport::TestCase
     )
   end
 
-  test "another locale is keyed by locale and translation version" do
+  test "a cache miss in another locale returns what generating in that locale returns" do
     solution = create(:practice_solution, :published)
+    create(:iteration, solution:)
 
-    with_published_translations({}) do
+    with_available_locales(:hu) do
+      english = Solution::CachedSerializedView::Generate.(solution)
+      expected = I18n.with_locale(:hu) { Solution::CachedSerializedView::Generate.(solution) }
+      refute_equal english, expected, "the payload does not vary by locale, so this test proves nothing"
+
       I18n.with_locale(:hu) do
-        S3Cache::Read.expects(:call).with(cache_key_for(solution, "hu-#{TranslationRepo.version}")).returns(nil)
-        S3Cache::Write.expects(:defer).with(cache_key_for(solution, "hu-#{TranslationRepo.version}"), anything)
-
-        Solution::CachedSerializedView::Retrieve.(solution)
+        assert_equal expected, Solution::CachedSerializedView::Retrieve.(solution)
       end
     end
   end
 
+  test "a cache hit in another locale returns what generating in that locale returns" do
+    solution = create(:practice_solution, :published)
+    create(:iteration, solution:)
+    upload_to_s3(Exercism.config.aws_cache_bucket, cache_key_for(solution),
+      Solution::CachedSerializedView::Generate.(solution).to_json)
+
+    with_available_locales(:hu) do
+      expected = I18n.with_locale(:hu) { Solution::CachedSerializedView::Generate.(solution) }
+
+      I18n.with_locale(:hu) do
+        S3Cache::Write.expects(:defer).never
+
+        assert_equal expected, Solution::CachedSerializedView::Retrieve.(solution)
+      end
+    end
+  end
+
+  test "two locales share one cache entry, keyed without a locale" do
+    solution = create(:practice_solution, :published)
+    create(:iteration, solution:)
+
+    with_available_locales(:hu) do
+      perform_enqueued_jobs do
+        I18n.with_locale(:hu) { Solution::CachedSerializedView::Retrieve.(solution) }
+        Solution::CachedSerializedView::Retrieve.(solution)
+      end
+    end
+
+    assert_equal [cache_key_for(solution)], cached_keys_for(solution)
+  end
+
+  test "the cached entry holds the default locale's payload, whichever locale filled it" do
+    solution = create(:practice_solution, :published)
+    create(:iteration, solution:)
+
+    with_available_locales(:hu) do
+      perform_enqueued_jobs do
+        I18n.with_locale(:hu) { Solution::CachedSerializedView::Retrieve.(solution) }
+      end
+    end
+
+    assert_equal(
+      Solution::CachedSerializedView::Generate.(solution),
+      JSON.parse(download_s3_file(Exercism.config.aws_cache_bucket, cache_key_for(solution)), symbolize_names: true)
+    )
+  end
+
   private
-  def cache_key_for(solution, locale = nil)
+  def cache_key_for(solution)
     uuid = solution.uuid
-    suffix = ".#{locale}" if locale
-    "solution-view/#{uuid[0, 2]}/#{uuid[2, 2]}/#{uuid}/#{solution.updated_at.to_i}#{suffix}.json"
+    "solution-view/#{uuid[0, 2]}/#{uuid[2, 2]}/#{uuid}/#{solution.updated_at.to_i}.json"
+  end
+
+  def cached_keys_for(solution)
+    uuid = solution.uuid
+    Exercism.s3_client.list_objects_v2(
+      bucket: Exercism.config.aws_cache_bucket,
+      prefix: "solution-view/#{uuid[0, 2]}/#{uuid[2, 2]}/#{uuid}/"
+    ).contents.map(&:key)
   end
 end

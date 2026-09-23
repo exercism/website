@@ -1,7 +1,6 @@
 class Locale::Normalize
   include Mandate
 
-  # TODO(iHiD): OPEN. Whether split variants such as es-419/es-ES will ship.
   VARIANTS = LocaleConfig::VARIANTS
 
   def initialize(tag, locales = I18n.available_locales)

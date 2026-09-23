@@ -1,5 +1,6 @@
 class BlogPost < ApplicationRecord
   include Propshaft::Helper
+  include HasTranslatedMetadata
 
   extend FriendlyId
   friendly_id :slug, use: [:history]
@@ -27,8 +28,13 @@ class BlogPost < ApplicationRecord
       "#{Rails.application.config.action_controller.asset_host}#{compute_asset_path('graphics/blog-placeholder-article.svg')}"
   end
 
+  def title = translated_metadata("post:#{slug}:title", super)
+  def marketing_copy = translated_metadata("post:#{slug}:marketing_copy", super)
+
   # TODO: Guarantee all posts have descriptions instead
-  def description = super.presence || marketing_copy
+  def description = translated_metadata("post:#{slug}:description", super).presence || marketing_copy
+
+  def translation_metadata_repo_name = "blog"
 
   def content_html
     markdown = Git::Blog.post_content_for(slug)

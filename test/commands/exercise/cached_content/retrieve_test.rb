@@ -81,6 +81,27 @@ class Exercise::CachedContent::RetrieveTest < ActiveSupport::TestCase
     refute_equal "<p>stale</p>", Exercise::CachedContent::Retrieve.(exercise, nil)[:instructions]
   end
 
+  test "a non-english request generates live, touching s3 not at all" do
+    exercise = create :practice_exercise
+    upload_to_s3(
+      Exercism.config.aws_cache_bucket, cache_key(exercise, exercise.git_sha),
+      { introduction: "<p>cached intro</p>", instructions: "<p>cached instructions</p>" }.to_json
+    )
+
+    with_available_locales(:hu) do
+      with_published_translations({}) do
+        I18n.with_locale(:hu) do
+          expected = Exercise::CachedContent::Generate.(exercise, nil)
+
+          S3Cache::Read.expects(:call).never
+          S3Cache::Write.expects(:defer).never
+
+          assert_equal expected, Exercise::CachedContent::Retrieve.(exercise, nil)
+        end
+      end
+    end
+  end
+
   test "falls back to live generation on S3 failure" do
     exercise = create :practice_exercise
     expected = Exercise::CachedContent::Generate.(exercise, nil)

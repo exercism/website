@@ -1,5 +1,6 @@
 class CommunityStory < ApplicationRecord
   extend FriendlyId
+  include HasTranslatedMetadata
 
   friendly_id :slug, use: [:history]
 
@@ -11,6 +12,11 @@ class CommunityStory < ApplicationRecord
   scope :ordered_by_recency, -> { order('published_at DESC') }
 
   def to_param = slug
+
+  def title = translated_metadata("story:#{slug}:title", super)
+  def blurb = translated_metadata("story:#{slug}:blurb", super)
+
+  def translation_metadata_repo_name = "blog"
 
   def content_html = Markdown::Parse.(content)
   def content = Git::Blog.story_content_for(slug).to_s

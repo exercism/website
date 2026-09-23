@@ -13,7 +13,8 @@ class Exercise::CachedContent::Generate
   def call
     {
       introduction: Markdown::Parse.(source.introduction),
-      instructions: Markdown::Parse.(source.instructions)
+      instructions: Markdown::Parse.(source.instructions),
+      for_newer_version: !!solution&.docs_for_newer_version?
     }
   end
 

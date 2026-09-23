@@ -6,6 +6,18 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :ok
   end
 
+  test "index shows its showcase exercises in another locale" do
+    showcase = { allergies: { title: "Allergiák", blurb: "Blurb" } }
+    catalog = { pages: { index: { exercises_section: { showcase: } } } }
+
+    with_published_translations(hu: { backend: catalog }) do
+      get "/hu"
+    end
+
+    assert_response :ok
+    assert_includes response.body, "Allergiák"
+  end
+
   test "index redirects if logged n" do
     sign_in!
     get "/"
@@ -55,5 +67,28 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
       }
     }
     assert_equal expected.to_json, response.body
+  end
+
+  test "frontend catalog is publicly cacheable only when nobody is signed in" do
+    with_published_translations(hu: { frontend: { ns: { a: "b" } } }) do
+      url = TranslationRepo.frontend_catalog_url(:hu)
+
+      get url
+      assert_response :ok
+      assert_equal %w[immutable max-age=31536000 public], response.headers["Cache-Control"].split(", ").sort
+      assert_nil response.headers["Set-Cookie"]
+
+      sign_in!
+      get url
+      assert_response :ok
+      assert_equal %w[immutable max-age=31536000 private], response.headers["Cache-Control"].split(", ").sort
+    end
+  end
+
+  test "frontend catalog 404s for a stale hash" do
+    with_published_translations(hu: { frontend: { ns: { a: "b" } } }) do
+      get "/i18n/hu/frontend-0123456789ab.json"
+      assert_response :not_found
+    end
   end
 end

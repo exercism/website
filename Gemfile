@@ -60,6 +60,10 @@ gem 'humanize'
 
 # Authentication
 gem 'devise', '~> 5.0'
+
+# Dates, numbers, plural rules and ActiveRecord errors per locale.
+# Which of its locales get loaded is decided in config/initializers/locale.rb
+gem 'rails-i18n', '~> 7.0'
 gem 'doorkeeper', '~> 5.8'
 
 # Omniauth

@@ -6,7 +6,7 @@ class Concept::InvalidateCloudflareCache
   initialize_with :concept
 
   def call
-    Cloudflare::PurgeUrls.(urls)
+    Cloudflare::PurgeUrls.(urls, all_locales: true)
   end
 
   private

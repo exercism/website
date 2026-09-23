@@ -13,7 +13,7 @@ class Solution::CachedSerializedView::Retrieve
   initialize_with :solution
 
   def call
-    cached || generate!
+    Locale::SwapInPayload.(cached || generate!, I18n.locale)
   end
 
   private
@@ -29,9 +29,16 @@ class Solution::CachedSerializedView::Retrieve
   # (now old) payload under the new version's key, where it would be read
   # back as current. Capturing both together keeps them the same version.
   def generate!
-    Solution::CachedSerializedView::Generate.(solution).tap do |payload|
+    canonical_payload.tap do |payload|
       S3Cache::Write.defer(cache_key, payload)
     end
+  end
+
+  # One entry serves every locale, so what is cached is always the
+  # default-locale payload, whichever locale asked for it first. The
+  # locale-scoped URLs in it are rewritten on the way out of #call.
+  def canonical_payload
+    I18n.with_locale(I18n.default_locale) { Solution::CachedSerializedView::Generate.(solution) }
   end
 
   def cache_key

@@ -6,7 +6,7 @@ class Exercise::InvalidateCloudflareCache
   initialize_with :exercise
 
   def call
-    Cloudflare::PurgeUrls.(urls)
+    Cloudflare::PurgeUrls.(urls, all_locales: true)
   end
 
   private

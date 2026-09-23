@@ -1,6 +1,7 @@
 class Exercise < ApplicationRecord
   extend FriendlyId
   extend Mandate::Memoize
+  include HasTranslatedMetadata
 
   TUTORIAL_SLUG = "hello-world".freeze
 
@@ -101,7 +102,7 @@ class Exercise < ApplicationRecord
     Exercise.reset_num_available!
   end
 
-  delegate :files_for_editor, :exemplar_files, :introduction, :instructions, :source, :source_url,
+  delegate :files_for_editor, :exemplar_files, :introduction, :instructions, :source_url,
     :approaches_introduction, :approaches_introduction_exists?,
     :approaches_introduction_edit_url, to: :git
   delegate :dir, :no_important_files_changed?, to: :git, prefix: true
@@ -139,6 +140,12 @@ class Exercise < ApplicationRecord
   end
 
   def status = super.to_sym
+
+  delegate :translation_metadata_repo_name, to: :track, allow_nil: true
+
+  def title = translated_metadata("exercise:#{slug}:name", super)
+  def blurb = translated_metadata("exercise:#{slug}:blurb", super)
+  def source = translated_metadata("exercise:#{slug}:source", git.source)
 
   def git_type
     self.class.name.sub("Exercise", "").downcase

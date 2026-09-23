@@ -2,7 +2,7 @@ class Courses::CodingFundamentals < Courses::Course
   include Singleton
 
   def slug = "coding-fundamentals"
-  def url = "https://jiki.io"
+  delegate :url, to: :Jiki
   def self.url = instance.url
 
   def enable_for_user!(user)

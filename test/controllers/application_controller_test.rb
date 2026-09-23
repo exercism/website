@@ -70,7 +70,7 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "preloads the latin-ext Poppins subsets for other locales" do
-    get "/", params: { locale: "hu" }
+    get "/hu"
 
     assert_includes response.headers["Link"], "poppins-v20-latin-ext-regular-"
     assert_includes response.headers["Link"], "poppins-v20-latin-ext-600-"

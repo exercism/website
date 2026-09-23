@@ -71,9 +71,10 @@ Rails.application.configure do
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
 
-  # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
-  # the I18n.default_locale when a translation cannot be found).
-  config.i18n.fallbacks = true
+  # We do not fall back to English when a translation is missing. A gap reports
+  # itself to Sentry and shows on the page, so we find out about it instead of
+  # quietly serving English to someone who asked for another language.
+  config.i18n.fallbacks = false
 
   # Don't log any deprecations.
   config.active_support.report_deprecations = false

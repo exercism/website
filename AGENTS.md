@@ -1,6 +1,17 @@
-# AI Agent Instructions for Exercism Website
+# CLAUDE.md
 
-This file provides specific guidance for AI agents working on the Exercism website codebase.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+This file provides specific guidance for AI agents working on the Exercism website codebase. (`CLAUDE.md` is a symlink to this `AGENTS.md`.)
+
+## Big Picture
+
+Exercism Website is a Ruby on Rails app (Ruby 3.4.4) with a React/TypeScript frontend. The two halves meet through server-rendered HAML views that mount React components and pass props as JSON:
+
+- **Backend**: Rails controllers stay thin and delegate business logic to Mandate **commands** in `app/commands/`. Data leaving the app is shaped by **serializers** (`docs/context/serializers.md`) and **assemblers** (`docs/context/assemblers.md`) so API and SSR responses stay consistent.
+- **View layer**: HAML templates in `app/views/` render **ViewComponents** (server-side, encapsulated logic — `docs/context/view-components.md`) and mount **React components** (`app/javascript/components/`, `docs/context/react-components.md`).
+- **Frontend**: React/TypeScript in `app/javascript/`, styled with PostCSS + Tailwind (`app/css/`, `tailwind.config.js`), built with esbuild (`app/javascript/esbuild.js`).
+- **Routing**: three surfaces — standard user-facing routes, `/api` (Bearer-auth public/CLI/frontend endpoints, `config/routes/api.rb`), and `/spi` (internal AWS Lambda callbacks, no app-level auth, `config/routes/spi.rb`).
 
 ## Complete Documentation
 
@@ -41,6 +52,17 @@ bundle exec rails test test/system  # System tests (15-20 min)
 yarn test                          # JavaScript tests (2-3 min)
 ```
 
+**Running a single test (fast feedback loop — prefer this over the full suite while iterating):**
+
+```bash
+bin/rails test test/commands/user/update_test.rb         # one file
+bin/rails test test/commands/user/update_test.rb:42      # one test by line number
+yarn test path/to/Component.test.tsx                     # one JS test file (jest)
+yarn test -t "renders the label"                         # JS tests matching a name
+```
+
+You do NOT need to run lint or rubocop on files before committing. These will AUTOMATICALLY happen via a git hook. Running before this just wastes time.
+
 **Asset builds:**
 
 ```bash
@@ -71,9 +93,16 @@ rm -rf .built-assets/              # Clear asset cache if needed
 - Always use Bearer token authentication for API
 - Delegate business logic to commands, keep controllers thin
 
-## Internationalisation (i18n)
+**Internationalization (i18n) — active work:**
 
-`config/i18n.json` is the one list of the locales the site serves, along with the public paths a first-time visitor may be moved between and the region/script variants of the multi-variant languages. Rails and the Cloudflare Worker in `cloudflare/locale-redirect/` both read it, and the Worker deploys in the same GitHub Actions run as the site, so serving a new locale means adding it to `served`. The Worker's Cloudflare routes live in `exercism/terraform` (`terraform/cloudflare/workers.tf`).
+Hardcoded UI strings are being extracted into i18n. Two parallel systems:
+
+- **Rails/HAML**: keys live in `config/locales/` (organized by area, e.g. `pages/`, `views/`). Reference with the standard `t('...')` / `I18n.t`.
+- **React/TypeScript**: keys live in `app/javascript/i18n/en/`, one file **per component**, named after the component's path (e.g. `components-common-Loading.tsx.ts`). Each file `export default`s a nested object; the top comment records the namespace. In components, use `useAppTranslation('<namespace>')` from `@/i18n/useAppTranslation` and call `t('key.path')`. `app/javascript/i18n/generateIndexFile.ts` regenerates the aggregated `app/javascript/i18n/en/index.ts` from the per-component files.
+- Some areas are intentionally **excluded** from extraction (bootcamp, admin, hiring, campaigns, dead mailers). Confirm scope before extracting strings in an unfamiliar area.
+- **Translations** live in `exercism/i18n`, read by `lib/translation_repo.rb` from a plain checkout at `<efs_repositories_mount_point>/i18n` (`/opt/exercism/efs/repos/i18n` locally). To see a locale other than English, clone it there: `git clone --depth 1 --single-branch https://github.com/exercism/i18n.git /opt/exercism/efs/repos/i18n`, or run `bin/rails runner 'TranslationRepo::Sync.()'`, which clones and pulls the served locales the way production does. Without it every locale falls back to English.
+- **Deploying a new locale takes two changes, in this order.** (1) `exercism/i18n`: the locale is in `targets` and, once complete, `productionTargets` in `locales.json`, so the checker and completeness gate hold it. (2) This repo: add it to `served` in `config/i18n.json` and a name to `Locale::Name::NAMES`.
+- `config/i18n.json` is the one list of the locales the site serves, along with the public paths a first-time visitor may be moved between and the region/script variants of the multi-variant languages. Rails and the Cloudflare Worker in `cloudflare/locale-redirect/` both read it, and the Worker deploys in the same GitHub Actions run as the site. The Worker's Cloudflare routes live in `exercism/terraform` (`terraform/cloudflare/workers.tf`).
 
 ## Git Usage
 

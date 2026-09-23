@@ -35,7 +35,7 @@ export function ManageExistingSolution({
             components={[<span className="font-medium" />]}
           />
         </p>
-        <div className="flex gap-12">
+        <div className="flex flex-wrap gap-12">
           <button
             onClick={() => enableAllMutation()}
             disabled={numCommentsEnabled === numPublished}

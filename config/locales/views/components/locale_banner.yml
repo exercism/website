@@ -1,0 +1,6 @@
+en:
+  components:
+    locale_banner:
+      pre: "This page is in %{current}."
+      link: "View it in %{offered}"
+      dismiss: "Dismiss"

@@ -1,0 +1,118 @@
+.c-language-field {
+    & .flag {
+        @apply flex-shrink-0 rounded-3;
+        width: 24px;
+        height: 17px;
+        object-fit: cover;
+        box-shadow: inset 0 0 0 1px rgba(var(--shadowColorMain), 0.2);
+    }
+
+    & .names {
+        @apply flex flex-col min-w-0 leading-130;
+    }
+
+    & .native {
+        @apply text-15 font-medium text-textColor1;
+    }
+
+    & .english {
+        @apply text-13 text-textColor6;
+    }
+
+    & > .current {
+        @apply flex items-center gap-8;
+
+        & > button {
+            @apply ml-auto;
+        }
+    }
+
+    & > .picker {
+        @apply mt-12 overflow-hidden;
+        @apply rounded-12 border-1 border-borderColor6;
+
+        & .search-row {
+            @apply relative border-b-1 border-borderColor6;
+
+            & .c-icon {
+                @apply absolute left-16 w-[16px] h-[16px];
+                top: 50%;
+                transform: translateY(-50%);
+                filter: var(--textColor6-filter);
+            }
+
+            & input {
+                @apply w-100 border-0 rounded-none;
+                @apply py-12 pl-40 pr-16 text-15;
+            }
+        }
+
+        & .scroll {
+            @apply overflow-y-auto p-6;
+            max-height: 340px;
+        }
+
+        & .group {
+            @apply list-none;
+        }
+
+        & .group-heading {
+            @apply mt-4 px-10 pt-10 pb-6;
+            @apply border-t-1 border-borderColor6;
+            @apply text-[11px] font-semibold uppercase tracking-wider text-textColor6;
+        }
+
+        & .group:first-child + .group-heading {
+            @apply mt-0 pt-6 border-0;
+        }
+
+        & .option {
+            @apply flex items-center w-100 text-left;
+            @apply px-10 py-8 rounded-8;
+
+            & > .flag {
+                @apply mr-10;
+            }
+        }
+
+        & button.option:hover:not(:disabled) {
+            @apply bg-backgroundColorD;
+        }
+
+        & .option[aria-current="true"] {
+            @apply bg-purpleHover;
+
+            & .native {
+                @apply text-purple;
+            }
+        }
+
+        .theme-dark & .option[aria-current="true"] {
+            @apply bg-purpleDarkened;
+
+            & .native {
+                @apply text-brightPurple;
+            }
+        }
+
+        & .option.--disabled {
+            @apply opacity-70 cursor-default;
+        }
+
+        & .check {
+            @apply ml-auto flex-shrink-0 w-[18px] h-[18px];
+            filter: var(--purple-filter);
+        }
+
+        & .badge {
+            @apply ml-auto flex-shrink-0;
+            @apply px-6 py-2 rounded-100;
+            @apply bg-backgroundColorD text-textColor6;
+            @apply text-[11px] font-semibold uppercase tracking-wide;
+        }
+
+        & .empty {
+            @apply py-28 px-16 text-center text-14 text-textColor6;
+        }
+    }
+}

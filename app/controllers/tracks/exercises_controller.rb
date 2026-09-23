@@ -62,6 +62,12 @@ class Tracks::ExercisesController < ApplicationController
   end
 
   private
+  def english_exercise_docs?
+    return false unless action_name == "show" && params[:exercise_locale] == "en"
+
+    !!@solution&.docs_for_newer_version?
+  end
+
   # The exercise list only changes when the track syncs, which purges it.
   # See Track::InvalidateCloudflareCache.
   def cache_index_action! = cache_public_action!(edge_ttl: 1.day)

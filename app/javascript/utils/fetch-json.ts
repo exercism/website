@@ -1,4 +1,5 @@
 import { camelizeKeys } from 'humps'
+import { localeHeaders } from './locale-header'
 
 export async function fetchJSON<T extends any>(
   input: RequestInfo,
@@ -7,6 +8,7 @@ export async function fetchJSON<T extends any>(
   const headers = {
     'content-type': 'application/json',
     accept: 'application/json',
+    ...localeHeaders(input),
   }
 
   return fetch(input, Object.assign(options, { headers }))

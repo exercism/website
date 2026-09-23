@@ -8,6 +8,7 @@ import { Trans } from 'react-i18next'
 
 type Links = {
   bootcampFreeCouponCode: string
+  jiki: string
 }
 
 export type BootcampFreeCouponFormProps = {
@@ -55,12 +56,7 @@ export default function BootcampFreeCouponForm({
         <Trans
           i18nKey="bootcampFreeCouponForm.lifetimeInsiderEligible"
           ns="components/settings/BootcampFreeCouponForm.tsx"
-          components={[
-            <a
-              href="https://jiki.io?utm_source=exercism&utm_medium=free_settings"
-              className="font-bold"
-            />,
-          ]}
+          components={[<a href={links.jiki} className="font-bold" />]}
         />
       </p>
       <p className="text-p-base mb-16">

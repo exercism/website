@@ -62,6 +62,7 @@ namespace :api do
         post :bootcamp_free_coupon_code
       end
       resource :communication_preferences, only: [:update]
+      resource :language, only: [:update]
 
       resources :introducers, only: [], param: :slug do
         patch :hide, on: :member

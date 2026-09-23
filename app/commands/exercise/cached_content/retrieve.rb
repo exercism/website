@@ -21,6 +21,8 @@ class Exercise::CachedContent::Retrieve
   initialize_with :exercise, :solution
 
   def call
+    return Exercise::CachedContent::Generate.(exercise, solution) unless I18n.locale == I18n.default_locale
+
     cached || generate!
   end
 

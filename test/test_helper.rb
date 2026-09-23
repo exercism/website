@@ -219,6 +219,125 @@ class ActiveSupport::TestCase
     Array(num).map { create(model, params) }.sample
   end
 
+  def with_available_locales(*locales)
+    available = [I18n.default_locale, *locales.map(&:to_sym)].uniq
+    previous = I18n.config.available_locales
+
+    I18n.stubs(available_locales: available)
+    I18n.config.available_locales = available
+    yield
+  ensure
+    I18n.config.available_locales = previous
+    I18n.unstub(:available_locales)
+  end
+
+  # e.g. with_published_translations(hu: { backend: { greeting: "Szia" } })
+  def with_published_translations(catalogs)
+    Dir.mktmpdir do |dir|
+      TranslationRepo.stubs(root: Pathname.new(dir) / "i18n")
+
+      begin
+        catalogs.each do |locale, kinds|
+          kinds.each { |kind, tree| publish_translation_catalog!(locale, kind, tree) }
+        end
+        commit_translations!
+        I18n.reload!
+
+        yield
+      ensure
+        TranslationRepo.expire!
+        TranslationRepo.unstub(:root)
+        I18n.reload!
+      end
+    end
+  end
+
+  # Call inside with_published_translations
+  def publish_translation_catalog!(locale, kind, tree)
+    write_translation!(TranslationRepo.root / "locales" / locale.to_s / "website" / "#{kind}.json", tree.to_json)
+  end
+
+  # Call inside with_published_translations
+  def publish_translated_metadata!(locale, repo_name, catalog)
+    write_translation!(TranslationRepo.metadata_path(locale, repo_name), catalog.to_json)
+  end
+
+  # Call inside with_published_translations
+  def publish_translated_content!(locale, repo, commit, path, text)
+    blob_id = repo.find_file_oid(commit, path)
+    write_translation!(TranslationRepo.content_path(locale, blob_id, File.extname(path)), text)
+  end
+
+  def write_translation!(file, text)
+    FileUtils.mkdir_p(file.dirname)
+    File.write(file, text)
+    commit_translations!
+  end
+
+  # Like with_published_translations, but backed by a real git checkout
+  def with_git_translations_checkout
+    Dir.mktmpdir do |dir|
+      root = Pathname.new(dir) / "i18n"
+      FileUtils.mkdir_p(root)
+      TranslationRepo.stubs(root:)
+
+      begin
+        git_translations!("init", "--initial-branch=main")
+        git_translations!("config", "user.email", "test@exercism.org")
+        git_translations!("config", "user.name", "Test")
+        git_translations!("config", "commit.gpgsign", "false")
+        commit_git_translations!
+        I18n.reload!
+
+        yield
+      ensure
+        TranslationRepo.expire!
+        TranslationRepo.unstub(:root)
+        I18n.reload!
+      end
+    end
+  end
+
+  # Call inside with_git_translations_checkout
+  def write_git_translation!(path, text)
+    file = TranslationRepo.root / path
+    FileUtils.mkdir_p(file.dirname)
+    File.write(file, text)
+    commit_git_translations!
+  end
+
+  # Call inside with_git_translations_checkout
+  def commit_git_translations!
+    git_translations!("add", "--all")
+    git_translations!("commit", "--allow-empty", "--message", "translations")
+    TranslationRepo.expire!
+    TranslationRepo.version
+  end
+
+  def git_translations!(*args)
+    output, status = Open3.capture2e("git", *args, chdir: TranslationRepo.root.to_s)
+    raise "git #{args.first} failed: #{output}" unless status.success?
+
+    output
+  end
+
+  def commit_translations!(sha = SecureRandom.hex(20))
+    git = TranslationRepo.root / ".git"
+    FileUtils.mkdir_p(git / "refs" / "heads")
+    File.write(git / "HEAD", "ref: refs/heads/main\n")
+    File.write(git / "refs" / "heads" / "main", "#{sha}\n")
+    TranslationRepo.expire!
+    sha
+  end
+
+  def travel_monotonic(seconds)
+    now = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+    Process.stubs(:clock_gettime).with(Process::CLOCK_MONOTONIC).returns(now + seconds)
+    yield
+  ensure
+    Process.unstub(:clock_gettime)
+  end
+
   def assert_equal_structs(expected, actual)
     assert_equal(JSON.parse(expected.to_json, object_class: OpenStruct), actual)
   end

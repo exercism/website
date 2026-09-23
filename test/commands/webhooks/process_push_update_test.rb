@@ -33,6 +33,12 @@ class Webhooks::ProcessPushUpdateTest < ActiveSupport::TestCase
     end
   end
 
+  test "should enqueue a translations sync when pushing i18n" do
+    assert_enqueued_with job: MandateJob, args: [TranslationRepo::Sync.name] do
+      Webhooks::ProcessPushUpdate.('refs/heads/main', 'exercism', 'i18n', 'user17', [], false)
+    end
+  end
+
   test "should not enqueue sync track job when pushing to non-main branch" do
     create :track, slug: :ruby
 

@@ -19,6 +19,8 @@ class Concept::CachedContent::Retrieve
   initialize_with :concept
 
   def call
+    return Concept::CachedContent::Generate.(concept) unless I18n.locale == I18n.default_locale
+
     cached || generate!
   end
 

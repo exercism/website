@@ -11,7 +11,8 @@ class Solution::InvalidateCloudflareCacheTest < ActiveSupport::TestCase
       [
         "https://test.exercism.org/tracks/ruby/exercises/bob/solutions/iHiD",
         "https://test.exercism.org/tracks/ruby/exercises/bob/solutions/#{solution.uuid}"
-      ]
+      ],
+      all_locales: true
     )
 
     Solution::InvalidateCloudflareCache.(solution)

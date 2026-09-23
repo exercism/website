@@ -1,4 +1,4 @@
-direct(:jiki) { "https://jiki.io" }
+direct(:jiki) { Jiki.url }
 
 namespace :bootcamp do
   get "dashboard", to: "dashboard#index", as: :dashboard

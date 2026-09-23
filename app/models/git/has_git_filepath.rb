@@ -4,8 +4,10 @@ module Git
     # - A member named "repo" of type Git::Repository
     # - A method named "absolute_filepath" that takes a relative path
     #   to a git file and returns its absolute path
-    def git_filepath(field, file:, append_file: nil)
-      if file.instance_of?(Proc)
+    def git_filepath(field, file:, append_file: nil, translatable: false)
+      if translatable
+        read_method = "read_translated_text_blob"
+      elsif file.instance_of?(Proc)
         read_method = "read_text_blob"
       else
         json_file = file.end_with?('.json')
@@ -23,7 +25,7 @@ module Git
       # Define a <field> method that stored a memoized version of the contents
       # of the file with the specified filepath as retrieved from Git
       define_method field do
-        iv = "@__#{field}__"
+        iv = translatable ? "@__#{field}_#{I18n.locale.to_s.tr('-', '_')}__" : "@__#{field}__"
         return instance_variable_get(iv) if instance_variable_defined?(iv)
 
         file_content = repo.send(read_method, commit, send("#{field}_absolute_filepath"))
@@ -50,6 +52,14 @@ module Git
       # Define a <field>_absolute_filepath method to allow easy access to the filepath
       define_method "#{field}_absolute_filepath" do
         absolute_filepath(send("#{field}_filepath"))
+      end
+
+      # Define a <field>_translated? method to allow checking if the file has a translation in the current locale
+      if translatable
+        define_method "#{field}_translated?" do
+          [send("#{field}_absolute_filepath"), (absolute_filepath(append_file) if append_file)].compact.
+            all? { |path| repo.translated?(commit, path) }
+        end
       end
 
       # Define a <field>_exists? method to allow checking if the file exists in git

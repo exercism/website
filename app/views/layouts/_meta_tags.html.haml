@@ -1,5 +1,14 @@
 - if canonical_url.present?
   %link{ rel: "canonical", href: canonical_url }
+- hreflang_alternates.each do |hreflang, href|
+  %link{ rel: "alternate", hreflang: hreflang, href: href }
+%meta{ name: "exercism-locale", content: I18n.locale }
+- if (banner_data = locale_banner_data)
+  %meta{ name: "exercism-locale-banner", content: banner_data }
+- if frontend_catalog_url
+  %link{ rel: "preload", href: frontend_catalog_url, as: "fetch", type: "application/json", crossorigin: "anonymous" }
+  %meta{ name: "exercism-i18n-catalog", content: frontend_catalog_url }
+
 = csrf_meta_tags
 = csp_meta_tag
 = action_cable_meta_tag

@@ -99,7 +99,14 @@ class Solution < ApplicationRecord
     end
   end
 
-  delegate :instructions, :introduction, :hints, :test_files, :source, :source_url, to: :git_exercise
+  delegate :test_files, :source, :source_url, to: :git_exercise
+  delegate :instructions, :introduction, :hints, to: :docs
+  delegate :for_newer_version?, to: :docs, prefix: true
+
+  def docs
+    @docs ||= {}
+    @docs[I18n.locale] ||= Solution::ResolveDocs.(self)
+  end
 
   memoize
   def latest_published_iteration = published_iterations.last

@@ -9,6 +9,10 @@ class ApplicationMailer < ActionMailer::Base
   rescue_from(Net::SMTPSyntaxError) {}
   rescue_from(Net::SMTPFatalError) {}
 
+  def process(action, *args)
+    I18n.with_locale(recipient_locale(args)) { super }
+  end
+
   def user_email_with_name(user)
     name = user.name.presence || user.handle
     email_address_with_name(user.email, name)
@@ -66,6 +70,15 @@ class ApplicationMailer < ActionMailer::Base
   end
 
   private
+  def recipient_locale(args) = Locale::Normalize.(recipient(args)&.locale) || I18n.default_locale
+
+  def recipient(args)
+    return args.first if args.first.is_a?(User) # Devise passes the user positionally
+
+    candidates = params.to_h.values_at(:user, :notification, :payment)
+    candidates.compact.filter_map { |c| c.is_a?(User) ? c : c.try(:user) }.first
+  end
+
   def mail_to_user(user, subject, from:, delivery_method_options:, **options)
     return unless user.may_receive_emails?
 

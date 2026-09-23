@@ -25,6 +25,8 @@
 @import "../components/site-update";
 @import "../components/site-footer";
 @import "../components/site-header";
+@import "../components/language-switcher";
+@import "../components/locale-banner";
 @import "../components/nav-bar";
 @import "../components/toggle-button";
 @import "../components/header-with-bg";

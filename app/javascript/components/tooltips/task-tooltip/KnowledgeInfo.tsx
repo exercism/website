@@ -76,7 +76,7 @@ const KnowledgeDetails = ({
           </h3>
           <p>
             {t('knowledgeInfo.keyPrinciplesOfArea', {
-              desc: desc ? desc : t('summary.exercism'),
+              desc: desc ? desc : 'Exercism',
             })}
           </p>
         </>
@@ -93,7 +93,7 @@ const KnowledgeDetails = ({
           </h3>
           <p>
             {t('knowledgeInfo.solidUnderstandingOfArea', {
-              desc: desc ? desc : t('summary.exercism'),
+              desc: desc ? desc : 'Exercism',
             })}
           </p>
         </>

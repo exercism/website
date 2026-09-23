@@ -219,6 +219,7 @@
   "scripts": {
     "test-debug": "node --unhandled-rejections=strict --trace-warnings node_modules/.bin/jest",
     "test": "jest",
+  "i18n-check": "node app/javascript/i18n/check-namespaces",
     "test-watch": "jest --watchAll",
     "build:css": "postcss ./app/css/packs/**/*.css --dir .built-assets",
     "build": "./app/javascript/esbuild.js",

@@ -1,0 +1,22 @@
+[
+  {
+    "file": "app/javascript/components/insiders/InsidersStatus.tsx",
+    "rule": "A",
+    "reason": "The key comes from the STATUS_DATA table at the top of the file, which holds one literal key per insiders status."
+  },
+  {
+    "file": "app/javascript/components/modals/complete-exercise-modal/ExerciseCompletedModal.tsx",
+    "rule": "A",
+    "reason": "conceptInfoKey is chosen by a useMemo in the same file from literal keys, one per concept and unlocked-exercise count combination."
+  },
+  {
+    "file": "app/javascript/components/modals/realtime-feedback-modal/feedback-content/found-automated-feedback/index.tsx",
+    "rule": "A",
+    "reason": "The headline key comes from the HEADLINE table, which maps an iteration status to a literal key."
+  },
+  {
+    "file": "app/javascript/components/tooltips/StudentTooltip.tsx",
+    "rule": "A",
+    "reason": "previousSessionsKey at the foot of the file builds an i18next plural key from the discussion counts."
+  }
+]

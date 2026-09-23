@@ -84,6 +84,36 @@ jobs:
       - name: Run JS tests
         run: yarn test
 
+  ########################
+  ##### I18N NAMESPACES ##
+  ########################
+  i18n-namespaces:
+    if: github.repository == 'exercism/website'
+
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache yarn
+        uses: actions/cache@0c907a75c2c80ebcb7f088228285e798b750cf8f
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Check i18n namespaces
+        run: yarn i18n-check
+
   #####################
   ##### RUBY TESTS ####
   #####################

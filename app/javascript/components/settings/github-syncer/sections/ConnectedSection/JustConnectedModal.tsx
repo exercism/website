@@ -48,19 +48,19 @@ export function JustConnectedModal(): JSX.Element {
           <Icon
             icon="exercism-face"
             category="icons"
-            alt="Exercism"
+            alt={t('justConnectedModal.exercismAlt')}
             className="mb-16 h-[64px]"
           />
           <Icon
             icon="sync"
             category="graphics"
-            alt="Sync with"
+            alt={t('justConnectedModal.syncWithAlt')}
             className="mb-16 h-[64px]"
           />
           <Icon
             icon="external-site-github"
             category="icons"
-            alt="Github"
+            alt={t('justConnectedModal.githubAlt')}
             className="mb-16 h-[64px]"
           />
         </div>

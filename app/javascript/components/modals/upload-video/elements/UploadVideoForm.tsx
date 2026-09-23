@@ -77,7 +77,7 @@ export function UploadVideoForm({
     <form onSubmit={handleSubmitVideo}>
       <img
         src={data.thumbnailUrl}
-        alt="video thumbnail"
+        alt={t('uploadVideoForm.videoThumbnail')}
         style={{ height: '360px', width: '100%', objectFit: 'cover' }}
         className="rounded-16 mb-16"
       />
@@ -87,7 +87,7 @@ export function UploadVideoForm({
         onClick={onUseDifferentVideoClick}
         className="btn-m btn-default shadow-xsZ1v2 border-borderLight2 text-textColor6 mb-16"
       >
-        <Icon icon="reset" alt="Reset" className="!ml-0" />
+        <Icon icon="reset" alt={t('uploadVideoForm.reset')} className="!ml-0" />
         {t('uploadVideoForm.useDifferentVideo')}
       </button>
 

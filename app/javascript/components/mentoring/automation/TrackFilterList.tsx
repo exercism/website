@@ -6,6 +6,7 @@ import { QueryKey, QueryStatus } from '@tanstack/react-query'
 import { useDropdown } from '../../dropdowns/useDropdown'
 import { ResultsZone } from '../../ResultsZone'
 import { pluralizeWithNumber } from '../../../utils/pluralizeWithNumber'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type TrackFilterProps = AutomationTrack & {
   checked: boolean
@@ -40,8 +41,6 @@ const TrackFilter = ({
   )
 }
 
-const DEFAULT_ERROR = new Error('Unable to fetch tracks')
-
 export const TrackFilterList = ({
   status,
   error,
@@ -50,6 +49,10 @@ export const TrackFilterList = ({
 }: React.PropsWithChildren<
   Props & { status: QueryStatus; error: unknown }
 >): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/mentoring/automation/TrackFilterList.tsx'
+  )
+  const DEFAULT_ERROR = new Error(t('trackFilterList.unableToFetchTracks'))
   return (
     <FetchingBoundary
       error={error}
@@ -79,6 +82,9 @@ const Component = ({
   setValue,
   countText,
 }: Props): JSX.Element | null => {
+  const { t } = useAppTranslation(
+    'components/mentoring/automation/TrackFilterList.tsx'
+  )
   const changeTracksRef = useRef<HTMLButtonElement>(null)
   const {
     buttonAttributes,
@@ -121,7 +127,7 @@ const Component = ({
       <ResultsZone isFetching={isFetching}>
         <button
           className="current-track"
-          aria-label="Open the track filter"
+          aria-label={t('trackFilterList.openTheTrackFilter')}
           {...buttonAttributes}
         >
           <TrackIcon iconUrl={value.iconUrl} title={value.title} />
@@ -131,7 +137,7 @@ const Component = ({
           </div>
           <Icon
             icon="chevron-down"
-            alt="Click to change"
+            alt={t('trackFilterList.clickToChange')}
             className="action-icon"
           />
         </button>

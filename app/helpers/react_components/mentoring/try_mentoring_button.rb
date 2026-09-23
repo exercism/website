@@ -2,7 +2,7 @@ module ReactComponents
   module Mentoring
     class TryMentoringButton < ReactComponent
       def initialize(
-        text: "Try mentoring now",
+        text: I18n.t("components.mentoring.try_mentoring_button.default_text"),
         size: 'm',
         redirect_link: Exercism::Routes.mentoring_queue_url
       )

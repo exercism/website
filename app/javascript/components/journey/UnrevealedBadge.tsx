@@ -6,8 +6,7 @@ import { FormButton } from '@/components/common/FormButton'
 import { ErrorMessage, ErrorBoundary } from '@/components/ErrorBoundary'
 import { BadgeModal } from '@/components/modals/BadgeModal'
 import type { Badge as BadgeProps, PaginatedResult } from '@/components/types'
-
-const DEFAULT_ERROR = new Error('Unable to reveal badge')
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const UnrevealedBadge = ({
   badge,
@@ -16,6 +15,8 @@ export const UnrevealedBadge = ({
   badge: BadgeProps
   cacheKey: QueryKey
 }): JSX.Element => {
+  const { t } = useAppTranslation('components/journey/UnrevealedBadge.tsx')
+  const DEFAULT_ERROR = new Error(t('unrevealedBadge.unableToRevealBadge'))
   const queryClient = useQueryClient()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [revealedBadge, setRevealedBadge] = useState<BadgeProps | null>(null)
@@ -66,8 +67,8 @@ export const UnrevealedBadge = ({
           <div className="--unknown">?</div>
         </div>
         <div className="--info">
-          <div className="--name">Unrevealed</div>
-          <div className="--desc">Click/tap to reveal</div>
+          <div className="--name">{t('unrevealedBadge.unrevealed')}</div>
+          <div className="--desc">{t('unrevealedBadge.clickTapToReveal')}</div>
         </div>
       </FormButton>
       <ErrorBoundary resetKeys={[status]}>

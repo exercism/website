@@ -24,6 +24,9 @@ en:
         read_more: Read more
       other_posts:
         title: More posts from the community
+      rss:
+        title: Exercism's Blog
+        description: Keep up to date with changes to Exercism, get to know our community, and find out about the new up and coming features!
     info_bar:
       time_ago: "%{time_ago_value} ago"
       video_label: Video

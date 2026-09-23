@@ -12,4 +12,5 @@ export default {
   'instructionsPanel.stuckRevealHints': 'Stuck? Reveal Hints',
   'instructionsPanel.opensInAModal': 'Opens in a modal',
   'instructionsPanel.howToDebug': 'How to debug',
+  'instructionsPanel.helloWorldVideoTitle': 'Welcome to Hello, World!',
 }

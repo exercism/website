@@ -15,4 +15,5 @@ export default {
   'welcomeToInsidersModal.whatShouldIDoNext': 'What should I do next?',
   'welcomeToInsidersModal.exploreDarkMode':
     "Explore Dark Mode (we've enabled it by default). Check out your new badge(s). Try ChatGPT in the online editor. Use one of your new mentoring slots. Come and say hello on the #insiders channel on Discord. Or watch some of the behind the scenes videos 🎉",
+  'welcomeToInsidersModal.videoTitle': 'Welcome to Exercism Insiders!',
 }

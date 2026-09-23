@@ -8,6 +8,7 @@ import {
 import { Testimonial } from '../types'
 import { Flair } from '../common/HandleWithFlair'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { Trans } from 'react-i18next'
 
 // i18n-key-prefix: testimonialsSummary
 // i18n-namespace: components/profile
@@ -41,7 +42,7 @@ export default function TestimonialsSummary({
       <div className="md-container container">
         <header className="section-header">
           <GraphicalIcon icon="testimonials" hex />
-          <h2>Testimonials</h2>
+          <h2>{t('testimonialsSummary.testimonials')}</h2>
           <hr className="c-divider" />
         </header>
         <div className="testimonials">
@@ -104,12 +105,22 @@ export default function TestimonialsSummary({
                       />
                     </div>
                     <div className="mentored-by">
-                      Mentored by&nbsp;
+                      {t('testimonialsSummary.mentoredBy')}&nbsp;
                       <HandleWithFlair handle={handle} flair={flair} />
                     </div>
                     <div className="exercise">
-                      <strong>{testimonial.exercise.title}</strong> in{' '}
-                      <strong>{testimonial.track.title}</strong>
+                      <Trans
+                        ns="components/profile"
+                        i18nKey="testimonialsSummary.exerciseInTrack"
+                        values={{
+                          exercise: testimonial.exercise.title,
+                          track: testimonial.track.title,
+                        }}
+                        components={{
+                          exercise: <strong />,
+                          track: <strong />,
+                        }}
+                      />
                     </div>
                   </div>
                 </button>

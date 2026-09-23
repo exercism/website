@@ -17,7 +17,7 @@ export function WhoIsThisTrackForRHS(): JSX.Element {
           className="!absolute right-[12px] top-0 h-[40px]"
         />
         <h3 className="mb-12 !text-[19px] text-textColor1 font-semibold">
-          Learn by doing... from day 1!
+          {t('whoIsThisTrackFor.learnByDoing')}
         </h3>
         <p className="mb-12 !text-16 leading-150">
           {t('whoIsThisTrackFor.youllBuildGames')}
@@ -26,25 +26,25 @@ export function WhoIsThisTrackForRHS(): JSX.Element {
         <div className="grid grid-cols-4 gap-4">
           <Icon
             category="bootcamp"
-            alt="Image of a space invaders game"
+            alt={t('whoIsThisTrackFor.gameAlt.spaceInvaders')}
             icon="space-invaders.gif"
             className="w-full border-1 border-bootcamp-purple"
           />
           <Icon
             category="bootcamp"
-            alt="Image of a tic-tac-toe game"
+            alt={t('whoIsThisTrackFor.gameAlt.ticTacToe')}
             icon="tic-tac-toe.gif"
             className="w-full border-1 border-bootcamp-purple"
           />
           <Icon
             category="bootcamp"
-            alt="Image of a breakout game"
+            alt={t('whoIsThisTrackFor.gameAlt.breakout')}
             icon="breakout.gif"
             className="w-full border-1 border-bootcamp-purple"
           />
           <Icon
             category="bootcamp"
-            alt="Image of a maze game"
+            alt={t('whoIsThisTrackFor.gameAlt.maze')}
             icon="maze.gif"
             className="w-full border-1 border-bootcamp-purple"
           />
@@ -54,7 +54,9 @@ export function WhoIsThisTrackForRHS(): JSX.Element {
         <p className="mb-6 !text-15 italic leading-150">
           {t('whoIsThisTrackFor.testimonial')}
         </p>
-        <p className="mb-!text-15 italic">- One of our beta testers.</p>
+        <p className="mb-!text-15 italic">
+          {t('whoIsThisTrackFor.betaTester')}
+        </p>
       </div>
     </div>
   )

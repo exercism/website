@@ -5,4 +5,5 @@ export default {
   'tokenForm.whereDoIUseThis': 'Where do I use this?',
   'tokenForm.resetToken': 'Reset token',
   'tokenForm.yourTokenHasBeenReset': 'Your token has been reset',
+  'tokenForm.successAlt': 'Success',
 }

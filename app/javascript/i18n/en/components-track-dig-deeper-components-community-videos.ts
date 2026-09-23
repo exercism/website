@@ -12,4 +12,5 @@ export default {
   'communityVideoFooter.wantYourVideoFeatured':
     'Want your video featured here?',
   'communityVideoFooter.submitItHere': 'Submit it here',
+  'communityVideo.thumbnail': 'thumbnail',
 }

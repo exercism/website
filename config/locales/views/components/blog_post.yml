@@ -3,3 +3,4 @@ en:
     blog_post:
       new_label: new
       published_time: "%{time_ago} ago"
+      share_title: Share this blog post

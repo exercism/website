@@ -15,7 +15,12 @@ export function GetHelpPanelHints({
   }
 
   return (
-    <GetHelpAccordionSkeleton title="Hints and Tips" className="hints">
+    <GetHelpAccordionSkeleton
+      title={t(
+        'components/modals/TaskHintsModal.tsx:taskHintsModal.hintsAndTips'
+      )}
+      className="hints"
+    >
       <>
         <div className="pt-8 flex flex-col gap-2">
           <p className="text-p-base text-color-2 mb-8">

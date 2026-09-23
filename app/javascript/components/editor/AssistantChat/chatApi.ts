@@ -1,3 +1,6 @@
+// i18n-key-prefix: chatApi
+// i18n-namespace: components/editor/AssistantChat
+import i18n from '@/i18n/i18n'
 import { MAX_CHAT_MESSAGE_LENGTH } from './types'
 import type { ChatMessage, SignatureData, ErrorData, UsageMeta } from './types'
 
@@ -44,7 +47,7 @@ export class ChatUsageLimitError extends Error {
 // shortly, but we don't auto-retry (that would just hammer the throttle).
 export class ChatRateLimitedError extends Error {
   constructor(
-    message = 'Too many requests. Please wait a moment and try again.'
+    message = i18n.t('components/editor/AssistantChat:chatApi.tooManyRequests')
   ) {
     super(message)
     this.name = 'ChatRateLimitedError'
@@ -65,22 +68,26 @@ export function describeChatError(error: unknown): string {
         : undefined
 
     if (type === 'model_overloaded' || error.status === 503) {
-      return 'The assistant is overloaded. Please try again shortly.'
+      return i18n.t(
+        'components/editor/AssistantChat:chatApi.assistantOverloaded'
+      )
     }
     if (error.status === 504) {
-      return 'The assistant timed out. Please try again.'
+      return i18n.t('components/editor/AssistantChat:chatApi.assistantTimedOut')
     }
     if (error.status && error.status >= 500) {
-      return 'The assistant is unavailable. Please try again shortly.'
+      return i18n.t(
+        'components/editor/AssistantChat:chatApi.assistantUnavailable'
+      )
     }
   }
 
   // Network failures surface as a TypeError from fetch, with no status.
   if (error instanceof TypeError) {
-    return 'Connection lost. Please check your network.'
+    return i18n.t('components/editor/AssistantChat:chatApi.connectionLost')
   }
 
-  return 'Something went wrong. Please try again.'
+  return i18n.t('components/editor/AssistantChat:chatApi.somethingWentWrong')
 }
 
 export async function sendChatMessage(
@@ -132,7 +139,9 @@ async function performChatRequest(
       } catch {
         errorData = {
           error: 'unknown',
-          message: 'Failed to parse error response',
+          message: i18n.t(
+            'components/editor/AssistantChat:chatApi.failedToParseErrorResponse'
+          ),
         }
       }
 
@@ -195,7 +204,10 @@ async function performChatRequest(
     ) {
       throw error
     }
-    const message = error instanceof Error ? error.message : 'Unknown error'
+    const message =
+      error instanceof Error
+        ? error.message
+        : i18n.t('components/editor/AssistantChat:chatApi.unknownError')
     throw new ChatApiError(message)
   }
 }
@@ -287,7 +299,11 @@ async function handleStreamingResponse(
     callbacks.onComplete(accumulatedText.trim(), receivedSignature)
   } catch (error) {
     const message =
-      error instanceof Error ? error.message : 'Stream processing error'
+      error instanceof Error
+        ? error.message
+        : i18n.t(
+            'components/editor/AssistantChat:chatApi.streamProcessingError'
+          )
     callbacks.onError(message)
     throw new ChatApiError(message)
   }

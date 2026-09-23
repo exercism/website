@@ -6,18 +6,20 @@ module ReactComponents
           "impact-chart",
           {
             users_per_month: USERS_PER_MONTH,
-            milestones: MILESTONES
+            milestones: milestones
           }
         )
       end
 
-      MILESTONES = [
-        { date: '202207', text: 'Reached 1M users!', emoji: '🤩' },
-        { date: '202109', text: 'Exercism v3', emoji: '3️⃣' },
-        { date: '202006', text: 'Automated feedback!', emoji: '🤖' },
-        { date: '201807', text: 'Exercism v2', emoji: '2️⃣' },
-        { date: '201312', text: 'Exercism launched', emoji: '🚀' }
-      ].to_json
+      def milestones
+        [
+          { date: '202207', text: I18n.t("components.impact.chart.milestones.reached_1m_users"), emoji: '🤩' },
+          { date: '202109', text: I18n.t("components.impact.chart.milestones.exercism_v3"), emoji: '3️⃣' },
+          { date: '202006', text: I18n.t("components.impact.chart.milestones.automated_feedback"), emoji: '🤖' },
+          { date: '201807', text: I18n.t("components.impact.chart.milestones.exercism_v2"), emoji: '2️⃣' },
+          { date: '201312', text: I18n.t("components.impact.chart.milestones.exercism_launched"), emoji: '🚀' }
+        ].to_json
+      end
 
       USERS_PER_MONTH = {
         '201305': 0,

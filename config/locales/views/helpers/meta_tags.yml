@@ -1,0 +1,19 @@
+en:
+  helpers:
+    meta_tags:
+      default_description: Learn, practice and get world-class mentoring in over 50 languages. 100% free.
+      track:
+        title: "%{track_title} on Exercism"
+        description:
+          Get fluent in %{track_title} by solving %{num_exercises} exercises.
+          And then level up with mentoring from our world-class team.
+      concept:
+        title: "%{concept_name} in %{track_title} on Exercism"
+        description:
+          Master %{concept_name} in %{track_title} by solving %{num_exercises}
+          exercises, with support from our world-class team.
+      exercise:
+        title: "%{exercise_title} in %{track_title} on Exercism"
+        description:
+          Can you solve %{exercise_title} in %{track_title}? Improve your
+          %{track_title} skills with support from our world-class team of mentors.

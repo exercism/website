@@ -139,7 +139,10 @@ export function Settings({
     {
       title: t('settings.keybindings'),
       value: localKeybindings,
-      options: KEYBINDINGS,
+      options: KEYBINDINGS.map((keybinding) => ({
+        ...keybinding,
+        label: t(`settings.${keybinding.label.toLowerCase()}`),
+      })),
       set: (keybinding) => setLocalKeybindings(keybinding as Keybindings),
     },
     {
@@ -206,14 +209,14 @@ export function Settings({
   return (
     <React.Fragment>
       <button className="settings-btn" {...buttonAttributes}>
-        <Icon icon="settings" alt="Settings" />
+        <Icon icon="settings" alt={t('settings.settings')} />
       </button>
       {open ? (
         <div
           {...panelAttributes}
           tabIndex={-1}
           role="dialog"
-          aria-label="A series of radio buttons to configure the Exercism's code editor"
+          aria-label={t('settings.editorConfigurationLabel')}
           className="settings-dialog"
         >
           <ul {...listAttributes}>

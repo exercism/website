@@ -13,7 +13,12 @@ export function GetHelpPanelCommunityHelp({
 >): JSX.Element {
   const { t } = useAppTranslation('components/editor/GetHelp')
   return (
-    <GetHelpAccordionSkeleton title="Community help" iconSlug="support">
+    <GetHelpAccordionSkeleton
+      title={t(
+        'getHelpPanelComponents.getHelpPanelCommunityHelp.communityHelp'
+      )}
+      iconSlug="support"
+    >
       <div className="pt-8 flex flex-col gap-2">
         <p className="text-p-base text-color-2 mb-8">
           {t(

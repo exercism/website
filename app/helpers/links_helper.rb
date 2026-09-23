@@ -6,7 +6,7 @@ module LinksHelper
     end
 
     link_to url, options.merge(target: "_blank", rel: 'noopener') do
-      (text + icon("external-link", "The link opens in a new window or tab")).html_safe
+      (text + icon("external-link", I18n.t("helpers.links.opens_in_new_window"))).html_safe
     end
   end
 end

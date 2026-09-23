@@ -1,6 +1,5 @@
 - if canonical_url.present?
   %link{ rel: "canonical", href: canonical_url }
-
 = csrf_meta_tags
 = csp_meta_tag
 = action_cable_meta_tag
@@ -49,7 +48,7 @@
   %link{ rel: "manifest", href: "/site.webmanifest", crossorigin: "use-credentials" }
 
 -# RSS: See: https://rknight.me/blog/please-expose-your-rss/
-%link{ rel: "alternate", type: "application/rss+xml", title: "Exercism's Blog", href: blog_posts_url(format: :rss) }
+%link{ rel: "alternate", type: "application/rss+xml", title: t('.rss_blog_title'), href: blog_posts_url(format: :rss) }
 
 %meta{ name: "google-adsense-account", content: "ca-pub-1298009554972786" }
 

@@ -90,6 +90,7 @@ export default function Notifications({
   endpoint: string
   defaultUnreadCount: number
 }): JSX.Element {
+  const { t } = useAppTranslation('components/dropdowns')
   const queryClient = useQueryClient()
   const [unreadCount, setUnreadCount] = useState(defaultUnreadCount)
   // The badge is seeded from defaultUnreadCount (rendered server-side), so we
@@ -173,7 +174,7 @@ export default function Notifications({
     <React.Fragment>
       <NotificationsIcon
         count={unreadCount}
-        aria-label="Open notifications"
+        aria-label={t('notifications.openNotifications')}
         {...buttonAttributes}
       />
       {open ? (

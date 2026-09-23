@@ -25,4 +25,7 @@ export default {
   'congratulationsStep.welcomeToMentorTeam': 'Welcome to the Mentor Team!',
   'congratulationsStep.video': 'Video · 0:24',
   'congratulationsStep.readyToGetStarted': "I'm ready to get started!",
+  'commitStep.opensInANewTab': 'Opens in a new tab',
+  'congratulationsStep.thisIsAVideo': 'This is a video',
+  'stepIndicator.becomeAMentorProgress': 'Become a mentor progress',
 }

@@ -30,4 +30,5 @@ export default {
   'stripeForm.progressing': 'Progressing',
   'stripeForm.eligibleForInsidersAccess': 'Eligible for Insiders Access',
   'stripeForm.defaultError': 'Unable to fetch subscription information',
+  'transactionForm.specifyAmount': 'Specify amount',
 }

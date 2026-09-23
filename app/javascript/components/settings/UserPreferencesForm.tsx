@@ -102,7 +102,7 @@ const SuccessMessage = () => {
   const { t } = useAppTranslation('components/settings/UserPreferencesForm.tsx')
   return (
     <div className="status success">
-      <Icon icon="completed-check-circle" alt="Success" />
+      <Icon icon="completed-check-circle" alt={t('automation.successAlt')} />
       {t('automation.successMessage')}
     </div>
   )

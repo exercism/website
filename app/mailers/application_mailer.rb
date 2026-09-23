@@ -70,7 +70,6 @@ class ApplicationMailer < ActionMailer::Base
   end
 
   private
-  # TODO(iHiD): OPEN. What "the user's locale" is.
   def recipient_locale(args) = Locale::Normalize.(recipient(args)&.locale) || I18n.default_locale
 
   def recipient(args)

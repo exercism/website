@@ -24,6 +24,7 @@ class MailshotsMailer < ApplicationMailer
   end
 
   private
-  # TODO(iHiD): OPEN. What happens to bulk mail that only exists in English.
+  # Mailshots are written in English only, so they go out in English whatever
+  # language the recipient reads the site in.
   def recipient_locale(_args) = I18n.default_locale
 end

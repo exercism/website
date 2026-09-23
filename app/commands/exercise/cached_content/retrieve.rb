@@ -21,6 +21,8 @@ class Exercise::CachedContent::Retrieve
   initialize_with :exercise, :solution
 
   def call
+    return Exercise::CachedContent::Generate.(exercise, solution) unless I18n.locale == I18n.default_locale
+
     cached || generate!
   end
 
@@ -43,13 +45,6 @@ class Exercise::CachedContent::Retrieve
   def cache_key
     uuid = exercise.uuid
     sha = solution ? solution.git_sha : exercise.git_sha
-    "exercise-content/#{uuid[0, 2]}/#{uuid[2, 2]}/#{uuid}/#{sha}#{locale_suffix}.json"
-  end
-
-  def locale_suffix
-    return if I18n.locale == I18n.default_locale
-
-    source = solution || exercise
-    ".#{I18n.locale}-#{Digest::SHA1.hexdigest("#{source.introduction}\0#{source.instructions}")[0, 12]}"
+    "exercise-content/#{uuid[0, 2]}/#{uuid[2, 2]}/#{uuid}/#{sha}.json"
   end
 end

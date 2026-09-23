@@ -81,30 +81,25 @@ class Exercise::CachedContent::RetrieveTest < ActiveSupport::TestCase
     refute_equal "<p>stale</p>", Exercise::CachedContent::Retrieve.(exercise, nil)[:instructions]
   end
 
-  test "another locale gets its own entry, which a corrected translation moves" do
-    exercise = create :practice_exercise, slug: "bob"
-    repo = Git::Repository.new(repo_url: exercise.track.repo_url)
-    path = "exercises/practice/bob/.docs/instructions.md"
-    keys = []
-    S3Cache::Write.stubs(:defer).with { |key, _| keys << key }
+  test "a non-english request generates live, touching s3 not at all" do
+    exercise = create :practice_exercise
+    upload_to_s3(
+      Exercism.config.aws_cache_bucket, cache_key(exercise, exercise.git_sha),
+      { introduction: "<p>cached intro</p>", instructions: "<p>cached instructions</p>" }.to_json
+    )
 
-    with_published_translations({}) do
-      Exercise::CachedContent::Retrieve.(exercise, nil)
+    with_available_locales(:hu) do
+      with_published_translations({}) do
+        I18n.with_locale(:hu) do
+          expected = Exercise::CachedContent::Generate.(exercise, nil)
 
-      I18n.with_locale(:hu) do
-        publish_translated_content!(:hu, repo, repo.head_commit, path, "Utasítások")
-        first = Exercise::CachedContent::Retrieve.(Exercise.find(exercise.id), nil)
-        assert_includes first[:instructions], "Utasítások"
+          S3Cache::Read.expects(:call).never
+          S3Cache::Write.expects(:defer).never
 
-        publish_translated_content!(:hu, repo, repo.head_commit, path, "Javított utasítások")
-        Exercise::CachedContent::Retrieve.(Exercise.find(exercise.id), nil)
+          assert_equal expected, Exercise::CachedContent::Retrieve.(exercise, nil)
+        end
       end
     end
-
-    assert_equal cache_key(exercise, exercise.git_sha), keys[0]
-    assert_match(/#{exercise.git_sha}\.hu-[0-9a-f]{12}\.json\z/, keys[1])
-    assert_match(/#{exercise.git_sha}\.hu-[0-9a-f]{12}\.json\z/, keys[2])
-    refute_equal keys[1].split(".hu-").last, keys[2].split(".hu-").last
   end
 
   test "falls back to live generation on S3 failure" do

@@ -54,6 +54,25 @@ class Concept::CachedContent::RetrieveTest < ActiveSupport::TestCase
     refute_equal "<p>stale</p>", Concept::CachedContent::Retrieve.(concept)[:about]
   end
 
+  test "a non-english request generates live, touching s3 not at all" do
+    concept = create :concept
+    upload_to_s3(
+      Exercism.config.aws_cache_bucket, cache_key(concept, concept.synced_to_git_sha),
+      { about: "<p>cached about</p>", introduction: "<p>cached intro</p>" }.to_json
+    )
+
+    with_available_locales(:hu) do
+      I18n.with_locale(:hu) do
+        expected = Concept::CachedContent::Generate.(concept)
+
+        S3Cache::Read.expects(:call).never
+        S3Cache::Write.expects(:defer).never
+
+        assert_equal expected, Concept::CachedContent::Retrieve.(concept)
+      end
+    end
+  end
+
   test "falls back to live generation on S3 failure" do
     concept = create :concept
     expected = Concept::CachedContent::Generate.(concept)

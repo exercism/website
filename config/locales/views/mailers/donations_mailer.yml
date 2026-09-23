@@ -1,6 +1,8 @@
 en:
   donations_mailer:
     payment_created:
+      title: "Thank you so much!"
+      subject: "Thank you for your donation"
       body_markdown: |-
         Hi %{user_handle},
 

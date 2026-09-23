@@ -23,13 +23,13 @@
           %p= t('.terms_section.summary')
           %ul
             %li
-              = t('.terms_section.code_of_conduct_html', code_of_conduct_link: external_link_to('Code of conduct', code_of_conduct_path)).html_safe
+              = t('.terms_section.code_of_conduct_html', code_of_conduct_link: external_link_to(t('.terms_section.code_of_conduct_link_text'), code_of_conduct_path)).html_safe
             %li
               = t('.terms_section.property_license')
             %li
               = t('.terms_section.licences_html', mit_license_link: external_link_to('MIT', mit_licence_path), cc_sa_4_license_link: external_link_to('CC-BY-SA-4.0', cc_sa_4_licence_path)).html_safe
 
-          %p= t('.terms_section.full_terms_html', terms_of_service_link: external_link_to('Terms of Service', terms_of_service_path)).html_safe
+          %p= t('.terms_section.full_terms_html', terms_of_service_link: external_link_to(t('.terms_section.terms_of_service_link_text'), terms_of_service_path)).html_safe
 
           %label.c-checkbox-wrapper
             = f.check_box :terms_of_service, required: true
@@ -42,7 +42,7 @@
         %h2= t('.privacy_policy_section.title')
         .box
           %p
-            = t('.privacy_policy_section.summary_html', privacy_policy_link: external_link_to('read it in full here', privacy_policy_path)).html_safe
+            = t('.privacy_policy_section.summary_html', privacy_policy_link: external_link_to(t('.privacy_policy_section.privacy_policy_link_text'), privacy_policy_path)).html_safe
 
           %label.c-checkbox-wrapper
             = f.check_box :privacy_policy, required: true

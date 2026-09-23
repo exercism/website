@@ -23,6 +23,8 @@ en:
           (created by users) in accordance with the %{mit_license_link} and
           %{cc_sa_4_license_link} licences respectively.
         full_terms_html: You can read our full %{terms_of_service_link}.
+        code_of_conduct_link_text: Code of conduct
+        terms_of_service_link_text: Terms of Service
         accept_terms: I accept Exercism's Terms of Service
       privacy_policy_section:
         title: Privacy Policy
@@ -31,5 +33,6 @@ en:
           will never share your details with anyone outside of
           Exercism,</strong> and that we don't use third-party cookies, so
           no-one will track you here. You can %{privacy_policy_link}.
+        privacy_policy_link_text: read it in full here
         accept_privacy_policy: I accept Exercism's Privacy Policy
       save_button: Save & Get Started

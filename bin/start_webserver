@@ -20,6 +20,19 @@ FileUtils.chdir APP_ROOT do
   # means that this hasn't worked properly.
   system! "ls -1 -d /mnt/efs/repos/* | xargs -L1 git config --global --add safe.directory"
 
+  # The site serves translations out of a shared EFS checkout of exercism/i18n that
+  # a Sidekiq job and a GitHub webhook keep fresh. A container that has just started
+  # can therefore be up to ten minutes behind, and on an empty mount it has no
+  # checkout at all, so we bring the checkout up to date before serving anything.
+  # The clone has not happened yet the first time this runs, so mark the directory
+  # as safe here as well as in the glob above.
+  # Slightly stale translations are far better than a webserver that will not boot,
+  # so the command reports failures to Sentry and returns rather than raising. The
+  # outer timeout covers a git process that hangs instead of failing.
+  system! "git config --global --add safe.directory /mnt/efs/repos/i18n"
+  system("timeout -k 10 180 bundle exec bin/rails runner 'TranslationRepo::SyncOnBoot.()'") ||
+    warn("\n== Translations were not synced on boot ==")
+
   # Warm the local cache of EFS to avoid big read spikes as users start to hit the website.
   system! 'bundle exec bin/rails runner "Track.find_each{|t|begin;t.git.config;rescue;end}"'
   system! 'bundle exec bin/rails runner "Git::WebsiteCopy.new.walkthrough"'

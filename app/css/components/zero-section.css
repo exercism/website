@@ -32,3 +32,13 @@
         @apply mt-20;
     }
 }
+
+.mentoring-zero-section {
+    .btn-primary,
+    .btn-default {
+        @apply whitespace-normal flex-shrink;
+        @apply h-auto py-8;
+        min-height: 40px;
+        max-width: 100%;
+    }
+}

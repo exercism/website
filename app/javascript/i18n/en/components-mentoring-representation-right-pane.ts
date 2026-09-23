@@ -11,4 +11,5 @@ export default {
   'utilityTabs.guidance': 'Guidance',
   'representationFeedbackEditor.previewAndSubmit': 'Preview & Submit',
   'howImportant.howImportantIsThis': 'How important is this?',
+  'radioButton.info': 'Info',
 }

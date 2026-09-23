@@ -63,7 +63,7 @@ export default function HandleForm({
           value={state.handle}
           onChange={(e) => setState({ ...state, handle: e.target.value })}
           required
-          {...createMaxLengthAttributes('Handle', 190, t)}
+          {...createMaxLengthAttributes('Handle', 190)}
         />
       </div>
       <div className="field">

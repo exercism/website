@@ -75,7 +75,7 @@ export default function ProfileForm({
             value={user.name || ''}
             onChange={(e) => setUser({ ...user, name: e.target.value })}
             required
-            {...createMaxLengthAttributes('Name', 255, t)}
+            {...createMaxLengthAttributes('Name', 255)}
           />
         </div>
         <div className="location field">
@@ -87,7 +87,7 @@ export default function ProfileForm({
             value={user.location || ''}
             onChange={(e) => setUser({ ...user, location: e.target.value })}
             icon="location"
-            {...createMaxLengthAttributes('Location', 255, t)}
+            {...createMaxLengthAttributes('Location', 255)}
           />
         </div>
       </div>
@@ -129,7 +129,7 @@ export default function ProfileForm({
               onChange={(e) =>
                 setProfile({ ...profile, github: e.target.value })
               }
-              {...createMaxLengthAttributes('GitHub handle', 190, t)}
+              {...createMaxLengthAttributes('GitHub handle', 190)}
             />
           </div>
           <div className="field">
@@ -144,7 +144,7 @@ export default function ProfileForm({
               onChange={(e) =>
                 setProfile({ ...profile, twitter: e.target.value })
               }
-              {...createMaxLengthAttributes('Twitter handle', 190, t)}
+              {...createMaxLengthAttributes('Twitter handle', 190)}
             />
           </div>
           <div className="field">

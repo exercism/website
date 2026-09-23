@@ -97,6 +97,9 @@ export default {
   'processingMethodSection.ourBot':
     'Our bot can commit directly to your repository for a fully automated setup, or create a pull request which you can approve each time. Which method would you prefer?',
   'processingMethodSection.saveChange': 'Save changes',
+  'justConnectedModal.exercismAlt': 'Exercism',
+  'justConnectedModal.syncWithAlt': 'Sync with',
+  'justConnectedModal.githubAlt': 'Github',
   'justConnectedModal.repositoryConnected':
     'Repository connected successfully!',
   'justConnectedModal.accountConnected':

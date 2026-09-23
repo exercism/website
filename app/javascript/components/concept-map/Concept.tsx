@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState, MouseEventHandler } from 'react'
 import { ConceptTooltip } from '../tooltips'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
+import i18n from '@/i18n/i18n'
 
 import { IConcept, ConceptStatus, ExerciseData } from './concept-map-types'
 
@@ -83,7 +84,7 @@ export const Concept = ({
             onMouseLeave={wrapAnimationFrame(handleLeave)}
           >
             <ConceptIcon name={name} size="medium" />
-            <span className="name" aria-label={getAriaLabel(status, t)}>
+            <span className="name" aria-label={getAriaLabel(status)}>
               {name}
             </span>
           </a>
@@ -100,17 +101,17 @@ export function conceptSlugToId(slug: string): string {
   return `concept-${slug}`
 }
 
-const getAriaLabel = (status: ConceptStatus, t: any): string => {
+const getAriaLabel = (status: ConceptStatus): string => {
   switch (status) {
     case 'available':
-      return t('concept.availableConcept')
+      return i18n.t('components/concept-map:concept.availableConcept')
     case 'learned':
-      return t('concept.learnedConcept')
+      return i18n.t('components/concept-map:concept.learnedConcept')
     case 'mastered':
-      return t('concept.masteredConcept')
+      return i18n.t('components/concept-map:concept.masteredConcept')
     case 'locked':
-      return t('concept.lockedConcept')
+      return i18n.t('components/concept-map:concept.lockedConcept')
     default:
-      return t('concept.concept')
+      return i18n.t('components/concept-map:concept.concept')
   }
 }

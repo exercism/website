@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
+import i18n from '@/i18n/i18n'
 
 const INVALID_INPUT_STYLES = '!border-1 !border-orange mb-8'
 
@@ -40,10 +41,12 @@ export function useInvalidField() {
 
 export function createMaxLengthAttributes(
   fieldName: string,
-  maxLength: number,
-  t
+  maxLength: number
 ) {
   const pattern = `.{0,${maxLength}}`
-  const title = t('field.mustBeNoLongerThan', { fieldName, maxLength })
+  const title = i18n.t(
+    'components/settings/useInvalidField.tsx:field.mustBeNoLongerThan',
+    { fieldName, maxLength }
+  )
   return { pattern, title }
 }

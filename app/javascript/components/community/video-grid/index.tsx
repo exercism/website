@@ -59,7 +59,6 @@ export function VideoGrid({
         tracks={tracks}
         handleTrackChange={handleTrackChange}
         selectedTrack={selectedTrack}
-        t={t}
       />
 
       <div className="flex mb-32 c-search-bar">
@@ -107,13 +106,12 @@ function VideoGridHeader({
   tracks,
   handleTrackChange,
   selectedTrack,
-  t,
 }: {
   tracks: VideoTrack[]
   handleTrackChange: HandleTrackChangeType
   selectedTrack: VideoTrack
-  t: any
 }): JSX.Element {
+  const { t } = useAppTranslation('components/community')
   return (
     <div className="flex mb-24 sm:flex-row flex-col">
       <GraphicalIcon

@@ -65,7 +65,7 @@ export default function EmailForm({
           value={state.email}
           onChange={(e) => setState({ ...state, email: e.target.value })}
           required
-          {...createMaxLengthAttributes('Email', 255, t)}
+          {...createMaxLengthAttributes('Email', 255)}
         />
       </div>
       <div className="field">

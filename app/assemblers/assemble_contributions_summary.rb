@@ -1,13 +1,12 @@
 class AssembleContributionsSummary
   include Mandate
-  include ActionView::Helpers::NumberHelper
 
   initialize_with :user, for_self: Mandate::NO_DEFAULT
 
   def call
     {
       tracks: [
-        SerializeTrackForSelect::ALL_TRACK.merge(categories: categories_data),
+        SerializeTrackForSelect.all_track.merge(categories: categories_data),
         *tracks.map { |track| SerializeTrackForSelect.(track).merge(categories: categories_data(track.id)) }
       ],
       handle: for_self ? nil : user.handle,
@@ -21,45 +20,15 @@ class AssembleContributionsSummary
   # good because there's a lot of data to try and work out
   # cache invalidation for here.
   def categories_data(track_id = 0)
-    metrics = {
-      publishing: publishing_metrics(track_id),
-      mentoring: mentoring_metrics(track_id),
-      authoring: authoring_metrics(track_id),
-      building: building_metrics(track_id),
-      maintaining: maintaining_metrics(track_id)
-    }
-
-    [
+    # The frontend owns the wording (and pluralisation) of each metric, so we
+    # send only the raw count: a sentence built here would be English-only.
+    %i[publishing mentoring authoring building maintaining].map do |id|
       {
-        id: :publishing,
-        reputation: num_reputation_points(:publishing, track_id),
-        metric_full: metrics[:publishing][0],
-        metric_short: metrics[:publishing][1]
-      },
-      {
-        id: :mentoring,
-        reputation: num_reputation_points(:mentoring, track_id),
-        metric_full: metrics[:mentoring][0],
-        metric_short: metrics[:mentoring][1]
-      },
-      {
-        id: :authoring,
-        reputation: num_reputation_points(:authoring, track_id),
-        metric_full: metrics[:authoring][0],
-        metric_short: metrics[:authoring][1]
-      },
-      {
-        id: :building,
-        reputation: num_reputation_points(:building, track_id),
-        metric_full: metrics[:building][0],
-        metric_short: metrics[:building][1]
-      },
-      {
-        id: :maintaining,
-        reputation: num_reputation_points(:maintaining, track_id),
-        metric_full: metrics[:maintaining][0],
-        metric_short: metrics[:maintaining][1]
-      },
+        id:,
+        reputation: num_reputation_points(id, track_id),
+        metric_count: num_reputation_occurrences(id, track_id).to_i
+      }
+    end + [
       {
         id: :other,
         reputation: num_reputation_points(:misc, track_id)
@@ -68,51 +37,6 @@ class AssembleContributionsSummary
   end
 
   private
-  def publishing_metrics(track_id = 0)
-    c = num_reputation_occurrences(:publishing, track_id).to_i
-
-    return ["No solutions published", "No solutions"] if c.to_i.zero?
-
-    short = "#{number_with_delimiter(c)} #{'solution'.pluralize(c)}"
-    ["#{short} published", short]
-  end
-
-  def authoring_metrics(track_id = 0)
-    c = num_reputation_occurrences(:authoring, track_id).to_i
-
-    return ["No exercises/articles contributed", "No exercises/articles"] if c.to_i.zero?
-
-    short = "#{number_with_delimiter(c)} #{'exercise'.pluralize(c)}/#{'article'.pluralize(c)}"
-    ["#{short} contributed", short]
-  end
-
-  def mentoring_metrics(track_id = 0)
-    c = num_reputation_occurrences(:mentoring, track_id).to_i
-
-    return ["No students mentored", "No students"] if c.to_i.zero?
-
-    short = "#{number_with_delimiter(c)} #{'student'.pluralize(c)}"
-    ["#{short} mentored", short]
-  end
-
-  def building_metrics(track_id = 0)
-    c = num_reputation_occurrences(:building, track_id).to_i
-
-    return ["No PRs accepted", "No PRs accepted"] if c.to_i.zero?
-
-    short = "#{number_with_delimiter(c)} #{'PR'.pluralize(c)} accepted"
-    [short, short]
-  end
-
-  def maintaining_metrics(track_id = 0)
-    c = num_reputation_occurrences(:maintaining, track_id).to_i
-
-    return ["No PRs reviewed", "No PRs reviewed"] if c.to_i.zero?
-
-    short = "#{number_with_delimiter(c)} #{'PR'.pluralize(c)} reviewed"
-    [short, short]
-  end
-
   def num_reputation_points(requested_category, requested_track_id)
     filter_data(requested_category, requested_track_id, reputation_points)
   end

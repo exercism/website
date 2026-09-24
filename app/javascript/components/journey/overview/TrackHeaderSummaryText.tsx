@@ -1,5 +1,13 @@
 import React from 'react'
+import { Trans } from 'react-i18next'
 
+const NAMESPACE = 'components/journey/overview/TrackHeaderSummaryText.tsx'
+
+/**
+ * One key per list length rather than a joiner between spans: the separators
+ * and their order are part of the sentence, so they have to be translatable
+ * alongside it.
+ */
 export const TrackHeaderSummaryText = <T extends unknown>({
   tracks,
   SpanComponent,
@@ -7,41 +15,15 @@ export const TrackHeaderSummaryText = <T extends unknown>({
   tracks: readonly T[]
   SpanComponent: React.ComponentType<{ track: T }>
 }): JSX.Element | null => {
-  switch (tracks.length) {
-    case 4:
-      return (
-        <React.Fragment>
-          <SpanComponent track={tracks[0]} />
-          {', '} followed by <SpanComponent track={tracks[1]} />
-          {', '}
-          <SpanComponent track={tracks[2]} />
-          {' and '}
-          <SpanComponent track={tracks[3]} />.
-        </React.Fragment>
-      )
-    case 3:
-      return (
-        <React.Fragment>
-          <SpanComponent track={tracks[0]} />
-          {', '} followed by <SpanComponent track={tracks[1]} />
-          {' and '}
-          <SpanComponent track={tracks[2]} />.
-        </React.Fragment>
-      )
-    case 2:
-      return (
-        <React.Fragment>
-          <SpanComponent track={tracks[0]} /> followed by{' '}
-          <SpanComponent track={tracks[1]} />.
-        </React.Fragment>
-      )
-    case 1:
-      return (
-        <React.Fragment>
-          <SpanComponent track={tracks[0]} />.
-        </React.Fragment>
-      )
-    default:
-      return null
-  }
+  if (tracks.length < 1 || tracks.length > 4) return null
+
+  return (
+    <Trans
+      ns={NAMESPACE}
+      i18nKey={`trackList.${tracks.length}`}
+      components={tracks.map((track, i) => (
+        <SpanComponent key={i} track={track} />
+      ))}
+    />
+  )
 }

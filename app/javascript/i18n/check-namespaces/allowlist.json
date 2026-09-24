@@ -18,5 +18,10 @@
     "file": "app/javascript/components/tooltips/StudentTooltip.tsx",
     "rule": "A",
     "reason": "previousSessionsKey at the foot of the file builds an i18next plural key from the discussion counts."
+  },
+  {
+    "file": "app/javascript/components/profile/contributions-summary/useCategoryLabels.ts",
+    "rule": "A",
+    "reason": "The key is built from ContributionCategoryId, a closed union, and the length prefix, which is one of two literals; every combination has a literal key in the components/profile/contributions-summary catalog."
   }
 ]

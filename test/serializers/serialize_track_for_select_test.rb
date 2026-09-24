@@ -17,6 +17,6 @@ class SerializeTrackForSelectTest < ActiveSupport::TestCase
       title: "All Tracks",
       icon_url: nil
     }
-    assert_equal expected, SerializeTrackForSelect::ALL_TRACK
+    assert_equal expected, SerializeTrackForSelect.all_track
   end
 end

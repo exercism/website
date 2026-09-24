@@ -34,4 +34,22 @@ class ViewComponents::HeaderTest < ActionView::TestCase
 
     refute_includes html, "Please support us if you can!"
   end
+
+  test "submenu links are locale-prefixed" do
+    catalog = { components: { nav_submenus: { learn: { tracks: { title: "Nyelvi kurzusok" } } } } }
+
+    with_published_translations(hu: { backend: catalog }) do
+      assert_includes render(ViewComponents::SiteHeader.new), %(href="/tracks")
+
+      I18n.with_locale(:hu) do
+        html = render(ViewComponents::SiteHeader.new)
+        assert_includes html, "Nyelvi kurzusok"
+        assert_includes html, %(href="/hu/tracks")
+        refute_includes html, %(href="/tracks")
+        assert_includes html, %(href="/r/discord")
+      end
+
+      assert_includes render(ViewComponents::SiteHeader.new), %(href="/tracks")
+    end
+  end
 end

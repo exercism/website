@@ -399,7 +399,7 @@
         }
     }
     & table.payments {
-        @apply w-100 table-fixed;
+        @apply w-100;
         & tr {
             @apply border-b-1 border-borderColor6;
         }
@@ -411,9 +411,9 @@
         & td {
             @apply text-16 leading-150;
             @apply py-10;
-            min-width: 180px;
             &:last-child {
                 @apply text-right;
+                @apply w-fit whitespace-nowrap;
             }
 
             & a {

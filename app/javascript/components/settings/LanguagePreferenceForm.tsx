@@ -1,6 +1,6 @@
 // i18n-key-prefix: languagePreferenceForm
 // i18n-namespace: components/settings/LanguagePreferenceForm.tsx
-import React from 'react'
+import React, { useCallback } from 'react'
 import {
   LanguageField,
   useLanguageField,
@@ -28,9 +28,16 @@ export default function LanguagePreferenceForm({
   const { t } = useAppTranslation(
     'components/settings/LanguagePreferenceForm.tsx'
   )
+  const redirectPathFor = useCallback(
+    (code: string) =>
+      languages.find((language) => language.code === code)?.redirectPath,
+    [languages]
+  )
+
   const { locale, select, status } = useLanguageField(
     defaultLocale,
-    links.update
+    links.update,
+    redirectPathFor
   )
 
   return (

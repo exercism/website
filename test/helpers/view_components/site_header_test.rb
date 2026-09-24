@@ -38,6 +38,9 @@ class ViewComponents::HeaderTest < ActionView::TestCase
   test "submenu links are locale-prefixed" do
     catalog = { components: { nav_submenus: { learn: { tracks: { title: "Nyelvi kurzusok" } } } } }
 
+    # The switcher reaches the controller for this, and there is no controller here.
+    def view.path_for_locale(locale) = Locale::SwapInPath.("/", locale)
+
     with_published_translations(hu: { backend: catalog }) do
       assert_includes render(ViewComponents::SiteHeader.new), %(href="/tracks")
 

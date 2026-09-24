@@ -13,12 +13,14 @@ const LANGUAGES = [
     native: 'English',
     english: 'English',
     flagUrl: '/assets/flags/3x2/gb.svg',
+    redirectPath: '/settings/user_preferences',
   },
   {
     code: 'hu',
     native: 'magyar',
     english: 'Hungarian',
     flagUrl: '/assets/flags/3x2/hu.svg',
+    redirectPath: '/hu/settings/user_preferences',
   },
 ]
 
@@ -28,6 +30,7 @@ const COMING_SOON_LANGUAGES = [
     native: 'français',
     english: 'French',
     flagUrl: '/assets/flags/3x2/fr.svg',
+    redirectPath: '/fr/settings/user_preferences',
   },
 ]
 
@@ -47,6 +50,7 @@ afterAll(() => server.close())
 
 beforeEach(() => {
   body = null
+  document.cookie = '_exercism_locale_pref=; path=/; max-age=0'
 })
 
 const renderForm = (defaultLocale = 'en') =>
@@ -104,12 +108,61 @@ test('filters the list as you search', () => {
   expect(screen.queryByText('français')).not.toBeInTheDocument()
 })
 
-test('saves and reloads when a language is selected', async () => {
+const stubLocation = (pathname: string, search = '') => {
+  const assign = jest.fn()
   const reload = jest.fn()
   Object.defineProperty(window, 'location', {
-    value: { reload },
+    value: { assign, reload, pathname, search },
     writable: true,
   })
+
+  return { assign, reload }
+}
+
+test('saves and navigates to the path for the chosen language', async () => {
+  const { assign } = stubLocation('/settings/user_preferences')
+
+  renderForm()
+
+  userEvent.click(screen.getByRole('button', { name: 'Change' }))
+  userEvent.click(screen.getByText('magyar'))
+
+  await waitFor(() =>
+    expect(assign).toHaveBeenCalledWith('/hu/settings/user_preferences')
+  )
+  expect(body).toEqual({ language: { locale: 'hu' } })
+})
+
+// A locale in the path outranks the saved preference.
+test('drops the locale prefix when switching back to the default locale', async () => {
+  const { assign } = stubLocation('/hu/settings/user_preferences')
+
+  renderForm('hu')
+
+  userEvent.click(screen.getByRole('button', { name: 'Change' }))
+  userEvent.click(screen.getByRole('button', { name: /English/ }))
+
+  await waitFor(() =>
+    expect(assign).toHaveBeenCalledWith('/settings/user_preferences')
+  )
+  expect(body).toEqual({ language: { locale: 'en' } })
+})
+
+// The cookie outranks the path and a save the next page may not have read back.
+test('records the locale preference cookie before saving', async () => {
+  stubLocation('/settings/user_preferences')
+
+  renderForm()
+
+  userEvent.click(screen.getByRole('button', { name: 'Change' }))
+  userEvent.click(screen.getByText('magyar'))
+
+  expect(document.cookie).toContain('_exercism_locale_pref=hu')
+  await waitFor(() => expect(body).toEqual({ language: { locale: 'hu' } }))
+})
+
+test('reloads when the path already matches the chosen locale', async () => {
+  const { assign, reload } = stubLocation('/hu/settings/user_preferences')
 
   renderForm()
 
@@ -117,5 +170,5 @@ test('saves and reloads when a language is selected', async () => {
   userEvent.click(screen.getByText('magyar'))
 
   await waitFor(() => expect(reload).toHaveBeenCalled())
-  expect(body).toEqual({ language: { locale: 'hu' } })
+  expect(assign).not.toHaveBeenCalled()
 })

@@ -15,7 +15,7 @@ class ReactComponents::Profile::CommunitySolutionsListTest < ReactComponentTestC
         options: { initial_data: AssembleProfileSolutionsList.(user, params) }
       },
       tracks: [
-        SerializeTrackForSelect::ALL_TRACK.merge(num_solutions: 1),
+        SerializeTrackForSelect.all_track.merge(num_solutions: 1),
         SerializeTrackForSelect.(solution.track).merge(num_solutions: 1)
       ]
     }
@@ -41,7 +41,7 @@ class ReactComponents::Profile::CommunitySolutionsListTest < ReactComponentTestC
         options: { initial_data: AssembleProfileSolutionsList.(user, params) }
       },
       tracks: [
-        SerializeTrackForSelect::ALL_TRACK.merge(num_solutions: 3),
+        SerializeTrackForSelect.all_track.merge(num_solutions: 3),
         SerializeTrackForSelect.(track_3).merge(num_solutions: 1),
         SerializeTrackForSelect.(track_1).merge(num_solutions: 1),
         SerializeTrackForSelect.(track_2).merge(num_solutions: 1)

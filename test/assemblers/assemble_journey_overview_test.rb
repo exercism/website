@@ -60,7 +60,7 @@ class AssembleJourneyOverviewTest < ActiveSupport::TestCase
       num_in_progress_mentoring_discussions: 0,
       num_queued_mentoring_requests: 0,
       progress_chart: {
-        period: "Last 14 days",
+        period: :last_14_days,
         data: Array.new(14) { 0 }
       }
     }]
@@ -81,7 +81,7 @@ class AssembleJourneyOverviewTest < ActiveSupport::TestCase
     UserTrack.any_instance.expects(exercise_completion_dates: dates).twice
 
     expected = {
-      period: "Last 12 months",
+      period: :last_12_months,
       data: values
     }
 
@@ -104,7 +104,7 @@ class AssembleJourneyOverviewTest < ActiveSupport::TestCase
     UserTrack.any_instance.expects(exercise_completion_dates: dates).twice
 
     expected = {
-      period: "Last 10 weeks",
+      period: :last_10_weeks,
       data: values
     }
 
@@ -127,7 +127,7 @@ class AssembleJourneyOverviewTest < ActiveSupport::TestCase
     UserTrack.any_instance.expects(exercise_completion_dates: dates).twice
 
     expected = {
-      period: "Last 10 weeks",
+      period: :last_10_weeks,
       data: values
     }
 
@@ -150,7 +150,7 @@ class AssembleJourneyOverviewTest < ActiveSupport::TestCase
     UserTrack.any_instance.expects(exercise_completion_dates: dates).twice
 
     expected = {
-      period: "Last 14 days",
+      period: :last_14_days,
       data: values
     }
 
@@ -173,7 +173,7 @@ class AssembleJourneyOverviewTest < ActiveSupport::TestCase
     UserTrack.any_instance.expects(exercise_completion_dates: dates).twice
 
     expected = {
-      period: "Last 14 days",
+      period: :last_14_days,
       data: values
     }
 

@@ -47,7 +47,7 @@ class API::Mentoring::DiscussionsController < API::BaseController
     end
 
     render json: [
-      SerializeTrackForSelect::ALL_TRACK.merge(count: track_counts.values.sum),
+      SerializeTrackForSelect.all_track.merge(count: track_counts.values.sum),
       *data
     ]
   end

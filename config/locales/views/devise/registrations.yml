@@ -22,8 +22,11 @@ en:
         or_divider: or
         username_label: Username
         username_placeholder: Choose a unique username
+        email_label: Email
         email_placeholder: Enter your email address
+        password_label: Password
         password_placeholder: Choose a password (min %{minimum_password_length} chars)
+        password_confirmation_label: Password confirmation
         password_confirmation_placeholder: Confirm your password
         confirm_not_bot_label: Confirm you're not a bot
         sign_up_button: Sign Up

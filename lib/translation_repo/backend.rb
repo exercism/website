@@ -14,7 +14,7 @@ class TranslationRepo::Backend < I18n::Backend::Simple
 
   def reload! = build_and_swap!(wait: true)
 
-  def translate(locale, key, options = EMPTY_HASH)
+  def translate(locale, key, options = I18n::EMPTY_HASH)
     return super if Thread.current[REQUESTED_KEY]
 
     Thread.current[REQUESTED_KEY] = [locale, key]
@@ -33,7 +33,7 @@ class TranslationRepo::Backend < I18n::Backend::Simple
   protected
   def init_translations = build_and_swap!(wait: true)
 
-  def lookup(locale, key, scope = [], options = EMPTY_HASH)
+  def lookup(locale, key, scope = [], options = I18n::EMPTY_HASH)
     refresh_if_stale!
     super.tap { |entry| report_missing!(locale, key) if entry.nil? && Thread.current[REQUESTED_KEY] == [locale, key] }
   end

@@ -313,14 +313,17 @@
 
 
   .content
-    %h2= t('.information.heading')
+    %h2= t('.heading')
     %p
-      = t('.information.level_up_html', stats: content_tag(:strong, "#{t('.information.level_up_stats', exercise_count: Exercise.num_available, track_count: Track.num_active)},")).html_safe
+      = t('.level_up_html', stats: content_tag(:strong, "#{t('.level_up_stats', exercise_count: Exercise.num_available, track_count: Track.num_active)},")).html_safe
     %p
-      %strong= t('.information.free_forever')
+      %strong= t('.free_forever')
 
     .icons
-      - Track.first(5).each do |track|
+      - shown_tracks = Track.first(5)
+      - shown_tracks.each do |track|
         = track_icon(track)
 
-      .more +48 more
+      - remaining_tracks = Track.num_active - shown_tracks.size
+      - if remaining_tracks.positive?
+        .more= t('.more_tracks', count: remaining_tracks)

@@ -39,7 +39,7 @@ export interface KernelClient {
   boot(
     sysroot: string,
     env: string[],
-    preload: string[],
+    precompile: string[],
     licence?: Licence[]
   ): Request<void>
   untar(path: string, data: ArrayBuffer): Request<void>
@@ -62,6 +62,8 @@ export type KernelClientConstructor = new (options: {
 /** The kernel's boot.json, served beside sysroot.tar. */
 export type BootConfig = {
   env: Record<string, string>
-  preload: string[]
+  precompile?: string[]
+  // The old name for precompile. Remove once every boot.json uses precompile.
+  preload?: string[]
   licence?: Licence[]
 }

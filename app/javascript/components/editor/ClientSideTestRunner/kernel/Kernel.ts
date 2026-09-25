@@ -104,8 +104,9 @@ export class Kernel {
       }
     })
 
-    const { env, preload, licence } = self.config
-    await self.#client.boot(entry.sysroot, toEnv(env), preload, licence)
+    const { env, licence } = self.config
+    const precompile = self.config.precompile ?? self.config.preload ?? []
+    await self.#client.boot(entry.sysroot, toEnv(env), precompile, licence)
 
     // The sysroot carries the language's tools but not the runner itself, so
     // /opt/test-runner is untarred on top of it. Part of boot rather than of a

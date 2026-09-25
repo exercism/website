@@ -234,6 +234,7 @@ import mdl from './components-modals-Modal.tsx'
 import rzn from './components-ResultsZone.tsx'
 import ice from './components-impact-chart-elements'
 import lpf from './components-settings-LanguagePreferenceForm.tsx'
+import utd from './utils-date'
 
 export default {
   'automation-batch': aa,
@@ -481,4 +482,5 @@ export default {
   'components/ResultsZone.tsx': rzn,
   'components/impact/chart-elements': ice,
   'components/settings/LanguagePreferenceForm.tsx': lpf,
+  'utils/date': utd,
 }

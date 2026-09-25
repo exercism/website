@@ -7,6 +7,30 @@ import {
   durationTimeElementFromSeconds,
 } from '../../../app/javascript/utils/time'
 
+function setPageLocale(locale: string) {
+  document.head.innerHTML = `<meta name="exercism-locale" content="${locale}">`
+}
+
+afterEach(() => {
+  document.head.innerHTML = ''
+})
+
+test('fromNow follows the page locale', () => {
+  var time = new Date()
+  time.setDate(time.getDate() - 800)
+
+  setPageLocale('hu')
+  expect(fromNow(time)).toEqual('2 éve')
+})
+
+test('shortFromNow stays compact regardless of the page locale', () => {
+  var time = new Date()
+  time.setDate(time.getDate() - 2)
+
+  setPageLocale('hu')
+  expect(shortFromNow(time)).toEqual('2d ago')
+})
+
 test('fromNow', () => {
   var time = new Date()
   time.setDate(time.getDate() - 2)

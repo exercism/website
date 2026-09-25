@@ -263,6 +263,107 @@ body.keyboard-navigation .nav-element:hover .arrow {
                 @apply mr-0;
             }
         }
+
+        /* A setting rather than a destination, so it sits below the links
+         * behind a disclosure. Rows carry a flag and both names, matching the
+         * picker on /settings/user_preferences. */
+        & li.language {
+            @apply mt-8 pt-12;
+            @apply border-t-1 border-borderColor7;
+            @apply px-12 lg:px-16;
+
+            & .language-flag {
+                @apply flex-shrink-0 rounded-3;
+                width: 24px;
+                height: 17px;
+                object-fit: cover;
+                box-shadow: inset 0 0 0 1px rgba(var(--shadowColorMain), 0.2);
+            }
+
+            & .language-names {
+                @apply flex flex-col min-w-0 text-left leading-130;
+            }
+
+            & .language-native {
+                @apply text-15 font-medium text-textColor1 truncate;
+            }
+
+            & .language-english {
+                @apply text-13 text-textColor6 truncate;
+            }
+
+            & .language-switcher {
+                @apply relative;
+            }
+
+            & .language-current {
+                @apply flex items-center gap-10 cursor-pointer select-none;
+                @apply py-8 px-10 rounded-8;
+                @apply border-1 border-borderColor6 bg-backgroundColorA;
+
+                &::-webkit-details-marker {
+                    @apply hidden;
+                }
+
+                &:hover {
+                    @apply bg-backgroundColorD;
+                }
+
+                & > .language-chevron {
+                    @apply ml-auto flex-shrink-0 w-[10px] h-[10px];
+                    @apply filter-textColor6;
+                }
+            }
+
+            /* Opens upwards: the switcher sits at the bottom of a menu that is
+             * itself anchored to the header. */
+            & .language-switcher[open] > .language-panel {
+                @apply absolute left-0 right-0 z-dropdown;
+                bottom: 100%;
+                margin-bottom: 6px;
+                @apply p-6 overflow-y-auto;
+                @apply bg-backgroundColorA rounded-12 shadow-lg border-1 border-borderColor6;
+                max-height: 264px;
+            }
+
+            & .language-group {
+                @apply list-none;
+            }
+
+            & .language-form {
+                @apply w-100;
+            }
+
+            & .language-option {
+                @apply flex items-center gap-10 w-100 text-left;
+                @apply px-10 py-8 rounded-8;
+            }
+
+            & button.language-option:hover {
+                @apply bg-backgroundColorD;
+            }
+
+            & .language-option[aria-current="true"] {
+                @apply bg-purpleHover;
+
+                & .language-native {
+                    @apply text-purple;
+                }
+            }
+
+            & .language-check {
+                @apply ml-auto flex-shrink-0 w-[18px] h-[18px];
+                filter: var(--purple-filter);
+            }
+        }
+
+        .theme-dark & li.language .language-option[aria-current="true"] {
+            @apply bg-purpleDarkened;
+
+            & .language-native {
+                @apply text-brightPurple;
+            }
+        }
     }
     & .auth-buttons {
         @apply flex items-center justify-end gap-8;

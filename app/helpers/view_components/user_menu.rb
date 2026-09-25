@@ -47,8 +47,19 @@ module ViewComponents
          end),
         { html: button_to(I18n.t("components.user_menu.items.sign_out"), Exercism::Routes.destroy_user_session_path,
           form: { id: "sign-out-form" }, method: :delete),
-          className: "opt" }
+          className: "opt" },
+        language_item
       ].compact
+    end
+
+    # Last in the menu: a setting rather than a destination, so it sits below
+    # every link, separated from them, but still within reach without opening
+    # the settings page.
+    def language_item
+      html = render(ViewComponents::UserMenuLanguageSwitcher.new)
+      return nil if html.blank?
+
+      { html:, className: "language" }
     end
 
     def profile_item

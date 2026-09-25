@@ -17,6 +17,13 @@ end
 # ############ #
 # Normal pages #
 # ############ #
+
+# The user menu's language switcher. A plain form post rather than the
+# settings page's API call: the menu is server-rendered HTML, and a signed-in
+# user's locale comes from their account, so the choice has to be saved before
+# the redirect lands on the new locale's URL.
+resource :locale, only: [:update], controller: "locale"
+
 resource :settings, only: %i[show] do
   get :api_cli
   get :user_preferences

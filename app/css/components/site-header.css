@@ -201,6 +201,8 @@ body.keyboard-navigation .nav-element:hover .arrow {
     }
     & .user-menu-dropdown {
         min-width: 350px;
+        max-height: calc(100vh - 120px);
+        @apply overflow-y-auto;
 
         & li.profile {
             & a {
@@ -362,6 +364,25 @@ body.keyboard-navigation .nav-element:hover .arrow {
 
             & .language-native {
                 @apply text-brightPurple;
+            }
+        }
+
+        @media screen and (max-width: 1279px) {
+            @apply flex flex-col;
+
+            & li.profile {
+                order: -3;
+            }
+            & li.reputation {
+                order: -2;
+            }
+            & li.language {
+                order: -1;
+                @apply border-t-0 border-b-1 border-borderColor7;
+                margin-top: 0;
+                padding-top: 0;
+                padding-bottom: 20px;
+                margin-bottom: 20px;
             }
         }
     }

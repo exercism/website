@@ -49,9 +49,18 @@ class SerializeProfileImage
     summary[:tracks].first[:categories].map do |category|
       {
         id: category[:id],
-        metric: category[:metric_full],
+        metric: metric_for(category),
         reputation: category[:reputation]
       }
     end
+  end
+
+  # The image is rendered server-side, so unlike the website's own contribution
+  # metrics this wording cannot be left to the frontend.
+  def metric_for(category)
+    count = category[:metric_count]
+    return nil if count.nil?
+
+    I18n.t("serializers.profile_image.metric.#{category[:id]}", count:)
   end
 end

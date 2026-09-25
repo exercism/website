@@ -33,13 +33,13 @@ class AssembleJourneyOverview
 
       first_completion = user_track.exercise_completion_dates.min
       if first_completion && first_completion < (Time.current - 10.months).to_i
-        progress_period = "Last 12 months"
+        progress_period = :last_12_months
         progress_data = track_chart_values(user_track, 12.months.ago, :month, 12, 12)
       elsif first_completion && first_completion < (Time.current - 6.weeks).to_i
-        progress_period = "Last 10 weeks"
+        progress_period = :last_10_weeks
         progress_data = track_chart_values(user_track, 10.weeks.ago, :cweek, 10.weeks.ago.to_datetime.end_of_year.cweek, 10)
       else
-        progress_period = "Last 14 days"
+        progress_period = :last_14_days
         progress_data = track_chart_values(user_track, 14.days.ago, :yday, 14.days.ago.to_datetime.end_of_year.yday, 14)
       end
 
@@ -57,6 +57,8 @@ class AssembleJourneyOverview
         num_in_progress_mentoring_discussions: num_in_progress_mentoring_discussions(track.id),
         num_queued_mentoring_requests: mentoring_request_counts[track.id].to_i,
         progress_chart: {
+          # A key, not a sentence: the frontend renders the wording so it can
+          # be translated.
           period: progress_period,
           data: progress_data
         }

@@ -12,6 +12,7 @@ import { CategorySummary } from './contributions-summary/CategorySummary'
 import { TrackSelect } from './contributions-summary/TrackSelect'
 import { TrackContribution, ContributionCategory } from '../types'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { useCategoryLabels } from './contributions-summary/useCategoryLabels'
 
 // i18n-key-prefix: contributionsSummary
 // i18n-namespace: components/profile
@@ -22,15 +23,6 @@ const buffer = 8
 
 type Links = {
   contributions: string
-}
-
-export const CATEGORY_TITLES = {
-  publishing: 'Publishing',
-  mentoring: 'Mentoring',
-  authoring: 'Authoring',
-  building: 'Building',
-  maintaining: 'Maintaining',
-  other: 'Other',
 }
 
 export const CATEGORY_ICONS = {
@@ -217,13 +209,14 @@ const CategoryLabel = forwardRef<
   HTMLDivElement,
   { category: ContributionCategory }
 >(({ category }, ref) => {
+  const { title, metric } = useCategoryLabels()
+  const metricShort = metric(category, 'metricShort')
+
   return (
     <div className="label" ref={ref}>
       <GraphicalIcon icon={CATEGORY_ICONS[category.id]} hex />
-      <div className="title">{CATEGORY_TITLES[category.id]}</div>
-      {category.metricShort ? (
-        <div className="subtitle">{category.metricShort}</div>
-      ) : null}
+      <div className="title">{title(category)}</div>
+      {metricShort ? <div className="subtitle">{metricShort}</div> : null}
     </div>
   )
 })

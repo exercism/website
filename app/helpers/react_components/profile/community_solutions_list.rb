@@ -25,7 +25,7 @@ module ReactComponents
         tracks = ::Track.where(id: counts.keys).order(:title)
 
         [
-          SerializeTrackForSelect::ALL_TRACK.merge(num_solutions: counts.values.sum),
+          SerializeTrackForSelect.all_track.merge(num_solutions: counts.values.sum),
           *tracks.map do |track|
             SerializeTrackForSelect.(track).merge(num_solutions: counts[track.id])
           end

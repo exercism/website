@@ -149,4 +149,17 @@ class TranslationRepoTest < ActiveSupport::TestCase
       assert_equal TranslationRepo.catalog_hash({ ns: { a: "c" } }.to_json), TranslationRepo.frontend_catalog_hash(:hu)
     end
   end
+
+  test "a frontend catalog that was missing is served once it appears, without a new version" do
+    with_published_translations(hu: { frontend: { ns: { a: "b" } } }) do
+      assert_nil TranslationRepo.frontend_catalog_url(:uk)
+
+      path = TranslationRepo.frontend_catalog_path(:uk)
+      FileUtils.mkdir_p(path.dirname)
+      File.write(path, { ns: { a: "в" } }.to_json)
+
+      hash = TranslationRepo.catalog_hash({ ns: { a: "в" } }.to_json)
+      assert_equal "/i18n/uk/frontend-#{hash}.json", TranslationRepo.frontend_catalog_url(:uk)
+    end
+  end
 end

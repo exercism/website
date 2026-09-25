@@ -60,6 +60,8 @@ Metrics/ClassLength:
   Exclude:
     - "test/commands/solution/search_user_solutions_test.rb"
     - "test/serializers/serialize_submission_test_run_test.rb"
+    - "test/lib/translation_repo_test.rb"
+    - "test/lib/translation_repo/backend_test.rb"
 
 Naming/PredicatePrefix:
   Enabled: false

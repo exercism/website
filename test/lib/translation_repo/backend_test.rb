@@ -95,6 +95,23 @@ class TranslationRepo::BackendTest < ActiveSupport::TestCase
     end
   end
 
+  test "a catalog that was missing when the backend was built is loaded once it appears, without a new version" do
+    with_published_translations(hu: { backend: { store_test: { a: "egy" } } }) do
+      I18n.with_locale(:uk) do
+        assert_equal "missing", I18n.t("store_test.a", default: "missing")
+
+        path = TranslationRepo.backend_catalog_path(:uk)
+        FileUtils.mkdir_p(path.dirname)
+        File.write(path, { store_test: { a: "один" } }.to_json)
+        assert_equal "missing", I18n.t("store_test.a", default: "missing")
+
+        travel_monotonic(TranslationRepo::CHECK_INTERVAL_SECONDS + 1) do
+          assert_equal "один", I18n.t("store_test.a")
+        end
+      end
+    end
+  end
+
   test "english is never rendered in another locale, and the missing key is reported once" do
     with_published_translations(hu: { backend: { store_test: { a: "egy" } } }) do
       I18n.backend.store_translations(:en, store_test: { only_english: "Hello" })

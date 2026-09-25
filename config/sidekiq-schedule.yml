@@ -132,6 +132,12 @@ sync_translations:
   class: "SyncTranslationsJob"
   queue: dribble
 
+# Every 10 minutes, on a queue that dribble's backlog cannot starve
+check_translations_freshness:
+  cron: "5-59/10 * * * *"
+  class: "CheckTranslationsFreshnessJob"
+  queue: cron
+
 # Every 30 minutes
 create_onboarding_notifications:
   cron: "*/30 * * * *"

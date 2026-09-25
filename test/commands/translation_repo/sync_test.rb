@@ -61,6 +61,21 @@ class TranslationRepo::SyncTest < ActiveSupport::TestCase
     assert_equal head, TranslationRepo.version
   end
 
+  test "pulls past the lock files a killed git process leaves behind" do
+    sync!
+
+    write!("locales/hu/website/backend.json", { a: "hu2" }.to_json)
+    commit!("two")
+    git_dir = TranslationRepo.root / ".git"
+    %w[ORIG_HEAD.lock index.lock shallow.lock refs/heads/main.lock].each { |lock| FileUtils.touch(git_dir / lock) }
+
+    assert sync!
+
+    TranslationRepo.expire!
+    assert_equal head, TranslationRepo.version
+    assert_equal({ "a" => "hu2" }, JSON.parse(File.read(TranslationRepo.backend_catalog_path(:hu))))
+  end
+
   private
   def sync! = TranslationRepo::Sync.(url: "file://#{@upstream}")
 

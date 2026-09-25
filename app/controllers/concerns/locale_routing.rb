@@ -63,13 +63,13 @@ module LocaleRouting
   # frames, fetches such as the tooltip endpoints stored in old rendered
   # markdown) are served where they are, in the user's locale.
   def redirect_signed_in_to_unprefixed!
+    return unless user_signed_in?
     return unless locale_from_path
     return unless request.get? || request.head?
     return unless request.format.html?
     return if request.xhr?
     return if request.headers["Turbo-Frame"].present?
     return if devise_controller?
-    return unless user_signed_in?
 
     response.headers["Cache-Control"] = "private, no-store"
     redirect_to path_for_locale(I18n.default_locale), status: :found

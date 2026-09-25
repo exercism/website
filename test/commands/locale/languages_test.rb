@@ -2,9 +2,10 @@ require "test_helper"
 
 class Locale::LanguagesTest < ActiveSupport::TestCase
   test "live holds the served locales, led by the one being read" do
-    languages = Locale::Languages.(:hu)
+    codes = Locale::Languages.(:hu)[:live].map(&:code)
 
-    assert_equal %w[hu en], languages[:live].map(&:code)
+    assert_equal %w[hu en], codes.first(2)
+    assert_equal LocaleConfig::SERVED.map(&:to_s).sort, codes.sort
   end
 
   test "english leads when it is not the locale being read" do
@@ -17,9 +18,8 @@ class Locale::LanguagesTest < ActiveSupport::TestCase
     languages = Locale::Languages.(:en)
 
     codes = languages[:coming_soon].map(&:code)
-    assert_includes codes, "fr"
-    refute_includes codes, "en"
-    refute_includes codes, "hu"
+    assert_includes codes, "de"
+    LocaleConfig::SERVED.each { |locale| refute_includes codes, locale.to_s }
     assert_equal Locale::Name::NAMES.keys.size - I18n.available_locales.size, codes.size
   end
 

@@ -11,7 +11,14 @@ class Locale::AlternatesTest < ActiveSupport::TestCase
       "en" => "https://exercism.org/tracks/ruby",
       "hu" => "https://exercism.org/hu/tracks/ruby"
     }
-    assert_equal expected, Locale::Alternates.("https://exercism.org/tracks/ruby")
+    with_available_locales(:hu) { assert_equal expected, Locale::Alternates.("https://exercism.org/tracks/ruby") }
+  end
+
+  test "every served locale is declared" do
+    alternates = Locale::Alternates.("https://exercism.org/tracks/ruby")
+
+    assert_equal LocaleConfig::SERVED.size + 1, alternates.size
+    LocaleConfig::SERVED.each { |locale| assert_includes alternates.keys, locale.to_s }
   end
 
   test "the map is the same whichever variant it is built from" do

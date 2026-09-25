@@ -87,7 +87,7 @@ describe("normalizeLocale", () => {
 
   it("returns null for languages that are not served", () => {
     for (const tag of ["fr", "pt-BR", "es-ES", "es-419", "zh-Hant-TW", ""]) {
-      assert.equal(normalizeLocale(tag), null, tag);
+      assert.equal(normalizeLocale(tag, LOCALES), null, tag);
     }
   });
 

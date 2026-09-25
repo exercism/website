@@ -30,7 +30,7 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
       assert_equal "English", english["native"]
       assert_equal "English", english["english"]
       assert_match %r{/assets/flags/3x2/gb.*\.svg}, english["flag_url"]
-      assert_includes data["coming_soon_languages"].map { |language| language["code"] }, "fr"
+      assert_includes data["coming_soon_languages"].map { |language| language["code"] }, "de"
       assert_equal Exercism::Routes.api_settings_language_url, data.dig("links", "update")
     end
   end

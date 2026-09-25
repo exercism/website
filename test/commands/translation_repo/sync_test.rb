@@ -11,7 +11,7 @@ class TranslationRepo::SyncTest < ActiveSupport::TestCase
     write!("locales.json", "{}")
     write!("locales/hu/website/backend.json", { a: "hu" }.to_json)
     write!("locales/nl/website/backend.json", { a: "nl" }.to_json)
-    write!("locales/fr/website/backend.json", { a: "fr" }.to_json)
+    write!("locales/de/website/backend.json", { a: "de" }.to_json)
     commit!("one")
   end
 

@@ -13,7 +13,14 @@ module APILocale
   end
 
   private
-  def switch_api_locale!(&) = I18n.with_locale(api_locale, &)
+  # The header sets the language. It only sets the prefix of the URLs in the
+  # response for an anonymous visitor, because a signed-in user's URLs are
+  # never prefixed. A token-authenticated user may be signed in after this
+  # runs, which the Warden hook in config/initializers/url_defaults.rb covers.
+  def switch_api_locale!(&)
+    Current.url_locale = user_signed_in? ? nil : request_locale
+    I18n.with_locale(api_locale, &)
+  end
 
   def api_locale
     [request_locale, user_locale].compact.first || I18n.default_locale

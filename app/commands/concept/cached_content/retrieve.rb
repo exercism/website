@@ -34,8 +34,11 @@ class Concept::CachedContent::Retrieve
   # from synced_to_git_sha, and the job reloads the concept through a
   # GlobalID, so a sync landing in between would file this content under
   # the new sha's key, where it would be read back as that sync's content.
+  #
+  # It is generated with no URL locale, because the entry is shared by every
+  # visitor and must not carry one visitor's locale prefix in its links.
   def generate!
-    Concept::CachedContent::Generate.(concept).tap do |content|
+    Current.set(url_locale: nil) { Concept::CachedContent::Generate.(concept) }.tap do |content|
       S3Cache::Write.defer(cache_key, content)
     end
   end

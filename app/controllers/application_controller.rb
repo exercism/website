@@ -351,7 +351,11 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource_or_scope)
     # Don't use the Devise method, which deletes this
-    session[stored_location_key_for(resource_or_scope)] || super
+    stored = session[stored_location_key_for(resource_or_scope)]
+
+    # A location stored while signed out may carry a locale prefix, which a
+    # signed-in user no longer uses.
+    stored ? Locale::SwapInPath.(stored, I18n.default_locale) : super
   end
 
   def updated_last_visited_on!

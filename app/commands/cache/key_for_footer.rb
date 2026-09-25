@@ -10,7 +10,7 @@ class Cache::KeyForFooter
     parts << user_part
     parts << stripe_version
     parts << TranslationRepo.cache_key
-    parts << "v3"
+    parts << "v4"
 
     parts.join(':')
   end

@@ -79,35 +79,18 @@ class Solution::CachedSerializedView::RetrieveTest < ActiveSupport::TestCase
     )
   end
 
-  test "a cache miss in another locale returns what generating in that locale returns" do
+  test "the payload's page links are never locale-prefixed" do
     solution = create(:practice_solution, :published)
     create(:iteration, solution:)
 
     with_available_locales(:hu) do
-      english = Solution::CachedSerializedView::Generate.(solution)
-      expected = I18n.with_locale(:hu) { Solution::CachedSerializedView::Generate.(solution) }
-      refute_equal english, expected, "the payload does not vary by locale, so this test proves nothing"
-
-      I18n.with_locale(:hu) do
-        assert_equal expected, Solution::CachedSerializedView::Retrieve.(solution)
+      payload = I18n.with_locale(:hu) do
+        Current.set(url_locale: :hu) { Solution::CachedSerializedView::Retrieve.(solution) }
       end
-    end
-  end
 
-  test "a cache hit in another locale returns what generating in that locale returns" do
-    solution = create(:practice_solution, :published)
-    create(:iteration, solution:)
-    upload_to_s3(Exercism.config.aws_cache_bucket, cache_key_for(solution),
-      Solution::CachedSerializedView::Generate.(solution).to_json)
-
-    with_available_locales(:hu) do
-      expected = I18n.with_locale(:hu) { Solution::CachedSerializedView::Generate.(solution) }
-
-      I18n.with_locale(:hu) do
-        S3Cache::Write.expects(:defer).never
-
-        assert_equal expected, Solution::CachedSerializedView::Retrieve.(solution)
-      end
+      links = payload[:iterations].first[:links]
+      assert_equal "https://test.exercism.org/tracks/ruby/exercises/bob/iterations?idx=0", links[:self]
+      assert_equal "https://test.exercism.org/tracks/ruby/exercises/bob", links[:solution]
     end
   end
 

@@ -39,6 +39,27 @@ class API::BaseControllerLocaleTest < API::BaseTestCase
     refute_includes response.headers["Vary"].to_s.split(", "), "X-Exercism-Locale"
   end
 
+  test "an anonymous request's urls carry the page's locale" do
+    create :track, slug: "ruby"
+
+    get api_tracks_path, headers: { 'X-Exercism-Locale' => "hu" }, as: :json
+
+    assert_response :ok
+    assert_equal "https://test.exercism.org/hu/tracks/ruby", response.parsed_body["tracks"].first["web_url"]
+  end
+
+  test "a signed-in user's urls are never prefixed" do
+    create :track, slug: "ruby"
+    setup_user
+    @current_user.update!(locale: "hu")
+
+    # This controller signs the token user in after the locale is chosen
+    get api_tracks_path, headers: @headers.merge('X-Exercism-Locale' => "hu"), as: :json
+
+    assert_response :ok
+    assert_equal "https://test.exercism.org/tracks/ruby", response.parsed_body["tracks"].first["web_url"]
+  end
+
   private
   def assert_hungarian(**) = assert_equal HUNGARIAN, notification_text(**)
 

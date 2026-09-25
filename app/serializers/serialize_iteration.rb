@@ -30,11 +30,15 @@ class SerializeIteration
           digest: file.digest
         }
       end : nil,
+      # The page links are never locale-prefixed. Only the iteration's owner
+      # follows them, and a signed-in user's URLs carry no prefix. That also
+      # keeps the community solution payload, which is cached once for
+      # everyone (Solution::CachedSerializedView::Retrieve), locale-free.
       links: {
-        self: Exercism::Routes.track_exercise_iterations_url(iteration.track, iteration.exercise, idx: iteration.idx),
+        self: Exercism::Routes.track_exercise_iterations_url(iteration.track, iteration.exercise, idx: iteration.idx, locale: nil),
         automated_feedback: Exercism::Routes.automated_feedback_api_solution_iteration_url(iteration.solution.uuid, iteration.uuid),
         delete: Exercism::Routes.api_solution_iteration_url(iteration.solution.uuid, iteration.uuid),
-        solution: Exercism::Routes.track_exercise_url(iteration.track, iteration.exercise),
+        solution: Exercism::Routes.track_exercise_url(iteration.track, iteration.exercise, locale: nil),
         test_run: Exercism::Routes.api_solution_submission_test_run_url(iteration.solution.uuid, iteration.submission.uuid),
         files: Exercism::Routes.api_solution_submission_files_url(iteration.solution.uuid, iteration.submission)
       }
@@ -59,8 +63,8 @@ class SerializeIteration
       is_published: false,
       files: sideload.include?(:files) ? [] : nil,
       links: {
-        self: Exercism::Routes.track_exercise_iterations_url(iteration.track, iteration.exercise, idx: iteration.idx),
-        solution: Exercism::Routes.track_exercise_url(iteration.track, iteration.exercise)
+        self: Exercism::Routes.track_exercise_iterations_url(iteration.track, iteration.exercise, idx: iteration.idx, locale: nil),
+        solution: Exercism::Routes.track_exercise_url(iteration.track, iteration.exercise, locale: nil)
       }
     }.compact
   end

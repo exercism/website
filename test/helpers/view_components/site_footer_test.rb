@@ -47,7 +47,7 @@ class ViewComponents::SiteFooterTest < ActionView::TestCase
       assert_includes render(ViewComponents::SiteFooter.new), "Terms of usage"
 
       I18n.with_locale(:hu) do
-        html = render(ViewComponents::SiteFooter.new)
+        html = Current.set(url_locale: :hu) { render(ViewComponents::SiteFooter.new) }
         assert_includes html, "Felhasználási feltételek"
         assert_includes html, %(href="/hu/)
 

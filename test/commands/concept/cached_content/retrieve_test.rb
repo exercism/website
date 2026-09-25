@@ -20,6 +20,21 @@ class Concept::CachedContent::RetrieveTest < ActiveSupport::TestCase
     )
   end
 
+  test "the shared entry is generated with no locale prefix in its urls" do
+    concept = create :concept
+    url_locale = :unset
+
+    Concept::CachedContent::Generate.expects(:call).with do
+      url_locale = Current.url_locale
+      true
+    end.returns({})
+    S3Cache::Write.stubs(:defer)
+
+    Current.set(url_locale: :hu) { Concept::CachedContent::Retrieve.(concept) }
+
+    assert_nil url_locale
+  end
+
   test "cache miss generates live and defers a write" do
     concept = create :concept
 

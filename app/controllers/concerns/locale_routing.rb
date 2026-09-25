@@ -63,7 +63,7 @@ module LocaleRouting
   # frames, fetches such as the tooltip endpoints stored in old rendered
   # markdown) are served where they are, in the user's locale.
   def redirect_signed_in_to_unprefixed!
-    return unless user_signed_in?
+    return unless locale_user
     return unless locale_from_path
     return unless request.get? || request.head?
     return unless request.format.html?

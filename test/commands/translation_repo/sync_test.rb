@@ -23,7 +23,7 @@ class TranslationRepo::SyncTest < ActiveSupport::TestCase
   end
 
   test "clones shallow, on main, with only the served locales" do
-    sync!
+    assert sync!
 
     assert_equal head, TranslationRepo.version
     assert_equal %w[locales.json locales/hu/website/backend.json], checked_out
@@ -52,11 +52,11 @@ class TranslationRepo::SyncTest < ActiveSupport::TestCase
 
     File.open(TranslationRepo.root.dirname / "i18n.lock", File::RDWR | File::CREAT) do |lock|
       lock.flock(File::LOCK_EX)
-      sync!
+      refute sync!
       assert_equal before, TranslationRepo.version
     end
 
-    sync!
+    assert sync!
     TranslationRepo.expire!
     assert_equal head, TranslationRepo.version
   end

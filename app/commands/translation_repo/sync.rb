@@ -32,7 +32,10 @@ class TranslationRepo::Sync
   def with_lock
     FileUtils.mkdir_p(root.dirname)
     File.open(root.dirname / "i18n.lock", File::RDWR | File::CREAT) do |file|
-      yield if file.flock(File::LOCK_EX | File::LOCK_NB)
+      next false unless file.flock(File::LOCK_EX | File::LOCK_NB)
+
+      yield
+      true
     end
   end
 end

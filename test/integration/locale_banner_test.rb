@@ -7,14 +7,19 @@ class LocaleBannerTest < ActionDispatch::IntegrationTest
     assert_response :ok
     data = banner_data
 
-    assert_equal %w[en hu], data.keys.sort
+    assert_equal LocaleConfig::SERVED.map(&:to_s).sort, data.keys.sort
     assert_equal "English", data["en"]["name"]
     assert_equal "magyar", data["hu"]["name"]
     assert_equal "ltr", data["hu"]["dir"]
     assert_equal "This page is in English.", data["en"]["pre"]
     assert_equal "View it in English", data["en"]["link"]
     assert_equal "Dismiss", data["en"]["dismiss"]
-    assert data["hu"].values_at("pre", "link", "dismiss").all?(&:present?)
+
+    LocaleConfig::SERVED.each do |locale|
+      copy = data[locale.to_s]
+      assert_includes %w[ltr rtl], copy["dir"]
+      assert copy.values_at("name", "pre", "link", "dismiss").all?(&:present?)
+    end
   end
 
   test "each locale carries the current path under its own prefix" do

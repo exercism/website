@@ -1,7 +1,7 @@
 {
   "$comment": "Locale routing, in one place. `default` is the unprefixed locale and `served` lists every locale the site actually serves; `public_sections` (prefix match) and `public_pages` (exact match) are the pages a first-time visitor may be moved between, and `variants` maps a language with more than one content variant onto the right one for a browser's region or script. Rails and the Cloudflare Worker in cloudflare/locale-redirect both read this file, so the two always agree. Serving a new locale means adding it to `served` (and a display name to Locale::Name::NAMES): the Worker ships with the same deploy as the site.",
   "default": "en",
-  "served": ["en", "hu"],
+  "served": ["en", "hu", "el", "fr", "uk"],
   "public_sections": [
     "/tracks",
     "/docs",

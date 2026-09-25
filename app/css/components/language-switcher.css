@@ -101,4 +101,14 @@
         object-fit: cover;
         box-shadow: inset 0 0 0 1px rgba(var(--shadowColorMain), 0.2);
     }
+
+    @media screen and (max-width: 500px) {
+        & > .options {
+            @apply fixed w-auto;
+            top: auto;
+            left: 12px;
+            right: 12px;
+            max-height: calc(100vh - 88px);
+        }
+    }
 }

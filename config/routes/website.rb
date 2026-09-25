@@ -17,7 +17,9 @@ end
 # ############ #
 # Normal pages #
 # ############ #
+
 resource :settings, only: %i[show] do
+  patch :update_locale
   get :api_cli
   get :user_preferences
   get :communication_preferences

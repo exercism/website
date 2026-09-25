@@ -219,15 +219,19 @@ class ActiveSupport::TestCase
     Array(num).map { create(model, params) }.sample
   end
 
+  # I18n.config.available_locales falls back to whatever locales the *backend*
+  # happens to hold translations for, so reading it back is not a safe way to
+  # remember the pin: a test that stores translations for an unserved locale
+  # would leave that locale "served" for every test that followed. The pin the
+  # app sets in config/application.rb is the thing to restore.
   def with_available_locales(*locales)
     available = [I18n.default_locale, *locales.map(&:to_sym)].uniq
-    previous = I18n.config.available_locales
 
     I18n.stubs(available_locales: available)
     I18n.config.available_locales = available
     yield
   ensure
-    I18n.config.available_locales = previous
+    I18n.config.available_locales = Rails.application.config.i18n.available_locales
     I18n.unstub(:available_locales)
   end
 

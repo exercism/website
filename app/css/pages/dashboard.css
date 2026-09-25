@@ -21,6 +21,18 @@
         @apply min-w-[350px] max-w-[410px];
         @apply flex-grow-0 flex-shrink-0 ml-60;
     }
+
+    @media screen and (max-width: 1100px) {
+        & article.flex {
+            flex-direction: column;
+        }
+        & .rhs {
+            min-width: 0;
+            max-width: none;
+            margin-left: 0;
+            margin-top: 32px;
+        }
+    }
     & .summary-bar {
         @apply block bg-backgroundColorA shadow-lg py-10;
 

@@ -1,7 +1,7 @@
 class Metrics::StartSolutionMetric < Metric
   params :solution
 
-  delegate :exercise, to: :solution
+  delegate :exercise, to: :solution, allow_nil: true
   def guard_params = solution.id
 
   after_create do

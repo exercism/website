@@ -1,19 +1,13 @@
 module ViewComponents
-  # The signed-in user menu's language picker.
-  #
-  # The header's LanguageSwitcher is a set of plain links, which is right for a
-  # signed-out visitor: nothing to save, so the URL carries the whole choice.
-  # A signed-in user's locale is read off their account instead, so each row
-  # here posts to LocaleController, which saves it and then redirects to this
-  # same page under the new locale.
+  # The signed-in user menu's language picker. The header's LanguageSwitcher is
+  # plain links, which suits a signed-out visitor; a signed-in user's locale
+  # lives on their account, so each row posts to SettingsController instead.
   #
   # A <details> rather than a <select>: the rows carry a flag and both names,
-  # which a native option list cannot render. It also opens and closes, and
-  # closes on Escape, without any JavaScript of its own.
+  # and it opens, closes and handles Escape without JavaScript of its own.
   #
-  # Only the served languages appear. The menu is a navigation surface with a
-  # finite amount of room, so the long "coming soon" list stays on
-  # /settings/user_preferences, which the Settings row above leads to.
+  # Only served languages appear; the "coming soon" list stays on
+  # /settings/user_preferences.
   class UserMenuLanguageSwitcher < ViewComponent
     extend Mandate::Memoize
 
@@ -42,7 +36,7 @@ module ViewComponents
       current = language.code == I18n.locale.to_s
 
       tag.li do
-        button_to(Exercism::Routes.locale_path,
+        button_to(Exercism::Routes.update_locale_settings_path,
           method: :patch,
           params: { new_locale: language.code, return_to: request.fullpath },
           class: "language-option",
@@ -59,8 +53,7 @@ module ViewComponents
       graphical_icon("checkmark", css_class: "language-check")
     end
 
-    # The endonym leads, so a speaker finds their own language without reading
-    # English first; the English name follows for everyone else.
+    # The endonym leads, so a speaker finds their own language first.
     def names(language)
       tag.span(class: "language-names") do
         tag.span(language.native, class: "language-native", lang: language.code) +

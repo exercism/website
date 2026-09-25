@@ -1,13 +1,13 @@
 require "test_helper"
 
-class LocaleControllerTest < ActionDispatch::IntegrationTest
+class SettingsControllerUpdateLocaleTest < ActionDispatch::IntegrationTest
   # A signed-in user's locale is read off their account, so the switch has to
   # persist before the redirect lands on the new locale's URL.
   test "saves the chosen locale on the account" do
     user = create :user
     sign_in!(user)
 
-    patch locale_path, params: { new_locale: "hu", return_to: "/tracks" }
+    patch update_locale_settings_path, params: { new_locale: "hu", return_to: "/tracks" }
 
     assert_equal "hu", user.reload.locale
     assert_redirected_to "/hu/tracks"
@@ -16,7 +16,7 @@ class LocaleControllerTest < ActionDispatch::IntegrationTest
   test "records the preference cookie, so the choice survives signing out" do
     sign_in!
 
-    patch locale_path, params: { new_locale: "hu", return_to: "/tracks" }
+    patch update_locale_settings_path, params: { new_locale: "hu", return_to: "/tracks" }
 
     assert_equal "hu", cookies[Locale::PREF_COOKIE_NAME.to_s]
   end
@@ -25,7 +25,7 @@ class LocaleControllerTest < ActionDispatch::IntegrationTest
     user = create :user, locale: "hu"
     sign_in!(user)
 
-    patch locale_path, params: { new_locale: "en", return_to: "/hu/tracks" }
+    patch update_locale_settings_path, params: { new_locale: "en", return_to: "/hu/tracks" }
 
     assert_equal "en", user.reload.locale
     assert_redirected_to "/tracks"
@@ -35,7 +35,7 @@ class LocaleControllerTest < ActionDispatch::IntegrationTest
     user = create :user, locale: "hu"
     sign_in!(user)
 
-    patch locale_path, params: { new_locale: "fr", return_to: "/tracks" }
+    patch update_locale_settings_path, params: { new_locale: "fr", return_to: "/tracks" }
 
     assert_equal "hu", user.reload.locale
   end
@@ -44,7 +44,7 @@ class LocaleControllerTest < ActionDispatch::IntegrationTest
   test "refuses an off-site return path" do
     sign_in!
 
-    patch locale_path, params: { new_locale: "hu", return_to: "https://evil.test/x" }
+    patch update_locale_settings_path, params: { new_locale: "hu", return_to: "https://evil.test/x" }
 
     assert_redirected_to "/hu"
   end
@@ -52,7 +52,7 @@ class LocaleControllerTest < ActionDispatch::IntegrationTest
   test "refuses a protocol-relative return path" do
     sign_in!
 
-    patch locale_path, params: { new_locale: "hu", return_to: "//evil.test/x" }
+    patch update_locale_settings_path, params: { new_locale: "hu", return_to: "//evil.test/x" }
 
     assert_redirected_to "/hu"
   end
@@ -61,7 +61,7 @@ class LocaleControllerTest < ActionDispatch::IntegrationTest
     user = create :user, locale: "hu"
     sign_in!(user)
 
-    patch "/hu/locale", params: { new_locale: "en", return_to: "/hu/tracks" }
+    patch "/hu/settings/update_locale", params: { new_locale: "en", return_to: "/hu/tracks" }
 
     assert_equal "en", user.reload.locale
     assert_redirected_to "/tracks"
@@ -71,14 +71,24 @@ class LocaleControllerTest < ActionDispatch::IntegrationTest
     user = create :user, locale: "en"
     sign_in!(user)
 
-    patch "/hu/locale", params: { new_locale: "hu", return_to: "/hu/tracks" }
+    patch "/hu/settings/update_locale", params: { new_locale: "hu", return_to: "/hu/tracks" }
 
     assert_equal "hu", user.reload.locale
     assert_redirected_to "/hu/tracks"
   end
 
+  test "ignores a missing locale rather than erroring" do
+    user = create :user, locale: "hu"
+    sign_in!(user)
+
+    patch update_locale_settings_path, params: { return_to: "/tracks" }
+
+    assert_equal "hu", user.reload.locale
+    assert_response :redirect
+  end
+
   test "requires a signed-in user" do
-    patch locale_path, params: { new_locale: "hu", return_to: "/tracks" }
+    patch update_locale_settings_path, params: { new_locale: "hu", return_to: "/tracks" }
 
     assert_redirected_to new_user_session_path
   end

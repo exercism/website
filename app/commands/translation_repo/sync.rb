@@ -19,11 +19,18 @@ class TranslationRepo::Sync
   def sparse_dirs = (I18n.available_locales - [I18n.default_locale]).map { |locale| "locales/#{locale}" }
 
   # A git process that is killed part way through leaves its lock files behind,
-  # and git then refuses to update the checkout again. The site only reads the
-  # checkout, and the flock lets one sync run at a time, so any lock file found
-  # here was left by a sync that was killed.
+  # and git then refuses to update the checkout again. The flock only covers the
+  # Ruby process, and a git process it started can outlive it, so a lock file is
+  # only treated as abandoned once nothing has written to it for STALE_LOCK_AGE.
+  STALE_LOCK_AGE = 10.minutes
+  private_constant :STALE_LOCK_AGE
+
   def remove_stale_git_locks!
-    Dir.glob(root.join(".git", "{*.lock,info/*.lock,refs/**/*.lock}")).each { |file| FileUtils.rm_f(file) }
+    Dir.glob(root.join(".git", "{*.lock,info/*.lock,refs/**/*.lock}")).each do |file|
+      FileUtils.rm_f(file) if File.mtime(file) < STALE_LOCK_AGE.ago
+    rescue Errno::ENOENT
+      nil
+    end
   end
 
   def clone!

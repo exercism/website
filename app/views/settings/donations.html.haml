@@ -28,10 +28,10 @@
                 .explanation= t('.summary.total_donated')
               .breakdown
                 .subs
-                  = number_to_currency(current_user.total_subscription_donations_in_dollars)
+                  = number_to_currency(current_user.total_subscription_donations_in_dollars, locale: :en, unit: "$")
                   = t('.summary.from_recurring')
                 .one-off
-                  = number_to_currency(current_user.total_one_off_donations_in_dollars)
+                  = number_to_currency(current_user.total_one_off_donations_in_dollars, locale: :en, unit: "$")
                   = t('.summary.from_one_time')
             .show-on-supporters-page.mt-24.lg:mt-0.lg:ml-auto
               = render ReactComponents::Settings::ShowOnSupportersPageButton.new
@@ -46,7 +46,7 @@
             - @payments.each do |payment|
               %tr
                 %td= format_date(payment.created_at)
-                %td= number_to_currency(payment.amount_in_dollars)
+                %td= number_to_currency(payment.amount_in_dollars, locale: :en, unit: "$")
                 %td= payment.subscription ? t('.payments_table.recurring_donation') : t('.payments_table.one_time_donation')
                 %td
                   - case payment.provider

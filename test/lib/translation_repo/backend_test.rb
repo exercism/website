@@ -7,6 +7,18 @@ class TranslationRepo::BackendTest < ActiveSupport::TestCase
     refute_includes I18n.backend.class.ancestors, I18n::Backend::Fallbacks
   end
 
+  test "exists? answers without raising, in english and in a published locale" do
+    assert I18n.exists?("devise.shared.information.heading")
+    refute I18n.exists?("store_test.nope")
+
+    with_published_translations(hu: { backend: { store_test: { greeting: "Szia" } } }) do
+      I18n.with_locale(:hu) do
+        assert I18n.exists?("store_test.greeting")
+        refute I18n.exists?("store_test.nope")
+      end
+    end
+  end
+
   test "a published catalog is served, over rails-i18n, with english underneath" do
     catalog = {
       # rubocop:disable Style/FormatStringToken

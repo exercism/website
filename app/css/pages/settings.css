@@ -281,8 +281,14 @@
         & .box {
             @apply border-2 border-alert rounded-8;
             @apply py-16 px-24;
-            @apply self-start;
+            @apply flex flex-col;
             background: var(--backgroundColorDangerSection);
+
+            /* Push the button (a React root) to the bottom so cards of
+               differing text length keep their buttons aligned. */
+            & > :last-child {
+                @apply mt-auto;
+            }
 
             & h2 {
                 @apply text-h4 mb-8;
@@ -399,7 +405,7 @@
         }
     }
     & table.payments {
-        @apply w-100 table-fixed;
+        @apply w-100;
         & tr {
             @apply border-b-1 border-borderColor6;
         }
@@ -411,9 +417,9 @@
         & td {
             @apply text-16 leading-150;
             @apply py-10;
-            min-width: 180px;
             &:last-child {
                 @apply text-right;
+                @apply w-fit whitespace-nowrap;
             }
 
             & a {

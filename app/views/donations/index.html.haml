@@ -22,7 +22,7 @@
           .current-icon{ style: "left:calc(#{progress.round}% - 18px)" }
           .actual-number.hidden{ class: "md:block", style: "left:calc(#{progress.round}% - 160px)" }
             = t('.progress_bar.monthly_donations')
-            %span.font-semibold= number_to_currency(actual.round, precision: 0)
+            %span.font-semibold= number_to_currency(actual.round, precision: 0, locale: :en, unit: "$")
 
           .target-icon
             = graphical_icon "party-popper"

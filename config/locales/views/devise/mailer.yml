@@ -2,6 +2,7 @@ en:
   devise:
     mailer:
       unlock_instructions:
+        subject: Unlock instructions
         greeting: Hello %{email}!
         locked_account_message:
           Your account has been locked due to an excessive number
@@ -21,6 +22,8 @@ en:
 
           [Unlock my account](%{unlock_url})
       reset_password_instructions:
+        title: Reset your Exercism password
+        subject: Reset password request
         greeting: Hey there,
         password_reset_request_message:
           Someone has requested a link to change your
@@ -47,6 +50,8 @@ en:
           Your password won't change until you access the link above and create
           a new one.
       password_change:
+        title: Your password has been changed
+        subject: Your password has been changed
         greeting: Hey @%{user_handle},
         password_changed_notification: We're contacting you to notify you that your password has been changed.
         contact_support_message: If you didn't do this, please email us at %{support_link} immediately.
@@ -61,6 +66,8 @@ en:
           If you didn't do this, please email us at
           [support@exercism.io](mailto:support@exercism.io) immediately.
       confirmation_instructions:
+        title: Confirm your new Exercism account
+        subject: Confirm your account
         welcome_message: Welcome to Exercism!
         confirmation_message:
           To check you're a real person and not a bot, we need to
@@ -80,6 +87,8 @@ en:
 
           [Confirm your account](%{confirmation_url})
       email_changed:
+        title: Your email address is being changed
+        subject: Your email address is being changed
         greeting: Hey @%{user_handle},
         email_change_pending_notification:
           We're contacting you to notify you that your

@@ -101,7 +101,7 @@ module ViewComponents
         # {
         #   title: "Training Hub",
         #   description: "Help train Exercism's neural network",
-        #   path: Exercism::Routes.training_data_root_path,
+        #   path: -> { Exercism::Routes.training_data_root_path },
         #   icon: :robot,
         #   icon_filter: "textColor6"
         # },
@@ -133,7 +133,7 @@ module ViewComponents
         # {
         #   title: "GitHub Backup",
         #   description: "Use our automated GitHub Backup system",
-        #   path: Exercism::Routes.settings_github_syncer_path,
+        #   path: -> { Exercism::Routes.settings_github_syncer_path },
         #   icon: 'github-syncer',
         #   category: "graphics",
         # },

@@ -20,20 +20,6 @@ export const TrackSummary = ({
     'components/journey/overview/learning-section'
   )
 
-  const inProgressLabel =
-    track.numInProgressMentoringDiscussions === 0
-      ? t('trackSummary.none')
-      : t('trackSummary.mentoring.discussion', {
-          count: track.numInProgressMentoringDiscussions,
-        })
-
-  const queuedLabel =
-    track.numQueuedMentoringRequests === 0
-      ? t('trackSummary.none')
-      : t('trackSummary.mentoring.solution', {
-          count: track.numQueuedMentoringRequests,
-        })
-
   return (
     <details className="c-details track" open={expanded}>
       <summary className="--summary">
@@ -47,7 +33,7 @@ export const TrackSummary = ({
             width={300}
           />
           <div className="info">
-            <h4>{track.progressChart.period}</h4>
+            <h4>{t(`trackSummary.period.${track.progressChart.period}`)}</h4>
             <p>
               <Trans
                 ns="components/journey/overview/learning-section"
@@ -101,13 +87,20 @@ export const TrackSummary = ({
             />
           </h5>
           <p>
+            {/* Two keys, each with its own count: i18next picks one plural
+                form per key, and the two clauses vary independently. */}
             <Trans
               ns="components/journey/overview/learning-section"
-              i18nKey="trackSummary.mentoringStatus"
-              values={{
-                inProgress: inProgressLabel,
-                queued: queuedLabel,
-              }}
+              i18nKey="trackSummary.mentoringInProgress"
+              count={track.numInProgressMentoringDiscussions}
+              values={{ count: track.numInProgressMentoringDiscussions }}
+              components={{ strong: <strong /> }}
+            />{' '}
+            <Trans
+              ns="components/journey/overview/learning-section"
+              i18nKey="trackSummary.mentoringQueued"
+              count={track.numQueuedMentoringRequests}
+              values={{ count: track.numQueuedMentoringRequests }}
               components={{ strong: <strong /> }}
             />
           </p>

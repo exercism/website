@@ -18,16 +18,24 @@ export default {
   'trackSummary.joinedTrack': 'When you joined the {{title}} Track',
   'trackSummary.startedTrackAgo':
     'You started working through the {{title}} Track <strong>{{since}}</strong>.',
-  'trackSummary.none': 'none',
   'trackSummary.mentoringSessionsCompleted_one': 'Mentoring session completed',
   'trackSummary.mentoringSessionsCompleted_other':
     'Mentoring sessions completed',
-  'trackSummary.mentoringStatus':
-    'You have <strong>{{inProgress}}</strong> in progress and <strong>{{queued}}</strong> in the queue.',
-  'trackSummary.mentoring.discussion_one': '{{count}} discussion',
-  'trackSummary.mentoring.discussion_other': '{{count}} discussions',
-  'trackSummary.mentoring.solution_one': '{{count}} solution',
-  'trackSummary.mentoring.solution_other': '{{count}} solutions',
+  'trackSummary.mentoringInProgress_zero':
+    'You have <strong>no discussions</strong> in progress.',
+  'trackSummary.mentoringInProgress_one':
+    'You have <strong>{{count}} discussion</strong> in progress.',
+  'trackSummary.mentoringInProgress_other':
+    'You have <strong>{{count}} discussions</strong> in progress.',
+  'trackSummary.mentoringQueued_zero':
+    'You have <strong>no solutions</strong> in the queue.',
+  'trackSummary.mentoringQueued_one':
+    'You have <strong>{{count}} solution</strong> in the queue.',
+  'trackSummary.mentoringQueued_other':
+    'You have <strong>{{count}} solutions</strong> in the queue.',
+  'trackSummary.period.last_12_months': 'Last 12 months',
+  'trackSummary.period.last_10_weeks': 'Last 10 weeks',
+  'trackSummary.period.last_14_days': 'Last 14 days',
   'trackSummary.progressionVelocity': 'Progression Velocity',
   'trackSummary.avgVelocity': 'Avg. on Exercism = {{avg}}',
   'trackSummary.velocityExplanation':

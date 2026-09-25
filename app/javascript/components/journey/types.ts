@@ -1,3 +1,8 @@
+export type ProgressChartPeriod =
+  | 'last_12_months'
+  | 'last_10_weeks'
+  | 'last_14_days'
+
 export type MentoringTotals = {
   discussions: number
   students: number
@@ -11,7 +16,7 @@ export type MentoringRanks = {
 
 export type TrackProgressChart = {
   data: number[]
-  period: string
+  period: ProgressChartPeriod
 }
 
 export class TrackProgress {

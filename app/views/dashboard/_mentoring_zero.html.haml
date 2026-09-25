@@ -4,6 +4,6 @@
   %h3= t('.title')
   %p= t('.description')
 
-  .grid.grid-cols-2.gap-20
+  .flex.flex-wrap.justify-center.gap-20
     = link_to t('.try_mentoring_now_link'), mentoring_path, class: 'btn-primary btn-s'
     = link_to t('.learn_more_link'), mentoring_path, class: 'btn-default btn-s'

@@ -1,31 +1,36 @@
 class DeviseMailer < Devise::Mailer
+  SUBJECT_PREFIX = "[Exercism]".freeze
+
   def reset_password_instructions(user, token, options = {})
     @user = user
     @token = token
-    @title = "Reset your Exercism password"
-    options[:subject] = "[Exercism] Reset password request"
+    @title = t("devise.mailer.reset_password_instructions.title")
+    options[:subject] = prefixed_subject("reset_password_instructions")
     super
   end
 
   def confirmation_instructions(user, token, options = {})
     @user = user
     @token = token
-    @title = "Confirm your new Exercism account"
-    options[:subject] = "[Exercism] Confirm your account"
+    @title = t("devise.mailer.confirmation_instructions.title")
+    options[:subject] = prefixed_subject("confirmation_instructions")
     super
   end
 
   def email_changed(user, options = {})
     @user = user
-    @title = "Your email address is being changed"
-    options[:subject] = "[Exercism] Your email address is being changed"
+    @title = t("devise.mailer.email_changed.title")
+    options[:subject] = prefixed_subject("email_changed")
     super
   end
 
   def password_change(user, options = {})
     @user = user
-    @title = "Your password has been changed"
-    options[:subject] = "[Exercism] Your password has been changed"
+    @title = t("devise.mailer.password_change.title")
+    options[:subject] = prefixed_subject("password_change")
     super
   end
+
+  private
+  def prefixed_subject(action) = "#{SUBJECT_PREFIX} #{t("devise.mailer.#{action}.subject")}"
 end

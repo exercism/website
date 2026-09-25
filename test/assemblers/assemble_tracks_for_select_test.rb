@@ -7,7 +7,7 @@ class AssembleTracksForSelectTest < ActiveSupport::TestCase
     track_3 = create :track, slug: :javascript, title: 'JavaScript'
     track_4 = create :track, slug: :clojure, title: 'Clojure'
     expected = [
-      SerializeTrackForSelect::ALL_TRACK,
+      SerializeTrackForSelect.all_track,
       SerializeTrackForSelect.(track_1),
       SerializeTrackForSelect.(track_4),
       SerializeTrackForSelect.(track_3),
@@ -23,7 +23,7 @@ class AssembleTracksForSelectTest < ActiveSupport::TestCase
     track_3 = create :track, slug: :javascript, title: 'JavaScript'
     track_4 = create :track, slug: :clojure, title: 'Clojure'
     expected = [
-      SerializeTrackForSelect::ALL_TRACK,
+      SerializeTrackForSelect.all_track,
       SerializeTrackForSelect.(track_1),
       SerializeTrackForSelect.(track_3),
       SerializeTrackForSelect.(track_2)

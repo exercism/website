@@ -692,8 +692,8 @@ export type ContributionCategoryId =
 export type ContributionCategory = {
   id: ContributionCategoryId
   reputation: number
-  metricFull?: string
-  metricShort?: string
+  // Absent for the 'other' category, which has no metric.
+  metricCount?: number
 }
 
 export class TrackContribution {

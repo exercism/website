@@ -1,0 +1,28 @@
+en:
+  serializers:
+    track_for_select:
+      all_tracks: "All Tracks"
+    profile_image:
+      # Rendered into the profile OG image server-side, so unlike the website's
+      # own contribution metrics these cannot be translated in the frontend.
+      metric:
+        publishing:
+          zero: "No solutions published"
+          one: "%{count} solution published"
+          other: "%{count} solutions published"
+        mentoring:
+          zero: "No students mentored"
+          one: "%{count} student mentored"
+          other: "%{count} students mentored"
+        authoring:
+          zero: "No exercises/articles contributed"
+          one: "%{count} exercise/article contributed"
+          other: "%{count} exercises/articles contributed"
+        building:
+          zero: "No PRs accepted"
+          one: "%{count} PR accepted"
+          other: "%{count} PRs accepted"
+        maintaining:
+          zero: "No PRs reviewed"
+          one: "%{count} PR reviewed"
+          other: "%{count} PRs reviewed"

@@ -1,11 +1,15 @@
 class SerializeTrackForSelect
   include Mandate
 
-  ALL_TRACK = {
-    slug: nil,
-    title: "All Tracks",
-    icon_url: nil
-  }.freeze
+  # Not a frozen constant: the title is locale-dependent, so it has to be
+  # built per request rather than once at boot.
+  def self.all_track
+    {
+      slug: nil,
+      title: I18n.t('serializers.track_for_select.all_tracks'),
+      icon_url: nil
+    }
+  end
 
   initialize_with :track
 

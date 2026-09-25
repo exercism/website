@@ -21,13 +21,13 @@
           = f.label :handle, t('.username_label')
           = f.text_field :handle, placeholder: t('.username_placeholder')
         .field
-          = f.label :email
+          = f.label :email, t('.email_label')
           = f.email_field :email, autocomplete: "email", placeholder: t('.email_placeholder')
         .field
-          = f.label :password
+          = f.label :password, t('.password_label')
           = f.password_field :password, autocomplete: "new-password", placeholder: t('.password_placeholder', minimum_password_length: @minimum_password_length)
         .field
-          = f.label :password_confirmation
+          = f.label :password_confirmation, t('.password_confirmation_label')
           = f.password_field :password_confirmation, autocomplete: "new-password", placeholder: t('.password_confirmation_placeholder')
 
         .field

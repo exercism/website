@@ -24,7 +24,10 @@ module ReactComponents
           code: language.code,
           native: language.native,
           english: language.english,
-          flag_url: view_context.image_path("flags/3x2/#{language.flag}.svg")
+          flag_url: view_context.image_path("flags/3x2/#{language.flag}.svg"),
+
+          # A locale in the path outranks the saved preference.
+          redirect_path: Locale::SwapInPath.(view_context.request.fullpath, language.code)
         }
       end
     end

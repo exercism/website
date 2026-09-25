@@ -1,3 +1,4 @@
+// namespace: components/common/HandleWithFlair.tsx
 export default {
   flair: {
     insider: 'An Insider',

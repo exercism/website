@@ -42,6 +42,22 @@ class Exercise::CachedContent::RetrieveTest < ActiveSupport::TestCase
     assert_equal generated, Exercise::CachedContent::Retrieve.(exercise, nil)
   end
 
+  test "the shared entry is generated with no locale prefix in its urls" do
+    exercise = create :practice_exercise
+    url_locale = :unset
+
+    Exercise::CachedContent::Generate.expects(:call).with do
+      url_locale = Current.url_locale
+      true
+    end.returns({})
+    S3Cache::Write.stubs(:defer)
+
+    # An anonymous /hu page that shows English docs
+    Current.set(url_locale: :hu) { Exercise::CachedContent::Retrieve.(exercise, nil) }
+
+    assert_nil url_locale
+  end
+
   test "a solution reads the key for the sha it is pinned to" do
     exercise = create :practice_exercise
     solution = create :practice_solution, exercise:, git_sha: OLD_GIT_SHA

@@ -47,14 +47,14 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "the language picker falls back to the locale the page is rendered in" do
+  test "the language picker falls back to english for a user with no locale" do
     user = create :user
     sign_in!(user)
 
-    get "/hu/settings/user_preferences"
+    get "/settings/user_preferences"
 
     assert_select "div[data-react-id=?]", "settings-language-preference-form" do |elements|
-      assert_equal "hu", JSON.parse(elements.first["data-react-data"])["default_locale"]
+      assert_equal "en", JSON.parse(elements.first["data-react-data"])["default_locale"]
     end
   end
 

@@ -13,16 +13,24 @@ module LocaleRouting
 
   included do
     before_action :redirect_to_preferred_locale!
+    before_action :redirect_signed_in_to_unprefixed!
   end
 
   private
+  # A signed-in user always reads the site in their own locale, on unprefixed
+  # URLs, whatever locale is in the path. Everyone else gets the path's locale
+  # and links that keep it.
   def switch_locale!(&)
-    personal_locale = locale_from_path ? nil : non_default_user_locale
-    locale = locale_from_path || personal_locale || I18n.default_locale
+    if locale_user
+      personal_locale = non_default_user_locale
+      Current.url_locale = nil
+      response.headers['Cache-Control'] = 'private, no-store' if personal_locale
 
-    response.headers['Cache-Control'] = 'private, no-store' if personal_locale
-
-    I18n.with_locale(locale, &)
+      I18n.with_locale(personal_locale || I18n.default_locale, &)
+    else
+      Current.url_locale = locale_from_path
+      I18n.with_locale(locale_from_path || I18n.default_locale, &)
+    end
   end
 
   def non_default_user_locale
@@ -47,6 +55,24 @@ module LocaleRouting
     response.headers["Cache-Control"] = "private, no-store"
     response.headers["Vary"] = "Accept-Language, Cookie"
     redirect_to path_for_locale(target), status: :found
+  end
+
+  # A signed-in user's locale comes from their settings, so a locale in the
+  # path only makes the URL differ from everyone else's. Page navigations are
+  # moved to the unprefixed URL. Other requests to a prefixed path (forms,
+  # frames, fetches such as the tooltip endpoints stored in old rendered
+  # markdown) are served where they are, in the user's locale.
+  def redirect_signed_in_to_unprefixed!
+    return unless locale_user
+    return unless locale_from_path
+    return unless request.get? || request.head?
+    return unless request.format.html?
+    return if request.xhr?
+    return if request.headers["Turbo-Frame"].present?
+    return if devise_controller?
+
+    response.headers["Cache-Control"] = "private, no-store"
+    redirect_to path_for_locale(I18n.default_locale), status: :found
   end
 
   # Precedence is explicit choice > explicit URL > browser guess.

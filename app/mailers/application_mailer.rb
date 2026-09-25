@@ -9,8 +9,11 @@ class ApplicationMailer < ActionMailer::Base
   rescue_from(Net::SMTPSyntaxError) {}
   rescue_from(Net::SMTPFatalError) {}
 
+  # Links carry the recipient's locale, since mail is often read signed out.
+  # A signed-in reader is moved to the unprefixed URL on arrival.
   def process(action, *args)
-    I18n.with_locale(recipient_locale(args)) { super }
+    locale = recipient_locale(args)
+    I18n.with_locale(locale) { Current.set(url_locale: locale) { super } }
   end
 
   def user_email_with_name(user)

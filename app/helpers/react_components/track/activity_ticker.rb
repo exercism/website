@@ -17,9 +17,13 @@ module ReactComponents
       # The ORDER BY id cannot use index_metrics_on_type_and_track_id_and_occurred_at,
       # so the lookup filesorts, and to_broadcast_hash then walks the metric's
       # whole object graph (submission, solution, exercise, user, profile).
+      # The one entry is shared by everyone, so its URLs carry no locale prefix,
+      # matching what the MetricsChannel broadcasts from jobs.
       def initial_data
-        Rails.cache.fetch("track/#{track.id}/activity_ticker/initial_data", expires_in: 15.minutes) do
-          Metric.where(track_id: track.id, type: ALLOWED_METRIC_TYPES).last&.to_broadcast_hash
+        Rails.cache.fetch("track/#{track.id}/activity_ticker/initial_data/2", expires_in: 15.minutes) do
+          Current.set(url_locale: nil) do
+            Metric.where(track_id: track.id, type: ALLOWED_METRIC_TYPES).last&.to_broadcast_hash
+          end
         end
       rescue StandardError
         {}

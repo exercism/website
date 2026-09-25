@@ -1,6 +1,9 @@
 module ViewComponents
   module NavHelpers
     module NavSubmenus
+      # Paths are lambdas, so each request generates them with its own
+      # locale prefix. A plain value would keep the prefix of whichever
+      # request happened to load this file.
       LEARN_SUBMENU = [
         {
           title: -> { I18n.t("components.nav_submenus.learn.tracks.title") },

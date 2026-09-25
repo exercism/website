@@ -1,5 +1,10 @@
 module LocaleUrlOptions
-  def self.ambient = I18n.locale == I18n.default_locale ? nil : I18n.locale.to_s
+  # The prefix comes from Current.url_locale, never from I18n.locale: a
+  # signed-in user reads the site in their own locale on unprefixed URLs.
+  def self.ambient
+    locale = Current.url_locale
+    locale.to_s unless locale.blank? || locale.to_sym == I18n.default_locale
+  end
 
   module RouteSet
     def url_for(options, route_name = nil, *args)
@@ -23,3 +28,10 @@ end
 
 ActionDispatch::Routing::RouteSet.prepend(LocaleUrlOptions::RouteSet)
 ActionDispatch::Routing::RouteSet::NamedRouteCollection::UrlHelper.prepend(LocaleUrlOptions::UrlHelper)
+
+# Signing someone in mid-request (the sign-in form, OAuth, an API token) makes
+# them a signed-in user from then on, so their redirects and links are
+# unprefixed too.
+Warden::Manager.after_set_user do
+  Current.url_locale = nil
+end

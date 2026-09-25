@@ -18,13 +18,12 @@ type UseLanguageFieldReturns = {
 
 export function useLanguageField(
   defaultLocale: string,
-  endpoint: string,
-  redirectPathFor: (locale: string) => string | undefined
+  endpoint: string
 ): UseLanguageFieldReturns {
   const [locale, setLocale] = useState(defaultLocale)
 
-  // Set on choosing, not on arriving: the cookie outranks both the path and a
-  // save the next page may not have read back yet.
+  // Signed-in pages use the saved locale. The cookie keeps the choice for the
+  // signed-out pages this browser sees after signing out.
   const select = useCallback((code: string) => {
     setLocalePrefCookie(code)
     setLocale(code)
@@ -34,16 +33,9 @@ export function useLanguageField(
     endpoint,
     method: 'PATCH',
     body: { language: { locale } },
-    // A locale in the path outranks the saved preference.
-    onSuccess: () => {
-      const path = redirectPathFor(locale)
-
-      if (path && path !== window.location.pathname + window.location.search) {
-        window.location.assign(path)
-      } else {
-        window.location.reload()
-      }
-    },
+    // A signed-in user's URLs carry no locale prefix, so reloading the same
+    // page renders it in the newly saved locale.
+    onSuccess: () => window.location.reload(),
   })
 
   useEffect(() => {

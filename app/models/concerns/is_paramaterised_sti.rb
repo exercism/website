@@ -138,18 +138,25 @@ module IsParamaterisedSTI
     { I18n.default_locale.to_s => { "version" => nil, "data" => cache } }
   end
 
+  # Each entry is per language but shared by every reader of that language,
+  # signed in or not, so its URLs are built with no locale prefix.
   def build_rendering_data_cache(existing = {})
+    data = Current.set(url_locale: nil) { cacheable_rendering_data }
     entry = {
       "version" => translation_version,
-      "data" => JSON.parse(cacheable_rendering_data.to_json)
+      "data" => JSON.parse(data.to_json)
     }
     { "locales" => existing.merge(I18n.locale.to_s => entry) }
   end
 
+  # Bumping this rebuilds every non-default-locale entry on its next read.
+  # 2: URLs are no longer locale-prefixed.
+  RENDERING_DATA_CACHE_FORMAT = 2
+
   def translation_version
     return if I18n.locale == I18n.default_locale
 
-    TranslationRepo.version
+    "#{TranslationRepo.version}/#{RENDERING_DATA_CACHE_FORMAT}"
   end
 
   # Save each class from manually overriding this

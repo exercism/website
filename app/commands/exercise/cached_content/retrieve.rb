@@ -36,8 +36,12 @@ class Exercise::CachedContent::Retrieve
   # from the sha we read at, and the job reloads both records through
   # GlobalIDs, so a sync landing in between would file this content under
   # the new sha's key, where it would be read back as that sync's content.
+  #
+  # It is generated with no URL locale, because the entry is shared by every
+  # visitor: an anonymous visitor on a /hu page that shows English docs would
+  # otherwise file /hu tooltip endpoints in it for everyone.
   def generate!
-    Exercise::CachedContent::Generate.(exercise, solution).tap do |content|
+    Current.set(url_locale: nil) { Exercise::CachedContent::Generate.(exercise, solution) }.tap do |content|
       S3Cache::Write.defer(cache_key, content)
     end
   end

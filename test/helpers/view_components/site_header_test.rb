@@ -44,8 +44,9 @@ class ViewComponents::HeaderTest < ActionView::TestCase
     with_published_translations(hu: { backend: catalog }) do
       assert_includes render(ViewComponents::SiteHeader.new), %(href="/tracks")
 
+      # An anonymous visitor on a /hu page
       I18n.with_locale(:hu) do
-        html = render(ViewComponents::SiteHeader.new)
+        html = Current.set(url_locale: :hu) { render(ViewComponents::SiteHeader.new) }
         assert_includes html, "Nyelvi kurzusok"
         assert_includes html, %(href="/hu/tracks")
         refute_includes html, %(href="/tracks")

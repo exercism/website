@@ -42,18 +42,25 @@ class LocaleRoutesTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "generated urls carry the ambient locale" do
+  test "generated urls carry the ambient url locale" do
     track = create :track, slug: "ruby"
 
     assert_equal "/tracks/ruby", Exercism::Routes.track_path(track)
     assert_equal "https://test.exercism.org/tracks", Exercism::Routes.tracks_url
 
-    I18n.with_locale(:hu) do
+    Current.set(url_locale: :hu) do
       assert_equal "/hu", Exercism::Routes.root_path
       assert_equal "/hu/tracks/ruby", Exercism::Routes.track_path(track)
       assert_equal "https://test.exercism.org/hu/tracks", Exercism::Routes.tracks_url
       assert_equal "/hu/tracks/ruby/exercises/bob", Exercism::Routes.track_exercise_path(track, "bob")
       assert_equal "/challenges/48in24", Exercism::Routes.challenge_path("48in24")
+    end
+  end
+
+  test "the rendering locale alone does not prefix urls" do
+    I18n.with_locale(:hu) do
+      assert_equal "/", Exercism::Routes.root_path
+      assert_equal "/tracks", Exercism::Routes.tracks_path
     end
   end
 

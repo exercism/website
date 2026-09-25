@@ -46,22 +46,62 @@ class LocaleRoutingTest < ActionDispatch::IntegrationTest
     assert_select "html[lang=hu]"
     assert_select "meta[name=exercism-locale][content=hu]"
     assert_equal "private, no-store", response.headers["Cache-Control"]
-
-    get "/hu/tracks"
-    refute_equal "private, no-store", response.headers["Cache-Control"]
   end
 
-  test "the url wins over the user's locale" do
+  test "a signed-in user's links are never prefixed" do
+    user = create :user
+    user.update!(locale: "hu")
+    sign_in!(user)
+
+    get "/tracks"
+
+    assert_includes response.body, %(href="/tracks)
+    refute_includes response.body, %(href="/hu/)
+  end
+
+  test "a signed-in user is moved off a prefixed url" do
+    user = create :user
+    user.update!(locale: "hu")
+    sign_in!(user)
+
+    get "/hu/tracks?foo=bar"
+
+    assert_redirected_to "/tracks?foo=bar"
+    assert_response :found
+    assert_equal "private, no-store", response.headers["Cache-Control"]
+  end
+
+  test "a signed-in user is moved off a prefixed url whatever their locale" do
+    user = create :user
+    sign_in!(user)
+
+    get "/hu/tracks"
+
+    assert_redirected_to "/tracks"
+  end
+
+  test "a signed-in user's own locale wins over the url when they are not moved" do
     with_available_locales(:hu, :nl) do
       user = create :user
       user.update!(locale: "nl")
       sign_in!(user)
 
-      get "/hu/tracks"
+      get "/hu/tracks", xhr: true
 
       assert_response :ok
-      assert_select "html[lang=hu]"
+      assert_select "meta[name=exercism-locale][content=nl]"
     end
+  end
+
+  test "a non-navigation request to a prefixed url is not moved" do
+    user = create :user
+    sign_in!(user)
+
+    get "/hu/tracks", headers: { "Turbo-Frame" => "frame" }
+    assert_response :ok
+
+    get "/hu/tracks", as: :json
+    refute_equal 302, response.status
   end
 
   test "english and unknown user locales fall back to english" do

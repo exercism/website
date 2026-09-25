@@ -1,7 +1,7 @@
 class Metrics::PublishSolutionMetric < Metric
   params :solution
 
-  delegate :exercise, to: :solution
+  delegate :exercise, to: :solution, allow_nil: true
 
   def guard_params = solution.id
   def user_public? = true

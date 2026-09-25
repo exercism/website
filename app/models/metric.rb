@@ -41,17 +41,19 @@ class Metric < ApplicationRecord
         }
       end
 
-      if respond_to?(:pull_request)
+      # A metric's params point at records that may since have been deleted,
+      # so each of these sections is skipped when its record is missing.
+      if respond_to?(:pull_request) && pull_request
         hash[:pull_request] = {
           html_url: pull_request.data[:html_url]
         }
       end
 
-      if respond_to?(:solution) && solution.published?
+      if respond_to?(:solution) && solution&.published?
         hash[:published_solution_url] = Exercism::Routes.published_solution_url(solution)
       end
 
-      if respond_to?(:exercise)
+      if respond_to?(:exercise) && exercise
         hash[:exercise] = {
           title: exercise[:title],
           icon_url: exercise.icon_url,
@@ -111,6 +113,10 @@ class Metric < ApplicationRecord
   # {discussion: Mentor::Discussion.find(186)}
   #
   # Any non-object params are left as the were passed in.
+  #
+  # Deleting a solution, user or other record leaves its metrics in place
+  # until Metric::Sweep removes them, so a record that no longer exists is
+  # returned as nil.
   def retrieve_param(key)
     # If we've just set them, we don't need to look things
     # up again via globalid
@@ -118,6 +124,8 @@ class Metric < ApplicationRecord
 
     value = self.params[key.to_s]
     GlobalID::Locator.locate(value) || value
+  rescue ActiveRecord::RecordNotFound
+    nil
   end
 
   # This provides a params class method to the child classes,

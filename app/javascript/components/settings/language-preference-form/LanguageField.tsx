@@ -9,7 +9,6 @@ export type Language = {
   native: string
   english: string
   flagUrl: string
-  redirectPath: string
 }
 
 function matchesQuery(language: Language, query: string): boolean {

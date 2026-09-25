@@ -38,7 +38,8 @@ module Flows
           assert_text started_at.strftime("%d %b %Y")
           assert_text "When you joined the Ruby Track"
           assert_text "1 Mentoring session completed"
-          assert_text "You have 1 discussion in progress and 1 solution in the queue."
+          assert_text "You have 1 discussion in progress."
+          assert_text "You have 1 solution in the queue."
 
           assert_text "You started working through the Ruby Track 9 years ago."
         end
@@ -53,7 +54,8 @@ module Flows
           sign_in!(user)
           visit journey_url
 
-          assert_text "You have none in progress and none in the queue"
+          assert_text "You have no discussions in progress."
+          assert_text "You have no solutions in the queue."
         end
       end
 

@@ -51,8 +51,21 @@ class TranslationRepo::Backend < I18n::Backend::Simple
   def refresh_if_stale!
     return unless initialized?
 
-    version = TranslationRepo.version
-    build_and_swap! unless version == @built_from
+    build_and_swap! if TranslationRepo.version != @built_from || missing_catalog_appeared?
+  end
+
+  # A served locale whose catalog was missing when the backend was built is loaded
+  # once its file appears, even if the checkout's head has not moved. The check is
+  # a file existence test, made at most once per check interval.
+  def missing_catalog_appeared?
+    missing = locales - @catalogs.keys
+    return false if missing.empty?
+
+    now = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+    return false if @missing_checked_at && now - @missing_checked_at < TranslationRepo::CHECK_INTERVAL_SECONDS
+
+    @missing_checked_at = now
+    missing.any? { |locale| File.exist?(TranslationRepo.backend_catalog_path(locale)) }
   end
 
   def build_and_swap!(wait: false)

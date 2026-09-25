@@ -43,7 +43,9 @@ module TranslationRepo
 
       hashes[locale.to_sym] = catalog_hash(File.binread(frontend_catalog_path(locale)))
     rescue Errno::ENOENT
-      hashes[locale.to_sym] = nil
+      # A missing catalog is not remembered, so one that appears later is served
+      # without waiting for the checkout's head to move.
+      nil
     end
 
     def catalog_hash(bytes) = Digest::SHA256.hexdigest(bytes)[0, 12]

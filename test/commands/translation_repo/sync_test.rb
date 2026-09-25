@@ -61,7 +61,43 @@ class TranslationRepo::SyncTest < ActiveSupport::TestCase
     assert_equal head, TranslationRepo.version
   end
 
+  test "pulls past lock files that nothing has written to for over ten minutes" do
+    sync!
+
+    write!("locales/hu/website/backend.json", { a: "hu2" }.to_json)
+    commit!("two")
+    abandoned = 11.minutes.ago.to_time
+    %w[ORIG_HEAD.lock index.lock shallow.lock refs/heads/main.lock].each { |lock| touch_lock!(lock, abandoned) }
+
+    assert sync!
+
+    TranslationRepo.expire!
+    assert_equal head, TranslationRepo.version
+    assert_equal({ "a" => "hu2" }, JSON.parse(File.read(TranslationRepo.backend_catalog_path(:hu))))
+  end
+
+  test "leaves a recent lock file alone, as its git process may still be running" do
+    sync!
+    before = TranslationRepo.version
+
+    write!("locales/hu/website/backend.json", { a: "hu2" }.to_json)
+    commit!("two")
+    touch_lock!("ORIG_HEAD.lock", 9.minutes.ago.to_time)
+
+    assert_raises(RuntimeError) { sync! }
+
+    assert File.exist?(TranslationRepo.root / ".git" / "ORIG_HEAD.lock")
+    TranslationRepo.expire!
+    assert_equal before, TranslationRepo.version
+  end
+
   private
+  def touch_lock!(lock, mtime)
+    file = TranslationRepo.root / ".git" / lock
+    FileUtils.touch(file)
+    File.utime(mtime, mtime, file)
+  end
+
   def sync! = TranslationRepo::Sync.(url: "file://#{@upstream}")
 
   def git!(*args) = system("git", *args, chdir: @upstream.to_s, exception: true, out: File::NULL, err: File::NULL)

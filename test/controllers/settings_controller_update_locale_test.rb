@@ -35,7 +35,7 @@ class SettingsControllerUpdateLocaleTest < ActionDispatch::IntegrationTest
     user = create :user, locale: "hu"
     sign_in!(user)
 
-    patch update_locale_settings_path, params: { new_locale: "fr", return_to: "/tracks" }
+    patch update_locale_settings_path, params: { new_locale: "de", return_to: "/tracks" }
 
     assert_equal "hu", user.reload.locale
   end

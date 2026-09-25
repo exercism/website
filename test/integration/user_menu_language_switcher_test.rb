@@ -7,13 +7,13 @@ class UserMenuLanguageSwitcherTest < ActionDispatch::IntegrationTest
     get "/tracks"
 
     assert_response :ok
-    assert_equal %w[en hu], menu_locales
+    assert_equal LocaleConfig::SERVED.map(&:to_s).sort, menu_locales.sort
   end
 
   test "the trigger shows the language in use, and its row is marked current" do
-    sign_in!
+    sign_in!(create(:user, locale: "hu"))
 
-    get "/hu/tracks"
+    get "/tracks"
 
     assert_equal "magyar", language_html.at_css(".language-current .language-native").text
     assert_equal "hu", current_option['lang']
@@ -33,9 +33,9 @@ class UserMenuLanguageSwitcherTest < ActionDispatch::IntegrationTest
   end
 
   test "only the language in use carries a checkmark" do
-    sign_in!
+    sign_in!(create(:user, locale: "hu"))
 
-    get "/hu/tracks"
+    get "/tracks"
 
     assert option_for("hu").at_css("img.language-check")
     assert_nil option_for("en").at_css("img.language-check")
@@ -46,9 +46,9 @@ class UserMenuLanguageSwitcherTest < ActionDispatch::IntegrationTest
   test "each row carries the page the menu was opened on" do
     sign_in!
 
-    get "/hu/tracks?page=2"
+    get "/tracks?page=2"
 
-    assert_equal(["/hu/tracks?page=2"] * 2,
+    assert_equal(["/tracks?page=2"] * LocaleConfig::SERVED.size,
       language_html.css("input[name=return_to]").map { |input| input['value'] })
   end
 
@@ -59,7 +59,7 @@ class UserMenuLanguageSwitcherTest < ActionDispatch::IntegrationTest
 
     get "/tracks"
 
-    assert_equal 2, language_html.css("form[data-turbo=false]").count
+    assert_equal LocaleConfig::SERVED.size, language_html.css("form[data-turbo=false]").count
   end
 
   test "the languages sit behind a closed disclosure" do

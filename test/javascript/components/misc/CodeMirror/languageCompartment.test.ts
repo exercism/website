@@ -54,3 +54,21 @@ test('go parses without errors', async () => {
 
   expect(errors).toEqual([])
 })
+
+test('abap parses keywords', async () => {
+  const state = EditorState.create({
+    doc: 'DATA example TYPE i.',
+    extensions: [await loadLanguageCompartment('abap')],
+  })
+  const keywords: string[] = []
+
+  syntaxTree(state).iterate({
+    enter: (node) => {
+      if (node.name === 'keyword') {
+        keywords.push(state.sliceDoc(node.from, node.to))
+      }
+    },
+  })
+
+  expect(keywords).toContain('DATA')
+})

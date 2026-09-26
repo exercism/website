@@ -1,5 +1,6 @@
 import { StreamLanguage } from '@codemirror/language'
 import { Compartment, Extension } from '@codemirror/state'
+import { abapMode } from './abapMode'
 
 const compartment = new Compartment()
 
@@ -74,11 +75,9 @@ export const loadLanguageCompartment = async (
     }
 
     // Legacy
-    // case 'abap': {
-    //   const { abapMode } = await import('codemirror6-abap')
-    //   // @ts-ignore
-    //   return compartment.of(StreamLanguage.define(abapMode))
-    // }
+    case 'abap': {
+      return compartment.of(StreamLanguage.define(abapMode))
+    }
     case 'bash': {
       const { shell } = await import('@codemirror/legacy-modes/mode/shell')
       return compartment.of(StreamLanguage.define(shell))

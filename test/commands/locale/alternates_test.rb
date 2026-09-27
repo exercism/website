@@ -18,7 +18,9 @@ class Locale::AlternatesTest < ActiveSupport::TestCase
     alternates = Locale::Alternates.("https://exercism.org/tracks/ruby")
 
     assert_equal LocaleConfig::SERVED.size + 1, alternates.size
-    LocaleConfig::SERVED.each { |locale| assert_includes alternates.keys, locale.to_s }
+    LocaleConfig::SERVED.each do |locale|
+      assert_includes alternates.keys, Locale::Alternates::HREFLANG.fetch(locale.to_s, locale.to_s)
+    end
   end
 
   test "the map is the same whichever variant it is built from" do

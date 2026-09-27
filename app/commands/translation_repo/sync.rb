@@ -7,7 +7,6 @@ class TranslationRepo::Sync
     with_lock do
       clone! unless File.directory?(root / ".git")
       remove_stale_git_locks!
-      git!("checkout", TranslationRepo::BRANCH)
       git!("pull", "--ff-only", "origin", TranslationRepo::BRANCH)
     end
   end
@@ -30,8 +29,12 @@ class TranslationRepo::Sync
     end
   end
 
+  # The clone checks out main, and nothing moves the checkout off it, so a sync
+  # only pulls. On EFS, a `git checkout` of the branch already checked out still
+  # checks every file for local changes, which is over a hundred thousand
+  # network round trips on every push to the translation repo.
   def clone!
-    git!("clone", "--depth", "1", "--single-branch", "--branch", TranslationRepo::BRANCH, "--no-checkout",
+    git!("clone", "--depth", "1", "--single-branch", "--branch", TranslationRepo::BRANCH,
       url, root.to_s, chdir: root.dirname)
   end
 

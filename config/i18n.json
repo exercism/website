@@ -16,7 +16,9 @@
     "ko",
     "it",
     "bn",
-    "pt-PT"
+    "pt-PT",
+    "de",
+    "zh-TW"
   ],
   "public_sections": [
     "/tracks",

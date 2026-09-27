@@ -21,7 +21,7 @@ class API::BaseControllerLocaleTest < API::BaseTestCase
   end
 
   test "a locale that is not served is ignored" do
-    assert_english(header: "de")
+    assert_english(header: "nl")
   end
 
   test "responses vary on the locale header" do

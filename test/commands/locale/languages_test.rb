@@ -18,7 +18,7 @@ class Locale::LanguagesTest < ActiveSupport::TestCase
     languages = Locale::Languages.(:en)
 
     codes = languages[:coming_soon].map(&:code)
-    assert_includes codes, "de"
+    assert_includes codes, "nl"
     LocaleConfig::SERVED.each { |locale| refute_includes codes, locale.to_s }
     assert_equal Locale::Name::NAMES.keys.size - I18n.available_locales.size, codes.size
   end

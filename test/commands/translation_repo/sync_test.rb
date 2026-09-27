@@ -51,16 +51,6 @@ class TranslationRepo::SyncTest < ActiveSupport::TestCase
     assert_equal ALL_LOCALES, checked_out
   end
 
-  test "turns off a sparse checkout left by an earlier version" do
-    sync!
-    system("git", "sparse-checkout", "set", "locales/hu", chdir: TranslationRepo.root.to_s, exception: true, out: File::NULL, err: File::NULL)
-    assert_equal %w[locales.json locales/hu/website/backend.json], checked_out
-
-    assert sync!
-
-    assert_equal ALL_LOCALES, checked_out
-  end
-
   test "a second sync skips while the first holds the lock" do
     sync!
     before = head

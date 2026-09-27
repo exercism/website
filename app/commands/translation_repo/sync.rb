@@ -7,7 +7,6 @@ class TranslationRepo::Sync
     with_lock do
       clone! unless File.directory?(root / ".git")
       remove_stale_git_locks!
-      git!("sparse-checkout", "disable") if sparse?
       git!("checkout", TranslationRepo::BRANCH)
       git!("pull", "--ff-only", "origin", TranslationRepo::BRANCH)
     end
@@ -15,13 +14,6 @@ class TranslationRepo::Sync
 
   private
   def root = TranslationRepo.root
-
-  # The checkout holds every locale, served or not. It used to be sparse, limited
-  # to the served locales, but a served locale is nearly all of them, and the
-  # list was a moving part: during a deploy an old process narrowed a shared
-  # checkout back to its own list and git deleted every other locale's files.
-  # A locale now arrives with an ordinary pull, before the site serves it.
-  def sparse? = git!("config", "--bool", "--default", "false", "core.sparseCheckout").strip == "true"
 
   # A git process that is killed part way through leaves its lock files behind,
   # and git then refuses to update the checkout again. The flock only covers the

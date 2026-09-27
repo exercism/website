@@ -27,7 +27,7 @@ class Locale::LanguagesTest < ActiveSupport::TestCase
     codes = Locale::Languages.(:en)[:coming_soon].map(&:code)
 
     assert_equal "català", Locale::Name.(codes.first).native
-    assert_operator codes.index("ca"), :<, codes.index("ja")
+    assert_operator codes.index("ca"), :<, codes.index("ar")
   end
 
   test "every language carries a flag" do
@@ -40,7 +40,7 @@ class Locale::LanguagesTest < ActiveSupport::TestCase
   end
 
   test "the languages spoken too widely for one country use the world flag" do
-    languages = Locale::Languages.(:en)[:coming_soon].index_by(&:code)
+    languages = Locale::Languages.(:en).values.flatten.index_by(&:code)
 
     assert_equal "world", languages["ar"].flag
     assert_equal "world", languages["es-419"].flag

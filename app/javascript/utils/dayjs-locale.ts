@@ -9,10 +9,23 @@ dayjs.extend(AdvancedFormat)
 
 // Imported statically so esbuild bundles them. Add a locale here when it is
 // added to config/i18n.json's `served`; dayjs ships English built in.
+// dayjs lowercases the name it is given and falls back to the part before the
+// first `-`, so es-419 and es-ES read `es`, pt-PT reads `pt`, and pt-BR and
+// zh-CN read their own files.
+import 'dayjs/locale/bn'
 import 'dayjs/locale/el'
+import 'dayjs/locale/es'
+import 'dayjs/locale/fa'
 import 'dayjs/locale/fr'
+import 'dayjs/locale/hi'
 import 'dayjs/locale/hu'
+import 'dayjs/locale/it'
+import 'dayjs/locale/ja'
+import 'dayjs/locale/ko'
+import 'dayjs/locale/pt'
+import 'dayjs/locale/pt-br'
 import 'dayjs/locale/uk'
+import 'dayjs/locale/zh-cn'
 
 // Turbo keeps this module alive across pages, so the locale is read per call.
 // dayjs falls back to English for a locale that was never imported.

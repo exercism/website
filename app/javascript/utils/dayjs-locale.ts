@@ -15,7 +15,6 @@ dayjs.extend(AdvancedFormat)
 import 'dayjs/locale/bn'
 import 'dayjs/locale/el'
 import 'dayjs/locale/es'
-import 'dayjs/locale/fa'
 import 'dayjs/locale/fr'
 import 'dayjs/locale/hi'
 import 'dayjs/locale/hu'

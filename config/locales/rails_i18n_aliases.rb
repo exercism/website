@@ -6,7 +6,11 @@ require 'rails_i18n/common_pluralizations/one_other'
 
 rails_i18n = Gem.loaded_specs.fetch('rails-i18n').full_gem_path
 
-{ 'pt-PT': :pt }.select { |served, _| I18n.available_locales.include?(served) }.to_h do |served, source|
+# The served list is read from the app's config: asking I18n for it here would
+# make it load its translations, which runs this file again.
+served_locales = Rails.application.config.i18n.available_locales.map(&:to_sym)
+
+{ 'pt-PT': :pt }.select { |served, _| served_locales.include?(served) }.to_h do |served, source|
   file = File.join(rails_i18n, 'rails', 'locale', "#{source}.yml")
   locale = YAML.safe_load_file(file, permitted_classes: [Symbol]).fetch(source.to_s)
   plural = RailsI18n::Pluralization::OneOther.with_locale(source).fetch(source)

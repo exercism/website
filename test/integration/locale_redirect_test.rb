@@ -56,7 +56,7 @@ class LocaleRedirectTest < ActionDispatch::IntegrationTest
   end
 
   test "an unsupported accept-language means no redirect" do
-    get "/tracks", headers: { "Accept-Language" => "nl,de;q=0.8" }
+    get "/tracks", headers: { "Accept-Language" => "nl,sv;q=0.8" }
 
     assert_response :ok
   end

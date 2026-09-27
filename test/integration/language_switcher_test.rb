@@ -27,9 +27,9 @@ class LanguageSwitcherTest < ActionDispatch::IntegrationTest
   test "languages we do not serve yet are listed as coming soon" do
     get "/tracks"
 
-    assert_select ".c-language-switcher .option[class~='--disabled'] .native", text: "Deutsch"
+    assert_select ".c-language-switcher .option[class~='--disabled'] .native", text: "Nederlands"
     assert_select ".c-language-switcher .option[class~='--disabled'] .badge"
-    assert_select ".c-language-switcher a[hreflang=de]", 0
+    assert_select ".c-language-switcher a[hreflang=nl]", 0
   end
 
   test "the links follow the page" do

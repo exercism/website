@@ -126,7 +126,7 @@ class User::BootstrapTest < ActiveSupport::TestCase
   test "an unsupported accept-language seeds nothing" do
     user = create :user
 
-    User::Bootstrap.(user, accept_language: "nl,de;q=0.8")
+    User::Bootstrap.(user, accept_language: "nl,sv;q=0.8")
 
     assert_nil user.reload.data.locale
   end

@@ -25,7 +25,7 @@ class Locale::SwapInPathTest < ActiveSupport::TestCase
   test "only an exact locale is stripped" do
     assert_equal "/hu/hungarian/notes", Locale::SwapInPath.("/hungarian/notes", :hu)
     assert_equal "/hu/hu-lang", Locale::SwapInPath.("/hu-lang", :hu)
-    assert_equal "/hu/es-419/x", Locale::SwapInPath.("/es-419/x", :hu)
+    assert_equal "/hu/zh-TW/x", Locale::SwapInPath.("/zh-TW/x", :hu)
     assert_equal "/hu/tracks/hu", Locale::SwapInPath.("/tracks/hu", :hu)
   end
 end

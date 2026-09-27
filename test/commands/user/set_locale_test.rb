@@ -18,7 +18,7 @@ class User::SetLocaleTest < ActiveSupport::TestCase
   test "leaves the account alone for a locale we do not serve" do
     user = create :user, locale: "hu"
 
-    refute User::SetLocale.(user, "de")
+    refute User::SetLocale.(user, "nl")
     assert_equal "hu", user.reload.locale
   end
 

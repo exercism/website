@@ -13,6 +13,7 @@ dayjs.extend(AdvancedFormat)
 // first `-`, so es-419 and es-ES read `es`, pt-PT reads `pt`, and pt-BR and
 // zh-CN read their own files.
 import 'dayjs/locale/bn'
+import 'dayjs/locale/de'
 import 'dayjs/locale/el'
 import 'dayjs/locale/es'
 import 'dayjs/locale/fr'
@@ -25,6 +26,7 @@ import 'dayjs/locale/pt'
 import 'dayjs/locale/pt-br'
 import 'dayjs/locale/uk'
 import 'dayjs/locale/zh-cn'
+import 'dayjs/locale/zh-tw'
 
 // Turbo keeps this module alive across pages, so the locale is read per call.
 // dayjs falls back to English for a locale that was never imported.

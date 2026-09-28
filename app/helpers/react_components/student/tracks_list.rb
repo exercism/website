@@ -35,11 +35,12 @@ module ReactComponents
       end
 
       def tag_options
-        ::Track::TAGS.map do |category, options|
+        ::Track::TAGS.map do |category, values|
           {
-            category: ::Track::CATGEORIES[category],
-            options: options.map do |value, label|
-              { value: "#{category}/#{value}", label: }
+            category: ::Track.tag_category_label(category),
+            options: values.map do |value|
+              tag = "#{category}/#{value}"
+              { value: tag, label: ::Track.tag_label(tag) }
             end
           }
         end

@@ -31,11 +31,7 @@ class SerializeTrack
   attr_reader :track, :user_track
 
   def map_tags(tags)
-    tags.to_a.map do |tag|
-      Track::TAGS.dig(*tag.split('/'))
-    rescue StandardError
-      nil
-    end.compact
+    tags.to_a.filter_map { |tag| Track.tag_label(tag) }
   end
 
   def user_data_for_track

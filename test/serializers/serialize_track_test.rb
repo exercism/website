@@ -130,6 +130,13 @@ class SerializeTrackTest < ActiveSupport::TestCase
     assert_empty track_data[:tags]
   end
 
+  test "unknown tags are skipped" do
+    track = create :track, tags: ["paradigm/functional", "paradigm/unknown", "nonsense"]
+    track_data = SerializeTrack.(track, nil)
+
+    assert_equal ["Functional"], track_data[:tags]
+  end
+
   test "with notifications" do
     user = create :user
     track = create :track, :random_slug

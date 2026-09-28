@@ -124,37 +124,19 @@ class User::ActivityTest < ActiveSupport::TestCase
     end
   end
 
-  test "entries versioned with an i18n sha are still read" do
+  test "entries with a version are rebuilt" do
     exercise = create(:concept_exercise)
     activity = User::Activities::StartedExerciseActivity.create!(
       user: create(:user), track: exercise.track, solution: create(:concept_solution, exercise:)
     )
     cache = activity.rendering_data_cache
-    cache["locales"]["hu"] = {
-      "version" => "0123456789abcdef/#{IsParamaterisedSTI::RENDERING_DATA_CACHE_FORMAT}",
-      "data" => { "text" => "Régi szöveg" }
-    }
-    activity.update_column(:rendering_data_cache, cache)
-
-    I18n.with_locale(:hu) do
-      activity = User::Activity.find(activity.id)
-      activity.expects(:cacheable_rendering_data).never
-      assert_equal "Régi szöveg", activity.rendering_data[:text]
-    end
-  end
-
-  test "entries from an older format are rebuilt" do
-    exercise = create(:concept_exercise)
-    activity = User::Activities::StartedExerciseActivity.create!(
-      user: create(:user), track: exercise.track, solution: create(:concept_solution, exercise:)
-    )
-    cache = activity.rendering_data_cache
-    cache["locales"]["hu"] = { "version" => "0123456789abcdef/1", "data" => { "text" => "Régi szöveg" } }
+    cache["locales"]["hu"] = { "version" => "0123456789abcdef/2", "data" => { "text" => "Régi szöveg" } }
     activity.update_column(:rendering_data_cache, cache)
 
     I18n.with_locale(:hu) do
       activity = User::Activity.find(activity.id)
       refute_equal "Régi szöveg", activity.rendering_data[:text]
+      assert_nil activity.rendering_data_cache.dig("locales", "hu", "version")
     end
   end
 

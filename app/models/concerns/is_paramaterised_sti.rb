@@ -125,7 +125,7 @@ module IsParamaterisedSTI
   def cached_rendering_data
     entry = rendering_data_cache_locales[I18n.locale.to_s]
     return unless entry.present? && entry["data"].present?
-    return unless entry_format(entry) == rendering_data_cache_version
+    return unless entry["version"].nil?
 
     entry["data"]
   end
@@ -143,23 +143,11 @@ module IsParamaterisedSTI
   def build_rendering_data_cache(existing = {})
     data = Current.set(url_locale: nil) { cacheable_rendering_data }
     entry = {
-      "version" => rendering_data_cache_version,
+      "version" => nil,
       "data" => JSON.parse(data.to_json)
     }
     { "locales" => existing.merge(I18n.locale.to_s => entry) }
   end
-
-  # Bumping this rebuilds every non-default-locale entry on its next read.
-  # 2: URLs are no longer locale-prefixed.
-  RENDERING_DATA_CACHE_FORMAT = 2
-
-  def rendering_data_cache_version
-    return if I18n.locale == I18n.default_locale
-
-    RENDERING_DATA_CACHE_FORMAT.to_s
-  end
-
-  def entry_format(entry) = entry["version"]&.split("/")&.last
 
   # Save each class from manually overriding this
   def non_cacheable_rendering_data = {}

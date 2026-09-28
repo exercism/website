@@ -1,6 +1,7 @@
 class SitemapsController < ApplicationController
   skip_before_action :authenticate_user!
   before_action :cache_sitemap!, except: [:robots_txt]
+  before_action :cache_robots_txt!, only: [:robots_txt]
 
   around_action do |_, action|
     ActiveRecord::Base.transaction(isolation: Exercism::READ_COMMITTED) do
@@ -8,8 +9,18 @@ class SitemapsController < ApplicationController
     end
   end
 
+  # The auth pages carry a per-page auth_return_to, so every public page
+  # links to its own sign-in URL. Crawlers were fetching tens of thousands
+  # of these a day, so they are disallowed in every locale.
   def robots_txt
-    render html: "User-agent: * Allow: /"
+    render plain: <<~ROBOTS
+      User-agent: *
+      Disallow: /users/
+      Disallow: /*/users/
+      Allow: /
+
+      Sitemap: #{sitemap_url(format: :xml)}
+    ROBOTS
   end
 
   def index
@@ -128,6 +139,10 @@ class SitemapsController < ApplicationController
   # queries off the origin almost entirely. There is no purge path: these
   # simply expire.
   def cache_sitemap! = cache_public_action!(edge_ttl: 1.day)
+
+  # An hour keeps crawler traffic off the origin while letting a change
+  # to the rules reach crawlers the same day.
+  def cache_robots_txt! = cache_public_action!(edge_ttl: 1.hour)
 
   def pages_to_xml(pages)
     builder = Nokogiri::XML::Builder.new do |xml|

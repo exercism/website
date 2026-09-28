@@ -49,7 +49,6 @@ module ReactComponents
 
         {
           id: "solutions",
-          title: "Solutions",
           request: {
             endpoint: Exercism::Routes.api_solutions_url,
             query:,
@@ -73,7 +72,6 @@ module ReactComponents
 
         {
           id: "reputation",
-          title: "Reputation",
           request: {
             endpoint: Exercism::Routes.api_reputation_index_url,
             query:,
@@ -95,7 +93,6 @@ module ReactComponents
 
         {
           id: "overview",
-          title: "Overview",
           request: {
             endpoint: Exercism::Routes.api_journey_overview_url,
             query: {},
@@ -129,7 +126,6 @@ module ReactComponents
 
         {
           id: "badges",
-          title: "Badges",
           request: {
             endpoint: Exercism::Routes.api_badges_url,
             query:,

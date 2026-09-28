@@ -15,22 +15,49 @@
             max-width: 640px;
         }
         & .box {
-            @apply flex md:flex-row flex-col gap-32;
+            @apply flex flex-col gap-32;
+            @apply md:grid md:gap-x-32 md:gap-y-0;
+            @apply md:grid-cols-[max-content_minmax(0,1fr)];
+            @apply md:grid-rows-[auto_auto];
             @apply border-2 border-purple rounded-12;
             @apply py-24 px-32 mb-24;
             background: var(--backgroundColorExternalCTA);
             width: 100%;
-            max-width: 640px;
+            /* Fits both column headings on one line in longer locales */
+            max-width: 760px;
             & h4 {
                 @apply text-label-code-caps mb-12;
             }
+            /* Headings share a baseline and controls share one, so a heading
+               that wraps grows the gap between the rows rather than pushing
+               one column's control out of line with the other's. */
+            & .editor,
+            & .cli {
+                @apply md:grid md:grid-rows-subgrid;
+                grid-row: span 2;
+                /* minmax(0,1fr): without it the implicit track sizes to its
+                   content and a long command escapes the column. */
+                @apply md:grid-cols-[minmax(0,1fr)];
+                & > h4 {
+                    @apply self-start;
+                }
+                & > *:last-child {
+                    @apply self-end;
+                }
+            }
             & .editor {
-                @apply flex-shrink-0;
+                @apply min-w-0;
             }
             .cli {
                 @apply overflow-hidden md:overflow-visible;
+                @apply min-w-0;
                 & .c-copy-text-to-clipboard {
-                    @apply md:w-[360px] w-100;
+                    @apply w-100 min-w-0;
+                    /* The command truncates; without this the flex text child
+                       forces the box past the column and out of the border. */
+                    & > .text {
+                        @apply min-w-0;
+                    }
                 }
             }
         }

@@ -24,16 +24,10 @@ export function SelectedOnlineEdiorStep({
       </p>
 
       <div className="flex gap-8">
-        <StepButton
-          onClick={onContinueToOnlineEditor}
-          className="btn-primary flex-grow"
-        >
+        <StepButton onClick={onContinueToOnlineEditor} className="btn-primary">
           {t('selectedOnlineEditorStep.continueToOnlineEditor')}
         </StepButton>
-        <StepButton
-          onClick={() => send('RESET')}
-          className="btn-secondary w-1-3"
-        >
+        <StepButton onClick={() => send('RESET')} className="btn-secondary">
           {t('selectedOnlineEditorStep.resetChoices')}
         </StepButton>
       </div>

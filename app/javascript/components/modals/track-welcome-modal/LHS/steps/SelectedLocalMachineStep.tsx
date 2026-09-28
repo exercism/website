@@ -72,16 +72,10 @@ export function SelectedLocalMachineStep({
       </div>
 
       <div className="flex gap-8">
-        <StepButton
-          onClick={onContinueToLocalMachine}
-          className="btn-primary flex-grow"
-        >
+        <StepButton onClick={onContinueToLocalMachine} className="btn-primary">
           {t('selectedLocalMachineStep.continue')}
         </StepButton>
-        <StepButton
-          onClick={() => send('RESET')}
-          className="btn-secondary w-1-3"
-        >
+        <StepButton onClick={() => send('RESET')} className="btn-secondary">
           {t('selectedLocalMachineStep.reset')}
         </StepButton>
       </div>

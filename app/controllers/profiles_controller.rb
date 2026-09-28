@@ -23,18 +23,21 @@ class ProfilesController < ApplicationController
   end
 
   def solutions
-    redirect_to profile_path(@user) unless @profile.solutions_tab?
+    return redirect_to profile_path(@user) unless @profile.solutions_tab?
+
     nil unless stale?(etag: @profile)
   end
 
   def contributions
-    redirect_to profile_path(@user) unless @profile.contributions_tab?
+    return redirect_to profile_path(@user) unless @profile.contributions_tab?
+
     nil unless stale?(etag: @profile)
   end
 
   # TODO: (Optional) Add tests for published scope
   def testimonials
-    redirect_to profile_path(@user) unless @profile.testimonials_tab?
+    return redirect_to profile_path(@user) unless @profile.testimonials_tab?
+
     nil unless stale?(etag: @profile)
   end
 

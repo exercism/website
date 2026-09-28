@@ -17,7 +17,7 @@
             - url = user_signed_in? ? join_track_path(@track) : User::GenerateNewSessionPath.(request, controller)
             - method = user_signed_in? ? :post : :get
             - elem = user_signed_in? ? :button_to : :link_to
-            = send(elem, url, method: method, class: "btn-primary btn-l mb-24 sm:mb-0 sm:mr-24 w-100 sm:w-auto") do
+            = send(elem, url, method: method, class: "btn-primary btn-l mb-24 sm:mb-0 sm:mr-24 w-100 sm:w-auto", rel: ("nofollow" unless user_signed_in?)) do
               = graphical_icon(:plus)
               %span= t('.header.join_track_button', track_title: @track.title)
 

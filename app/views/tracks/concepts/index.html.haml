@@ -21,7 +21,7 @@
               = graphical_icon(:plus)
               = t('.external_cta.join_button', track_title: @track.title)
           - else
-            = link_to User::GenerateNewSessionPath.(request, controller), class: "btn-primary btn-m" do
+            = link_to User::GenerateNewSessionPath.(request, controller), class: "btn-primary btn-m", rel: "nofollow" do
               = graphical_icon(:plus)
               = t('.external_cta.join_button', track_title: @track.title)
 

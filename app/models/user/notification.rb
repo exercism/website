@@ -49,7 +49,8 @@ class User::Notification < ApplicationRecord
     {
       uuid:,
       url:,
-      text:,
+      # Email-only notifications are never listed on the site, so they have no text
+      text: (text unless email_only?),
       created_at: created_at.iso8601,
       image_type:,
       image_url:

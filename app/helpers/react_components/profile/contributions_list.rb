@@ -8,10 +8,24 @@ module ReactComponents
       end
 
       private
+      # The page shows one list at a time, starting with the first category
+      # the user has contributions in. When someone clicks another category's
+      # tab, the page fetches that list from its API endpoint.
+      #
+      # So only the first category needs its list sent with the page. Each
+      # category in category_data carries a lambda that builds its first page
+      # of results. We call it for the first category and send the result as
+      # its initial data. For the other categories we never call it, and send
+      # empty options, so the page fetches their lists when their tabs are
+      # opened.
       def categories
-        category_data.select { |c| c[:count].positive? }.each_with_index.map do |category, idx|
-          initial_data = category.delete(:initial_data)
-          category[:request][:options] = idx.zero? ? { initial_data: initial_data.() } : {}
+        shown = category_data.select { |c| c[:count].positive? }
+
+        shown.each_with_index.map do |category, index|
+          build_initial_data = category.delete(:initial_data)
+          first = index.zero?
+
+          category[:request][:options] = first ? { initial_data: build_initial_data.() } : {}
           category
         end
       end

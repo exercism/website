@@ -190,6 +190,7 @@ class ActiveSupport::TestCase
     # anything cached in one test leaks into the next. Nothing rolls it back
     # the way the transactional fixtures roll back the database.
     Rails.cache.clear
+    Icons::RetrieveManifest.reset!
 
     # Every controller request overwrites this global, so reset it per test.
     Exercism.request_context = { country_code: 'US', coordinates: [37.751, -97.822] }

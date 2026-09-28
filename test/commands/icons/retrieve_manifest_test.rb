@@ -29,4 +29,22 @@ class Icons::RetrieveManifestTest < ActiveSupport::TestCase
       assert_equal Set["exercises/bob.svg"], Icons::RetrieveManifest.()
     end
   end
+
+  test "keeps the manifest in the process for a minute" do
+    setup_s3_icons_manifest!(["exercises/bob.svg"])
+    Icons::RetrieveManifest.()
+
+    Rails.cache.expects(:read).never
+    assert_equal Set["exercises/bob.svg"], Icons::RetrieveManifest.()
+  end
+
+  test "reads the shared cache again after a minute" do
+    setup_s3_icons_manifest!(["exercises/bob.svg"])
+    Icons::RetrieveManifest.()
+    Rails.cache.write("Icons::RetrieveManifest", Set["exercises/leap.svg"])
+
+    travel 61.seconds do
+      assert_equal Set["exercises/leap.svg"], Icons::RetrieveManifest.()
+    end
+  end
 end

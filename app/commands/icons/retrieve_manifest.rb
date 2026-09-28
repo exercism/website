@@ -8,10 +8,29 @@
 # which callers treat as "assume everything exists". That keeps us on the old
 # behaviour (request the icon, let the browser's onerror handler fall back)
 # rather than rendering the fallback for every icon on the site.
+#
+# Each process also holds the set in memory for a minute, as reading it from
+# Rails.cache deserializes the whole set and pages call this once per icon.
 class Icons::RetrieveManifest
   include Mandate
 
+  class << self
+    attr_accessor :in_process
+
+    def reset! = self.in_process = nil
+  end
+
   def call
+    in_process = self.class.in_process
+    return in_process[:paths] if in_process && in_process[:expires_at] > Time.current
+
+    shared.tap do |paths|
+      self.class.in_process = { paths:, expires_at: IN_PROCESS_EXPIRY.from_now }
+    end
+  end
+
+  private
+  def shared
     cached = Rails.cache.read(CACHE_KEY)
     return cached if cached
 
@@ -21,7 +40,6 @@ class Icons::RetrieveManifest
     paths
   end
 
-  private
   memoize
   def paths
     parsed = JSON.parse(manifest)
@@ -44,5 +62,6 @@ class Icons::RetrieveManifest
   MANIFEST_KEY = "manifest.json".freeze
   CACHE_EXPIRY = 1.hour.freeze
   FAILURE_CACHE_EXPIRY = 1.minute.freeze
-  private_constant :CACHE_KEY, :MANIFEST_KEY, :CACHE_EXPIRY, :FAILURE_CACHE_EXPIRY
+  IN_PROCESS_EXPIRY = 1.minute.freeze
+  private_constant :CACHE_KEY, :MANIFEST_KEY, :CACHE_EXPIRY, :FAILURE_CACHE_EXPIRY, :IN_PROCESS_EXPIRY
 end

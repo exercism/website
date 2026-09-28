@@ -78,4 +78,18 @@ class User::ReputationToken::SearchTest < ActiveSupport::TestCase
     assert tokens.is_a?(ActiveRecord::Relation)
     refute_respond_to tokens, :current_page
   end
+
+  test "paginates in order" do
+    user = create :user
+    tokens = Array.new(3) { create(:user_code_contribution_reputation_token, user:) }
+
+    page_1 = User::ReputationToken::Search.(user, per: 2)
+    page_2 = User::ReputationToken::Search.(user, per: 2, page: 2)
+
+    assert_equal [tokens[2], tokens[1]], page_1
+    assert_equal [tokens[0]], page_2
+    assert_equal 2, page_2.current_page
+    assert_equal 3, page_2.total_count
+    assert_equal 2, page_2.total_pages
+  end
 end

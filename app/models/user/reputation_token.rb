@@ -38,8 +38,9 @@ class User::ReputationToken < ApplicationRecord
   # This runs on create, update *and* destroy, which keeps both the
   # users.reputation and user_tracks.reputation denormalised columns in
   # sync in all three cases (tokens being deleted used to leave
-  # user_tracks.reputation overstated).
-  after_commit do
+  # user_tracks.reputation overstated). Updates that leave the value, user and
+  # track alone (such as filling the rendering data cache on read) skip it.
+  after_commit if: :affects_reputation? do
     ActiveRecord::Base.transaction(isolation: Exercism::READ_COMMITTED) do
       reputation = user.reputation_tokens.sum(:value).to_i
       User.where(id: user.id).update_all(reputation:)
@@ -86,6 +87,12 @@ class User::ReputationToken < ApplicationRecord
   end
 
   private
+  def affects_reputation?
+    return true if previously_new_record? || destroyed?
+
+    saved_change_to_value? || saved_change_to_user_id? || saved_change_to_track_id?
+  end
+
   def update_user_track_reputation!
     return if track_id.blank?
 

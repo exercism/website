@@ -106,7 +106,7 @@ class User::ActivityTest < ActiveSupport::TestCase
     end
   end
 
-  test "a published translation fix re-renders the stored text" do
+  test "a published translation fix keeps the stored text" do
     exercise = create(:concept_exercise)
     activity = User::Activities::StartedExerciseActivity.create!(
       user: create(:user), track: exercise.track, solution: create(:concept_solution, exercise:)
@@ -117,8 +117,44 @@ class User::ActivityTest < ActiveSupport::TestCase
         assert_equal "Elkezdted", User::Activity.find(activity.id).rendering_data[:text]
 
         publish_translation_catalog!(:hu, :backend, { user_activities: { started_exercise: { "1": "Elkezdted (javítva)" } } })
-        assert_equal "Elkezdted (javítva)", User::Activity.find(activity.id).rendering_data[:text]
+        activity = User::Activity.find(activity.id)
+        activity.expects(:update!).never
+        assert_equal "Elkezdted", activity.rendering_data[:text]
       end
+    end
+  end
+
+  test "entries versioned with an i18n sha are still read" do
+    exercise = create(:concept_exercise)
+    activity = User::Activities::StartedExerciseActivity.create!(
+      user: create(:user), track: exercise.track, solution: create(:concept_solution, exercise:)
+    )
+    cache = activity.rendering_data_cache
+    cache["locales"]["hu"] = {
+      "version" => "0123456789abcdef/#{IsParamaterisedSTI::RENDERING_DATA_CACHE_FORMAT}",
+      "data" => { "text" => "Régi szöveg" }
+    }
+    activity.update_column(:rendering_data_cache, cache)
+
+    I18n.with_locale(:hu) do
+      activity = User::Activity.find(activity.id)
+      activity.expects(:cacheable_rendering_data).never
+      assert_equal "Régi szöveg", activity.rendering_data[:text]
+    end
+  end
+
+  test "entries from an older format are rebuilt" do
+    exercise = create(:concept_exercise)
+    activity = User::Activities::StartedExerciseActivity.create!(
+      user: create(:user), track: exercise.track, solution: create(:concept_solution, exercise:)
+    )
+    cache = activity.rendering_data_cache
+    cache["locales"]["hu"] = { "version" => "0123456789abcdef/1", "data" => { "text" => "Régi szöveg" } }
+    activity.update_column(:rendering_data_cache, cache)
+
+    I18n.with_locale(:hu) do
+      activity = User::Activity.find(activity.id)
+      refute_equal "Régi szöveg", activity.rendering_data[:text]
     end
   end
 

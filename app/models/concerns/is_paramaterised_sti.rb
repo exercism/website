@@ -125,7 +125,7 @@ module IsParamaterisedSTI
   def cached_rendering_data
     entry = rendering_data_cache_locales[I18n.locale.to_s]
     return unless entry.present? && entry["data"].present?
-    return unless entry["version"] == translation_version
+    return unless entry_format(entry) == rendering_data_cache_version
 
     entry["data"]
   end
@@ -143,7 +143,7 @@ module IsParamaterisedSTI
   def build_rendering_data_cache(existing = {})
     data = Current.set(url_locale: nil) { cacheable_rendering_data }
     entry = {
-      "version" => translation_version,
+      "version" => rendering_data_cache_version,
       "data" => JSON.parse(data.to_json)
     }
     { "locales" => existing.merge(I18n.locale.to_s => entry) }
@@ -153,11 +153,19 @@ module IsParamaterisedSTI
   # 2: URLs are no longer locale-prefixed.
   RENDERING_DATA_CACHE_FORMAT = 2
 
-  def translation_version
+  # A stored entry is kept when translations change. A translation fix is not
+  # worth a write per row per locale, made on read, so text rendered before the
+  # fix stays as it was, and only rows without an entry pick the fix up.
+  def rendering_data_cache_version
     return if I18n.locale == I18n.default_locale
 
-    "#{TranslationRepo.version}/#{RENDERING_DATA_CACHE_FORMAT}"
+    RENDERING_DATA_CACHE_FORMAT.to_s
   end
+
+  # Entries written before translations stopped invalidating them carry
+  # "<i18n sha>/<format>" as their version. Only the format part counts, so
+  # those entries stay valid rather than all being rebuilt once more.
+  def entry_format(entry) = entry["version"]&.split("/")&.last
 
   # Save each class from manually overriding this
   def non_cacheable_rendering_data = {}

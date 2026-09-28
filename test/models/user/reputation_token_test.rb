@@ -118,6 +118,31 @@ class User::ReputationTokenTest < ActiveSupport::TestCase
     assert_equal 0, user.reload.reputation
   end
 
+  test "an update that leaves value, user and track alone does not recalculate reputation" do
+    user = create :user
+    track = create :track
+    create(:user_track, user:, track:)
+    token = create :user_arbitrary_reputation_token, user:, track:,
+      params: { arbitrary_value: 20, arbitrary_reason: "" }
+
+    UserTrack::UpdateReputation.expects(:call).never
+    Exercism.redis_cache_client.expects(:del).never
+
+    token.update!(rendering_data_cache: {})
+  end
+
+  test "a change of value recalculates reputation" do
+    user = create :user
+    track = create :track
+    user_track = create(:user_track, user:, track:)
+    token = create :user_code_review_reputation_token, user:, track:, level: :small
+
+    token.update!(level: :large)
+
+    assert_equal token.reload.value, user.reload.reputation
+    assert_equal token.value, user_track.reload.reputation
+  end
+
   test "destroy_all decrements user_tracks.reputation" do
     user = create :user
     track = create :track

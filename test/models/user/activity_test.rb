@@ -41,7 +41,7 @@ class User::ActivityTest < ActiveSupport::TestCase
         'text' => "You started <strong>Strings</strong>",
         'icon_name' => "editor"
       }
-      assert_equal({ "locales" => { "en" => { "version" => nil, "data" => cache_data } } }, activity.rendering_data_cache)
+      assert_equal({ "locales" => { "en" => { "data" => cache_data } } }, activity.rendering_data_cache)
       assert_equal "/tracks/ruby/exercises/strings", activity.rendering_data[:url]
       assert_equal "You started <strong>Strings</strong>", activity.rendering_data[:text]
       assert_equal Time.current, activity.rendering_data[:occurred_at]
@@ -71,7 +71,7 @@ class User::ActivityTest < ActiveSupport::TestCase
         'text' => "You started <strong>Strings</strong>",
         'icon_name' => "editor"
       }
-      assert_equal({ "locales" => { "en" => { "version" => nil, "data" => cache_data } } }, activity.rendering_data_cache)
+      assert_equal({ "locales" => { "en" => { "data" => cache_data } } }, activity.rendering_data_cache)
     end
   end
 
@@ -106,7 +106,7 @@ class User::ActivityTest < ActiveSupport::TestCase
     end
   end
 
-  test "a published translation fix re-renders the stored text" do
+  test "a published translation fix keeps the stored text" do
     exercise = create(:concept_exercise)
     activity = User::Activities::StartedExerciseActivity.create!(
       user: create(:user), track: exercise.track, solution: create(:concept_solution, exercise:)
@@ -117,7 +117,9 @@ class User::ActivityTest < ActiveSupport::TestCase
         assert_equal "Elkezdted", User::Activity.find(activity.id).rendering_data[:text]
 
         publish_translation_catalog!(:hu, :backend, { user_activities: { started_exercise: { "1": "Elkezdted (javítva)" } } })
-        assert_equal "Elkezdted (javítva)", User::Activity.find(activity.id).rendering_data[:text]
+        activity = User::Activity.find(activity.id)
+        activity.expects(:update!).never
+        assert_equal "Elkezdted", activity.rendering_data[:text]
       end
     end
   end

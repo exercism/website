@@ -41,7 +41,7 @@ class User::ActivityTest < ActiveSupport::TestCase
         'text' => "You started <strong>Strings</strong>",
         'icon_name' => "editor"
       }
-      assert_equal({ "locales" => { "en" => { "version" => nil, "data" => cache_data } } }, activity.rendering_data_cache)
+      assert_equal({ "locales" => { "en" => { "data" => cache_data } } }, activity.rendering_data_cache)
       assert_equal "/tracks/ruby/exercises/strings", activity.rendering_data[:url]
       assert_equal "You started <strong>Strings</strong>", activity.rendering_data[:text]
       assert_equal Time.current, activity.rendering_data[:occurred_at]
@@ -71,7 +71,7 @@ class User::ActivityTest < ActiveSupport::TestCase
         'text' => "You started <strong>Strings</strong>",
         'icon_name' => "editor"
       }
-      assert_equal({ "locales" => { "en" => { "version" => nil, "data" => cache_data } } }, activity.rendering_data_cache)
+      assert_equal({ "locales" => { "en" => { "data" => cache_data } } }, activity.rendering_data_cache)
     end
   end
 
@@ -121,22 +121,6 @@ class User::ActivityTest < ActiveSupport::TestCase
         activity.expects(:update!).never
         assert_equal "Elkezdted", activity.rendering_data[:text]
       end
-    end
-  end
-
-  test "entries with a version are rebuilt" do
-    exercise = create(:concept_exercise)
-    activity = User::Activities::StartedExerciseActivity.create!(
-      user: create(:user), track: exercise.track, solution: create(:concept_solution, exercise:)
-    )
-    cache = activity.rendering_data_cache
-    cache["locales"]["hu"] = { "version" => "0123456789abcdef/2", "data" => { "text" => "Régi szöveg" } }
-    activity.update_column(:rendering_data_cache, cache)
-
-    I18n.with_locale(:hu) do
-      activity = User::Activity.find(activity.id)
-      refute_equal "Régi szöveg", activity.rendering_data[:text]
-      assert_nil activity.rendering_data_cache.dig("locales", "hu", "version")
     end
   end
 

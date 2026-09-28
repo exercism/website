@@ -112,22 +112,14 @@ module IsParamaterisedSTI
   end
 
   def rendering_data
-    data = cached_rendering_data
-    unless data
-      cache = build_rendering_data_cache(rendering_data_cache_locales)
-      update!(rendering_data_cache: cache)
-      data = cache.dig("locales", I18n.locale.to_s, "data")
+    locales = rendering_data_cache_locales
+    data = locales.dig(I18n.locale.to_s, "data")
+    if data.blank?
+      data = build_rendering_data
+      update!(rendering_data_cache: { "locales" => locales.merge(I18n.locale.to_s => { "data" => data }) })
     end
 
     data.with_indifferent_access.merge(non_cacheable_rendering_data)
-  end
-
-  def cached_rendering_data
-    entry = rendering_data_cache_locales[I18n.locale.to_s]
-    return unless entry.present? && entry["data"].present?
-    return unless entry["version"].nil?
-
-    entry["data"]
   end
 
   def rendering_data_cache_locales
@@ -135,18 +127,17 @@ module IsParamaterisedSTI
     return {} if cache.blank?
     return cache["locales"] if cache.key?("locales")
 
-    { I18n.default_locale.to_s => { "version" => nil, "data" => cache } }
+    { I18n.default_locale.to_s => { "data" => cache } }
+  end
+
+  def build_rendering_data_cache
+    { "locales" => { I18n.locale.to_s => { "data" => build_rendering_data } } }
   end
 
   # Each entry is per language but shared by every reader of that language,
   # signed in or not, so its URLs are built with no locale prefix.
-  def build_rendering_data_cache(existing = {})
-    data = Current.set(url_locale: nil) { cacheable_rendering_data }
-    entry = {
-      "version" => nil,
-      "data" => JSON.parse(data.to_json)
-    }
-    { "locales" => existing.merge(I18n.locale.to_s => entry) }
+  def build_rendering_data
+    JSON.parse(Current.set(url_locale: nil) { cacheable_rendering_data }.to_json)
   end
 
   # Save each class from manually overriding this

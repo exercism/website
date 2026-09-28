@@ -1,5 +1,9 @@
 // namespace: components/journey
 export default {
+  'tabs.overview': 'Overview',
+  'tabs.solutions': 'Solutions',
+  'tabs.reputation': 'Reputation',
+  'tabs.badges': 'Badges',
   'contributionResults.showingContributions':
     'Showing {{totalCount}} {{contributionLabel}}',
   'badgesList.searchByBadgeNameOrDescription':

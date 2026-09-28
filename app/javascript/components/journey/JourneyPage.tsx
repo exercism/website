@@ -22,8 +22,7 @@ const TabsContext = createContext<TabContext>({
 })
 
 export type Category = {
-  id: string
-  title: string
+  id: 'overview' | 'solutions' | 'reputation' | 'badges'
   icon: string
   path: string
   request: Request
@@ -79,7 +78,7 @@ export default function JourneyPage({
           return (
             <Tab key={category.id} context={TabsContext} id={category.id}>
               <GraphicalIcon icon={category.icon} />
-              {category.title}
+              {t(`tabs.${category.id}`)}
             </Tab>
           )
         })}

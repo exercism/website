@@ -25,6 +25,8 @@ class Solution::SearchUserSolutions
   end
 
   def call
+    return search_database if status_only?
+
     results = Exercism.opensearch_client.search(
       index: Solution::OPENSEARCH_INDEX,
       body: search_body,
@@ -41,11 +43,23 @@ class Solution::SearchUserSolutions
     Kaminari.paginate_array(solutions, total_count:).
       page(page).per(per)
   rescue StandardError
+    search_database
+  end
+
+  private
+  # With no filters beyond a single status, the database answers this from
+  # an index, so there's no need to ask OpenSearch.
+  def status_only?
+    return false unless Array(status).one?
+
+    [criteria, track_slug, mentoring_status, sync_status, tests_status, head_tests_status].all?(&:blank?)
+  end
+
+  def search_database
     Fallback.(user, page, per, track_slug, status, mentoring_status,
       criteria, order, sync_status, tests_status, head_tests_status)
   end
 
-  private
   attr_reader :user, :criteria, :track_slug, :status, :mentoring_status, :sync_status, :tests_status, :head_tests_status,
     :per, :page, :order,
     :solutions

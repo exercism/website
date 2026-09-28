@@ -20,19 +20,11 @@ class ProfilesController < ApplicationController
       order(num_stars: :desc, updated_at: :desc).
       includes(:exercise, :track, :published_exercise_representation, :user).
       limit(3)
-
-    # TODO: Order by most prominent first (what is the most prominent testimonial?)
-    @testimonials = @user.mentor_testimonials.published.first(3)
   end
 
   def solutions
     redirect_to profile_path(@user) unless @profile.solutions_tab?
-    return unless stale?(etag: @profile)
-
-    @solutions = Solution::SearchUserSolutions.(
-      @user,
-      status: :published
-    )
+    nil unless stale?(etag: @profile)
   end
 
   def contributions

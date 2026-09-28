@@ -274,4 +274,26 @@ class TrackTest < ActiveSupport::TestCase
       assert_equal Time.current, track.reload.updated_at
     end
   end
+
+  test "tag_label" do
+    assert_equal "Object-oriented", Track.tag_label("paradigm/object_oriented")
+    assert_equal "Common Language Runtime (.NET)", Track.tag_label("runtime/clr")
+    assert_nil Track.tag_label("paradigm/unknown")
+    assert_nil Track.tag_label("unknown/compiled")
+    assert_nil Track.tag_label("paradigm")
+  end
+
+  test "tag_category_label" do
+    assert_equal "Execution mode", Track.tag_category_label(:execution_mode)
+  end
+
+  test "every tag has a label" do
+    Track::TAGS.each do |category, values|
+      assert I18n.exists?("track_tags.categories.#{category}", :en), "Missing label for #{category}"
+
+      values.each do |value|
+        assert I18n.exists?("track_tags.tags.#{category}.#{value}", :en), "Missing label for #{category}/#{value}"
+      end
+    end
+  end
 end

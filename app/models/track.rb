@@ -182,66 +182,30 @@ class Track < ApplicationRecord
 
   def github_team_name = slug
 
-  CATGEORIES = {
-    paradigm: "Paradigm",
-    typing: "Typing",
-    execution_mode: "Execution mode",
-    platform: "Platform",
-    runtime: "Runtime",
-    used_for: "Used for"
+  # The labels for these live in config/locales/track_tags/en.yml,
+  # under track_tags.categories and track_tags.tags.
+  TAGS = {
+    paradigm: %w[declarative functional imperative logic object_oriented procedural],
+    typing: %w[static dynamic gradual strong weak],
+    execution_mode: %w[compiled interpreted],
+    platform: %w[windows mac linux ios android web],
+    runtime: %w[standalone_executable language_specific clr jvm beam],
+    used_for: %w[
+      artificial_intelligence backends cross_platform_development embedded_systems
+      financial_systems frontends games guis mobile robotics scientific_calculations
+      scripts web_development
+    ]
   }.with_indifferent_access.freeze
 
-  TAGS = {
-    paradigm: {
-      declarative: "Declarative",
-      functional: "Functional",
-      imperative: "Imperative",
-      logic: "Logic",
-      object_oriented: "Object-oriented",
-      procedural: "Procedural"
-    },
-    typing: {
-      static: "Static",
-      dynamic: "Dynamic",
-      gradual: "Gradual",
-      strong: "Strong",
-      weak: "Weak"
-    },
-    execution_mode: {
-      compiled: "Compiled",
-      interpreted: "Interpreted"
-    },
-    platform: {
-      windows: "Windows",
-      mac: "macOS",
-      linux: "Linux",
-      ios: "iOS",
-      android: "Android",
-      web: "Web Browser"
-    },
-    runtime: {
-      standalone_executable: "Standalone executable",
-      language_specific: "Language-specific runtime",
-      clr: "Common Language Runtime (.NET)",
-      jvm: "JVM (Java)",
-      beam: "BEAM (Erlang)"
-    },
-    used_for: {
-      artificial_intelligence: "Artificial Intelligence",
-      backends: "Backends",
-      cross_platform_development: "Cross-platform development",
-      embedded_systems: "Embedded systems",
-      financial_systems: "Financial systems",
-      frontends: "Frontends",
-      games: "Games",
-      guis: "GUIs",
-      mobile: "Mobile",
-      robotics: "Robotics",
-      scientific_calculations: "Scientific calculations",
-      scripts: "Scripts",
-      web_development: "Web development"
-    }
-  }.with_indifferent_access.freeze
+  def self.tag_category_label(category) = I18n.t("track_tags.categories.#{category}")
+
+  # Returns nil for a tag that isn't in TAGS.
+  def self.tag_label(tag)
+    category, value = tag.to_s.split("/", 2)
+    return unless TAGS[category]&.include?(value)
+
+    I18n.t("track_tags.tags.#{category}.#{value}")
+  end
 
   INFRASTRUCTURE_DURATION_S = 1
 

@@ -1,0 +1,53 @@
+en:
+  track_tags:
+    categories:
+      paradigm: "Paradigm"
+      typing: "Typing"
+      execution_mode: "Execution mode"
+      platform: "Platform"
+      runtime: "Runtime"
+      used_for: "Used for"
+    tags:
+      paradigm:
+        declarative: "Declarative"
+        functional: "Functional"
+        imperative: "Imperative"
+        logic: "Logic"
+        object_oriented: "Object-oriented"
+        procedural: "Procedural"
+      typing:
+        static: "Static"
+        dynamic: "Dynamic"
+        gradual: "Gradual"
+        strong: "Strong"
+        weak: "Weak"
+      execution_mode:
+        compiled: "Compiled"
+        interpreted: "Interpreted"
+      platform:
+        windows: "Windows"
+        mac: "macOS"
+        linux: "Linux"
+        ios: "iOS"
+        android: "Android"
+        web: "Web Browser"
+      runtime:
+        standalone_executable: "Standalone executable"
+        language_specific: "Language-specific runtime"
+        clr: "Common Language Runtime (.NET)"
+        jvm: "JVM (Java)"
+        beam: "BEAM (Erlang)"
+      used_for:
+        artificial_intelligence: "Artificial Intelligence"
+        backends: "Backends"
+        cross_platform_development: "Cross-platform development"
+        embedded_systems: "Embedded systems"
+        financial_systems: "Financial systems"
+        frontends: "Frontends"
+        games: "Games"
+        guis: "GUIs"
+        mobile: "Mobile"
+        robotics: "Robotics"
+        scientific_calculations: "Scientific calculations"
+        scripts: "Scripts"
+        web_development: "Web development"

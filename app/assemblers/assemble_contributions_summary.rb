@@ -38,22 +38,11 @@ class AssembleContributionsSummary
 
   private
   def num_reputation_points(requested_category, requested_track_id)
-    filter_data(requested_category, requested_track_id, reputation_points)
+    reputation_points.fetch([requested_track_id, requested_category.to_s], 0)
   end
 
   def num_reputation_occurrences(requested_category, requested_track_id)
-    filter_data(requested_category, requested_track_id, reputation_occurrences)
-  end
-
-  def filter_data(requested_category, requested_track_id, data)
-    requested_category = requested_category.to_s
-    res = data.find do |(track_id, category), _|
-      next unless track_id == requested_track_id
-      next unless category == requested_category
-
-      true
-    end
-    res ? res[1] : 0
+    reputation_occurrences.fetch([requested_track_id, requested_category.to_s], 0)
   end
 
   memoize
@@ -63,31 +52,42 @@ class AssembleContributionsSummary
 
   memoize
   def reputation_points
-    data = user.reputation_periods.
-      where(period: :forever).
-      group(:track_id, :category).sum(:reputation)
-
-    grouped_sums = user.reputation_tokens.where(category: :publishing).group(:track_id).sum(:value)
-    grouped_sums.each do |track_id, value|
-      data[[track_id, "publishing"]] = value
-    end
-    data[[0, "publishing"]] = grouped_sums.sum(&:second)
-    data[[0, "misc"]] = user.reputation_tokens.where(category: :misc, track_id: nil).sum(:value)
+    data = period_totals.to_h { |track_id, category, reputation, _| [[track_id, category], reputation.to_i] }
+    publishing_totals.each { |track_id, value, _| data[[track_id, "publishing"]] = value.to_i }
+    data[[0, "publishing"]] = publishing_totals.sum { |_, value, _| value.to_i }
+    data[[0, "misc"]] = misc_totals[0].to_i
     data
   end
 
   memoize
   def reputation_occurrences
-    data = user.reputation_periods.
-      where(period: :forever).
-      group(:track_id, :category).sum(:num_tokens)
-
-    grouped_counts = user.reputation_tokens.where(category: :publishing).group(:track_id).count
-    grouped_counts.each do |track_id, value|
-      data[[track_id, "publishing"]] = value
-    end
-    data[[0, "publishing"]] = grouped_counts.sum(&:second)
-    data[[0, "misc"]] = user.reputation_tokens.where(category: :misc, track_id: nil).count
+    data = period_totals.to_h { |track_id, category, _, num_tokens| [[track_id, category], num_tokens.to_i] }
+    publishing_totals.each { |track_id, _, count| data[[track_id, "publishing"]] = count }
+    data[[0, "publishing"]] = publishing_totals.sum { |_, _, count| count }
+    data[[0, "misc"]] = misc_totals[1]
     data
+  end
+
+  memoize
+  def period_totals
+    user.reputation_periods.
+      where(period: :forever).
+      group(:track_id, :category).
+      pluck(:track_id, :category, Arel.sql("SUM(reputation)"), Arel.sql("SUM(num_tokens)"))
+  end
+
+  memoize
+  def publishing_totals
+    user.reputation_tokens.
+      where(category: :publishing).
+      group(:track_id).
+      pluck(:track_id, Arel.sql("SUM(value)"), Arel.sql("COUNT(*)"))
+  end
+
+  memoize
+  def misc_totals
+    user.reputation_tokens.
+      where(category: :misc, track_id: nil).
+      pick(Arel.sql("SUM(value)"), Arel.sql("COUNT(*)"))
   end
 end

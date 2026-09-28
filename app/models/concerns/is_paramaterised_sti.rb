@@ -153,18 +153,12 @@ module IsParamaterisedSTI
   # 2: URLs are no longer locale-prefixed.
   RENDERING_DATA_CACHE_FORMAT = 2
 
-  # A stored entry is kept when translations change. A translation fix is not
-  # worth a write per row per locale, made on read, so text rendered before the
-  # fix stays as it was, and only rows without an entry pick the fix up.
   def rendering_data_cache_version
     return if I18n.locale == I18n.default_locale
 
     RENDERING_DATA_CACHE_FORMAT.to_s
   end
 
-  # Entries written before translations stopped invalidating them carry
-  # "<i18n sha>/<format>" as their version. Only the format part counts, so
-  # those entries stay valid rather than all being rebuilt once more.
   def entry_format(entry) = entry["version"]&.split("/")&.last
 
   # Save each class from manually overriding this

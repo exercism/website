@@ -127,6 +127,21 @@ class TranslationRepo::BackendTest < ActiveSupport::TestCase
     end
   end
 
+  test "a key with a fallback default is not reported, but the view helper's default is" do
+    with_published_translations(hu: { backend: { store_test: { a: "egy" } } }) do
+      Sentry.expects(:capture_message).once.with do |message, **|
+        message == "Missing hu translation: store_test.in_a_view"
+      end
+
+      I18n.with_locale(:hu) do
+        assert_equal "egy", I18n.t("store_test.specific", default: [:"store_test.a"])
+        assert_equal "fallback", I18n.t("store_test.specific", default: [:"store_test.nope", "fallback"])
+        assert_empty I18n.t("store_test.rule", default: {}, resolve: false)
+        I18n.t("store_test.in_a_view", default: -(2**60))
+      end
+    end
+  end
+
   test "works from a thread with no request, as sidekiq does" do
     with_published_translations(hu: { backend: { store_test: { a: "egy" } } }) do
       result = Thread.new { I18n.with_locale(:hu) { I18n.t("store_test.a") } }.value

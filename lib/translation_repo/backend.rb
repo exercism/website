@@ -4,6 +4,12 @@ class TranslationRepo::Backend < I18n::Backend::Simple
   include I18n::Backend::Pluralization
 
   REQUESTED_KEY = :translation_repo_requested_key
+  UNTRACKED = :untracked
+
+  # ActionView's t helper passes this value as the default for every key it looks up
+  # (ActionView::Helpers::TranslationHelper::MISSING_TRANSLATION, a private constant),
+  # so a lookup with this default has no real fallback.
+  VIEW_HELPER_DEFAULT = -(2**60)
 
   def initialize
     super
@@ -17,7 +23,10 @@ class TranslationRepo::Backend < I18n::Backend::Simple
   def translate(locale, key, options = I18n::EMPTY_HASH)
     return super if Thread.current[REQUESTED_KEY]
 
-    Thread.current[REQUESTED_KEY] = [locale, key]
+    # A caller with its own default (Devise, ActiveModel, I18n.transliterate) looks up
+    # a specific key first and falls back when it is absent, so that miss is expected.
+    # Keys looked up while resolving a default are never tracked either.
+    Thread.current[REQUESTED_KEY] = fallback_default?(options) ? UNTRACKED : [locale, key]
     begin
       super
     ensure
@@ -39,6 +48,10 @@ class TranslationRepo::Backend < I18n::Backend::Simple
   end
 
   private
+  def fallback_default?(options)
+    options.key?(:default) && !options[:default].nil? && options[:default] != VIEW_HELPER_DEFAULT
+  end
+
   def report_missing!(locale, key)
     return unless @reported.add?([locale.to_sym, key.to_s])
 

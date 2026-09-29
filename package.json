@@ -34,7 +34,6 @@
     "@exercism/twine2-story-format": "https://github.com/exercism/twine2-story-format.git",
     "@floating-ui/dom": "^1.6.12",
     "@gleam-lang/highlight.js-gleam": "^1.0.0",
-    "@google/genai": "^1.9.0",
     "@hotwired/stimulus": "^3.2.2",
     "@hotwired/turbo-rails": "^7.3.0",
     "@mux/mux-player-react": "^3.13.3",
@@ -219,7 +218,8 @@
   "scripts": {
     "test-debug": "node --unhandled-rejections=strict --trace-warnings node_modules/.bin/jest",
     "test": "jest",
-  "i18n-check": "node app/javascript/i18n/check-namespaces",
+    "i18n-check": "node app/javascript/i18n/check-namespaces",
+    "i18n-generate": "node app/javascript/i18n/generate-index",
     "test-watch": "jest --watchAll",
     "build:css": "postcss ./app/css/packs/**/*.css --dir .built-assets",
     "build": "./app/javascript/esbuild.js",

@@ -144,23 +144,20 @@ class SitemapsController < ApplicationController
   # to the rules reach crawlers the same day.
   def cache_robots_txt! = cache_public_action!(edge_ttl: 1.hour)
 
+  # Each page is listed once, by its English URL. Listing every locale's URL with
+  # every locale as an hreflang alternate grows with the square of the number of
+  # served locales, and at 19 locales the large track sitemaps (e.g. Python) built
+  # documents big enough to exhaust a webserver's memory. The pages themselves
+  # declare their alternates (see MetaTagsHelper), which is where crawlers find them.
   def pages_to_xml(pages)
     builder = Nokogiri::XML::Builder.new do |xml|
-      xml.urlset(xmlns: "http://www.sitemaps.org/schemas/sitemap/0.9", "xmlns:xhtml": "http://www.w3.org/1999/xhtml") do
+      xml.urlset(xmlns: "http://www.sitemaps.org/schemas/sitemap/0.9") do
         pages.each do |page|
-          alternates = Locale::Alternates.(page[0])
-          locs = alternates.except("x-default").values.presence || [page[0]]
-
-          locs.each do |loc|
-            xml.url do
-              xml.loc loc
-              xml.lastmod page[1].xmlschema
-              xml.changefreq page[2]
-              xml.priority page[3]
-              alternates.each do |hreflang, href|
-                xml['xhtml'].link(rel: 'alternate', hreflang:, href:)
-              end
-            end
+          xml.url do
+            xml.loc page[0]
+            xml.lastmod page[1].xmlschema
+            xml.changefreq page[2]
+            xml.priority page[3]
           end
         end
       end

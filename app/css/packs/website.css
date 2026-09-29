@@ -2,6 +2,7 @@
 @import "../defaults";
 @import "../fonts";
 @import "../ui-kit/all";
+@import "../rtl";
 
 @import "../tooltips/generic";
 @import "../tooltips/base";

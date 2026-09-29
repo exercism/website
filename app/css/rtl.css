@@ -1,0 +1,48 @@
+/*
+ * RTL "LTR islands".
+ *
+ * The inline-axis layout mirrors automatically under `dir="rtl"` because the
+ * stylesheets use logical properties. Some content, though, is not prose in the
+ * reader's language and must never mirror: source code, shell commands, test
+ * runner output, diffs, and machine tokens like API keys and URLs. Reversing
+ * those changes their meaning, so they are pinned back to ltr here.
+ *
+ * Scoped under [dir="rtl"] so this whole file is inert in an LTR document.
+ */
+[dir="rtl"] {
+    /*
+     * Code, wherever it appears: highlight.js blocks, inline `code` in prose,
+     * and the <pre> wrappers around them. `text-align: left` is needed as well
+     * as `direction` because a pinned block inside an RTL parent would
+     * otherwise still align to the end edge.
+     */
+    & pre,
+    & code,
+    & .c-code-pane,
+    & .highlight,
+    & .hljs {
+        direction: ltr;
+        text-align: left;
+    }
+
+    /*
+     * Test runner output and diffs. Both render verbatim machine output; the
+     * diff line numbers additionally rely on their own `direction: rtl`
+     * truncation trick (see components/diff.css), which is left alone -- it is
+     * nested deeper than this rule, so it still wins for the line-number cell.
+     */
+    & .c-test-run,
+    & .c-diff {
+        direction: ltr;
+        text-align: left;
+    }
+
+    /*
+     * Shell commands, API tokens and other machine strings that are copied
+     * verbatim. `.c-copy-text-to-clipboard` wraps the value itself.
+     */
+    & .c-cli-walkthrough,
+    & .c-copy-text-to-clipboard {
+        direction: ltr;
+    }
+}

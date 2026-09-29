@@ -1,6 +1,18 @@
+/*
+ * The split itself stays PHYSICAL under RTL: the LHS pane (code, files,
+ * iterations) remains on the physical left and the RHS on the physical right,
+ * the same as LTR. Only the layout axis is pinned -- each pane re-asserts the
+ * reader's direction, so prose inside still reads RTL.
+ *
+ * This keeps the resize maths in SplitPane.tsx honest: it measures the drag as
+ * `clientX - bounds.left`, which is only meaningful while the panes are laid
+ * out left-to-right. Without the pin, `flex` would reverse the panes under
+ * dir=rtl and the divider would travel the wrong way.
+ */
 .c-split-pane {
     @apply flex flex-grow items-stretch overflow-hidden;
     width: 100%;
+    direction: ltr;
 
     & > .--split-lhs {
         height: 100%;
@@ -11,6 +23,16 @@
         height: 100%;
         min-width: 10%;
         flex: 1;
+    }
+
+    /*
+     * Put the reader's direction back inside each pane. `direction: inherit`
+     * would inherit the ltr we just pinned above, so the document direction is
+     * restored explicitly per dir value.
+     */
+    [dir="rtl"] & > .--split-lhs,
+    [dir="rtl"] & > .--split-rhs {
+        direction: rtl;
     }
 
     & > .--split-divider {

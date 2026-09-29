@@ -20,21 +20,21 @@
 
             & .label {
                 @apply text-18 font-medium leading-huge;
-                @apply pl-16;
+                @apply ps-16;
             }
         }
         & label + label {
             @apply mt-6;
         }
         & .c-single-select {
-            @apply ml-32 mt-8;
+            @apply ms-32 mt-8;
             @apply inline-block;
         }
     }
     & .btns {
         @apply flex items-center;
         & button {
-            @apply mr-16;
+            @apply me-16;
         }
     }
 }

@@ -19,7 +19,7 @@
         & > .c-exercise-icon {
             height: 24px;
             width: 24px;
-            @apply mr-12;
+            @apply me-12;
         }
 
         & > .--info {
@@ -30,19 +30,19 @@
         & > .c-icon.--action-icon {
             height: 16px;
             width: 16px;
-            @apply ml-8;
+            @apply ms-8;
         }
     }
 
     & > .c-exercise-icon {
         height: 64px;
         width: 64px;
-        @apply mr-16 self-start;
+        @apply me-16 self-start;
     }
     & > .c-icon.--action-icon {
         height: 24px;
         width: 24px;
-        @apply ml-20;
+        @apply ms-20;
         filter: var(--textColor6-filter);
     }
 
@@ -53,10 +53,10 @@
             @apply text-h4 mb-8;
 
             & .c-notification-dot {
-                @apply ml-16;
+                @apply ms-16;
             }
             & .--out-of-date {
-                @apply ml-16;
+                @apply ms-16;
                 height: 16px;
                 width: 16px;
                 filter: var(--orange-filter);
@@ -64,7 +64,7 @@
 
             & .--track {
                 @apply flex-shrink-0 flex items-center;
-                @apply ml-8;
+                @apply ms-8;
                 @apply text-14 leading-160 font-normal;
                 & .c-track-icon {
                     height: 32px;
@@ -83,7 +83,7 @@
                 &.--completed,
                 &.--published,
                 &.--in-progress {
-                    @apply mr-8;
+                    @apply me-8;
                 }
             }
             & .--iterations-count {
@@ -94,7 +94,7 @@
                     height: 16px;
                     width: 16px;
                     filter: var(--textColor6-filter);
-                    @apply mr-6;
+                    @apply me-6;
                 }
             }
 

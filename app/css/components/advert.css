@@ -2,7 +2,7 @@
     @apply bg-backgroundColorA;
     @apply border-1 border-borderColor5 rounded-8;
     @apply pt-10 pb-12 px-16;
-    @apply text-left leading-140 text-14;
+    @apply text-start leading-140 text-14;
     @apply hover:shadow-sm;
     @apply flex flex-col items-start;
     @apply relative;
@@ -17,10 +17,10 @@
     }
 
     .tag {
-        @apply ml-auto mr-[-16px];
-        @apply py-2 pl-16 pr-12;
+        @apply ms-auto me-[-16px];
+        @apply py-2 ps-16 pe-12;
         background: #eee;
-        @apply rounded-l-[16px];
+        @apply rounded-s-[16px];
         @apply font-medium;
         @apply bg-vividPurple text-white;
     }

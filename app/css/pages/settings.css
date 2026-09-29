@@ -8,7 +8,7 @@
     }
     & nav.settings-nav {
         @apply shadow-lg rounded-8;
-        @apply py-24 px-32 mr-48;
+        @apply py-24 px-32 me-48;
         @apply flex-shrink-0 flex-grow-0;
 
         @apply text-18 leading-150 font-semibold;
@@ -38,7 +38,7 @@
 
         ul {
             list-style-type: disc;
-            @apply ml-20;
+            @apply ms-20;
             li {
                 @apply mb-4;
             }
@@ -83,8 +83,8 @@
             }
 
             & .form-footer {
-                margin-left: -32px;
-                margin-right: -32px;
+                margin-inline-start: -32px;
+                margin-inline-end: -32px;
                 margin-bottom: -24px;
                 @apply py-16 px-32 mt-24;
                 @apply border-t-1 border-borderColor6;
@@ -93,7 +93,7 @@
 
                 & .status {
                     height: 48px;
-                    @apply px-24 ml-24;
+                    @apply px-24 ms-24;
                     @apply text-16 font-medium;
                     @apply flex items-center;
                     @apply border-2 rounded-8;
@@ -105,7 +105,7 @@
                     & .c-icon {
                         height: 24px;
                         width: 24px;
-                        @apply mr-16;
+                        @apply me-16;
                     }
                 }
                 & .success {
@@ -164,7 +164,7 @@
         @apply flex items-center;
 
         & form.button_to {
-            @apply ml-auto;
+            @apply ms-auto;
         }
     }
     & .details {
@@ -235,7 +235,7 @@
                 @apply py-12 px-24;
                 @apply flex items-center justify-center;
                 & .info {
-                    @apply mr-16;
+                    @apply me-16;
                     @apply text-16 leading-150 text-center text-textColor2 font-medium;
                 }
                 & button {
@@ -246,7 +246,7 @@
                     white-space: nowrap;
                 }
                 & button + button {
-                    @apply ml-8;
+                    @apply ms-8;
                 }
             }
         }
@@ -259,20 +259,20 @@
             }
             & .--details {
                 @apply items-start;
-                @apply ml-24;
+                @apply ms-24;
             }
         }
     }
     & section.github-section {
         & a.external-link {
-            @apply inline-flex items-center mr-8;
+            @apply inline-flex items-center me-8;
             @apply font-medium;
             color: var(--c-prominent-link-color);
             & .c-icon {
                 height: 16px;
                 width: 16px;
                 filter: var(--c-prominent-link-icon-filter);
-                @apply ml-4;
+                @apply ms-4;
             }
         }
     }
@@ -304,7 +304,7 @@
                     @apply mb-8;
                 }
                 & ul {
-                    @apply list-disc pl-20;
+                    @apply list-disc ps-20;
                 }
             }
         }
@@ -336,7 +336,7 @@
         & > .c-icon {
             height: 128px;
             width: 128px;
-            @apply mr-16;
+            @apply me-16;
         }
         & h2 {
             @apply text-h4 mb-4;
@@ -387,7 +387,7 @@
 
         & .total {
             @apply flex flex-col items-center;
-            @apply mr-40;
+            @apply me-40;
 
             & .c-financial-amount {
                 @apply mb-8;
@@ -410,7 +410,7 @@
             @apply border-b-1 border-borderColor6;
         }
         & th {
-            @apply text-left font-mono font-bold leading-150 text-textColor2;
+            @apply text-start font-mono font-bold leading-150 text-textColor2;
             @apply uppercase;
             @apply py-8;
         }
@@ -418,7 +418,7 @@
             @apply text-16 leading-150;
             @apply py-10;
             &:last-child {
-                @apply text-right;
+                @apply text-end;
                 @apply w-fit whitespace-nowrap;
             }
 
@@ -445,7 +445,7 @@
                 @apply shadow-sm;
             }
             ul {
-                @apply list-none ml-0;
+                @apply list-none ms-0;
             }
         }
     }

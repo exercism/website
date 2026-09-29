@@ -12,7 +12,7 @@
             width: 48px;
             @apply mb-8;
 
-            @apply md:ml-48;
+            @apply md:ms-48;
             @screen md {
                 height: 96px;
                 width: 96px;
@@ -36,13 +36,13 @@
         }
 
         & .c-react-wrapper-common-share-button {
-            @apply ml-auto;
+            @apply ms-auto;
         }
         & .share-bar {
             & .main-graphic {
                 height: 64px;
                 width: 64px;
-                @apply mr-24;
+                @apply me-24;
             }
         }
         & .published-at {
@@ -52,7 +52,7 @@
             & .c-avatar {
                 height: 64px;
                 width: 64px;
-                @apply mr-12 md:mr-24;
+                @apply me-12 md:me-24;
             }
         }
     }

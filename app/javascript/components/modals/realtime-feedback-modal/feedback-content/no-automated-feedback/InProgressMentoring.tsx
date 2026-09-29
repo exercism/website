@@ -18,7 +18,7 @@ export function InProgressMentoring({
       <p className="text-p-base mb-12">{t('index.itIsGenerallyGood')}</p>
 
       <div className="flex gap-12">
-        <a className="btn-primary btn-s mr-auto" href={mentorDiscussionLink}>
+        <a className="btn-primary btn-s me-auto" href={mentorDiscussionLink}>
           {t('index.goToYourDiscussion')}
         </a>
         <ContinueButton

@@ -6,7 +6,7 @@
     & .check-mark-icon {
         height: 32px;
         width: 32px;
-        @apply mr-16;
+        @apply me-16;
     }
     & .text {
         @apply text-h5 flex-grow;

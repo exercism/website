@@ -33,7 +33,7 @@
             @apply shadow-sm;
             @apply rounded-8;
             @apply relative;
-            @apply text-left;
+            @apply text-start;
 
             & .c-avatar {
                 @apply absolute;

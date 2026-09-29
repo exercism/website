@@ -7,16 +7,16 @@
             @apply flex-col md:flex-row items-stretch md:items-center gap-y-8;
 
             & .c-track-select {
-                @apply md:mr-24;
+                @apply md:me-24;
             }
 
             & .--search {
                 @apply w-fill md:w-[450px];
                 @apply bg-[28px_center] md:bg-[12px_center];
-                @apply pl-52 md:pl-40;
+                @apply ps-52 md:ps-40;
             }
             & .c-single-select {
-                @apply md:ml-auto;
+                @apply md:ms-auto;
             }
         }
         & .solutions {

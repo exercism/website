@@ -13,7 +13,7 @@
             width: 48px;
             height: 48px;
 
-            @apply mr-16;
+            @apply me-16;
         }
         & .identifier {
             @apply flex-grow;
@@ -36,7 +36,7 @@
         & .c-icon {
             height: 16px;
             width: 16px;
-            @apply mr-12;
+            @apply me-12;
             @apply filter-textColor6;
         }
     }

@@ -28,7 +28,7 @@
         & > .c-icon {
             width: 320px;
             height: 320px;
-            @apply ml-auto;
+            @apply ms-auto;
         }
         & .decorations {
             @apply flex-shrink-0;
@@ -43,10 +43,10 @@
         @apply overflow-x-auto;
 
         & .tabs {
-            @apply flex mr-24 flex-shrink-0;
+            @apply flex me-24 flex-shrink-0;
         }
         & .guides {
-            @apply ml-auto;
+            @apply ms-auto;
         }
     }
 }

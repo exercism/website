@@ -19,12 +19,12 @@
 
   .md-container.mb-48
     .cta.top-cta.flex.flex-col.lg:flex-row.lg:items-center.border-gradient.py-24.px-24.lg:px-40
-      = image_tag "team/jeremy-walker.jpg", alt: t('.cta.jeremy_walker_photo_alt'), class: 'mb-12 md:mb-0 md:mr-24 rounded-100'
+      = image_tag "team/jeremy-walker.jpg", alt: t('.cta.jeremy_walker_photo_alt'), class: 'mb-12 md:mb-0 md:me-24 rounded-100'
       .text
         %h2.text-h4.mb-4= t('.cta.title')
         %p.text-p-large= raw t('.cta.description')
 
-      = link_to "mailto:jeremy@exercism.org", class: 'btn-primary btn-m mt-16 lg:mt-0 lg:ml-auto md:px-80' do
+      = link_to "mailto:jeremy@exercism.org", class: 'btn-primary btn-m mt-16 lg:mt-0 lg:ms-auto md:px-80' do
         = graphical_icon "email"
         %span= t('.cta.email_label')
 
@@ -38,7 +38,7 @@
         %p.text-p-large.mb-16= t('.support_goals.paragraph2')
         %p.text-p-large= t('.support_goals.paragraph3')
 
-      = graphical_icon "target", category: :graphics, css_class: "mt-32 md:mt-0 md:ml-64 lg:ml-128"
+      = graphical_icon "target", category: :graphics, css_class: "mt-32 md:mt-0 md:ms-64 lg:ms-128"
 
     .areas-of-collaboration.pt-32.pb-56.px-32.md:px-64.flex.flex-col.items-center.bg-evenLighterBlue.rounded-8.mb-48.md:mb-56
       = graphical_icon "partnership", css_class: "mb-16"
@@ -83,11 +83,11 @@
       = render ViewComponents::ProminentLink.new(t('.individual_supporters.link_label'), individual_supporters_about_path)
 
     .cta.flex.flex-col.lg:flex-row.lg:items-center.border-gradient.py-24.px-24.lg:px-40
-      = image_tag "team/jeremy-walker.jpg", alt: t('.cta.jeremy_walker_photo_alt'), class: 'mb-12 md:mb-0 md:mr-24 rounded-100'
+      = image_tag "team/jeremy-walker.jpg", alt: t('.cta.jeremy_walker_photo_alt'), class: 'mb-12 md:mb-0 md:me-24 rounded-100'
       .text
         %h2.text-h4.mb-4= t('.cta.title')
         %p.text-p-large= raw t('.cta.description')
 
-      = link_to "mailto:jeremy@exercism.org", class: 'btn-primary btn-m mt-16 lg:mt-0 lg:ml-auto md:px-80' do
+      = link_to "mailto:jeremy@exercism.org", class: 'btn-primary btn-m mt-16 lg:mt-0 lg:ms-auto md:px-80' do
         = graphical_icon "email"
         %span= t('.cta.email_label')

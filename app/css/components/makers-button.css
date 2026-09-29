@@ -5,7 +5,7 @@
     @apply flex items-center justify-end;
 
     & .stats {
-        @apply ml-16;
+        @apply ms-16;
         @apply flex flex-col items-start gap-8;
         & .authors {
             @apply font-semibold;

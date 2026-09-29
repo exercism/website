@@ -7,7 +7,7 @@
         & > .c-icon {
             height: 32px;
             width: 32px;
-            @apply mr-16;
+            @apply me-16;
         }
         & .info {
             @apply text-15 leading-160 font-medium text-textColor6;
@@ -27,10 +27,10 @@
         & .c-avatar {
             height: 32px;
             width: 32px;
-            @apply mr-12;
+            @apply me-12;
         }
         & .c-reputation {
-            @apply ml-12;
+            @apply ms-12;
         }
     }
 }
@@ -42,11 +42,11 @@
         & a {
             @apply inline-flex items-center;
             @apply text-prominentLinkColor font-semibold;
-            @apply mr-8;
+            @apply me-8;
             & .c-icon {
                 height: 12px;
                 width: 12px;
-                @apply ml-6;
+                @apply ms-6;
                 @apply filter-prominentLinkColor;
             }
         }

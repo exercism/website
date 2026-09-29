@@ -35,14 +35,14 @@
                 @apply flex items-center;
                 & .dot {
                     @apply rounded-100;
-                    @apply border-4 mr-24;
+                    @apply border-4 me-24;
                     height: 8px;
                     width: 8px;
                 }
                 & .c-track-icon {
                     height: 54px;
                     width: 54px;
-                    @apply mr-24;
+                    @apply me-24;
                 }
             }
         }
@@ -150,7 +150,7 @@
                         & .c-track-icon {
                             height: 48px;
                             width: 48px;
-                            @apply mr-16;
+                            @apply me-16;
                         }
                         & h3 {
                             @apply text-h4;
@@ -158,13 +158,13 @@
                         }
                         & .percentage {
                             @apply text-16 leading-150 text-lightGold font-semibold;
-                            @apply ml-48;
-                            @apply flex-shrink-0 text-right;
+                            @apply ms-48;
+                            @apply flex-shrink-0 text-end;
                             width: 40px;
                         }
                         & .--closed-icon,
                         & .--open-icon {
-                            @apply ml-48;
+                            @apply ms-48;
                             height: 16px;
                             width: 16px;
                             filter: var(--light-gold-filter);
@@ -180,14 +180,14 @@
                             flex-grow: 1;
 
                             &:first-child {
-                                @apply pl-0;
+                                @apply ps-0;
                             }
                             &:last-child {
-                                @apply pr-0;
+                                @apply pe-0;
                             }
 
                             & + * {
-                                @apply border-l-1 border-borderColor5;
+                                @apply border-s-1 border-borderColor5;
                             }
                         }
 
@@ -344,21 +344,21 @@
                             @apply flex items-center;
                             & .dot {
                                 @apply rounded-100;
-                                @apply border-4 mr-24;
+                                @apply border-4 me-24;
                                 height: 8px;
                                 width: 8px;
                             }
                             & .c-track-icon {
                                 height: 54px;
                                 width: 54px;
-                                @apply mr-24;
+                                @apply me-24;
                             }
                         }
                     }
                 }
                 & > .chart {
                     width: 350px;
-                    @apply ml-80 flex-shrink-0;
+                    @apply ms-80 flex-shrink-0;
                 }
             }
         }
@@ -400,7 +400,7 @@
                 & .c-badge-medallion {
                     height: 65px;
                     width: 65px;
-                    @apply ml-20;
+                    @apply ms-20;
                 }
             }
         }

@@ -18,9 +18,9 @@
         & ul,
         & ol {
             @apply mb-24;
-            margin-left: 14px;
+            margin-inline-start: 14px;
             & li {
-                margin-left: 6px;
+                margin-inline-start: 6px;
                 @apply mt-0;
                 @apply mb-8;
             }
@@ -73,7 +73,7 @@
             @apply flex items-center flex-wrap;
             @apply m-0;
             & li {
-                @apply m-0 mr-24 mb-24 list-none;
+                @apply m-0 me-24 mb-24 list-none;
             }
         }
         /* Only enhance buttons in the final p/ul */

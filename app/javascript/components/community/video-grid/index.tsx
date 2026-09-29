@@ -118,9 +118,9 @@ function VideoGridHeader({
         icon="community-video-gradient"
         height={48}
         width={48}
-        className="mr-24 self-start"
+        className="me-24 self-start"
       />
-      <div className="mr-auto sm:mb-0 mb-24">
+      <div className="me-auto sm:mb-0 mb-24">
         <h2 className="text-h2 mb-4">
           {t('videoGrid.index.learnWithCommunity')}
         </h2>
@@ -154,7 +154,7 @@ function Video({ video }: VideoProps): JSX.Element {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="flex flex-col shadow-smZ1 p-16 bg-backgroundColorA rounded-8 text-left"
+        className="flex flex-col shadow-smZ1 p-16 bg-backgroundColorA rounded-8 text-start"
       >
         <img
           style={{ objectFit: 'cover', width: '100%', height: '150px' }}
@@ -164,9 +164,9 @@ function Video({ video }: VideoProps): JSX.Element {
         />
         <h5 className="text-h5">{video.title}</h5>
         {video.author && (
-          <div className="mt-auto pt-8 flex items-center text-left text-textColor6 font-semibold">
+          <div className="mt-auto pt-8 flex items-center text-start text-textColor6 font-semibold">
             <Avatar
-              className="h-[24px] w-[24px] mr-8"
+              className="h-[24px] w-[24px] me-8"
               src={video.author && video.author.avatarUrl}
             />
             {video.author && video.author.name}

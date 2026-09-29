@@ -74,11 +74,11 @@ function DiggingDeeperFooter({
           height={24}
           width={24}
           icon="external-site-github"
-          className="mr-12"
+          className="me-12"
         />
         {t('diggingDeeper.editViaGitHub')}
         <Icon
-          className="action-icon h-[13px] ml-12"
+          className="action-icon h-[13px] ms-12"
           icon="new-tab"
           alt={t('diggingDeeper.linkOpensInNewTab')}
         />

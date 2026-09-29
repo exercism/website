@@ -26,7 +26,7 @@ body.namespace-tracks.controller-exercises.action-show {
         & .progressed-concepts {
             @apply mb-16;
             & .c-react-wrapper-student-exercise-status-dot {
-                @apply ml-8;
+                @apply ms-8;
             }
         }
         & .c-prominent-link {
@@ -52,10 +52,10 @@ body.namespace-tracks.controller-exercises.action-show {
 
             & .concept {
                 @apply flex items-center border-1 border-unnamed15;
-                @apply py-8 px-16 mr-8 bg-backgroundColorA rounded-8 shadow-base;
+                @apply py-8 px-16 me-8 bg-backgroundColorA rounded-8 shadow-base;
                 @apply text-14 font-semibold;
                 & .c-concept-icon {
-                    @apply mr-8;
+                    @apply me-8;
                 }
             }
         }
@@ -106,21 +106,21 @@ body.namespace-tracks.controller-exercises.action-show {
                             @apply filter-prominentLinkColor;
                             height: 12px;
                             width: 12px;
-                            @apply ml-8;
+                            @apply ms-8;
                             @apply filter-textColor6;
                         }
                     }
                 }
             }
             & > .c-icon.spinner {
-                @apply ml-24 filter-textColor6;
+                @apply ms-24 filter-textColor6;
                 height: 24px;
                 width: 24px;
                 @apply filter-textColor6;
                 animation: spin 3s linear infinite;
             }
             & .status {
-                @apply mt-16 mr-16 rounded-circle;
+                @apply mt-16 me-16 rounded-circle;
                 @apply flex-shrink-0;
                 height: 8px;
                 width: 8px;
@@ -143,7 +143,7 @@ body.namespace-tracks.controller-exercises.action-show {
             & .action-icon {
                 height: 16px;
                 width: 16px;
-                @apply ml-64;
+                @apply ms-64;
                 @apply filter-textColor6;
             }
         }
@@ -172,15 +172,15 @@ body.namespace-tracks.controller-exercises.action-show {
                 }
             }
             & .community-solutions {
-                @apply pr-32;
-                @apply border-r-1 border-borderColor7;
+                @apply pe-32;
+                @apply border-e-1 border-borderColor7;
                 & p {
                     @apply mb-20;
                 }
             }
 
             & .mentoring {
-                @apply pl-32;
+                @apply ps-32;
                 & p {
                     @apply mb-16;
                 }
@@ -193,7 +193,7 @@ body.namespace-tracks.controller-exercises.action-show {
                     & .c-icon {
                         height: 14px;
                         width: 14px;
-                        @apply ml-8 filter-prominentLinkColor;
+                        @apply ms-8 filter-prominentLinkColor;
                     }
                 }
             }
@@ -212,7 +212,7 @@ body.namespace-tracks.controller-exercises.action-show {
                 & .c-icon {
                     height: 12px;
                     width: 12px;
-                    @apply ml-6;
+                    @apply ms-6;
                 }
             }
         }
@@ -222,7 +222,7 @@ body.namespace-tracks.controller-exercises.action-show {
         a {
             @apply xs:flex hidden items-center;
             @apply text-15 text-textColor6 font-medium;
-            @apply ml-auto;
+            @apply ms-auto;
 
             .c-icon {
                 filter: var(--textColor6-filter);
@@ -231,18 +231,18 @@ body.namespace-tracks.controller-exercises.action-show {
             .github-icon {
                 height: 22px;
                 width: 22px;
-                @apply mr-16;
+                @apply me-16;
             }
             .action-icon {
                 height: 12px;
                 width: 12px;
-                @apply ml-12;
+                @apply ms-12;
             }
         }
     }
     & .action-box {
         @apply relative;
-        @apply border-l-1 border-borderColor6 pl-24;
+        @apply border-s-1 border-borderColor6 ps-24;
 
         & + .action-box {
             @apply pt-24;
@@ -261,7 +261,7 @@ body.namespace-tracks.controller-exercises.action-show {
         &.pending:before,
         &.locked:before,
         &.completed:before {
-            @apply absolute left-[-12px] top-[2px];
+            @apply absolute start-[-12px] top-[2px];
             @apply rounded-circle bg-backgroundColorA;
             @apply w-[24px] h-[24px];
             content: "";
@@ -301,8 +301,8 @@ body.namespace-tracks.controller-exercises.action-show {
             }
         }
         & .inner-box {
-            @apply relative flex ml-10;
-            @apply border-l-1 border-borderColor6;
+            @apply relative flex ms-10;
+            @apply border-s-1 border-borderColor6;
 
             & + .inner-box {
                 @apply pt-24;
@@ -312,7 +312,7 @@ body.namespace-tracks.controller-exercises.action-show {
             }
 
             &:before {
-                @apply absolute left-[-11px] top-[0px];
+                @apply absolute start-[-11px] top-[0px];
                 @apply rounded-circle bg-backgroundColorA;
                 @apply w-[20px] h-[20px];
                 content: "";
@@ -346,7 +346,7 @@ body.namespace-tracks.controller-exercises.action-show {
             }
 
             .inner-box-content {
-                @apply ml-20 mt-[-2px];
+                @apply ms-20 mt-[-2px];
                 & > *:last-child {
                     @apply !mb-0;
                 }
@@ -357,7 +357,7 @@ body.namespace-tracks.controller-exercises.action-show {
             @apply flex flex-wrap gap-4;
 
             & .c-exercise-widget {
-                @apply mr-8 mb-8;
+                @apply me-8 mb-8;
                 &.--published,
                 &.--completed {
                     &.--skinny {

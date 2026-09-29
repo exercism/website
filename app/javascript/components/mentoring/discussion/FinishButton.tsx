@@ -50,7 +50,7 @@ export const FinishButton = ({
     <React.Fragment>
       <button
         type="button"
-        className="btn-xs btn-enhanced finish-button ml-12"
+        className="btn-xs btn-enhanced finish-button ms-12"
         onClick={() => {
           setOpen(true)
         }}

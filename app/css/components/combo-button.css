@@ -43,7 +43,7 @@
         @apply flex items-center;
         @apply font-semibold;
         @apply px-16;
-        @apply border-r-1 border-borderColor3;
+        @apply border-e-1 border-borderColor3;
     }
     & .--dropdown-segment {
         @apply grid place-items-center px-12;

@@ -129,7 +129,7 @@ export const CommitStep = ({
           <FormButton
             onClick={onBack}
             status={status}
-            className="btn-default btn-m mr-16"
+            className="btn-default btn-m me-16"
           >
             {t('commitStep.back')}
           </FormButton>

@@ -15,7 +15,7 @@ export default function AutomationRules(): JSX.Element | null {
       <p className="text-p-base mb-4">
         {t('rightPane.automationRules.heresSomeNotes')}
       </p>
-      <ul className="text-p-base list-disc ml-20">
+      <ul className="text-p-base list-disc ms-20">
         <li className="mb-2">
           <Trans
             i18nKey="rightPane.automationRules.ifUnclearAskOnForum"

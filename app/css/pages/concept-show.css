@@ -11,7 +11,7 @@
             transparent 100%
         );
         & .c-concept-icon {
-            @apply mr-32;
+            @apply me-32;
         }
         & .info {
             @apply flex-grow;
@@ -19,7 +19,7 @@
         & h1 {
             @apply flex items-center text-h1 mb-8;
             & small {
-                @apply text-18 ml-16 mr-12 text-textColor5 font-normal;
+                @apply text-18 ms-16 me-12 text-textColor5 font-normal;
             }
             & .c-track-icon {
                 /* TODO: Switch these */
@@ -31,7 +31,7 @@
         & .exercises {
             @apply flex items-center text-18 text-textColor1;
             & .c-icon {
-                @apply mr-8;
+                @apply me-8;
                 height: 24px;
                 width: 24px;
                 @apply filter-textColor1;
@@ -56,7 +56,7 @@
             & .progress-exercises {
                 @apply flex justify-end items-center;
                 & .c-ed {
-                    @apply ml-16;
+                    @apply ms-16;
                 }
             }
         }
@@ -76,7 +76,7 @@
         & .check-mark-icon {
             height: 32px;
             width: 32px;
-            @apply mr-16;
+            @apply me-16;
         }
         & .text {
             @apply text-h5 flex-grow;
@@ -103,14 +103,14 @@
                 @apply flex items-center;
                 @apply shadow-base py-6 px-16 rounded-100;
                 & .c-bg-img {
-                    @apply mr-12;
+                    @apply me-12;
                     height: 16px;
                     width: 16px;
                 }
                 & .c-icon {
                     height: 12px;
                     width: 12px;
-                    @apply ml-8;
+                    @apply ms-8;
                     filter: var(--textColor6-filter);
                 }
             }
@@ -122,7 +122,7 @@
         & a {
             @apply text-15 text-textColor6 font-medium;
             @apply flex items-center;
-            @apply ml-auto;
+            @apply ms-auto;
 
             & .c-icon {
                 filter: var(--textColor6-filter);
@@ -131,12 +131,12 @@
             & .github-icon {
                 height: 22px;
                 width: 22px;
-                @apply mr-16;
+                @apply me-16;
             }
             & .action-icon {
                 height: 12px;
                 width: 12px;
-                @apply ml-12;
+                @apply ms-12;
             }
         }
     }
@@ -146,7 +146,7 @@
         & h3 {
             @apply flex items-center text-h4 mb-16;
             & .c-icon {
-                @apply mr-16;
+                @apply me-16;
                 height: 24px;
                 width: 24px;
                 @apply filter-textColor1;
@@ -171,7 +171,7 @@
             width: 42px;
             top: -21px;
             left: 50%;
-            margin-left: -21px;
+            margin-inline-start: -21px;
         }
     }
 }

@@ -29,7 +29,7 @@
         & .graphics {
             max-width: 450px;
             @apply relative flex-grow place-items-center;
-            @apply ml-auto flex-shrink-0;
+            @apply ms-auto flex-shrink-0;
             @apply overflow-hidden;
             @media screen and (min-width: 1100px) {
                 &:before {
@@ -124,7 +124,7 @@
                             &:after {
                                 content: "";
                                 filter: var(--link-blue-filter);
-                                @apply ml-12;
+                                @apply ms-12;
                                 height: 16px;
                                 width: 16px;
                             }
@@ -140,7 +140,7 @@
                 @apply flex-shrink-0;
                 @apply bg-backgroundColorA rounded-8 py-24 px-36;
                 @apply shadow-base;
-                @apply md:w-1-2 md:ml-72;
+                @apply md:w-1-2 md:ms-72;
 
                 & pre {
                     @apply whitespace-pre-wrap;
@@ -194,13 +194,13 @@
                     @apply mb-40;
                     & .exercise {
                         @apply flex items-center;
-                        @apply pl-24 pr-32 py-12 mb-16;
+                        @apply ps-24 pe-32 py-12 mb-16;
                         @apply shadow-base rounded-8 bg-backgroundColorA;
 
                         & .c-icon.c-exercise-icon {
                             height: 48px;
                             width: 48px;
-                            @apply mr-24;
+                            @apply me-24;
                         }
                         & .exercise-info {
                             @apply flex-grow;
@@ -215,14 +215,14 @@
                             @apply sm:block hidden;
                             height: 24px;
                             width: 24px;
-                            @apply ml-56;
+                            @apply ms-56;
                             filter: var(--textColor5-filter);
                         }
                     }
                 }
             }
             & > img {
-                @apply ml-80;
+                @apply ms-80;
                 max-width: 640px;
                 width: 50%;
                 mask-image: linear-gradient(
@@ -255,7 +255,7 @@
                 width: 128px;
                 top: 50%;
                 left: 50%;
-                margin-left: -64px;
+                margin-inline-start: -64px;
                 margin-top: -64px;
                 filter: drop-shadow(
                     0px 2px 16px rgba(var(--track-icon-color), 0.3)

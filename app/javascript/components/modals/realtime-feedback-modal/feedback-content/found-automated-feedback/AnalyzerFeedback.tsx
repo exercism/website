@@ -6,7 +6,7 @@ import type { Track } from '@/components/student/IterationsList'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 import { Trans } from 'react-i18next'
 
-export const BLOCKQUOTE = 'border border-l-6 pl-12 border-borderColor6 mb-16'
+export const BLOCKQUOTE = 'border border-s-6 ps-12 border-borderColor6 mb-16'
 
 export const AnalyzerFeedback = ({
   summary,

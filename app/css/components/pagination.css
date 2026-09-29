@@ -28,7 +28,7 @@
 
         & a + a,
         & button + button {
-            @apply ml-12;
+            @apply ms-12;
         }
 
         & button:disabled,

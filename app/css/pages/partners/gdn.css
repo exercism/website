@@ -42,7 +42,7 @@
         }
         & .video-section {
             width: 100%;
-            @apply lg:ml-64;
+            @apply lg:ms-64;
             @screen lg {
                 max-width: 640px;
             }

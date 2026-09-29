@@ -22,7 +22,7 @@
                 & .c-ed {
                     height: 16px;
                     width: 16px;
-                    @apply mr-12;
+                    @apply me-12;
                     &.--locked {
                         cursor: pointer;
                         opacity: 1;

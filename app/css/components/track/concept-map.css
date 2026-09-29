@@ -103,11 +103,11 @@
 
                     & .name {
                         @apply text-18 font-semibold leading-150;
-                        @apply ml-16;
+                        @apply ms-16;
                     }
 
                     & .complete-icon {
-                        @apply ml-12;
+                        @apply ms-12;
                         width: 16px;
                         height: 16px;
                     }
@@ -130,7 +130,7 @@
     }
 
     & .connection {
-        @apply absolute -z-1 top-0 left-0;
+        @apply absolute -z-1 top-0 start-0;
         touch-action: none;
         opacity: var(--c-concept-map-hover-opacity);
         transition: opacity 200ms ease-out;

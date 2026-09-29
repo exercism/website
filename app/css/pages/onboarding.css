@@ -38,7 +38,7 @@
         & .c-icon {
             height: 160px;
             width: 160px;
-            @apply ml-64 flex-shrink-0;
+            @apply ms-64 flex-shrink-0;
         }
     }
     & section {
@@ -65,14 +65,14 @@
             & .c-icon {
                 height: 12px;
                 width: 12px;
-                @apply ml-6;
+                @apply ms-6;
                 @apply filter-prominentLinkColor;
             }
         }
         & ul {
-            margin-left: 14px;
+            margin-inline-start: 14px;
             & li {
-                margin-left: 6px;
+                margin-inline-start: 6px;
                 @apply list-disc;
 
                 & + li {

@@ -29,13 +29,13 @@
         }
 
         .c-react-wrapper-common-share-button {
-            @apply ml-auto;
+            @apply ms-auto;
         }
         .share-bar {
             .main-graphic {
                 height: 64px;
                 width: 64px;
-                @apply mr-24;
+                @apply me-24;
             }
         }
         .published-at {
@@ -44,7 +44,7 @@
             @apply border-t-1 border-borderColor6 text-16 text-textColor6 leading-150 md:self-start;
 
             button {
-                @apply md:ml-4;
+                @apply md:ms-4;
             }
         }
     }

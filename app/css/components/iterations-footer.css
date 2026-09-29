@@ -12,7 +12,7 @@
 
     & .iterations {
         @apply flex flex-grow gap-20 items-center;
-        @apply mr-24;
+        @apply me-24;
         @apply overflow-x-auto overflow-y-visible;
         @apply py-16;
 
@@ -55,11 +55,11 @@
             }
         }
         & .previous {
-            @apply ml-64 mr-12;
+            @apply ms-64 me-12;
         }
     }
     & .settings-button {
-        @apply ml-auto;
+        @apply ms-auto;
 
         & .c-icon {
             height: 16px;

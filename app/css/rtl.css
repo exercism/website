@@ -1,0 +1,67 @@
+[dir="rtl"] {
+    & pre,
+    & code,
+    & .c-code-pane,
+    & .highlight,
+    & .hljs {
+        direction: ltr;
+        text-align: left;
+    }
+
+    & .c-test-run,
+    & .c-diff {
+        direction: ltr;
+        text-align: left;
+    }
+
+    & .c-cli-walkthrough,
+    & .c-copy-text-to-clipboard {
+        direction: ltr;
+    }
+
+    & .c-progress .bar {
+        background: linear-gradient(to left, #2200ff 0%, #9e00ff 100%);
+    }
+
+    & .c-progress.--completed .bar {
+        background: linear-gradient(to left, #4fcda7 0%, #269345 100%),
+            linear-gradient(0deg, #4fcda7, #4fcda7);
+    }
+
+    & img.c-icon[src*="arrow-left-"],
+    & img.c-icon[src*="arrow-right-"],
+    & img.c-icon[src*="chevron-right-"],
+    & img.c-icon[src*="fat-chevron-right-"] {
+        transform: scaleX(-1);
+    }
+
+    & .cm-editor {
+        direction: ltr;
+        text-align: left;
+    }
+
+    & .c-split-pane {
+        direction: ltr;
+
+        & > .--split-lhs,
+        & > .--split-rhs {
+            direction: rtl;
+        }
+    }
+
+    & #page-editor .c-split-pane > .--split-lhs {
+        direction: ltr;
+    }
+
+    & .c-textual-content {
+        & p,
+        & li,
+        & td,
+        & th,
+        & dd,
+        & dt,
+        & blockquote {
+            unicode-bidi: plaintext;
+        }
+    }
+}

@@ -23,6 +23,6 @@
         %hr.c-divider.mt-20.mb-28
         %p.text-p-xlarge.mb-16= raw t('.about_gobridge_description', gobridge_text: t('.gobridge_alt'), go_developer_network_text: t('.go_developer_network_text'))
 
-      .rhs.mt-24.md:mt-0.md:ml-40
+      .rhs.mt-24.md:mt-0.md:ms-40
         - @blog_posts.each do |blog_post|
           = render ViewComponents::BlogPost.new(blog_post)

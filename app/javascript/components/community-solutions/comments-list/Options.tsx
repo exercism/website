@@ -47,7 +47,7 @@ export const Options = ({
     <React.Fragment>
       <button
         {...buttonAttributes}
-        className="btn-s text-14 text-textColor6 ml-auto"
+        className="btn-s text-14 text-textColor6 ms-auto"
       >
         <GraphicalIcon icon="settings" className="filter-textColor6" />
         <span>Options</span>

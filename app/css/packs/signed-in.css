@@ -1,5 +1,6 @@
 @import "../minimal_tailwind.css";
 @import "../ui-kit/minimal.css";
+@import "../rtl";
 
 /* Journey */
 @import "../pages/journey";

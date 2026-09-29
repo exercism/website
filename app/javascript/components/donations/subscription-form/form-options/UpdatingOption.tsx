@@ -92,7 +92,7 @@ export const UpdatingOption = ({
             id="donation_amount"
             value={amount === '' ? amount : amount.value}
             onChange={handleChange}
-            className="!border-l-1 !border-borderColor5 !pl-16"
+            className="!border-s-1 !border-borderColor5 !ps-16"
           />
         </label>
         {amount !== '' ? (
@@ -111,7 +111,7 @@ export const UpdatingOption = ({
           <FormButton
             status={status}
             disabled={amount === ''}
-            className="btn-xs btn-primary mr-12"
+            className="btn-xs btn-primary me-12"
           >
             {t('formOptions.updatingOption.changeAmountButton')}
           </FormButton>

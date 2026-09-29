@@ -24,7 +24,7 @@
     }
 
     .launching {
-        @apply text-h5 bg-launchingYellow shadow-launching py-8 px-16 mr-auto inline-block mb-24 text-midnightBlue;
+        @apply text-h5 bg-launchingYellow shadow-launching py-8 px-16 me-auto inline-block mb-24 text-midnightBlue;
     }
 
     .features {
@@ -44,7 +44,7 @@
             }
 
             p {
-                @apply text-p-base text-left;
+                @apply text-p-base text-start;
                 a {
                     @apply text-lightGold;
                 }
@@ -83,7 +83,7 @@
             & .c-icon {
                 height: 40px;
                 width: 40px;
-                padding-left: 7px;
+                padding-inline-start: 7px;
             }
         }
         .actual-number {
@@ -128,10 +128,10 @@
 
         p,
         ul {
-            @apply !text-left;
+            @apply !text-start;
         }
         ul {
-            @apply list-disc ml-20;
+            @apply list-disc ms-20;
         }
     }
     details {
@@ -162,7 +162,7 @@
                 content: url("icons/chevron-down-circle.svg");
                 height: 32px;
                 width: 32px;
-                margin-left: auto;
+                margin-inline-start: auto;
                 transform: rotate(0deg);
                 transition: transform 0.2s ease-in-out;
             }

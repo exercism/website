@@ -7,7 +7,7 @@
         %h3= t('.mentoring_section.title', track_title: track.title)
         %p= t('.mentoring_section.paragraph_html', track_title: track.title).html_safe
         = render ViewComponents::ProminentLink.new(t('.mentoring_section.learn_more'), doc_path(:using, 'feedback/mentor'))
-      .flex-shrink-0.flex-grow.grid.place-items-center.mt-32.md:mt-0.md:ml-64
+      .flex-shrink-0.flex-grow.grid.place-items-center.mt-32.md:mt-0.md:ms-64
         = graphical_icon 'mentoring', category: :graphics, css_class: 'graphic'
     .feature.flex-col.md:flex-row-reverse
       .info
@@ -19,7 +19,7 @@
           - key = '.exercises_section.paragraph_html.no_concepts'
         %p= t(key, track_title: track.title, num_concepts: track.num_concepts, track_num_exercises: track.num_exercises).html_safe
         = render ViewComponents::ProminentLink.new(t('.exercises_section.see_all_exercises', track_title: track.title), track_exercises_path(track))
-      .flex-shrink-0.flex-grow.grid.place-items-center.mt-32.md:mt-0.md:mr-64
+      .flex-shrink-0.flex-grow.grid.place-items-center.mt-32.md:mt-0.md:me-64
         = graphical_icon 'community-solutions', category: :graphics, css_class: 'graphic'
     .cta
       = track_icon(track)

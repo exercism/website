@@ -39,7 +39,7 @@ textarea {
     & .c-icon,
     & .icon {
         width: 16px;
-        @apply mr-16;
+        @apply me-16;
     }
     & input {
         @apply flex-grow;

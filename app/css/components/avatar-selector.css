@@ -1,7 +1,7 @@
 @import "../styles";
 
 .c-avatar-selector {
-    @apply ml-auto;
+    @apply ms-auto;
     @apply flex flex-col items-center;
     & .--details {
         @apply flex flex-col items-center;

@@ -17,17 +17,17 @@ function SearchBar() {
     <div className="flex items-center mb-32 py-12 px-32 bg-backgroundColorA shadow-base justify-center">
       <Skeleton.Shape
         shape="rect"
-        className="rounded-8 mr-0 md:mr-24 flex-grow"
+        className="rounded-8 me-0 md:me-24 flex-grow"
         style={{ height: 48, maxWidth: '650px' }}
       />
       <Skeleton.Shape
         shape="rect"
-        className="rounded-8 mr-40 flex-grow hidden-under-md"
+        className="rounded-8 me-40 flex-grow hidden-under-md"
         style={{ height: 48, maxWidth: '146px' }}
       />
       <Skeleton.Shape
         shape="rect"
-        className="rounded-8 mr-48 flex-grow hidden-under-lg"
+        className="rounded-8 me-48 flex-grow hidden-under-lg"
         style={{ height: 48, maxWidth: '210px' }}
       />
       <Skeleton.Shape
@@ -74,7 +74,7 @@ function TrackCard() {
         <div className="flex items-center mb-12">
           <Skeleton.Shape
             shape="circle"
-            className="mr-12"
+            className="me-12"
             style={{ width: 21, height: 21 }}
           />
           <Skeleton.Line

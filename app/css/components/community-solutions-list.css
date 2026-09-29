@@ -7,9 +7,9 @@
         }
 
         & .c-checkbox-wrapper {
-            @apply mr-16;
+            @apply me-16;
             & .c-checkbox {
-                @apply mr-8;
+                @apply me-8;
             }
             & .row > .c-icon {
                 width: 24px;
@@ -28,10 +28,10 @@
         button {
             @apply justify-between;
             .value {
-                @apply mr-0;
+                @apply me-0;
             }
             .c-icon.action-icon {
-                @apply ml-0;
+                @apply ms-0;
             }
         }
     }

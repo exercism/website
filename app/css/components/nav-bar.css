@@ -41,7 +41,7 @@
                 visibility: visible;
             }
             .arrow {
-                transform: translateX(-50%) translateY(0) rotate(45deg);
+                transform: translateY(0) rotate(45deg);
             }
             .nav-element-dropdown {
                 transform: translateY(0);
@@ -61,10 +61,11 @@
             width: var(--a-size);
             height: var(--a-size);
             bottom: 0;
-            left: 50%;
+            inset-inline-start: 50%;
+            margin-inline-start: calc(-1 * var(--a-size) / 2);
             background-color: var(--nav-backgroundColor);
             clip-path: polygon(0% 0%, 100% 0%, 0% 100%);
-            transform: translateX(-50%) translateY(-10px) rotate(45deg);
+            transform: translateY(-10px) rotate(45deg);
             border-radius: 3px;
             vertical-align: middle;
         }
@@ -78,7 +79,7 @@
                 &:after {
                     content: "";
                     background: url("icons/insiders.svg");
-                    @apply ml-6 mb-[3px];
+                    @apply ms-6 mb-[3px];
                     @apply bg-cover h-[16px] w-[16px];
                 }
             }
@@ -104,7 +105,7 @@
 
             height: var(--nd-height);
             width: var(--nd-width);
-            left: var(--dropdown-offset);
+            inset-inline-start: var(--dropdown-offset);
             @apply top-64 z-menu;
             transform: translateY(-10px);
             @apply shadow-navDropdown rounded-8;
@@ -147,7 +148,7 @@
                     width: auto;
                 }
                 ul li {
-                    @apply pr-0;
+                    @apply pe-0;
                 }
                 .nav-dropdown-element {
                     @apply gap-16;
@@ -161,20 +162,21 @@
             }
             ul {
                 @apply flex flex-col items-baseline;
-                @apply mr-0;
+                @apply me-0;
                 @apply relative h-[100%];
                 width: var(--nd-ul-width);
 
                 li {
-                    @apply pr-8 w-100;
+                    @apply pe-8 w-100;
                     .nav-dropdown-view {
                         @apply absolute hidden rounded-8 overflow-auto;
                         background: var(--nav-highlightColor);
                         height: var(--nd-height);
                         top: var(--nd-height);
                         width: var(--nd-view-width);
-                        transform: translate(100%, -100%);
-                        right: 0;
+                        inset-inline-end: 0;
+                        transform: translateY(-100%);
+                        margin-inline-end: calc(-1 * var(--nd-view-width));
                     }
 
                     &:hover,
@@ -196,7 +198,7 @@
 
                             .new {
                                 @apply bg-orange text-white uppercase text-[11px];
-                                @apply px-8 py-2 ml-8;
+                                @apply px-8 py-2 ms-8;
                                 @apply rounded-8;
                                 @apply inline;
                                 @apply align-top;
@@ -212,7 +214,7 @@
                             text-overflow: ellipsis;
                         }
                         .c-icon.external-icon {
-                            @apply w-[16px] h-[16px] ml-auto;
+                            @apply w-[16px] h-[16px] ms-auto;
                         }
                     }
                     .nav-element-link {
@@ -246,8 +248,9 @@
 
     #journey-view {
         @apply absolute overflow-hidden;
-        @apply flex justify-end;
+        @apply flex;
         @apply bg-cover rounded-8;
+        justify-content: right;
         background-image: url("hero-journey.svg");
         left: 0;
         right: 0;

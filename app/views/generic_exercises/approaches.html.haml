@@ -6,7 +6,7 @@
 #page-generic-exercise
   .header.mb-8.py-8
     .lg-container.flex.items-center.relative
-      = exercise_icon @exercise, css_class: "self-start md:self-center w-[68px] h-[68px] md:w-[118px] md:h-[118px] mr-12 md:mr-24"
+      = exercise_icon @exercise, css_class: "self-start md:self-center w-[68px] h-[68px] md:w-[118px] md:h-[118px] me-12 md:me-24"
       .flex-grow
         %h1.text-h1.md:mb-8
           = t('.title', exercise_title: @exercise.title)
@@ -25,5 +25,5 @@
                 - track_approaches.each do |approach|
                   %li
                     = link_to track_exercise_approach_path(approach.track, approach.exercise, approach), class: 'flex items-center border-1 border-prominentLinkColor rounded-16 w-fit py-4 px-8' do
-                      = image_tag approach.track.icon_url, height: '24px', width: '24px', class: 'mr-4'
+                      = image_tag approach.track.icon_url, height: '24px', width: '24px', class: 'me-4'
                       .text-h6= approach.track.title

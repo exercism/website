@@ -3,7 +3,7 @@
 exports[`Stuckbutton tests Component snapshot test 1`] = `
 <DocumentFragment>
   <button
-    class="btn-enhanced btn-s !ml-0 mr-auto ask-chatgpt-btn"
+    class="btn-enhanced btn-s !ms-0 me-auto ask-chatgpt-btn"
     type="button"
   >
     <img

@@ -23,11 +23,11 @@
         & .c-icon {
             height: 24px;
             width: 24px;
-            @apply mr-12 filter-textColor6;
+            @apply me-12 filter-textColor6;
         }
         & .dot {
             @apply border-2 border-textColor6 rounded-circle;
-            @apply ml-4;
+            @apply ms-4;
             height: 12px;
             width: 12px;
 
@@ -68,10 +68,10 @@
         @apply lg:flex lg:flex-wrap lg:justify-end;
 
         & .c-track-select {
-            @apply mr-auto mb-16;
+            @apply me-auto mb-16;
         }
         & .c-multi-select {
-            @apply ml-16 mb-16;
+            @apply ms-16 mb-16;
 
             &.action-switcher {
                 min-width: 172px;
@@ -90,13 +90,13 @@
             }
 
             & .size-tag {
-                @apply mr-16;
+                @apply me-16;
             }
             & .knowledge-tag {
-                @apply border-none p-0 mr-16;
+                @apply border-none p-0 me-16;
             }
             & .knowledge-reset {
-                @apply ml-16 mr-24;
+                @apply ms-16 me-24;
             }
         }
     }
@@ -105,18 +105,18 @@
 
         & h2 {
             @apply text-h4 text-textColor6;
-            @apply mr-16;
+            @apply me-16;
             @apply lg:flex lg:items-center;
             & strong {
-                @apply mr-12 text-h3;
+                @apply me-12 text-h3;
             }
         }
         & .reset-btn {
-            @apply mr-32;
+            @apply me-32;
         }
 
         & .c-single-select {
-            @apply ml-auto;
+            @apply ms-auto;
             @apply hidden lg:flex;
         }
     }
@@ -131,11 +131,11 @@
             @apply border-b-1 border-borderColor7;
             & .knowledge-tag,
             & .size-tag {
-                @apply ml-0 md:ml-48;
+                @apply ms-0 md:ms-48;
             }
 
             & .action-icon {
-                @apply mr-16 flex-shrink-0;
+                @apply me-16 flex-shrink-0;
                 .c-icon {
                     @apply filter-textColor6;
                 }
@@ -154,7 +154,7 @@
                             filter: var(--orange-filter);
                             height: 16px;
                             width: 16px;
-                            @apply ml-16 mr-8;
+                            @apply ms-16 me-8;
                         }
                     }
                 }
@@ -163,14 +163,14 @@
                     & .track {
                         @apply flex items-center;
                         @apply font-mono text-14 leading-160;
-                        @apply mr-12;
+                        @apply me-12;
                         & .for {
                             @apply font-medium text-textColor3;
                         }
                         & .c-track-icon {
                             height: 24px;
                             width: 24px;
-                            @apply ml-6 mr-8;
+                            @apply ms-6 me-8;
                         }
                         & .title {
                             @apply font-semibold text-textColor2;
@@ -185,14 +185,14 @@
                             height: 15px;
                             width: 15px;
 
-                            @apply mr-6 filter-textColor6;
+                            @apply me-6 filter-textColor6;
                         }
                     }
                 }
             }
             & .tags {
                 @apply md:flex hidden items-center;
-                @apply ml-auto;
+                @apply ms-auto;
 
                 & > .knowledge-tag {
                     transform: scale(0.8);
@@ -203,14 +203,14 @@
                 }
 
                 & > :not(.knowledge-tag):not(.size-tag) {
-                    @apply ml-16 md:ml-48;
+                    @apply ms-16 md:ms-48;
                 }
             }
             & .external-link {
                 height: 16px;
                 width: 16px;
                 filter: var(--textColor6-filter);
-                @apply ml-140;
+                @apply ms-140;
             }
         }
         @screen sm {

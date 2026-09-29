@@ -70,7 +70,7 @@
             }
 
             & .c-track-icon {
-                @apply mr-48;
+                @apply me-48;
 
                 height: 128px;
                 width: 128px;
@@ -96,7 +96,7 @@
             /* margin-top: -130px; */
         }
         & .rhs {
-            @apply ml-64 flex-shrink-0;
+            @apply ms-64 flex-shrink-0;
             width: 400px;
         }
 
@@ -120,7 +120,7 @@
             & > .c-icon {
                 height: 80px;
                 width: 80px;
-                @apply mr-32;
+                @apply me-32;
             }
             & > .content {
                 @apply flex flex-col items-start;
@@ -167,25 +167,25 @@
 
                 & .item {
                     @apply flex items-center;
-                    @apply mr-32;
+                    @apply me-32;
 
                     & .c-ed {
                         height: 16px;
                         width: 16px;
-                        @apply mr-12;
+                        @apply me-12;
                     }
                     & .status {
                         @apply text-16 leading-150 font-semibold text-textColor6;
-                        @apply mr-8;
+                        @apply me-8;
                     }
                     & .count {
                         @apply text-14 leading-150 font-medium text-textColor6;
                     }
 
                     &.total {
-                        @apply ml-auto mr-0;
-                        @apply border-l-1 border-borderColor6;
-                        @apply pl-24;
+                        @apply ms-auto me-0;
+                        @apply border-s-1 border-borderColor6;
+                        @apply ps-24;
                     }
                 }
             }
@@ -262,7 +262,7 @@
             & .c-icon {
                 height: 24px;
                 width: 24px;
-                @apply mr-24;
+                @apply me-24;
                 @apply filter-textColor6;
             }
             & p {
@@ -283,7 +283,7 @@
                     @apply absolute bg-borderColor7;
                     width: 2px;
                     top: -32px;
-                    left: 31px;
+                    inset-inline-start: 31px;
                     bottom: 0;
                 }
                 &:first-child {
@@ -314,7 +314,7 @@
                         & .c-exercise-icon {
                             height: 64px;
                             width: 64px;
-                            @apply mr-16;
+                            @apply me-16;
                         }
                         & .c-exercise-widget {
                             & .--blurb {
@@ -331,26 +331,26 @@
                     @apply rounded-5 border-1 border-borderColor5;
                     @apply py-8 px-16;
                     @apply mt-16;
-                    margin-left: 80px;
+                    margin-inline-start: 80px;
 
                     & .action-icon {
                         height: 16px;
                         width: 16px;
-                        @apply ml-32;
+                        @apply ms-32;
                         @apply text-textColor6;
                     }
                 }
                 & > .activities {
                     @apply mt-8;
-                    margin-left: 80px;
+                    margin-inline-start: 80px;
 
                     & > .activity {
                         @apply flex items-center;
                         @apply py-4 rounded-5;
 
                         /* Line this up with the iteration summary above */
-                        padding-left: 13px;
-                        padding-right: 18px;
+                        padding-inline-start: 13px;
+                        padding-inline-end: 18px;
 
                         &:hover {
                             @apply bg-backgroundColorE;
@@ -359,7 +359,7 @@
                         & > .icon {
                             @apply rounded-circle bg-backgroundColorA shadow-sm;
                             @apply grid place-items-center;
-                            @apply py-8 px-8 mr-16;
+                            @apply py-8 px-8 me-16;
 
                             & > .c-icon {
                                 height: 16px;
@@ -376,12 +376,12 @@
                         }
                         & > time {
                             @apply text-13 text-textColor6;
-                            @apply ml-32;
+                            @apply ms-32;
                         }
                         & > .action-icon {
                             height: 12px;
                             width: 12px;
-                            @apply ml-32;
+                            @apply ms-32;
                             @apply filter-textColor6;
                         }
                     }
@@ -408,7 +408,7 @@
             }
 
             & .c-react-wrapper-common-progress-graph {
-                @apply ml-32 flex-shrink-0 w-[145px];
+                @apply ms-32 flex-shrink-0 w-[145px];
             }
 
             & .graph,
@@ -435,7 +435,7 @@
             & .c-icon {
                 width: 24px;
                 height: 24px;
-                @apply mr-24;
+                @apply me-24;
             }
             & h3 {
                 @apply leading-160 font-semibold text-textColor6;
@@ -464,7 +464,7 @@
             & .c-icon.action-icon {
                 height: 24px;
                 width: 24px;
-                @apply ml-auto;
+                @apply ms-auto;
                 @apply filter-textColor2;
             }
             & .icons {
@@ -473,10 +473,10 @@
                 & .c-icon {
                     height: 40px;
                     width: 40px;
-                    @apply mr-8;
+                    @apply me-8;
                 }
                 & .c-concept-icon {
-                    @apply mr-8;
+                    @apply me-8;
                 }
             }
         }
@@ -518,7 +518,7 @@
 
         & section.contributors-section {
             @apply flex-shrink-0;
-            @apply w-1-3 ml-140;
+            @apply w-1-3 ms-140;
 
             & h2 {
                 @apply flex items-center mb-16;
@@ -526,7 +526,7 @@
                 & .c-icon {
                     height: 24px;
                     width: 24px;
-                    @apply mr-16;
+                    @apply me-16;
                     @apply filter-textColor1;
                 }
             }
@@ -545,10 +545,10 @@
                     & .c-avatar {
                         height: 48px;
                         width: 48px;
-                        @apply mr-16;
+                        @apply me-16;
                     }
                     & .name {
-                        @apply mr-12;
+                        @apply me-12;
                         @apply font-semibold text-16 truncate;
                     }
                 }
@@ -621,12 +621,12 @@
             @apply flex items-center mb-40;
             & .lhs {
                 @apply flex items-center;
-                @apply mr-72;
+                @apply me-72;
 
                 & .c-icon {
                     height: 80px;
                     width: 80px;
-                    @apply mr-24;
+                    @apply me-24;
                 }
                 & h2 {
                     @apply text-h2 mb-4;
@@ -636,14 +636,14 @@
                 }
             }
             & .rhs {
-                @apply ml-auto w-100;
+                @apply ms-auto w-100;
                 max-width: 680px;
 
                 & h3 {
                     @apply text-h4 mb-12;
                     @apply flex items-center;
                     & .c-primary-reputation {
-                        @apply ml-12;
+                        @apply ms-12;
                     }
                 }
                 & .max {
@@ -659,7 +659,7 @@
                         @apply flex items-center;
                         @apply text-14 leading-150 text-textColor6 font-semibold;
                         & .c-icon {
-                            @apply mr-12;
+                            @apply me-12;
                             height: 16px;
                             width: 16px;
                             filter: var(--textColor6-filter);
@@ -778,7 +778,7 @@
         @apply py-8 px-16 mb-10;
         @apply rounded-8;
         & .c-icon {
-            @apply h-[24px] w-[24px] mr-4 mb-4;
+            @apply h-[24px] w-[24px] me-4 mb-4;
             @apply filter-textColor2;
             @apply inline;
         }

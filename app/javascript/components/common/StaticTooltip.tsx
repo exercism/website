@@ -14,7 +14,7 @@ export function StaticTooltip({
     <div
       style={style}
       className={assembleClassNames(
-        'absolute left-1/2 -top-10 -translate-x-1/2 -translate-y-full hidden group-hover:block z-tooltip',
+        'absolute start-1/2 -top-10 -translate-x-1/2 -translate-y-full hidden group-hover:block z-tooltip',
         className
       )}
       role="tooltip"

@@ -10,7 +10,7 @@
     & > .c-icon {
         height: 48px;
         width: 48px;
-        @apply mr-24;
+        @apply me-24;
     }
     & > .--content {
         & h3 {
@@ -31,7 +31,7 @@
             height: 15px;
             width: 15px;
 
-            @apply ml-8;
+            @apply ms-8;
         }
     }
 }

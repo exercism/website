@@ -43,7 +43,7 @@ export default function ShowOnSupportersPageButton({
   )
 
   return (
-    <label className="c-checkbox-wrapper ml-auto">
+    <label className="c-checkbox-wrapper ms-auto">
       <input type="checkbox" checked={value} onChange={handleChange} />
       <div className="row">
         <div className="c-checkbox">

@@ -147,7 +147,7 @@ export const Form = ({
             <Icon
               icon="insiders"
               alt={t('stripeForm.eligibleForInsidersAccess')}
-              className="emoji mr-4 !filter-none md:block hidden"
+              className="emoji me-4 !filter-none md:block hidden"
             ></Icon>
             {t('form.monthlyRecurring')}
           </Tab>

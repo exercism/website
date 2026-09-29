@@ -18,7 +18,7 @@ export function SelectedLocalMachineStep({
       <h3 className="text-h3 mb-8">{t('selectedLocalMachineStep.title')}</h3>
       <p className="mb-8">{t('selectedLocalMachineStep.subtitle')}</p>
 
-      <ol className="list-decimal pl-16 mb-16">
+      <ol className="list-decimal ps-16 mb-16">
         <li>
           <Trans
             ns="components/modals/track-welcome-modal/LHS/steps"

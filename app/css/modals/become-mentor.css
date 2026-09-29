@@ -26,12 +26,12 @@
                 & + .step {
                     display: flex;
                     align-items: center;
-                    @apply ml-24;
+                    @apply ms-24;
                     &:before {
                         content: " ";
                         width: 24px;
                         @apply border-b-2 border-buttonBorderColor2;
-                        margin-left: -26px;
+                        margin-inline-start: -26px;
                         @apply block;
                     }
                 }
@@ -62,7 +62,7 @@
     & section.tracks-section {
         & .c-mentor-track-selector {
             & .selected {
-                @apply mr-48;
+                @apply me-48;
             }
         }
     }
@@ -70,7 +70,7 @@
     & section.commit-section {
         @apply flex;
         & .rhs {
-            margin-left: 160px;
+            margin-inline-start: 160px;
             & .c-icon {
                 width: 240px;
                 height: 240px;
@@ -96,7 +96,7 @@
                 & .c-icon {
                     height: 48px;
                     width: 48px;
-                    @apply mr-32;
+                    @apply me-32;
                     filter: var(--filter-E2CB2D);
                 }
                 & h3 {
@@ -137,7 +137,7 @@
                     @apply border-2 border-borderColor9 rounded-8;
 
                     & .c-checkbox {
-                        @apply text-20 mr-24;
+                        @apply text-20 me-24;
                     }
                     & span {
                         @apply text-18 leading-170;
@@ -148,7 +148,7 @@
                             & .c-icon {
                                 height: 16px;
                                 width: 16px;
-                                @apply ml-6;
+                                @apply ms-6;
                                 @apply filter-prominentLinkColor;
                             }
                         }
@@ -184,7 +184,7 @@
                 & .c-icon {
                     width: 32px;
                     height: 32px;
-                    @apply mr-24;
+                    @apply me-24;
                     @apply filter-textColor6;
                 }
 

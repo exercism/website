@@ -3,23 +3,23 @@
     @apply flex items-center flex-shrink-0;
     @apply px-16 rounded-100;
     @apply text-16 text-textColor6 font-medium;
-    @apply mr-8;
+    @apply me-8;
 
     & .count {
-        @apply ml-8;
+        @apply ms-8;
         @apply text-14 text-textColor6 font-medium;
     }
     & .c-icon {
         height: 24px;
         width: 24px;
-        @apply mr-12;
+        @apply me-12;
         filter: var(--textColor6-filter);
     }
 
     &.selected {
         @apply bg-tabBackgroundColorSelected text-textColor2 font-semibold;
         & .c-icon {
-            @apply mr-12;
+            @apply me-12;
             filter: var(--selected-tab-icon-filter);
         }
 
@@ -40,7 +40,7 @@
             height: 24px;
             width: 24px;
 
-            @apply ml-16;
+            @apply ms-16;
 
             background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMTIiIGZpbGw9IiNFMkVCRkYiLz4KPHJlY3Qgd2lkdGg9IjEwLjUiIGhlaWdodD0iMTAuNSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNi43NSA2Ljc1KSIgZmlsbD0iI0UyRUJGRiIvPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTguMzkwNjIgMTIuNTE1NkM4LjM5MDYyIDExLjY4NzIgOS4wNjIyIDExLjAxNTYgOS44OTA2MiAxMS4wMTU2SDE0LjEwOTRDMTQuOTM3OCAxMS4wMTU2IDE1LjYwOTQgMTEuNjg3MiAxNS42MDk0IDEyLjUxNTZWMTUuNDIxOUMxNS42MDk0IDE2LjI1MDMgMTQuOTM3OCAxNi45MjE5IDE0LjEwOTQgMTYuOTIxOUg5Ljg5MDYzQzkuMDYyMiAxNi45MjE5IDguMzkwNjIgMTYuMjUwMyA4LjM5MDYyIDE1LjQyMTlWMTIuNTE1NloiIHN0cm9rZT0iIzVDNTU4OSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CjxwYXRoIGQ9Ik05LjcwMzEyIDExLjAxNTZWOS4zNzVDOS43MDMxMiA4LjEwNjQ3IDEwLjczMTUgNy4wNzgxMiAxMiA3LjA3ODEyQzEzLjI2ODUgNy4wNzgxMiAxNC4yOTY5IDguMTA2NDcgMTQuMjk2OSA5LjM3NVYxMS4wMTU2IiBzdHJva2U9IiM1QzU1ODkiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8cGF0aCBkPSJNMTIgMTMuMzEyNVYxNC42MjUiIHN0cm9rZT0iIzVDNTU4OSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=");
             background-size: contain;
@@ -71,7 +71,7 @@
         & .c-icon {
             height: 16px;
             width: 16px;
-            @apply mr-12;
+            @apply me-12;
         }
     }
 }

@@ -11,7 +11,7 @@
     & a {
         color: var(--textColorTrackBreadcrumbs);
         @apply font-medium;
-        @apply mr-16;
+        @apply me-16;
         @apply flex items-center;
         @apply whitespace-nowrap;
 
@@ -19,21 +19,21 @@
         & .c-track-icon {
             height: 32px;
             width: 32px;
-            @apply mr-12;
+            @apply me-12;
         }
     }
     & .seperator {
         @apply text-15 text-muddy;
-        @apply mr-16;
+        @apply me-16;
     }
     & .track-title {
-        @apply mr-16;
+        @apply me-16;
         @apply whitespace-nowrap;
     }
     & .exercise-title {
         @apply whitespace-nowrap;
     }
     & .seperator {
-        @apply mr-16;
+        @apply me-16;
     }
 }

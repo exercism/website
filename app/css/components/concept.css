@@ -7,7 +7,7 @@
         @apply flex items-center py-8 px-16;
     }
     & .c-concept-icon {
-        @apply mr-8;
+        @apply me-8;
     }
     .c-concept-progress-bar {
         height: 6px;

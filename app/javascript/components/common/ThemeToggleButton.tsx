@@ -43,7 +43,7 @@ export default function ThemeToggleButton({
       disabled={!disabled}
     >
       {/* 24 is the padding of nav-elements' label */}
-      <div className="ml-24">
+      <div className="ms-24">
         <button
           onClick={(e) => {
             explicitTheme === 'theme-light' || explicitTheme === 'theme-sepia'

@@ -10,7 +10,7 @@
 
         .--search {
             @apply w-100;
-            @apply md:mr-24 mr-0 md:mb-0 mb-12;
+            @apply md:me-24 me-0 md:mb-0 mb-12;
         }
     }
     .solutions {

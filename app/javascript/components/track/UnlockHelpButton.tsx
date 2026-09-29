@@ -56,7 +56,7 @@ export function UnlockHelpButton({
         className="btn-primary btn-s flex items-center grow text-14 leading-170 py-8"
         onClick={() => unlockHelp()}
       >
-        <GraphicalIcon icon="unlock" width={14} height={14} className="mr-8" />
+        <GraphicalIcon icon="unlock" width={14} height={14} className="me-8" />
         {t('unlockHelpButton.unlockThisTab')}
       </button>
 

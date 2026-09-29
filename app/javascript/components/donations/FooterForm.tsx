@@ -87,7 +87,7 @@ const FooterForm = ({
             value={customAmount}
           />
         </div>
-        <button className="btn-m continue-btn w-100 md:w-auto md:h-auto md:ml-32">
+        <button className="btn-m continue-btn w-100 md:w-auto md:h-auto md:ms-32">
           <span>{t('footerForm.continue')}</span>
           <GraphicalIcon icon="arrow-right" />
         </button>

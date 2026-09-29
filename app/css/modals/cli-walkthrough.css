@@ -19,7 +19,7 @@
         width: 128px;
         position: absolute;
         top: -64px;
-        margin-left: -64px;
+        margin-inline-start: -64px;
         left: 50%;
     }
 }

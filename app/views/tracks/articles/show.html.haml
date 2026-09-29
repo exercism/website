@@ -12,8 +12,8 @@
           = render ReactComponents::Common::Credits.new(@users, @num_authors, "author", @num_contributors, "contributor")
 
       = link_to Exercism::Routes.track_exercise_path(@track, @exercise), class: "flex flex-row py-4 md:py-8 md:px-24 px-12 bg-gray border-2 border-gradient-bgGray rounded-100 items-center md:h-[68px] w-fit md:mb-auto mb-32" do
-        = track_icon @track, css_class: 'md:block hidden md:h-[40px] md:w-[40px] w-32 h-32 md:mr-12 mr-4'
-        = exercise_icon @exercise, css_class: 'md:h-[48px] md:w-[48px] h-[40px] w-[40px] mr-12'
+        = track_icon @track, css_class: 'md:block hidden md:h-[40px] md:w-[40px] w-32 h-32 md:me-12 me-4'
+        = exercise_icon @exercise, css_class: 'md:h-[48px] md:w-[48px] h-[40px] w-[40px] me-12'
         .flex.flex-col
           .text-h5.whitespace-nowrap
             = @exercise.title
@@ -47,7 +47,7 @@
   - if @other_articles.present?
     .md-container.flex.flex-col
       .flex.justify-center.mb-32
-        = graphical_icon "dig-deeper-gradient", css_class: "h-[32px] mr-24 self-center"
+        = graphical_icon "dig-deeper-gradient", css_class: "h-[32px] me-24 self-center"
         .flex.flex-col
           %h2.text-h3.font-bold.mb-4= t('.other_articles.title', exercise_title: @exercise.title)
           .text-p-base.text-textColor6= t('.other_articles.description')

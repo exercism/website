@@ -22,7 +22,7 @@
 
         & > .icon {
             @apply flex-shrink-0 grid place-items-center;
-            @apply mr-24;
+            @apply me-24;
             width: 45px;
 
             .c-icon {
@@ -43,8 +43,8 @@
                 & .dot {
                     height: 8px;
                     width: 8px;
-                    margin-right: 3px;
-                    margin-left: 0;
+                    margin-inline-end: 3px;
+                    margin-inline-start: 0;
                 }
             }
         }

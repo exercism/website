@@ -17,10 +17,10 @@
         @apply whitespace-nowrap;
     }
     & li {
-        @apply mr-40;
+        @apply me-40;
         @apply border-b-3 border-transparent;
         &:last-child {
-            @apply mr-0;
+            @apply me-0;
         }
         & a {
             @apply text-16 leading-200 text-textColor6 font-medium;

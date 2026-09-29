@@ -11,7 +11,7 @@
       .col-span-3.xl:col-span-2
 
         .flex.mb-32.items-center
-          = graphical_icon "building", css_class: "h-[64px] w-[64px] mr-20 self-start", hex: true
+          = graphical_icon "building", css_class: "h-[64px] w-[64px] me-20 self-start", hex: true
           .flex.flex-col.mr-auto
             %h2.text-h1= t('.track_management_title', track_title: @track.title)
             %p.text-21.text-textColor1.leading-150= t('.track_management_description', track_title: @track.title)
@@ -40,7 +40,7 @@
             = render ViewComponents::Track::Build::Health.new(@status.health)
 
           .flex
-            .flex.flex-col.sm:mr-40.mr-0
+            .flex.flex-col.sm:me-40.mr-0
               .tooling-status-label= t('.tooling_status_building')
               .tooling-status-group
                 - if @track.course?
@@ -64,7 +64,7 @@
                   = graphical_icon "conversation-chat"
 
         -# .border-2.border-gradient.rounded-12.px-32.py-24.items-center.flex.shadow-smZ1.mb-32
-          = image_tag @track.icon_url, class: "w-[64px] h-[64px] mr-24"
+          = image_tag @track.icon_url, class: "w-[64px] h-[64px] me-24"
           .flex.flex-col.mr-48
             %h5.text-h5 We&apos;re looking for 5 volunteers for the #{@track.title} Track.
             %p.text-textColor5.text-18.leading-140 Could you commit to 3 hours per week over the next 6 months to get the #{@track.title} track up to scratch?
@@ -82,7 +82,7 @@
           = ReactComponents::Impact::Map.new(track: @track)
         .rounded-8.p-24.shadow-baseZ1.bg-backgroundColorA
           .flex.items-center.mb-12
-            = graphical_icon "team-idea", css_class: "h-[24px] w-[24px] filter-textColor1 mr-16"
+            = graphical_icon "team-idea", css_class: "h-[24px] w-[24px] filter-textColor1 me-16"
             .label-large.mr-16
               = t('.volunteers_label', count: @status.volunteers.num_volunteers)
             .c-count-bubble= @status.volunteers.num_volunteers
@@ -90,7 +90,7 @@
           - @status.volunteers.users[0, 3].to_a.each do |volunteer|
             .contributor-credit-block
               .contributor
-                = avatar(volunteer, css_class: "h-32 w-[32px] bg-cover bg-center rounded-circle mr-12")
+                = avatar(volunteer, css_class: "h-32 w-[32px] bg-cover bg-center rounded-circle me-12")
                 = volunteer.handle
               -# Only the first three volunteers get a badge, so this is three requests, not one per volunteer.
               = render ReactComponents::UserIdentity::Reputation.new(volunteer.handle, type: :primary, size: :small)

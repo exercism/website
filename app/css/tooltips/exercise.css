@@ -13,7 +13,7 @@
         }
         & .--blurb {
             max-width: 350px;
-            margin-left: -80px;
+            margin-inline-start: -80px;
         }
     }
 }

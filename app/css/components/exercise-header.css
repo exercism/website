@@ -23,7 +23,7 @@
     }
     & .update-bar {
         background: var(--backgroundColorCAlert);
-        @apply text-left;
+        @apply text-start;
         @apply border-2 border-lightGold rounded-8;
         @apply py-10 px-24;
         @apply text-textColor2 text-16 leading-160 font-semibold;
@@ -32,11 +32,11 @@
             height: 22px;
             width: 22px;
             filter: var(--textColor2-filter);
-            @apply mr-12;
+            @apply me-12;
         }
 
         & .faux-link {
-            @apply text-prominentLinkColor ml-auto text-right md:block contents;
+            @apply text-prominentLinkColor ms-auto text-end md:block contents;
         }
     }
 
@@ -46,7 +46,7 @@
         & .c-exercise-icon {
             width: 64px;
             height: 64px;
-            @apply mr-12 md:mr-32;
+            @apply me-12 md:me-32;
             @screen md {
                 width: 118px;
                 height: 118px;
@@ -60,14 +60,14 @@
             & > .c-icon {
                 height: 32px;
                 width: 32px;
-                @apply ml-16;
+                @apply ms-16;
             }
         }
         & .tags {
             @apply flex items-center;
 
             & .c-exercise-status-tag {
-                @apply mr-12;
+                @apply me-12;
             }
         }
         & .decorations {
@@ -75,10 +75,10 @@
             height: 71px;
             width: 155px;
             background-size: 155px;
-            @apply mr-32;
+            @apply me-32;
         }
         & .c-react-wrapper-track-exercise-makers-button {
-            @apply lg:ml-auto;
+            @apply lg:ms-auto;
         }
     }
     & .navbar {

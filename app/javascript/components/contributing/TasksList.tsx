@@ -160,7 +160,7 @@ export default function TasksList({
                       task: pluralize('task', resolvedData.meta.totalCount),
                     })}
                   </strong>
-                  <span className="hidden md:inline mr-8">/</span>
+                  <span className="hidden md:inline me-8">/</span>
                   {t('tasksList.outOfPossibleTasks', {
                     unscopedTotal: resolvedData.meta.unscopedTotal,
                     unscopedTask: pluralize(

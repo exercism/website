@@ -21,7 +21,7 @@ export function PendingMentoringRequest({
       </p>
       <div className="flex gap-12">
         <ContinueButton onClick={onContinue} className="btn-primary" />
-        <a className="btn-secondary btn-s mr-auto" href={mentoringRequestLink}>
+        <a className="btn-secondary btn-s me-auto" href={mentoringRequestLink}>
           {t('index.viewYourRequest')}
         </a>
       </div>

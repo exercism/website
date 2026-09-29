@@ -18,11 +18,11 @@
             & .icon {
                 height: 32px;
                 width: 32px;
-                @apply mt-4 mr-20;
+                @apply mt-4 me-20;
                 @apply self-start;
             }
             & .content {
-                @apply flex-grow mr-24;
+                @apply flex-grow me-24;
                 & .text {
                     @apply text-15 leading-150;
                     & strong {
@@ -38,7 +38,7 @@
             & .unread {
                 height: 8px;
                 width: 8px;
-                @apply flex-shrink-0 rounded-circle mr-24;
+                @apply flex-shrink-0 rounded-circle me-24;
             }
             & .unread {
                 background: var(--backgroundColorNotificationsUnreadDot);

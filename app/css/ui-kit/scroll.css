@@ -7,7 +7,7 @@
         &::-webkit-scrollbar {
             display: none; /* Chrome, Opera, Safari */
         }
-        @apply -ml-20;
+        @apply -ms-20;
         -webkit-mask-image: linear-gradient(
             to right,
             transparent,
@@ -22,7 +22,7 @@
             white 95%,
             transparent
         );
-        @apply pl-20 pr-[5%];
+        @apply ps-20 pe-[5%];
     }
 
     @screen md {

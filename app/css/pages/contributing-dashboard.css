@@ -32,11 +32,11 @@
             & .c-icon {
                 height: 96px;
                 width: 96px;
-                @apply ml-auto mr-32;
+                @apply ms-auto me-32;
             }
             & .content  {
                 max-width: 710px;
-                @apply mr-auto;
+                @apply me-auto;
 
                 & h2 {
                     @apply text-24 font-semibold text-textColor2 leading-140;
@@ -55,7 +55,7 @@
                     @apply flex items-center;
 
                     & .btn-primary {
-                        @apply mr-24;
+                        @apply me-24;
                     }
                     & .total {
                         @apply text-16 font-medium;
@@ -122,7 +122,7 @@
                             height: 15px;
                             width: 15px;
                             filter: var(--textColor6-filter);
-                            @apply mr-12;
+                            @apply me-12;
                         }
                     }
                     & .track-icons {
@@ -130,7 +130,7 @@
                         & .c-track-icon {
                             height: 48px;
                             width: 48px;
-                            @apply mr-12;
+                            @apply me-12;
                         }
                     }
                     & .tracks-list {

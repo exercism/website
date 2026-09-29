@@ -16,9 +16,14 @@ module ViewComponents
       icon(
         icon_name,
         icon_alt,
-        style: "all:unset; height: #{size_in_px}; width: #{size_in_px}; margin-left: #{ml_in_px}; margin-bottom: #{mb_in_px}",
+        style: icon_style,
         title: icon_title
       )
+    end
+
+    def icon_style
+      "all:unset; height: #{size_in_px}; width: #{size_in_px}; " \
+        "margin-inline-start: #{inline_start_in_px}; margin-bottom: #{mb_in_px}"
     end
 
     def icon_name
@@ -40,7 +45,7 @@ module ViewComponents
     end
 
     memoize
-    def ml_in_px
+    def inline_start_in_px
       "#{(SIZES[size.to_sym] / 4.0).ceil}px"
     end
 

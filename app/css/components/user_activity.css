@@ -7,7 +7,7 @@
     & .--descriptive-icon {
         height: 24px;
         width: 24px;
-        @apply mr-24;
+        @apply me-24;
     }
 
     & .--info {
@@ -21,7 +21,7 @@
                 & .c-icon {
                     height: 24px;
                     width: 24px;
-                    @apply ml-12 mr-12;
+                    @apply ms-12 me-12;
                 }
             }
         }
@@ -33,7 +33,7 @@
     & .--action-icon {
         height: 16px;
         width: 16px;
-        @apply ml-24 self-center;
+        @apply ms-24 self-center;
     }
 }
 .c-user-activity-submitted-iteration {

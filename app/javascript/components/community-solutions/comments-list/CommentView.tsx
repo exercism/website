@@ -23,7 +23,7 @@ export const CommentView = ({
         <UserAvatar handle={comment.author.handle} />
         <div className="flex flex-col">
           <div className="flex items-center">
-            <div className="text-h6 mr-8">
+            <div className="text-h6 me-8">
               <UserHandleWithFlair handle={comment.author.handle} />
             </div>
             <UserReputation handle={comment.author.handle} size="small" />

@@ -22,12 +22,12 @@
 
             & strong {
                 @apply text-h3;
-                @apply mr-12;
+                @apply me-12;
             }
             & .c-avatar {
                 width: 48px;
                 height: 48px;
-                @apply ml-12 mr-8;
+                @apply ms-12 me-8;
             }
             & .student-name {
                 @apply flex-grow;
@@ -76,13 +76,13 @@
                 & .c-track-icon {
                     height: 32px;
                     width: 32px;
-                    @apply mr-24;
+                    @apply me-24;
                 }
 
                 & .exercise-icon {
                     height: 48px;
                     width: 48px;
-                    @apply mr-16;
+                    @apply me-16;
                 }
                 & .exercise-title {
                     @apply flex-grow;
@@ -91,25 +91,25 @@
 
                 & .num-comments,
                 & .num-iterations {
-                    @apply flex items-center justify-center ml-16;
+                    @apply flex items-center justify-center ms-16;
                     @apply font-medium leading-code text-textColor1;
                     @apply py-4 px-12 border-borderColor5 border-1 rounded-5 bg-backgroundColorA;
                     width: 66px;
                     & .c-icon {
-                        @apply mr-6 filter-textColor6;
+                        @apply me-6 filter-textColor6;
                         height: 16px;
                         width: 16px;
                     }
                 }
                 & time {
                     width: 130px;
-                    @apply ml-24 text-right;
+                    @apply ms-24 text-end;
                     @apply text-textColor6;
                 }
                 & .action-icon {
                     height: 16px;
                     width: 16px;
-                    @apply filter-textColor6 ml-48;
+                    @apply filter-textColor6 ms-48;
                 }
             }
         }

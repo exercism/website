@@ -56,10 +56,10 @@
     & .btns {
         @apply flex;
         & .btn-primary {
-            @apply mr-12;
+            @apply me-12;
         }
         & .btn {
-            @apply ml-12;
+            @apply ms-12;
         }
     }
 }

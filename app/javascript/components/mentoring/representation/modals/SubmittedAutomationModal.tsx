@@ -34,7 +34,7 @@ export function SubmittedAutomationModal({
             <Icon
               alt={t('submittedAutomationModal.right')}
               icon="arrow-right"
-              className="w-[16px] h-[16px] filter-white ml-12"
+              className="w-[16px] h-[16px] filter-white ms-12"
             />
           </div>
         </a>

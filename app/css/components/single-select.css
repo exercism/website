@@ -10,7 +10,7 @@
         @apply border-1 border-buttonBorderColor2;
         @apply shadow-smZ1 rounded-8 bg-backgroundColorA;
         @apply w-100;
-        @apply text-left;
+        @apply text-start;
         white-space: nowrap;
     }
     & > .--options {
@@ -41,12 +41,12 @@
         @apply text-16 leading-150;
 
         & > .value {
-            @apply mr-auto;
+            @apply me-auto;
         }
         & > .action-icon {
             height: 16px;
             width: 16px;
-            @apply xs:ml-24 ml-0 mr-0;
+            @apply xs:ms-24 ms-0 me-0;
             filter: var(--textColor2-filter);
         }
     }
@@ -68,7 +68,7 @@
                 & > .c-icon {
                     width: 24px;
                     height: 24px;
-                    @apply mr-20;
+                    @apply me-20;
                 }
             }
         }

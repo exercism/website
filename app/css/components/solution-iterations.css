@@ -25,7 +25,7 @@
         }
 
         & .publish-settings-button {
-            @apply ml-auto px-0 border-borderColor6;
+            @apply ms-auto px-0 border-borderColor6;
             & .c-icon {
                 filter: var(--textColor6-filter);
             }

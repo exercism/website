@@ -93,7 +93,7 @@ export const AutomationListElement = ({
         </div>
       </div>
       {isAdminTab && (
-        <div className="flex flex-col gap-8 mr-60 w-[160px] text-left">
+        <div className="flex flex-col gap-8 me-60 w-[160px] text-start">
           {representation.feedbackAuthor?.handle && (
             <div className="flex gap-8 leading-150">
               <GraphicalIcon

@@ -39,7 +39,7 @@
 
         & .visual-icon {
             @apply h-[20px] lg:h-[48px] w-[20px] lg:w-[48px];
-            @apply mr-24;
+            @apply me-24;
         }
         & .info {
             & h2,
@@ -52,7 +52,7 @@
             }
         }
         & .close {
-            @apply pr-0;
+            @apply pe-0;
             & .c-icon {
                 width: 16px;
                 height: 16px;
@@ -62,7 +62,7 @@
 
     & .visual-icon {
         @apply h-[48px] lg:h-[102px] w-[48px] lg:w-[102px];
-        @apply mb-8 ml-32 lg:mb-0 lg:ml-0 lg:mr-32;
+        @apply mb-8 ms-32 lg:mb-0 lg:ms-0 lg:me-32;
         @apply float-right lg:float-none;
     }
     & .info {
@@ -81,7 +81,7 @@
         }
     }
     & .close {
-        @apply lg:ml-auto lg:flex-shrink-0 lg:p-12;
+        @apply lg:ms-auto lg:flex-shrink-0 lg:p-12;
         @apply lg:filter-textColor6;
         & .c-icon {
             width: 24px;

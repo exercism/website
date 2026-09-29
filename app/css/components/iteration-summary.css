@@ -32,7 +32,7 @@
         }
         & > .--time {
             @apply flex;
-            @apply ml-48;
+            @apply ms-48;
             @apply text-textColor6 text-13;
         }
     }
@@ -40,7 +40,7 @@
     & > .--upload-method-icon {
         height: 24px;
         width: 24px;
-        @apply text-textColor5 mr-16;
+        @apply text-textColor5 me-16;
         filter: var(--textColor2-filter);
     }
     & > .--info {
@@ -51,10 +51,10 @@
 
             & > h3 {
                 @apply font-semibold text-16 leading-170 text-textColor2;
-                @apply mr-12;
+                @apply me-12;
             }
             & > .--dot {
-                @apply mr-16 rounded-circle bg-lightBlue;
+                @apply me-16 rounded-circle bg-lightBlue;
                 height: 8px;
                 width: 8px;
             }
@@ -68,7 +68,7 @@
                 @apply hidden md:block;
             }
             & > .--latest + .--published {
-                @apply ml-8;
+                @apply ms-8;
             }
         }
         & > .--details {
@@ -77,17 +77,17 @@
     }
     & .--out-of-date {
         @apply flex items-center;
-        @apply mr-24;
+        @apply me-24;
         @apply text-14 font-bold font-mono text-orange;
         & .c-icon {
             height: 16px;
             width: 16px;
             filter: var(--orange-filter);
-            @apply mr-12;
+            @apply me-12;
         }
     }
     & > .c-copy-text-to-clipboard {
-        @apply border-borderColor6 shadow-xsZ1 ml-32;
+        @apply border-borderColor6 shadow-xsZ1 ms-32;
         @apply w-auto;
         @apply py-0 px-12;
         height: 40px;
@@ -101,12 +101,12 @@
     & .--feedback {
         @apply border-1 border-borderColor5 rounded-5;
         @apply flex items-center;
-        @apply px-12 py-6 ml-16;
+        @apply px-12 py-6 ms-16;
 
         & .c-icon {
             height: 16px;
             width: 16px;
-            @apply mr-12 filter-textColor6;
+            @apply me-12 filter-textColor6;
         }
 
         & .--count {
@@ -122,8 +122,8 @@
             }
 
             & + .--count {
-                @apply border-l-1 border-borderColor5;
-                @apply ml-12 pl-12;
+                @apply border-s-1 border-borderColor5;
+                @apply ms-12 ps-12;
             }
         }
     }

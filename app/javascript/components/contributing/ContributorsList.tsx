@@ -107,7 +107,7 @@ export default function ContributorsList({
             </span>
           </PeriodButton>
         </div>
-        <div className="hidden lg:flex items-center ml-auto">
+        <div className="hidden lg:flex items-center ms-auto">
           <TrackSelect
             tracks={tracks}
             value={track}

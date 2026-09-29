@@ -4,12 +4,12 @@ button.c-cli-walkthrough-button {
     @apply px-16 py-12;
     @apply flex items-center;
     @apply bg-veryLightBlue border-2 border-gradient rounded-8;
-    @apply text-left;
+    @apply text-start;
 
     & .graphical-icon {
         height: 48px;
         width: 48px;
-        @apply mr-16;
+        @apply me-16;
     }
     & .info {
         @apply flex-grow;
@@ -23,7 +23,7 @@ button.c-cli-walkthrough-button {
     & .modal-icon {
         height: 16px;
         width: 16px;
-        @apply ml-24;
+        @apply ms-24;
         filter: var(--textColor6-filter);
     }
 }

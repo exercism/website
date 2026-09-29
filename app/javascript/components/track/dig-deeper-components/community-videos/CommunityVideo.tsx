@@ -24,17 +24,17 @@ export function CommunityVideo({
       >
         <img
           style={{ objectFit: 'cover', height: '80px', width: '143px' }}
-          className="mr-20 rounded-8"
+          className="me-20 rounded-8"
           src={video.links.thumbnail}
           alt={t('communityVideo.thumbnail')}
         />
-        <div className="flex flex-col mr-auto">
-          <h5 className="text-h5 mb-8 text-left">{video.title}</h5>
+        <div className="flex flex-col me-auto">
+          <h5 className="text-h5 mb-8 text-start">{video.title}</h5>
           <div className="flex items-center">
             {video.author && (
               <Avatar
                 src={video.author.avatarUrl}
-                className="mr-8 h-[24px] w-[24px]"
+                className="me-8 h-[24px] w-[24px]"
               />
             )}
             <span className="font-semibold text-textColor6 leading-150 text-14">

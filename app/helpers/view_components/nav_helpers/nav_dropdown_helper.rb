@@ -26,7 +26,7 @@ module ViewComponents
         tag.div(class: "nav-dropdown-element", role: 'menuitem') do
           parts = [
             graphical_icon(icon, css_class: "filter-#{icon_filter}"),
-            tag.div(class: 'overflow-hidden pr-40') do
+            tag.div(class: 'overflow-hidden pe-40') do
               content = tag.h6 do
                 safe_join([
                   title,

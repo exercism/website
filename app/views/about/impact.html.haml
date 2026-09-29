@@ -9,10 +9,10 @@
   %header.pt-48.flex.flex-col.items-center{ class: 'mb-[-130px] md:h-[500px] h-[600px]' }
     .md-container.c-shapes-impact.c-shapes-1
     %h1.text-h5.text-textColor6.mb-16.flex.items-center
-      = graphical_icon "report", css_class: 'h-[26px] w-[26px] filter-textColor6 mr-16'
+      = graphical_icon "report", css_class: 'h-[26px] w-[26px] filter-textColor6 me-16'
       = t('.header.title')
     %h2.text-h0.mb-12.text-center{ class: 'max-w-[800px]' }
-      = t('.header.provided_text_html', count: number_with_delimiter(310_569_762), highlight_open: '<strong class="pl-8 pr-12 font-bold bg-[url(graphics/impact-highlight.svg)] bg-[length:100%_100%] text-textColor1NoDark">'.html_safe, highlight_close: '</strong>'.html_safe, highlight_unit_open: '<strong class="pl-8 pr-8 mr-[-8px] font-bold bg-[url(graphics/impact-highlight.svg)] bg-[length:100%_100%] text-textColor1NoDark">'.html_safe, highlight_unit_close: '</strong>'.html_safe).html_safe
+      = t('.header.provided_text_html', count: number_with_delimiter(310_569_762), highlight_open: '<strong class="ps-8 pe-12 font-bold bg-[url(graphics/impact-highlight.svg)] bg-[length:100%_100%] text-textColor1NoDark">'.html_safe, highlight_close: '</strong>'.html_safe, highlight_unit_open: '<strong class="ps-8 pe-8 me-[-8px] font-bold bg-[url(graphics/impact-highlight.svg)] bg-[length:100%_100%] text-textColor1NoDark">'.html_safe, highlight_unit_close: '</strong>'.html_safe).html_safe
     %p.font-medium.text-textColor6.text-24.leading-160.text-center{ class: 'max-w-[780px]' }
       = t('.header.daily_minutes_provided')
       %br
@@ -20,7 +20,7 @@
 
   .md-container.mb-48
     .flex.flex-col.md:flex-row.md:items-stretch
-      .md:mr-32.mb-40.md:mb-0{ class: 'w-fill md:max-w-[380px]' }
+      .md:me-32.mb-40.md:mb-0{ class: 'w-fill md:max-w-[380px]' }
         .shadow-lgZ1.py-8.rounded-16.mb-32.bg-backgroundColorA.overflow-hidden
           .py-12.px-32.bg-backgroundColorF
             %h3.label-large= t('.stats.students')
@@ -43,8 +43,8 @@
           %p.text-h5= t('.everything_is_free')
 
       .shadow-lg.flex-grow.bg-backgroundColorB.rounded-16.py-48.px-24.relative
-        .absolute.w-full.shadow-sm.text-h5.py-6.px-16.rounded-24.bg-backgroundColorA.flex.flex-row.items-center.whitespace-nowrap{ class: 'top-0 left-1/2 -translate-y-1/2 -translate-x-1/2' }
-          = graphical_icon "graph-stats-gradient", css_class: 'h-[24px] w-[24px] mr-12'
+        .absolute.w-full.shadow-sm.text-h5.py-6.px-16.rounded-24.bg-backgroundColorA.flex.flex-row.items-center.whitespace-nowrap{ class: 'top-0 start-1/2 -translate-y-1/2 -translate-x-1/2' }
+          = graphical_icon "graph-stats-gradient", css_class: 'h-[24px] w-[24px] me-12'
           = t('.live_activity')
         = ReactComponents::Impact::Map.new
 
@@ -52,37 +52,37 @@
     .grid.grid-cols-1.gap-20.md:grid-cols-2.lg:grid-cols-3
       .flex.flex-col.py-20.px-24
         .flex.items-center.mb-12
-          = image_tag "photos/twitter-dapritchard_.jpg", class: 'w-[40px] h-[40px] rounded-circle mr-12'
+          = image_tag "photos/twitter-dapritchard_.jpg", class: 'w-[40px] h-[40px] rounded-circle me-12'
           .flex.flex-col
             .label-large David Pritchard
             .text-p-base.text-textColor6 @dapritchard_
-          = link_to icon('external-site-twitter', "Twitter", css_class: 'filter-twitter h-[16px] w-[16px]'), "https://twitter.com/dapritchard_/status/1549978935995338753", class: 'ml-auto p-8'
+          = link_to icon('external-site-twitter', "Twitter", css_class: 'filter-twitter h-[16px] w-[16px]'), "https://twitter.com/dapritchard_/status/1549978935995338753", class: 'ms-auto p-8'
         %p.text-p-large
           = t('.testimonials.dapritchard_html', twitter_handle: tag.em('@exercism_io', class: 'not-italic font-medium text-purple'))
 
       .flex.flex-col.py-20.px-24
         .flex.items-center.mb-12
-          = image_tag "photos/twitter-zippkode.jpg", class: 'w-[40px] h-[40px] rounded-circle mr-12'
+          = image_tag "photos/twitter-zippkode.jpg", class: 'w-[40px] h-[40px] rounded-circle me-12'
           .flex.flex-col
             .label-large Karl 🇺🇦
             .text-p-base.text-textColor6 @zippcode
-          = link_to icon('external-site-twitter', "Twitter", css_class: 'filter-twitter h-[16px] w-[16px]'), "https://twitter.com/zippkode/status/1561075536834838530", class: 'ml-auto p-8'
+          = link_to icon('external-site-twitter', "Twitter", css_class: 'filter-twitter h-[16px] w-[16px]'), "https://twitter.com/zippkode/status/1561075536834838530", class: 'ms-auto p-8'
         %p.text-p-large
           = t('.testimonials.zippkode_html', twitter_handle: tag.em('@exercism_io', class: 'not-italic font-medium text-purple'))
 
       .flex.flex-col.py-20.px-24
         .flex.items-center.mb-12
-          = image_tag "photos/twitter-alebaffa.jpg", class: 'w-[40px] h-[40px] rounded-circle mr-12'
+          = image_tag "photos/twitter-alebaffa.jpg", class: 'w-[40px] h-[40px] rounded-circle me-12'
           .flex.flex-col
             .label-large Alessandro Baffa
             .text-p-base.text-textColor6 @alebaffa
-          = link_to icon('external-site-twitter', "Twitter", css_class: 'filter-twitter h-[16px] w-[16px]'), "https://twitter.com/alebaffa/status/1545972418497302528", class: 'ml-auto p-8'
+          = link_to icon('external-site-twitter', "Twitter", css_class: 'filter-twitter h-[16px] w-[16px]'), "https://twitter.com/alebaffa/status/1545972418497302528", class: 'ms-auto p-8'
         %p.text-p-large
           = t('.testimonials.alebaffa_html', twitter_handle: tag.em('@exercism_io', class: 'not-italic font-medium text-purple'))
 
   .md-container.mb-64
     .flex.flex-col.md:flex-row
-      .md:mr-32.mb-48.md:mb-0.shadow-lg.flex-grow.bg-backgroundColorA.rounded-16.py-40.px-48
+      .md:me-32.mb-48.md:mb-0.shadow-lg.flex-grow.bg-backgroundColorA.rounded-16.py-40.px-48
         %h2.text-h1.mb-32= t('.volunteers_section.title')
         .grid.grid-cols-1.gap-20.lg:grid-cols-3
           .flex.flex-col
@@ -97,7 +97,7 @@
 
         .flex.flex-wrap.mt-32.overflow-y-hidden{ class: 'h-[76px]' }
           - @contributor_avatars.each do |avatar|
-            = image_tag avatar, class: 'bg-backgroundColorA h-[32px] w-[32px] mr-[-14px] mb-12 rounded-circle'
+            = image_tag avatar, class: 'bg-backgroundColorA h-[32px] w-[32px] me-[-14px] mb-12 rounded-circle'
 
       %div{ class: 'w-fill md:max-w-[374px]' }
         .py-24.px-24.pt-60.shadow-base.mb-32.bg-backgroundColorA.relative
@@ -141,7 +141,7 @@
         = t('.mission_cta.description')
       .flex.flex-col.border.border-2.border-gradient.rounded-16.md:px-40.px-24.py-24.shadow-smZ1
         .flex.flex-col.gap-8.md:gap-0.items-center.mx-auto.mb-24.md:flex-row
-          = image_tag "team/jeremy-walker.jpg", alt: t('.mission_cta.jeremy_walker_photo_alt'), class: 'w-[64px] h-[64px] md:mr-24 md:mb-4 rounded-circle'
+          = image_tag "team/jeremy-walker.jpg", alt: t('.mission_cta.jeremy_walker_photo_alt'), class: 'w-[64px] h-[64px] md:me-24 md:mb-4 rounded-circle'
           .flex.flex-col.text-left
             .md:text-h4.text-h5.mb-4
               = t('.mission_cta.organization_support_title')
@@ -151,7 +151,7 @@
                 %span.text-textColor2.font-medium Jeremy Walker
               = t('.mission_cta.contact_suffix')
         = link_to "mailto:jeremy@exercism.org", class: "btn btn-primary" do
-          = graphical_icon "envelope", css_class: "mr-16"
+          = graphical_icon "envelope", css_class: "me-16"
           %span.md:text-16.text-14 jeremy@exercism.org
 
   .lg-container.mb-64

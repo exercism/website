@@ -23,7 +23,7 @@
     & .buttons {
         @apply flex items-center;
         & button {
-            @apply mr-16;
+            @apply me-16;
         }
     }
 }

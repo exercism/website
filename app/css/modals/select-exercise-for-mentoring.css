@@ -38,12 +38,12 @@
             & .c-track-icon {
                 height: 32px;
                 width: 32px;
-                @apply mr-24;
+                @apply me-24;
             }
             & .c-exercise-icon {
                 height: 48px;
                 width: 48px;
-                @apply mr-16;
+                @apply me-16;
             }
             & .exercise-title {
                 @apply text-18 font-medium leading-140 text-textColor2;
@@ -51,24 +51,24 @@
             }
             & .num-iterations {
                 @apply flex items-center;
-                @apply py-6 px-12 ml-40;
+                @apply py-6 px-12 ms-40;
                 @apply font-medium leading-160;
                 @apply border-1 border-borderColor5 rounded-5;
 
                 & .c-icon {
                     height: 16px;
                     width: 16px;
-                    @apply mr-6;
+                    @apply me-6;
                 }
             }
             & .last-touched {
                 @apply text-textColor6;
-                @apply ml-40;
+                @apply ms-40;
             }
             & .action-icon {
                 height: 16px;
                 width: 16px;
-                @apply ml-40;
+                @apply ms-40;
             }
         }
     }

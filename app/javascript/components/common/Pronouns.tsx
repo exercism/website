@@ -47,7 +47,7 @@ function createExample(handle: string, pronouns: string[]) {
         <strong className="whitespace-nowrap">{pronounsString}</strong>.{' '}
         {t('pronouns.forExampleIfLeaving', { handle })}
       </p>
-      <blockquote className="block border-l-3 border-borderColor6 mt-8 pl-8 italic">
+      <blockquote className="block border-s-3 border-borderColor6 mt-8 ps-8 italic">
         {t('pronouns.wasGreat', {
           handle,
           pronoun1: pronouns[0],

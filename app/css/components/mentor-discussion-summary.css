@@ -6,14 +6,14 @@
         height: 42px;
         width: 42px;
 
-        @apply mr-16 flex-shrink-0;
+        @apply me-16 flex-shrink-0;
     }
     & .info {
         @apply flex flex-col;
         overflow: hidden;
         max-width: 180px;
         @apply leading-150 font-medium;
-        @apply mr-auto;
+        @apply me-auto;
 
         & .handle {
             @apply flex items-center;
@@ -30,26 +30,26 @@
         }
     }
     & .c-tag {
-        @apply ml-16;
+        @apply ms-16;
         @apply border-darkBlue text-lightBlue bg-veryLightBlue;
     }
     & .comments {
-        @apply flex flex-shrink-0 items-center justify-center ml-auto;
+        @apply flex flex-shrink-0 items-center justify-center ms-auto;
         @apply font-semibold text-14 leading-150 text-textColor2 text-orange;
-        @apply ml-16;
+        @apply ms-16;
 
         & .c-icon {
-            @apply mr-6;
+            @apply me-6;
             height: 16px;
             width: 16px;
             filter: var(--orange-filter);
         }
     }
     & time {
-        @apply ml-16 flex-shrink-0 text-textColor6;
+        @apply ms-16 flex-shrink-0 text-textColor6;
     }
     & .action-icon {
-        @apply ml-24 text-textColor6;
+        @apply ms-24 text-textColor6;
         height: 16px;
         width: 16px;
     }

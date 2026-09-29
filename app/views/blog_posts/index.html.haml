@@ -4,14 +4,14 @@
 #page-blog
   %header.pt-16.pb-24.md:pb-16.mb-32.md:mb-48
     .lg-container.flex.flex-col.md:flex-row.items-center
-      = graphical_icon "community-solutions", category: 'graphics', css_class: 'main-graphic mb-8 md:mb-0 md:mr-24'
-      .flex.flex-col.md:mr-auto
-        %h1.text-h1.mb-8.text-center.md:text-left= t('.header.title')
+      = graphical_icon "community-solutions", category: 'graphics', css_class: 'main-graphic mb-8 md:mb-0 md:me-24'
+      .flex.flex-col.md:me-auto
+        %h1.text-h1.mb-8.text-center.md:text-start= t('.header.title')
         %p.text-p-large.mb-20.md:mb-0
           = t('.header.description_prefix')
           = link_to t('.header.description_link'), contributing_contributors_path
 
-      .socials.flex.items-center.md:ml-24
+      .socials.flex.items-center.md:ms-24
         = link_to "https://github.com/exercism", class: 'c-social-icon' do
           = graphical_icon 'external-site-github', css_class: 'filter-textColor1'
           GitHub
@@ -35,7 +35,7 @@
           %span= link_text
           = graphical_icon 'arrow-right'
 
-      .hidden.lg:block.lg:ml-48.self-start.main-image-link
+      .hidden.lg:block.lg:ms-48.self-start.main-image-link
         = image_tag main_post.image_url, alt: "", class: 'rounded-8 w-100'
 
     %h2.text-h3.mb-24.md:mb-40= t('.other_posts.title')

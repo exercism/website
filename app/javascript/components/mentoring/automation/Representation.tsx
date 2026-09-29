@@ -137,7 +137,7 @@ export function Representations({
 
           <div className="flex flex-row flex-grow justify-between">
             <SearchInput
-              className="mr-24"
+              className="me-24"
               setFilter={(input) => {
                 setCriteria(input)
                 handlePageResetOnInputChange(input)

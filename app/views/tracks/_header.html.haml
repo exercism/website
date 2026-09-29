@@ -4,9 +4,9 @@
       .flex-grow.w-100
         .flex.items-center.relative.lg:static
           = render ReactComponents::Dropdowns::TrackMenu.new(track)
-          = track_icon(track, css_class: 'mr-16 lg:mr-20')
+          = track_icon(track, css_class: 'me-16 lg:me-20')
           .flex.flex-col.md:flex-row.md:items-center
-            .text-h1.md:mr-24= track.title
+            .text-h1.md:me-24= track.title
             .students.hidden.lg:flex.items-center
               = graphical_icon("students")
               %span

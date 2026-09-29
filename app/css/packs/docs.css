@@ -1,5 +1,6 @@
 @import "../minimal_tailwind.css";
 @import "../ui-kit/minimal.css";
+@import "../rtl";
 
 @import "../pages/docs-show";
 @import "../pages/docs-index";

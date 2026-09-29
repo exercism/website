@@ -34,7 +34,7 @@
     & .c-icon {
         height: 24px;
         width: 24px;
-        @apply mr-12;
+        @apply me-12;
     }
     & span {
         @apply text-16 leading-150 text-textColor9 font-semibold;

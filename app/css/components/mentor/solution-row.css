@@ -20,14 +20,14 @@
             height: 32px;
             width: 32px;
 
-            @apply mr-24;
+            @apply me-24;
         }
 
         & .c-avatar {
             height: 48px;
             width: 48px;
 
-            @apply mr-16;
+            @apply me-16;
         }
         & .--info {
             @apply flex-grow;
@@ -37,7 +37,7 @@
                 @apply font-medium text-16 text-textColor2 leading-160;
                 & .dot,
                 & .c-icon {
-                    @apply ml-8;
+                    @apply ms-8;
                 }
                 .handle-with-flair-icon {
                     @apply m-0;
@@ -59,23 +59,23 @@
         }
 
         & .--new-iteration {
-            @apply flex items-center ml-56;
+            @apply flex items-center ms-56;
             @apply font-semibold leading-code text-orange;
             & .c-icon {
-                @apply mr-12;
+                @apply me-12;
                 height: 22px;
                 width: 22px;
             }
         }
         & .--comments-count {
-            @apply flex items-center justify-center ml-56;
+            @apply flex items-center justify-center ms-56;
             @apply font-semibold text-14 text-textColor6 leading-code;
             @apply py-4 px-12 border-1 rounded-5;
             background: var(--backgroundColorTracksListNew);
             color: var(--textColorCommentsCount);
             width: 66px;
             & .c-icon {
-                @apply mr-6;
+                @apply me-6;
                 height: 16px;
                 width: 16px;
                 filter: var(--iconFilterCommentsCount);
@@ -84,16 +84,16 @@
         & .--status {
             @apply font-medium text-14 text-textColor6 leading-code;
             @apply py-4 px-12 border-borderLight border-1 rounded-100;
-            @apply ml-56;
+            @apply ms-56;
         }
         & time {
             @apply font-medium text-14 text-textColor6 leading-code;
-            @apply ml-32 text-right;
+            @apply ms-32 text-end;
             width: 140px;
         }
 
         & .action-icon {
-            @apply ml-36;
+            @apply ms-36;
             @apply filter-textColor6;
 
             height: 16px;

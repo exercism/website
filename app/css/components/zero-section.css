@@ -5,7 +5,7 @@
         .c-track-icon {
             height: 64px;
             width: 64px;
-            margin-left: -18px;
+            margin-inline-start: -18px;
         }
     }
 }

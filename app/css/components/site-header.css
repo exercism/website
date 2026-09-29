@@ -46,7 +46,7 @@ body.keyboard-navigation .nav-element:hover .arrow {
                 @apply sm:flex flex-row;
             }
             .c-icon {
-                @apply sm:block hidden mr-8;
+                @apply sm:block hidden me-8;
                 filter: none !important;
                 height: 24px;
                 width: 24px;
@@ -63,7 +63,7 @@ body.keyboard-navigation .nav-element:hover .arrow {
     & .exercism-link {
         /* todo remove this */
         @apply flex items-center gap-6;
-        @apply mr-32 flex-shrink-0;
+        @apply me-32 flex-shrink-0;
         @apply max-w-[45px] sm:max-w-[unset] lg:max-w-[32px] xl:max-w-[unset];
         overflow: hidden;
 
@@ -95,7 +95,7 @@ body.keyboard-navigation .nav-element:hover .arrow {
 
     & nav {
         @apply hidden;
-        @apply lg:block lg:mr-16;
+        @apply lg:block lg:me-16;
 
         & ul {
             @apply flex items-center;
@@ -115,18 +115,18 @@ body.keyboard-navigation .nav-element:hover .arrow {
     }
 
     & nav.signed-out {
-        @apply mr-auto;
+        @apply me-auto;
     }
 
     & .user-section {
         @apply flex justify-end items-center;
-        @apply ml-auto;
+        @apply ms-auto;
 
         & .new-testimonial,
         & .new-badge {
             width: 28px;
             height: 28px;
-            @apply mr-36;
+            @apply me-36;
             background-position: center center;
             background-repeat: no-repeat;
 
@@ -139,10 +139,10 @@ body.keyboard-navigation .nav-element:hover .arrow {
             background-image: var(--newBadgeIcon);
         }
         & .c-notification {
-            @apply ml-8 mr-48;
+            @apply ms-8 me-48;
         }
         & .c-react-wrapper-dropdowns-reputation {
-            @apply hidden xl:block lg:mr-48;
+            @apply hidden xl:block lg:me-48;
         }
         & .c-react-wrapper-dropdowns-dropdown {
             min-width: 74px;
@@ -155,7 +155,7 @@ body.keyboard-navigation .nav-element:hover .arrow {
             height: 42px;
             width: 42px;
 
-            @apply mr-16;
+            @apply me-16;
             box-shadow: 0px 4px 16px 0px rgba(var(--shadowColorMain), 0.3);
         }
         & .c-icon {
@@ -180,8 +180,8 @@ body.keyboard-navigation .nav-element:hover .arrow {
                 content: "New";
                 @apply bg-[url("icons/sparkle-warning.svg")] bg-[length:12px] bg-no-repeat bg-[8px_center];
                 /* most of this is copied from site_header.rb L70 */
-                /* pl-24 = pl-8 + bg-size 12px + mr-4 */
-                @apply ml-8 text-warning bg-lightOrange py-6 pr-8 pl-24 rounded-100 font-semibold text-[13px] flex items-center;
+                /* ps-24 = ps-8 + bg-size 12px + me-4 */
+                @apply ms-8 text-warning bg-lightOrange py-6 pe-8 ps-24 rounded-100 font-semibold text-[13px] flex items-center;
             }
         }
 
@@ -213,7 +213,7 @@ body.keyboard-navigation .nav-element:hover .arrow {
                     height: 42px;
                     width: 42px;
 
-                    @apply mr-16;
+                    @apply me-16;
                     box-shadow: 0px 4px 16px 0px
                         rgba(var(--shadowColorMain), 0.3);
                 }
@@ -230,7 +230,7 @@ body.keyboard-navigation .nav-element:hover .arrow {
                 & .c-icon {
                     height: 16px;
                     width: 16px;
-                    @apply ml-32 filter-textColor6;
+                    @apply ms-32 filter-textColor6;
                 }
             }
         }
@@ -262,7 +262,7 @@ body.keyboard-navigation .nav-element:hover .arrow {
         & li.reputation {
             @apply mb-20 xl:hidden;
             & .c-primary-reputation {
-                @apply mr-0;
+                @apply me-0;
             }
         }
 
@@ -283,7 +283,7 @@ body.keyboard-navigation .nav-element:hover .arrow {
             }
 
             & .language-names {
-                @apply flex flex-col min-w-0 text-left leading-130;
+                @apply flex flex-col min-w-0 text-start leading-130;
             }
 
             & .language-native {
@@ -312,7 +312,7 @@ body.keyboard-navigation .nav-element:hover .arrow {
                 }
 
                 & > .language-chevron {
-                    @apply ml-auto flex-shrink-0 w-[10px] h-[10px];
+                    @apply ms-auto flex-shrink-0 w-[10px] h-[10px];
                     @apply filter-textColor6;
                 }
             }
@@ -320,7 +320,7 @@ body.keyboard-navigation .nav-element:hover .arrow {
             /* Opens upwards: the switcher sits at the bottom of a menu that is
              * itself anchored to the header. */
             & .language-switcher[open] > .language-panel {
-                @apply absolute left-0 right-0 z-dropdown;
+                @apply absolute start-0 end-0 z-dropdown;
                 bottom: 100%;
                 margin-bottom: 6px;
                 @apply p-6 overflow-y-auto;
@@ -337,7 +337,7 @@ body.keyboard-navigation .nav-element:hover .arrow {
             }
 
             & .language-option {
-                @apply flex items-center gap-10 w-100 text-left;
+                @apply flex items-center gap-10 w-100 text-start;
                 @apply px-10 py-8 rounded-8;
             }
 
@@ -354,7 +354,7 @@ body.keyboard-navigation .nav-element:hover .arrow {
             }
 
             & .language-check {
-                @apply ml-auto flex-shrink-0 w-[18px] h-[18px];
+                @apply ms-auto flex-shrink-0 w-[18px] h-[18px];
                 filter: var(--purple-filter);
             }
         }
@@ -388,7 +388,7 @@ body.keyboard-navigation .nav-element:hover .arrow {
     }
     & .auth-buttons {
         @apply flex items-center justify-end gap-8;
-        @apply ml-auto;
+        @apply ms-auto;
     }
     & .auth-buttons > a,
     & .explore-menu {
@@ -399,7 +399,7 @@ body.keyboard-navigation .nav-element:hover .arrow {
         }
     }
     & .explore-menu {
-        @apply px-16 ml-20;
+        @apply px-16 ms-20;
         @apply lg:hidden;
 
         & .c-icon {
@@ -443,7 +443,7 @@ body.keyboard-navigation .nav-element:hover .arrow {
         }
         & .user-menu,
         & .explore-menu {
-            @apply ml-12;
+            @apply ms-12;
         }
     }
     @media screen and (max-width: 340px) {
@@ -462,7 +462,7 @@ body.namespace-docs {
         @apply border-0;
 
         & .exercism-link {
-            @apply mr-32;
+            @apply me-32;
         }
 
         & .docs-search {
@@ -481,7 +481,7 @@ body.namespace-about {
         @apply border-0;
 
         & .exercism-link {
-            @apply mr-32;
+            @apply me-32;
         }
     }
 }

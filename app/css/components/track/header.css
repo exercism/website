@@ -16,7 +16,7 @@
     & .c-track-icon {
         height: 48px;
         width: 48px;
-        @apply mr-16;
+        @apply me-16;
 
         @screen lg {
             height: 54px;
@@ -29,7 +29,7 @@
             height: 21px;
             width: 21px;
             filter: var(--textColor6-filter);
-            @apply mr-12;
+            @apply me-12;
         }
     }
 
@@ -44,7 +44,7 @@
             }
         }
         & :last-child {
-            @apply mr-0;
+            @apply me-0;
         }
     }
 
@@ -52,7 +52,7 @@
         @apply items-center justify-end;
         @apply leading-150;
         & .c-faces {
-            @apply mr-16;
+            @apply me-16;
         }
         & .contributors {
             @apply font-semibold text-textColor2;
@@ -73,7 +73,7 @@
         margin-top: -17px;
     }
     & .c-track-menu {
-        @apply ml-48;
+        @apply ms-48;
         & li {
             white-space: nowrap;
         }

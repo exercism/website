@@ -87,7 +87,7 @@ export function UploadVideoForm({
         onClick={onUseDifferentVideoClick}
         className="btn-m btn-default shadow-xsZ1v2 border-borderLight2 text-textColor6 mb-16"
       >
-        <Icon icon="reset" alt={t('uploadVideoForm.reset')} className="!ml-0" />
+        <Icon icon="reset" alt={t('uploadVideoForm.reset')} className="!ms-0" />
         {t('uploadVideoForm.useDifferentVideo')}
       </button>
 
@@ -111,7 +111,7 @@ export function UploadVideoForm({
           {t('uploadVideoForm.isTheVideoYoursOrSomeoneElses')}
         </legend>
         <RadioButton
-          className="mr-24"
+          className="me-24"
           labelClassName="text-16"
           name="submitter_is_author"
           label={t('uploadVideoForm.mine')}

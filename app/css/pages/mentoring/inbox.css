@@ -20,10 +20,10 @@
                 @apply border-backgroundColorC border-b-1;
 
                 & .c-track-filter {
-                    @apply mr-16;
+                    @apply me-16;
                 }
                 & .--search {
-                    @apply mr-16;
+                    @apply me-16;
                     width: 60%;
                     max-width: 450px;
                 }
@@ -31,7 +31,7 @@
 
             & header.inbox-header {
                 & .c-single-select {
-                    margin-left: auto;
+                    margin-inline-start: auto;
                 }
             }
 

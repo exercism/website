@@ -13,7 +13,7 @@
             & .c-track-icon {
                 height: 64px;
                 width: 64px;
-                margin-left: -18px;
+                margin-inline-start: -18px;
             }
         }
         & h1 {
@@ -30,7 +30,7 @@
             @apply py-12 mb-32;
 
             & .--tag-option-list {
-                @apply absolute left-0 right-0;
+                @apply absolute start-0 end-0;
                 @apply bg-backgroundColorA;
                 @apply z-dropdown;
 
@@ -59,7 +59,7 @@
                     }
                     & .--option {
                         & input {
-                            @apply mr-8;
+                            @apply me-8;
                         }
                     }
                 }
@@ -85,7 +85,7 @@
                 @apply hidden items-center;
                 @apply px-20;
                 @apply rounded-5;
-                @apply mr-48;
+                @apply me-48;
                 background: var(--backgroundColorTracksListState);
                 height: 48px;
 
@@ -94,15 +94,15 @@
                     color: var(--textColorTracksListState);
                 }
                 & .--reset-btn {
-                    @apply ml-24;
+                    @apply ms-24;
                 }
                 @apply lg:flex;
             }
             & .--filter-btn {
-                @apply mr-0 lg:mr-40;
+                @apply me-0 lg:me-40;
             }
             & .c-single-select {
-                @apply hidden ml-auto lg:flex;
+                @apply hidden ms-auto lg:flex;
             }
         }
         & .joined-tracks {
@@ -127,7 +127,7 @@
             & > .c-track-icon {
                 height: 80px;
                 width: 80px;
-                @apply mr-20;
+                @apply me-20;
             }
             & .--info {
                 @apply flex-grow;
@@ -138,11 +138,11 @@
                     & > .c-track-icon {
                         height: 48px;
                         width: 48px;
-                        @apply mr-12;
+                        @apply me-12;
                     }
 
                     & .--title {
-                        @apply mr-12;
+                        @apply me-12;
                         @apply text-h4;
                     }
                     & .--v3,
@@ -150,13 +150,13 @@
                         @apply flex items-center justify-center flex-shrink-0;
                         @apply text-13 leading-170 font-semibold;
                         @apply px-12 rounded-100;
-                        @apply mr-12;
+                        @apply me-12;
                         height: 28px;
 
                         & .c-icon {
                             height: 16px;
                             width: 16px;
-                            @apply mr-8;
+                            @apply me-8;
                         }
                     }
 
@@ -182,7 +182,7 @@
                         @apply flex items-center;
                         @apply flex-shrink-0;
                         @apply text-14 leading-170 font-semibold;
-                        @apply ml-auto;
+                        @apply ms-auto;
                         @apply py-4 px-12 rounded-5;
                         height: 32px;
                         background: var(--backgroundColorTracksListJoined);
@@ -201,15 +201,15 @@
                     & li {
                         @apply flex items-center;
                         &:first-child {
-                            @apply mr-24;
+                            @apply me-24;
                         }
 
                         & .c-icon {
                             height: 21px;
                             width: 21px;
-                            @apply mr-8;
+                            @apply me-8;
                             filter: var(--textColor6-filter);
-                            @apply md:mr-12;
+                            @apply md:me-12;
                         }
                     }
                 }

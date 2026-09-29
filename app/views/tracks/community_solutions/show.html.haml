@@ -31,7 +31,7 @@
     .content.lg-container.flex.flex-col.lg:flex-row.lg:items-center
       = track_icon @track
       .flex.items-start.sm:items-center
-        .avatar.mr-16.sm:mr-32
+        .avatar.mr-16.sm:me-32
           = render ReactComponents::UserIdentity::Avatar.new(@author.handle, link: true)
 
         %h1
@@ -47,7 +47,7 @@
             = t('.solution_heading.in')
             = link_to @track.title, @track
 
-      .buttons.lg:ml-auto.mt-24.lg:mt-0.gap-8
+      .buttons.lg:ms-auto.mt-24.lg:mt-0.gap-8
         = render ReactComponents::CommunitySolutions::StarButton.new(@solution)
         = render ViewComponents::CommunitySolutions::ShareSolutionButton.new(@solution)
 
@@ -76,13 +76,13 @@
       %a{ name: "comments" }
       = render ReactComponents::CommunitySolutions::CommentsList.new(@solution)
 
-    .rhs.lg:ml-48
+    .rhs.lg:ms-48
       -# rubocop:disable Lint/SafeNavigationConsistency
       - if @exercise_representation&.oldest_solution && @exercise_representation&.prestigious_solution
         -# rubocop:enable Lint/SafeNavigationConsistency
         .border-b-1.border-borderColor7.mb-24.pb-24
           %h2.flex.items-center.mb-8.text-h4
-            = graphical_icon "stats", css_class: 'mr-16 h-[24px] w-[24px] filter-textColor2'
+            = graphical_icon "stats", css_class: 'me-16 h-[24px] w-[24px] filter-textColor2'
             = t('.about_solution.title')
           %p.text-p-base.mb-12= t('.about_solution.description')
           .py-16.shadow-base.rounded-8.bg-backgroundColorA.text-center.grid.grid-cols-3.leading-150
@@ -96,7 +96,7 @@
 
             .flex.flex-col
               .text-18.font-medium.text-textColor2.mb-8.flex.items-center.justify-center
-                = icon "reputation", t('.about_solution.reputation_alt_text'), css_class: "w-[16px] h-[16px] mr-6 filter-textColor2"
+                = icon "reputation", t('.about_solution.reputation_alt_text'), css_class: "w-[16px] h-[16px] me-6 filter-textColor2"
                 -# This is the *prestigious solution author's* track-scoped reputation, which used to be a live SUM on every request. It's now fetched.
                 = render ReactComponents::UserIdentity::Reputation.new(@exercise_representation.prestigious_solution.user.handle, track: @track.slug, plain: true)
               .text-15= t('.about_solution.max_track_rep')
@@ -104,7 +104,7 @@
       - if @approach
         .border-b-1.border-borderColor7.mb-24.pb-24
           %h2.flex.items-center.mb-8.text-h4
-            = graphical_icon "dig-deeper", css_class: 'mr-16 h-[24px] w-[24px] filter-textColor2'
+            = graphical_icon "dig-deeper", css_class: 'me-16 h-[24px] w-[24px] filter-textColor2'
             = t('.solution_approach.title')
           %p.text-p-base.mb-12= t('.solution_approach.description')
 
@@ -112,7 +112,7 @@
             %h5.text-h5.mb-2= @approach.title
             %p.text-p-base.text-textColor6.mb-6= @approach.blurb
             .flex.items-center
-              = graphical_icon 'mentoring-soft-skills', css_class: 'w-[24px] h-[24px] mr-6 filter-textColor7'
+              = graphical_icon 'mentoring-soft-skills', css_class: 'w-[24px] h-[24px] me-6 filter-textColor7'
               %p.text-p-small.text-textColor6= t('.solution_approach.used_by', num_solutions: @approach.num_solutions)
 
       .about

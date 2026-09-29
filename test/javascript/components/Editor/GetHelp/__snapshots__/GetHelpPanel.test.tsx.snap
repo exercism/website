@@ -21,7 +21,7 @@ exports[`GetHelpPanel tests Component snapshot test 1`] = `
         >
           <img
             alt=""
-            class="c-icon mr-16 filter-textColor6"
+            class="c-icon me-16 filter-textColor6"
             height="24"
             src="undefined/assets/undefined"
             width="24"
@@ -414,7 +414,7 @@ to add values.
         >
           <img
             alt=""
-            class="c-icon mr-16 filter-textColor6"
+            class="c-icon me-16 filter-textColor6"
             height="24"
             src="undefined/assets/undefined"
             width="24"
@@ -527,7 +527,7 @@ to add values.
         >
           <img
             alt="icon for Ruby track"
-            class="c-icon c-track-icon w-[24px] h-[24px] mr-16"
+            class="c-icon c-track-icon w-[24px] h-[24px] me-16"
             src="undefined/assets/undefined"
           />
           <div

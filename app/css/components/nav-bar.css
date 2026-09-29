@@ -41,7 +41,7 @@
                 visibility: visible;
             }
             .arrow {
-                transform: translateX(-50%) translateY(0) rotate(45deg);
+                transform: translateY(0) rotate(45deg);
             }
             .nav-element-dropdown {
                 transform: translateY(0);
@@ -61,10 +61,16 @@
             width: var(--a-size);
             height: var(--a-size);
             bottom: 0;
-            left: 50%;
+            inset-inline-start: 50%;
+            /*
+             * Pull back by half the nub's width to centre it. A logical margin
+             * rather than translateX(-50%), because translate does not mirror
+             * under dir=rtl and left the nub off-centre by its own width.
+             */
+            margin-inline-start: calc(-1 * var(--a-size) / 2);
             background-color: var(--nav-backgroundColor);
             clip-path: polygon(0% 0%, 100% 0%, 0% 100%);
-            transform: translateX(-50%) translateY(-10px) rotate(45deg);
+            transform: translateY(-10px) rotate(45deg);
             border-radius: 3px;
             vertical-align: middle;
         }
@@ -104,7 +110,12 @@
 
             height: var(--nd-height);
             width: var(--nd-width);
-            left: var(--dropdown-offset);
+            /*
+             * Anchored to the inline start edge, not the physical left: under
+             * RTL the nav sits at the right of the viewport, so a physical
+             * `left` would push this 800px panel off the right edge.
+             */
+            inset-inline-start: var(--dropdown-offset);
             @apply top-64 z-menu;
             transform: translateY(-10px);
             @apply shadow-navDropdown rounded-8;
@@ -173,8 +184,16 @@
                         height: var(--nd-height);
                         top: var(--nd-height);
                         width: var(--nd-view-width);
-                        transform: translate(100%, -100%);
-                        right: 0;
+                        /*
+                         * Sits alongside the <ul>, filling the rest of the
+                         * panel. Anchored and shifted along the inline axis so
+                         * it lands on the correct side under RTL: `right: 0`
+                         * plus translateX(100%) pushed it out past the panel
+                         * and off the viewport, because neither mirrors.
+                         */
+                        inset-inline-end: 0;
+                        transform: translateY(-100%);
+                        margin-inline-end: calc(-1 * var(--nd-view-width));
                     }
 
                     &:hover,

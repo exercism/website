@@ -9,7 +9,7 @@ en:
           features like %{strong_text_1}, %{strong_text_2}, %{strong_text_3},
           %{strong_text_4} and more.
         strong_text_1: Dark Mode
-        strong_text_2: ChatGPT integration
+        strong_text_2: Exercism AI
         strong_text_3: extra mentoring slots
         strong_text_4: exclusive badges
         learn_more_button: Learn More

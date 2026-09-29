@@ -42,11 +42,12 @@ en:
           darkest glory. You can toggle your theme in your <a
           href="%{user_preferences_link}">User Preferences</a>.
       chatgpt:
-        title: ChatGPT
+        title: Exercism AI
         description:
-          Our ChatGPT integration will help you get unstuck directly in our
-          online editor. You get 3x v4.0 requests and 30x v3.5 requests per
-          calendar month. Let us know how you get on!
+          Exercism AI helps you get unstuck directly in our online editor,
+          with unlimited conversations on every exercise. It guides you
+          towards the answer rather than giving it away. Let us know how you
+          get on!
       name_tag_flair_and_badges:
         title: Name tag flair & Badges
         description_html:

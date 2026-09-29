@@ -1,4 +1,7 @@
 class SitemapsController < ApplicationController
+  SITEMAP_XMLNS = "http://www.sitemaps.org/schemas/sitemap/0.9".freeze
+  private_constant :SITEMAP_XMLNS
+
   skip_before_action :authenticate_user!
   before_action :cache_sitemap!, except: [:robots_txt]
   before_action :cache_robots_txt!, only: [:robots_txt]
@@ -24,18 +27,15 @@ class SitemapsController < ApplicationController
   end
 
   def index
-    builder = Nokogiri::XML::Builder.new do |xml|
-      xml.sitemapindex(xmlns: "http://www.sitemaps.org/schemas/sitemap/0.9") do
-        xml.sitemap { xml.loc sitemap_general_url(format: :xml) }
-        xml.sitemap { xml.loc sitemap_profiles_url(format: :xml) }
-        Track.active.order('num_concepts DESC, num_exercises DESC').each do |track|
-          xml.sitemap do
-            xml.loc sitemap_track_url(track, format: :xml)
-          end
-        end
-      end
+    locs = [sitemap_general_url(format: :xml), sitemap_profiles_url(format: :xml)]
+    Track.active.order('num_concepts DESC, num_exercises DESC').each do |track|
+      locs << sitemap_track_url(track, format: :xml)
     end
-    render xml: builder.to_xml
+
+    xml = +%(<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="#{SITEMAP_XMLNS}">\n)
+    locs.each { |loc| xml << "  <sitemap>\n    <loc>#{xml_text(loc)}</loc>\n  </sitemap>\n" }
+    xml << "</sitemapindex>\n"
+    render xml:
   end
 
   def general
@@ -149,19 +149,21 @@ class SitemapsController < ApplicationController
   # served locales, and at 19 locales the large track sitemaps (e.g. Python) built
   # documents big enough to exhaust a webserver's memory. The pages themselves
   # declare their alternates (see MetaTagsHelper), which is where crawlers find them.
+  #
+  # The XML is written straight into a string. Nokogiri's builder holds the whole
+  # document as a tree of nodes, which costs many times the size of the output.
   def pages_to_xml(pages)
-    builder = Nokogiri::XML::Builder.new do |xml|
-      xml.urlset(xmlns: "http://www.sitemaps.org/schemas/sitemap/0.9") do
-        pages.each do |page|
-          xml.url do
-            xml.loc page[0]
-            xml.lastmod page[1].xmlschema
-            xml.changefreq page[2]
-            xml.priority page[3]
-          end
-        end
-      end
+    xml = +%(<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="#{SITEMAP_XMLNS}">\n)
+    pages.each do |loc, lastmod, changefreq, priority|
+      xml << "  <url>\n"
+      xml << "    <loc>#{xml_text(loc)}</loc>\n"
+      xml << "    <lastmod>#{lastmod.xmlschema}</lastmod>\n"
+      xml << "    <changefreq>#{changefreq}</changefreq>\n"
+      xml << "    <priority>#{priority}</priority>\n"
+      xml << "  </url>\n"
     end
-    builder.to_xml
+    xml << "</urlset>\n"
   end
+
+  def xml_text(value) = value.to_s.encode(xml: :text)
 end

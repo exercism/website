@@ -108,6 +108,6 @@ class Mentor::Discussion < ApplicationRecord
 
   def student_handle = anonymous_mode? ? "anonymous" : student.handle
   def student_flair = anonymous_mode? ? "anonymous" : student.flair
-  def student_name = anonymous_mode? ? "User in Anonymous mode" : student.name
+  def student_name = anonymous_mode? ? I18n.t("serializers.student.anonymous_name") : student.name
   def student_avatar_url = anonymous_mode? ? nil : student.avatar_url
 end

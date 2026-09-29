@@ -29,7 +29,7 @@ class SerializeStudent
   private
   def anonymous_details
     {
-      name: "User in Anonymous mode",
+      name: I18n.t("serializers.student.anonymous_name"),
       handle: "anonymous",
       reputation: 0,
       num_discussions_with_mentor: 0

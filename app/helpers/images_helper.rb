@@ -11,7 +11,7 @@ module ImagesHelper
   def avatar(user, alt: nil, css_class: 'c-avatar', extra_css_class: nil)
     bg_img(
       user.avatar_url,
-      alt || "Uploaded avatar of #{user.handle}",
+      alt || I18n.t("helpers.images.avatar_alt", handle: user.handle),
       css_class:,
       extra_css_class:
     )
@@ -23,10 +23,10 @@ module ImagesHelper
       kwargs.merge(
         class: ['c-avatar', css_class].compact.join(" "),
         style: "background-image:url(\"#{user.avatar_url}\")",
-        "aria-title": "Link to #{user.handle}'s profile"
+        "aria-title": I18n.t("helpers.images.profile_link_title", handle: user.handle)
       )
     ) do
-      image_tag(user.avatar_url, alt: "Uploaded avatar of #{user.handle}", class: "sr-only")
+      image_tag(user.avatar_url, alt: I18n.t("helpers.images.avatar_alt", handle: user.handle), class: "sr-only")
     end
   end
 

@@ -1,5 +1,15 @@
 en:
   serializers:
+    exercise_approach_for_sharing:
+      title: "Share this approach"
+    exercise_article_for_sharing:
+      title: "Share this article"
+    mentor_requests:
+      first_timer: "First timer"
+    student:
+      anonymous_name: "User in Anonymous mode"
+    submission_test_run:
+      unknown_error: "An unknown error occurred"
     track_for_select:
       all_tracks: "All Tracks"
     profile_image:

@@ -1,0 +1,5 @@
+en:
+  helpers:
+    images:
+      avatar_alt: "Uploaded avatar of %{handle}"
+      profile_link_title: "Link to %{handle}'s profile"

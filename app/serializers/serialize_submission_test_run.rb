@@ -35,7 +35,7 @@ class SerializeSubmissionTestRun
 
   memoize
   def message
-    return "An unknown error occurred" if !test_run.ops_success? && test_run.message.blank?
+    return I18n.t("serializers.submission_test_run.unknown_error") if !test_run.ops_success? && test_run.message.blank?
 
     test_run.message
   end

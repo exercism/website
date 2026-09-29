@@ -52,6 +52,30 @@ class Git::SyncMainDocsTest < ActiveSupport::TestCase
     assert_equal 0, doc.position
   end
 
+  test "removes a main doc that is no longer in its section's config" do
+    TestHelpers.use_docs_test_repo!
+
+    removed = create :document, uuid: SecureRandom.uuid, section: "building", slug: "gone"
+    track_doc = create :document, uuid: SecureRandom.uuid, section: "building", slug: "track-doc", track: create(:track)
+
+    Git::SyncMainDocs.()
+
+    refute Document.exists?(removed.id)
+    assert Document.exists?(track_doc.id)
+    assert_equal 2, Document.where(track: nil, section: "building").count
+  end
+
+  test "a section with no docs in its config removes nothing" do
+    TestHelpers.use_docs_test_repo!
+
+    # The test repo has no mentoring/config.json, which reads as empty
+    kept = create :document, uuid: SecureRandom.uuid, section: "mentoring", slug: "kept"
+
+    Git::SyncMainDocs.()
+
+    assert Document.exists?(kept.id)
+  end
+
   test "open issue for sync failure when not synced successfully" do
     TestHelpers.use_docs_test_repo!
 

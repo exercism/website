@@ -34,7 +34,6 @@ class ProfilesController < ApplicationController
     nil unless stale?(etag: @profile)
   end
 
-  # TODO: (Optional) Add tests for published scope
   def testimonials
     return redirect_to profile_path(@user) unless @profile.testimonials_tab?
 

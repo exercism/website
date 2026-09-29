@@ -17,7 +17,6 @@ module ReactComponents
           num_testimonials_received: num_published_testimonials,
           num_solutions_mentored:,
           num_students_helped: num_students_mentored,
-          # TODO: (Optional) Add test for published
           testimonials: SerializeMentorTestimonials.(user.mentor_testimonials.published.limit(3)),
           links: {
             all: profile.testimonials_tab? ? Exercism::Routes.testimonials_profile_path(user) : nil

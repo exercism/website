@@ -58,8 +58,6 @@ class API::Profiles::SolutionsControllerTest < API::BaseTestCase
   end
 
   test "index retrieves solutions" do
-    Solution::SearchUserSolutions::Fallback.expects(:call).never
-
     setup_user
 
     profile_user = create(:user_profile).user

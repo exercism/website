@@ -32,7 +32,17 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "show doesn't include unpublished testimonials" do
-    skip # TODO: (optional)
+    mentor = create :user
+    create(:user_profile, user: mentor)
+    create :mentor_testimonial, :revealed, mentor:, content: "Published testimonial"
+    create :mentor_testimonial, :unrevealed, mentor:, content: "Unrevealed testimonial"
+    create :mentor_testimonial, :revealed, mentor:, content: "Deleted testimonial", deleted_at: Time.current
+
+    get profile_url(mentor.handle)
+
+    assert_includes response.body, "Published testimonial"
+    refute_includes response.body, "Unrevealed testimonial"
+    refute_includes response.body, "Deleted testimonial"
   end
 
   #########
@@ -86,7 +96,18 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
   # Testimonials #
   ################
   test "testimonials doesn't include unpublished testimonials" do
-    skip # TODO: (optional)
+    mentor = create :user
+    create(:user_profile, user: mentor)
+    create :mentor_testimonial, :revealed, mentor:, content: "Published testimonial"
+    create :mentor_testimonial, :unrevealed, mentor:, content: "Unrevealed testimonial"
+    create :mentor_testimonial, :revealed, mentor:, content: "Deleted testimonial", deleted_at: Time.current
+
+    get testimonials_profile_url(mentor.handle)
+
+    assert_template "profiles/testimonials"
+    assert_includes response.body, "Published testimonial"
+    refute_includes response.body, "Unrevealed testimonial"
+    refute_includes response.body, "Deleted testimonial"
   end
 
   test "testimonials redirects to profile page if user does not have contributions" do

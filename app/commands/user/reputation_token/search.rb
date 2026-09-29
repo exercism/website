@@ -70,7 +70,15 @@ class User::ReputationToken::Search
     end
   end
 
+  # Sorting whole rows makes MySQL read every matching token from disk to
+  # return one page. The ids are in the index, so we page those and then load
+  # only the rows on the page.
   def paginate!
-    @tokens = @tokens.page(page).per(per)
+    paged = @tokens.page(page).per(per)
+    ids = paged.except(:includes).pluck(:id)
+    records = User::ReputationToken.where(id: ids).includes(:track, :exercise).index_by(&:id)
+
+    @tokens = Kaminari.paginate_array(ids.map { |id| records[id] }, total_count: paged.total_count).
+      page(page).per(per)
   end
 end

@@ -20,29 +20,23 @@ class ProfilesController < ApplicationController
       order(num_stars: :desc, updated_at: :desc).
       includes(:exercise, :track, :published_exercise_representation, :user).
       limit(3)
-
-    # TODO: Order by most prominent first (what is the most prominent testimonial?)
-    @testimonials = @user.mentor_testimonials.published.first(3)
   end
 
   def solutions
-    redirect_to profile_path(@user) unless @profile.solutions_tab?
-    return unless stale?(etag: @profile)
+    return redirect_to profile_path(@user) unless @profile.solutions_tab?
 
-    @solutions = Solution::SearchUserSolutions.(
-      @user,
-      status: :published
-    )
-  end
-
-  def contributions
-    redirect_to profile_path(@user) unless @profile.contributions_tab?
     nil unless stale?(etag: @profile)
   end
 
-  # TODO: (Optional) Add tests for published scope
+  def contributions
+    return redirect_to profile_path(@user) unless @profile.contributions_tab?
+
+    nil unless stale?(etag: @profile)
+  end
+
   def testimonials
-    redirect_to profile_path(@user) unless @profile.testimonials_tab?
+    return redirect_to profile_path(@user) unless @profile.testimonials_tab?
+
     nil unless stale?(etag: @profile)
   end
 

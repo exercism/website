@@ -7,7 +7,7 @@
   - if @user_track.external?
     %header.track-header.c-header-with-bg
       .lg-container.container
-        .info.md:mr-64.flex.flex-col
+        .info.md:me-64.flex.flex-col
           %h1.text-h1= t('.header.title', track_title: @track.title)
           %p.text-p-xlarge
             - concepts_clause = @track.course? ? t('.header.concepts_part_course', num_concepts: @user_track.num_concepts, track_title: @track.title) : ""
@@ -17,7 +17,7 @@
             - url = user_signed_in? ? join_track_path(@track) : User::GenerateNewSessionPath.(request, controller)
             - method = user_signed_in? ? :post : :get
             - elem = user_signed_in? ? :button_to : :link_to
-            = send(elem, url, method: method, class: "btn-primary btn-l mb-24 sm:mb-0 sm:mr-24 w-100 sm:w-auto", rel: "nofollow") do
+            = send(elem, url, method: method, class: "btn-primary btn-l mb-24 sm:mb-0 sm:me-24 w-100 sm:w-auto", rel: "nofollow") do
               = graphical_icon(:plus)
               %span= t('.header.join_track_button', track_title: @track.title)
 

@@ -35,8 +35,8 @@
                 background-size: cover;
                 @apply font-bold;
                 @apply px-10;
-                margin-left: -10px;
-                margin-right: -10px;
+                margin-inline-start: -10px;
+                margin-inline-end: -10px;
             }
         }
     }

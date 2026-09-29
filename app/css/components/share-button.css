@@ -14,7 +14,7 @@
         & .c-icon {
             height: 21px;
             width: 21px;
-            @apply mr-8;
+            @apply me-8;
         }
     }
 }

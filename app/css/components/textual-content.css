@@ -162,7 +162,7 @@
         /* Block elements */
         /*****************/
         & blockquote {
-            @apply border-l-4 border-borderColor5 pl-24;
+            @apply border-s-4 border-borderColor5 ps-24;
             @apply text-textColor6;
             @apply mt-16 mb-24;
             & strong {
@@ -203,12 +203,12 @@
         & ul,
         & ol {
             @apply mb-24;
-            margin-left: 14px;
+            margin-inline-start: 14px;
             & li {
-                margin-left: 6px;
+                margin-inline-start: 6px;
                 @apply mt-0;
                 @apply mb-8;
-                @apply pl-4;
+                @apply ps-4;
             }
         }
         & ul li {
@@ -253,7 +253,7 @@
             & td,
             & th {
                 @apply px-24 py-12;
-                @apply text-left;
+                @apply text-start;
             }
             & th {
                 @apply font-mono font-bold leading-150 text-textColor2;

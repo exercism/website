@@ -19,7 +19,7 @@
     & .c-icon {
         height: 24px;
         width: 24px;
-        @apply mr-8;
+        @apply me-8;
         filter: var(--primary-reputation-filter);
     }
     &.--small {

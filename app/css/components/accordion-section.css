@@ -6,7 +6,7 @@
         & > .c-icon {
             height: 24px;
             width: 24px;
-            @apply mr-16;
+            @apply me-16;
             @apply filter-textColor6;
         }
         & > .--title {

@@ -24,7 +24,7 @@ export function DonationStep({
 
   return (
     <div id="a11y-finish-mentor-discussion" className="flex flex-row">
-      <div className="mr-64 max-w-[700px]">
+      <div className="me-64 max-w-[700px]">
         <h3 className="text-h4 mb-4 text-prominentLinkColor">
           {t('donationStep.oneMoreRequest')}
         </h3>

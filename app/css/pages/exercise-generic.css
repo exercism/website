@@ -15,7 +15,7 @@
                 & .c-icon {
                     height: 12px;
                     width: 12px;
-                    @apply ml-6;
+                    @apply ms-6;
                 }
             }
         }
@@ -26,7 +26,7 @@
             @apply shadow-smZ1 p-12 rounded-8 bg-backgroundColorA flex flex-col items-center border-3;
             @apply relative text-center leading-120;
             &:before {
-                @apply absolute top-[-12px] right-[-12px];
+                @apply absolute top-[-12px] end-[-12px];
                 @apply w-[24px] h-[24px] bg-cover;
             }
 

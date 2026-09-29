@@ -10,7 +10,7 @@
     }
 
     & .back {
-        @apply block mr-24;
+        @apply block me-24;
         line-height: var(--nav-height);
         & .c-icon {
             height: 21px;
@@ -21,16 +21,16 @@
     & .c-track-icon {
         height: var(--nav-height);
         width: var(--nav-height);
-        @apply mr-20;
+        @apply me-20;
     }
 
     & .title {
         @apply text-16 font-semibold font-mono;
         line-height: var(--nav-height);
-        @apply mr-12;
+        @apply me-12;
     }
     & .divider {
-        @apply text-textColor6 text-16 mr-12;
+        @apply text-textColor6 text-16 me-12;
     }
     & .item {
         @apply font-mono text-16;

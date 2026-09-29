@@ -17,10 +17,10 @@
             @apply border-backgroundColorC border-b-1;
 
             & .c-track-filter {
-                @apply mr-16;
+                @apply me-16;
             }
             & .--search {
-                @apply mr-16;
+                @apply me-16;
                 width: 60%;
                 max-width: 450px;
             }
@@ -28,7 +28,7 @@
 
         & header.automation-header {
             & .c-track-select {
-                @apply mr-24;
+                @apply me-24;
                 width: 400px;
             }
 
@@ -36,10 +36,10 @@
                 @apply px-16 py-8 font-[600];
 
                 .count {
-                    @apply mr-0;
+                    @apply me-0;
                 }
                 .c-icon.action-icon {
-                    @apply ml-12;
+                    @apply ms-12;
                 }
             }
         }

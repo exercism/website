@@ -50,7 +50,7 @@
                 & .c-icon {
                     height: 16px;
                     width: 16px;
-                    @apply mr-12;
+                    @apply me-12;
                     @apply self-center filter-textColor1NoDark;
                 }
             }
@@ -86,12 +86,12 @@
                 height: 64px;
                 width: 64px;
                 & + .c-track-icon {
-                    @apply ml-24;
+                    @apply ms-24;
                 }
             }
             & .more {
                 @apply text-15 text-lightBlue font-semibold;
-                @apply ml-24;
+                @apply ms-24;
             }
         }
         & .continue-indicator {
@@ -112,12 +112,12 @@
         & .c-tab {
             height: 49px;
             @apply text-18;
-            @apply mr-24 px-24 py-12;
+            @apply me-24 px-24 py-12;
 
             & .c-icon {
                 height: 24px;
                 width: 24px;
-                @apply mr-16;
+                @apply me-16;
                 filter: var(--textColor6-filter);
             }
         }

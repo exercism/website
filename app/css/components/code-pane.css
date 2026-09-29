@@ -23,7 +23,7 @@
             }
             .loc {
                 @apply flex-grow;
-                @apply pr-24;
+                @apply pe-24;
             }
 
             &:hover {

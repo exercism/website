@@ -37,7 +37,7 @@ export function CommunityVideoModal({
         <iframe
           src={video.links.embed}
           frameBorder="0"
-          className="rounded-16 mx-auto absolute top-0 bottom-0 left-0 right-0"
+          className="rounded-16 mx-auto absolute top-0 bottom-0 start-0 end-0"
           style={{ width: '100%', height: '100%' }}
         ></iframe>
       </div>

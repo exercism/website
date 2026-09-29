@@ -39,8 +39,8 @@ export default function RadioButton({
         type="radio"
       />
       <div className={`row text-radio-essential ${labelClassName}`}>
-        <div className="c-radio mr-16 " />
-        <div className="mr-8">{label}</div>
+        <div className="c-radio me-16 " />
+        <div className="me-8">{label}</div>
         {tooltip && (
           <ExercismTippy
             content={<InfoTooltip title={tooltip.title} body={tooltip.body} />}

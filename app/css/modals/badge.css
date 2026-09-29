@@ -80,11 +80,11 @@
         & .c-icon {
             height: 16px;
             width: 16px;
-            @apply mr-8;
+            @apply me-8;
             filter: var(--white-filter);
         }
         & strong {
-            @apply mr-8;
+            @apply me-8;
         }
     }
     & .percentage-awardees {

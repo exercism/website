@@ -21,8 +21,8 @@
         height: 99px;
         &:before {
             content: "Add a comment";
-            /* 'pr-[100%]' increases touch area to open MD editor on mobile devices */
-            @apply py-12 pl-16 pr-[100%];
+            /* 'pe-[100%]' increases touch area to open MD editor on mobile devices */
+            @apply py-12 ps-16 pe-[100%];
             @apply whitespace-nowrap;
             @apply text-16 leading-160 text-textColor7;
             @apply absolute z-1;
@@ -59,7 +59,7 @@
                 &::after {
                     content: "Preview";
                     font-family: "Poppins";
-                    @apply absolute text-12 font-medium -translate-y-[50%] top-[50%] left-[24px] px-8;
+                    @apply absolute text-12 font-medium -translate-y-[50%] top-[50%] start-[24px] px-8;
                     @apply flex lg:hidden items-center h-[30px];
                     border-radius: 0px 5px 5px 0px;
                 }
@@ -77,7 +77,7 @@
             @apply items-center;
 
             & button {
-                @apply mr-4;
+                @apply me-4;
 
                 &:hover {
                     @apply border-0;
@@ -137,10 +137,10 @@
         bottom: 0;
         right: 0;
         height: var(--editor-toolbar-height);
-        @apply flex items-center justify-end mr-8;
+        @apply flex items-center justify-end me-8;
 
         & button {
-            @apply ml-12;
+            @apply ms-12;
             animation: fadeIn 0.2s forwards;
         }
     }

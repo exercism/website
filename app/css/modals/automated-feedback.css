@@ -9,7 +9,7 @@
             & .c-icon {
                 height: 32px;
                 width: 32px;
-                @apply mr-24;
+                @apply me-24;
             }
         }
         & > .feedback {
@@ -20,7 +20,7 @@
     & .c-automated-feedback {
         width: 450px;
         & + .c-automated-feedback {
-            @apply ml-32;
+            @apply ms-32;
         }
     }
 }

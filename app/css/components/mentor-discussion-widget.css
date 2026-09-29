@@ -13,7 +13,7 @@
         & .c-icon {
             height: 16px;
             width: 16px;
-            @apply mr-12;
+            @apply me-12;
             filter: var(--iconFilterMentorDiscussionWidget);
         }
     }

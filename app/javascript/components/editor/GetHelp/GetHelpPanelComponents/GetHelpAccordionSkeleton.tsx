@@ -29,7 +29,7 @@ export function GetHelpAccordionSkeleton({
             icon={iconSlug || 'help'}
             width={24}
             height={24}
-            className="mr-16 filter-textColor6"
+            className="me-16 filter-textColor6"
           />
         )}
         <div className="flex items-center justify-between w-100">

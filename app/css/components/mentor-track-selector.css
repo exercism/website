@@ -6,7 +6,7 @@
 
         & .--search {
             width: 480px;
-            margin-right: auto;
+            margin-inline-end: auto;
         }
 
         & .selected {

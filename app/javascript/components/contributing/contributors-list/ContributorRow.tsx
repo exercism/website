@@ -28,7 +28,7 @@ export const ContributorRow = ({
                 handle={contributor.handle}
                 flair={contributor.flair}
               />
-              <span className="md:hidden text-textColor6 ml-8 text-14">
+              <span className="md:hidden text-textColor6 ms-8 text-14">
                 #{contributor.rank}
               </span>
             </h3>

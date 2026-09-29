@@ -20,7 +20,7 @@ export function GetHelpPanelTrackHelp({
         <TrackIcon
           title={track.title}
           iconUrl={track.iconUrl}
-          className="w-[24px] h-[24px] mr-16"
+          className="w-[24px] h-[24px] me-16"
         />
       }
     >

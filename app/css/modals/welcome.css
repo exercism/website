@@ -75,7 +75,7 @@
                 .c-icon {
                     height: 64px;
                     width: 64px;
-                    @apply flex-shrink-0 mr-24;
+                    @apply flex-shrink-0 me-24;
                 }
                 h3 {
                     @apply text-h5 mb-4;
@@ -88,13 +88,13 @@
     }
 
     .rhs {
-        @apply flex-shrink-0 ml-48;
+        @apply flex-shrink-0 ms-48;
         width: 460px;
 
         /* Below the width the two-column layout needs, stack under the lhs
            rather than overflowing the (overflow: hidden) modal content. */
         @media (max-width: 1199px) {
-            @apply ml-0 mt-32 w-full;
+            @apply ms-0 mt-32 w-full;
         }
 
         .video {
@@ -175,7 +175,7 @@
             }
             .right-mark {
                 transform: scaleX(-1);
-                @apply inline ml-6;
+                @apply inline ms-6;
             }
         }
         .stars {
@@ -183,14 +183,14 @@
             background-image: url("bootcamp/stars.svg");
             @apply bg-center bg-no-repeat;
             background-size: 100px;
-            @apply ml-auto;
+            @apply ms-auto;
 
-            @apply bg-white rounded-[20px] left-[16px];
+            @apply bg-white rounded-[20px] start-[16px];
         }
         .person {
             @apply flex flex-col;
             @apply absolute;
-            @apply bg-white rounded-[20px] px-20 py-12 right-[16px];
+            @apply bg-white rounded-[20px] px-20 py-12 end-[16px];
             filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.1));
 
             img {

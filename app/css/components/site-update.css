@@ -26,7 +26,7 @@
     & > .c-exercise-icon,
     & > .c-track-icon,
     & > .c-concept-icon {
-        @apply relative mr-24;
+        @apply relative me-24;
         @apply z-1;
         height: 50px;
         width: 50px;
@@ -41,7 +41,7 @@
     & .standard {
         @apply flex items-center flex-grow;
         & .info {
-            @apply mr-16;
+            @apply me-16;
             & .desc {
                 @apply text-18 leading-150;
                 & em {
@@ -62,7 +62,7 @@
         }
 
         & .c-faces {
-            @apply flex-shrink-0 ml-auto;
+            @apply flex-shrink-0 ms-auto;
             & .c-avatar {
                 height: 32px;
                 width: 32px;
@@ -82,7 +82,7 @@
             & .c-icon {
                 height: 48px;
                 width: 48px;
-                @apply mr-16;
+                @apply me-16;
             }
 
             & .title {
@@ -94,7 +94,7 @@
                 & .c-avatar {
                     height: 24px;
                     width: 24px;
-                    @apply mr-12;
+                    @apply me-12;
                 }
                 & strong {
                     @apply font-medium text-textColor2;
@@ -108,7 +108,7 @@
                 @apply mb-8;
             }
             & ul {
-                @apply list-disc pl-20;
+                @apply list-disc ps-20;
                 & p {
                     @apply mb-0;
                 }
@@ -123,21 +123,21 @@
             & .c-icon {
                 height: 42px;
                 width: 42px;
-                @apply mr-32;
+                @apply me-32;
             }
             & .pr-title {
                 @apply text-h5 mb-4;
             }
             & .pr-details {
                 @apply text-p-small text-textColor6;
-                @apply mr-24;
+                @apply me-24;
             }
             & .merged {
-                @apply ml-auto;
+                @apply ms-auto;
                 & .c-icon {
                     height: 24px;
                     width: 24px;
-                    @apply mr-12;
+                    @apply me-12;
                 }
                 @apply flex items-center;
                 @apply font-semibold text-darkSuccessGreen;

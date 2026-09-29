@@ -34,7 +34,7 @@ export function ExtendLockedUntilModal({
       }}
     >
       <div className="flex items-start">
-        <div className="flex flex-col mr-32">
+        <div className="flex flex-col me-32">
           <h3 id="extend-mentoring-request-lock-label" className="text-h3 mb-6">
             {t('extendLockedUntilModal.mentorLockExpiring')}
           </h3>
@@ -65,7 +65,7 @@ export function ExtendLockedUntilModal({
         <GraphicalIcon
           icon="alarm-alert"
           category="graphics"
-          className="ml-auto"
+          className="ms-auto"
           height={128}
           width={128}
         />

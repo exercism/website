@@ -8,7 +8,7 @@
         max-width: 720px;
     }
     & .rhs {
-        @apply ml-auto;
+        @apply ms-auto;
         @apply min-w-[400px] max-w-[500px];
     }
 }

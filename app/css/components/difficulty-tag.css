@@ -5,7 +5,7 @@
     & .icon {
         height: 8px;
         width: 8px;
-        @apply mr-8;
+        @apply me-8;
         border-radius: 1px;
     }
     &.--easy {

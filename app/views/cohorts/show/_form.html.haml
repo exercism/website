@@ -12,7 +12,7 @@
           = t('.login_or_signup_message', cohort_name: cohort.name.split('(').first)
 
         .buttons.flex.mb-40.flex-col.sm:flex-row
-          = link_to t('.signup_button'), new_user_registration_path, class: 'btn-primary btn-l mb-12 sm:mb-0 sm:mr-16'
+          = link_to t('.signup_button'), new_user_registration_path, class: 'btn-primary btn-l mb-12 sm:mb-0 sm:me-16'
           = link_to t('.login_button'), new_user_session_path, class: 'btn-secondary btn-l shadow-buttonS'
 
       - elsif membership

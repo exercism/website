@@ -17,7 +17,7 @@ export function StuckButton({ setTab, tab }: StuckButtonProps): JSX.Element {
     <button
       type="button"
       disabled={['get-help', 'assistant'].includes(tab)}
-      className="btn-enhanced btn-s !ml-0 mr-auto ask-chatgpt-btn"
+      className="btn-enhanced btn-s !ms-0 me-auto ask-chatgpt-btn"
       onClick={() => setTab('assistant')}
     >
       <GraphicalIcon icon="automation" height={16} width={16} />

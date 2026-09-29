@@ -13,7 +13,7 @@
     & .links {
         @apply text-16 mb-24;
         & ul {
-            @apply ml-24;
+            @apply ms-24;
             & li {
                 @apply mb-8 list-disc;
             }
@@ -30,7 +30,7 @@
             @apply border-b-1 border-borderColor5;
         }
         & th {
-            @apply text-left;
+            @apply text-start;
         }
         & th,
         & td {

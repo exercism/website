@@ -144,7 +144,7 @@ export function JuniorView() {
                 <GraphicalIcon
                   icon="wave"
                   category="bootcamp"
-                  className="mr-8 w-[20px]"
+                  className="me-8 w-[20px]"
                 />
                 <span>
                   <Trans
@@ -162,7 +162,7 @@ export function JuniorView() {
                 <GraphicalIcon
                   icon="fun"
                   category="bootcamp"
-                  className="mr-8 w-[20px]"
+                  className="me-8 w-[20px]"
                 />
                 <span>
                   {' '}
@@ -181,7 +181,7 @@ export function JuniorView() {
                 <GraphicalIcon
                   icon="complete"
                   category="bootcamp"
-                  className="mr-8 w-[20px]"
+                  className="me-8 w-[20px]"
                 />
                 <span>
                   {' '}
@@ -200,7 +200,7 @@ export function JuniorView() {
                 <GraphicalIcon
                   icon="certificate"
                   category="bootcamp"
-                  className="mr-8 w-[20px]"
+                  className="me-8 w-[20px]"
                 />
                 <span>
                   {' '}

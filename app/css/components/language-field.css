@@ -23,7 +23,7 @@
         @apply flex items-center gap-8;
 
         & > button {
-            @apply ml-auto;
+            @apply ms-auto;
         }
     }
 
@@ -35,7 +35,7 @@
             @apply relative border-b-1 border-borderColor6;
 
             & .c-icon {
-                @apply absolute left-16 w-[16px] h-[16px];
+                @apply absolute start-16 w-[16px] h-[16px];
                 top: 50%;
                 transform: translateY(-50%);
                 filter: var(--textColor6-filter);
@@ -43,7 +43,7 @@
 
             & input {
                 @apply w-100 border-0 rounded-none;
-                @apply py-12 pl-40 pr-16 text-15;
+                @apply py-12 ps-40 pe-16 text-15;
             }
         }
 
@@ -67,11 +67,11 @@
         }
 
         & .option {
-            @apply flex items-center w-100 text-left;
+            @apply flex items-center w-100 text-start;
             @apply px-10 py-8 rounded-8;
 
             & > .flag {
-                @apply mr-10;
+                @apply me-10;
             }
         }
 
@@ -100,12 +100,12 @@
         }
 
         & .check {
-            @apply ml-auto flex-shrink-0 w-[18px] h-[18px];
+            @apply ms-auto flex-shrink-0 w-[18px] h-[18px];
             filter: var(--purple-filter);
         }
 
         & .badge {
-            @apply ml-auto flex-shrink-0;
+            @apply ms-auto flex-shrink-0;
             @apply px-6 py-2 rounded-100;
             @apply bg-backgroundColorD text-textColor6;
             @apply text-[11px] font-semibold uppercase tracking-wide;

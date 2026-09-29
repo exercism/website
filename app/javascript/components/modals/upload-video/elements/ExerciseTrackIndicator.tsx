@@ -19,9 +19,9 @@ export function ExerciseTrackIndicator({
       <TrackIcon
         iconUrl={track.iconUrl}
         title={track.title}
-        className="h-[40px], w-[40px] mr-12"
+        className="h-[40px], w-[40px] me-12"
       />
-      <ExerciseIcon iconUrl={exercise.iconUrl} className="h-48 mr-12" />
+      <ExerciseIcon iconUrl={exercise.iconUrl} className="h-48 me-12" />
       <div className="flex flex-col">
         <div className="text-h5">{exercise.title}</div>
         <div className="textColor-6 font-normal leading-150 text-16">

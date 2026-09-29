@@ -4,10 +4,10 @@
         @apply mt-32 mb-24;
 
         & .actions {
-            @apply ml-auto flex items-center;
+            @apply ms-auto flex items-center;
 
             & button {
-                @apply ml-12;
+                @apply ms-12;
             }
         }
     }
@@ -35,7 +35,7 @@
             & .icon {
                 height: 32px;
                 width: 32px;
-                @apply mr-20;
+                @apply me-20;
             }
             & .c-avatar {
             }
@@ -43,7 +43,7 @@
                 @apply filter-textColor6;
             }
             & .content {
-                @apply flex-grow mr-24;
+                @apply flex-grow me-24;
                 & .text {
                     @apply text-15 leading-150;
                     & strong {
@@ -59,7 +59,7 @@
             & .unread {
                 height: 8px;
                 width: 8px;
-                @apply flex-shrink-0 rounded-circle mr-24;
+                @apply flex-shrink-0 rounded-circle me-24;
             }
             & .unread {
                 background: var(--backgroundColorNotificationsUnreadDot);

@@ -36,14 +36,14 @@ export function RequestMentoring({
             category="graphics"
             height={110}
             width={110}
-            className="ml-48 mt-20"
+            className="ms-48 mt-20"
           />
         </div>
         <div className="flex --cta">
           <a className="btn-primary btn-m mb-8" href={mentorDiscussionsLink}>
             {t('feedbackPanelRequestMentoring.submitForCodeReview')}
           </a>
-          <div className="ml-16 px-16 text-midnightBlue bg-lightOrange rounded-8 flex items-center justify-center text-h6 leading-120 h-[48px] text-center">
+          <div className="ms-16 px-16 text-midnightBlue bg-lightOrange rounded-8 flex items-center justify-center text-h6 leading-120 h-[48px] text-center">
             {t('feedbackPanelRequestMentoring.free')}
           </div>
         </div>

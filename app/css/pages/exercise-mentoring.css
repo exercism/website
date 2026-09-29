@@ -18,7 +18,7 @@
                     & > .c-icon {
                         height: 110px;
                         width: 110px;
-                        @apply ml-48;
+                        @apply ms-48;
                     }
 
                     & h2 {
@@ -33,7 +33,7 @@
                     & .btns {
                         @apply flex;
                         & .wow {
-                            @apply ml-24 px-16;
+                            @apply ms-24 px-16;
                             @apply bg-lightOrange rounded-8;
                             @apply flex items-center justify-center;
                             @apply text-h6;
@@ -71,7 +71,7 @@
                         & .num {
                             height: 32px;
                             width: 32px;
-                            @apply flex-shrink-0 mr-16 rounded-100;
+                            @apply flex-shrink-0 me-16 rounded-100;
                             @apply grid place-items-center;
                             @apply border-2 border-textColor2;
                             @apply text-16 font-semibold leading-160;
@@ -91,7 +91,7 @@
                     @apply text-p-base;
                 }
                 & .btn-primary {
-                    @apply ml-auto;
+                    @apply ms-auto;
                 }
             }
 
@@ -109,8 +109,8 @@
                         width: 54px;
                     }
                     & .mentor-avatar {
-                        margin-left: -20px;
-                        @apply mr-36;
+                        margin-inline-start: -20px;
+                        @apply me-36;
                     }
 
                     & > .info {
@@ -126,7 +126,7 @@
                             @apply flex items-center;
                         }
                         & .--turn {
-                            @apply mr-16;
+                            @apply me-16;
                         }
                     }
                     & .in-progress {
@@ -135,7 +135,7 @@
                         & .icon {
                             @apply bg-lightBlue rounded-100;
                             @apply grid place-items-center;
-                            @apply mr-12;
+                            @apply me-12;
                             height: 24px;
                             width: 24px;
                             & .c-icon {
@@ -157,11 +157,11 @@
                     & > .c-avatar {
                         height: 48px;
                         width: 48px;
-                        @apply mr-16;
+                        @apply me-16;
                     }
                     & > .info {
                         @apply flex-grow;
-                        @apply mr-48;
+                        @apply me-48;
 
                         & h4 {
                             @apply text-16 font-medium text-textColor2 leading-140 mb-4;
@@ -177,7 +177,7 @@
                         & > .c-icon {
                             height: 24px;
                             width: 24px;
-                            @apply mr-12;
+                            @apply me-12;
                         }
                     }
                 }
@@ -190,7 +190,7 @@
             }
         }
         & > .rhs {
-            @apply w-1-3 flex-shrink-0 ml-32;
+            @apply w-1-3 flex-shrink-0 ms-32;
 
             & .personal-mentoring {
                 @apply shadow-lg py-20 px-32 rounded-8;

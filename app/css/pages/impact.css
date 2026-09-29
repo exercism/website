@@ -94,7 +94,7 @@ body.namespace-.controller-about.action-impact {
             @apply shadow-sm;
             @apply rounded-8;
             @apply relative;
-            @apply text-left;
+            @apply text-start;
 
             & .content {
                 @apply text-20 leading-130 font-medium break-words;

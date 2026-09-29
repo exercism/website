@@ -12,7 +12,7 @@
         & > .c-avatar {
             height: 48px;
             width: 48px;
-            @apply mr-16;
+            @apply me-16;
         }
 
         & > .--info {
@@ -25,14 +25,14 @@
             }
         }
         & .--out-of-date {
-            @apply ml-24;
+            @apply ms-24;
             height: 16px;
             width: 16px;
             filter: var(--orange-filter);
         }
         & .passed-up-to-date-tests,
         & .failed-up-to-date-tests {
-            @apply ml-16;
+            @apply ms-16;
             height: 16px;
             width: 16px;
         }
@@ -43,7 +43,7 @@
             filter: var(--red-filter);
         }
         & .c-iteration-processing-status {
-            @apply ml-24;
+            @apply ms-24;
             & .--status {
                 @apply hidden;
             }
@@ -71,7 +71,7 @@
         & > time,
         & .not-published {
             @apply sm:block hidden;
-            @apply mr-24 flex-grow;
+            @apply me-24 flex-grow;
             @apply leading-160 text-textColor6;
         }
         & > .--counts {
@@ -83,7 +83,7 @@
                 & > .c-icon {
                     height: 18px;
                     width: 18px;
-                    @apply mr-8;
+                    @apply me-8;
                     filter: var(--textColor6-filter);
                 }
                 & > .--num {

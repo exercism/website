@@ -34,7 +34,7 @@ export function VideoCredits({
 
       <div className="underline font-semibold leading-150 text-14 flex items-center mt-8 md:mt-0">
         {author && author.links.profile && (
-          <a href={author.links.profile} className="mr-32">
+          <a href={author.links.profile} className="me-32">
             {t('videoCredits.exercismProfile')}
           </a>
         )}
@@ -48,7 +48,7 @@ export function VideoCredits({
           >
             {t('videoCredits.youTubeChannel')}&nbsp;
             <Icon
-              className="filter-textColor6 ml-12"
+              className="filter-textColor6 ms-12"
               icon={'new-tab'}
               alt={'open in new tab'}
             />

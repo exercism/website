@@ -22,7 +22,7 @@
         @apply flex;
         & form {
             width: 540px;
-            @apply mr-64;
+            @apply me-64;
 
             & .field {
                 @apply flex flex-col;

@@ -41,7 +41,7 @@
     & form {
         @apply flex items-center;
         & .btn-primary {
-            @apply mr-32;
+            @apply me-32;
         }
         & .dismiss-btn {
             @apply text-prominentLinkColor font-semibold text-16 leading-200;

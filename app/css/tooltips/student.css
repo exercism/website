@@ -11,7 +11,7 @@
         & .c-avatar {
             height: 48px;
             width: 48px;
-            @apply mr-16;
+            @apply me-16;
         }
         & .info {
             & .handle {
@@ -19,11 +19,11 @@
             }
             & .name {
                 @apply text-15 font-medium leading-160 text-textColor6;
-                @apply mr-32;
+                @apply me-32;
             }
         }
         & .c-primary-reputation {
-            @apply ml-auto;
+            @apply ms-auto;
         }
     }
     & .track-objectives {
@@ -41,7 +41,7 @@
         & .c-icon {
             height: 16px;
             width: 16px;
-            @apply mr-12;
+            @apply me-12;
             @apply filter-textColor6;
         }
     }
@@ -65,7 +65,7 @@
         & .c-icon {
             height: 20px;
             width: 20px;
-            @apply mr-6;
+            @apply me-6;
         }
     }
 }

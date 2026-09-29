@@ -39,9 +39,9 @@ function StoriesGridHeader(): JSX.Element {
         icon="podcast-gradient"
         height={48}
         width={48}
-        className="mr-24 self-start"
+        className="me-24 self-start"
       />
-      <div className="grid gap-8 mr-auto">
+      <div className="grid gap-8 me-auto">
         <h2 className="text-h2">{t('storiesGrid.index.moreStories')}</h2>
         <p className="text-p-large">{t('storiesGrid.index.listenLearn')}</p>
       </div>
@@ -64,12 +64,12 @@ type StoryProps = {
 function Story({ title, interviewee, links }: StoryProps): JSX.Element {
   return (
     <a href={links.self}>
-      <button className="grid shadow-sm p-16 bg-white rounded-8 text-left">
+      <button className="grid shadow-sm p-16 bg-white rounded-8 text-start">
         <div className="self-center bg-borderLight rounded-8 mb-12 max-w-[100%] pb-[46.25%]"></div>
         <h5 className="text-h5 mb-8">{title}</h5>
-        <div className="flex items-center text-left text-textColor6 font-semibold">
+        <div className="flex items-center text-start text-textColor6 font-semibold">
           <Avatar
-            className="h-[24px] w-[24px] mr-8"
+            className="h-[24px] w-[24px] me-8"
             src={interviewee.avatarUrl}
           />
           {interviewee.name}

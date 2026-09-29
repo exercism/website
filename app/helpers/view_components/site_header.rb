@@ -57,7 +57,7 @@ module ViewComponents
 
       link_to(Exercism::Routes.insiders_path, class: "announcement-bar md:block hidden") do
         tag.div(class: "lg-container") do
-          tag.span("👋", class: 'emoji mr-6') +
+          tag.span("👋", class: 'emoji me-6') +
             tag.span(I18n.t("components.site_header.announcement_bar.donation_ask")) +
             tag.strong(I18n.t("components.site_header.announcement_bar.donation_ask_link_text"))
         end
@@ -73,7 +73,7 @@ module ViewComponents
       banner = translatathon_banner
       link_to(banner.url, class: "announcement-bar md:block hidden", target: "_blank", rel: "noopener", dir: banner.dir) do
         tag.div(class: "lg-container") do
-          # margin-inline-end (not mr-6) so the gap sits between the emoji and the
+          # margin-inline-end (not me-6) so the gap sits between the emoji and the
           # text in both LTR and RTL banners.
           tag.span("🌍", class: 'emoji', style: 'margin-inline-end:8px') +
             tag.span(banner.pre) +
@@ -86,7 +86,7 @@ module ViewComponents
     def downtime_announcement_bar
       link_to("https://forum.exercism.org/t/scheduled-maintenance/18062", class: "announcement-bar md:block hidden") do
         tag.div(class: "lg-container") do
-          tag.span("⚠️", class: 'emoji mr-6') +
+          tag.span("⚠️", class: 'emoji me-6') +
             tag.span(I18n.t("components.site_header.announcement_bar.downtime")) +
             tag.strong(I18n.t("components.site_header.announcement_bar.downtime_link_text"))
         end
@@ -96,7 +96,7 @@ module ViewComponents
     def coding_fundamentals_announcement_bar
       link_to(Courses::CodingFundamentals.url, class: "announcement-bar md:block hidden") do
         tag.div(class: "lg-container") do
-          tag.span("👋", class: 'emoji mr-6') +
+          tag.span("👋", class: 'emoji me-6') +
             tag.span(I18n.t("components.site_header.announcement_bar.coding_fundamentals")) +
             tag.strong(I18n.t("components.site_header.announcement_bar.coding_fundamentals_link_text"))
         end
@@ -155,8 +155,8 @@ module ViewComponents
       tag.li attrs do
         elems = [tag.span(title)]
         # if new
-        #   elems << (tag.div(class: 'ml-8 text-warning bg-lightOrange px-8 py-6 rounded-100 font-semibold text-[13px] flex items-center') do # rubocop:disable Layout/LineLength
-        #     graphical_icon('sparkle', css_class: '!filter-warning !w-[12px] !h-[12px] !mr-4 !block') +
+        #   elems << (tag.div(class: 'ms-8 text-warning bg-lightOrange px-8 py-6 rounded-100 font-semibold text-[13px] flex items-center') do # rubocop:disable Layout/LineLength
+        #     graphical_icon('sparkle', css_class: '!filter-warning !w-[12px] !h-[12px] !me-4 !block') +
         #     tag.span("New")
         #   end)
         # end

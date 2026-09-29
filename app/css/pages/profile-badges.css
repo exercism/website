@@ -11,12 +11,12 @@
                 @apply flex items-center justify-items-center;
 
                 & .c-icon {
-                    @apply mr-16;
+                    @apply me-16;
                     height: 16px;
                     width: 16px;
                 }
                 & .count {
-                    @apply mr-24;
+                    @apply me-24;
                     @apply text-20 leading-140 font-semibold text-textColor2;
                 }
                 & .info {

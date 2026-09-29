@@ -23,8 +23,8 @@
                 background-size: cover;
                 @apply font-bold;
                 @apply px-10;
-                margin-left: -10px;
-                margin-right: -10px;
+                margin-inline-start: -10px;
+                margin-inline-end: -10px;
             }
         }
     }
@@ -38,7 +38,7 @@
         & > img {
             height: 64px;
             width: 64px;
-            @apply mr-16;
+            @apply me-16;
         }
         & a {
             @apply rounded-12;
@@ -51,7 +51,7 @@
             & img {
                 height: 48px;
                 width: 48px;
-                @apply mr-16 rounded-circle;
+                @apply me-16 rounded-circle;
             }
         }
     }
@@ -59,7 +59,7 @@
         & .c-icon {
             height: 16px;
             width: 16px;
-            @apply mt-4 mr-16;
+            @apply mt-4 me-16;
             @apply filter-textColor6;
         }
     }

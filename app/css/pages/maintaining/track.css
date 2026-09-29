@@ -24,11 +24,11 @@
     & table {
         @apply text-16;
         & th {
-            @apply text-left;
+            @apply text-start;
         }
         & th,
         & td {
-            @apply pb-12 pr-12;
+            @apply pb-12 pe-12;
         }
     }
 }

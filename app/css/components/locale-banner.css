@@ -8,6 +8,6 @@
     }
 
     & .dismiss {
-        @apply ml-8 text-textColor6 cursor-pointer;
+        @apply ms-8 text-textColor6 cursor-pointer;
     }
 }

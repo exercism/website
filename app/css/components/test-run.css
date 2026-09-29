@@ -33,7 +33,7 @@
         @apply pt-6 pb-8 px-8 mb-24;
         @apply font-bold font-mono leading-code;
         & .--dot {
-            @apply rounded-circle mr-12;
+            @apply rounded-circle me-12;
             height: 8px;
             width: 8px;
         }
@@ -83,7 +83,7 @@
         & > .c-icon {
             height: 64px;
             width: 64px;
-            @apply mr-16;
+            @apply me-16;
         }
         & h3 {
             @apply text-h5 mb-4;
@@ -118,7 +118,7 @@
             & .c-icon.indicator {
                 height: 24px;
                 width: 24px;
-                @apply mr-16;
+                @apply me-16;
             }
         }
 
@@ -158,7 +158,7 @@
                 & .c-icon {
                     &.--closed-icon,
                     &.--open-icon {
-                        @apply ml-24;
+                        @apply ms-24;
                         height: 16px;
                         width: 16px;
                         @apply filter-textColor6;
@@ -167,7 +167,7 @@
             }
 
             & .task-marker {
-                @apply mr-20 mt-4 py-4 px-8;
+                @apply me-20 mt-4 py-4 px-8;
                 @apply rounded-3;
                 @apply font-mono font-bold uppercase text-12 leading-120;
                 @apply flex-shrink-0 self-start;
@@ -185,7 +185,7 @@
                 @apply flex-shrink-0 self-start;
                 height: 16px;
                 width: 16px;
-                @apply mt-6 ml-8;
+                @apply mt-6 ms-8;
             }
         }
     }
@@ -218,13 +218,13 @@
             }
 
             & .--status {
-                @apply flex-grow-0 flex-shrink-0 mr-24 flex items-center justify-center;
+                @apply flex-grow-0 flex-shrink-0 me-24 flex items-center justify-center;
                 @apply font-bold uppercase text-13 leading-huge;
                 width: 70px;
                 & .--dot {
                     height: 8px;
                     width: 8px;
-                    @apply mr-12 rounded-circle;
+                    @apply me-12 rounded-circle;
                 }
             }
             & .--summary-details {

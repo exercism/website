@@ -20,13 +20,13 @@
         }
 
         & > .c-icon {
-            @apply ml-8 w-[10px] h-[10px];
+            @apply ms-8 w-[10px] h-[10px];
             filter: var(--textColor6-filter);
         }
     }
 
     & > .options {
-        @apply absolute right-0 z-dropdown mt-8 p-6;
+        @apply absolute end-0 z-dropdown mt-8 p-6;
         @apply bg-backgroundColorA rounded-12 shadow-lg border-1 border-borderColor6;
         @apply w-[320px] overflow-y-auto;
         max-height: min(420px, calc(100vh - 120px));
@@ -43,10 +43,10 @@
 
         & .option {
             @apply flex items-center w-full;
-            @apply px-10 py-8 rounded-8 text-left;
+            @apply px-10 py-8 rounded-8 text-start;
 
             & > .flag {
-                @apply mr-10;
+                @apply me-10;
             }
         }
 
@@ -87,7 +87,7 @@
         }
 
         & .badge {
-            @apply ml-auto flex-shrink-0;
+            @apply ms-auto flex-shrink-0;
             @apply px-6 py-2 rounded-100;
             @apply bg-backgroundColorD text-textColor6;
             @apply text-[11px] font-semibold uppercase tracking-wide;

@@ -28,7 +28,7 @@
                     @apply absolute px-12 sm:flex hidden items-center;
                     @apply font-medium text-14 text-textColor6 leading-regular;
                     @apply border-1 border-borderColor4 rounded-100;
-                    @apply h-[30px] top-[6px] left-[100%] ml-8;
+                    @apply h-[30px] top-[6px] start-[100%] ms-8;
                 }
                 & span {
                     display: block;
@@ -40,10 +40,10 @@
             & .section-header {
                 @apply flex-row mb-24;
                 & .c-icon {
-                    @apply mb-0 mr-16;
+                    @apply mb-0 me-16;
                 }
                 & h2 {
-                    @apply text-left ml-0 mb-0;
+                    @apply text-start ms-0 mb-0;
                 }
             }
         }
@@ -152,12 +152,12 @@
                     & .byline {
                         @apply rounded-8 py-16 px-32 w-100;
                         @apply flex items-center;
-                        @apply text-left;
+                        @apply text-start;
 
                         & .c-avatar {
                             height: 48px;
                             width: 48px;
-                            @apply mr-16;
+                            @apply me-16;
                         }
                         & .student {
                             @apply text-h6 leading-170;

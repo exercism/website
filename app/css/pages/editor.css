@@ -22,7 +22,7 @@
             white 95%,
             transparent
         );
-        @apply pl-20 pr-[5%];
+        @apply ps-20 pe-[5%];
 
         &::-webkit-scrollbar {
             @apply h-[6px];
@@ -65,7 +65,7 @@ body:has(.c-react-wrapper-editor) {
 
     & .editor-status {
         @apply font-medium text-textColor6 text-15 leading-150;
-        @apply pl-20;
+        @apply ps-20;
         opacity: 0;
         animation: fadeIn 0.2s linear 0.3s 1 normal forwards;
     }
@@ -90,7 +90,7 @@ body:has(.c-react-wrapper-editor) {
             & .c-icon {
                 height: 16px;
                 width: 16px;
-                @apply mr-16;
+                @apply me-16;
                 filter: var(--textColor6-filter);
             }
         }
@@ -156,7 +156,7 @@ body:has(.c-react-wrapper-editor) {
         & .help-btn,
         & .keyboard-shortcuts-btn,
         & .settings-btn {
-            @apply mr-24;
+            @apply me-24;
         }
 
         & .settings-btn,
@@ -173,7 +173,7 @@ body:has(.c-react-wrapper-editor) {
         & .settings-dialog {
             @apply bg-backgroundColorA;
             @apply flex flex-col shadow-lg;
-            @apply py-24 px-32 text-left;
+            @apply py-24 px-32 text-start;
             @apply z-dropdown;
 
             & .setting {
@@ -185,7 +185,7 @@ body:has(.c-react-wrapper-editor) {
 
                 & .name {
                     @apply text-16 font-medium text-darkGray;
-                    @apply mr-56;
+                    @apply me-56;
                     width: 110px;
                 }
 
@@ -265,7 +265,7 @@ body:has(.c-react-wrapper-editor) {
                 @apply overflow-y-hidden overflow-x-auto;
                 @apply flex-shrink-0;
                 & .c-tab {
-                    @apply mr-0;
+                    @apply me-0;
                 }
             }
 
@@ -315,11 +315,11 @@ body:has(.c-react-wrapper-editor) {
                 box-shadow: inset 0 24px 24px -24px var(--backgroundColorB);
 
                 & button {
-                    @apply ml-20;
+                    @apply ms-20;
                 }
                 /* & .run-tests-btn {
                     & button {
-                        @apply ml-0;
+                        @apply ms-0;
                     }
                 } */
             }
@@ -339,7 +339,7 @@ body:has(.c-react-wrapper-editor) {
 
                 & .c-tab {
                     height: 36px;
-                    @apply mr-12;
+                    @apply me-12;
 
                     & .c-icon {
                         height: 16px;
@@ -366,7 +366,7 @@ body:has(.c-react-wrapper-editor) {
             #panel-get-help {
                 .hints {
                     .c-textual-content {
-                        @apply mr-32;
+                        @apply me-32;
                     }
                     .c-textual-content,
                     .--summary-inner {
@@ -411,7 +411,7 @@ body:has(.c-react-wrapper-editor) {
                            stacked layout keeps one edge throughout. */
                         & > .c-icon {
                             @apply order-first;
-                            @apply ml-0 mt-0 mb-16;
+                            @apply ms-0 mt-0 mb-16;
                         }
                     }
                 }
@@ -424,7 +424,7 @@ body:has(.c-react-wrapper-editor) {
                         @apply flex-col items-start;
 
                         & > * + * {
-                            @apply ml-0 mt-8;
+                            @apply ms-0 mt-8;
                         }
                     }
                 }
@@ -456,7 +456,7 @@ body:has(.c-react-wrapper-editor) {
                                 @apply flex flex-shrink-0 items-center justify-center;
                                 @apply border-gray border-1 rounded-circle;
                                 @apply text-darkGray;
-                                @apply ml-16;
+                                @apply ms-16;
 
                                 .c-icon {
                                     height: 11px;
@@ -506,7 +506,7 @@ body:has(.c-react-wrapper-editor) {
                             @apply flex items-center;
 
                             & .task-marker {
-                                @apply mr-20;
+                                @apply me-20;
                                 @apply py-4 px-8;
                                 @apply bg-lightGold text-unnamed13 rounded-3;
                                 @apply font-mono font-bold text-12 leading-120;
@@ -526,7 +526,7 @@ body:has(.c-react-wrapper-editor) {
                                 @apply flex flex-shrink-0 items-center justify-center;
                                 @apply border-gray border-1 rounded-circle;
                                 @apply text-darkGray;
-                                @apply ml-16;
+                                @apply ms-16;
 
                                 & .c-icon {
                                     height: 11px;
@@ -582,7 +582,7 @@ body:has(.c-react-wrapper-editor) {
                     .c-icon {
                         height: 16px;
                         width: 16px;
-                        @apply mb-0 mr-12;
+                        @apply mb-0 me-12;
                     }
                 }
 
@@ -594,9 +594,9 @@ body:has(.c-react-wrapper-editor) {
                         @apply text-h6 text-textColor6;
                     }
                     & button {
-                        @apply py-0 px-0 mr-4;
+                        @apply py-0 px-0 me-4;
                         & :first-child {
-                            @apply mr-4;
+                            @apply me-4;
                         }
                         & .--kb {
                             padding-top: 3px;
@@ -645,12 +645,12 @@ body:has(.c-react-wrapper-editor) {
             @apply border-borderColor7;
 
             & .cm-lineNumbers .cm-gutterElement {
-                @apply text-right text-textColor7;
+                @apply text-end text-textColor7;
                 width: 3rem;
                 padding: 0;
             }
             & .cm-foldGutter .cm-gutterElement {
-                @apply pr-4;
+                @apply pe-4;
                 & span {
                     vertical-align: top;
                     line-height: 13px;
@@ -663,7 +663,7 @@ body:has(.c-react-wrapper-editor) {
         & .cm-content {
             @apply pt-0;
             & .cm-line {
-                @apply pl-8 pr-8;
+                @apply ps-8 pe-8;
             }
         }
     }
@@ -708,7 +708,7 @@ body:has(.c-react-wrapper-editor) {
 /*     & .ace_dialog.ace_dialog-bottom { */
 /*         @apply border-t-1 border-borderColor6; */
 /*         @apply bg-backgroundColorB; */
-/*         @apply pl-16; */
+/*         @apply ps-16; */
 /*         &, */
 /*         & input { */
 /*             @apply text-15 font-semibold font-mono; */
@@ -717,7 +717,7 @@ body:has(.c-react-wrapper-editor) {
 /*         & input { */
 /*             @apply w-100; */
 /*             background: transparent; */
-/*             @apply pl-4; */
+/*             @apply ps-4; */
 /*             &:focus { */
 /*                 outline: none !important; */
 /*                 border: none !important; */

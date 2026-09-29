@@ -4,8 +4,8 @@
     .c-copy-text-to-clipboard {
         --message-top-position: 25px;
         position: static;
-        @apply border-none border-l-1 rounded-none;
-        @apply border-borderColor7 ml-32;
+        @apply border-none border-s-1 rounded-none;
+        @apply border-borderColor7 ms-32;
         @apply bg-transparent;
         @apply w-auto;
         @apply py-0 px-8;
@@ -27,9 +27,9 @@
         & .c-tab {
             @apply grid place-items-center;
             @apply bg-backgroundColorB;
-            @apply px-16 py-8 mr-0;
+            @apply px-16 py-8 me-0;
             @apply text-13 text-textColor6 leading-paragraph;
-            @apply border-r-1 border-borderColor7;
+            @apply border-e-1 border-borderColor7;
             @apply rounded-none;
             margin-bottom: -1px;
             @apply border-b-1;

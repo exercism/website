@@ -14,7 +14,7 @@ export function WhoIsThisTrackForRHS(): JSX.Element {
         <GraphicalIcon
           icon="bookmark.png"
           category="graphics"
-          className="!absolute right-[12px] top-0 h-[40px]"
+          className="!absolute end-[12px] top-0 h-[40px]"
         />
         <h3 className="mb-12 !text-[19px] text-textColor1 font-semibold">
           {t('whoIsThisTrackFor.learnByDoing')}

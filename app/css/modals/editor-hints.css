@@ -15,7 +15,7 @@
         .c-icon {
             height: 48px;
             width: 48px;
-            @apply mr-24;
+            @apply me-24;
         }
         h2 {
             @apply text-h3;
@@ -41,7 +41,7 @@
             @apply text-h6;
             @apply flex items-center;
             .c-icon {
-                @apply ml-auto;
+                @apply ms-auto;
                 height: 24px;
                 width: 24px;
             }
@@ -50,11 +50,11 @@
     .c-textual-content {
         @apply px-32 pb-16;
         & ul {
-            @apply ml-0;
+            @apply ms-0;
             & li {
                 @apply text-16 leading-170;
                 list-style: disc;
-                @apply ml-20;
+                @apply ms-20;
             }
         }
     }

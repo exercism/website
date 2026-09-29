@@ -39,7 +39,7 @@ export function CheckingForAutomatedFeedback({
       </div>
       {showTakingTooLong && <TakingTooLong />}
       <FooterButtonContainer>
-        <button onClick={onClick} className="btn-secondary btn-s mr-auto">
+        <button onClick={onClick} className="btn-secondary btn-s me-auto">
           {t('checkingForAutomatedFeedback.continueWaiting')}
         </button>
       </FooterButtonContainer>

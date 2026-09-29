@@ -8,10 +8,10 @@
         width: 16px;
         filter: var(--c-prominent-link-icon-filter);
         &:first-child {
-            @apply mr-12;
+            @apply me-12;
         }
         &:last-child {
-            @apply ml-12;
+            @apply ms-12;
         }
     }
 

@@ -21,7 +21,7 @@
     }
     & .lhs {
         max-width: 720px;
-        @apply mr-auto;
+        @apply me-auto;
     }
     & .rhs {
         @apply md:flex-shrink-0;

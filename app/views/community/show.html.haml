@@ -22,12 +22,12 @@
             = graphical_icon "arrow-right"
 
         .text-warning.font-semibold.leading-150.flex.items-center.mb-8.py-6.px-12
-          = graphical_icon 'sparkle', css_class: 'filter-warning w-[16px] h-[16px] mr-8'
+          = graphical_icon 'sparkle', css_class: 'filter-warning w-[16px] h-[16px] me-8'
           = t('.main_section.recent_forum_topics')
 
         - @forum_threads.each do |thread|
           = link_to thread.url, class: 'flex items-center bg-backgroundColorA px-20 py-12 shadow-smZ1 rounded-8 mb-8' do
-            = image_tag thread.poster_avatar_url, alt: "", class: 'mr-8 h-[32px] w-[32px] rounded-circle'
+            = image_tag thread.poster_avatar_url, alt: "", class: 'me-8 h-[32px] w-[32px] rounded-circle'
             .flex.flex-col.mr-auto
               %h5.text-h5= thread.title
               .text-textColor6.leading-150
@@ -51,7 +51,7 @@
               %h5.text-h5.mb-8= community_story.title
               .flex.items-center.text-left.text-textColor6.font-semibold.mt-auto
                 - interviewee = community_story.interviewee
-                = avatar interviewee, css_class: "h-[24px] w-[24px] mr-8 rounded-circle bg-cover"
+                = avatar interviewee, css_class: "h-[24px] w-[24px] me-8 rounded-circle bg-cover"
                 = interviewee.name
 
         -# Temporarily disable this link until we have a separate page
@@ -61,7 +61,7 @@
       .flex.flex-col.bg-backgroundColorA.shadow-baseZ1.sm:p-32.p-24.rounded-8{ class: "shrink-[3] sm:min-w-[440px] w-100", style: 'height: fit-content;' }
         .flex.flex-wrap.pb-16.mb-24.w-fill
           - @supporter_avatar_urls.each do |supporter_avatar_url|
-            = image_tag supporter_avatar_url, class: 'h-[48px] w-[48px] mb-[-16px] mr-[-12px] rounded-circle'
+            = image_tag supporter_avatar_url, class: 'h-[48px] w-[48px] mb-[-16px] me-[-12px] rounded-circle'
         %h2.text-h2.mb-8= t('.help_us.title')
         %p.mb-24.text-p-large.text-textColor5
           = t('.help_us.description_one')
@@ -78,19 +78,19 @@
 
     .flex.items-center.mb-32.justify-between{ data: { 'scroll-top-anchor': 'contributors-list' } }
       %h2.text-h2.flex.items-center
-        = graphical_icon "contributors-gradient", css_class: 'mr-24'
+        = graphical_icon "contributors-gradient", css_class: 'me-24'
         = t('.contributors.title')
 
     -# .flex.gap-16.mb-24
       .border-1.border-borderLight.flex.items-center.py-12.px-24.rounded-8.text-24.grow.shadow-xsZ1v2
         🚀
-        = graphical_icon "avatar-placeholder", css_class: "w-[48px] h-[48px] ml-24 mr-20"
+        = graphical_icon "avatar-placeholder", css_class: "w-[48px] h-[48px] ms-24 me-20"
         .grid.gap-2
           .text-textColor6.text-16.font-medium.leading-140 Featured contributor
           %h5.text-h5 angelikatyborska
       .border-1.border-borderLight.flex.items-center.py-12.px-24.rounded-8.text-24.grow.shadow-xsZ1v2
         .new New
-        = graphical_icon "avatar-placeholder", css_class: "w-[48px] h-[48px] ml-24 mr-20"
+        = graphical_icon "avatar-placeholder", css_class: "w-[48px] h-[48px] ms-24 me-20"
         .grid.gap-2
           .text-textColor6.text-16.font-medium.leading-140 New contributor
           %h5.text-h5 jonathandmiddleton

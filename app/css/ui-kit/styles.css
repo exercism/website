@@ -20,15 +20,15 @@
             height: 18px;
             width: 18px;
             &:first-child {
-                @apply mr-12;
+                @apply me-12;
             }
             &:last-child {
-                @apply ml-12;
+                @apply ms-12;
             }
         }
 
         & > .kb-shortcut {
-            @apply ml-8;
+            @apply ms-8;
         }
 
         &:disabled {

@@ -30,7 +30,7 @@ export function CancelledRequestModal({
       }}
     >
       <div className="flex items-start">
-        <div className="flex flex-col mr-32">
+        <div className="flex flex-col me-32">
           <h3 id="cancelled-mentoring-request-label" className="text-h3 mb-6">
             {t(
               'components.mentoring.session.cancelledRequestModal.mentoringRequestCancelled'
@@ -67,7 +67,7 @@ export function CancelledRequestModal({
         <GraphicalIcon
           icon="cancelled"
           category="graphics"
-          className="ml-auto"
+          className="ms-auto"
           height={128}
           width={128}
         />

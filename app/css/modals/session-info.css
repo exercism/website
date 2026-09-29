@@ -7,14 +7,14 @@
         .c-track-icon {
             height: 42px;
             width: 42px;
-            @apply mr-16;
+            @apply me-16;
         }
         .student {
             @apply flex-grow flex items-center;
             .c-avatar {
                 height: 48px;
                 width: 48px;
-                @apply mr-16;
+                @apply me-16;
             }
 
             .info {
@@ -31,7 +31,7 @@
     }
 
     .finish-button {
-        @apply ml-0;
+        @apply ms-0;
     }
 
     .finished {
@@ -41,7 +41,7 @@
         .c-icon {
             height: 24px;
             width: 24px;
-            @apply mr-16;
+            @apply me-16;
         }
     }
 }

@@ -89,7 +89,7 @@ export function StripeForm({
             onExpired={handleCaptchaFailure}
             onErrored={handleCaptchaFailure}
           />
-          <div className="ml-16 text-textColor6 leading-tight">
+          <div className="ms-16 text-textColor6 leading-tight">
             <Trans
               ns="components/donations"
               i18nKey="stripeForm.attackInfo"

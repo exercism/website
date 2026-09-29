@@ -12,7 +12,7 @@
     }
     & .--status {
         @apply font-mono font-bold;
-        @apply ml-12;
+        @apply ms-12;
         @apply hidden md:block;
     }
     &.--processing {

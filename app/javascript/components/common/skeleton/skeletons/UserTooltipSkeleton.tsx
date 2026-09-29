@@ -28,7 +28,7 @@ export function UserTooltipSkeleton() {
         <Skeleton.Shape
           shape="circle"
           style={{ width: 16, height: 16 }}
-          className="mr-12"
+          className="me-12"
         />
         <Skeleton.Line style={{ width: '50px' }} />
       </div>

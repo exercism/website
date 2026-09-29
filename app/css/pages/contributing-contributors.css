@@ -16,18 +16,18 @@
 
                 & .emoji {
                     @apply text-24 leading-140;
-                    @apply mr-24;
+                    @apply me-24;
                 }
                 & .c-avatar {
                     height: 48px;
                     width: 48px;
-                    @apply mr-20;
+                    @apply me-20;
                 }
                 & .new {
                     @apply bg-lightGold rounded-3;
                     @apply px-8 py-4;
                     @apply text-12 leading-120 uppercase font-bold font-mono;
-                    @apply mr-24;
+                    @apply me-24;
                 }
                 & .info {
                     & .title {
@@ -55,7 +55,7 @@
         }
 
         & .c-single-select {
-            @apply ml-12;
+            @apply ms-12;
         }
     }
     & .contributors {
@@ -71,7 +71,7 @@
             & .rank {
                 @apply flex-shrink-0;
                 @apply text-textColor6 font-medium leading-150 text-center;
-                @apply mr-24;
+                @apply me-24;
                 width: 40px;
                 @screen lg {
                     width: 60px;
@@ -80,11 +80,11 @@
             & .c-avatar {
                 height: 48px;
                 width: 48px;
-                @apply mr-16;
+                @apply me-16;
             }
             & .info {
                 max-width: 570px;
-                @apply mr-24;
+                @apply me-24;
                 & h3 {
                     @apply text-16 leading-150 font-semibold text-textColor2;
                 }
@@ -96,7 +96,7 @@
                 transform: scale(0.8);
                 transform-origin: 0 50%;
 
-                @apply md:ml-auto;
+                @apply md:ms-auto;
                 @screen md {
                     transform: unset;
                 }
@@ -104,7 +104,7 @@
             & .c-icon.action-icon {
                 height: 16px;
                 width: 16px;
-                @apply ml-96;
+                @apply ms-96;
                 @apply filter-textColor6;
             }
         }

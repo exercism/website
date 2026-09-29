@@ -28,7 +28,7 @@
         @apply mt-24 pt-24;
 
         & button + button {
-            @apply ml-24;
+            @apply ms-24;
         }
     }
 }

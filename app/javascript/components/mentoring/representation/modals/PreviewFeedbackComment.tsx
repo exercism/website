@@ -24,7 +24,7 @@ export function PreviewFeedbackComment({
   return (
     <div className="px-24 py-16 leading-160 overflow-auto">
       <div className="flex flex-row items-center mb-12">
-        <Avatar className="w-[32px] h-[32px] mr-16" src={mentor.avatarUrl} />
+        <Avatar className="w-[32px] h-[32px] me-16" src={mentor.avatarUrl} />
         <div className="text-15 text-textColor6 font-medium">
           <Trans
             i18nKey="previewFeedbackComment.gaveThisFeedback"

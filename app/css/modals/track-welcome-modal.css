@@ -26,7 +26,7 @@
     }
 
     .lhs {
-        @apply flex flex-col flex-grow mr-48 w-1-2;
+        @apply flex flex-col flex-grow me-48 w-1-2;
 
         h1 {
             @apply text-h1 mb-12;
@@ -57,7 +57,7 @@
                 .c-icon {
                     height: 64px;
                     width: 64px;
-                    @apply flex-shrink-0 mr-24;
+                    @apply flex-shrink-0 me-24;
                 }
                 h3 {
                     @apply text-h5 mb-4;

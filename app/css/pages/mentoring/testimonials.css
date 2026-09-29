@@ -6,10 +6,10 @@
             @apply py-16 px-24;
 
             & .c-single-select {
-                @apply ml-auto;
+                @apply ms-auto;
             }
             & .c-track-select {
-                @apply ml-0 mr-24;
+                @apply ms-0 me-24;
             }
             & .--search {
                 width: 100%;
@@ -54,7 +54,7 @@
 
             & time {
                 width: 120px;
-                @apply text-textColor2 text-right;
+                @apply text-textColor2 text-end;
             }
         }
 
@@ -69,7 +69,7 @@
             }
             & .options-button {
                 @apply py-12 px-24;
-                @apply border-l-1 border-borderColor6;
+                @apply border-s-1 border-borderColor6;
 
                 .c-icon {
                     @apply filter-textColor6;
@@ -83,16 +83,16 @@
             & .c-track-icon {
                 width: 32px;
                 height: 32px;
-                @apply mr-24;
+                @apply me-24;
             }
             & .c-avatar {
                 height: 42px;
                 width: 42px;
-                @apply mr-16;
+                @apply me-16;
             }
 
             & .info {
-                @apply flex flex-col mr-auto;
+                @apply flex flex-col me-auto;
                 & .student {
                     @apply text-16 text-textColor2 font-medium leading-170;
                 }
@@ -104,7 +104,7 @@
             & .new {
                 background: var(--backgroundColorMentorTestimonialsNew);
                 color: var(--textColorMentorTestimonialsNew);
-                @apply ml-24;
+                @apply ms-24;
                 @apply rounded-3;
                 @apply text-12 leading-140 font-mono font-bold uppercase;
                 @apply py-4 px-8;
@@ -112,17 +112,17 @@
             & .content {
                 @apply text-15 leading-170 text-textColor6;
                 @apply truncate;
-                @apply ml-48 mr-40;
+                @apply ms-48 me-40;
                 width: 520px;
             }
             & time {
                 @apply text-textColor6 leading-140 font-medium;
-                @apply ml-96;
+                @apply ms-96;
             }
             & .c-icon.action-icon {
                 height: 16px;
                 width: 16px;
-                @apply ml-56;
+                @apply ms-56;
                 @apply filter-textColor6;
             }
         }

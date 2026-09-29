@@ -21,7 +21,7 @@ export function PendingMentoringRequest({
           'feedbackPanelMentoringDiscussion.pendingMentoringRequest.mentorWillProvideFeedback'
         )}
       </p>
-      <a className="btn-enhanced btn-s mr-auto" href={mentoringRequestLink}>
+      <a className="btn-enhanced btn-s me-auto" href={mentoringRequestLink}>
         {t(
           'feedbackPanelMentoringDiscussion.pendingMentoringRequest.viewYourRequest'
         )}

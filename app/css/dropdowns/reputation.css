@@ -27,11 +27,11 @@
             & .reason-icon {
                 height: 32px;
                 width: 32px;
-                @apply mr-20;
+                @apply me-20;
                 @apply self-start;
             }
             & .content {
-                @apply flex-grow mr-16;
+                @apply flex-grow me-16;
                 & .description {
                     @apply text-15 leading-150;
                     & strong {
@@ -44,12 +44,12 @@
                 }
             }
             & .c-reputation {
-                @apply mr-24;
+                @apply me-24;
             }
             & .indicator {
                 height: 8px;
                 width: 8px;
-                @apply flex-shrink-0 rounded-circle mr-24;
+                @apply flex-shrink-0 rounded-circle me-24;
                 background: var(--backgroundColorNotificationsCount);
                 opacity: 0;
                 transition: opacity 0.8s ease-out;

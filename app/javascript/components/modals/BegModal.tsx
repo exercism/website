@@ -81,7 +81,7 @@ export default function ({
           id="a11y-finish-mentor-discussion"
           className="flex lg:flex-row flex-col"
         >
-          <div className="lg:mr-64 mr-0 lg:max-w-[700px] max-w-full">
+          <div className="lg:me-64 me-0 lg:max-w-[700px] max-w-full">
             <h3 className="text-h4 mb-4 text-prominentLinkColor">
               {t('begModal.sorryToDisturb')}
             </h3>

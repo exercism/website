@@ -7,7 +7,7 @@
     }
     & .c-mentor-track-selector {
         & .selected {
-            @apply ml-48 mr-12;
+            @apply ms-48 me-12;
         }
     }
 

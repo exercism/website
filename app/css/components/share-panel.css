@@ -13,7 +13,7 @@
 
         & a {
             &:not(:last-child) {
-                @apply mr-12;
+                @apply me-12;
             }
             @apply py-8 px-12;
             @apply text-15 leading-160 font-semibold text-white;
@@ -25,7 +25,7 @@
             & .c-icon {
                 height: 16px;
                 width: 16px;
-                @apply mr-12;
+                @apply me-12;
                 filter: var(--white-filter);
             }
 

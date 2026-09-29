@@ -16,18 +16,18 @@
                 & .c-icon {
                     height: 54px;
                     width: 54px;
-                    @apply mr-16;
+                    @apply me-16;
                 }
             }
             & .stats {
                 @apply flex items-center;
-                @apply ml-auto;
+                @apply ms-auto;
 
                 & .stat {
                     @apply text-16 leading-150 text-textColor6 font-medium;
                     &:last-child {
-                        @apply pl-24 ml-24;
-                        @apply border-l-1 border-borderColor5;
+                        @apply ps-24 ms-24;
+                        @apply border-s-1 border-borderColor5;
                     }
                 }
             }
@@ -39,7 +39,7 @@
                 @apply flex flex-grow;
             }
             & .guides {
-                @apply ml-auto pr-0 mr-0;
+                @apply ms-auto pe-0 me-0;
             }
         }
     }

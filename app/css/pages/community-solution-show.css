@@ -8,7 +8,7 @@
             & .c-track-icon {
                 height: 48px;
                 width: 48px;
-                @apply mr-32;
+                @apply me-32;
                 @apply hidden lg:block;
             }
 
@@ -37,12 +37,12 @@
                     @apply flex flex-wrap items-center;
 
                     & a {
-                        @apply mr-10;
+                        @apply me-10;
                         @apply border-b-2 border-borderColor6;
                         margin-bottom: -2px; /* Visually compensate for the border */
                     }
                     & .c-primary-reputation {
-                        @apply ml-16;
+                        @apply ms-16;
                         @apply hidden sm:flex;
                     }
                 }
@@ -56,7 +56,7 @@
                 }
             }
             & .decorations {
-                @apply ml-auto;
+                @apply ms-auto;
             }
             & .buttons {
                 @apply flex items-center;
@@ -92,7 +92,7 @@
                     }
                 }
                 & .comments-button {
-                    @apply ml-12;
+                    @apply ms-12;
                 }
             }
         }
@@ -133,7 +133,7 @@
                     @apply flex items-center bg-backgroundColorF;
                     @apply py-16 px-24;
                     & .c-faces {
-                        @apply mr-12;
+                        @apply me-12;
                         & .face {
                             height: 32px;
                             width: 32px;
@@ -154,7 +154,7 @@
                             & .c-icon {
                                 height: 15px;
                                 width: 15px;
-                                @apply mr-8;
+                                @apply me-8;
                             }
                         }
                     }
@@ -175,11 +175,11 @@
                     & .c-react-wrapper-user-identity-avatar {
                         height: 48px;
                         width: 48px;
-                        @apply mr-16;
+                        @apply me-16;
                     }
 
                     & .edit-button {
-                        @apply hidden ml-auto items-center;
+                        @apply hidden ms-auto items-center;
                         @apply shadow-xsZ1 rounded-100 bg-backgroundColorA;
                         @apply py-8 px-12;
 
@@ -187,7 +187,7 @@
                             width: 50%;
                             width: 16px;
                             height: 16px;
-                            @apply mr-8;
+                            @apply me-8;
                             @apply filter-textColor6;
                         }
                         & span {
@@ -225,7 +225,7 @@
                     @apply text-16 text-textColor6;
                 }
                 & .light {
-                    @apply ml-8;
+                    @apply ms-8;
                 }
             }
             & .about {

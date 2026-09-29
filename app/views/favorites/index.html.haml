@@ -19,7 +19,7 @@
               %p
                 = t('.upgrade_prompt_html', insiders_link: link_to(t('.insiders_link_text'), insiders_path, class: "!font-semibold"), upgrade_link: link_to(t('.upgrade_link_text'), insiders_path, class: "!font-semibold")).html_safe
 
-      = graphical_icon "favorites", css_class: "w-[180px] h-[180px] ml-auto hidden md:block", category: :graphics
+      = graphical_icon "favorites", css_class: "w-[180px] h-[180px] ms-auto hidden md:block", category: :graphics
       .decorations
 
   = render ReactComponents::Student::FavoritesList.new(current_user, params)

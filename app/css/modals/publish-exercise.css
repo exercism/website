@@ -40,7 +40,7 @@
 
             & .label {
                 @apply text-18 font-semibold leading-huge;
-                @apply pl-16;
+                @apply ps-16;
             }
         }
         & label + label {
@@ -48,16 +48,16 @@
         }
         & .iteration-selector {
             height: 50px;
-            @apply ml-48 mb-16;
+            @apply ms-48 mb-16;
             @apply flex items-center;
             & label {
-                @apply mr-24 mb-0;
+                @apply me-24 mb-0;
                 & .label {
                     @apply text-16 font-medium;
                 }
             }
             & label + label {
-                @apply ml-8 mt-0;
+                @apply ms-8 mt-0;
             }
         }
         & .confirm-button {
@@ -68,6 +68,6 @@
     & .decorative-image {
         height: 300px;
         width: 300px;
-        @apply ml-96 flex-shrink-0;
+        @apply ms-96 flex-shrink-0;
     }
 }

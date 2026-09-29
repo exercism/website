@@ -87,7 +87,7 @@ export const TagsFilter = ({
         aria-haspopup="true"
         aria-expanded={expanded}
       >
-        <span className="hidden sm:block sm:mr-12">
+        <span className="hidden sm:block sm:me-12">
           {t('tagsFilter.filterBy')}
         </span>
         <GraphicalIcon icon="chevron-down" />

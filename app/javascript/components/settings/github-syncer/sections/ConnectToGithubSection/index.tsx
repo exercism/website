@@ -57,11 +57,11 @@ export function ConnectToGithubSection() {
         </div>
         <GraphicalIcon icon="arrow-down-duo" className="h-[32px] my-32" />
 
-        <ol className="text-[18px] leading-140 mb-16 ml-[45px]">
+        <ol className="text-[18px] leading-140 mb-16 ms-[45px]">
           <li className="mb-16 relative">
             <GraphicalIcon
               icon="1-duo.svg"
-              className="h-[32px] !absolute left-[-45px]"
+              className="h-[32px] !absolute start-[-45px]"
             />
             {t('index.createGithubRepository')}
           </li>
@@ -69,7 +69,7 @@ export function ConnectToGithubSection() {
           <li className="mb-16 relative">
             <GraphicalIcon
               icon="2-duo.svg"
-              className="h-[32px] !absolute left-[-45px]"
+              className="h-[32px] !absolute start-[-45px]"
             />
             {t('index.clickButtonToConnect')}
           </li>
@@ -77,7 +77,7 @@ export function ConnectToGithubSection() {
           <li className="mb-16 relative">
             <GraphicalIcon
               icon="3-duo.svg"
-              className="h-[32px] !absolute left-[-45px]"
+              className="h-[32px] !absolute start-[-45px]"
             />
             {t('index.backupEverythingOption')}
           </li>
@@ -85,7 +85,7 @@ export function ConnectToGithubSection() {
           <li className="mb-16 relative">
             <GraphicalIcon
               icon="4-duo.svg"
-              className="h-[32px] !absolute left-[-45px]"
+              className="h-[32px] !absolute start-[-45px]"
             />
             {t('index.futureSolutionsAutoBackup')}
           </li>

@@ -13,7 +13,7 @@ export function UserAvatar({
   const { t } = useAppTranslation('components/track/activity-ticker')
   if (!user)
     return (
-      <div className="w-[36px] h-[36px] mr-12 mt-6">
+      <div className="w-[36px] h-[36px] me-12 mt-6">
         <GraphicalIcon
           icon="avatar-placeholder"
           className="c-avatar"
@@ -23,7 +23,7 @@ export function UserAvatar({
       </div>
     )
   return (
-    <div className="w-[36px] h-[36px] mr-12 mt-6">
+    <div className="w-[36px] h-[36px] me-12 mt-6">
       <img
         src={user.avatarUrl}
         alt={t('userAvatar.userAvatar', { handle: user.handle })}

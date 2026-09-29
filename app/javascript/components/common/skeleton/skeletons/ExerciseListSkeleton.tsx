@@ -41,10 +41,10 @@ function TabElement() {
     <div className="flex items-center">
       <Skeleton.Shape
         shape="circle"
-        className="mr-12"
+        className="me-12"
         style={{ height: 16, width: 16 }}
       />
-      <Skeleton.Line className="mr-8" style={{ width: '8ch' }} />
+      <Skeleton.Line className="me-8" style={{ width: '8ch' }} />
       <Skeleton.Line style={{ width: '2ch' }} />
     </div>
   )

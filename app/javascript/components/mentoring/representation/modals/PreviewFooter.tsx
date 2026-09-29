@@ -42,7 +42,7 @@ export function PreviewFooter({
       </div>
 
       <div className="flex flex-row items-center">
-        <div className="mr-32 text-right leading-150 text-15 text-textColor6">
+        <div className="me-32 text-end leading-150 text-15 text-textColor6">
           {t('previewFooter.youCanEditFeedback')}
           <br />
           {t('previewFooter.feedbackWillAppearOn')}{' '}

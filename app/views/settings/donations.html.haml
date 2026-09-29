@@ -33,7 +33,7 @@
                 .one-off
                   = number_to_currency(current_user.total_one_off_donations_in_dollars, locale: :en, unit: "$")
                   = t('.summary.from_one_time')
-            .show-on-supporters-page.mt-24.lg:mt-0.lg:ml-auto
+            .show-on-supporters-page.mt-24.lg:mt-0.lg:ms-auto
               = render ReactComponents::Settings::ShowOnSupportersPageButton.new
 
           %table.payments

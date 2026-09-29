@@ -12,7 +12,7 @@
     & .c-icon {
         height: 24px;
         width: 24px;
-        @apply mr-6;
+        @apply me-6;
         @apply filter-textColor6;
     }
 }

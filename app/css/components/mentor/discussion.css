@@ -20,12 +20,12 @@
             width: 100%;
             @apply bg-backgroundColorA;
 
-            @apply flex items-center pl-8 pr-24 border-b-1 border-borderColor6;
+            @apply flex items-center ps-8 pe-24 border-b-1 border-borderColor6;
 
             & .close-btn {
                 @apply flex;
                 @apply p-16;
-                @apply mr-8;
+                @apply me-8;
                 & .c-icon {
                     height: 24px;
                     width: 24px;
@@ -35,19 +35,19 @@
             & .c-track-icon {
                 height: 42px;
                 width: 42px;
-                @apply mr-12;
+                @apply me-12;
             }
             & .c-exercise-icon {
                 height: 48px;
                 width: 48px;
-                @apply mr-16;
+                @apply me-16;
             }
             & .student {
                 @apply flex-grow flex items-center;
                 & .c-avatar {
                     height: 48px;
                     width: 48px;
-                    @apply mr-16;
+                    @apply me-16;
                 }
                 & .info {
                     @apply flex flex-col;
@@ -75,12 +75,12 @@
             & .finished {
                 @apply flex items-center;
                 @apply text-16 leading-170 font-semibold text-textColor2;
-                @apply ml-56;
+                @apply ms-56;
 
                 & .c-icon {
                     height: 24px;
                     width: 24px;
-                    @apply mr-16;
+                    @apply me-16;
                 }
             }
         }
@@ -90,7 +90,7 @@
         & .c-iterations-footer {
             @apply mt-auto;
             & .link-button {
-                @apply ml-auto;
+                @apply ms-auto;
                 @apply px-8 py-4;
                 @apply rounded-5 shadow-xsZ1;
 
@@ -112,7 +112,7 @@
 
             & > .download-btn,
             & > .c-copy-text-to-clipboard {
-                @apply border-borderColor6 shadow-xsZ1 ml-16;
+                @apply border-borderColor6 shadow-xsZ1 ms-16;
                 @apply w-auto;
                 @apply py-0 px-12;
                 height: 40px;
@@ -127,7 +127,7 @@
         .iteration-header.mobile {
             @apply px-12;
             .close-btn {
-                @apply mr-24 ml-12;
+                @apply me-24 ms-12;
                 .c-icon {
                     height: 24px;
                     width: 24px;
@@ -178,7 +178,7 @@
                 & .c-icon {
                     height: 16px;
                     width: 16px;
-                    @apply mr-16;
+                    @apply me-16;
                 }
             }
 
@@ -214,7 +214,7 @@
                     @apply border-1 border-buttonBorderColor2 rounded-5;
                     @apply mb-8 py-12 px-16;
                     @apply text-16 leading-paragraph text-textColor6;
-                    @apply text-left;
+                    @apply text-start;
                 }
                 & .note {
                     @apply text-p-small text-textColor6;
@@ -252,7 +252,7 @@
 
             & .c-tab {
                 height: 36px;
-                @apply mr-0;
+                @apply me-0;
 
                 & .c-icon {
                     height: 16px;
@@ -305,7 +305,7 @@
                         .c-icon {
                             height: 14px;
                             width: 14px;
-                            @apply ml-12;
+                            @apply ms-12;
                         }
                     }
                 }
@@ -319,7 +319,7 @@
                 & .handle-block {
                     @apply flex items-center mb-6;
                     & .handle {
-                        @apply text-h5 mr-12;
+                        @apply text-h5 me-12;
                     }
                 }
                 & .name {
@@ -331,7 +331,7 @@
                 & .bio {
                     @apply text-15 leading-150;
                     & .flags {
-                        @apply ml-8;
+                        @apply ms-8;
                     }
                 }
                 & .options {
@@ -341,7 +341,7 @@
                         @apply flex;
                         width: 173px;
                         height: 36px;
-                        @apply mr-24;
+                        @apply me-24;
 
                         & button {
                             @apply flex-grow text-textColor6;
@@ -367,7 +367,7 @@
                         & .c-icon {
                             height: 14px;
                             width: 14px;
-                            @apply ml-12;
+                            @apply ms-12;
                             @apply filter-textColor6;
                         }
                     }
@@ -375,7 +375,7 @@
                 & .c-avatar {
                     height: 64px;
                     width: 64px;
-                    @apply ml-16;
+                    @apply ms-16;
                 }
             }
 
@@ -413,7 +413,7 @@
                     & .buttons {
                         @apply flex items-center;
                         & button {
-                            @apply mr-12;
+                            @apply me-12;
                         }
                     }
                 }
@@ -539,7 +539,7 @@
                 & .name {
                     width: 225px;
                     @apply bg-gray;
-                    @apply mr-8;
+                    @apply me-8;
                 }
                 & .rep {
                     width: 32px;
@@ -584,7 +584,7 @@
                         & .c-icon {
                             width: 12px;
                             height: 12px;
-                            @apply ml-8 filter-prominentLinkColor;
+                            @apply ms-8 filter-prominentLinkColor;
                         }
                     }
                 }
@@ -604,7 +604,7 @@
                             height: 48px;
                             width: 85px;
                             @apply rounded-8;
-                            @apply mr-20;
+                            @apply me-20;
                             background-color: lightgray;
                             background-size: cover;
                             background-position: center;
@@ -622,7 +622,7 @@
                             height: 16px;
                             width: 16px;
                             @apply filter-textColor6;
-                            @apply ml-20;
+                            @apply ms-20;
                         }
                     }
                 }

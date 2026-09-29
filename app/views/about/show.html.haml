@@ -20,13 +20,13 @@
           = link_to "Support Exercism (for organisations)", supporters_page_path, class: 'btn-l btn-enhanced'
 
   .md-container
-    .purpose.border-t-4.md:border-t-0.md:border-l-6.py-28.my-40.md:my-56.md:py-40.px-32.md:px-64.flex.items-start.lg:items-center.flex-col.lg:flex-row.mb-64
+    .purpose.border-t-4.md:border-t-0.md:border-s-6.py-28.my-40.md:my-56.md:py-40.px-32.md:px-64.flex.items-start.lg:items-center.flex-col.lg:flex-row.mb-64
       .info
         %h2.text-h1.mb-16.flex.items-center
           = graphical_icon "purpose"
           = t('.purpose_section.title')
         %p.text-p-2xlarge= t('.purpose_section.description')
-      = graphical_icon "purpose", category: 'graphics', css_class: 'graphic mt-16 lg:mt-0 lg:ml-40 xl:ml-80'
+      = graphical_icon "purpose", category: 'graphics', css_class: 'graphic mt-16 lg:mt-0 lg:ms-40 xl:ms-80'
 
     .goals.mb-80.grid.grid-cols-1.md:grid-cols-3.gap-x-40.gap-y-24
       .goal
@@ -85,4 +85,4 @@
             %span= t('.donate_section.tasks_button')
             = graphical_icon "arrow-right"
 
-      = graphical_icon "floating-cash", category: 'graphics', css_class: 'graphic md:hidden lg:block lg:ml-48 lx:ml-96 mt-28 lg:mt-0 self-center lg:self-start'
+      = graphical_icon "floating-cash", category: 'graphics', css_class: 'graphic md:hidden lg:block lg:ms-48 lx:ms-96 mt-28 lg:mt-0 self-center lg:self-start'

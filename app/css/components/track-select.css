@@ -11,18 +11,18 @@
                 width: 42px;
             }
             & .action-icon {
-                @apply ml-16;
+                @apply ms-16;
             }
         }
         & .--options {
-            margin-left: -24px;
+            margin-inline-start: -24px;
             & label.c-radio-wrapper {
                 & .row {
                     & .c-icon,
                     & .c-track-icon {
                         width: 42px;
                         height: 42px;
-                        @apply mr-16;
+                        @apply me-16;
                     }
                 }
             }
@@ -35,7 +35,7 @@
             & .c-track-icon {
                 height: 32px;
                 width: 32px;
-                @apply mr-12;
+                @apply me-12;
             }
         }
         & label.c-radio-wrapper {
@@ -44,7 +44,7 @@
                 & .c-track-icon {
                     width: 32px;
                     height: 32px;
-                    @apply mr-12;
+                    @apply me-12;
                 }
             }
         }
@@ -57,7 +57,7 @@
             & .c-track-icon {
                 height: 32px;
                 width: 32px;
-                @apply mr-12;
+                @apply me-12;
             }
         }
         & label.c-radio-wrapper {
@@ -66,7 +66,7 @@
                 & .c-track-icon {
                     width: 32px;
                     height: 32px;
-                    @apply mr-12;
+                    @apply me-12;
                 }
             }
         }
@@ -81,7 +81,7 @@
             & .c-track-icon {
                 height: 40px;
                 width: 40px;
-                @apply mr-16;
+                @apply me-16;
             }
             & .track-title {
                 @apply text-16 leading-150 text-textColor2 font-semibold;
@@ -93,7 +93,7 @@
                 & .c-track-icon {
                     width: 42px;
                     height: 42px;
-                    @apply mr-16;
+                    @apply me-16;
                 }
             }
         }
@@ -108,7 +108,7 @@
             & .c-track-icon {
                 height: 40px;
                 width: 40px;
-                @apply mr-16;
+                @apply me-16;
             }
             & .track-title {
                 @apply text-20 leading-150 text-textColor2 font-semibold;
@@ -120,10 +120,10 @@
                 & .c-track-icon {
                     width: 42px;
                     height: 42px;
-                    @apply mr-16;
+                    @apply me-16;
                 }
                 & .count {
-                    margin-right: 62px; /* Line this up with the button */
+                    margin-inline-end: 62px; /* Line this up with the button */
                 }
             }
         }
@@ -158,7 +158,7 @@
                 & .count {
                     @apply text-14 leading-140 font-medium;
                     @apply text-textColor6;
-                    @apply ml-24;
+                    @apply ms-24;
                 }
             }
         }
@@ -171,7 +171,7 @@
             & .c-icon {
                 height: 16px;
                 width: 16px;
-                @apply mr-12;
+                @apply me-12;
                 filter: var(--c-prominent-link-icon-filter);
             }
         }

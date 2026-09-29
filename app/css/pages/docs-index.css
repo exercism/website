@@ -27,7 +27,7 @@
         }
         & > .c-icon {
             @apply md:h-[300px] h-[200px] md:w-[300px] w-[200px];
-            @apply md:ml-64 m-auto;
+            @apply md:ms-64 m-auto;
         }
         & h2 {
             @apply text-h3 mb-8;
@@ -81,7 +81,7 @@
             }
             @screen md {
                 &:nth-child(1) {
-                    @apply pr-32;
+                    @apply pe-32;
                     background-image: repeating-linear-gradient(
                             var(--left),
                             var(--hiddenDash)
@@ -97,7 +97,7 @@
                         );
                 }
                 &:nth-child(2) {
-                    @apply pl-32;
+                    @apply ps-32;
                     background-image: repeating-linear-gradient(
                             var(--left),
                             var(--hiddenDash)
@@ -113,7 +113,7 @@
                         );
                 }
                 &:nth-child(3) {
-                    @apply pr-32;
+                    @apply pe-32;
                     background-image: repeating-linear-gradient(
                             var(--left),
                             var(--hiddenDash)

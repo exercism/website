@@ -42,7 +42,7 @@ export const Track = ({ track }: { track: StudentTrack }): JSX.Element => {
           {track.hasNotifications && <div className="c-notification-dot" />}
           {track.isJoined && (
             <div className="--joined">
-              <GraphicalIcon icon="checkmark" className="lg:mr-8" />
+              <GraphicalIcon icon="checkmark" className="lg:me-8" />
               <span className="hidden lg:block">{t('track.joined')}</span>
             </div>
           )}

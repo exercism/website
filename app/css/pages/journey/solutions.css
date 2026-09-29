@@ -4,7 +4,7 @@
     & article.solutions-tab {
         & .c-search-bar {
             & > .container > .c-single-select {
-                @apply ml-12;
+                @apply ms-12;
 
                 &:nth-of-type(1) {
                     width: 308px;
@@ -18,7 +18,7 @@
             }
 
             & .filter-options {
-                @apply absolute left-0 right-0;
+                @apply absolute start-0 end-0;
                 @apply bg-backgroundColorB;
                 @apply z-dropdown;
 
@@ -40,7 +40,7 @@
                         @apply flex gap-16 mt-16;
                     }
                     & .c-single-select {
-                        @apply mr-16 mb-16;
+                        @apply me-16 mb-16;
                         & button {
                             box-shadow: none;
                         }
@@ -65,14 +65,14 @@
                     & .c-exercise-icon {
                         height: 64px;
                         width: 64px;
-                        @apply mr-16;
+                        @apply me-16;
                     }
                     & .info {
                         & .exercise-title {
                             @apply text-h4;
                         }
                         & .--out-of-date {
-                            @apply ml-16;
+                            @apply ms-16;
                             height: 16px;
                             width: 16px;
                             filter: var(--orange-filter);
@@ -80,7 +80,7 @@
                         & .head-tests-status {
                             height: 16px;
                             width: 16px;
-                            @apply ml-16;
+                            @apply ms-16;
 
                             &.--passed {
                                 filter: var(--dark-green-filter);
@@ -99,7 +99,7 @@
                             & .c-icon {
                                 height: 24px;
                                 width: 24px;
-                                @apply ml-8 mr-12;
+                                @apply ms-8 me-12;
                             }
                             & .track-title {
                                 @apply text-textColor1 font-semibold;
@@ -107,14 +107,14 @@
                         }
                     }
                     & .status {
-                        @apply flex items-center p-8 ml-16;
+                        @apply flex items-center p-8 ms-16;
                         @apply rounded-8 text-successColor font-medium;
                         background: rgba(79, 205, 167, 0.2);
 
                         & .c-icon {
                             height: 14px;
                             width: 14px;
-                            @apply mr-8;
+                            @apply me-8;
                         }
                     }
                 }
@@ -126,11 +126,11 @@
                         & .c-icon {
                             height: 16px;
                             width: 16px;
-                            @apply mr-12;
+                            @apply me-12;
                             filter: var(--textColor6-filter);
                         }
                         & + .stat {
-                            @apply ml-24;
+                            @apply ms-24;
                         }
                     }
                 }
@@ -140,7 +140,7 @@
             }
             & .counts {
                 @apply flex flex-col;
-                @apply ml-32;
+                @apply ms-32;
                 & .count {
                     @apply flex items-center;
                     @apply mb-24;
@@ -148,7 +148,7 @@
                     & .c-icon {
                         height: 21px;
                         width: 21px;
-                        @apply mr-8;
+                        @apply me-8;
                         filter: var(--textColor6-filter);
                     }
                     & .num {

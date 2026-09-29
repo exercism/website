@@ -8,16 +8,16 @@
 
         & > .c-icon {
             &:first-child {
-                @apply mr-12;
+                @apply me-12;
             }
             &:last-child {
-                @apply ml-12;
+                @apply ms-12;
             }
         }
 
         & > .kb-shortcut {
             @apply font-mono font-bold;
-            @apply ml-8;
+            @apply ms-8;
             line-height: 1;
         }
     }
@@ -160,7 +160,7 @@
         @apply py-6 px-12;
 
         & > :first-child {
-            @apply mr-12;
+            @apply me-12;
         }
         & .--kb {
             @apply py-6 px-8;
@@ -191,10 +191,10 @@
         }
         & > .c-icon {
             &:first-child {
-                @apply mr-6;
+                @apply me-6;
             }
             &:last-child {
-                @apply ml-6;
+                @apply ms-6;
             }
         }
         & > .kb-shortcut {

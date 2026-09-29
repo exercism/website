@@ -4,23 +4,23 @@
 #page-landing
   %header.pt-24.sm:pt-32.md:pt-40.pb-56.sm:pb-56.c-header-with-bg
     .lg-container.flex.items-start.md:items-center.flex-col-reverse.md:flex-row
-      .lhs.md:items-center.lg:items-start.md:text-center.lg:text-left
+      .lhs.md:items-center.lg:items-start.md:text-center.lg:text-start
         %h1.text-h0.mb-12
           = t('.header.title_html').html_safe
         %p.text-p-xlarge.mb-24
           = t('.header.subtitle_html', num_tracks: @num_tracks).html_safe
         .buttons.flex.mb-40.flex-col.sm:flex-row
-          = link_to t('.header.signup_button'), new_user_registration_path, class: 'btn-primary btn-l mb-12 sm:mb-0 sm:mr-24 '
+          = link_to t('.header.signup_button'), new_user_registration_path, class: 'btn-primary btn-l mb-12 sm:mb-0 sm:me-24 '
           = link_to t('.header.explore_button'), tracks_path, class: 'btn-secondary btn-l shadow-buttonS'
 
-        .organisation.pt-16.sm:items-center.lg:items-start.xl:items-center.flex-col.sm:flex-row.lg:flex-col.xl:flex-row.px-24.sm:pl-32.sm:pr-48.pb-16.sm:pb-32.md:pb-16.lg:pb-16.xl:pb-16
-          = icon "exercism-with-logo-black", "Exercism", css_class: 'mr-16 mb-8 sm:mb-8 lg:mb-8'
+        .organisation.pt-16.sm:items-center.lg:items-start.xl:items-center.flex-col.sm:flex-row.lg:flex-col.xl:flex-row.px-24.sm:ps-32.sm:pe-48.pb-16.sm:pb-32.md:pb-16.lg:pb-16.xl:pb-16
+          = icon "exercism-with-logo-black", "Exercism", css_class: 'me-16 mb-8 sm:mb-8 lg:mb-8'
 
           .flex.flex-col.sm:flex-row.lg:flex-col.xl:flex-row.sm:items-center.lg:items-start.xl:items-center
             %p.text-p-base.mb-8.sm:mb-0.text-left= t('.header.organisation_description')
-            = link_to t('.header.learn_more_link'), about_path, class: "c-prominent-link sm:ml-40 lg:ml-0 xl:ml-40"
+            = link_to t('.header.learn_more_link'), about_path, class: "c-prominent-link sm:ms-40 lg:ms-0 xl:ms-40"
 
-      .graphic.grid.md:hidden.lg:grid.lg:ml-24.mb-16.lg:mb-0
+      .graphic.grid.md:hidden.lg:grid.lg:ms-24.mb-16.lg:mb-0
         = graphical_icon "landing-page-top", category: :graphics
 
   %section.tracks-section.pt-40.md:pt-56.mb-40.md:mb-56
@@ -42,7 +42,7 @@
   %section.exercises-section.pb-64
     .lg-container
       .flex.flex-col.lg:flex-row.lg:items-start.mb-48.lg:mb-72
-        .flex-grow{ class: "mr-auto lg:max-w-[640px]" }
+        .flex-grow{ class: "me-auto lg:max-w-[640px]" }
           .section-header.mb-24.sm:mb-32
             = graphical_icon :exercises, hex: true
             %h2.text-h2
@@ -61,12 +61,12 @@
                     %h3= t(".exercises_section.showcase.#{key}.title")
                     %p= t(".exercises_section.showcase.#{key}.blurb")
                   .flex.items-center.flex-shrink-0
-                    .track-icons.sm:ml-16
+                    .track-icons.sm:ms-16
                       - @tracks.sort_by { rand }[0, 3].each do |track|
                         = track_icon(track)
                     .font-semibold.text-textColor7.ml-16.whitespace-nowrap= t('.exercises_section.more_tracks', count: sample[:num_tracks])
 
-        = srcset_tag "screenshots/landing-page-exercise.webp", [400, 688, 800, 1376], [[:lg, "50vw"], "100vw"], alt: "", class: "main-graphic lg:max-w-1-2 lg:ml-80 mt-32 lg:mt-96 shadow-lgZ1 w-fill", width: 1376, height: 1076
+        = srcset_tag "screenshots/landing-page-exercise.webp", [400, 688, 800, 1376], [[:lg, "50vw"], "100vw"], alt: "", class: "main-graphic lg:max-w-1-2 lg:ms-80 mt-32 lg:mt-96 shadow-lgZ1 w-fill", width: 1376, height: 1076
 
       .features.grid.grid-cols-1.md:grid-cols-3.gap-x-80.gap-y-32
         .feature
@@ -87,7 +87,7 @@
   %section.mentoring-section
     .lg-container
       .flex.flex-col.md:flex-row.items-center.justify-center.mb-24.sm:mb-64
-        = graphical_icon 'mentoring-coffee', category: :graphics, css_class: 'top-graphic mb-20 md:mb-0 lg:mr-128'
+        = graphical_icon 'mentoring-coffee', category: :graphics, css_class: 'top-graphic mb-20 md:mb-0 lg:me-128'
         .section-header
           = graphical_icon :exercises, hex: true
           %h2.text-h2

@@ -13,7 +13,7 @@
         & .icon {
             height: 48px;
             width: 48px;
-            @apply mr-24;
+            @apply me-24;
         }
         & h1 {
             @apply text-gradient;
@@ -63,7 +63,7 @@
                 height: 64px;
                 width: 64px;
                 @apply mb-12 rounded-100;
-                @apply md:mb-0 md:mr-16;
+                @apply md:mb-0 md:me-16;
             }
             & h3 {
                 @apply text-18 leading-150 text-textColor2;

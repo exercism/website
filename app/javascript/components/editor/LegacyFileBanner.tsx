@@ -27,7 +27,7 @@ export const LegacyFileBanner = ({
         </h3>
         <button
           onClick={handleOpen}
-          className="btn-xs btn-secondary mr-24 ml-auto"
+          className="btn-xs btn-secondary me-24 ms-auto"
         >
           <GraphicalIcon icon="trash" />
           <span>{t('legacyFileBanner.deleteFile')}</span>

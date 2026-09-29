@@ -7,7 +7,7 @@ export function ThemeToggleButtonSkeleton() {
     <SkeletonLoader>
       <SkeletonShape
         shape="tag"
-        className="ml-24"
+        className="ms-24"
         style={{ width: '52px', height: '26px' }}
       />
     </SkeletonLoader>

@@ -5,7 +5,7 @@
       %h2.text-h3.mb-4= t('.title')
       %p.text-p-large
         = t('.description', num_active_tracks: Track.num_active)
-    .rhs.flex.lg:ml-24.flex-col.sm:flex-row.items-stretch.sm:items-center
-      = link_to t('.signup_button'), new_user_registration_path, class: 'btn-l btn-primary mb-16 sm:mb-0 sm:mr-32'
+    .rhs.flex.lg:ms-24.flex-col.sm:flex-row.items-stretch.sm:items-center
+      = link_to t('.signup_button'), new_user_registration_path, class: 'btn-l btn-primary mb-16 sm:mb-0 sm:me-32'
       = link_to t('.explore_languages_button'), tracks_path, class: 'btn-l btn-enhanced'
   .bottom

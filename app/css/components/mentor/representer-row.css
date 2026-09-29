@@ -16,20 +16,20 @@
         & .c-track-icon {
             height: 32px;
             width: 32px;
-            @apply mr-24;
+            @apply me-24;
         }
         & .c-exercise-icon {
             height: 48px;
             width: 48px;
 
-            @apply mr-24;
+            @apply me-24;
         }
 
         & .c-avatar {
             height: 48px;
             width: 48px;
 
-            @apply mr-16;
+            @apply me-16;
         }
         & .--info {
             @apply flex-grow;
@@ -39,7 +39,7 @@
                 @apply font-medium text-16 text-textColor2 leading-160;
                 & .dot,
                 & .c-icon {
-                    @apply ml-8;
+                    @apply ms-8;
                 }
 
                 & .favorited {
@@ -60,28 +60,28 @@
         & .--status {
             @apply font-medium text-14 text-textColor6 leading-code;
             @apply py-4 px-12 border-borderLight border-1 rounded-100;
-            @apply ml-56;
+            @apply ms-56;
         }
         & time,
         .--occurencies {
             @apply font-medium text-14 text-textColor6 leading-code;
-            @apply text-right;
+            @apply text-end;
             width: 140px;
         }
 
         .--occurencies {
-            @apply mr-32;
+            @apply me-32;
         }
 
         & .--feedback-glimpse {
             @apply flex items-center h-48;
-            @apply text-right mr-60 leading-150 text-textColor6;
+            @apply text-end me-60 leading-150 text-textColor6;
             @apply truncate;
             width: 300px;
         }
 
         & .action-icon {
-            @apply ml-36 text-textColor6;
+            @apply ms-36 text-textColor6;
 
             height: 16px;
             width: 16px;

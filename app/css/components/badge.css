@@ -95,7 +95,7 @@
 }
 .c-badge {
     @apply flex items-start;
-    @apply text-left;
+    @apply text-start;
 
     & .c-badge-medallion {
         height: 64px;
@@ -104,7 +104,7 @@
     }
 
     & .--info {
-        @apply ml-16;
+        @apply ms-16;
 
         & .--name {
             @apply text-h6 mb-4;

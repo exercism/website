@@ -78,7 +78,7 @@
                 &:after {
                     content: "";
                     background: url("icons/insiders.svg");
-                    @apply ml-6 mb-[3px];
+                    @apply ms-6 mb-[3px];
                     @apply bg-cover h-[16px] w-[16px];
                 }
             }
@@ -147,7 +147,7 @@
                     width: auto;
                 }
                 ul li {
-                    @apply pr-0;
+                    @apply pe-0;
                 }
                 .nav-dropdown-element {
                     @apply gap-16;
@@ -161,12 +161,12 @@
             }
             ul {
                 @apply flex flex-col items-baseline;
-                @apply mr-0;
+                @apply me-0;
                 @apply relative h-[100%];
                 width: var(--nd-ul-width);
 
                 li {
-                    @apply pr-8 w-100;
+                    @apply pe-8 w-100;
                     .nav-dropdown-view {
                         @apply absolute hidden rounded-8 overflow-auto;
                         background: var(--nav-highlightColor);
@@ -196,7 +196,7 @@
 
                             .new {
                                 @apply bg-orange text-white uppercase text-[11px];
-                                @apply px-8 py-2 ml-8;
+                                @apply px-8 py-2 ms-8;
                                 @apply rounded-8;
                                 @apply inline;
                                 @apply align-top;
@@ -212,7 +212,7 @@
                             text-overflow: ellipsis;
                         }
                         .c-icon.external-icon {
-                            @apply w-[16px] h-[16px] ml-auto;
+                            @apply w-[16px] h-[16px] ms-auto;
                         }
                     }
                     .nav-element-link {

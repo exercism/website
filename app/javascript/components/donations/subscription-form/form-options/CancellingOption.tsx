@@ -57,7 +57,7 @@ export const CancellingOption = ({
       </p>
       <form data-turbo="false" onSubmit={handleSubmit}>
         <div className="flex">
-          <FormButton status={status} className="btn-xs btn-primary mr-12">
+          <FormButton status={status} className="btn-xs btn-primary me-12">
             {t('formOptions.cancellingOption.yesPleaseCancel')}
           </FormButton>
           <FormButton

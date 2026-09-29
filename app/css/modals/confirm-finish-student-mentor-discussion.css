@@ -16,7 +16,7 @@
     & .buttons {
         @apply flex items-center justify-end;
         & button {
-            @apply ml-16;
+            @apply ms-16;
         }
     }
 }

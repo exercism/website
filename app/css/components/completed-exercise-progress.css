@@ -10,16 +10,16 @@
             @apply mb-8 py-16 px-24;
 
             & .c-concept-icon {
-                @apply mr-16;
+                @apply me-16;
             }
             & .name {
                 @apply text-18 leading-160 text-textColor2 font-semibold;
             }
             & .exercises {
                 @apply flex items-center;
-                @apply ml-auto;
+                @apply ms-auto;
                 & > not(:last-child) {
-                    @apply mr-12;
+                    @apply me-12;
                 }
             }
         }
@@ -28,7 +28,7 @@
         @apply flex;
 
         & .unlocked-concepts + .unlocked-exercises {
-            @apply ml-24;
+            @apply ms-24;
         }
         & .unlocked-concepts,
         & .unlocked-exercises {

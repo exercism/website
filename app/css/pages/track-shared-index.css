@@ -15,11 +15,11 @@
         & .c-track-icon {
             height: 64px;
             width: 64px;
-            @apply mr-64;
+            @apply me-64;
         }
 
         & .info {
-            @apply flex-grow mr-24;
+            @apply flex-grow me-24;
             & h2 {
                 @apply text-h4 mb-6;
             }
@@ -38,7 +38,7 @@
         & .graphic {
             height: 128px;
             width: 128px;
-            @apply mr-36;
+            @apply me-36;
         }
         & .info {
             & h1 {

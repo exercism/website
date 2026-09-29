@@ -22,13 +22,13 @@
             left: 40px;
             top: 0;
             bottom: 0;
-            @apply border-l-1 border-borderColor6;
+            @apply border-s-1 border-borderColor6;
         }
 
         & .timeline-marker {
             height: var(--header-height);
             width: var(--header-height);
-            @apply mr-16;
+            @apply me-16;
             @apply relative z-1 bg-backgroundColorA;
             @apply flex-shrink-0;
         }
@@ -42,7 +42,7 @@
         @apply flex items-center;
         & time {
             @apply text-textColor6 leading-160;
-            @apply ml-auto;
+            @apply ms-auto;
         }
     }
 
@@ -62,7 +62,7 @@
             @apply text-16 text-textColor6 leading-150;
 
             & strong {
-                @apply font-medium text-textColor2 mr-6;
+                @apply font-medium text-textColor2 me-6;
             }
         }
     }
@@ -77,19 +77,19 @@
         & .info-icon {
             height: 16px;
             width: 16px;
-            @apply text-orange mr-12;
+            @apply text-orange me-12;
             filter: var(--textColor6-filter);
         }
         & .info {
             @apply flex-grow;
             @apply text-15 text-textColor6 font-medium leading-150;
-            @apply mr-12;
+            @apply me-12;
         }
 
         & .modal-icon {
             height: 16px;
             width: 16px;
-            @apply ml-auto;
+            @apply ms-auto;
             filter: var(--textColor6-filter);
         }
     }
@@ -117,7 +117,7 @@
             & .edit-button {
                 width: 32px;
                 height: 32px;
-                @apply hidden ml-auto place-items-center;
+                @apply hidden ms-auto place-items-center;
                 @apply shadow-xsZ1 rounded-circle bg-backgroundColorA;
 
                 & .c-icon {

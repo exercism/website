@@ -14,7 +14,7 @@ export function SectionHeader({
 }): JSX.Element {
   return (
     <div className={`flex flex-row items-start ${className}`}>
-      <div className="p-8 mr-16">
+      <div className="p-8 me-16">
         <GraphicalIcon height={32} width={32} icon={icon} />
       </div>
       <div>

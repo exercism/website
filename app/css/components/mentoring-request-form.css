@@ -20,7 +20,7 @@
         .c-icon {
             height: 120px;
             width: 120px;
-            @apply ml-24;
+            @apply ms-24;
         }
     }
 
@@ -32,7 +32,7 @@
         .c-icon {
             height: 32px;
             width: 32px;
-            @apply mr-16;
+            @apply me-16;
         }
         .info {
             @apply flex-grow;

@@ -60,7 +60,7 @@
     & .mentor-queue-filtering {
         @apply flex-grow-0 flex-shrink-0;
         @apply flex flex-col;
-        @apply ml-48;
+        @apply ms-48;
         width: 420px;
 
         & .c-track-select {
@@ -78,7 +78,7 @@
                     width: 100%;
                     @apply bg-backgroundColorA border-1 border-buttonBorderColor2;
                     background-position-x: calc(100% - 32px);
-                    @apply pl-16;
+                    @apply ps-16;
                 }
             }
             & .c-checkbox-wrapper.filter {
@@ -108,19 +108,19 @@
 
                 & .c-radio {
                     font-size: 16px;
-                    @apply mr-16;
+                    @apply me-16;
                 }
                 & .c-icon {
                     height: 32px;
                     width: 32px;
-                    @apply mr-12;
+                    @apply me-12;
                 }
                 & .title {
                     @apply flex-grow;
                     @apply text-15 font-medium text-textColor6 leading-regular;
                 }
                 & .count {
-                    @apply px-8 flex items-center ml-16;
+                    @apply px-8 flex items-center ms-16;
                     @apply font-medium text-14 text-textColor6 leading-160;
                     @apply border-1 border-textColor6 rounded-100;
                 }

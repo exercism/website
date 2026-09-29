@@ -61,7 +61,7 @@
 
     & .c-track-icon + .completed-icon {
         top: -12px;
-        left: -5px;
+        inset-inline-start: -5px;
         margin-inline-end: -19px;
         height: 24px;
         width: 24px;

@@ -48,12 +48,6 @@ export default function CodeMirror({
   tabSize: number
   editorDidMount: (handler: Handler) => void
   readonly?: boolean
-  /*
-   * Source code is always left-to-right, so the editor pins its content to ltr
-   * by default and does not inherit `dir` from an RTL document. Callers holding
-   * user prose rather than code (MarkdownEditor) pass "inherit" so the text
-   * follows the reader's direction.
-   */
   direction?: 'ltr' | 'inherit'
 }): JSX.Element {
   const [textarea, setTextarea] = useState<HTMLDivElement | null>(null)

@@ -283,7 +283,7 @@
                     @apply absolute bg-borderColor7;
                     width: 2px;
                     top: -32px;
-                    left: 31px;
+                    inset-inline-start: 31px;
                     bottom: 0;
                 }
                 &:first-child {

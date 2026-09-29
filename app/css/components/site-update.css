@@ -8,7 +8,7 @@
         @apply absolute bg-borderColor7;
         width: 2px;
         top: -32px;
-        left: 24px;
+        inset-inline-start: 24px;
         bottom: -32px;
     }
     &:first-child {

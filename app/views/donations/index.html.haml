@@ -19,8 +19,8 @@
           - progress = [1, actual / target].min * 100
           .bar{ style: "width:#{progress}%" }
 
-          .current-icon{ style: "left:calc(#{progress.round}% - 18px)" }
-          .actual-number.hidden{ class: "md:block", style: "left:calc(#{progress.round}% - 160px)" }
+          .current-icon{ style: "inset-inline-start:calc(#{progress.round}% - 18px)" }
+          .actual-number.hidden{ class: "md:block", style: "inset-inline-start:calc(#{progress.round}% - 160px)" }
             = t('.progress_bar.monthly_donations')
             %span.font-semibold= number_to_currency(actual.round, precision: 0, locale: :en, unit: "$")
 

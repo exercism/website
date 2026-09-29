@@ -19,7 +19,7 @@
         &:before {
             content: "";
             @apply absolute;
-            left: 40px;
+            inset-inline-start: 40px;
             top: 0;
             bottom: 0;
             @apply border-s-1 border-borderColor6;

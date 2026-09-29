@@ -9,8 +9,9 @@
 
         & .background {
             @apply absolute overflow-hidden;
-            @apply flex justify-end;
+            @apply flex;
             @apply bg-cover;
+            justify-content: right;
             background-image: url("hero-journey.svg");
             left: 0;
             right: 0;

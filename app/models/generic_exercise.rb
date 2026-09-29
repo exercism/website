@@ -10,6 +10,7 @@ class GenericExercise < ApplicationRecord
 
   def title = translated_metadata("exercise:#{slug}:title", super)
   def blurb = translated_metadata("exercise:#{slug}:blurb", super)
+  def translation_expected? = !deprecated?
   def source = translated_metadata("exercise:#{slug}:source", super)
   def deep_dive_blurb = translated_metadata("exercise:#{slug}:deep_dive_blurb", super)
 

@@ -85,6 +85,7 @@ class Track < ApplicationRecord
   def translation_metadata_repo_name = repo_url.split("/").last
 
   def blurb = translated_metadata("track:blurb", super)
+  def translation_expected? = active?
 
   def key_features
     features = git.key_features

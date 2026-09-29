@@ -20,6 +20,17 @@ class Git::SyncMainDocs
     config.to_a.each_with_index do |doc_config, position|
       Git::SyncDoc.(doc_config, section, position, repo.head_sha)
     end
+
+    remove_deleted_docs!(section, config.to_a.map { |doc_config| doc_config[:uuid] })
+  end
+
+  # A doc removed from a section's config.json would otherwise stay on the site
+  # for ever. An empty config is taken as a failed read, never as a section
+  # with no docs, so it removes nothing.
+  def remove_deleted_docs!(section, uuids)
+    return if uuids.empty?
+
+    Document.where(track: nil, section:).where.not(uuid: uuids).destroy_all
   end
 
   memoize

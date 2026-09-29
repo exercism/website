@@ -55,6 +55,7 @@ module Flows
         use_capybara_host do
           sign_in!(user)
           visit track_exercise_iterations_url(track, exercise)
+          wait_for_websocket_subscriptions(channel: "SolutionChannel")
           find("summary").click
 
           create(:iteration, idx: 3, solution:)
@@ -78,7 +79,7 @@ module Flows
         use_capybara_host do
           sign_in!(user)
           visit track_exercise_iterations_url(track, exercise)
-          sleep(0.2) # Give the websockets time to attach
+          wait_for_websocket_subscriptions(channel: "SolutionChannel")
 
           create(:iteration, idx: 3, solution:)
           SolutionChannel.broadcast!(solution)

@@ -9,7 +9,8 @@ module ViewComponents
           profile:,
           selected_tab:,
           top_three_tracks:,
-          header_tags:
+          header_tags:,
+          num_revealed_badges: user.revealed_badges.count
       end
 
       def top_three_tracks

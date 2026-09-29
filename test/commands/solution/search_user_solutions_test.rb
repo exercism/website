@@ -81,10 +81,20 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
     wait_for_opensearch_to_be_synced
 
     assert_equal [iterated, completed, published], Solution::SearchUserSolutions.(user, status: nil)
-    assert_equal [iterated], Solution::SearchUserSolutions.(user, status: :iterated)
-    assert_equal [iterated], Solution::SearchUserSolutions.(user, status: 'iterated')
     assert_equal [completed, published], Solution::SearchUserSolutions.(user, status: %i[completed published])
     assert_equal [completed, published], Solution::SearchUserSolutions.(user, status: %w[completed published])
+  end
+
+  test "a single status with no other filters is searched in the database" do
+    user = create :user
+    published = create :practice_solution, user:, status: :published, published_at: 3.weeks.ago
+    create :practice_solution, user:, status: :completed, num_stars: 1
+    iterated = create :concept_solution, user:, status: :iterated, num_stars: 2
+
+    OpenSearch::Client.expects(:new).never
+
+    assert_equal [iterated], Solution::SearchUserSolutions.(user, status: :iterated)
+    assert_equal [iterated], Solution::SearchUserSolutions.(user, status: 'iterated')
     assert_equal [published], Solution::SearchUserSolutions.(user, status: :published)
     assert_equal [published], Solution::SearchUserSolutions.(user, status: 'published')
   end

@@ -10,6 +10,7 @@ class Solution::Unpublish
     Solution::UpdateNumLoc.(solution)
 
     update_num_published_solutions_on_exercise!
+    User::ResetCache.defer(solution.user, :num_published_solutions)
     Solution::InvalidateCloudflareCache.defer(solution)
   end
 

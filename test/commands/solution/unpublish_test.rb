@@ -51,6 +51,15 @@ class Solution::UnpublishTest < ActiveSupport::TestCase
     assert_equal 0, exercise.reload.num_published_solutions
   end
 
+  test "updates user's num_published_solutions" do
+    solution = create(:concept_solution, :published)
+    create(:iteration, solution:)
+
+    assert_user_data_cache_reset(solution.user, :num_published_solutions, 0) do
+      Solution::Unpublish.(solution)
+    end
+  end
+
   test "calls out to change representation" do
     exercise = create(:concept_exercise)
     solution = create(:concept_solution, :published, exercise:)

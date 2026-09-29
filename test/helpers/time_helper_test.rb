@@ -31,4 +31,14 @@ class TimeHelperTest < ActionView::TestCase
     assert_equal "5y", time_ago_in_words(Time.current - 5.years, short: true)
     assert_equal "5y+", time_ago_in_words(Time.current - 5.years - 4.months, short: true)
   end
+
+  test "time_ago_in_words short in a locale without English phrasing" do
+    travel_to(Date.new(2022, 6, 3))
+    I18n.with_locale(:ja) do
+      assert_equal I18n.t('datetime.distance_in_words.about_x_years', count: 2),
+        time_ago_in_words(Time.current - 2.years, short: true)
+      assert_equal I18n.t('datetime.distance_in_words.x_months', count: 3),
+        time_ago_in_words(Time.current - 3.months, short: true)
+    end
+  end
 end

@@ -13,6 +13,10 @@ module TimeHelper
 
     return "1s" if t == "less than a minute"
 
+    # The abbreviations below are built by parsing the English phrasing (e.g. "2 months"),
+    # so other locales get their full translated phrase (e.g. "約2年" in Japanese).
+    return t unless I18n.locale == :en
+
     parts = t.split(' ')
 
     # If the time is more than 5 years ago, the value is literally "over 5 years" as opposed

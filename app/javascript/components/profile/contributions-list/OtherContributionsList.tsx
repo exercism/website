@@ -1,6 +1,7 @@
 // i18n-key-prefix: otherContributionsList
 // i18n-namespace: components/profile/contributions-list
 import React from 'react'
+import { Trans } from 'react-i18next'
 import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
 import { useList } from '@/hooks/use-list'
 import { fromNow } from '@/utils/date'
@@ -91,13 +92,19 @@ const Contribution = ({
         <div className="extra">
           {track ? (
             <div className="exercise">
-              in
-              <TrackIcon
-                iconUrl={track.iconUrl}
-                title={track.title}
-                className="primary-icon"
+              <Trans
+                ns="components/profile/contributions-list"
+                i18nKey="otherContributionsList.inTrack"
+                values={{ track: track.title }}
+                components={[
+                  <TrackIcon
+                    iconUrl={track.iconUrl}
+                    title={track.title}
+                    className="primary-icon"
+                  />,
+                  <div className="name" />,
+                ]}
               />
-              <div className="name">{track.title}</div>
             </div>
           ) : (
             <div className="generic">{t('otherContributionsList.generic')}</div>

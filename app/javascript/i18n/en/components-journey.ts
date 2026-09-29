@@ -40,5 +40,5 @@ export default {
   'contribution.generic': 'Generic',
   'unrevealedBadge.unrevealed': 'Unrevealed',
   'unrevealedBadge.clickTapToReveal': 'Click/tap to reveal',
-  'contribution.in': 'in',
+  'contribution.inTrack': 'in <0/><1>{{track}}</1>',
 }

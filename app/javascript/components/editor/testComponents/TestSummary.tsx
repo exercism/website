@@ -13,8 +13,8 @@ const statusLabels = {
 }
 const messageLabelKeys = {
   [TestStatus.PASS]: null,
-  [TestStatus.FAIL]: 'testSummary.testFailure',
-  [TestStatus.ERROR]: 'testSummary.testError',
+  [TestStatus.FAIL]: 'testFailure',
+  [TestStatus.ERROR]: 'testError',
 }
 
 export function TestSummary({
@@ -68,7 +68,7 @@ export function TestSummary({
         ) : null}
         {isPresent(test.message) ? (
           <div className="--info">
-            <h3>{t(messageLabelKeys[test.status])}</h3>
+            <h3>{t(`testSummary.${messageLabelKeys[test.status]}`)}</h3>
             <pre dangerouslySetInnerHTML={{ __html: test.messageHtml }} />
           </div>
         ) : null}

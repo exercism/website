@@ -215,9 +215,11 @@ test('shows generic errors when fetching tracks', async () => {
     </TestQueryCache>
   )
 
+  // The unmocked second request fails too, so both components render the
+  // generic fallback.
   expect(
-    await screen.findByText('Something went wrong. Please try again.')
-  ).toBeInTheDocument()
+    await screen.findAllByText('Something went wrong. Please try again.')
+  ).not.toHaveLength(0)
 
   server.close()
 })
@@ -367,9 +369,11 @@ test('shows generic errors when fetching exercises', async () => {
     </TestQueryCache>
   )
 
+  // The unmocked second request fails too, so both components render the
+  // generic fallback.
   expect(
-    await screen.findByText('Something went wrong. Please try again.')
-  ).toBeInTheDocument()
+    await screen.findAllByText('Something went wrong. Please try again.')
+  ).not.toHaveLength(0)
 
   server.close()
 })

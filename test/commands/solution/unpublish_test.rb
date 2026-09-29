@@ -52,6 +52,9 @@ class Solution::UnpublishTest < ActiveSupport::TestCase
   end
 
   test "updates user's num_published_solutions" do
+    Solution::UpdateNumLoc.any_instance.stubs(:call)
+    Solution::UpdateSnippet.any_instance.stubs(:call)
+
     solution = create(:concept_solution, :published)
     create(:iteration, solution:)
 

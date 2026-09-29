@@ -5,17 +5,20 @@ module WebsocketsHelpers
   # early fails in a way no retry can fix.
   #
   # Use this after visiting a page and *before* broadcasting, in place of
-  # sleeping and hoping the subscription got set up in time.
-  def wait_for_websocket_subscriptions(count: 1, timeout: Capybara.default_max_wait_time)
+  # sleeping and hoping the subscription got set up in time. Pass `channel:`
+  # (e.g. "SolutionChannel") to count only subscriptions to that channel. Pages
+  # for signed-in users also subscribe to other channels (e.g. notifications),
+  # which can otherwise satisfy the count first.
+  def wait_for_websocket_subscriptions(count: 1, channel: nil, timeout: Capybara.default_max_wait_time)
     deadline = Process.clock_gettime(Process::CLOCK_MONOTONIC) + timeout
 
     loop do
-      confirmed = confirmed_subscription_count
+      confirmed = confirmed_subscription_count(channel)
       return if confirmed >= count
 
       if Process.clock_gettime(Process::CLOCK_MONOTONIC) > deadline
         raise Capybara::ExpectationNotMet,
-          "Expected #{count} confirmed websocket subscription(s), " \
+          "Expected #{count} confirmed #{channel || 'websocket'} subscription(s), " \
           "got #{confirmed} after #{timeout}s."
       end
 
@@ -34,9 +37,9 @@ module WebsocketsHelpers
   # Mirrors ActionCable's own notion of "confirmed": the connection is open, the
   # subscription is registered, and the guarantor is no longer retrying it
   # (SubscriptionGuarantor#forget runs on confirm_subscription).
-  def confirmed_subscription_count
-    page.evaluate_script(<<~JS)
-      (function() {
+  def confirmed_subscription_count(channel)
+    page.evaluate_script(<<~JS, channel)
+      (function(channel) {
         var consumer = window.$$actionCableConsumer
         if (!consumer || !consumer.connection.isOpen()) return 0
 
@@ -44,9 +47,12 @@ module WebsocketsHelpers
         var pending = (subscriptions.guarantor || {}).pendingSubscriptions || []
 
         return subscriptions.subscriptions.filter(function(subscription) {
-          return pending.indexOf(subscription) === -1
+          if (pending.indexOf(subscription) !== -1) return false
+          if (!channel) return true
+
+          return JSON.parse(subscription.identifier).channel === channel
         }).length
-      })()
+      })(arguments[0])
     JS
   rescue StandardError
     # The page may not have loaded its JS yet.

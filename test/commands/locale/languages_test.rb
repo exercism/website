@@ -27,7 +27,7 @@ class Locale::LanguagesTest < ActiveSupport::TestCase
     codes = Locale::Languages.(:en)[:coming_soon].map(&:code)
 
     assert_equal "català", Locale::Name.(codes.first).native
-    assert_operator codes.index("ca"), :<, codes.index("ar")
+    assert_operator codes.index("ca"), :<, codes.index("ur")
   end
 
   test "every language carries a flag" do

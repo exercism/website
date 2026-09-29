@@ -12,10 +12,12 @@ dayjs.extend(AdvancedFormat)
 // dayjs lowercases the name it is given and falls back to the part before the
 // first `-`, so es-419 and es-ES read `es`, pt-PT reads `pt`, and pt-BR and
 // zh-CN read their own files.
+import 'dayjs/locale/ar'
 import 'dayjs/locale/bn'
 import 'dayjs/locale/de'
 import 'dayjs/locale/el'
 import 'dayjs/locale/es'
+import 'dayjs/locale/fa'
 import 'dayjs/locale/fr'
 import 'dayjs/locale/hi'
 import 'dayjs/locale/hu'

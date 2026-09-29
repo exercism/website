@@ -62,6 +62,7 @@ export function TestsGroupedByTaskList({
   language: string
   tasks: AssignmentTask[]
 }): JSX.Element {
+  const { t } = useAppTranslation('components/editor/testComponents')
   const testsWithIndex = tests.map((test, i) => ({ index: i + 1, ...test }))
   const tasksWithTests = tasks
     .map((task, i) => ({
@@ -101,7 +102,7 @@ export function TestsGroupedByTaskList({
             <div
               className={`task-marker ${task.passing ? 'passed' : 'pending'}`}
             >
-              Task {task.id}
+              {t('testsGroupedByTaskList.task', { id: task.id })}
             </div>
             <div className="title">{task.title}</div>
 

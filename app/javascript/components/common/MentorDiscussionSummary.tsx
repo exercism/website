@@ -1,6 +1,5 @@
 import React from 'react'
 import { Avatar, GraphicalIcon, Icon } from './index'
-import pluralize from 'pluralize'
 import { shortFromNow } from '../../utils/time'
 import { MentorDiscussion } from '../types'
 import { useAppTranslation } from '@/i18n/useAppTranslation'

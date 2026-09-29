@@ -1,7 +1,6 @@
 // i18n-key-prefix: info
 // i18n-namespace: components/common/exercise-widget
 import React from 'react'
-import pluralize from 'pluralize'
 import { TrackIcon } from '../TrackIcon'
 import { Exercise, Track, SolutionForStudent } from '../../types'
 import { Icon, GraphicalIcon } from '../../common'

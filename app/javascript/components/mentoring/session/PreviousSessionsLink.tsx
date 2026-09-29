@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Icon } from '../../common/Icon'
-import pluralize from 'pluralize'
 import { PreviousMentoringSessionsModal } from '../../modals/PreviousMentoringSessionsModal'
 import { Student } from '../../types'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
@@ -30,10 +29,7 @@ export const PreviousSessionsLink = ({
       >
         {t(
           'components.mentoring.session.previousSessionsLink.seePreviousSessions',
-          {
-            numPrevious: numPrevious,
-            sessions: pluralize('session', numPrevious),
-          }
+          { count: numPrevious }
         )}
         <Icon
           icon="modal"

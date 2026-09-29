@@ -156,7 +156,7 @@ test('shows unexpected errors', async () => {
     userEvent.click(deleteButton)
 
     expect(
-      await screen.findByText('Unable to delete testimonial')
+      await screen.findByText('Something went wrong. Please try again.')
     ).toBeInTheDocument()
   })
 })

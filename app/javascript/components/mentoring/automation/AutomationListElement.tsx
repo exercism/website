@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react'
-import { pluralizeWithNumber } from '@/utils/pluralizeWithNumber'
 import { fromNow } from '@/utils/date'
 import { TrackIcon, ExerciseIcon, GraphicalIcon } from '@/components/common'
 import { MostPopularTag } from './MostPopularTag'
@@ -20,11 +19,6 @@ export const AutomationListElement = ({
   const withFeedback = selectedTab === 'with_feedback'
   const isAdminTab = selectedTab === 'admin'
   const ELEMENT_LABELS = useMemo(() => {
-    const pluralizeNumSubmissions = pluralizeWithNumber.bind(
-      null,
-      representation.numSubmissions
-    )
-
     const dateElement: Record<SelectedTab, JSX.Element> = {
       admin: <>{fromNow(representation.feedbackAddedAt)}</>,
       with_feedback: (
@@ -45,18 +39,12 @@ export const AutomationListElement = ({
 
     return {
       counterElement: withFeedback
-        ? t(
-            representation.numSubmissions === 1
-              ? 'automationListElement.shownTime'
-              : 'automationListElement.shownTimes',
-            { number: representation.numSubmissions }
-          )
-        : t(
-            representation.numSubmissions === 1
-              ? 'automationListElement.occurenceTime'
-              : 'automationListElement.occurenceTimes',
-            { number: representation.numSubmissions }
-          ),
+        ? t('automationListElement.shownTimes', {
+            count: representation.numSubmissions,
+          })
+        : t('automationListElement.occurenceTimes', {
+            count: representation.numSubmissions,
+          }),
       dateElement: dateElement[selectedTab],
     }
   }, [

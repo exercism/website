@@ -119,7 +119,9 @@ test('shows generic errors when fetching queue', async () => {
     </TestQueryCache>
   )
 
-  expect(await screen.findByText('Unable to fetch queue')).toBeInTheDocument()
+  expect(
+    await screen.findByText('Something went wrong. Please try again.')
+  ).toBeInTheDocument()
 
   server.close()
 })
@@ -213,7 +215,9 @@ test('shows generic errors when fetching tracks', async () => {
     </TestQueryCache>
   )
 
-  expect(await screen.findByText('Unable to fetch tracks')).toBeInTheDocument()
+  expect(
+    await screen.findByText('Something went wrong. Please try again.')
+  ).toBeInTheDocument()
 
   server.close()
 })
@@ -364,7 +368,7 @@ test('shows generic errors when fetching exercises', async () => {
   )
 
   expect(
-    await screen.findByText('Unable to fetch exercises')
+    await screen.findByText('Something went wrong. Please try again.')
   ).toBeInTheDocument()
 
   server.close()

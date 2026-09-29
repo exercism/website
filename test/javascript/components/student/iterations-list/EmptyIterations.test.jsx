@@ -75,7 +75,7 @@ test('shows generic errors', async () => {
     )
 
     expect(
-      await screen.findByText('Unable to start exercise')
+      await screen.findByText('Something went wrong. Please try again.')
     ).toBeInTheDocument()
   })
 })

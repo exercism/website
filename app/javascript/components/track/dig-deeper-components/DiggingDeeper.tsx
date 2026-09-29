@@ -57,9 +57,9 @@ function DiggingDeeperFooter({
       <div className="flex items-center">
         <Credits
           topCount={introduction.numAuthors}
-          topLabel={t('diggingDeeper.author')}
+          topLabel="author"
           bottomCount={introduction.numContributors}
-          bottomLabel={t('diggingDeeper.contributor')}
+          bottomLabel="contributor"
           className="text-textColor1 font-semibold leading-150"
           users={introduction.users}
         />

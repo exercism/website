@@ -20,4 +20,6 @@ export default {
   'previewFeedbackComment.gaveThisFeedback':
     '<0>{{mentorName}}</0> gave this feedback on a solution exactly like yours:',
   'previewFeedbackComment.commentedOn': 'Commented on {{date}}',
+  'previewFooter.solutionCount_one': '{{count}} solution',
+  'previewFooter.solutionCount_other': '{{count}} solutions',
 }

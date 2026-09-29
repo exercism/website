@@ -1,5 +1,4 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import pluralize from 'pluralize'
 import { scrollToTop } from '@/utils/scroll-to-top'
 import { SolutionProps, Solution } from './Solution'
 import { usePaginatedRequestQuery, type Request } from '@/hooks/request-query'
@@ -138,11 +137,7 @@ export const SolutionsList = ({
                   <div className="results-title-bar">
                     <h3>
                       {t('solutionsList.showingSolutions', {
-                        totalCount: resolvedData.meta.totalCount,
-                        solutionLabel: pluralize(
-                          'solution',
-                          resolvedData.meta.totalCount
-                        ),
+                        count: resolvedData.meta.totalCount,
                       })}
                     </h3>
                     <button

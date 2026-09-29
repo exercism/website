@@ -2,9 +2,9 @@
 export default {
   'adminTab.lastShown': 'Last shown',
   'adminTab.lastOccurence': 'Last occurence',
-  'automationListElement.shownTime': 'Shown {{number}} time',
-  'automationListElement.shownTimes': 'Shown {{number}} times',
-  'automationListElement.occurenceTime': 'occurrence {{number}} time',
-  'automationListElement.occurenceTimes': 'occurrence {{number}} times',
+  'automationListElement.shownTimes_one': 'Shown {{count}} time',
+  'automationListElement.shownTimes_other': 'Shown {{count}} times',
+  'automationListElement.occurenceTimes_one': 'occurrence {{count}} time',
+  'automationListElement.occurenceTimes_other': 'occurrence {{count}} times',
   'automationListElement.inTrackId': 'in {{trackTitle}} (#{{id}})',
 }

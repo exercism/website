@@ -1,5 +1,4 @@
 import React from 'react'
-import pluralize from 'pluralize'
 import { Icon, TrackIcon } from '@/components/common'
 import { MedianWaitTime } from '@/components/common/MedianWaitTime'
 import { Track } from '../TrackSelector'
@@ -38,8 +37,7 @@ export const TrackCheckbox = ({
         <div className="title">{title}</div>
         <div className="info">
           <MedianWaitTime seconds={medianWaitTime} />
-          {numSolutionsQueued} {pluralize('solution', numSolutionsQueued)}{' '}
-          queued
+          {t('trackCheckbox.solutionsQueued', { count: numSolutionsQueued })}
         </div>
       </label>
     </div>

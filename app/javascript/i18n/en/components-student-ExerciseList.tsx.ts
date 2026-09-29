@@ -7,4 +7,9 @@ export default {
   locked: 'Locked',
   searchByTitle: 'Search by title',
   noExercisesFound: 'No exercises found',
+  'statusFilters.allExercises': 'All Exercises',
+  'statusFilters.completed': 'Completed',
+  'statusFilters.inProgress': 'In Progress',
+  'statusFilters.available': 'Available',
+  'statusFilters.locked': 'Locked',
 }

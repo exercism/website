@@ -200,7 +200,9 @@ test('shows default error if query fails', () => {
     />
   )
 
-  expect(screen.getByText('Unable to pull solutions')).toBeInTheDocument()
+  expect(
+    screen.getByText('Something went wrong. Please try again.')
+  ).toBeInTheDocument()
 })
 
 test('can change search input value', () => {

@@ -88,7 +88,9 @@ test('user sees generic error message', async () => {
     userEvent.click(screen.getByRole('button', { name: 'Leave track' }))
 
     await waitFor(() =>
-      expect(screen.getByText('Unable to leave track')).toBeInTheDocument()
+      expect(
+        screen.getByText('Something went wrong. Please try again.')
+      ).toBeInTheDocument()
     )
   })
 })

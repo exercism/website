@@ -135,7 +135,7 @@ test('user sees generic error message', async () => {
     userEvent.click(screen.getByRole('button', { name: 'Leave + Reset' }))
 
     expect(
-      await screen.findByText('Unable to leave and reset track')
+      await screen.findByText('Something went wrong. Please try again.')
     ).toBeInTheDocument()
   })
 })

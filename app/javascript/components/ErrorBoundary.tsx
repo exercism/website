@@ -11,6 +11,7 @@ import {
   isChunkLoadError,
   safeReloadForChunkError,
 } from '../utils/chunk-load-error-handler'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const ERROR_MESSAGE_TIMEOUT_IN_MS = 500
 
@@ -63,6 +64,8 @@ export const ErrorFallback = ({
   error,
   resetErrorBoundary,
 }: FallbackProps): JSX.Element => {
+  const { t } = useAppTranslation('components/ErrorBoundary.tsx')
+
   useEffect(() => {
     if (isChunkLoadError(error)) {
       safeReloadForChunkError()
@@ -76,7 +79,11 @@ export const ErrorFallback = ({
 
   return (
     <div>
-      <p>{error.message}</p>
+      <p>
+        {isGenericFallback(error)
+          ? t('errorFallback.somethingWentWrong')
+          : error.message}
+      </p>
     </div>
   )
 }
@@ -101,7 +108,7 @@ export const useErrorHandler = (
         Sentry.captureException(error)
       }
 
-      handler(new HandledError(defaultError.message))
+      handler(new HandledError(defaultError.message, true))
     } else if (error instanceof Response) {
       const contentType = error.headers.get('Content-Type') || ''
       const isJson =
@@ -116,18 +123,26 @@ export const useErrorHandler = (
             handler(new HandledError(res.error.message))
           })
           .catch(() => {
-            handler(new HandledError(defaultError.message))
+            handler(new HandledError(defaultError.message, true))
           })
       } else {
-        handler(new HandledError(defaultError.message))
+        handler(new HandledError(defaultError.message, true))
       }
     }
   }, [defaultError, error, handler])
 }
 
 export class HandledError extends Error {
-  constructor(message: string) {
+  // Set when the message is a hardcoded English developer default rather than a
+  // localised message from the API, so the UI can show a translated string instead.
+  readonly genericFallback: boolean
+
+  constructor(message: string, genericFallback = false) {
     super(message)
     this.name = 'HandledError'
+    this.genericFallback = genericFallback
   }
 }
+
+const isGenericFallback = (error: Error): boolean =>
+  error instanceof HandledError && error.genericFallback

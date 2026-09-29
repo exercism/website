@@ -109,7 +109,7 @@ test('shows generic error when choosing to mentor again', async () => {
   userEvent.click(screen.getByRole('button', { name: 'Yes' }))
 
   expect(
-    await screen.findByText('Unable to update student')
+    await screen.findByText('Something went wrong. Please try again.')
   ).toBeInTheDocument()
 })
 test('disables buttons when choosing to not mentor again', async () => {
@@ -198,6 +198,6 @@ test('shows generic error when choosing to not mentor again', async () => {
   userEvent.click(screen.getByRole('button', { name: 'No' }))
 
   expect(
-    await screen.findByText('Unable to update student')
+    await screen.findByText('Something went wrong. Please try again.')
   ).toBeInTheDocument()
 })

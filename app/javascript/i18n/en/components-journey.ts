@@ -4,11 +4,14 @@ export default {
   'tabs.solutions': 'Solutions',
   'tabs.reputation': 'Reputation',
   'tabs.badges': 'Badges',
-  'contributionResults.showingContributions':
-    'Showing {{totalCount}} {{contributionLabel}}',
+  'contributionResults.showingContributions_one':
+    'Showing {{count}} contribution',
+  'contributionResults.showingContributions_other':
+    'Showing {{count}} contributions',
   'badgesList.searchByBadgeNameOrDescription':
     'Search by badge name or description',
-  'badgeResults.showingBadges': 'Showing {{totalCount}} {{badgeLabel}}',
+  'badgeResults.showingBadges_one': 'Showing {{count}} badge',
+  'badgeResults.showingBadges_other': 'Showing {{count}} badges',
   'solution.completed': 'Completed',
   'solution.published': 'Published',
   'solution.thereIsANewerVersionOfTheExerciseVisitTheExercisePageToUpgrade':
@@ -24,12 +27,14 @@ export default {
     iterations_other: '{{count}} iterations',
   },
   'solution.lines': '{{numLoc}} lines',
-  'solution.views': '{{numViews}} {{viewLabel}}',
+  'solution.views_one': '{{count}} view',
+  'solution.views_other': '{{count}} views',
   'solution.lastSubmitted': 'Last submitted {{lastIteratedAt}}',
   'solution.inTrack': 'in <0/><1>{{track}}<1/>',
   'solutionsList.searchByExerciseOrTrackName':
     'Search by exercise or track name',
-  'solutionsList.showingSolutions': 'Showing {{totalCount}} {{solutionLabel}}',
+  'solutionsList.showingSolutions_one': 'Showing {{count}} solution',
+  'solutionsList.showingSolutions_other': 'Showing {{count}} solutions',
   'solutionsList.resetFilters': 'Reset filters',
   'contributionsList.searchByContributionName': 'Search by contribution name',
   'contribution.generic': 'Generic',

@@ -1,5 +1,6 @@
 import React from 'react'
 import { missingExerciseIconErrorHandler } from '@/components/common/imageErrorHandler'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type ExerciseIconProps = {
   iconUrl: string
@@ -12,6 +13,7 @@ export function ExerciseIcon({
   title,
   className,
 }: ExerciseIconProps): JSX.Element {
+  const { t } = useAppTranslation('components/common/ExerciseIcon.tsx')
   const classNames = ['c-icon c-exercise-icon']
   if (className !== undefined) {
     classNames.push(className)
@@ -21,7 +23,7 @@ export function ExerciseIcon({
     <img
       className={classNames.join(' ')}
       src={iconUrl}
-      alt={title ? `Icon for exercise called ${title}` : ''}
+      alt={title ? t('iconForExercise', { title }) : ''}
       onError={missingExerciseIconErrorHandler}
     />
   )

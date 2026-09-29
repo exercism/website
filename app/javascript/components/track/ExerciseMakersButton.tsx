@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import pluralize from 'pluralize'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 import { Avatar } from '../common'
 import { ExerciseMakersModal } from '../modals/ExerciseMakersModal'
 
@@ -18,6 +18,7 @@ export function ExerciseMakersButton({
   numContributors: number
   links: Links
 }): JSX.Element {
+  const { t } = useAppTranslation('components/track')
   const [open, setOpen] = useState(false)
 
   return (
@@ -35,12 +36,14 @@ export function ExerciseMakersButton({
         <div className="stats">
           {numAuthors > 0 ? (
             <div className="authors">
-              {numAuthors} {pluralize('author', numAuthors)}
+              {t('exerciseMakersButton.authors', { count: numAuthors })}
             </div>
           ) : null}
           {numContributors > 0 ? (
             <div className="contributors">
-              {numContributors} {pluralize('contributor', numContributors)}
+              {t('exerciseMakersButton.contributors', {
+                count: numContributors,
+              })}
             </div>
           ) : null}
         </div>

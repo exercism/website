@@ -40,9 +40,9 @@ export function ApproachSnippet({
       <h5 className="text-h5 mb-2">{approach.title}</h5>
       <p className="text-p-base text-textColor6 mb-12">{approach.blurb}</p>
       <Credits
-        topLabel={t('approachSnippet.author')}
+        topLabel="author"
         topCount={approach.numAuthors}
-        bottomLabel={t('approachSnippet.contributor')}
+        bottomLabel="contributor"
         bottomCount={approach.numContributors}
         users={approach.users}
         className="text-textColor1 font-semibold text-14"

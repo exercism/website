@@ -5,7 +5,6 @@ import { AutomationTrack } from '../../types'
 import { QueryKey, QueryStatus } from '@tanstack/react-query'
 import { useDropdown } from '../../dropdowns/useDropdown'
 import { ResultsZone } from '../../ResultsZone'
-import { pluralizeWithNumber } from '../../../utils/pluralizeWithNumber'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type TrackFilterProps = AutomationTrack & {
@@ -22,6 +21,9 @@ const TrackFilter = ({
   onChange,
   countText,
 }: TrackFilterProps): JSX.Element => {
+  const { t } = useAppTranslation(
+    'components/mentoring/automation/TrackFilterList.tsx'
+  )
   return (
     <label className="c-radio-wrapper">
       <input
@@ -34,7 +36,7 @@ const TrackFilter = ({
         <TrackIcon iconUrl={iconUrl} title={title} />
         <div className="title">{title}</div>
         <div className="count">
-          {pluralizeWithNumber(numSubmissions, countText)}
+          {t(`trackFilterList.${countText}Count`, { count: numSubmissions })}
         </div>
       </div>
     </label>
@@ -133,7 +135,9 @@ const Component = ({
           <TrackIcon iconUrl={value.iconUrl} title={value.title} />
           <div className="track-title">{value.title}</div>
           <div className="count">
-            {pluralizeWithNumber(value.numSubmissions, countText)}
+            {t(`trackFilterList.${countText}Count`, {
+              count: value.numSubmissions,
+            })}
           </div>
           <Icon
             icon="chevron-down"

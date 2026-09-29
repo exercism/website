@@ -3,239 +3,245 @@ import ab from './components-common-CLIWalkthroughButton.tsx'
 import ac from './components-common-ComboButton.tsx'
 import ad from './components-common-CommunitySolution.tsx'
 import ae from './components-common-CopyToClipboardButton.tsx'
-import af from './components-common-exercise-widget'
-import ag from './components-common-Introducer.tsx'
-import ah from './components-common-Loading.tsx'
-import ai from './components-common-markdown-editor-form'
-import aj from './components-common-MarkdownEditor.tsx'
-import ak from './components-common-MarkdownEditorForm.tsx'
-import al from './components-common-MedianWaitTime.tsx'
-import am from './components-common-MentorDiscussionSummary.tsx'
-import an from './components-common-MultipleSelect.tsx'
-import ao from './components-common-Pagination.tsx'
-import ap from './components-common-ProcessingStatusSummary.tsx'
-import aq from './components-common-ProminentLink.tsx'
-import ar from './components-common-Pronouns.tsx'
-import as from './components-common-Reputation.tsx'
-import at from './components-common-share-panel'
-import au from './components-common-ShareButton.tsx'
-import av from './components-common-ShareLink.tsx'
-import aw from './components-common-SingleSelect.tsx'
-import ax from './components-common-site-updates-list-PullRequestWidget.tsx'
-import ay from './components-common-ThemeToggleButton.tsx'
-import az from './components-community'
-import a0 from './components-community-solutions'
-import a1 from './components-concept-map'
-import a2 from './components-contributing'
-import a3 from './components-contributing-tasks-list-task'
-import a4 from './components-donations'
-import a5 from './components-donations-subscription-form'
-import a6 from './components-dropdowns'
-import a7 from './components-dropdowns-reputation'
-import a8 from './components-dropdowns-track-menu'
-import a9 from './components-Editor.tsx'
-import ba from './components-editor-EditorStatusSummary.tsx'
-import bb from './components-editor-FeedbackPanel'
-import bc from './components-editor-GetHelp'
-import bd from './components-editor-header'
-import be from './components-editor-legacy-file-banner'
-import bf from './components-editor-LegacyFileBanner.tsx'
-import bg from './components-editor-panels'
-import bh from './components-editor-RunTestsButton.tsx'
-import bi from './components-editor-SubmitButton.tsx'
-import bj from './components-editor-tabs'
-import bk from './components-editor-testComponents'
-import bl from './components-favorites-list'
-import bm from './components-github-syncer-widget'
-import bn from './components-impact-ImpactTestimonial.tsx'
-import bo from './components-impact-map.tsx'
-import bp from './components-impact-TopLearningCountries.tsx'
-import bq from './components-insiders'
-import br from './components-journey'
-import bs from './components-journey-badges-list'
-import bt from './components-journey-contribution-results'
-import bu from './components-journey-contributions-list'
-import bv from './components-journey-overview'
-import bw from './components-journey-overview-badges-section'
-import bx from './components-journey-overview-contributing-section'
-import by from './components-journey-overview-learning-section'
-import bz from './components-journey-overview-learning-section-track-summary-TrackProgressBar.tsx'
-import b0 from './components-journey-overview-mentoring-section'
-import b1 from './components-journey-solutions-list'
-import b2 from './components-journey-UnrevealedBadge.tsx'
-import b3 from './components-maintaining'
-import b4 from './components-mentoring-automation-AutomationListElement.tsx'
-import b5 from './components-mentoring-automation-Representation.tsx'
-import b6 from './components-mentoring-automation-RepresentationList.tsx'
-import b7 from './components-mentoring-automation-TrackFilterList.tsx'
-import b8 from './components-mentoring-discussion-discussion-post'
-import b9 from './components-mentoring-discussion-DiscussionDetails.tsx'
-import ca from './components-mentoring-discussion-DiscussionPostList.tsx'
-import cb from './components-mentoring-discussion-finished-wizard'
-import cc from './components-mentoring-discussion-FinishedWizard.tsx'
-import cd from './components-mentoring-discussion-MarkAsNothingToDoButton.tsx'
-import ce from './components-mentoring-discussion-NewMessageAlert.tsx'
-import cf from './components-mentoring-inbox'
-import cg from './components-mentoring-Inboxtsx'
-import ch from './components-mentoring-queue'
-import ci from './components-mentoring-Queuetsx'
-import cj from './components-mentoring-representation-common'
-import ck from './components-mentoring-representation-left-pane'
-import cl from './components-mentoring-representation-modals'
-import cm from './components-mentoring-representation-right-pane'
-import cn from './components-mentoring-representation-right-pane-MentoringConversation.tsx'
-import co from './components-mentoring-representation-right-pane-RadioGroup.tsx'
-import cp from './components-mentoring-request-locked-solution-mentoring-note'
-import cq from './components-mentoring-request-StartMentoringPanel.tsx'
-import cr from './components-mentoring-Session.tsx'
-import cs from './components-mentoring-session-CloseButton.tsx'
-import ct from './components-mentoring-session-favorite-button'
-import cu from './components-mentoring-session-iteration-view'
-import cv from './components-mentoring-session-mobile-code-panel-MobileIterationView.tsx'
-import cw from './components-mentoring-session-mobile-code-panel-SessionInfoHamburgerButton.tsx'
-import cx from './components-mentoring-session-mobile-code-panel-SessionInfoModal.tsx'
-import cy from './components-mentoring-session-Scratchpad.tsx'
-import cz from './components-mentoring-session-SessionInfo.tsx'
-import c0 from './components-mentoring-session-student-info'
-import c1 from './components-mentoring-session-StudentInfo.tsx'
-import c2 from './components-mentoring-testimonials-list'
-import c3 from './components-mentoring-testimonials-list-revealed-testimonial'
-import c4 from './components-mentoring-TestimonialsList.tsx'
-import c5 from './components-mentoring-track-selector'
-import c6 from './components-modals-BadgeModal.tsx'
-import c7 from './components-modals-BegModal.tsx'
-import c8 from './components-modals-BugReportModal.tsx'
-import c9 from './components-modals-ChangePublishedIterationModal.tsx'
-import da from './components-modals-complete-exercise-modal'
-import db from './components-modals-complete-exercise-modal-exercise-completed-modal-Unlocks.tsx'
-import dc from './components-modals-ConceptMakersModal.tsx'
-import dd from './components-modals-DeleteAccountModal.tsx'
-import de from './components-modals-DisableSolutionCommentsModal.tsx'
-import df from './components-modals-EnableSolutionCommentsModal.tsx'
-import dg from './components-modals-exercise-update-modal'
-import dh from './components-modals-ExerciseMakersModal.tsx'
-import di from './components-modals-ExerciseUpdateModal.tsx'
-import dj from './components-modals-mentor'
-import dk from './components-modals-mentor-registration-modal'
-import dl from './components-modals-mentor-registration-modal-commit-step'
-import dm from './components-modals-MentorChangeTracksModal.tsx'
-import dn from './components-modals-MentorRegistrationModal.tsx'
-import dp from './components-modals-PreviousMentoringSessionsModal.tsx'
-import dq from './components-modals-profile'
-import dr from './components-modals-PublishSolutionModal.tsx'
-import ds from './components-modals-realtime-feedback-modal'
-import dt from './components-modals-realtime-feedback-modal-components'
-import du from './components-modals-realtime-feedback-modal-feedback-content'
-import dv from './components-modals-realtime-feedback-modal-feedback-content-found-automated-feedback'
-import dw from './components-modals-realtime-feedback-modal-feedback-content-no-automated-feedback'
-import dx from './components-modals-RequestMentoringModal.tsx'
-import dy from './components-modals-ResetAccountModal.tsx'
-import dz from './components-modals-seniority-survey-modal'
-import d0 from './components-modals-student'
-import d1 from './components-modals-student-finish-mentor-discussion-modal'
-import d2 from './components-modals-TaskHintsModal.tsx'
-import d3 from './components-modals-TestimonialModal.tsx'
-import d4 from './components-modals-track-welcome-modal-LHS'
-import d5 from './components-modals-track-welcome-modal-LHS-steps'
-import d6 from './components-modals-track-welcome-modal-LHS-steps-components'
-import d7 from './components-modals-track-welcome-modal-RHS'
-import d8 from './components-modals-UnpublishSolutionModal.tsx'
-import d9 from './components-modals-upload-video'
-import ea from './components-modals-upload-video-elements'
-import eb from './components-modals-welcome-modal'
-import ec from './components-modals-WelcomeToInsidersModal.tsx'
-import ed from './components-notifications-'
-import ee from './components-notifications-notifications-list'
-import ef from './components-perks'
-import eg from './components-profile'
-import eh from './components-profile-avatar-selector'
-import ei from './components-profile-avatar-selector-cropping-modal'
-import ej from './components-profile-avatar-selector-photo'
-import ek from './components-profile-community-solutions-list'
-import el from './components-profile-contributions-list'
-import em from './components-profile-contributions-summary'
-import en from './components-profile-testimonials-list'
-import eo from './components-settings-BootcampAffiliateCouponForm.tsx'
-import ep from './components-settings-BootcampFreeCouponForm.tsx'
-import eq from './components-settings-comments-preference-form'
-import er from './components-settings-CommunicationPreferencesForm.tsx'
-import es from './components-settings-delete-profile-form'
-import et from './components-settings-DeleteAccountButton.tsx'
-import eu from './components-settings-DeleteProfileForm.tsx'
-import ev from './components-settings-EmailForm.tsx'
-import ew from './components-settings-FormMessage.tsx'
-import ex from './components-settings-github-syncer-common'
-import ey from './components-settings-github-syncer-sections-ConnectedSection'
-import ez from './components-settings-github-syncer-sections-ConnectedSection-ManualSyncSection.tsx'
-import e0 from './components-settings-github-syncer-sections-ConnectedSection-SyncBehaviourSection.tsx'
-import e1 from './components-settings-github-syncer-sections-ConnectToGithubSection'
-import e2 from './components-settings-HandleForm.tsx'
-import e3 from './components-settings-InsiderBenefitsForm.tsx'
-import e4 from './components-settings-PasswordForm.tsx'
-import e5 from './components-settings-PhotoForm.tsx'
-import e6 from './components-settings-ProfileForm.tsx'
-import e7 from './components-settings-PronounsForm.tsx'
-import e8 from './components-settings-ResetAccountButton.tsx'
-import e9 from './components-settings-ShowOnSupportersPageButton.tsx'
-import fa from './components-settings-theme-preference-form'
-import fb from './components-settings-ThemePreferenceForm.tsx'
-import fc from './components-settings-TokenForm.tsx'
-import fd from './components-settings-useInvalidField.tsx'
-import fe from './components-settings-UserPreferencesForm.tsx'
-import ff from './components-settings-useSettingsMutation.tsx'
-import fg from './components-student-CompleteExerciseButton.tsx'
-import fh from './components-student-ExerciseList.tsx'
-import fi from './components-student-ExerciseStatusChart.tsx'
-import fj from './components-student-ExerciseStatusDot.tsx'
-import fk from './components-student-iterations-list'
-import fl from './components-student-mentoring-dropdown'
-import fm from './components-student-mentoring-session'
-import fn from './components-student-mentoring-session-iteration-view'
-import fo from './components-student-mentoring-session-mentoring-request'
-import fp from './components-student-mentoring-session-mentoring-request-MentoringRequestFormComponents'
-import fq from './components-student-MentoringComboButton.tsx'
-import fr from './components-student-MentoringSession.tsx'
-import fs from './components-student-open-editor-button'
-import ft from './components-student-OpenEditorButton.tsx'
-import fu from './components-student-published-solution'
-import fv from './components-student-PublishSolutionButton.tsx'
-import fw from './components-student-RequestMentoringButton.tsx'
-import fx from './components-student-solution-summary'
-import fy from './components-student-tracks-list'
-import fz from './components-student-TracksList.tsx'
-import f0 from './components-student-UpdateExerciseNotice.tsx'
-import f1 from './components-test'
-import f2 from './components-tooltips-AutomationLockedTooltip.tsx'
-import f3 from './components-tooltips-ConceptTooltip.tsx'
-import f4 from './components-tooltips-ExerciseTooltip.tsx'
-import f5 from './components-tooltips-studentTooltip'
-import f6 from './components-tooltips-task-tooltip'
-import f7 from './components-tooltips-ToolingTooltip.tsx'
-import f8 from './components-tooltips-UserTooltip.tsx'
-import f9 from './components-track-activity-ticker'
-import ga from './components-track-dig-deeper-components'
-import gb from './components-track-dig-deeper-components-community-videos'
-import gc from './components-track-dig-deeper-components-no-content-yet'
-import gd from './components-track-exercise-community-solutions-list'
-import ge from './components-track-ExerciseCommunitySolutionsList.tsx'
-import gf from './components-track-iteration-summary'
-import gg from './components-track-IterationSummary.tsx'
-import gh from './components-track-Trophies.tsx'
-import gi from './components-track-UnlockHelpButton.tsx'
-import gj from './components-training-data-code-tagger'
-import gk from './components-training-data-dashboard'
-import gl from './discussion-batch'
-import gm from './session-batch-1'
-import gn from './session-batch-2'
-import go from './session-batch-3'
-import hwf from './components-common-HandleWithFlair.tsx'
-import acx from './components-editor-AssistantChat'
-import mdl from './components-modals-Modal.tsx'
-import rzn from './components-ResultsZone.tsx'
-import ice from './components-impact-chart-elements'
-import lpf from './components-settings-LanguagePreferenceForm.tsx'
-import utd from './utils-date'
-import thst from './components-journey-overview-TrackHeaderSummaryText.tsx'
+import af from './components-common-Credits.tsx'
+import ag from './components-common-exercise-widget'
+import ah from './components-common-ExerciseIcon.tsx'
+import ai from './components-common-HandleWithFlair.tsx'
+import aj from './components-common-Introducer.tsx'
+import ak from './components-common-Loading.tsx'
+import al from './components-common-markdown-editor-form'
+import am from './components-common-MarkdownEditor.tsx'
+import an from './components-common-MarkdownEditorForm.tsx'
+import ao from './components-common-MedianWaitTime.tsx'
+import ap from './components-common-MentorDiscussionSummary.tsx'
+import aq from './components-common-MultipleSelect.tsx'
+import ar from './components-common-Pagination.tsx'
+import as from './components-common-ProcessingStatusSummary.tsx'
+import at from './components-common-ProminentLink.tsx'
+import au from './components-common-Pronouns.tsx'
+import av from './components-common-Reputation.tsx'
+import aw from './components-common-share-panel'
+import ax from './components-common-ShareButton.tsx'
+import ay from './components-common-ShareLink.tsx'
+import az from './components-common-SingleSelect.tsx'
+import a0 from './components-common-site-updates-list-PullRequestWidget.tsx'
+import a1 from './components-common-ThemeToggleButton.tsx'
+import a2 from './components-common-TrackIcon.tsx'
+import a3 from './components-community'
+import a4 from './components-community-solutions'
+import a5 from './components-concept-map'
+import a6 from './components-contributing'
+import a7 from './components-contributing-tasks-list-task'
+import a8 from './components-donations'
+import a9 from './components-donations-subscription-form'
+import ba from './components-dropdowns'
+import bb from './components-dropdowns-notifications'
+import bc from './components-dropdowns-reputation'
+import bd from './components-dropdowns-track-menu'
+import be from './components-Editor.tsx'
+import bf from './components-editor-AssistantChat'
+import bg from './components-editor-EditorStatusSummary.tsx'
+import bh from './components-editor-FeedbackPanel'
+import bi from './components-editor-GetHelp'
+import bj from './components-editor-header'
+import bk from './components-editor-legacy-file-banner'
+import bl from './components-editor-LegacyFileBanner.tsx'
+import bm from './components-editor-panels'
+import bn from './components-editor-RunTestsButton.tsx'
+import bo from './components-editor-SubmitButton.tsx'
+import bp from './components-editor-tabs'
+import bq from './components-editor-testComponents'
+import br from './components-ErrorBoundary.tsx'
+import bs from './components-favorites-list'
+import bt from './components-github-syncer-widget'
+import bu from './components-impact-chart-elements'
+import bv from './components-impact-ImpactTestimonial.tsx'
+import bw from './components-impact-map.tsx'
+import bx from './components-impact-TopLearningCountries.tsx'
+import by from './components-insiders'
+import bz from './components-journey'
+import b0 from './components-journey-badges-list'
+import b1 from './components-journey-contribution-results'
+import b2 from './components-journey-contributions-list'
+import b3 from './components-journey-overview'
+import b4 from './components-journey-overview-badges-section'
+import b5 from './components-journey-overview-contributing-section'
+import b6 from './components-journey-overview-learning-section'
+import b7 from './components-journey-overview-learning-section-track-summary-TrackProgressBar.tsx'
+import b8 from './components-journey-overview-mentoring-section'
+import b9 from './components-journey-overview-TrackHeaderSummaryText.tsx'
+import ca from './components-journey-solutions-list'
+import cb from './components-journey-UnrevealedBadge.tsx'
+import cc from './components-maintaining'
+import cd from './components-mentoring-automation-AutomationListElement.tsx'
+import ce from './components-mentoring-automation-Representation.tsx'
+import cf from './components-mentoring-automation-RepresentationList.tsx'
+import cg from './components-mentoring-automation-TrackFilterList.tsx'
+import ch from './components-mentoring-discussion-discussion-post'
+import ci from './components-mentoring-discussion-DiscussionDetails.tsx'
+import cj from './components-mentoring-discussion-DiscussionPostList.tsx'
+import ck from './components-mentoring-discussion-finished-wizard'
+import cl from './components-mentoring-discussion-FinishedWizard.tsx'
+import cm from './components-mentoring-discussion-MarkAsNothingToDoButton.tsx'
+import cn from './components-mentoring-discussion-NewMessageAlert.tsx'
+import co from './components-mentoring-inbox'
+import cp from './components-mentoring-Inboxtsx'
+import cq from './components-mentoring-queue'
+import cr from './components-mentoring-Queuetsx'
+import cs from './components-mentoring-representation-common'
+import ct from './components-mentoring-representation-left-pane'
+import cu from './components-mentoring-representation-modals'
+import cv from './components-mentoring-representation-right-pane'
+import cw from './components-mentoring-representation-right-pane-MentoringConversation.tsx'
+import cx from './components-mentoring-representation-right-pane-RadioGroup.tsx'
+import cy from './components-mentoring-request-locked-solution-mentoring-note'
+import cz from './components-mentoring-request-StartMentoringPanel.tsx'
+import c0 from './components-mentoring-Session.tsx'
+import c1 from './components-mentoring-session-CloseButton.tsx'
+import c2 from './components-mentoring-session-favorite-button'
+import c3 from './components-mentoring-session-iteration-view'
+import c4 from './components-mentoring-session-mobile-code-panel-MobileIterationView.tsx'
+import c5 from './components-mentoring-session-mobile-code-panel-SessionInfoHamburgerButton.tsx'
+import c6 from './components-mentoring-session-mobile-code-panel-SessionInfoModal.tsx'
+import c7 from './components-mentoring-session-Scratchpad.tsx'
+import c8 from './components-mentoring-session-SessionInfo.tsx'
+import c9 from './components-mentoring-session-student-info'
+import da from './components-mentoring-session-StudentInfo.tsx'
+import db from './components-mentoring-testimonials-list'
+import dc from './components-mentoring-testimonials-list-revealed-testimonial'
+import dd from './components-mentoring-TestimonialsList.tsx'
+import de from './components-mentoring-track-selector'
+import df from './components-modals-BadgeModal.tsx'
+import dg from './components-modals-BegModal.tsx'
+import dh from './components-modals-BugReportModal.tsx'
+import di from './components-modals-ChangePublishedIterationModal.tsx'
+import dj from './components-modals-complete-exercise-modal'
+import dk from './components-modals-complete-exercise-modal-exercise-completed-modal-Unlocks.tsx'
+import dl from './components-modals-ConceptMakersModal.tsx'
+import dm from './components-modals-DeleteAccountModal.tsx'
+import dn from './components-modals-DisableSolutionCommentsModal.tsx'
+import dp from './components-modals-EnableSolutionCommentsModal.tsx'
+import dq from './components-modals-exercise-update-modal'
+import dr from './components-modals-ExerciseMakersModal.tsx'
+import ds from './components-modals-ExerciseUpdateModal.tsx'
+import dt from './components-modals-mentor'
+import du from './components-modals-mentor-registration-modal'
+import dv from './components-modals-mentor-registration-modal-commit-step'
+import dw from './components-modals-MentorChangeTracksModal.tsx'
+import dx from './components-modals-MentorRegistrationModal.tsx'
+import dy from './components-modals-Modal.tsx'
+import dz from './components-modals-PreviousMentoringSessionsModal.tsx'
+import d0 from './components-modals-profile'
+import d1 from './components-modals-PublishSolutionModal.tsx'
+import d2 from './components-modals-realtime-feedback-modal'
+import d3 from './components-modals-realtime-feedback-modal-components'
+import d4 from './components-modals-realtime-feedback-modal-feedback-content'
+import d5 from './components-modals-realtime-feedback-modal-feedback-content-found-automated-feedback'
+import d6 from './components-modals-realtime-feedback-modal-feedback-content-no-automated-feedback'
+import d7 from './components-modals-RequestMentoringModal.tsx'
+import d8 from './components-modals-ResetAccountModal.tsx'
+import d9 from './components-modals-seniority-survey-modal'
+import ea from './components-modals-student'
+import eb from './components-modals-student-finish-mentor-discussion-modal'
+import ec from './components-modals-TaskHintsModal.tsx'
+import ed from './components-modals-TestimonialModal.tsx'
+import ee from './components-modals-track-welcome-modal-LHS'
+import ef from './components-modals-track-welcome-modal-LHS-steps'
+import eg from './components-modals-track-welcome-modal-LHS-steps-components'
+import eh from './components-modals-track-welcome-modal-RHS'
+import ei from './components-modals-UnpublishSolutionModal.tsx'
+import ej from './components-modals-upload-video'
+import ek from './components-modals-upload-video-elements'
+import el from './components-modals-welcome-modal'
+import em from './components-modals-WelcomeToInsidersModal.tsx'
+import en from './components-notifications-'
+import eo from './components-notifications-notifications-list'
+import ep from './components-perks'
+import eq from './components-profile'
+import er from './components-profile-avatar-selector'
+import es from './components-profile-avatar-selector-cropping-modal'
+import et from './components-profile-avatar-selector-photo'
+import eu from './components-profile-community-solutions-list'
+import ev from './components-profile-contributions-list'
+import ew from './components-profile-contributions-summary'
+import ex from './components-profile-testimonials-list'
+import ey from './components-ResultsZone.tsx'
+import ez from './components-settings-BootcampAffiliateCouponForm.tsx'
+import e0 from './components-settings-BootcampFreeCouponForm.tsx'
+import e1 from './components-settings-comments-preference-form'
+import e2 from './components-settings-CommunicationPreferencesForm.tsx'
+import e3 from './components-settings-delete-profile-form'
+import e4 from './components-settings-DeleteAccountButton.tsx'
+import e5 from './components-settings-DeleteProfileForm.tsx'
+import e6 from './components-settings-EmailForm.tsx'
+import e7 from './components-settings-FormMessage.tsx'
+import e8 from './components-settings-github-syncer-common'
+import e9 from './components-settings-github-syncer-sections-ConnectedSection'
+import fa from './components-settings-github-syncer-sections-ConnectedSection-ManualSyncSection.tsx'
+import fb from './components-settings-github-syncer-sections-ConnectedSection-SyncBehaviourSection.tsx'
+import fc from './components-settings-github-syncer-sections-ConnectToGithubSection'
+import fd from './components-settings-HandleForm.tsx'
+import fe from './components-settings-InsiderBenefitsForm.tsx'
+import ff from './components-settings-LanguagePreferenceForm.tsx'
+import fg from './components-settings-PasswordForm.tsx'
+import fh from './components-settings-PhotoForm.tsx'
+import fi from './components-settings-ProfileForm.tsx'
+import fj from './components-settings-PronounsForm.tsx'
+import fk from './components-settings-ResetAccountButton.tsx'
+import fl from './components-settings-ShowOnSupportersPageButton.tsx'
+import fm from './components-settings-theme-preference-form'
+import fn from './components-settings-ThemePreferenceForm.tsx'
+import fo from './components-settings-TokenForm.tsx'
+import fp from './components-settings-useInvalidField.tsx'
+import fq from './components-settings-UserPreferencesForm.tsx'
+import fr from './components-settings-useSettingsMutation.tsx'
+import fs from './components-student-CompleteExerciseButton.tsx'
+import ft from './components-student-ExerciseList.tsx'
+import fu from './components-student-ExerciseStatusChart.tsx'
+import fv from './components-student-ExerciseStatusDot.tsx'
+import fw from './components-student-iterations-list'
+import fx from './components-student-mentoring-dropdown'
+import fy from './components-student-mentoring-session'
+import fz from './components-student-mentoring-session-iteration-view'
+import f0 from './components-student-mentoring-session-mentoring-request'
+import f1 from './components-student-mentoring-session-mentoring-request-MentoringRequestFormComponents'
+import f2 from './components-student-MentoringComboButton.tsx'
+import f3 from './components-student-MentoringSession.tsx'
+import f4 from './components-student-open-editor-button'
+import f5 from './components-student-OpenEditorButton.tsx'
+import f6 from './components-student-published-solution'
+import f7 from './components-student-PublishSolutionButton.tsx'
+import f8 from './components-student-RequestMentoringButton.tsx'
+import f9 from './components-student-solution-summary'
+import ga from './components-student-tracks-list'
+import gb from './components-student-TracksList.tsx'
+import gc from './components-student-UpdateExerciseNotice.tsx'
+import gd from './components-test'
+import ge from './components-tooltips-AutomationLockedTooltip.tsx'
+import gf from './components-tooltips-ConceptTooltip.tsx'
+import gg from './components-tooltips-ExerciseTooltip.tsx'
+import gh from './components-tooltips-studentTooltip'
+import gi from './components-tooltips-task-tooltip'
+import gj from './components-tooltips-ToolingTooltip.tsx'
+import gk from './components-tooltips-UserTooltip.tsx'
+import gl from './components-track'
+import gm from './components-track-activity-ticker'
+import gn from './components-track-dig-deeper-components'
+import go from './components-track-dig-deeper-components-community-videos'
+import gp from './components-track-dig-deeper-components-no-content-yet'
+import gq from './components-track-exercise-community-solutions-list'
+import gr from './components-track-ExerciseCommunitySolutionsList.tsx'
+import gs from './components-track-iteration-summary'
+import gt from './components-track-IterationSummary.tsx'
+import gu from './components-track-Trophies.tsx'
+import gv from './components-track-UnlockHelpButton.tsx'
+import gw from './components-training-data-code-tagger'
+import gx from './components-training-data-dashboard'
+import gy from './discussion-batch'
+import gz from './session-batch-1'
+import g0 from './session-batch-2'
+import g1 from './session-batch-3'
+import g2 from './utils-date'
 
 export default {
   'automation-batch': aa,
@@ -243,246 +249,252 @@ export default {
   'components/common/ComboButton.tsx': ac,
   'components/common/CommunitySolution.tsx': ad,
   'components/common/CopyToClipboardButton.tsx': ae,
-  'components/common/exercise-widget': af,
-  'components/common/Introducer.tsx': ag,
-  'components/common/Loading.tsx': ah,
-  'components/common/markdown-editor-form': ai,
-  'components/common/MarkdownEditor.tsx': aj,
-  'components/common/MarkdownEditorForm.tsx': ak,
-  'components/common/MedianWaitTime.tsx': al,
-  'components/common/MentorDiscussionSummary.tsx': am,
-  'components/common/MultipleSelect.tsx': an,
-  'components/common/Pagination.tsx': ao,
-  'components/common/ProcessingStatusSummary.tsx': ap,
-  'components/common/ProminentLink.tsx': aq,
-  'components/common/Pronouns.tsx': ar,
-  'components/common/Reputation.tsx': as,
-  'components/common/share-panel': at,
-  'components/common/ShareButton.tsx': au,
-  'components/common/ShareLink.tsx': av,
-  'components/common/SingleSelect.tsx': aw,
-  'components/common/site-updates-list/PullRequestWidget.tsx': ax,
-  'components/common/ThemeToggleButton.tsx': ay,
-  'components/community': az,
-  'components/community-solutions': a0,
-  'components/concept-map': a1,
-  'components/contributing': a2,
-  'components/contributing/tasks-list/task': a3,
-  'components/donations': a4,
-  'components/donations/subscription-form': a5,
-  'components/dropdowns': a6,
-  'components/dropdowns/reputation': a7,
-  'components/dropdowns/track-menu': a8,
-  'components/Editor.tsx': a9,
-  'components/editor/EditorStatusSummary.tsx': ba,
-  'components/editor/FeedbackPanel': bb,
-  'components/editor/GetHelp': bc,
-  'components/editor/header': bd,
-  'components/editor/legacy-file-banner': be,
-  'components/editor/LegacyFileBanner.tsx': bf,
-  'components/editor/panels': bg,
-  'components/editor/RunTestsButton.tsx': bh,
-  'components/editor/SubmitButton.tsx': bi,
-  'components/editor/tabs': bj,
-  'components/editor/testComponents': bk,
-  'components/favorites-list': bl,
-  'components/github-syncer-widget': bm,
-  'components/impact/ImpactTestimonial.tsx': bn,
-  'components/impact/map.tsx': bo,
-  'components/impact/TopLearningCountries.tsx': bp,
-  'components/insiders': bq,
-  'components/journey': br,
-  'components/journey/badges-list': bs,
-  'components/journey/contribution-results': bt,
-  'components/journey/contributions-list': bu,
-  'components/journey/overview': bv,
-  'components/journey/overview/badges-section': bw,
-  'components/journey/overview/contributing-section': bx,
-  'components/journey/overview/learning-section': by,
+  'components/common/Credits.tsx': af,
+  'components/common/exercise-widget': ag,
+  'components/common/ExerciseIcon.tsx': ah,
+  'components/common/HandleWithFlair.tsx': ai,
+  'components/common/Introducer.tsx': aj,
+  'components/common/Loading.tsx': ak,
+  'components/common/markdown-editor-form': al,
+  'components/common/MarkdownEditor.tsx': am,
+  'components/common/MarkdownEditorForm.tsx': an,
+  'components/common/MedianWaitTime.tsx': ao,
+  'components/common/MentorDiscussionSummary.tsx': ap,
+  'components/common/MultipleSelect.tsx': aq,
+  'components/common/Pagination.tsx': ar,
+  'components/common/ProcessingStatusSummary.tsx': as,
+  'components/common/ProminentLink.tsx': at,
+  'components/common/Pronouns.tsx': au,
+  'components/common/Reputation.tsx': av,
+  'components/common/share-panel': aw,
+  'components/common/ShareButton.tsx': ax,
+  'components/common/ShareLink.tsx': ay,
+  'components/common/SingleSelect.tsx': az,
+  'components/common/site-updates-list/PullRequestWidget.tsx': a0,
+  'components/common/ThemeToggleButton.tsx': a1,
+  'components/common/TrackIcon.tsx': a2,
+  'components/community': a3,
+  'components/community-solutions': a4,
+  'components/concept-map': a5,
+  'components/contributing': a6,
+  'components/contributing/tasks-list/task': a7,
+  'components/donations': a8,
+  'components/donations/subscription-form': a9,
+  'components/dropdowns': ba,
+  'components/dropdowns/notifications': bb,
+  'components/dropdowns/reputation': bc,
+  'components/dropdowns/track-menu': bd,
+  'components/Editor.tsx': be,
+  'components/editor/AssistantChat': bf,
+  'components/editor/EditorStatusSummary.tsx': bg,
+  'components/editor/FeedbackPanel': bh,
+  'components/editor/GetHelp': bi,
+  'components/editor/header': bj,
+  'components/editor/legacy-file-banner': bk,
+  'components/editor/LegacyFileBanner.tsx': bl,
+  'components/editor/panels': bm,
+  'components/editor/RunTestsButton.tsx': bn,
+  'components/editor/SubmitButton.tsx': bo,
+  'components/editor/tabs': bp,
+  'components/editor/testComponents': bq,
+  'components/ErrorBoundary.tsx': br,
+  'components/favorites-list': bs,
+  'components/github-syncer-widget': bt,
+  'components/impact/chart-elements': bu,
+  'components/impact/ImpactTestimonial.tsx': bv,
+  'components/impact/map.tsx': bw,
+  'components/impact/TopLearningCountries.tsx': bx,
+  'components/insiders': by,
+  'components/journey': bz,
+  'components/journey/badges-list': b0,
+  'components/journey/contribution-results': b1,
+  'components/journey/contributions-list': b2,
+  'components/journey/overview': b3,
+  'components/journey/overview/badges-section': b4,
+  'components/journey/overview/contributing-section': b5,
+  'components/journey/overview/learning-section': b6,
   'components/journey/overview/learning-section/track-summary/TrackProgressBar.tsx':
-    bz,
-  'components/journey/overview/mentoring-section': b0,
-  'components/journey/solutions-list': b1,
-  'components/journey/UnrevealedBadge.tsx': b2,
-  'components/maintaining': b3,
-  'components/mentoring/automation/AutomationListElement.tsx': b4,
-  'components/mentoring/automation/Representation.tsx': b5,
-  'components/mentoring/automation/RepresentationList.tsx': b6,
-  'components/mentoring/automation/TrackFilterList.tsx': b7,
-  'components/mentoring/discussion/discussion-post': b8,
-  'components/mentoring/discussion/DiscussionDetails.tsx': b9,
-  'components/mentoring/discussion/DiscussionPostList.tsx': ca,
-  'components/mentoring/discussion/finished-wizard': cb,
-  'components/mentoring/discussion/FinishedWizard.tsx': cc,
-  'components/mentoring/discussion/MarkAsNothingToDoButton.tsx': cd,
-  'components/mentoring/discussion/NewMessageAlert.tsx': ce,
-  'components/mentoring/inbox': cf,
-  'components/mentoring/Inboxtsx': cg,
-  'components/mentoring/queue': ch,
-  'components/mentoring/Queuetsx': ci,
-  'components/mentoring/representation/common': cj,
-  'components/mentoring/representation/left-pane': ck,
-  'components/mentoring/representation/modals': cl,
-  'components/mentoring/representation/right-pane': cm,
+    b7,
+  'components/journey/overview/mentoring-section': b8,
+  'components/journey/overview/TrackHeaderSummaryText.tsx': b9,
+  'components/journey/solutions-list': ca,
+  'components/journey/UnrevealedBadge.tsx': cb,
+  'components/maintaining': cc,
+  'components/mentoring/automation/AutomationListElement.tsx': cd,
+  'components/mentoring/automation/Representation.tsx': ce,
+  'components/mentoring/automation/RepresentationList.tsx': cf,
+  'components/mentoring/automation/TrackFilterList.tsx': cg,
+  'components/mentoring/discussion/discussion-post': ch,
+  'components/mentoring/discussion/DiscussionDetails.tsx': ci,
+  'components/mentoring/discussion/DiscussionPostList.tsx': cj,
+  'components/mentoring/discussion/finished-wizard': ck,
+  'components/mentoring/discussion/FinishedWizard.tsx': cl,
+  'components/mentoring/discussion/MarkAsNothingToDoButton.tsx': cm,
+  'components/mentoring/discussion/NewMessageAlert.tsx': cn,
+  'components/mentoring/inbox': co,
+  'components/mentoring/Inboxtsx': cp,
+  'components/mentoring/queue': cq,
+  'components/mentoring/Queuetsx': cr,
+  'components/mentoring/representation/common': cs,
+  'components/mentoring/representation/left-pane': ct,
+  'components/mentoring/representation/modals': cu,
+  'components/mentoring/representation/right-pane': cv,
   'components/mentoring/representation/right-pane/MentoringConversation.tsx':
-    cn,
-  'components/mentoring/representation/right-pane/RadioGroup.tsx': co,
-  'components/mentoring/request/locked-solution-mentoring-note': cp,
-  'components/mentoring/request/StartMentoringPanel.tsx': cq,
-  'components/mentoring/Session.tsx': cr,
-  'components/mentoring/session/CloseButton.tsx': cs,
-  'components/mentoring/session/favorite-button': ct,
-  'components/mentoring/session/iteration-view': cu,
-  'components/mentoring/session/mobile-code-panel/MobileIterationView.tsx': cv,
-  'components/mentoring/session/mobile-code-panel/SessionInfoHamburgerButton.tsx':
     cw,
-  'components/mentoring/session/mobile-code-panel/SessionInfoModal.tsx': cx,
-  'components/mentoring/session/Scratchpad.tsx': cy,
-  'components/mentoring/session/SessionInfo.tsx': cz,
-  'components/mentoring/session/student-info': c0,
-  'components/mentoring/session/StudentInfo.tsx': c1,
-  'components/mentoring/testimonials-list': c2,
-  'components/mentoring/testimonials-list/revealed-testimonial': c3,
-  'components/mentoring/TestimonialsList.tsx': c4,
-  'components/mentoring/track-selector': c5,
-  'components/modals/BadgeModal.tsx': c6,
-  'components/modals/BegModal.tsx': c7,
-  'components/modals/BugReportModal.tsx': c8,
-  'components/modals/ChangePublishedIterationModal.tsx': c9,
-  'components/modals/complete-exercise-modal': da,
+  'components/mentoring/representation/right-pane/RadioGroup.tsx': cx,
+  'components/mentoring/request/locked-solution-mentoring-note': cy,
+  'components/mentoring/request/StartMentoringPanel.tsx': cz,
+  'components/mentoring/Session.tsx': c0,
+  'components/mentoring/session/CloseButton.tsx': c1,
+  'components/mentoring/session/favorite-button': c2,
+  'components/mentoring/session/iteration-view': c3,
+  'components/mentoring/session/mobile-code-panel/MobileIterationView.tsx': c4,
+  'components/mentoring/session/mobile-code-panel/SessionInfoHamburgerButton.tsx':
+    c5,
+  'components/mentoring/session/mobile-code-panel/SessionInfoModal.tsx': c6,
+  'components/mentoring/session/Scratchpad.tsx': c7,
+  'components/mentoring/session/SessionInfo.tsx': c8,
+  'components/mentoring/session/student-info': c9,
+  'components/mentoring/session/StudentInfo.tsx': da,
+  'components/mentoring/testimonials-list': db,
+  'components/mentoring/testimonials-list/revealed-testimonial': dc,
+  'components/mentoring/TestimonialsList.tsx': dd,
+  'components/mentoring/track-selector': de,
+  'components/modals/BadgeModal.tsx': df,
+  'components/modals/BegModal.tsx': dg,
+  'components/modals/BugReportModal.tsx': dh,
+  'components/modals/ChangePublishedIterationModal.tsx': di,
+  'components/modals/complete-exercise-modal': dj,
   'components/modals/complete-exercise-modal/exercise-completed-modal/Unlocks.tsx':
-    db,
-  'components/modals/ConceptMakersModal.tsx': dc,
-  'components/modals/DeleteAccountModal.tsx': dd,
-  'components/modals/DisableSolutionCommentsModal.tsx': de,
-  'components/modals/EnableSolutionCommentsModal.tsx': df,
-  'components/modals/exercise-update-modal': dg,
-  'components/modals/ExerciseMakersModal.tsx': dh,
-  'components/modals/ExerciseUpdateModal.tsx': di,
-  'components/modals/mentor': dj,
-  'components/modals/mentor-registration-modal': dk,
-  'components/modals/mentor-registration-modal/commit-step': dl,
-  'components/modals/MentorChangeTracksModal.tsx': dm,
-  'components/modals/MentorRegistrationModal.tsx': dn,
-  'components/modals/PreviousMentoringSessionsModal.tsx': dp,
-  'components/modals/profile': dq,
-  'components/modals/PublishSolutionModal.tsx': dr,
-  'components/modals/realtime-feedback-modal': ds,
-  'components/modals/realtime-feedback-modal/components': dt,
-  'components/modals/realtime-feedback-modal/feedback-content': du,
+    dk,
+  'components/modals/ConceptMakersModal.tsx': dl,
+  'components/modals/DeleteAccountModal.tsx': dm,
+  'components/modals/DisableSolutionCommentsModal.tsx': dn,
+  'components/modals/EnableSolutionCommentsModal.tsx': dp,
+  'components/modals/exercise-update-modal': dq,
+  'components/modals/ExerciseMakersModal.tsx': dr,
+  'components/modals/ExerciseUpdateModal.tsx': ds,
+  'components/modals/mentor': dt,
+  'components/modals/mentor-registration-modal': du,
+  'components/modals/mentor-registration-modal/commit-step': dv,
+  'components/modals/MentorChangeTracksModal.tsx': dw,
+  'components/modals/MentorRegistrationModal.tsx': dx,
+  'components/modals/Modal.tsx': dy,
+  'components/modals/PreviousMentoringSessionsModal.tsx': dz,
+  'components/modals/profile': d0,
+  'components/modals/PublishSolutionModal.tsx': d1,
+  'components/modals/realtime-feedback-modal': d2,
+  'components/modals/realtime-feedback-modal/components': d3,
+  'components/modals/realtime-feedback-modal/feedback-content': d4,
   'components/modals/realtime-feedback-modal/feedback-content/found-automated-feedback':
-    dv,
+    d5,
   'components/modals/realtime-feedback-modal/feedback-content/no-automated-feedback':
-    dw,
-  'components/modals/RequestMentoringModal.tsx': dx,
-  'components/modals/ResetAccountModal.tsx': dy,
-  'components/modals/seniority-survey-modal': dz,
-  'components/modals/student': d0,
-  'components/modals/student/finish-mentor-discussion-modal': d1,
-  'components/modals/TaskHintsModal.tsx': d2,
-  'components/modals/TestimonialModal.tsx': d3,
-  'components/modals/track-welcome-modal/LHS': d4,
-  'components/modals/track-welcome-modal/LHS/steps': d5,
-  'components/modals/track-welcome-modal/LHS/steps/components': d6,
-  'components/modals/track-welcome-modal/RHS': d7,
-  'components/modals/UnpublishSolutionModal.tsx': d8,
-  'components/modals/upload-video': d9,
-  'components/modals/upload-video/elements': ea,
-  'components/modals/welcome-modal': eb,
-  'components/modals/WelcomeToInsidersModal.tsx': ec,
-  'components/notifications/': ed,
-  'components/notifications/notifications-list': ee,
-  'components/perks': ef,
-  'components/profile': eg,
-  'components/profile/avatar-selector': eh,
-  'components/profile/avatar-selector/cropping-modal': ei,
-  'components/profile/avatar-selector/photo': ej,
-  'components/profile/community-solutions-list': ek,
-  'components/profile/contributions-list': el,
-  'components/profile/contributions-summary': em,
-  'components/profile/testimonials-list': en,
-  'components/settings/BootcampAffiliateCouponForm.tsx': eo,
-  'components/settings/BootcampFreeCouponForm.tsx': ep,
-  'components/settings/comments-preference-form': eq,
-  'components/settings/CommunicationPreferencesForm.tsx': er,
-  'components/settings/delete-profile-form': es,
-  'components/settings/DeleteAccountButton.tsx': et,
-  'components/settings/DeleteProfileForm.tsx': eu,
-  'components/settings/EmailForm.tsx': ev,
-  'components/settings/FormMessage.tsx': ew,
-  'components/settings/github-syncer/common': ex,
-  'components/settings/github-syncer/sections/ConnectedSection': ey,
+    d6,
+  'components/modals/RequestMentoringModal.tsx': d7,
+  'components/modals/ResetAccountModal.tsx': d8,
+  'components/modals/seniority-survey-modal': d9,
+  'components/modals/student': ea,
+  'components/modals/student/finish-mentor-discussion-modal': eb,
+  'components/modals/TaskHintsModal.tsx': ec,
+  'components/modals/TestimonialModal.tsx': ed,
+  'components/modals/track-welcome-modal/LHS': ee,
+  'components/modals/track-welcome-modal/LHS/steps': ef,
+  'components/modals/track-welcome-modal/LHS/steps/components': eg,
+  'components/modals/track-welcome-modal/RHS': eh,
+  'components/modals/UnpublishSolutionModal.tsx': ei,
+  'components/modals/upload-video': ej,
+  'components/modals/upload-video/elements': ek,
+  'components/modals/welcome-modal': el,
+  'components/modals/WelcomeToInsidersModal.tsx': em,
+  'components/notifications/': en,
+  'components/notifications/notifications-list': eo,
+  'components/perks': ep,
+  'components/profile': eq,
+  'components/profile/avatar-selector': er,
+  'components/profile/avatar-selector/cropping-modal': es,
+  'components/profile/avatar-selector/photo': et,
+  'components/profile/community-solutions-list': eu,
+  'components/profile/contributions-list': ev,
+  'components/profile/contributions-summary': ew,
+  'components/profile/testimonials-list': ex,
+  'components/ResultsZone.tsx': ey,
+  'components/settings/BootcampAffiliateCouponForm.tsx': ez,
+  'components/settings/BootcampFreeCouponForm.tsx': e0,
+  'components/settings/comments-preference-form': e1,
+  'components/settings/CommunicationPreferencesForm.tsx': e2,
+  'components/settings/delete-profile-form': e3,
+  'components/settings/DeleteAccountButton.tsx': e4,
+  'components/settings/DeleteProfileForm.tsx': e5,
+  'components/settings/EmailForm.tsx': e6,
+  'components/settings/FormMessage.tsx': e7,
+  'components/settings/github-syncer/common': e8,
+  'components/settings/github-syncer/sections/ConnectedSection': e9,
   'components/settings/github-syncer/sections/ConnectedSection/ManualSyncSection.tsx':
-    ez,
+    fa,
   'components/settings/github-syncer/sections/ConnectedSection/SyncBehaviourSection.tsx':
-    e0,
-  'components/settings/github-syncer/sections/ConnectToGithubSection': e1,
-  'components/settings/HandleForm.tsx': e2,
-  'components/settings/InsiderBenefitsForm.tsx': e3,
-  'components/settings/PasswordForm.tsx': e4,
-  'components/settings/PhotoForm.tsx': e5,
-  'components/settings/ProfileForm.tsx': e6,
-  'components/settings/PronounsForm.tsx': e7,
-  'components/settings/ResetAccountButton.tsx': e8,
-  'components/settings/ShowOnSupportersPageButton.tsx': e9,
-  'components/settings/theme-preference-form': fa,
-  'components/settings/ThemePreferenceForm.tsx': fb,
-  'components/settings/TokenForm.tsx': fc,
-  'components/settings/useInvalidField.tsx': fd,
-  'components/settings/UserPreferencesForm.tsx': fe,
-  'components/settings/useSettingsMutation.tsx': ff,
-  'components/student/CompleteExerciseButton.tsx': fg,
-  'components/student/ExerciseList.tsx': fh,
-  'components/student/ExerciseStatusChart.tsx': fi,
-  'components/student/ExerciseStatusDot.tsx': fj,
-  'components/student/iterations-list': fk,
-  'components/student/mentoring-dropdown': fl,
-  'components/student/mentoring-session': fm,
-  'components/student/mentoring-session/iteration-view': fn,
-  'components/student/mentoring-session/mentoring-request': fo,
+    fb,
+  'components/settings/github-syncer/sections/ConnectToGithubSection': fc,
+  'components/settings/HandleForm.tsx': fd,
+  'components/settings/InsiderBenefitsForm.tsx': fe,
+  'components/settings/LanguagePreferenceForm.tsx': ff,
+  'components/settings/PasswordForm.tsx': fg,
+  'components/settings/PhotoForm.tsx': fh,
+  'components/settings/ProfileForm.tsx': fi,
+  'components/settings/PronounsForm.tsx': fj,
+  'components/settings/ResetAccountButton.tsx': fk,
+  'components/settings/ShowOnSupportersPageButton.tsx': fl,
+  'components/settings/theme-preference-form': fm,
+  'components/settings/ThemePreferenceForm.tsx': fn,
+  'components/settings/TokenForm.tsx': fo,
+  'components/settings/useInvalidField.tsx': fp,
+  'components/settings/UserPreferencesForm.tsx': fq,
+  'components/settings/useSettingsMutation.tsx': fr,
+  'components/student/CompleteExerciseButton.tsx': fs,
+  'components/student/ExerciseList.tsx': ft,
+  'components/student/ExerciseStatusChart.tsx': fu,
+  'components/student/ExerciseStatusDot.tsx': fv,
+  'components/student/iterations-list': fw,
+  'components/student/mentoring-dropdown': fx,
+  'components/student/mentoring-session': fy,
+  'components/student/mentoring-session/iteration-view': fz,
+  'components/student/mentoring-session/mentoring-request': f0,
   'components/student/mentoring-session/mentoring-request/MentoringRequestFormComponents':
-    fp,
-  'components/student/MentoringComboButton.tsx': fq,
-  'components/student/MentoringSession.tsx': fr,
-  'components/student/open-editor-button': fs,
-  'components/student/OpenEditorButton.tsx': ft,
-  'components/student/published-solution': fu,
-  'components/student/PublishSolutionButton.tsx': fv,
-  'components/student/RequestMentoringButton.tsx': fw,
-  'components/student/solution-summary': fx,
-  'components/student/tracks-list': fy,
-  'components/student/TracksList.tsx': fz,
-  'components/student/UpdateExerciseNotice.tsx': f0,
-  'components/test': f1,
-  'components/tooltips/AutomationLockedTooltip.tsx': f2,
-  'components/tooltips/ConceptTooltip.tsx': f3,
-  'components/tooltips/ExerciseTooltip.tsx': f4,
-  'components/tooltips/student-tooltip': f5,
-  'components/tooltips/task-tooltip': f6,
-  'components/tooltips/ToolingTooltip.tsx': f7,
-  'components/tooltips/UserTooltip.tsx': f8,
-  'components/track/activity-ticker': f9,
-  'components/track/dig-deeper-components': ga,
-  'components/track/dig-deeper-components/community-videos': gb,
-  'components/track/dig-deeper-components/no-content-yet': gc,
-  'components/track/exercise-community-solutions-list': gd,
-  'components/track/ExerciseCommunitySolutionsList.tsx': ge,
-  'components/track/iteration-summary': gf,
-  'components/track/IterationSummary.tsx': gg,
-  'components/track/Trophies.tsx': gh,
-  'components/track/UnlockHelpButton.tsx': gi,
-  'components/training-data/code-tagger': gj,
-  'components/training-data/dashboard': gk,
-  'discussion-batch': gl,
-  'session-batch-1': gm,
-  'session-batch-2': gn,
-  'session-batch-3': go,
-  'components/common/HandleWithFlair.tsx': hwf,
-  'components/editor/AssistantChat': acx,
-  'components/modals/Modal.tsx': mdl,
-  'components/ResultsZone.tsx': rzn,
-  'components/impact/chart-elements': ice,
-  'components/settings/LanguagePreferenceForm.tsx': lpf,
-  'utils/date': utd,
-  'components/journey/overview/TrackHeaderSummaryText.tsx': thst,
+    f1,
+  'components/student/MentoringComboButton.tsx': f2,
+  'components/student/MentoringSession.tsx': f3,
+  'components/student/open-editor-button': f4,
+  'components/student/OpenEditorButton.tsx': f5,
+  'components/student/published-solution': f6,
+  'components/student/PublishSolutionButton.tsx': f7,
+  'components/student/RequestMentoringButton.tsx': f8,
+  'components/student/solution-summary': f9,
+  'components/student/tracks-list': ga,
+  'components/student/TracksList.tsx': gb,
+  'components/student/UpdateExerciseNotice.tsx': gc,
+  'components/test': gd,
+  'components/tooltips/AutomationLockedTooltip.tsx': ge,
+  'components/tooltips/ConceptTooltip.tsx': gf,
+  'components/tooltips/ExerciseTooltip.tsx': gg,
+  'components/tooltips/student-tooltip': gh,
+  'components/tooltips/task-tooltip': gi,
+  'components/tooltips/ToolingTooltip.tsx': gj,
+  'components/tooltips/UserTooltip.tsx': gk,
+  'components/track': gl,
+  'components/track/activity-ticker': gm,
+  'components/track/dig-deeper-components': gn,
+  'components/track/dig-deeper-components/community-videos': go,
+  'components/track/dig-deeper-components/no-content-yet': gp,
+  'components/track/exercise-community-solutions-list': gq,
+  'components/track/ExerciseCommunitySolutionsList.tsx': gr,
+  'components/track/iteration-summary': gs,
+  'components/track/IterationSummary.tsx': gt,
+  'components/track/Trophies.tsx': gu,
+  'components/track/UnlockHelpButton.tsx': gv,
+  'components/training-data/code-tagger': gw,
+  'components/training-data/dashboard': gx,
+  'discussion-batch': gy,
+  'session-batch-1': gz,
+  'session-batch-2': g0,
+  'session-batch-3': g1,
+  'utils/date': g2,
 }

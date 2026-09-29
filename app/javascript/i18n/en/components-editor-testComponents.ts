@@ -37,8 +37,10 @@ export default {
   'testsGroupedByStatusList.test_other': '{{count}} tests',
   'testsGroupedByStatusList.passed': 'passed',
   'testsGroupedByStatusList.failed': 'failed',
-  'testRunSummaryByStatusHeaderMessage.testFailure': 'test failure',
-  'testRunSummaryByStatusHeaderMessage.testFailures': 'test failures',
+  'testRunSummaryByStatusHeaderMessage.testFailure_one':
+    '{{count}} test failure',
+  'testRunSummaryByStatusHeaderMessage.testFailure_other':
+    '{{count}} test failures',
   'testRunSummaryByStatusHeaderMessage.testsFailed': 'Tests failed',
   'testsGroupedByTaskList.task': 'Task',
   'testsGroupedByTaskList.jumpToInstructions': 'Jump to Instructions',
@@ -51,4 +53,7 @@ export default {
   'testSummary.yourOutput': 'Your Output',
   'testContentWrapper.fileNotFound': 'File not found',
   'jumpToInstructionButton.jumpToInstructions': 'Jump to Instructions',
+  'testSummary.testFailure': 'Test Failure',
+  'testSummary.testError': 'Test Error',
+  'testsGroupedByTaskList.task': 'Task {{id}}',
 }

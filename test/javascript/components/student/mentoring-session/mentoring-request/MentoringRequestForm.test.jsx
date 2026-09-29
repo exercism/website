@@ -121,7 +121,7 @@ test('shows generic error message', async () => {
     )
 
     expect(
-      await screen.findByText('Unable to create mentor request')
+      await screen.findByText('Something went wrong. Please try again.')
     ).toBeInTheDocument()
   })
 })

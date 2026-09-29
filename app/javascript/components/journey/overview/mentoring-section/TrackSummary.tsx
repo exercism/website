@@ -3,7 +3,6 @@
 import React from 'react'
 import { TrackIcon } from '../../../common'
 import { MentoredTrackProgress } from '../../types'
-import pluralize from 'pluralize'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const TrackSummary = ({

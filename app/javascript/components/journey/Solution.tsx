@@ -2,7 +2,6 @@ import React from 'react'
 import { fromNow } from '../../utils/time'
 import { GraphicalIcon, TrackIcon, ExerciseIcon, Icon } from '../common'
 import { GenericTooltip } from '../misc/ExercismTippy'
-import pluralize from 'pluralize'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 import { Trans } from 'react-i18next'
 
@@ -137,11 +136,7 @@ export const Solution = ({
           {numViews ? (
             <div className="stat">
               <GraphicalIcon icon="views" />
-              {numViews}{' '}
-              {t('solution.views', {
-                numViews: numViews,
-                viewLabel: pluralize('view', numViews),
-              })}
+              {t('solution.views', { count: numViews })}
             </div>
           ) : null}
         </div>

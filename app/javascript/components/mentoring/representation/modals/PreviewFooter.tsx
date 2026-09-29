@@ -1,5 +1,4 @@
 import React, { SetStateAction } from 'react'
-import { pluralizeWithNumber } from '@/utils/pluralizeWithNumber'
 import { StatusTab } from '../../inbox/StatusTab'
 import { CancelButton } from '../common/CancelButton'
 import { PrimaryButton } from '../common/PrimaryButton'
@@ -47,7 +46,7 @@ export function PreviewFooter({
           <br />
           {t('previewFooter.feedbackWillAppearOn')}{' '}
           <strong className="font-medium text-textColor1">
-            {pluralizeWithNumber(numOfSolutions, 'solution')}
+            {t('previewFooter.solutionCount', { count: numOfSolutions })}
           </strong>
         </div>
         <CancelButton onClick={onClose} />

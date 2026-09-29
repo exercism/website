@@ -2,7 +2,7 @@
 export default {
   'welcomeToInsidersModal.title': 'Welcome to Insiders! 💙',
   'welcomeToInsidersModal.accessToFeatures':
-    'You now have access to Dark Mode, ChatGPT Integration, extra mentoring slots along with behind the scenes videos, new badges, and more!',
+    'You now have access to Dark Mode, Exercism AI, extra mentoring slots along with behind the scenes videos, new badges, and more!',
   'welcomeToInsidersModal.thanksForBeingPartOfOurStory':
     'Thanks for being part of our story!',
   'welcomeToInsidersModal.exercismReliesOnPeople':
@@ -14,6 +14,6 @@ export default {
     'Start with our welcome video 👇🏽',
   'welcomeToInsidersModal.whatShouldIDoNext': 'What should I do next?',
   'welcomeToInsidersModal.exploreDarkMode':
-    "Explore Dark Mode (we've enabled it by default). Check out your new badge(s). Try ChatGPT in the online editor. Use one of your new mentoring slots. Come and say hello on the #insiders channel on Discord. Or watch some of the behind the scenes videos 🎉",
+    "Explore Dark Mode (we've enabled it by default). Check out your new badge(s). Try Exercism AI in the online editor. Use one of your new mentoring slots. Come and say hello on the #insiders channel on Discord. Or watch some of the behind the scenes videos 🎉",
   'welcomeToInsidersModal.videoTitle': 'Welcome to Exercism Insiders!',
 }

@@ -5,7 +5,7 @@ export default {
   'infoMessage.eligibleToJoinInsiders':
     "You're eligible to join Insiders. <0>Get started here.</0>",
   'infoMessage.darkModeOnlyAvailableToInsiders':
-    'Dark Mode is only available to Exercism Insiders. <0>Donate to Exercism</0> and become an Insider to access Dark Mode, ChatGPT integration and more.',
+    'Dark Mode is only available to Exercism Insiders. <0>Donate to Exercism</0> and become an Insider to access Dark Mode, Exercism AI and more.',
   'disabledTooltip.mustBeExercismInsider':
     'You must be an <0>Exercism Insider <1/></0> to unlock this theme.',
 }

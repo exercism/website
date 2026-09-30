@@ -39,22 +39,23 @@ class User::ReputationToken::CalculateContextualData
       solutions_published = occs['publishing']
 
       parts = []
-      parts << format(code_contributions, "PR", "created") if code_contributions
-      parts << format(maintenance, "PR", "reviewed and/or merged") if maintenance
-      parts << format(exercises_contributed, "exercise contribution") if exercises_contributed
-      parts << format(solutions_mentored, "solution", "mentored") if solutions_mentored
-      parts << format(solutions_published, "solution", "published") if solutions_published.to_i.positive?
+      parts << format(:building, code_contributions) if code_contributions
+      parts << format(:maintaining, maintenance) if maintenance
+      parts << format(:authoring, exercises_contributed) if exercises_contributed
+      parts << format(:mentoring, solutions_mentored) if solutions_mentored
+      parts << format(:publishing, solutions_published) if solutions_published.to_i.positive?
 
       res[user_id] = Data.new(
-        parts.join(" • "),
+        parts.join(I18n.t("#{I18N_SCOPE}.separator")),
         total_reputation(user_id)
       )
     end
   end
 
-  def format(value, thing, suffix = nil)
-    suffix = suffix ? " #{suffix}" : ""
-    "#{number_with_delimiter(value)} #{thing.pluralize(value)}#{suffix}"
+  # count drives the plural rule; the interpolated value keeps its thousands
+  # separator, which number_with_delimiter localises too.
+  def format(category, value)
+    I18n.t("#{I18N_SCOPE}.#{category}", count: value.to_i, formatted_count: number_with_delimiter(value))
   end
 
   def total_reputation(user_id)
@@ -107,6 +108,9 @@ class User::ReputationToken::CalculateContextualData
 
   CACHE_KEYS = %i[total details].freeze
   private_constant :CACHE_KEYS
+
+  I18N_SCOPE = "commands.user_reputation_token.contextual_data".freeze
+  private_constant :I18N_SCOPE
 
   # Read every value in one pipelined call rather than an hget per user per
   # key. The contributors list asks for 20 users, which would otherwise be 40

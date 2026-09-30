@@ -40,7 +40,9 @@
                         }
                         & .name {
                             @apply text-textColor1 font-semibold;
-                            @apply inline align-middle;
+                            /* inline, on the natural text baseline: it sits in the
+                               same sentence as the surrounding translated words. */
+                            @apply inline;
                         }
                     }
                     & .generic {

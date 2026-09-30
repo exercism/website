@@ -78,7 +78,9 @@
                 }
                 & .--track-title {
                     @apply text-textColor2 font-semibold;
-                    @apply inline align-middle;
+                    /* inline, on the natural text baseline: it sits in the same
+                       sentence as the surrounding translated words. */
+                    @apply inline;
                 }
             }
         }

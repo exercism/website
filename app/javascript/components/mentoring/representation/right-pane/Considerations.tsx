@@ -10,8 +10,11 @@ export default function Considerations({
     'components/mentoring/representation/right-pane'
   )
 
+  // Centred with text-align, not flex: a flex container makes the link its own
+  // item and drops the whitespace around it, so locales that put a plain space
+  // before the link (hu) would run it into the preceding word.
   return (
-    <p className="flex items-center justify-center font-medium text-16 leading-[24px] py-8 px-16 border-2 border-orange rounded-8 bg-bgCAlert text-textCAlert whitespace-nowrap my-16 mx-24">
+    <p className="text-center font-medium text-16 leading-[24px] py-8 px-16 border-2 border-orange rounded-8 bg-bgCAlert text-textCAlert whitespace-nowrap my-16 mx-24">
       <Trans
         i18nKey="considerations.readThisBeforeGivingFeedback"
         ns="components/mentoring/representation/right-pane"

@@ -1,0 +1,22 @@
+en:
+  commands:
+    user_reputation_token:
+      # count selects the plural form; formatted_count carries the thousands
+      # separator, so translations interpolate formatted_count, never count.
+      contextual_data:
+        separator: " • "
+        building:
+          one: "%{formatted_count} PR created"
+          other: "%{formatted_count} PRs created"
+        maintaining:
+          one: "%{formatted_count} PR reviewed and/or merged"
+          other: "%{formatted_count} PRs reviewed and/or merged"
+        authoring:
+          one: "%{formatted_count} exercise contribution"
+          other: "%{formatted_count} exercise contributions"
+        mentoring:
+          one: "%{formatted_count} solution mentored"
+          other: "%{formatted_count} solutions mentored"
+        publishing:
+          one: "%{formatted_count} solution published"
+          other: "%{formatted_count} solutions published"

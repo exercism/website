@@ -119,9 +119,12 @@ test('shows generic errors when fetching queue', async () => {
     </TestQueryCache>
   )
 
+  // defaultTrack points the exercises request at an endpoint the server does
+  // not mock, so that fails alongside the broken queue endpoint and both
+  // components render the generic fallback.
   expect(
-    await screen.findByText('Something went wrong. Please try again.')
-  ).toBeInTheDocument()
+    await screen.findAllByText('Something went wrong. Please try again.')
+  ).not.toHaveLength(0)
 
   server.close()
 })

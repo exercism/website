@@ -64,4 +64,13 @@
             unicode-bidi: plaintext;
         }
     }
+
+    /* The landing mentoring dashes are directional artwork: the curve sweeps in
+       towards the track icon from the inline-end side. inset-inline-start moves
+       the box to the mirrored side, but the drawing inside still points the old
+       way, so flip it about the endpoint that sits beside the icon. */
+    & #page-landing section.mentoring-section .section-header:before {
+        transform: scaleX(-1);
+        transform-origin: 2.6px 144.8px;
+    }
 }

@@ -103,7 +103,12 @@ class LocaleSeoTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "the sitemap lists every served locale with the same alternates as the page head" do
+  # The sitemap lists each page once by its English url and carries no hreflang
+  # of its own: that pairing would grow with the square of the number of served
+  # locales and exhausted a webserver's memory at 19 (see SitemapsController).
+  # Google treats hreflang in the sitemap and in the page head as equivalent, so
+  # the alternates have to be reachable from the url the sitemap does list.
+  test "the sitemap lists each page once, and that page's head carries the alternates" do
     create :track, slug: "ruby"
     create :blog_post
 
@@ -113,10 +118,15 @@ class LocaleSeoTest < ActionDispatch::IntegrationTest
     xml.remove_namespaces!
     locs = xml.xpath("//url/loc").map(&:text)
     assert_includes locs, "http://test.exercism.org/tracks"
-    assert_includes locs, "http://test.exercism.org/hu/tracks"
+    assert_equal locs.uniq, locs
+    refute(locs.any? { |loc| loc.include?("/hu/") })
+    assert_empty xml.xpath("//link")
 
-    hu = xml.xpath("//url[loc='http://test.exercism.org/hu/tracks']/link").to_h { |l| [l["hreflang"], l["href"]] }
-    assert_equal Locale::Alternates.("http://test.exercism.org/tracks"), hu
+    get "http://test.exercism.org/tracks"
+
+    Locale::Alternates.("http://test.exercism.org/tracks").each do |hreflang, href|
+      assert_select "link[rel=alternate][hreflang=?][href=?]", hreflang, href
+    end
   end
 
   private

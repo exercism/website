@@ -263,18 +263,28 @@
         @apply relative;
         background: linear-gradient(180deg, #ffffff 80%, #fbfbff 100%);
 
+        /* The dashed curve sweeps in from the right and terminates on the hexagon
+           track icon. It is anchored to .section-header, whose top-left corner is
+           that icon, rather than to the section's own 50%: the icon is placed by the
+           flex row inside .lg-container (max 1440px, centred) while the section runs
+           the full viewport width, so a section-centred offset only lined up at one
+           width and drifted right of the icon at every other.
+
+           The endpoint dot sits 2.6px from the left and 144.8px from the top of the
+           306x148 painted box, so these offsets land it just off the icon's right
+           edge, level with its centre. */
         @screen md {
-            &:before {
+            & .section-header:before {
                 content: "";
                 background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzA4IiBoZWlnaHQ9IjE0OCIgdmlld0JveD0iMCAwIDMwOCAxNDgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0zMDIuNjIyIDMuNTQ5MDdDMzE0LjA0OCAzLjU0OTA3IDMxNC4wNDggMTQ1LjI5MiAyLjYyMDA5IDE0NS4yOTIiIHN0cm9rZT0iI0NCQzlEOSIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtZGFzaGFycmF5PSI2IDkiLz4KPG1hc2sgaWQ9InBhdGgtMi1pbnNpZGUtMSIgZmlsbD0id2hpdGUiPgo8ZWxsaXBzZSBjeD0iMi42MjAxIiBjeT0iMTQ1LjI5MiIgcng9IjIuNjIwMSIgcnk9IjIuNzA4NDYiLz4KPC9tYXNrPgo8ZWxsaXBzZSBjeD0iMi42MjAxIiBjeT0iMTQ1LjI5MiIgcng9IjIuNjIwMSIgcnk9IjIuNzA4NDYiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0yLjI0MDIgMTQ1LjI5MkMyLjI0MDIgMTQ1LjI0NCAyLjI2MTQ5IDE0NS4xNzggMi4zMTY1OSAxNDUuMTIxQzIuMzczMzkgMTQ1LjA2MiAyLjQ4MjczIDE0NSAyLjYyMDEgMTQ1VjE1MUM1LjgxNyAxNTEgOC4yNDAyIDE0OC4zNSA4LjI0MDIgMTQ1LjI5MkgyLjI0MDJaTTIuNjIwMSAxNDVDMi43NTc0NiAxNDUgMi44NjY4MSAxNDUuMDYyIDIuOTIzNjEgMTQ1LjEyMUMyLjk3ODcxIDE0NS4xNzggMyAxNDUuMjQ0IDMgMTQ1LjI5MkgtM0MtMyAxNDguMzUgLTAuNTc2ODA1IDE1MSAyLjYyMDEgMTUxVjE0NVpNMyAxNDUuMjkyQzMgMTQ1LjMzOSAyLjk3ODcxIDE0NS40MDUgMi45MjM2MSAxNDUuNDYyQzIuODY2ODEgMTQ1LjUyMSAyLjc1NzQ2IDE0NS41ODMgMi42MjAxIDE0NS41ODNWMTM5LjU4M0MtMC41NzY4MDUgMTM5LjU4MyAtMyAxNDIuMjMzIC0zIDE0NS4yOTJIM1pNMi42MjAxIDE0NS41ODNDMi40ODI3MyAxNDUuNTgzIDIuMzczMzkgMTQ1LjUyMSAyLjMxNjU5IDE0NS40NjJDMi4yNjE0OSAxNDUuNDA1IDIuMjQwMiAxNDUuMzM5IDIuMjQwMiAxNDUuMjkySDguMjQwMkM4LjI0MDIgMTQyLjIzMyA1LjgxNyAxMzkuNTgzIDIuNjIwMSAxMzkuNTgzVjE0NS41ODNaIiBmaWxsPSIjQ0JDOUQ5IiBtYXNrPSJ1cmwoI3BhdGgtMi1pbnNpZGUtMSkiLz4KPG1hc2sgaWQ9InBhdGgtNC1pbnNpZGUtMiIgZmlsbD0id2hpdGUiPgo8ZWxsaXBzZSBjeD0iMzAyLjYyMSIgY3k9IjMuNTQ5MDMiIHJ4PSIyLjYyMDEiIHJ5PSIyLjcwODQ2Ii8+CjwvbWFzaz4KPGVsbGlwc2UgY3g9IjMwMi42MjEiIGN5PSIzLjU0OTAzIiByeD0iMi42MjAxIiByeT0iMi43MDg0NiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTMwMi4yNDIgMy41NDkwM0MzMDIuMjQyIDMuNTAxNDYgMzAyLjI2MyAzLjQzNTMgMzAyLjMxOCAzLjM3ODM0QzMwMi4zNzUgMy4zMTk2MyAzMDIuNDg0IDMuMjU3NDkgMzAyLjYyMiAzLjI1NzQ5VjkuMjU3NDlDMzA1LjgxOCA5LjI1NzQ5IDMwOC4yNDIgNi42MDcxNiAzMDguMjQyIDMuNTQ5MDNIMzAyLjI0MlpNMzAyLjYyMiAzLjI1NzQ5QzMwMi43NTkgMy4yNTc0OSAzMDIuODY4IDMuMzE5NjMgMzAyLjkyNSAzLjM3ODM0QzMwMi45OCAzLjQzNTMgMzAzLjAwMSAzLjUwMTQ2IDMwMy4wMDEgMy41NDkwM0gyOTcuMDAxQzI5Ny4wMDEgNi42MDcxNiAyOTkuNDI1IDkuMjU3NDkgMzAyLjYyMiA5LjI1NzQ5VjMuMjU3NDlaTTMwMy4wMDEgMy41NDkwM0MzMDMuMDAxIDMuNTk2NiAzMDIuOTggMy42NjI3NiAzMDIuOTI1IDMuNzE5NzJDMzAyLjg2OCAzLjc3ODQ0IDMwMi43NTkgMy44NDA1OCAzMDIuNjIyIDMuODQwNThWLTIuMTU5NDJDMjk5LjQyNSAtMi4xNTk0MiAyOTcuMDAxIDAuNDkwOTAzIDI5Ny4wMDEgMy41NDkwM0gzMDMuMDAxWk0zMDIuNjIyIDMuODQwNThDMzAyLjQ4NCAzLjg0MDU4IDMwMi4zNzUgMy43Nzg0NCAzMDIuMzE4IDMuNzE5NzJDMzAyLjI2MyAzLjY2Mjc2IDMwMi4yNDIgMy41OTY2IDMwMi4yNDIgMy41NDkwM0gzMDguMjQyQzMwOC4yNDIgMC40OTA5MDMgMzA1LjgxOCAtMi4xNTk0MiAzMDIuNjIyIC0yLjE1OTQyVjMuODQwNThaIiBmaWxsPSIjQ0JDOUQ5IiBtYXNrPSJ1cmwoI3BhdGgtNC1pbnNpZGUtMikiLz4KPC9zdmc+Cg==");
                 position: absolute;
-                top: 0;
-                margin-inline-start: -20px;
-                left: 50%;
+                inset-inline-start: calc(80px + 16px - 2.6px);
+                top: calc(40px - 144.8px);
                 width: 306px;
                 height: 148px;
                 background-repeat: no-repeat;
                 background-size: contain;
+                pointer-events: none;
             }
         }
 

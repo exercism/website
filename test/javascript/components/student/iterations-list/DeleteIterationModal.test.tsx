@@ -160,7 +160,7 @@ test('shows unexpected errors', async () => {
     userEvent.click(deleteButton)
 
     expect(
-      await screen.findByText('Unable to delete iteration')
+      await screen.findByText('Something went wrong. Please try again.')
     ).toBeInTheDocument()
   })
 })

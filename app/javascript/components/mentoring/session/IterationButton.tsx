@@ -1,5 +1,4 @@
 import React from 'react'
-import pluralize from 'pluralize'
 import { Iteration } from '../../types'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 

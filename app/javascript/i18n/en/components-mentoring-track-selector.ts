@@ -6,4 +6,6 @@ export default {
   'trackCheckbox.trackSelected': 'Track selected',
   'tracksList.noTracksFound': 'No tracks found',
   'continueButton.continue': 'Continue',
+  'trackCheckbox.solutionsQueued_one': '{{count}} solution queued',
+  'trackCheckbox.solutionsQueued_other': '{{count}} solutions queued',
 }

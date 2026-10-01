@@ -1,5 +1,4 @@
 import React from 'react'
-import pluralize from 'pluralize'
 import { Trans } from 'react-i18next'
 import { TrackProgressList } from '../../types'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
@@ -29,10 +28,14 @@ export const LearningStats = ({
           i18nKey="learningStats.linesOfCodeStat"
           ns="components/journey/overview/learning-section"
           values={{
-            numLines: tracks.numLines.toLocaleString(),
-            lineLabel: pluralize('line', tracks.numLines),
-            numSolutions: tracks.numSolutions,
-            solutionLabel: pluralize('solution', tracks.numSolutions),
+            // Pre-formatted so each count pluralises under its own rules.
+            lines: t('learningStats.lineCount', {
+              count: tracks.numLines,
+              formattedCount: tracks.numLines.toLocaleString(),
+            }),
+            solutions: t('learningStats.solutionCount', {
+              count: tracks.numSolutions,
+            }),
           }}
           components={{
             strong: <strong />,

@@ -349,7 +349,7 @@ test('shows generic error when marking notifications as read', async () => {
     userEvent.click(markAsReadButton)
 
     expect(
-      await screen.findByText('Unable to mark notifications as read')
+      await screen.findByText('Something went wrong. Please try again.')
     ).toBeInTheDocument()
   })
 })

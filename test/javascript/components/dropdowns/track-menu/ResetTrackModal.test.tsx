@@ -138,6 +138,8 @@ test('user sees generic error message', async () => {
     )
     userEvent.click(resetButton)
 
-    expect(await screen.findByText('Unable to reset track')).toBeInTheDocument()
+    expect(
+      await screen.findByText('Something went wrong. Please try again.')
+    ).toBeInTheDocument()
   })
 })

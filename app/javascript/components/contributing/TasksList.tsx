@@ -1,7 +1,6 @@
 // i18n-key-prefix: tasksList
 // i18n-namespace: components/contributing
 import React, { useCallback } from 'react'
-import pluralize from 'pluralize'
 import { Pagination } from '@/components/common'
 import { useDeepMemo } from '@/hooks/use-deep-memo'
 import {
@@ -156,17 +155,12 @@ export default function TasksList({
                 <h2>
                   <strong className="block md:inline">
                     {t('tasksList.showingTasks', {
-                      totalCount: resolvedData.meta.totalCount,
-                      task: pluralize('task', resolvedData.meta.totalCount),
+                      count: resolvedData.meta.totalCount,
                     })}
                   </strong>
                   <span className="hidden md:inline me-8">/</span>
                   {t('tasksList.outOfPossibleTasks', {
-                    unscopedTotal: resolvedData.meta.unscopedTotal,
-                    unscopedTask: pluralize(
-                      'task',
-                      resolvedData.meta.unscopedTotal
-                    ),
+                    count: resolvedData.meta.unscopedTotal,
                   })}
                 </h2>
                 {isFiltering ? <ResetButton onClick={handleReset} /> : null}

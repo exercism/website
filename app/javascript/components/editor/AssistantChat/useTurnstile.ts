@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react'
+import i18n from '@/i18n/i18n'
 
 const SCRIPT_SRC =
   'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit'
@@ -114,13 +115,16 @@ export function useTurnstile(siteKey: string): UseTurnstileResult {
     ].join(';')
 
     const heading = document.createElement('h2')
-    heading.textContent = 'Please verify you are not a bot'
+    heading.textContent = i18n.t(
+      'components/editor/AssistantChat/useTurnstile.ts:verifyHeading'
+    )
     heading.style.cssText =
       'margin: 0 0 12px 0; font-size: 22px; font-weight: 600; color: #0f172a;'
 
     const para = document.createElement('p')
-    para.textContent =
-      "We are constantly attacked by bots (apparently they're very keen to get into coding!). Please tick the box below to confirm you are human."
+    para.textContent = i18n.t(
+      'components/editor/AssistantChat/useTurnstile.ts:verifyDescription'
+    )
     para.style.cssText =
       'margin: 0 0 20px 0; font-size: 15px; line-height: 1.5; color: #475569;'
 

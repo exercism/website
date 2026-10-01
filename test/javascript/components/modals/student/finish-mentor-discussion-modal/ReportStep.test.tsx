@@ -181,7 +181,7 @@ test('shows generic error message', async () => {
     userEvent.click(screen.getByRole('button', { name: 'Finish' }))
 
     expect(
-      await screen.findByText('Unable to submit mentor rating')
+      await screen.findByText('Something went wrong. Please try again.')
     ).toBeInTheDocument()
   })
 })

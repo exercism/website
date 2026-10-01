@@ -1,7 +1,7 @@
 // i18n-key-prefix: representationInfo
 // i18n-namespace: components/mentoring/representation/left-pane
 import React from 'react'
-import { TrackIcon, Avatar } from '../../../common'
+import { TrackIcon, ExerciseIcon } from '../../../common'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export default function RepresentationInfo({
@@ -25,7 +25,10 @@ export default function RepresentationInfo({
         iconUrl={track.iconUrl}
       />
       <div className="student">
-        <Avatar src={exercise.iconUrl} />
+        {/* ExerciseIcon, not Avatar: this is an exercise icon, and it falls
+            back to the missing-exercise graphic when the asset 404s instead of
+            leaving a blank 48px gap. */}
+        <ExerciseIcon iconUrl={exercise.iconUrl} title={exercise.title} />
         <div className="info">
           <div className="exercise">
             {t('representationInfo.feedbackOnSolution')}

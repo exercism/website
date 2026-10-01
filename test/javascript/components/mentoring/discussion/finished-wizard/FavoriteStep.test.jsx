@@ -80,7 +80,7 @@ test('shows API errors when choosing to favorite', async () => {
     userEvent.click(screen.getByRole('button', { name: 'Add to favorites' }))
 
     expect(
-      await screen.findByText('Unable to mark student as a favorite')
+      await screen.findByText('Something went wrong. Please try again.')
     ).toBeInTheDocument()
   })
 })
@@ -93,7 +93,7 @@ test('shows generic error when choosing to mentor again', async () => {
     userEvent.click(screen.getByRole('button', { name: 'Add to favorites' }))
 
     expect(
-      await screen.findByText('Unable to mark student as a favorite')
+      await screen.findByText('Something went wrong. Please try again.')
     ).toBeInTheDocument()
   })
 })

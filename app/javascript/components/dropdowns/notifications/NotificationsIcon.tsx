@@ -1,5 +1,6 @@
 import React, { useMemo, forwardRef } from 'react'
 import { Icon } from '../../common/Icon'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type NotificationsIconProps = {
   count: number
@@ -9,6 +10,7 @@ export const NotificationsIcon = forwardRef<
   HTMLButtonElement,
   NotificationsIconProps
 >((props, ref) => {
+  const { t } = useAppTranslation('components/dropdowns/notifications')
   const { count, ...buttonProps } = props
   const variantClass = useMemo(() => {
     switch (true) {
@@ -29,7 +31,10 @@ export const NotificationsIcon = forwardRef<
       className={`c-notification ${variantClass}`}
       {...buttonProps}
     >
-      <Icon icon="notifications" alt={`You have ${count} notifications`} />
+      <Icon
+        icon="notifications"
+        alt={t('notificationsIcon.youHaveNotifications', { count })}
+      />
       <div className="--count">{count}</div>
     </button>
   )

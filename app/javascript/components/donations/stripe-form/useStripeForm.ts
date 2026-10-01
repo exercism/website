@@ -1,4 +1,5 @@
 import { fetchJSON } from '@/utils/fetch-json'
+import i18n from '@/i18n/i18n'
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js'
 import {
   StripePaymentElementChangeEvent,
@@ -128,7 +129,12 @@ export function useStripeForm({
       }),
     }).then((data) => {
       if (data.error) {
-        setError(`Payment failed with error: ${data.error}`)
+        setError(
+          i18n.t(
+            'components/donations/stripe-form/useStripeForm.ts:paymentFailedWithError',
+            { error: data.error }
+          )
+        )
         return null
       }
       return data.paymentIntent
@@ -170,7 +176,10 @@ export function useStripeForm({
 
       if (error) {
         setError(
-          `Your payment failed. The message we got back from your bank was "${error.message}"`
+          i18n.t(
+            'components/donations/stripe-form/useStripeForm.ts:paymentFailedBankMessage',
+            { message: error.message }
+          )
         )
         setProcessing(false)
         cancelPaymentIntent(paymentIntent)
@@ -196,7 +205,9 @@ export function useStripeForm({
         if (!cardElement)
           return {
             error: {
-              message: 'Card element not found',
+              message: i18n.t(
+                'components/donations/stripe-form/useStripeForm.ts:cardElementNotFound'
+              ),
               type: 'validation_error',
             },
           }

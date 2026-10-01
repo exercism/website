@@ -3,7 +3,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { TagOptionList } from './TagOptionList'
 import { GraphicalIcon } from '../../common/GraphicalIcon'
-import pluralize from 'pluralize'
 import { TagOption } from '../TracksList'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 

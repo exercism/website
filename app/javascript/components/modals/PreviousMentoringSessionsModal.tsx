@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import { Trans } from 'react-i18next'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
-import pluralize from 'pluralize'
 import { usePaginatedRequestQuery } from '@/hooks/request-query'
 import { useList } from '@/hooks/use-list'
 import { scrollToTop } from '@/utils/scroll-to-top'

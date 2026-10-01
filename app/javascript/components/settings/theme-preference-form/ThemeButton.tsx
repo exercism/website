@@ -4,6 +4,7 @@ import { GenericTooltip } from '@/components/misc/ExercismTippy'
 import { isButtonDisabled } from './utils'
 import type { Theme, ThemePreferenceLinks } from '../ThemePreferenceForm'
 import { DisabledThemeSelectorTooltip } from '@/components/common/ThemeToggleButton'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 const THEME_BUTTON_SIZE = 130
 export function ThemeButton({
@@ -19,6 +20,7 @@ export function ThemeButton({
   disabledInfo: isButtonDisabled
   links: ThemePreferenceLinks
 }): JSX.Element {
+  const { t } = useAppTranslation('components/settings/theme-preference-form')
   const selected = theme.value === currentTheme
 
   const nonInsider = disabledInfo.level === 'non-insider'
@@ -63,7 +65,7 @@ export function ThemeButton({
           style={{ filter: nonInsider ? 'grayscale(0.9)' : '' }}
           htmlFor={`${theme.value}-theme`}
         >
-          {theme.label}
+          {t(`themeButton.themes.${theme.value}`, theme.label)}
         </label>
       </div>
     </GenericTooltip>

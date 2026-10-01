@@ -31,9 +31,9 @@ export function ArticleSnippet({ article }: { article: Article }): JSX.Element {
       <h5 className="text-h5 mb-2">{article.title}</h5>
       <p className="text-p-base text-textColor6 mb-12">{article.blurb}</p>
       <Credits
-        topLabel={t('approachSnippet.author')}
+        topLabel="author"
         topCount={article.numAuthors}
-        bottomLabel={t('approachSnippet.contributor')}
+        bottomLabel="contributor"
         bottomCount={article.numContributors}
         users={article.users}
         className="text-textColor1 font-semibold text-14"

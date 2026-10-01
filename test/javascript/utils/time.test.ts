@@ -23,11 +23,88 @@ test('fromNow follows the page locale', () => {
   expect(fromNow(time)).toEqual('2 éve')
 })
 
-test('shortFromNow stays compact regardless of the page locale', () => {
+test('shortFromNow follows the page locale', () => {
   var time = new Date()
   time.setDate(time.getDate() - 2)
 
   setPageLocale('hu')
+  expect(shortFromNow(time)).toEqual('2 napja')
+})
+
+// The Hungarian review asked for numerals on the singular units, because these
+// are quick references in a UI: "1 éve", not dayjs's default "egy éve".
+test('shortFromNow uses numerals for singular units in Hungarian', () => {
+  setPageLocale('hu')
+
+  const daysAgo = (days: number) => {
+    var time = new Date()
+    time.setDate(time.getDate() - days)
+    return shortFromNow(time)
+  }
+
+  expect(daysAgo(365)).toEqual('1 éve')
+  expect(daysAgo(3 * 365)).toEqual('3 éve')
+  expect(daysAgo(31)).toEqual('1 hónapja')
+  expect(daysAgo(1)).toEqual('1 napja')
+})
+
+// German's plural is dative ("1 Jahren"), so it keeps dayjs's own singular.
+test('shortFromNow keeps the reviewed wording for other locales', () => {
+  var time = new Date()
+  time.setDate(time.getDate() - 365)
+
+  setPageLocale('de')
+  expect(shortFromNow(time)).toEqual('vor einem Jahr')
+
+  setPageLocale('fr')
+  expect(shortFromNow(time)).toEqual('il y a un an')
+})
+
+// Ukrainian's plural entry is a function that parses the unit key it is given,
+// and the region variants are spelled differently here than dayjs registers
+// them, so every served locale is exercised.
+test('shortFromNow localises every served locale', () => {
+  var time = new Date()
+  time.setDate(time.getDate() - 2)
+
+  const served = [
+    'hu',
+    'el',
+    'fr',
+    'uk',
+    'es-419',
+    'pt-BR',
+    'zh-CN',
+    'ja',
+    'hi',
+    'es-ES',
+    'ko',
+    'it',
+    'bn',
+    'pt-PT',
+    'de',
+    'zh-TW',
+    'fa',
+    'ar',
+  ]
+
+  served.forEach((locale) => {
+    setPageLocale(locale)
+    expect(shortFromNow(time)).not.toEqual('2d ago')
+  })
+
+  setPageLocale('uk')
+  expect(shortFromNow(time)).toEqual('2 дні тому')
+
+  setPageLocale('pt-BR')
+  expect(shortFromNow(time)).toEqual('há 2 dias')
+})
+
+test('shortFromNow stays compact in English', () => {
+  var time = new Date()
+  time.setDate(time.getDate() - 2)
+
+  setPageLocale('en')
   expect(shortFromNow(time)).toEqual('2d ago')
 })
 

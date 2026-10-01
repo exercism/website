@@ -41,10 +41,15 @@ class SiteUpdates::NewConceptUpdate < SiteUpdate
   end
 
   def maker_handles
-    return "We" if makers.empty?
+    return I18n.t("site_updates.maker_handles.we") if makers.empty?
     return makers[0, 3].map(&:handle).to_sentence if makers.size <= 3
 
-    "#{makers[0].handle}, #{makers[1].handle}, and #{makers.size - 2} others"
+    I18n.t(
+      "site_updates.maker_handles.with_others",
+      first: makers[0].handle,
+      second: makers[1].handle,
+      count: makers.size - 2
+    )
   end
 
   memoize

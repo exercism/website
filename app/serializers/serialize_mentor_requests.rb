@@ -11,7 +11,7 @@ class SerializeMentorRequests
   def serialize_request(request)
     relationship = relationships[request.student_id]
     had_mentoring_previously = students_who_have_had_mentoring.include?(request.student_id)
-    status = "First timer" unless had_mentoring_previously
+    status = I18n.t("serializers.mentor_requests.first_timer") unless had_mentoring_previously
     tooltip_url = Exercism::Routes.api_mentoring_student_path(request.student, track_slug: request.track_slug)
 
     {

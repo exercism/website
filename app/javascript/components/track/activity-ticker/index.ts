@@ -10,4 +10,3 @@ export {
   METRIC_TYPES,
   allowedMetricTypes,
 } from './ActivityTicker.types'
-export { METRIC_TEXT } from './MetricText'

@@ -168,7 +168,7 @@ test('shows generic errors', async () => {
     userEvent.click(await screen.findByRole('button', { name: /Continue/ }))
 
     expect(
-      await screen.findByText('Unable to complete registration')
+      await screen.findByText('Something went wrong. Please try again.')
     ).toBeInTheDocument()
   })
 })

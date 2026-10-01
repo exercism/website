@@ -63,16 +63,24 @@
             }
 
             & .--track {
-                @apply flex-shrink-0 flex items-center;
+                /* Laid out inline rather than as a flex row: the translation can
+                   put text after the track name (hu: "<track> kurzusban"), and a
+                   flex container drops the whitespace around that text node,
+                   running it into the name. */
+                @apply flex-shrink-0;
                 @apply ms-8;
                 @apply text-14 leading-160 font-normal;
                 & .c-track-icon {
                     height: 32px;
                     width: 32px;
                     @apply mx-6;
+                    @apply inline-block align-middle;
                 }
                 & .--track-title {
                     @apply text-textColor2 font-semibold;
+                    /* inline, on the natural text baseline: it sits in the same
+                       sentence as the surrounding translated words. */
+                    @apply inline;
                 }
             }
         }

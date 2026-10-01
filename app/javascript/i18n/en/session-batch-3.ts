@@ -26,6 +26,8 @@ export default {
     'These notes are written by our community. Please help improve them by sending a <0>Pull Request on GitHub</0>.',
   'components.mentoring.session.previousSessionsLink.opensInModal':
     'Opens in modal',
-  'components.mentoring.session.previousSessionsLink.seePreviousSessions':
-    'See {{numPrevious}} previous {{sessions}}',
+  'components.mentoring.session.previousSessionsLink.seePreviousSessions_one':
+    'See {{count}} previous session',
+  'components.mentoring.session.previousSessionsLink.seePreviousSessions_other':
+    'See {{count}} previous sessions',
 }

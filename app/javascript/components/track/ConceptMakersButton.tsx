@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import pluralize from 'pluralize'
+import { useAppTranslation } from '@/i18n/useAppTranslation'
 import { Avatar } from '../common'
 import { ConceptMakersModal } from '../modals/ConceptMakersModal'
 
@@ -18,6 +18,7 @@ export function ConceptMakersButton({
   numContributors: number
   links: Links
 }): JSX.Element {
+  const { t } = useAppTranslation('components/track')
   const [open, setOpen] = useState(false)
 
   return (
@@ -35,12 +36,14 @@ export function ConceptMakersButton({
         <div className="stats">
           {numAuthors > 0 ? (
             <div className="authors">
-              {numAuthors} {pluralize('author', numAuthors)}
+              {t('conceptMakersButton.authors', { count: numAuthors })}
             </div>
           ) : null}
           {numContributors > 0 ? (
             <div className="contributors">
-              {numContributors} {pluralize('contributor', numContributors)}
+              {t('conceptMakersButton.contributors', {
+                count: numContributors,
+              })}
             </div>
           ) : null}
         </div>

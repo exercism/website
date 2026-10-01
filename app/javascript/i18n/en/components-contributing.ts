@@ -1,8 +1,9 @@
 // namespace: components/contributing
 export default {
-  'tasksList.showingTasks': 'Showing {{totalCount}} {{task}}',
-  'tasksList.outOfPossibleTasks':
-    'out of {{unscopedTotal}} possible {{unscopedTask}}',
+  'tasksList.showingTasks_one': 'Showing {{count}} task',
+  'tasksList.showingTasks_other': 'Showing {{count}} tasks',
+  'tasksList.outOfPossibleTasks_one': 'out of {{count}} possible task',
+  'tasksList.outOfPossibleTasks_other': 'out of {{count}} possible tasks',
   'tasksList.resetFilters': 'Reset Filters',
   'contributorsList.thisWeek': 'This week',
   'contributorsList.last30Days': 'Last 30 days',

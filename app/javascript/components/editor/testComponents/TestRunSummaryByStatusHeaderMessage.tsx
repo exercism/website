@@ -1,6 +1,5 @@
 // i18n-namespace: components/editor/testComponents
 import React from 'react'
-import pluralize from 'pluralize'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 export const TestRunSummaryByStatusHeaderMessage = ({
@@ -14,13 +13,9 @@ export const TestRunSummaryByStatusHeaderMessage = ({
 
   return version === 2 || version === 3 ? (
     <span>
-      {numFailedTests}{' '}
-      {t(
-        `testRunSummaryByStatusHeaderMessage.${pluralize(
-          'testFailure',
-          numFailedTests
-        )}`
-      )}
+      {t('testRunSummaryByStatusHeaderMessage.testFailure', {
+        count: numFailedTests,
+      })}
     </span>
   ) : (
     <span>{t('testRunSummaryByStatusHeaderMessage.testsFailed')}</span>

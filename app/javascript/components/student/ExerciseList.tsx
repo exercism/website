@@ -42,10 +42,17 @@ class StatusFilter {
   values?: FilterValue[]
   title: string
   id?: string
+  translationKey: string
 
-  constructor(title: string, values?: FilterValue[], id?: string) {
+  constructor(
+    title: string,
+    translationKey: string,
+    values?: FilterValue[],
+    id?: string
+  ) {
     this.values = values
     this.title = title
+    this.translationKey = translationKey
     this.id = id
   }
 
@@ -76,22 +83,33 @@ const Tab = ({
 }) => {
   const { t } = useAppTranslation('components/student/ExerciseList.tsx')
   const classNames = ['c-tab', selected ? 'selected' : null]
+  const title = t(`statusFilters.${filter.translationKey}`, filter.title)
 
   return (
     <button type="button" className={classNames.join(' ')} onClick={onClick}>
       {filter.id ? <div className={`c-ed --${filter.id}`} /> : null}
-      <span data-text={filter.title}>{filter.title}</span>
+      <span data-text={title}>{title}</span>
       <div className="count">{filter.apply(results).length}</div>
     </button>
   )
 }
 
 const STATUS_FILTERS = [
-  new StatusFilter('All Exercises'),
-  new StatusFilter('Completed', ['published', 'completed'], 'completed'),
-  new StatusFilter('In Progress', ['iterated', 'started'], 'in_progress'),
-  new StatusFilter('Available', ['available'], 'available'),
-  new StatusFilter('Locked', ['locked'], 'locked'),
+  new StatusFilter('All Exercises', 'allExercises'),
+  new StatusFilter(
+    'Completed',
+    'completed',
+    ['published', 'completed'],
+    'completed'
+  ),
+  new StatusFilter(
+    'In Progress',
+    'inProgress',
+    ['iterated', 'started'],
+    'in_progress'
+  ),
+  new StatusFilter('Available', 'available', ['available'], 'available'),
+  new StatusFilter('Locked', 'locked', ['locked'], 'locked'),
 ]
 
 export default ({

@@ -1,4 +1,5 @@
 import React from 'react'
+import { Trans } from 'react-i18next'
 import { MentorDiscussion } from '../../../types'
 import { Avatar, ExerciseIcon, GraphicalIcon } from '../../../common'
 import { fromNow } from '../../../../utils/time'
@@ -46,8 +47,15 @@ export const RateMentorStep = ({
                 </div>
                 <div className="exercise">
                   <ExerciseIcon iconUrl={discussion.exercise.iconUrl} />
-                  <strong>{discussion.exercise.title}</strong> in{' '}
-                  {discussion.track.title}
+                  <Trans
+                    ns="components/modals/student/finish-mentor-discussion-modal"
+                    i18nKey="rateMentorStep.exerciseInTrack"
+                    values={{
+                      exercise: discussion.exercise.title,
+                      track: discussion.track.title,
+                    }}
+                    components={[<strong />]}
+                  />
                 </div>
               </div>
               <time>{fromNow(discussion.finishedAt)}</time>

@@ -11,14 +11,12 @@ export function PullRequestLink({
   const { t } = useAppTranslation('components/track/activity-ticker')
   return (
     <span className="inline-flex">
-      &nbsp;
       <a
         href={pullRequest.htmlUrl}
         className="flex flex-row items-center font-semibold text-prominentLinkColor"
       >
         {t('pullRequestLink.pullRequest')}
       </a>
-      .
     </span>
   )
 }

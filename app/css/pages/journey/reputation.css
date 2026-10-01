@@ -26,15 +26,23 @@
                     @apply flex items-center;
 
                     & .exercise {
-                        @apply flex items-center;
+                        /* Laid out inline rather than as a flex row: the
+                           translation can put text after the track name
+                           (hu: "<track> kurzusban"), and a flex container drops
+                           the whitespace around that text node, running it into
+                           the name. Inline layout keeps the space in every locale. */
                         @apply text-16 text-textColor6;
                         & .c-icon {
                             height: 24px;
                             width: 24px;
                             @apply ms-8 me-12;
+                            @apply inline-block align-middle;
                         }
                         & .name {
                             @apply text-textColor1 font-semibold;
+                            /* inline, on the natural text baseline: it sits in the
+                               same sentence as the surrounding translated words. */
+                            @apply inline;
                         }
                     }
                     & .generic {

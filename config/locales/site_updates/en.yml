@@ -1,5 +1,10 @@
 en:
   site_updates:
+    maker_handles:
+      we: "We"
+      with_others:
+        one: "%{first}, %{second}, and %{count} other"
+        other: "%{first}, %{second}, and %{count} others"
     new_exercise:
       1: >
         <em>%{maker_handles}</em> published a new Exercise: <a href="%{exercise_url}">%{exercise_title}</a>

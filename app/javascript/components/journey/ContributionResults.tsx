@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from 'react'
 import { Contribution } from './Contribution'
-import pluralize from 'pluralize'
 import { MarkAllAsSeenModal } from './contribution-results/MarkAllAsSeenModal'
 import { MarkAllAsSeenButton } from './contribution-results/MarkAllAsSeenButton'
 import { APIResult } from './ContributionsList'
@@ -45,8 +44,7 @@ export const ContributionResults = ({
       <div className="results-title-bar">
         <h3>
           {t('contributionResults.showingContributions', {
-            totalCount: data.meta.totalCount,
-            contributionLabel: pluralize('contribution', data.meta.totalCount),
+            count: data.meta.totalCount,
           })}
         </h3>
         <MarkAllAsSeenButton

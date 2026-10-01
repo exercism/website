@@ -1,4 +1,3 @@
-import pluralize from 'pluralize'
 import React from 'react'
 import { TrackProgressList } from '../../types'
 import { useAppTranslation } from '@/i18n/useAppTranslation'

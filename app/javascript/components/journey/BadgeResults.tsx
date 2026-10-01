@@ -1,7 +1,6 @@
 import React from 'react'
 import { RevealedBadge } from './RevealedBadge'
 import { UnrevealedBadge } from './UnrevealedBadge'
-import pluralize from 'pluralize'
 import { Badge as BadgeProps, PaginatedResult } from '../types'
 import { QueryKey } from '@tanstack/react-query'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
@@ -20,10 +19,7 @@ export const BadgeResults = ({
     <div>
       <div className="results-title-bar">
         <h3>
-          {t('badgeResults.showingBadges', {
-            totalCount: data.meta.totalCount,
-            badgeLabel: pluralize('badge', data.meta.totalCount),
-          })}
+          {t('badgeResults.showingBadges', { count: data.meta.totalCount })}
         </h3>
       </div>
       <div className="badges">

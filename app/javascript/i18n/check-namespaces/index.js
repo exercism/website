@@ -30,14 +30,8 @@ const ALLOWLIST = require('./allowlist.json')
 
 const SKIP_DIRS = new Set(['node_modules'])
 // The interpreter ships its own i18next instance and its own JSON catalogs, so
-// its keys are not app namespaces. The extract-* tools build prompts that
-// contain example t() calls as string data.
-const SKIP_PATHS = [
-  'app/javascript/interpreter',
-  'app/javascript/i18n/en',
-  'app/javascript/i18n/extract-jsx-copy',
-  'app/javascript/i18n/extract-haml-copy',
-]
+// its keys are not app namespaces.
+const SKIP_PATHS = ['app/javascript/interpreter', 'app/javascript/i18n/en']
 
 const PLURAL_SUFFIXES = ['_zero', '_one', '_two', '_few', '_many', '_other']
 const HOOK_NAMES = new Set(['useAppTranslation', 'useTranslation'])

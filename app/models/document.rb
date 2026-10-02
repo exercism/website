@@ -17,9 +17,14 @@ class Document < ApplicationRecord
     Document::SyncToSearchIndex.defer(self)
   end
 
+  after_destroy_commit do
+    Document::RemoveFromSearchIndex.defer(id)
+  end
+
   def title = translated_metadata(translation_metadata_unit_id(:title), super)
   def blurb = translated_metadata(translation_metadata_unit_id(:blurb), super)
   def nav_title = super.presence || title
+  def translation_expected? = track.nil? || track.active?
 
   def translation_metadata_repo_name = track ? track.translation_metadata_repo_name : "docs"
 

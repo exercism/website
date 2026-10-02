@@ -62,6 +62,7 @@ class Concept < ApplicationRecord
 
   def name = translated_metadata("concept:#{slug}:name", super)
   def blurb = translated_metadata("concept:#{slug}:blurb", super)
+  def translation_expected? = track.active?
 
   memoize
   def git

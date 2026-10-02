@@ -132,7 +132,7 @@ gem 'opensearch-ruby'
 
 gem 'rack-attack', '~> 6.6'
 
-gem 'rubyzip', '~> 2.3'
+gem 'rubyzip', '~> 3.4'
 
 gem 'toml', '~> 0.3.0'
 gem 'ruby-openai'

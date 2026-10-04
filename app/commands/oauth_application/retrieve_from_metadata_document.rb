@@ -4,9 +4,22 @@
 class OauthApplication::RetrieveFromMetadataDocument
   include Mandate
 
-  # We only fetch documents from clients we trust. Sticking to known public
-  # hosts also stops a client_id being used to make us request internal URLs.
-  ALLOWED_HOSTS = %w[claude.ai chatgpt.com vscode.dev].freeze
+  # The MCP clients we accept, by the exact URL of their metadata document.
+  # Any other client_id is rejected without a fetch, so nobody can make us
+  # request arbitrary or internal URLs, and each document is fetched at most
+  # once every REFETCH_AFTER however many requests arrive.
+  #
+  # ChatGPT (https://chatgpt.com/oauth/client.json) isn't here because its
+  # document declares private_key_jwt, which we don't support yet.
+  ALLOWED_CLIENT_IDS = %w[
+    https://claude.ai/oauth/mcp-oauth-client-metadata
+    https://claude.ai/oauth/claude-code-client-metadata
+    https://vscode.dev/oauth/client-metadata.json
+    https://insiders.vscode.dev/oauth/client-metadata.json
+    https://github.com/copilot/cli/client-metadata.json
+    https://zed.dev/oauth/client-metadata.json
+    https://goose-docs.ai/oauth/client-metadata.json
+  ].freeze
 
   REFETCH_AFTER = 5.minutes
   MAX_DOCUMENT_SIZE = 5.kilobytes
@@ -14,7 +27,7 @@ class OauthApplication::RetrieveFromMetadataDocument
   initialize_with :url
 
   def call
-    return unless allowed_url?
+    return unless ALLOWED_CLIENT_IDS.include?(url)
     return application if application && application.updated_at > REFETCH_AFTER.ago
 
     # If the document can't be fetched, keep using what we had.
@@ -42,18 +55,6 @@ class OauthApplication::RetrieveFromMetadataDocument
 
   memoize
   def application = OauthApplication.find_by(uid: url)
-
-  def allowed_url?
-    uri = URI.parse(url)
-    uri.scheme == "https" &&
-      ALLOWED_HOSTS.include?(uri.host) &&
-      uri.port == 443 &&
-      uri.userinfo.nil? &&
-      uri.fragment.nil? &&
-      uri.path.present?
-  rescue URI::InvalidURIError
-    false
-  end
 
   memoize
   def document

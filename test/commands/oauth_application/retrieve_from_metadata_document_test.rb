@@ -49,16 +49,19 @@ class OauthApplication::RetrieveFromMetadataDocumentTest < ActiveSupport::TestCa
     end
   end
 
-  test "rejects hosts that aren't allowed" do
-    url = "https://evil.example.com/client.json"
+  test "rejects client_ids that aren't allowed without fetching them" do
+    urls = [
+      "https://evil.example.com/client.json",
+      "https://claude.ai/oauth/something-else",
+      "#{URL}?x=1",
+      "https://chatgpt.com/oauth/client.json"
+    ]
 
-    assert_nil OauthApplication::RetrieveFromMetadataDocument.(url)
-    assert_not_requested :get, url
-  end
-
-  test "rejects non-default ports and userinfo" do
-    assert_nil OauthApplication::RetrieveFromMetadataDocument.("https://claude.ai:8443/client.json")
-    assert_nil OauthApplication::RetrieveFromMetadataDocument.("https://user@claude.ai/client.json")
+    urls.each do |url|
+      stub_request(:get, url)
+      assert_nil OauthApplication::RetrieveFromMetadataDocument.(url)
+      assert_not_requested :get, url
+    end
   end
 
   test "rejects a document whose client_id doesn't match the URL" do

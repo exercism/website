@@ -7,15 +7,14 @@
 #
 # Everything here is currently public and anonymous. Authentication will
 # arrive with the first tool that needs to know who the user is.
-class MCPController < ApplicationController
+#
+# This deliberately inherits from ActionController::API. ApplicationController's
+# filters are built for browser pages, and its session-based current_user must
+# never identify an MCP caller. Authentication here must only use Bearer tokens.
+class MCPController < ActionController::API
   TOOLS = [
     GetProfileTool
   ].freeze
-
-  skip_before_action :authenticate_user!
-  skip_before_action :verify_authenticity_token
-  skip_before_action :ensure_onboarded!
-  skip_after_action :set_body_class_header
 
   def handle
     status, headers, body = transport.handle_request(request)
@@ -42,7 +41,7 @@ class MCPController < ApplicationController
       serve_subscriptions_listen: false,
 
       # DNS rebinding attacks target servers on localhost. This one is public
-      # and no tool reads the user's session, so the check protects nothing.
+      # and can't read the user's session, so the check protects nothing.
       dns_rebinding_protection: false
     )
   end

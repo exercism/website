@@ -34,7 +34,7 @@ class MCPControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :unauthorized
     assert_equal 'Bearer error="invalid_token", ' \
-      'resource_metadata="http://test.exercism.org/.well-known/oauth-protected-resource/mcp", scope="mcp"',
+      'resource_metadata="https://test.exercism.org/.well-known/oauth-protected-resource/mcp", scope="mcp"',
       response.headers["WWW-Authenticate"]
   end
 

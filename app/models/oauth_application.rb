@@ -11,6 +11,10 @@ class OauthApplication < Doorkeeper::Application
     OauthApplication::RetrieveFromMetadataDocument.(uid.to_s)
   end
 
+  # Our OAuth issuer, e.g. https://exercism.org. It must be identical in the
+  # discovery documents and the iss parameter on authorization responses.
+  def self.issuer = Exercism::Routes.root_url.chomp("/")
+
   def mcp_client? = uid.start_with?("https://")
 
   # Shown on the consent screen. The document's client_name is chosen by the

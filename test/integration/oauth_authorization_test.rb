@@ -11,6 +11,7 @@ class OauthAuthorizationTest < ActionDispatch::IntegrationTest
 
     assert_response :redirect
     assert response.location.start_with?("https://jiki.io/callback?code=")
+    assert_nil Rack::Utils.parse_query(URI(response.location).query)["iss"]
   end
 
   test "MCP clients see a consent screen showing their host" do
@@ -41,7 +42,9 @@ class OauthAuthorizationTest < ActionDispatch::IntegrationTest
     redirect_uri = "http://127.0.0.1:54321/callback"
 
     post oauth_authorization_path, params: authorize_params(CLAUDE_CODE, redirect_uri, scope: "mcp", verifier:)
-    code = Rack::Utils.parse_query(URI(response.location).query)["code"]
+    query = Rack::Utils.parse_query(URI(response.location).query)
+    code = query["code"]
+    assert_equal "https://test.exercism.org", query["iss"]
 
     post oauth_token_path, params: {
       grant_type: "authorization_code", client_id: CLAUDE_CODE, code:, redirect_uri:, code_verifier: verifier

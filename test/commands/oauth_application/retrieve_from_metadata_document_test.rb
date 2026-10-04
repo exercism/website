@@ -54,7 +54,7 @@ class OauthApplication::RetrieveFromMetadataDocumentTest < ActiveSupport::TestCa
       "https://evil.example.com/client.json",
       "https://claude.ai/oauth/something-else",
       "#{URL}?x=1",
-      "https://chatgpt.com/oauth/client.json"
+      "https://chatgpt.com/oauth/abc123/client.json"
     ]
 
     urls.each do |url|
@@ -72,6 +72,18 @@ class OauthApplication::RetrieveFromMetadataDocumentTest < ActiveSupport::TestCa
 
   test "rejects confidential clients" do
     stub_document(token_endpoint_auth_method: "client_secret_basic")
+
+    assert_nil OauthApplication::RetrieveFromMetadataDocument.(URL)
+  end
+
+  test "accepts a client that prefers private_key_jwt but supports none" do
+    stub_document(token_endpoint_auth_method: "private_key_jwt", token_endpoint_auth_methods_supported: %w[none private_key_jwt])
+
+    assert OauthApplication::RetrieveFromMetadataDocument.(URL)
+  end
+
+  test "rejects a client that only supports private_key_jwt" do
+    stub_document(token_endpoint_auth_method: "private_key_jwt")
 
     assert_nil OauthApplication::RetrieveFromMetadataDocument.(URL)
   end

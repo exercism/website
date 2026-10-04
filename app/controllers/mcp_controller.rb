@@ -60,7 +60,7 @@ class MCPController < ActionController::API
   def render_unauthorized
     response.headers["WWW-Authenticate"] = [
       'Bearer error="invalid_token"',
-      %(resource_metadata="#{request.base_url}/.well-known/oauth-protected-resource/mcp"),
+      %(resource_metadata="#{OauthApplication.issuer}/.well-known/oauth-protected-resource/mcp"),
       'scope="mcp"'
     ].join(", ")
     head :unauthorized

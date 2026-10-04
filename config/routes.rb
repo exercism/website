@@ -10,6 +10,11 @@ Rails.application.routes.draw do
     mount Sidekiq::Web => '/sidekiq'
   end
 
+  # GET and DELETE are routed too so the MCP transport can answer them per the spec
+  match "mcp", to: "mcp#handle", via: %i[get post delete], as: :mcp
+  get ".well-known/oauth-protected-resource(/mcp)", to: "oauth_metadata#protected_resource"
+  get ".well-known/oauth-authorization-server", to: "oauth_metadata#authorization_server"
+
   draw(:api)
   draw(:spi)
 

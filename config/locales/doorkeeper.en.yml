@@ -19,6 +19,10 @@ en:
               not_match_configured: "doesn't match those configured on the server."
 
   doorkeeper:
+    scopes:
+      profile: "See your name, handle, email and membership status"
+      mcp: "Use Exercism tools in AI assistants on your behalf"
+
     applications:
       confirmations:
         destroy: "Are you sure?"
@@ -70,6 +74,8 @@ en:
         title: "Authorization required"
         prompt: "Authorize %{client_name} to use your account?"
         able_to: "This application will be able to:"
+        redirect: "After you choose, you'll be sent to %{host}."
+        loopback_warning: "This application runs on your own computer. Only continue if you started this sign-in yourself."
       show:
         title: "Authorization code:"
       form_post:

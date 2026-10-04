@@ -15,4 +15,5 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym 'ChatGPT'
   inflect.acronym 'IPN'
   inflect.acronym 'HMAC'
+  inflect.acronym 'MCP'
 end

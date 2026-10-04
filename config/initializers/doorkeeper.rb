@@ -77,3 +77,18 @@ Doorkeeper::OAuth::Helpers::URIChecker.singleton_class.prepend(
     end
   end
 )
+
+# RFC 9207: include our issuer as iss on authorization responses, so clients
+# can check the code came from the server they started with. Doorkeeper
+# doesn't support this. ChatGPT only uses its stable client_id with servers
+# that do. Only MCP clients get it, so Jiki's responses are unchanged.
+Doorkeeper::OAuth::CodeResponse.prepend(
+  Module.new do
+    def body
+      body = super
+      return body unless auth.try(:access_grant?) && pre_auth.client.application.mcp_client?
+
+      body.merge(iss: OauthApplication.issuer)
+    end
+  end
+)

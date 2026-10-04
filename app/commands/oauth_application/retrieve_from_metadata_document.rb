@@ -8,12 +8,10 @@ class OauthApplication::RetrieveFromMetadataDocument
   # Any other client_id is rejected without a fetch, so nobody can make us
   # request arbitrary or internal URLs, and each document is fetched at most
   # once every REFETCH_AFTER however many requests arrive.
-  #
-  # ChatGPT (https://chatgpt.com/oauth/client.json) isn't here because its
-  # document declares private_key_jwt, which we don't support yet.
   ALLOWED_CLIENT_IDS = %w[
     https://claude.ai/oauth/mcp-oauth-client-metadata
     https://claude.ai/oauth/claude-code-client-metadata
+    https://chatgpt.com/oauth/client.json
     https://vscode.dev/oauth/client-metadata.json
     https://insiders.vscode.dev/oauth/client-metadata.json
     https://github.com/copilot/cli/client-metadata.json
@@ -70,7 +68,10 @@ class OauthApplication::RetrieveFromMetadataDocument
     return unless doc[:redirect_uris].all?(String)
 
     # We only support public clients, which authenticate with PKCE alone.
-    return unless doc[:token_endpoint_auth_method] == "none"
+    # ChatGPT prefers private_key_jwt but also supports none, which is what
+    # it uses with us because we don't advertise private_key_jwt.
+    return unless doc[:token_endpoint_auth_method] == "none" ||
+                  Array(doc[:token_endpoint_auth_methods_supported]).include?("none")
 
     doc
   rescue RestClient::Exception, JSON::ParserError, SocketError, SystemCallError, OpenSSL::SSL::SSLError

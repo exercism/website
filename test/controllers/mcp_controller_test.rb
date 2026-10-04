@@ -21,7 +21,7 @@ class MCPControllerTest < ActionDispatch::IntegrationTest
     assert_equal SerializeProfileSummary.(user).to_json, result.dig("content", 0, "text")
   end
 
-  test "works for a signed-in user" do
+  test "ignores a signed-in browser session" do
     sign_in!
 
     post_rpc "tools/list"

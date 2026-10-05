@@ -38,7 +38,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
   test "test runner artifacts carry no page headers" do
     Exercism.config.stubs(:respond_to?).with(:aws_test_runners_bucket).returns(true)
     Exercism.config.stubs(:aws_test_runners_bucket).returns("bucket")
-    object = stub(body: StringIO.new("// kernel"))
+    object = stub(body: StringIO.new("// kernel"), content_encoding: nil)
     Exercism.s3_client.stubs(:get_object).
       with(bucket: "bucket", key: "test-runners/kernel/abc/kernel.js").
       returns(object)
@@ -52,6 +52,23 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_nil response.headers["Link"]
     assert_nil response.headers["Exercism-Body-Class"]
     refute_includes response.headers["Vary"].to_s, "Turbo-Frame"
+  end
+
+  # Artifacts are stored brotli-encoded. The header has to reach the browser,
+  # or it gets the compressed bytes as the file.
+  test "test runner artifacts keep their content encoding" do
+    Exercism.config.stubs(:respond_to?).with(:aws_test_runners_bucket).returns(true)
+    Exercism.config.stubs(:aws_test_runners_bucket).returns("bucket")
+    object = stub(body: StringIO.new("brotli bytes"), content_encoding: "br")
+    Exercism.s3_client.stubs(:get_object).
+      with(bucket: "bucket", key: "test-runners/sysroot/cpp/19.0.0/1/sysroot.tar").
+      returns(object)
+
+    get "/test-runners/sysroot/cpp/19.0.0/1/sysroot.tar"
+
+    assert_response :ok
+    assert_equal "br", response.headers["Content-Encoding"]
+    assert_equal "application/x-tar", response.media_type
   end
 
   test "health_check works" do

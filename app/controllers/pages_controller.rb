@@ -122,6 +122,12 @@ class PagesController < ApplicationController
     response.set_header("Cross-Origin-Embedder-Policy", "require-corp")
     response.set_header("Cross-Origin-Resource-Policy", "same-origin")
 
+    # Artifacts are stored brotli-encoded (see exercism/clientside-tooling) and
+    # the browser decodes them itself, as long as the header travels with the
+    # bytes. Nothing between here and the browser compresses for us: these
+    # responses are no-transform.
+    response.set_header("Content-Encoding", object.content_encoding) if object.content_encoding.present?
+
     send_data object.body.read, type: artifact_content_type(key), disposition: :inline
   rescue Aws::S3::Errors::ServiceError
     # A missing key reads as AccessDenied rather than NoSuchKey, because the app

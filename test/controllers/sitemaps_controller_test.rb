@@ -1,7 +1,7 @@
 require "test_helper"
 
 class SitemapsControllerTest < ActionDispatch::IntegrationTest
-  test "robots.txt disallows the auth pages in every locale" do
+  test "robots.txt disallows the auth pages in every locale and the advert redirects" do
     get "/robots.txt"
 
     assert_response :ok
@@ -9,6 +9,7 @@ class SitemapsControllerTest < ActionDispatch::IntegrationTest
     assert_includes response.body, "User-agent: *\n"
     assert_includes response.body, "Disallow: /users/\n"
     assert_includes response.body, "Disallow: /*/users/\n"
+    assert_includes response.body, "Disallow: /adverts/\n"
     assert_includes response.body, "Allow: /\n"
     assert_match %r{^Sitemap: https?://.+/sitemap\.xml$}, response.body
   end

@@ -12,11 +12,16 @@ class SitemapsController < ApplicationController
   # The auth pages carry a per-page auth_return_to, so every public page
   # links to its own sign-in URL. Crawlers were fetching tens of thousands
   # of these a day, so they are disallowed in every locale.
+  #
+  # Each render of an advert links to a redirect with its own impression
+  # uuid, so crawlers find an endless supply of new advert URLs. The advert
+  # routes have no locale prefix, so one line covers them.
   def robots_txt
     render plain: <<~ROBOTS
       User-agent: *
       Disallow: /users/
       Disallow: /*/users/
+      Disallow: /adverts/
       Allow: /
 
       Sitemap: #{sitemap_url(format: :xml)}

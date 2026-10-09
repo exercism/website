@@ -23,25 +23,14 @@ class TranslatedMetadataTest < ActiveSupport::TestCase
     end
   end
 
-  test "a missing exercise unit renders nothing and is reported" do
+  test "a missing exercise unit falls back to english and is reported" do
     exercise = create :practice_exercise, slug: "bob", title: "Bob", blurb: "Bob is a lackadaisical teenager."
 
     with_published_translations({}) do
       publish_translated_metadata!(:hu, REPO_NAME, { "exercise:bob:name" => "Bob" })
       TranslationRepo.expects(:report_missing_metadata!).with(:hu, REPO_NAME, "exercise:bob:blurb")
 
-      I18n.with_locale(:hu) { assert_equal "", exercise.blurb }
-    end
-  end
-
-  test "an exercise with no english blurb reports nothing" do
-    exercise = create :practice_exercise, slug: "bob", blurb: ""
-
-    with_published_translations({}) do
-      publish_translated_metadata!(:hu, REPO_NAME, {})
-      TranslationRepo.expects(:report_missing_metadata!).never
-
-      I18n.with_locale(:hu) { assert_equal "", exercise.blurb }
+      I18n.with_locale(:hu) { assert_equal "Bob is a lackadaisical teenager.", exercise.blurb }
     end
   end
 

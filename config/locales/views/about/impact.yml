@@ -52,7 +52,7 @@ en:
       partners_section:
         title: A special thanks to these organisations…
         donors_sentence_html: >
-          And over <a href="%{donors_url}" class="underline hover:text-lightBlue">700 individual donors!</a>
+          And over <a href="%{donors_url}" class="underline hover:text-lightBlue">1,000 individual donors!</a>
       growth_section:
         title: We've grown to over %{num_users} students entirely by word of mouth.
         description:

@@ -2,7 +2,7 @@ require "test_helper"
 
 class MCPControllerTest < ActionDispatch::IntegrationTest
   test "lists tools" do
-    post_rpc "tools/list"
+    post_rpc "tools/list", token: create_token(create(:user), "mcp").token
 
     assert_response :ok
     tool_names = response.parsed_body.dig("result", "tools").map { |tool| tool["name"] }
@@ -13,7 +13,7 @@ class MCPControllerTest < ActionDispatch::IntegrationTest
     user = create :user, handle: 'iHiD'
     create(:user_profile, user:)
 
-    post_rpc "tools/call", { name: "get_profile", arguments: { handle: "iHiD" } }
+    post_rpc "tools/call", { name: "get_profile", arguments: { handle: "iHiD" } }, token: create_token(user, "mcp").token
 
     assert_response :ok
     result = response.parsed_body["result"]
@@ -21,24 +21,26 @@ class MCPControllerTest < ActionDispatch::IntegrationTest
     assert_equal SerializeProfileSummary.(user).to_json, result.dig("content", 0, "text")
   end
 
+  test "asks for sign-in without a token" do
+    %w[initialize tools/list].each do |method|
+      post_rpc method
+
+      assert_response :unauthorized
+      assert_equal 'Bearer error="invalid_token", ' \
+        'resource_metadata="https://test.exercism.org/.well-known/oauth-protected-resource/mcp", scope="mcp"',
+        response.headers["WWW-Authenticate"]
+    end
+  end
+
   test "ignores a signed-in browser session" do
     sign_in!
 
-    post_rpc "tools/call", { name: "get_current_user", arguments: {} }
+    post_rpc "tools/list"
 
     assert_response :unauthorized
   end
 
-  test "asks for sign-in when a user tool is called without a token" do
-    post_rpc "tools/call", { name: "get_current_user", arguments: {} }
-
-    assert_response :unauthorized
-    assert_equal 'Bearer error="invalid_token", ' \
-      'resource_metadata="https://test.exercism.org/.well-known/oauth-protected-resource/mcp", scope="mcp"',
-      response.headers["WWW-Authenticate"]
-  end
-
-  test "calls a user tool with an mcp token" do
+  test "calls get_current_user" do
     user = create :user, handle: 'iHiD'
     token = create_token(user, "mcp")
 

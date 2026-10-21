@@ -3,7 +3,6 @@ class GetCurrentUserTool < MCP::Tool
   title "Get signed-in Exercism user"
   description <<~DESC.squish
     Get the Exercism user you're signed in as: their handle, name and reputation.
-    Requires signing in to Exercism.
   DESC
   annotations(
     read_only_hint: true,

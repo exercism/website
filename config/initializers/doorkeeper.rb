@@ -92,3 +92,10 @@ Doorkeeper::OAuth::CodeResponse.prepend(
     end
   end
 )
+
+# Doorkeeper's controllers inherit from ApplicationController, but Rails finds
+# the gem's bare doorkeeper/application layout first, which has none of our
+# CSS. Render the consent screen in the site's layout instead.
+Rails.application.config.to_prepare do
+  Doorkeeper::AuthorizationsController.layout "application"
+end

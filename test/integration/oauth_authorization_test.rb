@@ -21,8 +21,7 @@ class OauthAuthorizationTest < ActionDispatch::IntegrationTest
     get oauth_authorization_path(authorize_params(CLAUDE_CODE, "http://localhost:54321/callback", scope: "mcp"))
 
     assert_response :ok
-    assert_includes response.body, "claude.ai"
-    assert_includes response.body, "localhost"
+    assert_includes response.body, "<strong>claude.ai</strong>"
   end
 
   test "MCP clients can't request the profile scope" do

@@ -13,7 +13,11 @@ class OauthApplication < Doorkeeper::Application
 
   # Our OAuth issuer, e.g. https://exercism.org. It must be identical in the
   # discovery documents and the iss parameter on authorization responses.
-  def self.issuer = Exercism::Routes.root_url.chomp("/")
+  #
+  # OAUTH_ISSUER overrides it, for testing MCP clients locally through an
+  # https tunnel such as ngrok. Clients refuse to send credentials to a
+  # plain http token endpoint unless it's on localhost.
+  def self.issuer = ENV["OAUTH_ISSUER"].presence || Exercism::Routes.root_url.chomp("/")
 
   def mcp_client? = uid.start_with?("https://")
 

@@ -37,7 +37,7 @@ class Track < ApplicationRecord
   # A list here rather than a lookup of the published manifest, because
   # isolating a page is a deliberate per-track decision, not a side effect of
   # something landing in S3.
-  CLIENT_SIDE_TEST_RUNNER_SLUGS = %w[jq].freeze
+  CLIENT_SIDE_TEST_RUNNER_SLUGS = %w[jq cpp].freeze
   def client_side_test_runner? = CLIENT_SIDE_TEST_RUNNER_SLUGS.include?(slug)
 
   delegate :about, :snippet,

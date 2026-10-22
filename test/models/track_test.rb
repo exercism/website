@@ -29,6 +29,11 @@ class TrackTest < ActiveSupport::TestCase
     assert_equal track.slug, track.to_param
   end
 
+  test "client_side_test_runner?" do
+    assert create(:track, slug: "cpp").client_side_test_runner?
+    refute create(:track, slug: "ruby").client_side_test_runner?
+  end
+
   test "highlightjs_language uses slug if nil" do
     track = create :track, highlightjs_language: nil
     assert_equal 'ruby', track.highlightjs_language

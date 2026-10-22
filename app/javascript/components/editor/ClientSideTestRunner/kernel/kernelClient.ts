@@ -24,7 +24,11 @@ export interface Subscription {
   done: Promise<void>
 }
 
-/** The handlers the kernel calls back into. Every one is required. */
+/**
+ * The handlers the kernel calls back into. Every one the kernel knows of is
+ * required, and ones it does not know of are ignored, so the canvas pair is
+ * passed to every kernel even though only newer ones ask for it.
+ */
 export interface Interface {
   streamOut(stream: number, data: ArrayBuffer): void | Promise<void>
   streamErr(stream: number, data: ArrayBuffer): void | Promise<void>
@@ -32,6 +36,13 @@ export interface Interface {
     stream: number
   ): (ArrayBuffer | undefined) | Promise<ArrayBuffer | undefined>
   streamClosed(stream: number): void
+  createCanvas(
+    pid: number,
+    canvas: number,
+    title: string,
+    events: MessagePort
+  ): OffscreenCanvas | Promise<OffscreenCanvas>
+  destroyCanvas(canvas: number): void
 }
 
 export interface KernelClient {
@@ -39,7 +50,7 @@ export interface KernelClient {
   boot(
     sysroot: string,
     env: string[],
-    preload: string[],
+    precompile: string[],
     licence?: Licence[]
   ): Request<void>
   untar(path: string, data: ArrayBuffer): Request<void>
@@ -59,9 +70,14 @@ export type KernelClientConstructor = new (options: {
   handlers: Interface
 }) => KernelClient
 
-/** The kernel's boot.json, served beside sysroot.tar. */
+/**
+ * The kernel's boot.json, served beside sysroot.tar. Sysroots published for
+ * earlier kernels call precompile preload, and are immutable, so either is
+ * read.
+ */
 export type BootConfig = {
   env: Record<string, string>
-  preload: string[]
+  precompile?: string[]
+  preload?: string[]
   licence?: Licence[]
 }

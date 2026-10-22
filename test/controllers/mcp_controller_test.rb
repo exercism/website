@@ -50,6 +50,27 @@ class MCPControllerTest < ActionDispatch::IntegrationTest
     assert_equal "iHiD", JSON.parse(response.parsed_body.dig("result", "content", 0, "text"))["handle"]
   end
 
+  test "rate limits each user across their tokens" do
+    user = create :user
+    first_token = create_token(user, "mcp").token
+    second_token = create_token(user, "mcp").token
+
+    MCPController::RATE_LIMIT.times { post_rpc "tools/list", token: first_token }
+    assert_response :ok
+
+    post_rpc "tools/list", token: second_token
+    assert_response :too_many_requests
+    assert_equal "60", response.headers["Retry-After"]
+
+    post_rpc "tools/list", token: create_token(create(:user), "mcp").token
+    assert_response :ok
+
+    travel 61.seconds do
+      post_rpc "tools/list", token: first_token
+      assert_response :ok
+    end
+  end
+
   test "rejects a token without the mcp scope" do
     token = create_token(create(:user), "profile")
 

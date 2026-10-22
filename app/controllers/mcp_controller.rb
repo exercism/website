@@ -19,8 +19,15 @@ class MCPController < ActionController::API
     GetCurrentUserTool
   ].freeze
 
+  # Requests per user per minute, shared across all their MCP clients. This is
+  # keyed on the user rather than the token because tokens are replaced on
+  # every refresh. The website's Cloudflare rate limit excludes /mcp, because
+  # claude.ai and ChatGPT call it for all their users from a few shared IPs.
+  RATE_LIMIT = 60
+
   def handle
     return render_unauthorized unless current_user
+    return render_rate_limited if rate_limited?
 
     status, headers, body = transport.handle_request(request)
 
@@ -59,6 +66,16 @@ class MCPController < ActionController::API
       'scope="mcp"'
     ].join(", ")
     head :unauthorized
+  end
+
+  def rate_limited?
+    count = Rails.cache.increment("rate-limit:mcp:#{current_user.id}", 1, expires_in: 1.minute)
+    count.to_i > RATE_LIMIT
+  end
+
+  def render_rate_limited
+    response.headers["Retry-After"] = "60"
+    head :too_many_requests
   end
 
   def current_user

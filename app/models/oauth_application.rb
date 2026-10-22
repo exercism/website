@@ -17,7 +17,12 @@ class OauthApplication < Doorkeeper::Application
   # OAUTH_ISSUER overrides it, for testing MCP clients locally through an
   # https tunnel such as ngrok. Clients refuse to send credentials to a
   # plain http token endpoint unless it's on localhost.
-  def self.issuer = ENV["OAUTH_ISSUER"].presence || Exercism::Routes.root_url.chomp("/")
+  #
+  # This uses the configured host rather than root_url, because root_url sits
+  # in the locale scope and can pick up a prefix such as /hu.
+  def self.issuer
+    ENV["OAUTH_ISSUER"].presence || Rails.application.routes.default_url_options[:host].chomp("/")
+  end
 
   def mcp_client? = uid.start_with?("https://")
 

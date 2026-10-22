@@ -112,8 +112,12 @@ class PagesController < ApplicationController
     # latest.json is the only mutable object - it is how a language is pointed
     # at a new build - so it gets a short life. Everything it points at lives
     # under a uuid and never changes.
+    #
+    # no-transform keeps Cloudflare from re-encoding them: they are stored
+    # brotli-encoded at the highest quality, and the bytes should reach the
+    # browser as published.
     cache_control = key.end_with?("latest.json") ? "public, max-age=60" : "public, max-age=31536000, immutable"
-    response.set_header("Cache-Control", cache_control)
+    response.set_header("Cache-Control", "#{cache_control}, no-transform")
 
     # The kernel runs in a worker spawned by a cross-origin isolated page, and a
     # worker script has to declare a policy compatible with its owner's - this
@@ -125,7 +129,7 @@ class PagesController < ApplicationController
     # Artifacts are stored brotli-encoded (see exercism/clientside-tooling) and
     # the browser decodes them itself, as long as the header travels with the
     # bytes. Nothing between here and the browser compresses for us: these
-    # responses are no-transform.
+    # responses are no-transform (above).
     response.set_header("Content-Encoding", object.content_encoding) if object.content_encoding.present?
 
     send_data object.body.read, type: artifact_content_type(key), disposition: :inline

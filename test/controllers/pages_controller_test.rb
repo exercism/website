@@ -24,30 +24,26 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to "http://test.exercism.org/dashboard"
   end
 
-  # The bucket is not configured outside production, so there is nothing to
-  # serve. It must answer rather than raise: the editor asks for a manifest on
-  # every page load, and an unhandled routing error fails any system test that
-  # opens the editor.
-  test "test runner artifacts 404 when no bucket is configured" do
-    get "/test-runners/ruby/latest.json"
+  # A key that is not in the bucket is how a track without a client-side runner
+  # looks. It must answer rather than raise: the editor asks for a manifest on
+  # every page load, and an unhandled error fails any system test that opens
+  # the editor.
+  test "test runner artifacts 404 when the object is missing" do
+    get "/test-runners/missing/latest.json"
     assert_response :not_found
   end
 
   # The kernel worker takes its CSP from the artifact response, and that
   # response is cached for a year, so the page-only headers must not be on it.
   test "test runner artifacts carry no page headers" do
-    Exercism.config.stubs(:respond_to?).with(:aws_test_runners_bucket).returns(true)
-    Exercism.config.stubs(:aws_test_runners_bucket).returns("bucket")
-    object = stub(body: StringIO.new("// kernel"), content_encoding: nil)
-    Exercism.s3_client.stubs(:get_object).
-      with(bucket: "bucket", key: "test-runners/kernel/abc/kernel.js").
-      returns(object)
+    upload_test_runner_artifact("kernel/abc/kernel.js", "// kernel")
 
     get "/test-runners/kernel/abc/kernel.js"
 
     assert_response :ok
     assert_equal "text/javascript", response.media_type
-    assert_includes response.headers["Cache-Control"], "immutable"
+    assert_equal %w[immutable max-age=31536000 no-transform public], response.headers["Cache-Control"].split(", ").sort
+    assert_nil response.headers["Content-Encoding"]
     assert_nil response.headers["Content-Security-Policy-Report-Only"]
     assert_nil response.headers["Link"]
     assert_nil response.headers["Exercism-Body-Class"]
@@ -57,18 +53,23 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
   # Artifacts are stored brotli-encoded. The header has to reach the browser,
   # or it gets the compressed bytes as the file.
   test "test runner artifacts keep their content encoding" do
-    Exercism.config.stubs(:respond_to?).with(:aws_test_runners_bucket).returns(true)
-    Exercism.config.stubs(:aws_test_runners_bucket).returns("bucket")
-    object = stub(body: StringIO.new("brotli bytes"), content_encoding: "br")
-    Exercism.s3_client.stubs(:get_object).
-      with(bucket: "bucket", key: "test-runners/sysroot/cpp/19.0.0/1/sysroot.tar").
-      returns(object)
+    upload_test_runner_artifact("sysroot/cpp/19.0.0/1/sysroot.tar", "brotli bytes", content_encoding: "br")
 
     get "/test-runners/sysroot/cpp/19.0.0/1/sysroot.tar"
 
     assert_response :ok
     assert_equal "br", response.headers["Content-Encoding"]
     assert_equal "application/x-tar", response.media_type
+    assert_equal "brotli bytes", response.body
+  end
+
+  test "latest.json gets a short life" do
+    upload_test_runner_artifact("cpp/latest.json", "{}")
+
+    get "/test-runners/cpp/latest.json"
+
+    assert_response :ok
+    assert_equal %w[max-age=60 no-transform public], response.headers["Cache-Control"].split(", ").sort
   end
 
   test "health_check works" do
@@ -107,5 +108,15 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
       get "/i18n/hu/frontend-0123456789ab.json"
       assert_response :not_found
     end
+  end
+
+  private
+  def upload_test_runner_artifact(path, body, content_encoding: nil)
+    Exercism.s3_client.put_object(
+      bucket: Exercism.config.aws_test_runners_bucket,
+      key: "test-runners/#{path}",
+      body:,
+      content_encoding:
+    )
   end
 end

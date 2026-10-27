@@ -305,8 +305,8 @@ class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
   # Enable
   ###
   test "enable allows comments" do
-    setup_user
     solution = create :practice_solution, :published, allow_comments: false
+    setup_user(solution.user)
 
     patch enable_api_track_exercise_community_solution_comments_path(
       solution.track, solution.exercise, solution.user.handle
@@ -318,8 +318,8 @@ class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
   end
 
   test "enable uses Solution::AllowComments" do
-    setup_user
     solution = create :practice_solution, :published, allow_comments: false
+    setup_user(solution.user)
 
     Solution::AllowComments.expects(:call).with(solution)
 
@@ -330,12 +330,31 @@ class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
     assert_response :ok
   end
 
+  test "enable 403s for another user's solution" do
+    setup_user
+    solution = create :practice_solution, :published, allow_comments: false
+
+    Solution::AllowComments.expects(:call).never
+
+    patch enable_api_track_exercise_community_solution_comments_path(
+      solution.track, solution.exercise, solution.user.handle
+    ), headers: @headers, as: :json
+
+    assert_response :forbidden
+    expected = { error: {
+      type: "solution_not_accessible",
+      message: I18n.t("api.errors.solution_not_accessible")
+    } }
+    assert_equal expected, JSON.parse(response.body, symbolize_names: true)
+    refute solution.reload.allow_comments
+  end
+
   ###
   # Disable
   ###
   test "disable disallows comments" do
-    setup_user
     solution = create :practice_solution, :published, allow_comments: true
+    setup_user(solution.user)
 
     patch disable_api_track_exercise_community_solution_comments_path(
       solution.track, solution.exercise, solution.user.handle
@@ -347,8 +366,8 @@ class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
   end
 
   test "disable uses Solution::DisallowComments" do
-    setup_user
     solution = create :practice_solution, :published, allow_comments: true
+    setup_user(solution.user)
 
     Solution::DisallowComments.expects(:call).with(solution)
 
@@ -357,5 +376,23 @@ class API::CommunitySolutionCommentsControllerTest < API::BaseTestCase
     ), headers: @headers, as: :json
 
     assert_response :ok
+  end
+  test "disable 403s for another user's solution" do
+    setup_user
+    solution = create :practice_solution, :published, allow_comments: true
+
+    Solution::DisallowComments.expects(:call).never
+
+    patch disable_api_track_exercise_community_solution_comments_path(
+      solution.track, solution.exercise, solution.user.handle
+    ), headers: @headers, as: :json
+
+    assert_response :forbidden
+    expected = { error: {
+      type: "solution_not_accessible",
+      message: I18n.t("api.errors.solution_not_accessible")
+    } }
+    assert_equal expected, JSON.parse(response.body, symbolize_names: true)
+    assert solution.reload.allow_comments
   end
 end

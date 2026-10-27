@@ -58,10 +58,12 @@ class Payments::TestBase < ActiveSupport::TestCase
     )
   end
 
-  def mock_stripe_payment_intent(id, invoice_id: nil, payment_method: nil)
+  def mock_stripe_payment_intent(id, invoice_id: nil, payment_method: nil, customer: nil, status: nil)
     data = RecursiveOpenStruct.new(id:)
     data.invoice = invoice_id if invoice_id
     data.payment_method = payment_method if payment_method
+    data.customer = customer if customer
+    data.status = status if status
     data
   end
 end

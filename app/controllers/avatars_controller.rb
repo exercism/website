@@ -2,6 +2,8 @@ require 'open-uri'
 
 # This should inherit from ActionController::Base, not ApplicationController
 class AvatarsController < ActionController::Base # rubocop:disable Rails/ApplicationController
+  before_action :set_nosniff_header
+
   def show
     # Save a load of testing headaches
     if Rails.env.test?
@@ -13,16 +15,7 @@ class AvatarsController < ActionController::Base # rubocop:disable Rails/Applica
     # We don't want future requests to be cached before they should be!
     raise ActiveRecord::RecordNotFound if params[:version].to_i > user.version
 
-    if user.avatar.attached?
-      data = user.avatar.download
-      content_type = user.avatar.content_type
-    else
-      url = user.attributes['avatar_url'].presence || "#{Exercism.config.website_icons_host}/placeholders/user-avatar.svg"
-
-      file = URI.parse(url).open
-      data = file.read
-      content_type = file.content_type
-    end
+    data, content_type = User::RetrieveAvatar.(user)
 
     expires_in 5.years, public: true
     response.set_header("Content-Type", content_type)
@@ -30,12 +23,16 @@ class AvatarsController < ActionController::Base # rubocop:disable Rails/Applica
   rescue ActiveRecord::RecordNotFound
     head :not_found
   rescue OpenURI::HTTPError
-    url = "#{Exercism.config.website_icons_host}/placeholders/user-avatar.svg"
-    file = URI.parse(url).open
+    file = URI.parse(User::RetrieveAvatar.placeholder_url).open
     expires_in 5.minutes, public: true
     send_data file.read, type: file.content_type, disposition: 'inline'
   rescue StandardError => e
     Sentry.capture_exception(e)
     head :internal_server_error
+  end
+
+  private
+  def set_nosniff_header
+    response.set_header("X-Content-Type-Options", "nosniff")
   end
 end

@@ -6,6 +6,9 @@ class User < ApplicationRecord
   IHID_USER_ID = 1530
   MIN_REP_TO_MENTOR = 20
 
+  # The image formats we accept for uploaded avatars.
+  AVATAR_CONTENT_TYPES = %w[image/png image/jpeg image/gif image/webp].freeze
+
   enum flair: {
     founder: 0,
     staff: 1,
@@ -155,6 +158,7 @@ class User < ApplicationRecord
   validates :email, length: { maximum: 190 }
   validates :pronouns, length: { maximum: 255 }
   validates :location, length: { maximum: 255 }
+  validate :avatar_content_type_must_be_allowed
 
   has_one_attached :avatar do |attachable|
     # convert: :png because resize_to_fill on its own preserves the source
@@ -389,4 +393,15 @@ class User < ApplicationRecord
   end
 
   def on_jiki_waiting_list? = jiki_signup.exists?
+
+  private
+  # Only check a newly attached avatar, so that existing users with an avatar
+  # in another format can still save the rest of their record.
+  def avatar_content_type_must_be_allowed
+    return unless attachment_changes.key?('avatar')
+    return unless avatar.attached?
+    return if AVATAR_CONTENT_TYPES.include?(avatar.content_type)
+
+    errors.add(:avatar, "must be a PNG, JPEG, GIF or WebP image")
+  end
 end

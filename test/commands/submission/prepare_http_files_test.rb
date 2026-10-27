@@ -25,15 +25,6 @@ class Submission::PrepareHttpFilesTest < ActiveSupport::TestCase
     assert_equal content_2, second_file[:content]
   end
 
-  test "uses forward slashes in filenames" do
-    headers = "Content-Disposition: form-data; name=\"files[]\"; filename=\"subdir\\foobar.rb\"\r\nContent-Type: application/octet-stream\r\n" # rubocop:disable Layout/LineLength
-    file = mock(read: "content", headers:)
-
-    files = Submission::PrepareHttpFiles.([file])
-
-    assert_equal "subdir/foobar.rb", files.first[:filename]
-  end
-
   test "raises if file is too large" do
     filename = "subdir/foobar.rb"
     content = Array.new(1.megabyte + 1, 'x')

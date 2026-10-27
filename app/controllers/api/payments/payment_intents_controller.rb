@@ -36,7 +36,7 @@ class API::Payments::PaymentIntentsController < API::BaseController
   end
 
   def failed
-    ::Payments::Stripe::PaymentIntent::Cancel.(params[:id])
+    ::Payments::Stripe::PaymentIntent::Cancel.(current_user, params[:id])
 
     render json: {}
   end

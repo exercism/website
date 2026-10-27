@@ -1,9 +1,11 @@
 class Payments::Stripe::PaymentIntent::Cancel
   include Mandate
 
-  initialize_with :id
+  initialize_with :user, :id
 
   def call
+    return unless belongs_to_user?
+
     if invoice
       void_invoice!
     else
@@ -24,9 +26,15 @@ class Payments::Stripe::PaymentIntent::Cancel
     Rails.logger.error(e)
   end
 
+  def belongs_to_user?
+    user.stripe_customer_id.present? && payment_intent.customer == user.stripe_customer_id
+  end
+
+  memoize
+  def payment_intent = Stripe::PaymentIntent.retrieve(id)
+
   memoize
   def invoice
-    payment_intent = Stripe::PaymentIntent.retrieve(id)
     return nil unless payment_intent.invoice
 
     Stripe::Invoice.retrieve(payment_intent.invoice)

@@ -9,8 +9,10 @@ class Payments::Stripe::PaymentIntent::HandleSuccess
   end
 
   def call
+    return unless payment_intent_succeeded?
     return unless user
     return unless should_record_payment?
+    return if subscription_data && !subscription_paid?
 
     subscription = Payments::Stripe::Subscription::Create.(user, subscription_data) if subscription_data
     Payments::Stripe::Payment::Create.(user, payment_intent, subscription:)
@@ -18,6 +20,15 @@ class Payments::Stripe::PaymentIntent::HandleSuccess
 
   private
   attr_reader :id
+
+  def payment_intent_succeeded? = payment_intent.status == "succeeded"
+
+  # A subscription only counts once its first invoice has been paid.
+  def subscription_paid?
+    return true if invoice.status == "paid"
+
+    %w[active trialing].include?(subscription_data.status)
+  end
 
   memoize
   def user
@@ -27,11 +38,15 @@ class Payments::Stripe::PaymentIntent::HandleSuccess
   end
 
   memoize
-  def subscription_data
+  def invoice
     return unless payment_intent.invoice
 
-    invoice = Stripe::Invoice.retrieve(payment_intent.invoice)
-    return unless invoice.subscription
+    Stripe::Invoice.retrieve(payment_intent.invoice)
+  end
+
+  memoize
+  def subscription_data
+    return unless invoice&.subscription
 
     Stripe::Subscription.retrieve(invoice.subscription)
   end

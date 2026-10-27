@@ -105,7 +105,7 @@ class API::Payments::PaymentIntentsControllerTest < API::BaseTestCase
     user = create :user
 
     id = SecureRandom.uuid
-    ::Payments::Stripe::PaymentIntent::Cancel.expects(:call).with(id)
+    ::Payments::Stripe::PaymentIntent::Cancel.expects(:call).with(user, id)
 
     setup_user(user)
     patch failed_api_payments_payment_intent_path(id), headers: @headers, as: :json

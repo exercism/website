@@ -11,7 +11,7 @@ class Submission::PrepareHttpFiles
         map(&:strip).
         detect { |s| s.start_with?('filename=') }.
         split("=").last.
-        delete('"').gsub(%r{^/}, '')
+        delete('"').tr('\\', '/').gsub(%r{^/}, '')
 
       content = file.read
 

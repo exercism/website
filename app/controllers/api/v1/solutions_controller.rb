@@ -69,6 +69,8 @@ class API::V1::SolutionsController < API::BaseController
       Iteration::Create.(solution, submission)
     rescue DuplicateSubmissionError
       return render_error(400, :duplicate_submission)
+    rescue InvalidSubmissionFilenameError
+      return render_error(400, :invalid_filename)
     end
 
     render json: {}, status: :created

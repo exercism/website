@@ -150,6 +150,25 @@ class API::Solutions::SubmissionsControllerTest < API::BaseTestCase
     assert_equal expected, actual
   end
 
+  test "create should catch invalid filenames" do
+    setup_user
+    solution = create :concept_solution, user: @current_user
+
+    post api_solution_submissions_path(solution.uuid),
+      params: { files: [{ filename: "../foo.rb", content: "foo" }] },
+      headers: @headers,
+      as: :json
+
+    assert_response :bad_request
+    expected = { error: {
+      type: "invalid_filename",
+      message: I18n.t('api.errors.invalid_filename')
+    } }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+    assert_empty solution.reload.submissions
+  end
+
   test "create should catch duplicate submission" do
     setup_user
     solution = create :concept_solution, user: @current_user

@@ -19,6 +19,8 @@ class API::Solutions::SubmissionsController < API::BaseController
       submission = Submission::Create.(solution, files, :api, params[:test_results_json])
     rescue DuplicateSubmissionError
       return render_error(400, :duplicate_submission)
+    rescue InvalidSubmissionFilenameError
+      return render_error(400, :invalid_filename)
     end
 
     render json: {

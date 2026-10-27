@@ -7,6 +7,7 @@ en:
       not_trainer: "You do not have trainer permissions for this track"
       not_maintainer: "You do not have maintainer permissions"
       duplicate_submission: "No files you submitted have changed since your last submission"
+      invalid_filename: "One or more of the filenames you submitted are not valid"
       duplicate_video: "The video has already been submitted by someone else"
       exercise_locked: "This exercise is locked"
       exercise_not_found: "The exercise you specified could not be found"

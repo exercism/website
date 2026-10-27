@@ -8,7 +8,6 @@ class Submission::Create
     @test_results_json = test_results_json
 
     # TODO: (Optional) - Move this into another service
-    # TODO: (Optional) - Consider risks around filenames
     @submitted_files = raw_files.each do |f|
       f[:digest] = Digest::SHA1.hexdigest(f[:content])
     end
@@ -16,6 +15,7 @@ class Submission::Create
 
   def call
     # This needs to be fast.
+    validate_filenames!
     guard!
 
     create_submission!
@@ -32,6 +32,20 @@ class Submission::Create
   attr_reader :solution, :submitted_files, :submission_uuid, :submitted_via, :submission, :test_results_json
 
   delegate :track, :user, to: :solution
+
+  def validate_filenames!
+    raise InvalidSubmissionFilenameError unless submitted_files.all? { |f| valid_filename?(f[:filename]) }
+  end
+
+  # Filenames must be relative paths made up of named segments
+  def valid_filename?(filename)
+    return false unless filename.is_a?(String)
+    return false if filename.empty?
+    return false if filename.start_with?("/")
+    return false if filename.include?("\0") || filename.include?("\\")
+
+    filename.split("/", -1).none? { |segment| segment.empty? || segment == ".." }
+  end
 
   # In this guard we check the last submission that wasn't
   # cancelled or exceptioned.

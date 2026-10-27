@@ -25,7 +25,9 @@ class User::GithubSolutionSyncer
     end
 
     def write_file(path, content)
-      full_path = File.join(@path, path)
+      full_path = File.expand_path(File.join(@path, path))
+      return unless working_tree_path?(full_path)
+
       FileUtils.mkdir_p(File.dirname(full_path))
       File.write(full_path, content)
     end
@@ -82,6 +84,23 @@ class User::GithubSolutionSyncer
 
     def branch_exists?(name)
       git_output("branch", "--list", name).strip.present?
+    end
+
+    # Only write files that sit inside the repository's working tree,
+    # resolving any links that already exist along the path.
+    def working_tree_path?(full_path)
+      return false if File.symlink?(full_path)
+
+      existing_path = File.dirname(full_path)
+      existing_path = File.dirname(existing_path) until File.exist?(existing_path) || File.symlink?(existing_path)
+      resolved_path = File.join(File.realpath(existing_path), full_path.delete_prefix(existing_path))
+
+      base_path = File.realpath(@path)
+      return false unless resolved_path.start_with?("#{base_path}/")
+
+      !resolved_path.delete_prefix("#{base_path}/").split("/").first.casecmp?(".git")
+    rescue SystemCallError
+      false
     end
 
     def git(*args)

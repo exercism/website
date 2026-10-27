@@ -313,6 +313,29 @@ class API::V1::SolutionsControllerTest < API::BaseTestCase
     # Run the jobs through to make sure nothing unexpected happens
     perform_enqueued_jobs
   end
+  test "update should catch invalid filenames" do
+    setup_user
+    solution = create :concept_solution, user: @current_user
+
+    http_files = [SecureRandom.uuid]
+    files = [{ filename: "../foo.rb", content: "foo" }]
+    Submission::PrepareHttpFiles.expects(:call).with(http_files).returns(files)
+
+    patch api_v1_solution_path(solution.uuid),
+      params: { files: http_files },
+      headers: @headers,
+      as: :json
+
+    assert_response :bad_request
+    expected = { error: {
+      type: "invalid_filename",
+      message: I18n.t('api.errors.invalid_filename')
+    } }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
+    assert_empty solution.reload.submissions
+  end
+
   test "update should catch duplicate submission" do
     setup_user
     solution = create :concept_solution, user: @current_user

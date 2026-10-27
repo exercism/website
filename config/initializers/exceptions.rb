@@ -10,6 +10,8 @@ class TrainerCriteriaNotFulfilledError < RuntimeError; end
 
 class DuplicateSubmissionError < RuntimeError; end
 
+class InvalidSubmissionFilenameError < RuntimeError; end
+
 class DuplicateVideoError < RuntimeError; end
 
 class ExerciseLockedError < RuntimeError; end

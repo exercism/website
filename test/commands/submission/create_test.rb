@@ -64,6 +64,43 @@ class Submission::CreateTest < ActiveSupport::TestCase
     Submission::Create.(solution.reload, files, :cli)
   end
 
+  test "accepts nested filenames" do
+    solution = create :concept_solution
+    files = [{ filename: "lib/sub.dir/foo..bar.rb", content: "foo" }]
+
+    submission = Submission::Create.(solution, files, :cli)
+
+    assert_equal "lib/sub.dir/foo..bar.rb", submission.files.first.filename
+  end
+
+  test "raises for invalid filenames" do
+    solution = create :concept_solution
+
+    [
+      nil,
+      "",
+      "/foo.rb",
+      "../foo.rb",
+      "subdir/../../foo.rb",
+      "subdir/..",
+      "subdir//foo.rb",
+      "subdir/",
+      "foo\0.rb",
+      "subdir\\foo.rb"
+    ].each do |filename|
+      files = [
+        { filename: "valid.rb", content: "valid" },
+        { filename:, content: "foo" }
+      ]
+
+      assert_raises InvalidSubmissionFilenameError, "Expected #{filename.inspect} to be invalid" do
+        Submission::Create.(solution, files, :cli)
+      end
+    end
+
+    assert_empty solution.reload.submissions
+  end
+
   test "awards rookie badge" do
     # Generic setup
     files = [{ filename: 'foo.bar', content: "foobar" }]

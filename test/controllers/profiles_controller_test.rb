@@ -23,6 +23,21 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_template "profiles/show"
   end
 
+  test "show: links to a valid linkedin url" do
+    profile = create :user_profile, linkedin: "https://www.linkedin.com/in/foo"
+
+    get profile_url(profile)
+    assert_select ".external-links a[href='https://www.linkedin.com/in/foo']"
+  end
+
+  test "show: does not link to an invalid stored linkedin url" do
+    profile = create :user_profile
+    profile.update_column(:linkedin, "ftp://linkedin.com/in/foo")
+
+    get profile_url(profile)
+    assert_select ".external-links a[href='ftp://linkedin.com/in/foo']", count: 0
+  end
+
   test "show: redirects_to intro if own handle" do
     user = create :user
     sign_in!(user)

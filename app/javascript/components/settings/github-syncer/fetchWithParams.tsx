@@ -1,4 +1,5 @@
 import toast from 'react-hot-toast'
+import { csrfHeaders } from '@/utils/csrf-token'
 
 export function fetchWithParams({
   url,
@@ -14,6 +15,7 @@ export function fetchWithParams({
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
+      ...csrfHeaders(),
     },
     body: params
       ? JSON.stringify({

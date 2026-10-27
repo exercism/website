@@ -18,6 +18,20 @@ module User::GithubSolutionSyncer::GithubApp
     JWT.encode(payload, private_key, "RS256")
   end
 
+  def self.fetch_installation!(installation_id)
+    response = RestClient.get(
+      "https://api.github.com/app/installations/#{installation_id}",
+      {
+        Authorization: "Bearer #{generate_jwt}",
+        Accept: "application/vnd.github+json"
+      }
+    )
+
+    JSON.parse(response.body)
+  rescue RestClient::NotFound, RestClient::Forbidden
+    raise InstallationNotFoundError, "GitHub App installation #{installation_id} not found or not accessible"
+  end
+
   def self.generate_installation_token!(installation_id)
     jwt = generate_jwt
 

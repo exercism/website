@@ -4,6 +4,7 @@ import { SyncObj } from './GithubSyncerWidget'
 import { GraphicalIcon } from '../common'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 import i18n from '@/i18n/i18n'
+import { csrfHeaders } from '@/utils/csrf-token'
 
 // Syncer enabled + automatic: Say "Your solution will auto-backup to GitHub. If it does not for some reason, please click this button to manually start the backup."
 export function ActiveAutomaticSync({ sync }: { sync: SyncObj }): JSX.Element {
@@ -42,6 +43,7 @@ export async function handleSync({ sync }: { sync: SyncObj }) {
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
+        ...csrfHeaders(),
       },
     })
 

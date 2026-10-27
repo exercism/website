@@ -1,6 +1,4 @@
 class Settings::GithubSyncerController < ApplicationController
-  skip_before_action :verify_authenticity_token, only: %i[update sync_everything sync_track sync_solution sync_iteration destroy]
-
   def show
     @just_connected = !!params[:connected]
   end
@@ -69,13 +67,13 @@ class Settings::GithubSyncerController < ApplicationController
     installation_id = params[:installation_id]
 
     if installation_id.blank?
-      redirect_to settings_github_syncer_path, alert: "Missing installation ID"
+      redirect_to settings_github_syncer_path, alert: t(".missing_installation_id")
       return
     end
 
     begin
       User::GithubSolutionSyncer::Create.(current_user, installation_id)
-      redirect_to settings_github_syncer_path, notice: "GitHub connected successfully"
+      redirect_to settings_github_syncer_path, notice: t(".connected")
     rescue GithubSolutionSyncerCreationError => e
       redirect_to settings_github_syncer_path(connected: true), alert: e.message
     end

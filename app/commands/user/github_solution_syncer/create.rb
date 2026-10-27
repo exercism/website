@@ -1,9 +1,11 @@
 class User::GithubSolutionSyncer::Create
   include Mandate
 
+  I18N_SCOPE = "commands.user_github_solution_syncer.create.errors".freeze
+
   initialize_with :user, :installation_id do
-    raise GithubSolutionSyncerCreationError, "Missing installation ID" unless installation_id.present?
-    raise GithubSolutionSyncerCreationError, "Invalid installation ID" unless installation_id.to_s.match?(/\A\d+\z/)
+    raise GithubSolutionSyncerCreationError, error_message(:missing_installation_id) unless installation_id.present?
+    raise GithubSolutionSyncerCreationError, error_message(:invalid_installation_id) unless installation_id.to_s.match?(/\A\d+\z/)
   end
 
   def call
@@ -16,11 +18,11 @@ class User::GithubSolutionSyncer::Create
       repo_full_name: repo.full_name
     )
   rescue User::GithubSolutionSyncer::GithubApp::InstallationNotFoundError
-    raise GithubSolutionSyncerCreationError, "GitHub App installation not found or no longer accessible"
+    raise GithubSolutionSyncerCreationError, error_message(:installation_not_found)
   rescue Octokit::Unauthorized
-    raise GithubSolutionSyncerCreationError, "GitHub authorization failed"
+    raise GithubSolutionSyncerCreationError, error_message(:authorization_failed)
   rescue Octokit::Error, RestClient::Exception => e
-    raise GithubSolutionSyncerCreationError, "GitHub API error: #{e.message}"
+    raise GithubSolutionSyncerCreationError, error_message(:api_error, message: e.message)
   end
 
   private
@@ -29,22 +31,15 @@ class User::GithubSolutionSyncer::Create
   # id (stored as the user's uid when they connect GitHub), as it stays
   # the same if the user renames their GitHub account.
   def verify_installation_account!
-    unless github_uid.present?
-      raise GithubSolutionSyncerCreationError,
-        "Please connect your GitHub account to Exercism before setting up the GitHub Syncer"
-    end
+    raise GithubSolutionSyncerCreationError, error_message(:github_account_not_connected) unless github_uid.present?
 
     account = installation["account"] || {}
 
-    if account["type"] != "User"
-      raise GithubSolutionSyncerCreationError,
-        "The GitHub Syncer only supports personal GitHub accounts. Please install it on your own GitHub account"
-    end
+    raise GithubSolutionSyncerCreationError, error_message(:organization_account) if account["type"] != "User"
 
     return if account["id"].to_s == github_uid
 
-    raise GithubSolutionSyncerCreationError,
-      "This GitHub App was installed on a different GitHub account to the one connected to your Exercism account"
+    raise GithubSolutionSyncerCreationError, error_message(:different_github_account)
   end
 
   def github_uid
@@ -52,6 +47,8 @@ class User::GithubSolutionSyncer::Create
 
     user.uid.to_s
   end
+
+  def error_message(key, **) = I18n.t("#{I18N_SCOPE}.#{key}", **)
 
   memoize
   def installation = User::GithubSolutionSyncer::GithubApp.fetch_installation!(installation_id)
@@ -62,7 +59,7 @@ class User::GithubSolutionSyncer::Create
   memoize
   def repo
     repos = client.list_app_installation_repositories.repositories
-    raise GithubSolutionSyncerCreationError, "Please grant access to exactly one repository" unless repos.size == 1
+    raise GithubSolutionSyncerCreationError, error_message(:not_exactly_one_repository) unless repos.size == 1
 
     repos.first
   end
@@ -70,7 +67,7 @@ class User::GithubSolutionSyncer::Create
   memoize
   def token
     User::GithubSolutionSyncer::GithubApp.generate_installation_token!(installation_id).tap do |token|
-      raise GithubSolutionSyncerCreationError, "Failed to retrieve GitHub installation token" if token.blank?
+      raise GithubSolutionSyncerCreationError, error_message(:installation_token_missing) if token.blank?
     end
   end
 end

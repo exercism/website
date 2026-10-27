@@ -58,13 +58,13 @@ class Settings::GithubSyncerController < ApplicationController
     installation_id = params[:installation_id]
 
     if installation_id.blank?
-      redirect_to settings_github_syncer_path, alert: "Missing installation ID"
+      redirect_to settings_github_syncer_path, alert: t(".missing_installation_id")
       return
     end
 
     begin
       User::GithubSolutionSyncer::Create.(current_user, installation_id)
-      redirect_to settings_github_syncer_path, notice: "GitHub connected successfully"
+      redirect_to settings_github_syncer_path, notice: t(".connected")
     rescue GithubSolutionSyncerCreationError => e
       redirect_to settings_github_syncer_path(connected: true), alert: e.message
     end

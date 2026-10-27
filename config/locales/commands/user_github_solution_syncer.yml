@@ -1,0 +1,17 @@
+en:
+  commands:
+    user_github_solution_syncer:
+      create:
+        # The callback shows these errors to the user as a flash alert.
+        # api_error interpolates GitHub's own error text as %{message}.
+        errors:
+          missing_installation_id: Missing installation ID
+          invalid_installation_id: Invalid installation ID
+          github_account_not_connected: Please connect your GitHub account to Exercism before setting up the GitHub Syncer
+          organization_account: The GitHub Syncer only supports personal GitHub accounts. Please install it on your own GitHub account
+          different_github_account: This GitHub App was installed on a different GitHub account to the one connected to your Exercism account
+          installation_not_found: GitHub App installation not found or no longer accessible
+          authorization_failed: GitHub authorization failed
+          api_error: "GitHub API error: %{message}"
+          not_exactly_one_repository: Please grant access to exactly one repository
+          installation_token_missing: Failed to retrieve GitHub installation token

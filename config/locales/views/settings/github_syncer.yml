@@ -4,3 +4,6 @@ en:
       show:
         github_syncer:
           heading: GitHub Syncer
+      callback:
+        missing_installation_id: Missing installation ID
+        connected: GitHub connected successfully

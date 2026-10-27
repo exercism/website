@@ -1,6 +1,10 @@
 require "test_helper"
 
 class SPI::ProfileImageDataControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    host! URI(Exercism.config.spi_url).host
+  end
+
   test "returns the data needed to draw the image" do
     user = create :user, handle: 'ihid', name: 'Jeremy Walker', flair: :founder
     create(:user_profile, user:)

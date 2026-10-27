@@ -82,8 +82,8 @@
           = link_to "https://github.com/#{profile.github}" do
             = graphical_icon "external-site-github"
 
-        - if profile.linkedin.present?
-          = link_to profile.linkedin do
+        - if profile.linkedin_url.present?
+          = link_to profile.linkedin_url do
             = graphical_icon "external-site-linkedin"
 
         -# TODO: Need a medium icon

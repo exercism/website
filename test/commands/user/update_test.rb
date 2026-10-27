@@ -59,4 +59,24 @@ class User::UpdateTest < ActiveSupport::TestCase
       User::Update.(create(:user), ActionController::Parameters.new(user: nil, profile: nil))
     end
   end
+
+  test "updates linkedin" do
+    user = create :user
+    profile = create(:user_profile, user:)
+
+    User::Update.(user, profile: { linkedin: "linkedin.com/in/foo" })
+
+    assert_equal "https://linkedin.com/in/foo", profile.reload.linkedin
+  end
+
+  test "aborts with errors for an invalid linkedin" do
+    user = create :user
+    profile = create(:user_profile, user:, linkedin: "https://linkedin.com/in/foo")
+
+    result = User::Update.(user, profile: { linkedin: "ftp://linkedin.com/in/bar" })
+
+    refute result.succeeded?
+    assert_equal [[{ linkedin: ["is invalid"] }]], result.errors
+    assert_equal "https://linkedin.com/in/foo", profile.reload.linkedin
+  end
 end

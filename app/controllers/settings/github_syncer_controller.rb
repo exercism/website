@@ -19,9 +19,18 @@ class Settings::GithubSyncerController < ApplicationController
       %w[
         enabled
       ]
-    current_user.github_solution_syncer.update!(
-      params.require(:github_solution_syncer).permit(permitted)
-    )
+    syncer = current_user.github_solution_syncer
+    updated = Exercism.without_bullet do
+      syncer.update(params.require(:github_solution_syncer).permit(permitted))
+    end
+    return if updated
+
+    render json: {
+      error: {
+        type: :invalid_github_solution_syncer,
+        message: syncer.errors.full_messages.to_sentence
+      }
+    }, status: :bad_request
   end
 
   def sync_everything

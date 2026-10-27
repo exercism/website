@@ -33,7 +33,7 @@ class User::GithubSolutionSyncer
     end
 
     def commit_all(message)
-      return if `git -C #{@path} status --porcelain`.strip.empty?
+      return if git_output("status", "--porcelain").strip.empty?
 
       git("add", ".")
       git("commit", "-m", message)
@@ -71,16 +71,19 @@ class User::GithubSolutionSyncer
     end
 
     def create_branch
-      existing = `git -C #{@path} branch --list #{new_branch_name}`.strip
-      if existing.empty?
-        git("checkout", "-b", new_branch_name)
-      else
+      if branch_exists?(new_branch_name)
         git("checkout", new_branch_name)
+      else
+        git("checkout", "-b", new_branch_name)
       end
     end
 
     def push_branch
       git("push", "--set-upstream", "origin", new_branch_name)
+    end
+
+    def branch_exists?(name)
+      git_output("branch", "--list", name).strip.present?
     end
 
     # Only write files that sit inside the repository's working tree,
@@ -101,9 +104,20 @@ class User::GithubSolutionSyncer
     end
 
     def git(*args)
+      system(*git_command(*args), exception: true)
+    end
+
+    def git_output(*args)
+      stdout, status = Open3.capture2(*git_command(*args))
+      raise "git #{args.first} failed" unless status.success?
+
+      stdout
+    end
+
+    def git_command(*args)
       git_dir = File.join(@path, '.git')
       work_tree = @path
-      system("git", "--git-dir=#{git_dir}", "--work-tree=#{work_tree}", *args, exception: true)
+      ["git", "--git-dir=#{git_dir}", "--work-tree=#{work_tree}", *args]
     end
 
     def repo_url

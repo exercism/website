@@ -27,7 +27,7 @@ class Markdown::Parse
       node.attribute_nodes.each do |attr_node|
         next if ALLOWED_ATTRIBUTE_NAMES.include?(attr_node.node_name)
         next if attr_node.node_name == 'data-tooltip-type' && ALLOWED_TOOLTIP_TYPES.include?(attr_node.value)
-        next if attr_node.node_name == 'data-endpoint' && attr_node.value.start_with?('/')
+        next if attr_node.node_name == 'data-endpoint' && attr_node.value.match?(%r{\A/[^/\\]})
         next if attr_node.node_name == 'data-turbo'
 
         attr_node.remove
@@ -53,7 +53,11 @@ class Markdown::Parse
         %(<div style="padding:56.25% 0 0 0;position:relative;margin-top:16px;margin-bottom:16px;"><iframe src="https://www.youtube.com/embed/#{Regexp.last_match(1)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFull  style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe></div>) # rubocop:disable Layout/LineLength
       end.
       gsub(%r{<p><a href="https://www\.youtube\.com/watch\?v=([\w-]+)"[^>]*?>([^<]+)</a></p>}) do
-        %(<a href="https://www.youtube.com/watch?v=#{Regexp.last_match(1)}" style="display:block; box-shadow: 0px 2px 4px #0F0923">\n<img src="#{Regexp.last_match(2)}" style="width:100%; display:block"/>\n</a>) # rubocop:disable Layout/LineLength
+        original, video_id, link_text = Regexp.last_match.to_a
+        thumbnail_url = CGI.unescapeHTML(link_text)
+        next original unless thumbnail_url.start_with?("https://")
+
+        %(<a href="https://www.youtube.com/watch?v=#{video_id}" style="display:block; box-shadow: 0px 2px 4px #0F0923">\n<img src="#{CGI.escapeHTML(thumbnail_url)}" style="width:100%; display:block"/>\n</a>) # rubocop:disable Layout/LineLength
       end
     # rubocop:enable Style/MultilineBlockChain
   end

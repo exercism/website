@@ -364,6 +364,31 @@ Done')
     assert_equal expected, Markdown::Parse.("[video:vimeo/595885125](https://player.vimeo.com/video/595885125)")
   end
 
+  test "render youtube thumbnail" do
+    expected = %(<a href="https://www.youtube.com/watch?v=abc" style="display:block; box-shadow: 0px 2px 4px #0F0923">\n<img src="https://img.youtube.com/vi/abc/0.jpg" style="width:100%; display:block"/>\n</a>\n) # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.("[https://img.youtube.com/vi/abc/0.jpg](https://www.youtube.com/watch?v=abc)")
+  end
+
+  test "handles quotes and ampersands in youtube thumbnail urls" do
+    expected = %(<a href="https://www.youtube.com/watch?v=abc" style="display:block; box-shadow: 0px 2px 4px #0F0923">\n<img src="https://example.com/a.jpg?a=1&amp;b=2&quot; width=&quot;5" style="width:100%; display:block"/>\n</a>\n) # rubocop:disable Layout/LineLength
+    assert_equal expected, Markdown::Parse.(%([https://example.com/a.jpg?a=1&b=2" width="5](https://www.youtube.com/watch?v=abc)))
+  end
+
+  test "leaves youtube links with plain text as normal links" do
+    expected = %(<p><a href="https://www.youtube.com/watch?v=abc" target="_blank" rel="noreferrer">Watch this</a></p>\n)
+    assert_equal expected, Markdown::Parse.("[Watch this](https://www.youtube.com/watch?v=abc)")
+  end
+
+  test "keeps data-endpoint with a relative path" do
+    expected = %(<div data-endpoint="/tracks/ruby/tooltip">test</div>\n)
+    assert_equal expected, Markdown::Parse.(%(<div data-endpoint="/tracks/ruby/tooltip">test</div>))
+  end
+
+  test "drops data-endpoint pointing at another host" do
+    expected = %(<div>test</div>\n)
+    assert_equal expected, Markdown::Parse.(%(<div data-endpoint="//example.com/tooltip">test</div>))
+  end
+
   test "render note code block" do
     expected = %(<div class="c-textblock-note">\n<div class="c-textblock-header">Note</div>\n<div class="c-textblock-content">\n<p>Note this</p>\n</div>\n</div>\n) # rubocop:disable Layout/LineLength
     assert_equal expected, Markdown::Parse.("```exercism/note\nNote this\n```")

@@ -621,4 +621,31 @@ class UserTest < ActiveSupport::TestCase
     create :user_watched_video, user:, video_provider: provider, video_id: id
     assert user.watched_video?(provider, id)
   end
+
+  test "rejects a newly attached avatar in an unsupported format" do
+    user = create :user
+
+    user.avatar = {
+      io: StringIO.new('<svg xmlns="http://www.w3.org/2000/svg"></svg>'),
+      filename: "avatar.svg",
+      content_type: "image/svg+xml"
+    }
+
+    refute user.valid?
+    assert_includes user.errors[:avatar], "must be a PNG, JPEG, GIF or WebP image"
+  end
+
+  test "users with an existing avatar in another format can still be saved" do
+    user = create :user
+    user.avatar.purge
+    blob = ActiveStorage::Blob.create_and_upload!(
+      io: StringIO.new('<svg xmlns="http://www.w3.org/2000/svg"></svg>'),
+      filename: "avatar.svg",
+      content_type: "image/svg+xml"
+    )
+    ActiveStorage::Attachment.create!(record: user, name: "avatar", blob:)
+    user = User.find(user.id)
+
+    assert user.update(name: "New name")
+  end
 end

@@ -33,7 +33,12 @@ export const Photo = ({
           <div className="btn btn-enhanced btn-s">
             {t('photo.uploadNewImage')}
           </div>
-          <input type="file" id="avatar" onChange={onAttach} />
+          <input
+            type="file"
+            id="avatar"
+            accept="image/png,image/jpeg,image/gif,image/webp"
+            onChange={onAttach}
+          />
           <div className="hover-bg" />
         </div>
         <div className="cropping">{t('photo.cropping')}</div>

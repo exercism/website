@@ -9,8 +9,14 @@ class API::UsersController < API::BaseController
   end
 
   def update
-    if params.dig(:user, :avatar).present? # rubocop:disable Style/IfUnlessModifier:
-      User::UpdateAvatar.(current_user, params.require(:user)[:avatar])
+    if params.dig(:user, :avatar).present?
+      begin
+        User::UpdateAvatar.(current_user, params.require(:user)[:avatar])
+      rescue ActiveRecord::RecordInvalid => e
+        raise unless e.record.errors.include?(:avatar)
+
+        return render_400(:invalid_avatar_format, errors: e.record.errors)
+      end
     end
 
     if params.dig(:user, :seniority).present?

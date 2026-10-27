@@ -4,3 +4,6 @@ en:
       show:
         github_syncer:
           heading: GitHub Syncer
+      update:
+        invalid_main_branch_name: "The main branch name must be a valid Git branch name of up to %{max_length} characters, using only letters, numbers, dots, dashes, underscores and slashes."
+        failed: "We couldn't save your GitHub Syncer settings."

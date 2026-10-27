@@ -28,7 +28,9 @@ class Settings::GithubSyncerControllerTest < ActionDispatch::IntegrationTest
     assert_response :bad_request
     error = response.parsed_body["error"]
     assert_equal "invalid_github_solution_syncer", error["type"]
-    assert_equal "Main branch name is invalid", error["message"]
+    expected = "The main branch name must be a valid Git branch name of up to 100 characters, " \
+               "using only letters, numbers, dots, dashes, underscores and slashes."
+    assert_equal expected, error["message"]
 
     syncer.reload
     assert_equal "main", syncer.main_branch_name

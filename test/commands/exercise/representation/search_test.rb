@@ -73,7 +73,7 @@ class Exercise::Representation::SearchTest < ActiveSupport::TestCase
     javascript = create :track, slug: :javascript
     ruby_anagram = create :practice_exercise, slug: 'anagram', title: 'Anagram Ruby', track: ruby
     js_anagram = create :practice_exercise, slug: 'anagram', title: 'Anagram JS', track: javascript
-    ruby_representation = create :exercise_representation, exercise: ruby_anagram, num_submissions: 3, track: ruby
+    ruby_representation = create :exercise_representation, exercise: ruby_anagram, num_submissions: 4, track: ruby
     js_representation = create :exercise_representation, exercise: js_anagram, num_submissions: 3, track: javascript
 
     assert_equal [ruby_representation, js_representation],

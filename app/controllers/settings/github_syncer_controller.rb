@@ -28,7 +28,7 @@ class Settings::GithubSyncerController < ApplicationController
     render json: {
       error: {
         type: :invalid_github_solution_syncer,
-        message: syncer.errors.full_messages.to_sentence
+        message: update_error_message(syncer)
       }
     }, status: :bad_request
   end
@@ -83,5 +83,14 @@ class Settings::GithubSyncerController < ApplicationController
 
   def destroy
     current_user.github_solution_syncer&.destroy
+  end
+
+  private
+  def update_error_message(syncer)
+    if syncer.errors.of_kind?(:main_branch_name, :invalid)
+      return t(".invalid_main_branch_name", max_length: User::GithubSolutionSyncer::MAX_BRANCH_NAME_LENGTH)
+    end
+
+    t(".failed")
   end
 end

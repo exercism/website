@@ -39,4 +39,33 @@ class User::GithubSolutionSyncer::GithubAppTest < ActiveSupport::TestCase
       User::GithubSolutionSyncer::GithubApp.generate_installation_token!(installation_id)
     end
   end
+
+  test "fetch_installation! returns the installation" do
+    installation_id = 123_456
+
+    User::GithubSolutionSyncer::GithubApp.stubs(:generate_jwt).returns("fake.jwt.token")
+    stub_request(:get, "https://api.github.com/app/installations/#{installation_id}").
+      with(headers: { "Authorization" => "Bearer fake.jwt.token" }).
+      to_return(
+        status: 200,
+        body: { id: installation_id, account: { id: 5_624_255, login: "someone", type: "User" } }.to_json,
+        headers: { "Content-Type" => "application/json" }
+      )
+
+    installation = User::GithubSolutionSyncer::GithubApp.fetch_installation!(installation_id)
+    assert_equal 5_624_255, installation["account"]["id"]
+    assert_equal "User", installation["account"]["type"]
+  end
+
+  test "fetch_installation! raises InstallationNotFoundError on 404" do
+    installation_id = 123_456
+
+    User::GithubSolutionSyncer::GithubApp.stubs(:generate_jwt).returns("fake.jwt.token")
+    stub_request(:get, "https://api.github.com/app/installations/#{installation_id}").
+      to_return(status: 404, body: { message: "Not Found" }.to_json)
+
+    assert_raises(User::GithubSolutionSyncer::GithubApp::InstallationNotFoundError) do
+      User::GithubSolutionSyncer::GithubApp.fetch_installation!(installation_id)
+    end
+  end
 end

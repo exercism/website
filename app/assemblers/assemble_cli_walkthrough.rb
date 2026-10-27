@@ -25,6 +25,6 @@ class AssembleCLIWalkthrough
   end
 
   def auth_token
-    user ? user.auth_tokens.first : "[TOKEN]"
+    user&.auth_token || "[TOKEN]"
   end
 end

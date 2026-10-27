@@ -17,9 +17,18 @@ class Settings::GithubSyncerController < ApplicationController
       %w[
         enabled
       ]
-    current_user.github_solution_syncer.update!(
-      params.require(:github_solution_syncer).permit(permitted)
-    )
+    syncer = current_user.github_solution_syncer
+    updated = Exercism.without_bullet do
+      syncer.update(params.require(:github_solution_syncer).permit(permitted))
+    end
+    return if updated
+
+    render json: {
+      error: {
+        type: :invalid_github_solution_syncer,
+        message: update_error_message(syncer)
+      }
+    }, status: :bad_request
   end
 
   def sync_everything
@@ -72,5 +81,14 @@ class Settings::GithubSyncerController < ApplicationController
 
   def destroy
     current_user.github_solution_syncer&.destroy
+  end
+
+  private
+  def update_error_message(syncer)
+    if syncer.errors.of_kind?(:main_branch_name, :invalid)
+      return t(".invalid_main_branch_name", max_length: User::GithubSolutionSyncer::MAX_BRANCH_NAME_LENGTH)
+    end
+
+    t(".failed")
   end
 end

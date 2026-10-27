@@ -1,6 +1,7 @@
 class API::CommunitySolutionCommentsController < API::BaseController
   before_action :use_solution
   before_action :guard_accessible!, only: %i[index create]
+  before_action :guard_owner!, only: %i[enable disable]
 
   def index
     render json: AssembleCommunitySolutionsCommentsList.(@solution, current_user)
@@ -68,5 +69,9 @@ class API::CommunitySolutionCommentsController < API::BaseController
     return if @solution.published? && @solution.allow_comments?
 
     render_403(:solution_comments_not_allowed)
+  end
+
+  def guard_owner!
+    render_solution_not_accessible unless @solution.user_id == current_user.id
   end
 end

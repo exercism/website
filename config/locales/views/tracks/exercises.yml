@@ -178,7 +178,7 @@ en:
           login_button: Log in to Exercism
       no_test_runner:
         editor_unavailable_title: Editor unavailable.
-        test_runner_not_working_title: This track cannot be solved using the Exercism editor
+        test_runner_not_working_title: The track or exercise cannot be solved using the Exercism editor
         test_runner_not_working_description_html:
           This track does not yet have a working
           test runner, so the editor is disabled. We are working on resolving

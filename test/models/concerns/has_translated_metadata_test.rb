@@ -18,6 +18,28 @@ class HasTranslatedMetadataTest < ActiveSupport::TestCase
     end
   end
 
+  test "an exercise that is no longer in the track's config.json falls back to english and is not reported" do
+    exercise = create :practice_exercise, slug: "legacy-bob", title: "Bob"
+
+    with_published_translations({}) do
+      publish_translated_metadata!(:hu, REPO_NAME, {})
+      TranslationRepo.expects(:report_missing_metadata!).never
+
+      I18n.with_locale(:hu) { assert_equal "Bob", exercise.title }
+    end
+  end
+
+  test "an exercise in the track's config.json with no translation is reported" do
+    exercise = create :practice_exercise, slug: "bob", title: "Bob"
+
+    with_published_translations({}) do
+      publish_translated_metadata!(:hu, REPO_NAME, {})
+      TranslationRepo.expects(:report_missing_metadata!).with(:hu, REPO_NAME, "exercise:bob:name")
+
+      I18n.with_locale(:hu) { assert_equal "Bob", exercise.title }
+    end
+  end
+
   test "a deprecated exercise with a translation still uses it" do
     exercise = create :practice_exercise, slug: "bob", title: "Bob", status: :deprecated
 

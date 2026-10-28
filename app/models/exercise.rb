@@ -145,7 +145,11 @@ class Exercise < ApplicationRecord
 
   def title = translated_metadata("exercise:#{slug}:name", super)
   def blurb = translated_metadata("exercise:#{slug}:blurb", super)
-  def translation_expected? = !wip? && !deprecated? && track&.active?
+
+  def translation_expected?
+    !wip? && !deprecated? && track&.active? && track.config_exercise_slugs.include?(slug)
+  end
+
   def source = translated_metadata("exercise:#{slug}:source", git.source)
 
   def git_type

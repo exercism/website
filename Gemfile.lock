@@ -536,12 +536,6 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
-    rest-client (2.1.0-x64-mingw32)
-      ffi (~> 1.9)
-      http-accept (>= 1.7.0, < 2.0)
-      http-cookie (>= 1.0.2, < 2.0)
-      mime-types (>= 1.16, < 4.0)
-      netrc (~> 0.8)
     reverse_markdown (3.0.2)
       nokogiri
     rexml (3.4.4)
@@ -583,7 +577,7 @@ GEM
       ffi (~> 1.12)
       logger
     ruby2_keywords (0.0.5)
-    rubyzip (2.4.1)
+    rubyzip (3.4.0)
     rufus-scheduler (3.9.2)
       fugit (~> 1.1, >= 1.11.1)
     rugged (1.9.6)
@@ -707,7 +701,7 @@ GEM
 PLATFORMS
   arm64-darwin-23
   arm64-darwin-24
-  x64-mingw32
+  x64-mingw-ucrt
   x86_64-linux
 
 DEPENDENCIES
@@ -772,7 +766,7 @@ DEPENDENCIES
   rubocop-performance
   rubocop-rails
   ruby-openai
-  rubyzip (~> 2.3)
+  rubyzip (~> 3.4)
   rugged
   selenium-webdriver
   sentry-rails

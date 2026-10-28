@@ -87,6 +87,16 @@ class Track < ApplicationRecord
   def blurb = translated_metadata("track:blurb", super)
   def translation_expected? = active?
 
+  # An exercise that is removed from config.json stays in the database for the
+  # people who solved it, but exercism/i18n only translates the exercises that
+  # config.json lists. The slugs are read once per synced commit.
+  memoize
+  def config_exercise_slugs
+    Rails.cache.fetch(["track-config-exercise-slugs", id, synced_to_git_sha]) do
+      (git.concept_exercises + git.practice_exercises).map { |exercise| exercise[:slug] }
+    end.to_set
+  end
+
   def key_features
     features = git.key_features
     return features if I18n.locale == I18n.default_locale

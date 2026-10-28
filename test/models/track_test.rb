@@ -301,4 +301,14 @@ class TrackTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test "config_exercise_slugs lists the concept and practice exercises in config.json" do
+    track = create :track
+
+    slugs = track.config_exercise_slugs
+
+    assert_includes slugs, "lasagna"
+    assert_includes slugs, "bob"
+    refute_includes slugs, "legacy-bob"
+  end
 end

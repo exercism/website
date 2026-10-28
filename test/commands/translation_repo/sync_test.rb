@@ -99,6 +99,59 @@ class TranslationRepo::SyncTest < ActiveSupport::TestCase
     assert_equal before, TranslationRepo.version
   end
 
+  test "finishes a pull that was killed after writing some of the new files" do
+    sync!
+    before = TranslationRepo.version
+
+    write!("locales/hu/website/backend.json", { a: "hu2" }.to_json)
+    write!("locales/ar/website/backend.json", { a: "ar" }.to_json)
+    commit!("two")
+    write_checkout!("locales/hu/website/backend.json", { a: "hu2" }.to_json)
+    write_checkout!("locales/ar/website/backend.json", { a: "ar" }.to_json)
+    TranslationRepo.expire!
+    assert_equal before, TranslationRepo.version
+
+    assert sync!
+
+    TranslationRepo.expire!
+    assert_equal head, TranslationRepo.version
+    assert_equal({ "a" => "hu2" }, JSON.parse(File.read(TranslationRepo.backend_catalog_path(:hu))))
+    assert_equal({ "a" => "ar" }, JSON.parse(File.read(TranslationRepo.backend_catalog_path(:ar))))
+  end
+
+  test "replaces partly written files with what was pushed" do
+    sync!
+
+    write!("locales/hu/website/backend.json", { a: "hu2" }.to_json)
+    write!("locales/ar/website/backend.json", { a: "ar" }.to_json)
+    commit!("two")
+    write_checkout!("locales/hu/website/backend.json", '{"a": "h')
+    write_checkout!("locales/ar/website/backend.json", '{"a"')
+
+    assert sync!
+
+    TranslationRepo.expire!
+    assert_equal head, TranslationRepo.version
+    assert_equal({ "a" => "hu2" }, JSON.parse(File.read(TranslationRepo.backend_catalog_path(:hu))))
+    assert_equal({ "a" => "ar" }, JSON.parse(File.read(TranslationRepo.backend_catalog_path(:ar))))
+  end
+
+  test "leaves files that the pull does not touch alone" do
+    sync!
+
+    write!("locales/hu/website/backend.json", { a: "hu2" }.to_json)
+    commit!("two")
+    write_checkout!("locales/hu/website/backend.json", "partial")
+    write_checkout!("locales/nl/website/backend.json", "edited")
+    write_checkout!("stray.txt", "stray")
+
+    assert sync!
+
+    assert_equal({ "a" => "hu2" }, JSON.parse(File.read(TranslationRepo.backend_catalog_path(:hu))))
+    assert_equal "edited", File.read(TranslationRepo.backend_catalog_path(:nl))
+    assert_equal "stray", File.read(TranslationRepo.root / "stray.txt")
+  end
+
   ALL_LOCALES = %w[
     locales.json
     locales/de/website/backend.json
@@ -120,6 +173,12 @@ class TranslationRepo::SyncTest < ActiveSupport::TestCase
 
   def write!(path, text)
     file = @upstream / path
+    FileUtils.mkdir_p(file.dirname)
+    File.write(file, text)
+  end
+
+  def write_checkout!(path, text)
+    file = TranslationRepo.root / path
     FileUtils.mkdir_p(file.dirname)
     File.write(file, text)
   end

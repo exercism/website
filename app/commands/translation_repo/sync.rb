@@ -7,7 +7,7 @@ class TranslationRepo::Sync
     with_lock do
       clone! unless File.directory?(root / ".git")
       remove_stale_git_locks!
-      git!("pull", "--ff-only", "origin", TranslationRepo::BRANCH)
+      pull!
     end
   end
 
@@ -38,11 +38,46 @@ class TranslationRepo::Sync
       url, root.to_s, chdir: root.dirname)
   end
 
+  # A pull that is killed after writing some of the new files but before moving
+  # HEAD leaves those files behind as local changes and untracked files, and every
+  # later pull refuses to overwrite them. Nobody edits this checkout, so the files
+  # git names are put back to HEAD or removed, and the pull is tried again. Only
+  # the named files are touched, as a reset or clean would check every file on EFS.
+  def pull!
+    output, status = git("pull", "--ff-only", "origin", TranslationRepo::BRANCH)
+    return output if status.success?
+
+    modified = paths_after(output, MODIFIED_HEADING)
+    untracked = paths_after(output, UNTRACKED_HEADING)
+    raise "git pull failed: #{output}" if modified.empty? && untracked.empty?
+
+    git!("checkout", "HEAD", "--", *modified) if modified.any?
+    untracked.each { |path| FileUtils.rm_f(root / path) }
+    git!("pull", "--ff-only", "origin", TranslationRepo::BRANCH)
+  end
+
+  MODIFIED_HEADING = "Your local changes to the following files would be overwritten by merge:".freeze
+  UNTRACKED_HEADING = "The following untracked working tree files would be overwritten by merge:".freeze
+  private_constant :MODIFIED_HEADING, :UNTRACKED_HEADING
+
+  # git lists the files under each heading one per line, indented with a tab.
+  def paths_after(output, heading)
+    lines = output.lines.map(&:chomp)
+    start = lines.index { |line| line.end_with?(heading) } or return []
+
+    lines[(start + 1)..].take_while { |line| line.start_with?("\t") }.map(&:strip)
+  end
+
   def git!(*args, chdir: root)
-    output, status = Open3.capture2e("git", *args, chdir: chdir.to_s)
+    output, status = git(*args, chdir:)
     raise "git #{args.first} failed: #{output}" unless status.success?
 
     output
+  end
+
+  # git's messages are parsed, so they are kept in English whatever the machine's locale.
+  def git(*args, chdir: root)
+    Open3.capture2e({ "LC_ALL" => "C" }, "git", *args, chdir: chdir.to_s)
   end
 
   def with_lock

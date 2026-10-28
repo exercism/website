@@ -62,12 +62,8 @@ const MetricPointUserWithTooltip = ({
 }): JSX.Element => {
   if (!metric.user) return <></>
 
-  const avatarRef = useRef(null)
   const content = (
-    <div
-      ref={avatarRef}
-      className="relative border-2 border-gradient rounded-circle translate-y-[-50%] translate-x-[-50%]"
-    >
+    <div className="relative border-2 border-gradient rounded-circle translate-y-[-50%] translate-x-[-50%]">
       <Avatar
         src={metric.user.avatarUrl}
         handle={metric.user.handle}
@@ -87,14 +83,21 @@ const MetricPointUserWithTooltip = ({
 
 const MetricPointInner = ({ metric }: { metric: Metric }): JSX.Element => {
   const { t } = useAppTranslation('components/impact/map.tsx')
+
+  // Metrics for actions by people without an Exercism account (or whose
+  // details are private) arrive without a user, so there is nothing to show.
+  const userMetricTypes = [
+    'publish_solution_metric',
+    'open_issue_metric',
+    'open_pull_request_metric',
+    'merge_pull_request_metric',
+  ]
+  if (userMetricTypes.includes(metric.type) && !metric.user) return <></>
+
   switch (metric.type) {
     case 'sign_up_metric':
-      const iconRef = useRef(null)
       const content = (
-        <div
-          ref={iconRef}
-          className="relative border-2 border-gradient rounded-circle translate-y-[-50%] translate-x-[-50%]"
-        >
+        <div className="relative border-2 border-gradient rounded-circle translate-y-[-50%] translate-x-[-50%]">
           <GraphicalIcon
             icon="avatar-placeholder"
             className="w-[32px] h-[32px]"
@@ -129,28 +132,28 @@ const MetricPointInner = ({ metric }: { metric: Metric }): JSX.Element => {
       return (
         <MetricPointUserWithTooltip
           metric={metric}
-          text={t('map.publishedNewSolution', { handle: metric.user.handle })}
+          text={t('map.publishedNewSolution', { handle: metric.user!.handle })}
         />
       )
     case 'open_issue_metric':
       return (
         <MetricPointUserWithTooltip
           metric={metric}
-          text={t('map.openedIssue', { handle: metric.user.handle })}
+          text={t('map.openedIssue', { handle: metric.user!.handle })}
         />
       )
     case 'open_pull_request_metric':
       return (
         <MetricPointUserWithTooltip
           metric={metric}
-          text={t('map.submittedPullRequest', { handle: metric.user.handle })}
+          text={t('map.submittedPullRequest', { handle: metric.user!.handle })}
         />
       )
     case 'merge_pull_request_metric':
       return (
         <MetricPointUserWithTooltip
           metric={metric}
-          text={t('map.mergedPullRequest', { handle: metric.user.handle })}
+          text={t('map.mergedPullRequest', { handle: metric.user!.handle })}
         />
       )
     default:

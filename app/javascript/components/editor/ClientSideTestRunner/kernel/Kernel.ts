@@ -14,6 +14,8 @@
 //
 // A kernel is disposable and never reused across runs: see pool.ts.
 
+import * as Sentry from '@sentry/react'
+
 import {
   AbortedRunError,
   KernelError,
@@ -44,6 +46,8 @@ export class Kernel {
   #client!: KernelClient
   #worker!: Worker
   #disposed = false
+  #crashed = false
+  #entry: KernelManifestEntry
   #bySid = new Map<number, Session>()
   #byStream = new Map<number, Session>()
   #pending = new Map<number, Session>() // sid -> session, before its stream arrives
@@ -53,7 +57,9 @@ export class Kernel {
   /** boot.json, kept so callers can report the environment they ran in */
   config!: BootConfig
 
-  private constructor() {}
+  private constructor(entry: KernelManifestEntry) {
+    this.#entry = entry
+  }
 
   /**
    * Boot a kernel and unpack the language's test runner into it.
@@ -73,7 +79,7 @@ export class Kernel {
       )
     }
 
-    const self = new Kernel()
+    const self = new Kernel(entry)
 
     // The kernel fetches the sysroot itself, so only boot.json and the runner
     // tarball are pulled here. All three are immutable URLs, so on any boot
@@ -89,29 +95,42 @@ export class Kernel {
       type: 'module',
       name: 'kernel',
     })
-    self.#client = new Client({
-      endpoint: self.#worker,
-      handlers: self.#handlers(),
-    })
+    self.#worker.addEventListener('error', (event) => self.#onCrash(event))
 
-    // Subscribe before the first run: a subscription after it could miss the
-    // run's SessionStarted. A throw in the callback would end the stream.
-    self.#client.processEvents((event) => {
-      try {
-        self.#onEvent(event)
-      } catch (error) {
-        console.error('[kernel] event handler failed', error)
-      }
-    })
+    try {
+      self.#client = new Client({
+        endpoint: self.#worker,
+        handlers: self.#handlers(),
+      })
 
-    const { env, licence } = self.config
-    const precompile = self.config.precompile ?? self.config.preload ?? []
-    await self.#client.boot(entry.sysroot, toEnv(env), precompile, licence)
+      // Subscribe before the first run: a subscription after it could miss the
+      // run's SessionStarted. A throw in the callback would end the stream.
+      const subscription = self.#client.processEvents((event) => {
+        try {
+          self.#onEvent(event)
+        } catch (error) {
+          console.error('[kernel] event handler failed', error)
+        }
+      })
+      // The client rejects this when the worker fails. The boot or the run
+      // that was waiting on the worker rejects with the same error and reports
+      // it, so this copy is dropped to stop it surfacing as unhandled.
+      subscription.done.catch(() => {})
 
-    // The sysroot carries the language's tools but not the runner itself, so
-    // /opt/test-runner is untarred on top of it. Part of boot rather than of a
-    // run: a kernel is only ever handed out ready to use.
-    await self.#client.untar('/', testRunner)
+      const { env, licence } = self.config
+      const precompile = self.config.precompile ?? self.config.preload ?? []
+      await self.#client.boot(entry.sysroot, toEnv(env), precompile, licence)
+
+      // The sysroot carries the language's tools but not the runner itself, so
+      // /opt/test-runner is untarred on top of it. Part of boot rather than of
+      // a run: a kernel is only ever handed out ready to use.
+      await self.#client.untar('/', testRunner)
+    } catch (error) {
+      // Nobody receives a kernel that failed to boot, so nobody else would
+      // ever terminate its worker.
+      self.dispose()
+      throw error
+    }
 
     return self
   }
@@ -208,6 +227,39 @@ export class Kernel {
     this.#pending.clear()
     this.#starts.clear()
     this.#held.clear()
+  }
+
+  /**
+   * The worker threw something it did not catch, which for the kernel means
+   * the wasm trapped (a panic, or running out of memory on a small device).
+   *
+   * Left alone, the error would also be raised on the page as an uncaught
+   * error. Cancelling it keeps it to one handled report here, tagged with
+   * what is needed to tell a kernel bug from a device that cannot cope. The
+   * client sees the same event and fails whatever was waiting on the worker,
+   * which sends the run to the server.
+   */
+  #onCrash(event: ErrorEvent): void {
+    event.preventDefault()
+    if (this.#crashed) return
+    this.#crashed = true
+
+    const deviceMemory = (navigator as Navigator & { deviceMemory?: number })
+      .deviceMemory
+    Sentry.captureException(
+      new KernelError(`kernel crashed: ${event.message || event.type}`),
+      {
+        level: 'warning',
+        tags: {
+          language: this.#entry.language,
+          kernel_version: this.#entry.version,
+          ...(deviceMemory === undefined
+            ? {}
+            : { device_memory: String(deviceMemory) }),
+        },
+        fingerprint: ['kernel-crash', this.#entry.language],
+      }
+    )
   }
 
   #handlers(): Interface {

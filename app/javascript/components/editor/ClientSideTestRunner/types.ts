@@ -36,6 +36,11 @@ export type ManifestEntry = KernelManifestEntry
 
 export type KernelManifestEntry = {
   type: 'kernel'
+  /**
+   * The language the entry was looked up for. The published JSON does not
+   * carry it, so `lookup` adds it.
+   */
+  language: string
   /** Identifies the language build these artifacts came from. */
   version: string
   /** Seconds a single test run may take before the worker is killed. */

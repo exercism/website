@@ -32,7 +32,7 @@ export function lookup(language: string): Promise<ManifestEntry | null> {
 
   const request = fetch(`${BASE}${language}/latest.json`)
     .then((response) => (response.ok ? response.json() : null))
-    .then((entry) => (isValid(entry) ? resolve(entry) : null))
+    .then((entry) => (isValid(entry) ? resolve(entry, language) : null))
     .catch(() => null)
 
   cache.set(language, request)
@@ -44,12 +44,13 @@ export function lookup(language: string): Promise<ManifestEntry | null> {
  * nothing about which host serves it. Resolving them here means everything
  * downstream deals in absolute URLs and never has to think about it.
  */
-function resolve(entry: ManifestEntry): ManifestEntry {
+function resolve(entry: ManifestEntry, language: string): ManifestEntry {
   const absolute = (path: string) =>
     new URL(path, globalThis.location.href).href
 
   return {
     ...entry,
+    language,
     kernel: absolute(entry.kernel),
     boot: absolute(entry.boot),
     sysroot: absolute(entry.sysroot),

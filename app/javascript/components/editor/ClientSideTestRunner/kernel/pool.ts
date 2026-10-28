@@ -13,19 +13,27 @@
 // student waits for a boot only if they run tests twice in quick succession.
 
 import { Kernel } from './Kernel'
+import { KernelError } from './errors'
 import { KernelManifestEntry } from '../types'
 
 type Spare = { entry: KernelManifestEntry; kernel: Promise<Kernel> }
 
 let spare: Spare | null = null
 
+// Languages whose kernel has failed to boot in this page. A device that cannot
+// boot a kernel once (too little memory, say) will almost always fail again,
+// and each attempt downloads and unpacks the whole sysroot first. So after one
+// failure the language stops booting kernels, and its runs go to the server.
+const failed = new Set<string>()
+
 /**
  * Start booting a spare if there isn't already one for this language.
  *
- * Safe to call repeatedly and safe to ignore: it never throws, and a failure
- * just means `take` boots on demand and reports the problem then.
+ * Safe to call repeatedly and safe to ignore: it never throws. A failed boot
+ * is reported by `take`, which hands over the rejected spare.
  */
 export function prepare(entry: KernelManifestEntry): void {
+  if (failed.has(entry.language)) return
   if (spare && spare.entry.version === entry.version) return
 
   // A published change to the language means the warm one is stale.
@@ -42,6 +50,12 @@ export function prepare(entry: KernelManifestEntry): void {
 export function take(entry: KernelManifestEntry): Promise<Kernel> {
   const warm = spare && spare.entry.version === entry.version ? spare : null
   spare = null
+
+  if (!warm && failed.has(entry.language)) {
+    return Promise.reject(
+      new KernelError(`The ${entry.language} kernel already failed to boot`)
+    )
+  }
 
   const kernel = warm ? warm.kernel : boot(entry)
 
@@ -64,9 +78,9 @@ export function discard(): void {
 
 function boot(entry: KernelManifestEntry): Promise<Kernel> {
   const booting = Kernel.boot(entry)
-  // Nothing awaits a spare until it is taken, so without this a boot failure
-  // would surface as an unhandled rejection. The rejection is preserved for
-  // whoever does take it.
-  booting.catch(() => {})
+  // Nothing awaits a spare until it is taken, so without this handler a boot
+  // failure would surface as an unhandled rejection. The handler also records
+  // the failure. The rejection is preserved for whoever does take the spare.
+  booting.catch(() => failed.add(entry.language))
   return booting
 }

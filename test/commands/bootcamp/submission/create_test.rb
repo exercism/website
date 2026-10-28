@@ -7,8 +7,10 @@ class Bootcamp::Submission::CreateTest < ActiveSupport::TestCase
     test_results = {
       status: "fail",
       tests: [
-        test_1: 'pass',
-        test_2: 'fail'
+        {
+          test_1: 'pass',
+          test_2: 'fail'
+        }
       ]
     }
     readonly_ranges = [{ from: '0', to: '4' }, { from: '6', to: '11' }]

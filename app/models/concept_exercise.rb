@@ -17,8 +17,8 @@ class ConceptExercise < Exercise
   def unlocked_exercises
     Exercise.where(
       id: taught_concepts.
-          joins(:exercise_prerequisites).
-          select('exercise_prerequisites.exercise_id')
+        joins(:exercise_prerequisites).
+        select('exercise_prerequisites.exercise_id')
     )
   end
 

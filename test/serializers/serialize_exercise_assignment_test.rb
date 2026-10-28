@@ -88,7 +88,7 @@ class SerializeExerciseAssignmentTest < ActiveSupport::TestCase
     serialized = SerializeExerciseAssignment.(solution)
 
     expected = [1, 2, 3]
-    assert_equal expected, (serialized[:tasks].map { |task| task[:id] })
+    assert_equal(expected, serialized[:tasks].map { |task| task[:id] })
   end
 
   test "serialize concept exercise task titles" do
@@ -97,7 +97,7 @@ class SerializeExerciseAssignmentTest < ActiveSupport::TestCase
     serialized = SerializeExerciseAssignment.(solution)
 
     expected = ['Get message from a log line', 'Get log level from a log line', 'Reformat a log line']
-    assert_equal expected, (serialized[:tasks].map { |task| task[:title] })
+    assert_equal(expected, serialized[:tasks].map { |task| task[:title] })
   end
 
   test "serialize concept exercise task text" do
@@ -124,7 +124,7 @@ class SerializeExerciseAssignmentTest < ActiveSupport::TestCase
       </code></pre>
     HINT_3
 
-    assert_equal expected, (serialized[:tasks].map { |task| task[:text] })
+    assert_equal(expected, serialized[:tasks].map { |task| task[:text] })
   end
 
   test "serialize concept exercise task hints" do
@@ -151,7 +151,7 @@ class SerializeExerciseAssignmentTest < ActiveSupport::TestCase
       </li>
       </ul>
     HINT_3
-    assert_equal expected, (serialized[:tasks].map { |task| task[:hints] })
+    assert_equal(expected, serialized[:tasks].map { |task| task[:hints] })
   end
 
   test "serialize hints with reference links" do

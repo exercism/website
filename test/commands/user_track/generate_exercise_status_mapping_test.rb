@@ -36,6 +36,6 @@ class UserTrack::GenerateExerciseStatusMappingTest < ActiveSupport::TestCase
 
     mapping = UserTrack::GenerateExerciseStatusMapping.(user_track)
 
-    assert_equal [11, 5, 7, 9], (mapping['basics'].map { |e| e[:position] })
+    assert_equal([11, 5, 7, 9], mapping['basics'].map { |e| e[:position] })
   end
 end

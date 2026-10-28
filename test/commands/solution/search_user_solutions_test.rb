@@ -360,7 +360,7 @@ class Solution::SearchUserSolutionsTest < ActiveSupport::TestCase
 
     assert_equal [ruby_bob_solution, ruby_food_solution, js_bob_solution],
       Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, nil, nil, nil, nil, nil)
-    assert_equal [ruby_bob_solution, ruby_food_solution, js_bob_solution], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, " ", nil, nil, nil, nil) # rubocop:disable Layout:LineLength
+    assert_equal [ruby_bob_solution, ruby_food_solution, js_bob_solution], Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, " ", nil, nil, nil, nil) # rubocop:disable Layout/LineLength
     assert_equal [ruby_bob_solution, ruby_food_solution],
       Solution::SearchUserSolutions::Fallback.(user, 1, 15, nil, nil, nil, "ru", nil, nil, nil, nil)
     assert_equal [ruby_bob_solution, js_bob_solution],

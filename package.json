@@ -162,7 +162,6 @@
     "@babel/preset-env": "^7.14.2",
     "@babel/preset-react": "^7.13.13",
     "@babel/preset-typescript": "^7.13.0",
-    "@happy-dom/global-registrator": "^15.11.6",
     "@jackfranklin/test-data-bot": "^1.3.0",
     "@prettier/plugin-ruby": "^0.18.2",
     "@testing-library/dom": "^9.3.1",

@@ -28,9 +28,12 @@ FileUtils.chdir APP_ROOT do
   # as safe here as well as in the glob above.
   # Slightly stale translations are far better than a webserver that will not boot,
   # so the command reports failures to Sentry and returns rather than raising. The
-  # outer timeout covers a git process that hangs instead of failing.
+  # outer timeout covers a git process that hangs instead of failing. A pull that
+  # changes many files can take several minutes on EFS, and killing one part way
+  # through leaves files behind that block later pulls, so the timeout is generous.
+  # It still sits well inside the ECS health check grace period of 600 seconds.
   system! "git config --global --add safe.directory /mnt/efs/repos/i18n"
-  system("timeout -k 10 180 bundle exec bin/rails runner 'TranslationRepo::SyncOnBoot.()'") ||
+  system("timeout -k 10 360 bundle exec bin/rails runner 'TranslationRepo::SyncOnBoot.()'") ||
     warn("\n== Translations were not synced on boot ==")
 
   # Warm the local cache of EFS to avoid big read spikes as users start to hit the website.

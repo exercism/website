@@ -68,7 +68,9 @@ export function TestSummary({
         ) : null}
         {isPresent(test.message) ? (
           <div className="--info">
-            <h3>{t(`testSummary.${messageLabelKeys[test.status]}`)}</h3>
+            {messageLabelKeys[test.status] ? (
+              <h3>{t(`testSummary.${messageLabelKeys[test.status]}`)}</h3>
+            ) : null}
             <pre dangerouslySetInnerHTML={{ __html: test.messageHtml }} />
           </div>
         ) : null}

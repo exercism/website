@@ -91,3 +91,21 @@ test('shows Test Failure header for message when tests failed', async () => {
 
   expect(queryByText('Test Failure')).toBeInTheDocument()
 })
+
+test('shows message without a header when tests passed', async () => {
+  const test = {
+    name: 'first test',
+    status: TestStatus.PASS,
+    testCode: '',
+    output: '',
+    outputHtml: '',
+    message: 'all good',
+    messageHtml: 'all good',
+  }
+
+  const { container, queryByText } = render(<TestSummary test={test} />)
+  fireEvent.click(queryByText('first test'))
+
+  expect(queryByText('all good')).toBeInTheDocument()
+  expect(container.querySelector('h3')).not.toBeInTheDocument()
+})

@@ -234,6 +234,11 @@ class ActiveSupport::TestCase
   ensure
     I18n.config.available_locales = Rails.application.config.i18n.available_locales
     I18n.unstub(:available_locales)
+
+    # I18n only stores translations for available locales, so a reload inside the
+    # block (with_published_translations does one) leaves the backend without
+    # every other served locale. Reloading here brings them all back.
+    I18n.reload!
   end
 
   # e.g. with_published_translations(hu: { backend: { greeting: "Szia" } })

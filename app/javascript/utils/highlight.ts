@@ -6,7 +6,6 @@ import setupCobol from 'highlightjs-cobol'
 import setupBqn from 'highlightjs-bqn'
 import setupZig from 'highlightjs-zig'
 import setupGleam from '@gleam-lang/highlight.js-gleam'
-import setupBallerina from '@ballerina/highlightjs-ballerina'
 import setupChapel from 'highlightjs-chapel'
 import setupGDScript from '@exercism/highlightjs-gdscript'
 import setupJq from 'highlightjs-jq'
@@ -22,7 +21,6 @@ if (isLookbehindSupported()) {
   highlighter.default.registerLanguage('bqn', setupBqn)
   highlighter.default.registerLanguage('zig', setupZig)
   highlighter.default.registerLanguage('gleam', setupGleam)
-  highlighter.default.registerLanguage('ballerina', setupBallerina)
   highlighter.default.registerLanguage('chapel', setupChapel)
   highlighter.default.registerLanguage('gdscript', setupGDScript)
   highlighter.default.registerLanguage('jq', setupJq)
@@ -38,6 +36,9 @@ if (isLookbehindSupported()) {
   })
   import('highlightjs-roc').then((m) => {
     highlighter.default.registerLanguage('roc', m.default)
+  })
+  import('@ballerina/highlightjs-ballerina').then((m) => {
+    highlighter.default.registerLanguage('ballerina', m.default)
   })
 }
 

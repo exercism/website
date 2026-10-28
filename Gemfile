@@ -38,7 +38,7 @@ gem 'octokit' # GitHub
 # General-purpose gems
 gem 'mandate', '~> 2.0'
 gem 'kaminari'
-gem 'oj', '~> 3.14.0'
+gem 'oj', '~> 3.17'
 
 # Setup dependencies
 gem 'exercism-config', '>= 0.138.0'
@@ -132,7 +132,7 @@ gem 'opensearch-ruby'
 
 gem 'rack-attack', '~> 6.6'
 
-gem 'rubyzip', '~> 2.3'
+gem 'rubyzip', '~> 3.4'
 
 gem 'toml', '~> 0.3.0'
 gem 'ruby-openai'

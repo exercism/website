@@ -55,10 +55,8 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     solution = create :concept_solution
     submission = create(:submission, solution:)
 
-    Iteration::Create.(solution, submission)
-    assert enqueued_jobs.find do |job|
-      job["job_class"] == "MandateJob" &&
-        job["arguments"][0] == "Iteration::GenerateSnippet"
+    assert_enqueued_with(job: MandateJob, args: ->(job_args) { job_args[0] == Iteration::GenerateSnippet.name }) do
+      Iteration::Create.(solution, submission)
     end
   end
 
@@ -66,23 +64,18 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     solution = create :concept_solution
     submission = create(:submission, solution:)
 
-    Iteration::Create.(solution, submission)
-    assert enqueued_jobs.find do |job|
-      job["job_class"] == "MandateJob" &&
-        job["arguments"][0] == "Iteration::CountLinesOfCode"
+    assert_enqueued_with(job: MandateJob, args: ->(job_args) { job_args[0] == Iteration::CountLinesOfCode.name }) do
+      Iteration::Create.(solution, submission)
     end
   end
 
   test "enqueues PublishIteration job" do
-    solution = create :concept_solution
+    solution = create :concept_solution, published_at: Time.current
     submission = create(:submission, solution:)
 
-    Iteration::Create.(solution, submission)
-    assert enqueued_jobs.find do |job|
-      job["job_class"] == "MandateJob" &&
-        job["arguments"][0] == "Iteration::PublishIteration" &&
-        job["arguments"][1] == solution &&
-        job["arguments"][2] == solution.published_iteration_id
+    publish_args = ->(job_args) { job_args[0] == Solution::PublishIteration.name && job_args[1] == solution }
+    assert_enqueued_with(job: MandateJob, args: publish_args) do
+      Iteration::Create.(solution, submission)
     end
   end
 

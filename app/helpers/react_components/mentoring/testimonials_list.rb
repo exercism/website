@@ -30,8 +30,8 @@ module ReactComponents
       memoize
       def tracks
         tracks = ::Track.where(id: current_user.mentor_testimonials.
-                                   joins(discussion: :request).
-                                   select(:track_id))
+          joins(discussion: :request).
+          select(:track_id))
 
         AssembleTracksForSelect.(tracks)
       end

@@ -16,7 +16,7 @@ class Github::PullRequest < ApplicationRecord
     foreign_key: "github_pull_request_id"
 
   memoize
-  def data =super.deep_symbolize_keys
+  def data = super.deep_symbolize_keys
 
   def state = super.to_sym
 end

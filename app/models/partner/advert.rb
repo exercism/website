@@ -20,7 +20,7 @@ class Partner::Advert < ApplicationRecord
     includes(
       light_logo_attachment: :blob,
       dark_logo_attachment: :blob,
-      partner: [light_logo_attachment: :blob, dark_logo_attachment: :blob]
+      partner: [{ light_logo_attachment: :blob, dark_logo_attachment: :blob }]
     ).find_by(id:)
   end
 

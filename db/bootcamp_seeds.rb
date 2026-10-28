@@ -1,4 +1,4 @@
-# rubocop:disable Layout/LineLength:
+# rubocop:disable Layout/LineLength
 def concept_intro_for(slug) = File.read(Rails.root / "bootcamp_content/concepts/#{slug}.md")
 
 def project_config_for(slug) = JSON.parse(File.read(Rails.root / "bootcamp_content/projects/#{slug}/config.json"),
@@ -13,7 +13,7 @@ def exercise_config_for(project_slug,
                         exercise_slug) = JSON.parse(
                           File.read(Rails.root / "bootcamp_content/projects/#{project_slug}/exercises/#{exercise_slug}/config.json"), symbolize_names: true
                         )
-# rubocop:enable Layout/LineLength:
+# rubocop:enable Layout/LineLength
 
 JSON.parse(File.read(Rails.root / "bootcamp_content/levels/config.json"), symbolize_names: true).each.with_index do |details, idx|
   idx += 1

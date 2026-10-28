@@ -35,6 +35,13 @@ class User::AvatarDataUri
     return nil if external_avatar_url.blank?
 
     external_data_uri
+  rescue OpenURI::HTTPError => e
+    # A 4xx means the host has refused or lost this user's avatar (a deleted
+    # account, or a host that blocks us). That is a fact about the user's data,
+    # so we fall back without reporting it. A 5xx may be transient, so it still
+    # goes to Sentry.
+    Sentry.capture_exception(e) unless e.io.status.first.start_with?("4")
+    nil
   rescue StandardError => e
     Sentry.capture_exception(e)
     nil

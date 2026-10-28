@@ -70,6 +70,15 @@ class User::AvatarDataUriTest < ActiveSupport::TestCase
     assert_nil User::AvatarDataUri.(user)
   end
 
+  test "returns nil without reporting when the external avatar host refuses the request" do
+    user = create :user, :external_avatar_url
+    stub_request(:get, user.attributes['avatar_url']).to_return(status: 403)
+
+    Sentry.expects(:capture_exception).never
+
+    assert_nil User::AvatarDataUri.(user)
+  end
+
   test "returns nil rather than raising when the external avatar is not an image" do
     user = create :user, :external_avatar_url
     stub_request(:get, user.attributes['avatar_url']).to_return(

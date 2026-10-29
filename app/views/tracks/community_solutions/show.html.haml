@@ -2,6 +2,7 @@
 - content_for :meta_description, t('.meta_description', author_handle: sanitize(@solution.user.handle), exercise_title: @exercise.title, track_title: @track.title)
 - content_for :meta_image, Exercism::Routes.published_solution_url(@solution, format: :jpg, host: 'https://assets.exercism.org').sub(/\.jpg$/, "-#{@solution.updated_at.to_i}.jpg")
 - content_for :canonical_url, Exercism::Routes.published_solution_url(@solution)
+- english_canonical!
 - require_stylesheet "track"
 
 #page-community-solution

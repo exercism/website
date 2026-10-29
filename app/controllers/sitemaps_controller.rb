@@ -19,11 +19,19 @@ class SitemapsController < ApplicationController
   # Each render of an advert links to a redirect with its own impression
   # uuid, so crawlers find an endless supply of new advert URLs. The advert
   # routes have no locale prefix, so one line covers them.
+  #
+  # Community solutions are a student's code with translated chrome around
+  # it, so every locale's copy reads the same. Crawlers were fetching each one
+  # once per served locale, the largest share of our origin traffic. The pages
+  # declare their English URL as canonical (see MetaTagsHelper), and this keeps
+  # crawlers off the locale copies. The pattern needs a segment before /tracks/,
+  # so the English URLs stay crawlable. It covers each solution and the index.
   def robots_txt
     render plain: <<~ROBOTS
       User-agent: *
       Disallow: /users/
       Disallow: /*/users/
+      Disallow: /*/tracks/*/exercises/*/solutions
       Disallow: /adverts/
       Allow: /
 

@@ -47,6 +47,33 @@ class LocaleSeoTest < ActionDispatch::IntegrationTest
     assert_select "link[rel=canonical][href='http://test.exercism.org/hu/tracks/#{track.slug}']"
   end
 
+  test "a community solution is canonical at its English url in every locale, with no alternates" do
+    exercise = create :practice_exercise
+    solution = create(:practice_solution, :published, exercise:)
+    english_url = track_exercise_solution_url(exercise.track, exercise, solution.user)
+
+    [english_url, track_exercise_solution_url(exercise.track, exercise, solution.user, locale: :hu)].each do |url|
+      get url
+
+      assert_response :ok
+      assert_select "link[rel=canonical][href=?]", english_url
+      assert_select "link[rel=alternate][hreflang]", count: 0
+    end
+  end
+
+  test "the community solutions index is canonical at its English url in every locale, with no alternates" do
+    exercise = create :practice_exercise
+    english_url = track_exercise_solutions_url(exercise.track, exercise, page: 2)
+
+    [english_url, track_exercise_solutions_url(exercise.track, exercise, page: 2, locale: :hu)].each do |url|
+      get url
+
+      assert_response :ok
+      assert_select "link[rel=canonical][href=?]", english_url
+      assert_select "link[rel=alternate][hreflang]", count: 0
+    end
+  end
+
   test "rtl locales declare their direction" do
     assert_equal "rtl", Locale::Direction.(:ar)
     assert_equal "rtl", Locale::Direction.("fa-IR")

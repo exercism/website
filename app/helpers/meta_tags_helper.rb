@@ -31,14 +31,25 @@ module MetaTagsHelper
       url = "#{request.base_url}#{request.path}"
     end
 
-    locale_scoped_route? ? Locale::SwapInUrl.(url, I18n.locale) : url
+    locale_scoped_route? ? Locale::SwapInUrl.(url, canonical_locale) : url
   end
 
   def hreflang_alternates
     return {} unless canonical_url.present? && locale_scoped_route?
+    return {} if content_for?(:english_canonical)
 
     Locale::Alternates.(canonical_url)
   end
+
+  # For pages whose substance reads the same in every locale, such as a
+  # student's code, where only the chrome around it is translated. Every locale
+  # declares the English URL as canonical and no alternates, so search engines
+  # index one copy instead of one per served locale. robots.txt keeps crawlers
+  # off the locale copies (see SitemapsController#robots_txt). Call it from the
+  # page's view.
+  def english_canonical! = content_for(:english_canonical, "true")
+
+  def canonical_locale = content_for?(:english_canonical) ? I18n.default_locale : I18n.locale
 
   # The banner offering a visitor their own language is built client-side, so
   # every served locale's copy, name and path ships with the page. It varies by

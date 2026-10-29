@@ -2,7 +2,7 @@ class Tracks::CommunitySolutionsController < ApplicationController
   include UseTrackExerciseSolutionConcern
   before_action :use_solution, except: [:show]
   before_action :use_exercise!, only: [:show]
-  before_action :cache_public_action!, only: %i[index]
+  before_action :cache_index_action!, only: %i[index]
   before_action :cache_show_action!, only: %i[show]
 
   skip_before_action :authenticate_user!
@@ -66,4 +66,9 @@ class Tracks::CommunitySolutionsController < ApplicationController
   # bulk of this traffic return roughly daily, so the TTL has to
   # substantially exceed that to be worth anything.
   def cache_show_action! = cache_public_action!(edge_ttl: 30.days)
+
+  # The index is not purged, so newly published solutions take up to a day to
+  # appear on it for signed-out visitors. The default 5-20 minutes caught
+  # almost nothing, as crawlers rarely request the same index twice that soon.
+  def cache_index_action! = cache_public_action!(edge_ttl: 1.day)
 end

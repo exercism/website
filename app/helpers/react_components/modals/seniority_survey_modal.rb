@@ -6,6 +6,7 @@ module ReactComponents
       def to_s
         return if showing_modal?
         return if current_user.seniority
+        return unless User::DetermineIfOnboardingAsksSeniority.(current_user)
 
         showing_modal!
         session[SHOWN_AT_FLAG] = Time.current

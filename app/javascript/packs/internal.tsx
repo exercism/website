@@ -282,6 +282,7 @@ initReact({
           codingFundamentalsCourse: string
         }>(data.links)}
         numTracks={data.num_tracks}
+        askSeniority={data.ask_seniority}
       />
     </Suspense>
   ),

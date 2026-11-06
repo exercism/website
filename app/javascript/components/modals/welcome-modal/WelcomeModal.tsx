@@ -62,6 +62,7 @@ export const WelcomeModalContext =
 export default function WelcomeModal({
   links,
   numTracks,
+  askSeniority = true,
   ...props
 }: Omit<ModalProps, 'className' | 'open' | 'onClose'> & {
   links: {
@@ -70,9 +71,14 @@ export default function WelcomeModal({
     codingFundamentalsCourse: string
   }
   numTracks: number
+  // People who signed up through the sign-up page that asks for their level
+  // have already answered, so they skip straight to the welcome view.
+  askSeniority?: boolean
 }): JSX.Element {
   const [open, setOpen] = useState(true)
-  const [currentView, setCurrentView] = useState<ViewVariant>('initial')
+  const [currentView, setCurrentView] = useState<ViewVariant>(
+    askSeniority ? 'initial' : 'developer'
+  )
 
   const {
     mutate: hideModalMutation,

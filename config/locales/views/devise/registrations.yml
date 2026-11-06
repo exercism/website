@@ -30,3 +30,71 @@ en:
         password_confirmation_placeholder: Confirm your password
         confirm_not_bot_label: Confirm you're not a bot
         sign_up_button: Sign Up
+        continue: Continue
+        create_account: Create your Exercism account
+        panel:
+          label: About Exercism
+          heading: Practise, nurture your craft and learn new languages.
+          body_html: Level up your programming skills with %{stats} and insightful discussion with our dedicated team of welcoming mentors. %{free_forever}
+          stats: "thousands of exercises across %{track_count} languages,"
+          free_forever: Free forever.
+          more_tracks: "+%{count} more"
+        progress:
+          label: Sign-up progress
+          step_1: "Step 1: your coding journey"
+          step_2: "Step 2: language and code check"
+          step_3: "Step 3: sign up"
+        level:
+          question: Where are you on your coding journey?
+          intro: We'll point you to the best place to start.
+          total_beginner:
+            title: I'm a beginner
+            description: You're getting started with coding.
+          confident_developer:
+            title: I'm a developer
+            description: You can code complex programs comfortably.
+          in_between:
+            title: I can code a little
+            description: You can code simple programs comfortably.
+        code:
+          heading: Let's check where to start
+          intro: Pick the language you use most, then tell us how the code feels.
+          i_mostly_code_in: I mostly code in
+          choose_language: choose a language
+          search_placeholder: Search languages
+          no_results: No languages match
+          hint: finish the sentence
+          loading: Loading the code…
+          error: We couldn't load the code. Please pick the language again.
+          sample_label: Code example
+          question: How does this code feel to you?
+          answers:
+            easy: Easy 😎
+            tricky: Tricky 🤔
+            impossible: Impossible 🤯
+      jiki_dialog:
+        logo_alt: Jiki, by the team at Exercism
+        your_level:
+          heading: We've designed a platform for your level!
+          body_html: "Exercism is designed for people with a little more experience. <strong>Instead, use Jiki, our beginners platform, where you'll master coding fundamentals.</strong> It's free, fun, and you'll build these in the first few weeks:"
+        foundations:
+          heading: Let's firm up your foundations first!
+          body_html: "Exercism is designed for comfortable developers. <strong>Instead, use Jiki to firm up your foundations first.</strong> It's free, fun, and you'll build all these along the way:"
+        prints:
+          space_invaders: space invaders
+          breakout: breakout
+          maze: maze solver
+        cta: Sign up to Jiki for free
+        later_html: No thanks, I want to <span>use Exercism</span> anyway
+        later_aside: (even though we think that's a bad idea 😉)
+        quotes_label: What learners say about Jiki
+        five_stars: 5 out of 5 stars
+        quotes:
+          - The best course I've done
+          - Made learning a joy again
+          - This course is pure gold.
+          - A wonderful learning experience
+          - Proper hands-on learning
+          - The knowledge you didn't think you needed
+          - My best time investment for years
+          - Incredibly fun!

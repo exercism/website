@@ -32,6 +32,9 @@ namespace :api do
     # Public, anonymous, CDN-cacheable user identity data.
     get "users/:handle" => "users/public#show", as: :public_user
 
+    # Public, anonymous, CDN-cacheable code sample for the sign-up code check.
+    get "tracks/:track_slug/sign_up_snippet" => "tracks/sign_up_snippets#show", as: :track_sign_up_snippet
+
     namespace :payments do
       # resources :payments, only: [:create]
       resources :payment_intents, only: [:create] do

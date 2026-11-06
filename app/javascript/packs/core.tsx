@@ -9,3 +9,6 @@ import { initLocalePrefLinks } from '@/utils/locale-pref-cookie'
 import { initLocaleBanner } from '@/utils/locale-banner'
 initLocalePrefLinks()
 initLocaleBanner()
+
+import { initSignUpFlow } from '@/utils/sign-up-flow'
+initSignUpFlow()

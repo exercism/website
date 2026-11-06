@@ -40,7 +40,7 @@ class Track < ApplicationRecord
   CLIENT_SIDE_TEST_RUNNER_SLUGS = %w[jq cpp].freeze
   def client_side_test_runner? = CLIENT_SIDE_TEST_RUNNER_SLUGS.include?(slug)
 
-  delegate :about, :snippet,
+  delegate :about, :snippet, :sign_up_snippet,
     :indent_style, :indent_size, :foregone_exercises,
     to: :git
 

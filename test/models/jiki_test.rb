@@ -18,4 +18,10 @@ class JikiTest < ActiveSupport::TestCase
     assert_equal "https://jiki.io?utm_source=exercism", Jiki.url(:en, query: "utm_source=exercism")
     assert_equal "https://jiki.io/hu?utm_source=exercism", Jiki.url(:hu, query: "utm_source=exercism")
   end
+
+  test "a path goes after the locale segment" do
+    assert_equal "https://jiki.io/auth/signup", Jiki.url(:en, path: "/auth/signup")
+    assert_equal "https://jiki.io/hu/auth/signup?utm_source=exercism",
+      Jiki.url(:hu, path: "auth/signup", query: "utm_source=exercism")
+  end
 end

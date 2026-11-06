@@ -1,10 +1,12 @@
 class User::Bootstrap
   include Mandate
 
-  initialize_with :user, course_access_code: nil, locale: nil, accept_language: nil
+  initialize_with :user, course_access_code: nil, locale: nil, accept_language: nil,
+    seniority: nil, sign_up_track_slug: nil
 
   def call
     set_locale!
+    set_sign_up_answers!
     user.auth_tokens.create!
     AwardBadgeJob.perform_later(user, :member)
     Metric::Queue.(:sign_up, user.created_at, user:)
@@ -29,6 +31,24 @@ class User::Bootstrap
   def path_locale
     normalized = Locale::Normalize.(locale)
     normalized unless normalized.nil? || normalized == I18n.default_locale
+  end
+
+  # The answers from the sign-up questions. Both arrive as form params, so
+  # anything that isn't a known seniority or an active track is ignored.
+  def set_sign_up_answers!
+    attrs = {}
+    attrs[:seniority] = seniority.to_s if User::Data.seniorities.key?(seniority.to_s)
+    attrs[:sign_up_track_id] = sign_up_track.id if sign_up_track
+    return if attrs.empty?
+
+    user.data.update!(attrs)
+  end
+
+  memoize
+  def sign_up_track
+    return nil if sign_up_track_slug.blank?
+
+    Track.active.find_by(slug: sign_up_track_slug.to_s)
   end
 
   def link_courses!

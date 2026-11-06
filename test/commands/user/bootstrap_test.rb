@@ -139,4 +139,59 @@ class User::BootstrapTest < ActiveSupport::TestCase
 
     assert_equal "en", user.reload.data.locale
   end
+
+  test "sets the seniority from the sign-up questions" do
+    user = create :user
+
+    User::Bootstrap.(user, seniority: "beginner")
+
+    assert_equal :beginner, user.data.reload.seniority
+  end
+
+  test "ignores an unknown seniority" do
+    user = create :user
+
+    User::Bootstrap.(user, seniority: "wizard")
+
+    assert_nil user.data.reload.seniority
+  end
+
+  test "records the track from the sign-up code check" do
+    user = create :user
+    track = create :track, slug: "go"
+
+    User::Bootstrap.(user, seniority: "junior", sign_up_track_slug: "go")
+
+    assert_equal track, user.data.reload.sign_up_track
+    assert_equal :junior, user.data.seniority
+  end
+
+  test "does not join the track from the sign-up code check" do
+    user = create :user
+    create :track, slug: "go"
+
+    User::Bootstrap.(user, sign_up_track_slug: "go")
+
+    assert_empty user.user_tracks
+  end
+
+  test "ignores an unknown or inactive sign-up track" do
+    user = create :user
+    create :track, slug: "go", active: false
+
+    User::Bootstrap.(user, sign_up_track_slug: "go")
+    assert_nil user.data.reload.sign_up_track
+
+    User::Bootstrap.(user, sign_up_track_slug: "nope")
+    assert_nil user.data.reload.sign_up_track
+  end
+
+  test "leaves the sign-up answers blank when none are given" do
+    user = create :user
+
+    User::Bootstrap.(user)
+
+    assert_nil user.data.reload.seniority
+    assert_nil user.data.sign_up_track
+  end
 end

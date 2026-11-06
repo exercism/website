@@ -57,6 +57,54 @@ module Auth
       assert_equal "hu", User.find_by(email: "user@exercism.org").data.locale
     end
 
+    test "stores the sign-up answers" do
+      stub_turnstile!
+      track = create :track, slug: "go"
+
+      params = signup_params
+      params[:user][:seniority] = "beginner"
+      params[:user][:sign_up_track_slug] = "go"
+      post user_registration_path, params: params
+
+      data = User.find_by(email: "user@exercism.org").data
+      assert_equal :beginner, data.seniority
+      assert_equal track, data.sign_up_track
+    end
+
+    test "a failed sign-up keeps the answers for the form" do
+      stub_turnstile!
+
+      params = signup_params
+      params[:user][:handle] = "not a handle!"
+      params[:user][:seniority] = "senior"
+      post user_registration_path, params: params
+
+      assert_response :unprocessable_entity
+      assert_select "#sign-up-flow[data-initial-step=form]"
+      assert_select "input[name='user[seniority]'][value=senior]"
+      assert_select "input[name=seniority][value=senior]"
+    end
+
+    test "the sign-up page starts on the questions" do
+      get new_user_registration_path
+
+      assert_response :ok
+      assert_select "#sign-up-flow[data-initial-step=level]"
+      assert_select "input[name='user[seniority]'][value='']"
+      assert_select "#sign-up-jiki-dialog"
+    end
+
+    test "the code check offers the tracks with a sign-up snippet" do
+      go = create :track, slug: "go", title: "Go"
+      create :track, slug: "ruby", title: "Ruby"
+      Track::RetrieveSignUpCodeCheckTracks.stubs(:call).returns([go])
+
+      get new_user_registration_path
+
+      assert_select "[data-language-select] option[value=go]", text: "Go"
+      assert_select "[data-language-select] option[value=ruby]", count: 0
+    end
+
     private
     def stub_turnstile!
       RestClient.unstub(:post)

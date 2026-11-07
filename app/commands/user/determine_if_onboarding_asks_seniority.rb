@@ -8,7 +8,7 @@ class User::DetermineIfOnboardingAsksSeniority
 
   # Set this to the time the sign-up page that asks for seniority is deployed.
   # Users created before it are treated as having signed up without being asked.
-  SIGN_UP_ASKS_SENIORITY_FROM = Time.utc(2026, 11, 6).freeze
+  SIGN_UP_ASKS_SENIORITY_FROM = Time.utc(2026, 11, 7, 9, 59).freeze
 
   initialize_with :user
 

@@ -6,6 +6,8 @@ class Webhooks::ProcessPushUpdate
   def call
     return unless pushed_to_main?
 
+    Github::DispatchRequiredChecksSync.defer(repo_name) if changed_files.include?(REQUIRED_CHECKS_FILE)
+
     case repo_name
     when "website-copy"
       UpdateWebsiteCopyJob.perform_later
@@ -44,13 +46,17 @@ class Webhooks::ProcessPushUpdate
     # want to trigger a repo update
     return true if created
 
-    commits.to_a.any? do |commit|
-      Set.new([*commit[:added], *commit[:removed], *commit[:modified]]).any? do |file|
-        file == ORG_WIDE_FILES_CONFIG_FILE || file.starts_with?('.appends/')
-      end
+    changed_files.any? do |file|
+      file == ORG_WIDE_FILES_CONFIG_FILE || file.starts_with?('.appends/')
     end
   end
 
+  memoize
+  def changed_files
+    commits.to_a.flat_map { |commit| [*commit[:added], *commit[:removed], *commit[:modified]] }.to_set
+  end
+
   ORG_WIDE_FILES_CONFIG_FILE = '.github/org-wide-files-config.toml'.freeze
-  private_constant :ORG_WIDE_FILES_CONFIG_FILE
+  REQUIRED_CHECKS_FILE = '.github/required-checks.yml'.freeze
+  private_constant :ORG_WIDE_FILES_CONFIG_FILE, :REQUIRED_CHECKS_FILE
 end

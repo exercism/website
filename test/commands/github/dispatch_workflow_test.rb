@@ -15,4 +15,11 @@ class Github::DispatchWorkflowTest < ActiveJob::TestCase
 
     Github::DispatchWorkflow.("ruby", "deploy.yml", ref:)
   end
+
+  test "inputs" do
+    stub_request(:post, "https://api.github.com/repos/exercism/maintainers-admin-tools/actions/workflows/sync.yml/dispatches").
+      with(body: '{"ref":"main","inputs":{"slug":"ruby"}}')
+
+    Github::DispatchWorkflow.("maintainers-admin-tools", "sync.yml", inputs: { slug: "ruby" })
+  end
 end

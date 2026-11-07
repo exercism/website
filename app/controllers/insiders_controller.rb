@@ -56,35 +56,22 @@ class InsidersController < ApplicationController
     [:youtube, "WDUqfCMbh_8", "insiders-1.jpg"]
   ].freeze
 
-  # rubocop:disable Layout/LineLength
+  # The titles and descriptions live in config/locales/views/insiders/external.yml
+  # under insiders.external.features.<key>.
   FEATURES = [
-    { icon: 'moon', title: 'Dark Mode',
-      desc: "Our most requested feature is available exclusive for Insiders. Our slick dark theme elevates the Exercism experience and gives your eyes an easier time while coding into the night.", filter: true },
-    { icon: 'feature-favorites', title: 'Favorites',
-      desc: "See a solution that inspires or intrigues you? Save it to your Favorites and then go back and learn from it later! Insiders unlocks unlimited favorites and filtering options.", filter: true },
-    { icon: 'feature-ad-free', title: 'Ad-Free Experience',
-      desc: "Don't like adverts? Prefer an even calmer educational environment? Insiders can turn off all adverts across the platform for a totally uninterupted learning experience!", filter: true },
-    { icon: 'feature-github-sync', title: 'GitHub Sync Options',
-      desc: "Want to skip pull requests? Want to change commit messages? Want to configure your own file paths? Insiders unlocks advanced customization options for GitHub Sync. Make it right for you!", filter: true },
-    { icon: 'insiders', title: 'Name tag flair',
-      desc: "Show off your Insiders status with our Insiders logo next to your name around the site, on Discord and our forums. Let everyone know you're supporting us!" },
-    { icon: 'feature-youtube', title: 'Behind-the-scenes content',
-      desc: "Keep up to date with what we're planning and building with private Insiders livestreams (rewatchable on demand) and technical deep-dives into Exercism's stack. See below for more!", filter: true },
-    { icon: 'feature-discord', title: 'Private Discord channel',
-      desc: "Hang out with our staff and other Insiders in our private Discord channel. Get the inside scoop on what we\'re working on and bounce ideas in realtime with us.", filter: true },
-    { icon: 'robot', title: 'AI Assistant',
-      desc: "Our AI assistant helps you get unstuck directly in our online editor, with unlimited conversations on every exercise. It guides you towards the answer rather than giving it away.", filter: true },
-    { icon: 'mentoring', title: 'Extra Mentoring Slots',
-      desc: "Unlock more simultaneous mentoring slots per track without needing to earn reputation, and improve the speed at which you can work through a track with our mentors' support.", filter: true },
-    { icon: 'badges', title: 'Exclusive Badges',
-      desc: "Immediately recieve the rare Insiders badge for your profile. Then unlock extra exclusive badges as you use Exercism - only available to Insiders.", filter: true },
-    { icon: 'perks', title: 'Exclusive Perks',
-      desc: "Receive exclusive discounts and offers from our partners as part of Exercism Perks. Get cheaper products, services, books and more, all through Insiders.", filter: true },
-    { icon: 'logo', title: 'Keep Exercism alive',
-      desc: "Last but not least, you help keep Exercism alive! Without your support, we can't pay for our servers or our staff. Thank you for giving back and supporting free education 💙", filter: true }
-
+    { key: :dark_mode, icon: 'moon', filter: true },
+    { key: :favorites, icon: 'feature-favorites', filter: true },
+    { key: :ad_free, icon: 'feature-ad-free', filter: true },
+    { key: :github_sync, icon: 'feature-github-sync', filter: true },
+    { key: :name_tag_flair, icon: 'insiders' },
+    { key: :behind_the_scenes, icon: 'feature-youtube', filter: true },
+    { key: :private_discord, icon: 'feature-discord', filter: true },
+    { key: :ai_assistant, icon: 'robot', filter: true },
+    { key: :extra_mentoring_slots, icon: 'mentoring', filter: true },
+    { key: :exclusive_badges, icon: 'badges', filter: true },
+    { key: :exclusive_perks, icon: 'perks', filter: true },
+    { key: :keep_exercism_alive, icon: 'logo', filter: true }
   ].freeze
-  # rubocop:enable Layout/LineLength
 
   private
   # url_from rejects anything that isn't this host, so a value pasted in

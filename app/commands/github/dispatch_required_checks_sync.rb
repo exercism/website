@@ -8,6 +8,6 @@ class Github::DispatchRequiredChecksSync
   def call = Github::DispatchWorkflow.(REPO, WORKFLOW, inputs: { slug: repo_name })
 
   REPO = 'maintainers-admin-tools'.freeze
-  WORKFLOW = 'update-track-maintenance-status.yml'.freeze
+  WORKFLOW = 'sync-repo-settings.yml'.freeze
   private_constant :REPO, :WORKFLOW
 end

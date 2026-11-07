@@ -42,17 +42,20 @@ module Git
       read_file_blob(commit, path, "")
     end
 
-    def read_translated_text_blob(commit, path)
+    # A file with no translation in the current locale falls back to its
+    # English. The miss is reported unless the caller knows exercism/i18n does
+    # not require a translation (e.g. a doc on an inactive track).
+    def read_translated_text_blob(commit, path, report_missing: true)
       return read_text_blob(commit, path) if I18n.locale == I18n.default_locale
 
       oid = find_file_oid(commit, path)
       translation = TranslationRepo.content(I18n.locale, oid, File.extname(path))
       return translation if translation
 
-      TranslationRepo.report_missing_content!(I18n.locale, oid, path)
-      ""
+      TranslationRepo.report_missing_content!(I18n.locale, oid, path) if report_missing
+      read_blob(oid, "")
     rescue Rugged::TreeError
-      ""
+      "" # No English, so nothing to translate
     end
 
     def translated?(commit, path)

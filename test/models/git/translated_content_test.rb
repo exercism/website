@@ -39,12 +39,14 @@ class Git::TranslatedContentTest < ActiveSupport::TestCase
     end
   end
 
-  test "a part with no translation is left out on its own" do
+  test "a part with no translation falls back to its english on its own" do
+    english_append = @exercise.instructions_append
+
     with_published_translations({}) do
       publish!(".docs/instructions.md", "# Utasítások\n")
 
       I18n.with_locale(:hu) do
-        assert_equal "# Utasítások", @exercise.instructions
+        assert_equal "# Utasítások\n\n#{english_append}", @exercise.instructions
         refute @exercise.instructions_translated?
       end
     end
@@ -60,10 +62,13 @@ class Git::TranslatedContentTest < ActiveSupport::TestCase
     end
   end
 
-  test "a missing translation renders empty and is reported" do
+  test "a missing translation renders the english and is reported" do
+    english = @exercise.hints
+    refute_empty english
+
     with_published_translations({}) do
       Sentry.expects(:capture_message).once.with { |message, **| message.include?("exercises/practice/bob/.docs/hints.md") }
-      I18n.with_locale(:hu) { assert_equal "", @exercise.hints }
+      I18n.with_locale(:hu) { assert_equal english, @exercise.hints }
     end
   end
 
@@ -95,7 +100,65 @@ class Git::TranslatedContentTest < ActiveSupport::TestCase
   end
 end
 
+class Git::RepositoryTranslatedTextBlobTest < ActiveSupport::TestCase
+  setup do
+    @repo = Git::Repository.new(repo_url: TestHelpers.git_repo_url("track"))
+    @path = "exercises/practice/bob/.docs/hints.md"
+    @english = @repo.read_text_blob(@repo.head_commit, @path)
+  end
+
+  test "returns the translation when one is present" do
+    with_published_translations({}) do
+      publish_translated_content!(:hu, @repo, @repo.head_commit, @path, "# Tippek\n")
+
+      Sentry.expects(:capture_message).never
+      I18n.with_locale(:hu) { assert_equal "# Tippek\n", @repo.read_translated_text_blob(@repo.head_commit, @path) }
+    end
+  end
+
+  test "returns the english and reports the miss when the translation is absent" do
+    with_published_translations({}) do
+      Sentry.expects(:capture_message).once.with { |message, **| message.include?(@path) }
+      I18n.with_locale(:hu) { assert_equal @english, @repo.read_translated_text_blob(@repo.head_commit, @path) }
+    end
+  end
+
+  test "returns the english without reporting when the caller expects no translation" do
+    with_published_translations({}) do
+      Sentry.expects(:capture_message).never
+      I18n.with_locale(:hu) do
+        assert_equal @english, @repo.read_translated_text_blob(@repo.head_commit, @path, report_missing: false)
+      end
+    end
+  end
+
+  test "a missing english file is blank and is not reported" do
+    with_published_translations({}) do
+      Sentry.expects(:capture_message).never
+      I18n.with_locale(:hu) { assert_equal "", @repo.read_translated_text_blob(@repo.head_commit, "does/not/exist.md") }
+    end
+  end
+end
+
 class Git::TranslatedOtherContentTest < ActiveSupport::TestCase
+  test "an untranslated doc shows its english and reports the miss" do
+    doc = create :document
+
+    with_published_translations({}) do
+      Sentry.expects(:capture_message).once
+      I18n.with_locale(:hu) { assert_includes Document.find(doc.id).content_html, "Execute the tests with" }
+    end
+  end
+
+  test "an untranslated doc on an inactive track shows its english without reporting" do
+    doc = create :document, track: create(:track, active: false)
+
+    with_published_translations({}) do
+      Sentry.expects(:capture_message).never
+      I18n.with_locale(:hu) { assert_includes Document.find(doc.id).content_html, "Execute the tests with" }
+    end
+  end
+
   test "track and site documents" do
     doc = create :document
     repo = Git::Repository.new(repo_url: doc.git_repo)

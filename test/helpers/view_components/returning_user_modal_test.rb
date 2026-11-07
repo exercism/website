@@ -48,7 +48,6 @@ class ViewComponents::ReturningUserModalTest < ActiveSupport::TestCase
     ViewComponents::ReturningUserModal.new.tap do |component|
       component.stubs(user_signed_in?: true, current_user: user, session:)
       component.stubs(:showing_modal?).returns(showing_modal)
-      component.stubs(:showing_modal!)
     end
   end
 end

@@ -50,9 +50,9 @@ module Components
           find("label", text: "I'm a beginner").click
           click_on "Save my choice"
 
-          assert_text "We've designed a platform for your level!"
+          assert_text "We've designed a new platform for your level!"
           find("#returning-user-modal .later-link").click
-          refute_text "We've designed a platform for your level!"
+          refute_text "We've designed a new platform for your level!"
         end
       end
 

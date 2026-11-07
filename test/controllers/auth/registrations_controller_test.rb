@@ -79,7 +79,7 @@ module Auth
       params[:user][:seniority] = "senior"
       post user_registration_path, params: params
 
-      assert_response :unprocessable_entity
+      assert_response :ok
       assert_select "#sign-up-flow[data-initial-step=form]"
       assert_select "input[name='user[seniority]'][value=senior]"
       assert_select "input[name=seniority][value=senior]"

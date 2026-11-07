@@ -214,11 +214,9 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
 
   test "does not apply the sign-up answers to an existing user" do
     user = create :user, provider: "github", uid: "111", seniority: :senior
-    auth = stub(
-      provider: "github",
-      uid: "111",
-      info: stub(email: user.email, name: "Name", nickname: "user22", image: nil)
-    )
+    info = Struct.new(:email, :name, :nickname, :image, keyword_init: true).
+      new(email: user.email, name: "Name", nickname: "user22")
+    auth = stub(provider: "github", uid: "111", info:)
 
     User::Bootstrap.expects(:call).never
     User::AuthenticateFromOmniauth.(auth, seniority: "beginner", sign_up_track_slug: "go")

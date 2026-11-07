@@ -21,7 +21,7 @@
               = user.pronouns
           .joined
             = graphical_icon(:clock)
-            %time= t('.details.joined_at', date: user.created_at.strftime('%b %Y'))
+            %time= t('.details.joined_at', date: format_month_year(user.created_at))
 
         - if user.bio.present?
           = ReactComponents::Common::Expander.new(user.bio, button_text_compressed: t('.bio.read_more'), button_text_expanded: t('.bio.read_less'), class_name: "bio")

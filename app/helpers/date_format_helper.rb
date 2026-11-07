@@ -12,4 +12,10 @@ module DateFormatHelper
 
     datetime.strftime("#{datetime.day.ordinalize} %b %Y, %H:%M UTC")
   end
+
+  # "Sep 2014" in English. I18n.l takes the month abbreviation from the
+  # current locale's rails-i18n data, which strftime cannot do.
+  def format_month_year(date)
+    I18n.l(date.to_date, format: '%b %Y')
+  end
 end

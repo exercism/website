@@ -23,6 +23,17 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_template "profiles/show"
   end
 
+  test "show: localises the joined month" do
+    user = create :user, created_at: Time.utc(2014, 9, 28)
+    profile = create(:user_profile, user:)
+
+    get profile_url(profile)
+    assert_select ".joined time", text: /Sep 2014/
+
+    get profile_url(profile, locale: :hu)
+    assert_select ".joined time", text: /szept\. 2014/
+  end
+
   test "show: links to a valid linkedin url" do
     profile = create :user_profile, linkedin: "https://www.linkedin.com/in/foo"
 

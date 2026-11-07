@@ -1,0 +1,64 @@
+-#
+  Shown to people who signed up before the sign-up page asked their level,
+  and who still haven't told us it. It asks the same question as sign-up and
+  routes them the same way. app/javascript/utils/returning-user-modal.ts runs it.
+- arrow = capture do
+  %span.arrow{ aria: { hidden: "true" } } →
+
+#returning-user-modal.c-returning-user-modal{ data: { api_user_url: Exercism::Routes.api_user_path,
+                                                      snippet_url: Exercism::Routes.api_track_sign_up_snippet_path(track_slug: "TRACK_SLUG") } }
+  %dialog.returning-dialog{ tabindex: -1, data: { returning_step: "level" }, aria: { labelledby: "returning-user-title" } }
+    %h1#returning-user-title= t('.level.heading')
+    %p#returning-user-question
+      = t('.level.intro')
+      %strong= t('.level.question')
+    = render "components/sign_up/level_choices", input_name: "returning_user_level", labelled_by: "returning-user-question"
+    %button.save{ type: :button, disabled: true, data: { continue: "level" } }= t('.level.save')
+
+  %dialog.returning-dialog{ tabindex: -1, data: { returning_step: "code" }, aria: { labelledby: "returning-user-code-heading" } }
+    %h1#returning-user-code-heading= t('.code.heading')
+    = render "components/sign_up/code_check", tracks: tracks, id_prefix: "returning-user"
+    %button.c-flow-cta{ type: :button, disabled: true, data: { continue: "code" } }
+      = t('.code.continue')
+      = arrow
+
+  %dialog.returning-thanks{ tabindex: -1, data: { returning_step: "thanks" }, aria: { labelledby: "returning-user-thanks" } }
+    %span.tick{ aria: { hidden: "true" } }
+      %svg{ width: 28, height: 28, viewBox: "0 0 24 24" }
+        %path{ d: "M5 12.5l4.5 4.5L19 7.5", fill: "none", stroke: "currentColor", "stroke-width": "2.4", "stroke-linecap": "round", "stroke-linejoin": "round" }
+    %p#returning-user-thanks.title= t('.thanks.title')
+    %p= t('.thanks.body')
+
+  %dialog.c-sign-up-jiki-dialog.--centred{ tabindex: -1, data: { returning_step: "jiki" } }
+    %button.close{ type: :button, data: { jiki_dismiss: true }, aria: { label: t('.jiki.close') } }
+      %svg{ width: 20, height: 20, viewBox: "0 0 24 24", aria: { hidden: "true" } }
+        %path{ d: "M6 6l12 12M18 6L6 18", fill: "none", stroke: "currentColor", "stroke-width": "2.2", "stroke-linecap": "round" }
+
+    .dialog-scroll
+      .dialog-body
+        = image_tag "jiki/jiki-by-exercism.png", alt: t('.jiki.logo_alt'), class: "jiki-logo", width: 190, height: 71
+
+        - { absolute_beginner: "your_level", beginner: "code_check" }.each do |variant_seniority, copy|
+          .variant{ hidden: true, data: { jiki_variant: variant_seniority } }
+            %h2{ id: "returning-user-jiki-heading-#{variant_seniority}" }= t(".jiki.#{copy}.heading_html")
+            %p= t(".jiki.#{copy}.body_html", language: tag.span(data: { jiki_language: true }))
+
+        .snaps-figure
+          = render "components/sign_up/jiki_snaps"
+          %p.jiki-note{ hidden: true, data: { jiki_variant: "beginner" } }
+            = t('.jiki.note')
+            %svg{ width: 56, height: 40, viewBox: "0 0 56 40", aria: { hidden: "true" } }
+              %path{ d: "M50 4 C 46 24, 30 33, 6 30", fill: "none", stroke: "currentColor", "stroke-width": "2.2", "stroke-linecap": "round" }
+              %path{ d: "M13 23 L5 30 L13 36", fill: "none", stroke: "currentColor", "stroke-width": "2.2", "stroke-linecap": "round", "stroke-linejoin": "round" }
+
+        .cta-wrapper
+          - %w[absolute_beginner beginner].each do |variant_seniority|
+            - jiki_url = Jiki.url(path: "auth/signup", query: "utm_source=exercism&utm_medium=returning_user&utm_content=#{variant_seniority}")
+            = link_to jiki_url, class: "jiki-cta", hidden: true, data: { jiki_variant: variant_seniority, turbo: false } do
+              = t('.jiki.cta')
+              %span.arrow{ aria: { hidden: "true" } } →
+
+        - later_link = tag.button(t('.jiki.later_link'), type: :button, class: "later-link", data: { jiki_dismiss: true })
+        %p.later= t('.jiki.later_html', link: later_link)
+
+    = render "components/sign_up/jiki_ticker"

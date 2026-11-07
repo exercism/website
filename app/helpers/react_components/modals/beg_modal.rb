@@ -23,7 +23,7 @@ module ReactComponents
       end
 
       def recently_seen_seniority_modal?
-        flag = ReactComponents::Modals::SenioritySurveyModal::SHOWN_AT_FLAG
+        flag = ViewComponents::ReturningUserModal::SHOWN_AT_FLAG
         flag_value = session[flag]
         return false unless flag_value.present?
         return false if DateTime.parse(flag_value) < 5.minutes.ago

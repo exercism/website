@@ -12,3 +12,6 @@ initLocaleBanner()
 
 import { initSignUpFlow } from '@/utils/sign-up-flow'
 initSignUpFlow()
+
+import { initReturningUserModal } from '@/utils/returning-user-modal'
+initReturningUserModal()

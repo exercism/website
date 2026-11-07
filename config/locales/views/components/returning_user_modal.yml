@@ -1,0 +1,27 @@
+en:
+  components:
+    returning_user_modal:
+      level:
+        heading: Welcome back 👋
+        intro: "We've made some changes recently. To help us give you the experience most suited to where you're at, tell us"
+        question: where you are in your coding journey?
+        save: Save my choice
+      code:
+        heading: Let's get you to the right place
+        continue: Continue
+      thanks:
+        title: Thanks!
+        body: Exercism's core product is designed for you. We hope you enjoy it!
+      jiki:
+        close: Close
+        logo_alt: Jiki, by the team at Exercism
+        your_level:
+          heading_html: We've designed a <strong>new platform</strong> for your level!
+          body_html: "Jiki will get you comfortable with coding fundamentals and take you all the way to building complex programs. You'll create these in the first weeks:"
+        code_check:
+          heading_html: We've made Jiki for your level!
+          body_html: "Jiki fills in the gaps in your coding fundamentals, so code you've just<br>seen starts to feel easy. Then come back to Exercism to master %{language}."
+        note: Some of the games you'll make!
+        cta: Sign up to Jiki for free
+        later_html: No thanks, take me back to %{link}
+        later_link: Exercism

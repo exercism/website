@@ -2,11 +2,7 @@
   Shown on top of the sign-up form to people the questions place as beginners.
   Each variant matches the seniority they were given, and carries it to Jiki
   so Jiki can attribute the sign-up.
-- star = capture do
-  %svg.star{ width: 15, height: 15, viewBox: "0 0 24 24", aria: { hidden: "true" } }
-    %path{ d: "M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6-4.9-4.6 6.6-.8z" }
-
-%dialog#sign-up-jiki-dialog.c-sign-up-jiki-dialog{ tabindex: -1 }
+%dialog#sign-up-jiki-dialog.c-sign-up-jiki-dialog.--centred{ tabindex: -1 }
   .dialog-scroll
     .dialog-body
       = image_tag "jiki/jiki-by-exercism.png", alt: t('.logo_alt'), class: "jiki-logo", width: 230, height: 86
@@ -14,14 +10,9 @@
       - { absolute_beginner: "your_level", beginner: "foundations" }.each do |variant_seniority, copy|
         .variant{ hidden: true, data: { jiki_variant: variant_seniority } }
           %h2{ id: "sign-up-jiki-heading-#{variant_seniority}" }= t(".#{copy}.heading")
-          %p= t(".#{copy}.body_html")
+          %p= t(".#{copy}.body_html", language: tag.span(data: { jiki_language: true }))
 
-      %ul.snaps
-        - [["space_invaders", "space-invaders.mp4", true], ["breakout", "breakout.mp4", true], ["maze", "maze.mp4", false]].each do |key, file, pixel|
-          %li.snap
-            = video_tag "jiki/#{file}", autoplay: true, loop: true, muted: true, playsinline: true,
-              class: (pixel ? "--pixel" : nil), aria: { label: t(".prints.#{key}") }
-            %span{ aria: { hidden: "true" } }= t(".prints.#{key}")
+      = render "components/sign_up/jiki_snaps"
 
       .cta-wrapper
         - %w[absolute_beginner beginner].each do |variant_seniority|
@@ -30,17 +21,9 @@
             = t('.cta')
             %span.arrow{ aria: { hidden: "true" } } →
 
-      %button.later{ type: :button, data: { jiki_dismiss: true } }
-        = t('.later_html')
+      - later_link = tag.button(t('.later_link'), type: :button, class: "later-link", data: { jiki_dismiss: true })
+      %p.later
+        = t('.later_html', link: later_link)
         %span.later-aside= t('.later_aside')
 
-  .ticker{ role: :region, aria: { label: t('.quotes_label') } }
-    .ticker-track
-      - 2.times do |copy|
-        %ul{ aria: { hidden: (copy.positive? ? "true" : nil) } }
-          - t('.quotes').each do |quote|
-            %li.ticker-item
-              %span.stars{ role: :img, aria: { label: t('.five_stars') } }
-                - 5.times do
-                  = star
-              %span “#{quote}”
+  = render "components/sign_up/jiki_ticker"

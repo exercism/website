@@ -221,7 +221,7 @@ module Flows
           assert_text "We've designed a platform for your level!"
           assert_link "Sign up to Jiki for free",
             href: "https://jiki.io/auth/signup?utm_source=exercism&utm_medium=sign_up&utm_content=absolute_beginner"
-          click_on "No thanks, I want to use Exercism anyway"
+          click_on "use Exercism"
         end
 
         fill_in_sign_up_form
@@ -253,7 +253,7 @@ module Flows
 
         within "#sign-up-jiki-dialog" do
           assert_text "Let's firm up your foundations first!"
-          click_on "No thanks, I want to use Exercism anyway"
+          click_on "use Exercism"
         end
 
         fill_in_sign_up_form

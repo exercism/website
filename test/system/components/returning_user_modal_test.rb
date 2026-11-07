@@ -1,10 +1,10 @@
 require "application_system_test_case"
 
 module Components
-  class SenioritySurveyModalTest < ApplicationSystemTestCase
-    CANARY = "We're expanding Exercism to add content relevant".freeze
+  class ReturningUserModalTest < ApplicationSystemTestCase
+    CANARY = "where you are in your coding journey?".freeze
 
-    test "shows it on dashboard page" do
+    test "shows it on the dashboard" do
       user = create :user, seniority: nil, created_at: signed_up_before_cutoff
       create(:user_dismissed_introducer, user:, slug: "welcome-modal")
 
@@ -16,6 +16,47 @@ module Components
           assert_text CANARY
         end
       end
+    end
+
+    test "a developer is thanked and saved as senior" do
+      user = create :user, seniority: nil, created_at: signed_up_before_cutoff
+      create(:user_dismissed_introducer, user:, slug: "welcome-modal")
+
+      use_capybara_host do
+        Exercism.without_bullet do
+          sign_in!(user)
+          visit dashboard_path
+
+          find("label", text: "I'm a developer").click
+          click_on "Save my choice"
+
+          assert_text "Thanks!"
+          refute_text CANARY
+        end
+      end
+
+      assert_equal :senior, user.reload.seniority
+    end
+
+    test "a beginner is offered Jiki and saved as an absolute beginner" do
+      user = create :user, seniority: nil, created_at: signed_up_before_cutoff
+      create(:user_dismissed_introducer, user:, slug: "welcome-modal")
+
+      use_capybara_host do
+        Exercism.without_bullet do
+          sign_in!(user)
+          visit dashboard_path
+
+          find("label", text: "I'm a beginner").click
+          click_on "Save my choice"
+
+          assert_text "We've designed a platform for your level!"
+          find("#returning-user-modal .later-link").click
+          refute_text "We've designed a platform for your level!"
+        end
+      end
+
+      assert_equal :absolute_beginner, user.reload.seniority
     end
 
     test "does not show if seniority is provided" do
@@ -46,7 +87,7 @@ module Components
       end
     end
 
-    test "does not show if welcome modal shows" do
+    test "does not show if the welcome modal shows" do
       user = create :user, seniority: nil, created_at: signed_up_before_cutoff
 
       use_capybara_host do

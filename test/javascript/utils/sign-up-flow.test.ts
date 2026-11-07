@@ -22,6 +22,7 @@ const PAGE = (initialStep = 'level') => `
     </section>
     <section data-step="code" hidden>
       <h1>Let's check where to start</h1>
+      <div class="c-code-check">
       <span id="label">I mostly code in</span>
       <select data-language-select aria-labelledby="label">
         <option value="">choose a language</option>
@@ -34,9 +35,10 @@ const PAGE = (initialStep = 'level') => `
       <div data-code-error hidden></div>
       <pre data-code-sample hidden><code></code></pre>
       <div class="code-check-answers" hidden>
-        <input type="radio" name="sign_up_code_check" value="easy">
-        <input type="radio" name="sign_up_code_check" value="tricky">
-        <input type="radio" name="sign_up_code_check" value="impossible">
+        <input type="radio" name="code_check_answer" value="easy">
+        <input type="radio" name="code_check_answer" value="tricky">
+        <input type="radio" name="code_check_answer" value="impossible">
+      </div>
       </div>
       <button data-continue="code" disabled></button>
     </section>
@@ -55,7 +57,7 @@ const PAGE = (initialStep = 'level') => `
   <dialog id="sign-up-jiki-dialog">
     <button data-jiki-dismiss></button>
     <div data-jiki-variant="absolute_beginner" hidden><h2 id="sign-up-jiki-heading-absolute_beginner"></h2></div>
-    <div data-jiki-variant="beginner" hidden><h2 id="sign-up-jiki-heading-beginner"></h2></div>
+    <div data-jiki-variant="beginner" hidden><h2 id="sign-up-jiki-heading-beginner"></h2><p>master <span data-jiki-language></span></p></div>
     <a data-jiki-variant="absolute_beginner" hidden></a>
     <a data-jiki-variant="beginner" hidden></a>
   </dialog>
@@ -269,7 +271,7 @@ describe('initSignUpFlow', () => {
     chooseLanguage('go')
     await flush()
 
-    pick('sign_up_code_check', 'easy')
+    pick('code_check_answer', 'easy')
     clickContinue('code')
 
     expect(visibleStep()).toEqual(['form'])
@@ -288,13 +290,16 @@ describe('initSignUpFlow', () => {
       chooseLanguage('go')
       await flush()
 
-      pick('sign_up_code_check', check)
+      pick('code_check_answer', check)
       clickContinue('code')
 
       expect(answers('seniority')).toEqual(['beginner', 'beginner'])
       expect(answers('sign_up_track_slug')).toEqual(['go', 'go'])
       expect(dialog().getAttribute('aria-labelledby')).toBe(
         'sign-up-jiki-heading-beginner'
+      )
+      expect(dialog().querySelector('[data-jiki-language]')!.textContent).toBe(
+        'Go'
       )
     }
   )
@@ -305,7 +310,7 @@ describe('initSignUpFlow', () => {
     clickContinue('level')
     chooseLanguage('go')
     await flush()
-    pick('sign_up_code_check', 'easy')
+    pick('code_check_answer', 'easy')
 
     chooseLanguage('ruby')
 
@@ -313,6 +318,24 @@ describe('initSignUpFlow', () => {
       document.querySelector<HTMLButtonElement>('[data-continue="code"]')!
         .disabled
     ).toBe(true)
+  })
+
+  test('Esc does not close the pop-up', () => {
+    setUpPage()
+    pick('sign_up_level', 'total_beginner')
+    clickContinue('level')
+
+    const cancel = new Event('cancel', { cancelable: true })
+    dialog().dispatchEvent(cancel)
+    const escape = new KeyboardEvent('keydown', {
+      key: 'Escape',
+      cancelable: true,
+    })
+    dialog().dispatchEvent(escape)
+
+    expect(cancel.defaultPrevented).toBe(true)
+    expect(escape.defaultPrevented).toBe(true)
+    expect(dialog().hasAttribute('open')).toBe(true)
   })
 
   test('the dismiss button closes the pop-up and leaves the form', () => {

@@ -1,0 +1,6 @@
+%ul.c-jiki-snaps
+  - [["space_invaders", "space-invaders.mp4", true], ["breakout", "breakout.mp4", true], ["maze", "maze.mp4", false]].each do |key, file, pixel|
+    %li.snap
+      = video_tag "jiki/#{file}", autoplay: true, loop: true, muted: true, playsinline: true,
+        class: ("--pixel" if pixel), aria: { label: t(".#{key}") }
+      %span{ aria: { hidden: "true" } }= t(".#{key}")

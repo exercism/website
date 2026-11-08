@@ -50,7 +50,7 @@ class LocaleSeoTest < ActionDispatch::IntegrationTest
   test "a community solution is canonical at its English url in every locale, with no alternates" do
     exercise = create :practice_exercise
     solution = create(:practice_solution, :published, exercise:)
-    english_url = track_exercise_solution_url(exercise.track, exercise, solution.user)
+    english_url = Exercism::Routes.published_solution_url(solution)
 
     [english_url, track_exercise_solution_url(exercise.track, exercise, solution.user, locale: :hu)].each do |url|
       get url

@@ -42,6 +42,32 @@ class Exercise::SearchTest < ActiveSupport::TestCase
     assert_equal [bob], Exercise::Search.(user_track, criteria: "bobby")
   end
 
+  test "criteria matches translated title in another locale" do
+    track = create :track
+    user_track = UserTrack::External.new(track)
+
+    tournament = create :practice_exercise, title: "Tournament", slug: "tournament", track:, position: 1
+    leap = create :practice_exercise, title: "Leap", slug: "leap", track:, position: 2
+
+    with_published_translations({}) do
+      publish_translated_metadata!(:hu, track.translation_metadata_repo_name, {
+        "exercise:tournament:name" => "Torna",
+        "exercise:leap:name" => "Szökőév"
+      })
+
+      I18n.with_locale(:hu) do
+        assert_equal [tournament], Exercise::Search.(user_track, criteria: "Torna")
+        assert_equal [tournament], Exercise::Search.(user_track, criteria: "torna")
+        assert_equal [tournament], Exercise::Search.(user_track, criteria: "Tournament")
+        assert_equal [leap], Exercise::Search.(user_track, criteria: "SZÖKŐ")
+        assert_equal [leap], Exercise::Search.(user_track, criteria: "leap")
+        assert_equal [tournament], Exercise::Search.(user_track, criteria: "tor na")
+        assert_empty Exercise::Search.(user_track, criteria: "torna leap")
+        assert_equal [tournament, leap], Exercise::Search.(user_track, criteria: " ")
+      end
+    end
+  end
+
   test "beta and active exercises are always shown" do
     track = create :track
     user_track = UserTrack::External.new(track)

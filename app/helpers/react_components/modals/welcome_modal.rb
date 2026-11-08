@@ -16,6 +16,7 @@ module ReactComponents
           "modals-welcome-modal",
           {
             num_tracks: ::Track.num_active,
+            ask_seniority: User::DetermineIfOnboardingAsksSeniority.(current_user),
             links: {
               hide_modal_endpoint: Exercism::Routes.hide_api_settings_introducer_path(slug),
               api_user_endpoint: Exercism::Routes.api_user_url,

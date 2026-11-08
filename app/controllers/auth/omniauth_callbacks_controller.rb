@@ -11,8 +11,13 @@ module Auth
         return redirect_to integrations_settings_path
       end
 
+      # The sign-up page posts its answers along with the GitHub button, and
+      # OmniAuth hands them back here. They only apply to a new account.
+      omniauth_params = request.env["omniauth.params"] || {}
       @user = User::AuthenticateFromOmniauth.(request.env["omniauth.auth"], session:, locale: locale_from_path,
-        accept_language: request.headers["Accept-Language"])
+        accept_language: request.headers["Accept-Language"],
+        seniority: omniauth_params["seniority"].presence,
+        sign_up_track_slug: omniauth_params["sign_up_track_slug"].presence)
 
       if @user.persisted?
         remember_me(@user)

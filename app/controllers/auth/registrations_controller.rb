@@ -13,7 +13,8 @@ module Auth
             user,
             course_access_code: session[:course_access_code],
             locale: locale_from_path,
-            accept_language: request.headers["Accept-Language"]
+            accept_language: request.headers["Accept-Language"],
+            **sign_up_answers
           )
         end
       end
@@ -28,6 +29,13 @@ module Auth
     end
 
     private
+    def sign_up_answers
+      {
+        seniority: params.dig(:user, :seniority).presence,
+        sign_up_track_slug: params.dig(:user, :sign_up_track_slug).presence
+      }
+    end
+
     def handle_csrf_failure
       set_flash_message(:alert, :csrf_failure) if is_navigational_format?
       redirect_to new_user_registration_path

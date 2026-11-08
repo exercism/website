@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_08_20_104931) do
+ActiveRecord::Schema[7.1].define(version: 2026_11_06_135710) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -1594,6 +1594,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_20_104931) do
     t.boolean "bootcamp_mentor", default: false, null: false
     t.string "locale"
     t.text "translator_locales"
+    t.bigint "sign_up_track_id"
     t.index ["bootcamp_attendee", "user_id"], name: "index_user_data__bootcamp_attendees"
     t.index ["bootcamp_mentor", "user_id"], name: "index_user_data__bootcamp_mentors"
     t.index ["discord_uid"], name: "index_user_data_on_discord_uid", unique: true
@@ -1606,6 +1607,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_20_104931) do
     t.index ["premium_until"], name: "index_user_data_on_premium_until"
     t.index ["seniority"], name: "index_user_data_on_seniority"
     t.index ["show_on_supporters_page", "first_donated_at", "user_id"], name: "index_user_data_supporters-page"
+    t.index ["sign_up_track_id"], name: "index_user_data_on_sign_up_track_id"
     t.index ["stripe_customer_id"], name: "index_user_data_on_stripe_customer_id", unique: true
     t.index ["user_id"], name: "index_user_data_on_user_id", unique: true
   end
@@ -2013,6 +2015,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_20_104931) do
   add_foreign_key "user_auth_tokens", "users"
   add_foreign_key "user_bootcamp_data", "users"
   add_foreign_key "user_communication_preferences", "users"
+  add_foreign_key "user_data", "tracks", column: "sign_up_track_id"
   add_foreign_key "user_dismissed_introducers", "users"
   add_foreign_key "user_mailshots", "mailshots"
   add_foreign_key "user_notifications", "exercises"

@@ -9,6 +9,7 @@ module Git
 
     git_filepath :about, file: "docs/ABOUT.md", translatable: true
     git_filepath :snippet, file: "docs/SNIPPET.txt"
+    git_filepath :sign_up_snippet, file: "docs/SIGN_UP_SNIPPET.txt"
     git_filepath :representer_normalizations, file: "docs/REPRESENTER_NORMALIZATIONS.md"
     git_filepath :debugging_instructions, file: "exercises/shared/.docs/debug.md", translatable: true
     git_filepath :help, file: "exercises/shared/.docs/help.md", translatable: true

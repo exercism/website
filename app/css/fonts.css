@@ -178,3 +178,35 @@
     font-weight: 700;
     src: url("LeagueSpartan-Bold.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
+
+/* ibm-plex-mono - latin. Used on the sign-up page. */
+@font-face {
+    font-display: swap;
+    font-family: "IBM Plex Mono";
+    font-style: normal;
+    font-weight: 400;
+    src: url("ibm-plex-mono-v20-latin-regular.woff2") format("woff2");
+}
+@font-face {
+    font-display: swap;
+    font-family: "IBM Plex Mono";
+    font-style: normal;
+    font-weight: 500;
+    src: url("ibm-plex-mono-v20-latin-500.woff2") format("woff2");
+}
+@font-face {
+    font-display: swap;
+    font-family: "IBM Plex Mono";
+    font-style: normal;
+    font-weight: 600;
+    src: url("ibm-plex-mono-v20-latin-600.woff2") format("woff2");
+}
+
+/* caveat-600 - latin. The handwritten notes on the sign-up page. */
+@font-face {
+    font-display: swap;
+    font-family: "Caveat";
+    font-style: normal;
+    font-weight: 600;
+    src: url("caveat-v23-latin-600.woff2") format("woff2");
+}

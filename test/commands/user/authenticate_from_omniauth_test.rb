@@ -198,4 +198,29 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
       User::AuthenticateFromOmniauth.(auth)
     end
   end
+
+  test "passes the sign-up answers to a new user's bootstrap" do
+    auth = stub(
+      provider: "github",
+      uid: "111",
+      info: stub(email: "user@exercism.org", name: "Name", nickname: "user22", image: nil)
+    )
+
+    User::Bootstrap.expects(:call).with do |_user, **kwargs|
+      kwargs[:seniority] == "beginner" && kwargs[:sign_up_track_slug] == "go"
+    end
+    User::AuthenticateFromOmniauth.(auth, seniority: "beginner", sign_up_track_slug: "go")
+  end
+
+  test "does not apply the sign-up answers to an existing user" do
+    user = create :user, provider: "github", uid: "111", seniority: :senior
+    info = Struct.new(:email, :name, :nickname, :image, keyword_init: true).
+      new(email: user.email, name: "Name", nickname: "user22")
+    auth = stub(provider: "github", uid: "111", info:)
+
+    User::Bootstrap.expects(:call).never
+    User::AuthenticateFromOmniauth.(auth, seniority: "beginner", sign_up_track_slug: "go")
+
+    assert_equal :senior, user.reload.seniority
+  end
 end

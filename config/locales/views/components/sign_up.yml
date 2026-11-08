@@ -1,0 +1,43 @@
+en:
+  components:
+    sign_up:
+      level_choices:
+        total_beginner:
+          title: I'm a beginner
+          description: You're getting started with coding.
+        in_between:
+          title: I can code a little
+          description: You can code simple programs comfortably.
+        confident_developer:
+          title: I'm a developer
+          description: You can code complex programs comfortably.
+      code_check:
+        i_mostly_code_in: I mostly code in
+        choose_language: choose a language
+        search_placeholder: Search languages
+        no_results: No languages match
+        hint: finish the sentence
+        loading: Loading the code…
+        error: We couldn't load the code. Please pick the language again.
+        sample_label: Code example
+        question: How does this code feel to you?
+        answers:
+          easy: Easy 😎
+          tricky: Tricky 🤔
+          impossible: Impossible 🤯
+      jiki_snaps:
+        space_invaders: space invaders
+        breakout: breakout
+        maze: maze solver
+      jiki_ticker:
+        label: What learners say about Jiki
+        five_stars: 5 out of 5 stars
+        quotes:
+          - The best course I've done
+          - Made learning a joy again
+          - This course is pure gold.
+          - A wonderful learning experience
+          - Proper hands-on learning
+          - The knowledge you didn't think you needed
+          - My best time investment for years
+          - Incredibly fun!

@@ -77,6 +77,16 @@ module Git
       assert_equal('docs/SNIPPET.txt', track.snippet_filepath)
     end
 
+    test "sign_up_snippet file path" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track"))
+      assert_equal('docs/SIGN_UP_SNIPPET.txt', track.sign_up_snippet_filepath)
+    end
+
+    test "sign_up_snippet is blank when the track has none" do
+      track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track"))
+      assert_equal "", track.sign_up_snippet
+    end
+
     test "snippet absolute file path" do
       track = Git::Track.new(repo_url: TestHelpers.git_repo_url("track"))
       assert_equal('docs/SNIPPET.txt', track.snippet_absolute_filepath)

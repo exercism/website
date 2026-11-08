@@ -7,6 +7,7 @@ class User::Data < ApplicationRecord
   scope :translators, -> { where.not(translator_locales: [nil, "", "[]", "{}"]) }
 
   belongs_to :user
+  belongs_to :sign_up_track, class_name: "Track", optional: true
 
   enum insiders_status: {
     unset: 0,

@@ -30,3 +30,35 @@ en:
         password_confirmation_placeholder: Confirm your password
         confirm_not_bot_label: Confirm you're not a bot
         sign_up_button: Sign Up
+        continue: Continue
+        create_account: Create your Exercism account
+        panel:
+          label: About Exercism
+          heading: Practise, nurture your craft and learn new languages.
+          body_html: Level up your programming skills with %{stats} and insightful discussion with our dedicated team of welcoming mentors. %{free_forever}
+          stats: "thousands of exercises across %{track_count} languages,"
+          free_forever: Free forever.
+          more_tracks: "+%{count} more"
+        progress:
+          label: Sign-up progress
+          step_1: "Step 1: your coding journey"
+          step_2: "Step 2: language and code check"
+          step_3: "Step 3: sign up"
+        level:
+          question: Where are you on your coding journey?
+          intro: We'll point you to the best place to start.
+        code:
+          heading: Let's check where to start
+          intro: Pick the language you use most, then tell us how the code feels.
+      jiki_dialog:
+        logo_alt: Jiki, by the team at Exercism
+        your_level:
+          heading: We've designed a platform for your level!
+          body_html: "Exercism is designed for people with a little more experience. <strong>Instead, use Jiki, our beginners platform, where you'll master coding fundamentals.</strong> It's free, fun, and you'll build these in the first few weeks:"
+        foundations:
+          heading: Let's firm up your foundations first!
+          body_html: "Exercism is designed for developers. <strong>Use Jiki to build your foundations, then come back here to master %{language}.</strong> Jiki is free, fun, and you'll make these along the way:"
+        cta: Sign up to Jiki for free
+        later_html: No thanks, I want to %{link} anyway
+        later_link: use Exercism
+        later_aside: (even though we think that's a bad idea 🤭)

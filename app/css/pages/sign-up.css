@@ -1,0 +1,1381 @@
+/* The sign-up page. The values here follow the design in exercism/data-analysis
+   (designs/ExercismOnboard.dc.html) exactly, so they are written as plain
+   pixel values and colours rather than mapped onto the nearest theme tokens.
+
+   The steps are server-rendered, and app/javascript/utils/sign-up-flow.ts
+   shows one at a time. */
+
+body.namespace-auth.user-signed_out:has(#page-sign-up) turbo-frame {
+    @apply flex grow;
+}
+
+#page-sign-up {
+    display: flex;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    min-height: 100vh;
+    font-family: "Poppins", system-ui, sans-serif;
+    color: var(--su-ink);
+    background: #ffffff;
+
+    & [hidden] {
+        display: none !important;
+    }
+
+    & .sign-up-main {
+        position: relative;
+        flex: 0 1 38%;
+        min-width: min(100%, 480px);
+        display: flex;
+        justify-content: center;
+        padding: 32px 40px 24px;
+        box-sizing: border-box;
+    }
+
+    & .sign-up-inner {
+        width: 100%;
+        max-width: 460px;
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+    }
+
+    & .flow-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+
+        & .logo {
+            display: block;
+
+            & img {
+                display: block;
+                width: 140px;
+                height: auto;
+            }
+        }
+    }
+
+    & .progress {
+        display: flex;
+        align-items: center;
+
+        & .progress-dot {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 28px;
+            height: 32px;
+            padding: 0 3px;
+            border: 0;
+            background: none;
+            cursor: default;
+
+            & span {
+                display: block;
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: #d4cdf7;
+                transition: transform 0.15s;
+            }
+            &.--done span {
+                background: #a99ceb;
+            }
+            &.--current span {
+                width: 24px;
+                border-radius: 999px;
+                background: var(--su-purple);
+            }
+            &:not(:disabled) {
+                cursor: pointer;
+
+                &:hover span {
+                    background: var(--su-purple);
+                    transform: scale(1.25);
+                }
+            }
+            &:focus-visible {
+                outline: 3px solid var(--su-purple);
+                outline-offset: 2px;
+                border-radius: 6px;
+            }
+        }
+    }
+
+    & .flow-step {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+
+        & h1 {
+            margin: 0;
+            font-size: 26px;
+            font-weight: 700;
+            line-height: 1.25;
+            color: var(--su-ink);
+
+            &:focus {
+                outline: none;
+            }
+        }
+        & .flow-intro {
+            margin: -6px 0 0;
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--su-muted);
+        }
+    }
+
+    /* The form step */
+    & .github-form {
+        margin: 0;
+    }
+    & .github-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        height: 56px;
+        box-sizing: border-box;
+        padding: 0 24px;
+        border-radius: 8px;
+        font-family: inherit;
+        font-size: 18px;
+        font-weight: 600;
+        border: 1.5px solid var(--su-purple);
+        background: #ffffff;
+        color: var(--su-ink);
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(79, 114, 205, 0.18);
+
+        & .c-icon {
+            width: 22px;
+            height: 22px;
+        }
+        &:hover {
+            background: var(--su-tint);
+        }
+        &:focus-visible {
+            outline: 3px solid var(--su-purple);
+            outline-offset: 3px;
+        }
+    }
+    & .divider {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: var(--su-ink);
+
+        & .line {
+            flex: 1;
+            height: 1px;
+            background: var(--su-border);
+        }
+    }
+    & .c-flash {
+        width: 100%;
+    }
+    & .sign-up-form {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        margin: 0;
+
+        & .field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        & label,
+        & .label {
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--su-ink);
+        }
+        & input[type="text"],
+        & input[type="email"],
+        & input[type="password"] {
+            width: 100%;
+            height: 56px;
+            box-sizing: border-box;
+            padding: 0 18px;
+            border: 1.5px solid #c9c1f2;
+            border-radius: 8px;
+            font-family: "Poppins", sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: 0;
+            text-transform: none;
+            color: var(--su-ink);
+            background: #ffffff;
+
+            &:focus {
+                outline: none;
+                border-color: var(--su-purple);
+                box-shadow: 0 0 0 3px rgba(96, 79, 205, 0.18);
+            }
+        }
+    }
+    & .devise-links {
+        font-size: 16px;
+        line-height: 1.6;
+        text-align: center;
+
+        & .link + .link {
+            margin-top: 8px;
+        }
+        & a {
+            font-weight: 500;
+            color: var(--su-purple);
+        }
+    }
+
+    /* The panel beside the form */
+    & .sign-up-panel {
+        flex: 1 1 520px;
+        min-width: 0;
+        align-self: flex-start;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        min-height: 560px;
+        overflow: hidden;
+        background: linear-gradient(180deg, #3b2b9c 0%, #4b3db4 100%);
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 32px 48px;
+        box-sizing: border-box;
+    }
+    & .panel-content {
+        max-width: 800px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 18px;
+
+        & .illustration {
+            display: block;
+            width: auto;
+            max-width: 100%;
+            height: min(300px, 34vh);
+        }
+        & .panel-heading {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+            line-height: 1.3;
+            color: #ffffff;
+            text-wrap: balance;
+        }
+        & .panel-body {
+            margin: 0;
+            max-width: 640px;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #e6e0fa;
+
+            & strong {
+                font-weight: 600;
+                color: #ffffff;
+            }
+        }
+    }
+    & .panel-tracks {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+
+        & .c-track-icon {
+            width: 44px;
+            height: 44px;
+        }
+        & .more {
+            margin-left: 6px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+    }
+}
+
+/* Shared by the sign-up page and the returning-user modal. */
+
+:root {
+    --su-ink: #130b43;
+    --su-purple: #604fcd;
+    --su-purple-dark: #3b2a93;
+    --su-muted: #5c5589;
+    --su-border: #d5d8e4;
+    --su-tint: #f6f3ff;
+}
+
+.c-level-choices,
+.c-code-check,
+.c-jiki-snaps,
+.c-jiki-ticker {
+    & [hidden] {
+        display: none !important;
+    }
+}
+
+/* The primary button. Disabled, it greys out and drops its arrow. */
+.c-flow-cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 56px;
+    box-sizing: border-box;
+    padding: 0 24px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1;
+    border: 1px solid var(--su-ink);
+    background: var(--su-purple);
+    color: #ffffff;
+    cursor: pointer;
+    box-shadow: 0 4px 7px rgba(79, 114, 205, 0.4);
+
+    & .arrow {
+        margin-inline-start: 0.5em;
+    }
+    &:hover {
+        background: var(--su-purple-dark);
+    }
+    &:focus-visible {
+        outline: 3px solid var(--su-purple);
+        outline-offset: 3px;
+    }
+    &:disabled {
+        border-color: var(--su-border);
+        background: #f0f3f9;
+        color: #8480a0;
+        box-shadow: none;
+        cursor: not-allowed;
+
+        & .arrow {
+            display: none;
+        }
+    }
+}
+
+.c-level-choices {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    & .choice {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        text-align: left;
+        min-height: 64px;
+        padding: 12px 18px;
+        box-sizing: border-box;
+        border-radius: 12px;
+        cursor: pointer;
+        line-height: 1.4;
+        background: #ffffff;
+        color: var(--su-ink);
+        border: 2px solid var(--su-border);
+        box-shadow: 0 2px 4px rgba(79, 114, 205, 0.12);
+
+        &:hover {
+            border-color: var(--su-purple);
+        }
+        &:focus-within {
+            outline: 3px solid var(--su-purple);
+            outline-offset: 3px;
+        }
+        &:has(input:checked) {
+            background: var(--su-tint);
+            color: var(--su-purple);
+            border-color: var(--su-purple);
+            box-shadow: 0 4px 10px rgba(79, 114, 205, 0.18);
+
+            & .choice-icon {
+                background: #ffffff;
+            }
+        }
+
+        & input {
+            position: absolute;
+            opacity: 0;
+            width: 1px;
+            height: 1px;
+        }
+
+        /* Three bars that fill up with the level. */
+        & .choice-icon {
+            flex: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: var(--su-tint);
+
+            & rect {
+                fill: #dcd6f7;
+
+                &.--on {
+                    fill: var(--su-purple);
+                }
+            }
+        }
+        & .choice-text {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        & .choice-title {
+            font-size: 17px;
+            font-weight: 600;
+        }
+        & .choice-description {
+            font-size: 14px;
+            line-height: 1.3;
+            font-weight: 400;
+            color: var(--su-muted);
+        }
+    }
+}
+
+/* The code check. The sentence, the code box and the answers sit straight
+   on the page. Only the code box has a border. */
+.c-code-check {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    & .code-check-sentence {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        gap: 8px;
+
+        & > span {
+            flex: none;
+            white-space: nowrap;
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--su-ink);
+        }
+    }
+    & .code-check-question {
+        flex: 0 0 100%;
+        transform-origin: left center;
+        margin: 4px 0 0;
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--su-muted);
+        animation: su-question-pulse 1.6s ease-out 0.2s 1;
+
+        & .bend {
+            display: inline-block;
+            margin: 0 6px 0 2px;
+            color: #a9a4c8;
+        }
+    }
+    & .code-check-panel {
+        position: relative;
+        border: 2px solid #e3dcfa;
+        border-radius: 5px;
+        overflow: hidden;
+        background: #faf9ff;
+    }
+    & .code-check-placeholder {
+        height: 270px;
+
+        & .skeleton {
+            height: 100%;
+            box-sizing: border-box;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        & .skeleton-line {
+            display: block;
+            height: 11px;
+            border-radius: 6px;
+            background: #f0edfa;
+        }
+    }
+    & .code-check-hint {
+        position: absolute;
+        top: 34px;
+        left: 20px;
+        margin: 0;
+        display: flex;
+        align-items: flex-start;
+        gap: 2px;
+        font-family: "Caveat", cursive;
+        font-size: 24px;
+        font-weight: 600;
+        line-height: 1.2;
+        white-space: nowrap;
+        color: #3e2f9e;
+        transform: rotate(-4deg);
+        animation: su-hint-bob 1.8s ease-in-out infinite;
+
+        & svg {
+            flex: none;
+            margin-top: -10px;
+            margin-left: 2px;
+        }
+    }
+    & .code-check-status {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 270px;
+        padding: 18px;
+        box-sizing: border-box;
+        text-align: center;
+        font-size: 15px;
+        color: var(--su-muted);
+    }
+    & .code-check-code {
+        margin: 0;
+        height: 270px;
+        overflow: auto;
+        padding: 8px 12px;
+        box-sizing: border-box;
+        background: transparent;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 13.5px;
+        line-height: 1.6;
+        color: var(--su-ink);
+        white-space: pre;
+        tab-size: 2;
+        scrollbar-width: thin;
+        scrollbar-color: var(--su-purple) #eceaf8;
+
+        &::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        &::-webkit-scrollbar-thumb {
+            background: var(--su-purple);
+            border-radius: 8px;
+        }
+        &::-webkit-scrollbar-track {
+            background: #eceaf8;
+        }
+        &:focus-visible {
+            outline: 3px solid var(--su-purple);
+            outline-offset: -3px;
+        }
+
+        /* The site sets every code element to pre-wrap. Long lines here
+           scroll sideways instead. */
+        & code {
+            display: block;
+            width: max-content;
+            min-width: 100%;
+            padding: 0;
+            background: transparent;
+            font: inherit;
+            color: inherit;
+            white-space: pre;
+        }
+
+        /* The highlighter numbers the lines as a list. */
+        & ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        & .loc {
+            white-space: pre;
+        }
+        & li {
+            display: flex;
+            min-height: 1.6em;
+        }
+        & .idx {
+            flex: none;
+            display: inline-block;
+            width: 30px;
+            color: #a9a4c8;
+            user-select: none;
+        }
+
+        /* The design's own palette, in place of the site's highlight theme. */
+        & .hljs-string {
+            color: #0f8a5f;
+        }
+        & .hljs-number {
+            color: #c2410c;
+        }
+        & .hljs-keyword,
+        & .hljs-literal,
+        & .hljs-type,
+        & .hljs-built_in {
+            color: #7c3aed;
+            font-weight: 500;
+        }
+        & .hljs-title,
+        & .hljs-title.function_ {
+            color: #2563eb;
+        }
+        & .hljs-punctuation,
+        & .hljs-operator {
+            color: var(--su-muted);
+        }
+        & .hljs-comment {
+            color: #a9a4c8;
+        }
+        & .hljs-variable,
+        & .hljs-params,
+        & .hljs-attr,
+        & .hljs-property {
+            color: var(--su-ink);
+        }
+    }
+    & .code-check-answers {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+    }
+    & .answer {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        white-space: nowrap;
+        height: 48px;
+        box-sizing: border-box;
+        padding: 0 12px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 15px;
+        font-weight: 600;
+        transition: transform 0.12s, box-shadow 0.12s, background 0.12s;
+        border: 2px solid #b9b0ee;
+        background: var(--su-tint);
+        color: #3e2f9e;
+        box-shadow: 0 1px 0 #d5cff5;
+
+        &:hover {
+            border-color: var(--su-purple);
+        }
+        &:focus-within {
+            outline: 3px solid var(--su-purple);
+            outline-offset: 3px;
+        }
+        &:has(input:checked) {
+            border-color: var(--su-purple);
+            background: var(--su-purple);
+            color: #ffffff;
+            box-shadow: none;
+        }
+
+        & input {
+            position: absolute;
+            opacity: 0;
+            width: 1px;
+            height: 1px;
+        }
+    }
+}
+
+.c-jiki-snaps {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    margin: 0 0 32px;
+    padding: 6px 0 0;
+    list-style: none;
+    & .snap {
+        flex: 0 1 119px;
+        min-width: 0;
+        background: #fffcf5;
+        padding: 6px 6px 0;
+        border-radius: 4px;
+        border: 1px solid #ece6d8;
+        box-shadow: 0 14px 26px -14px rgba(19, 11, 67, 0.45);
+        box-sizing: border-box;
+
+        &:nth-child(1) {
+            transform: rotate(-6deg) translateY(7px);
+            margin-right: -11px;
+        }
+        &:nth-child(2) {
+            position: relative;
+            z-index: 1;
+            transform: translateY(-2px);
+        }
+        &:nth-child(3) {
+            transform: rotate(6deg) translateY(7px);
+            margin-left: -11px;
+        }
+
+        & video {
+            display: block;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 2px;
+
+            &.--pixel {
+                image-rendering: pixelated;
+            }
+        }
+        & span {
+            display: block;
+            text-align: center;
+            white-space: nowrap;
+            font-family: "Caveat", cursive;
+            font-size: 21px;
+            font-weight: 600;
+            line-height: 1;
+            padding: 8px 0 10px;
+            color: #2b2420;
+        }
+    }
+}
+
+.c-jiki-ticker {
+    flex: none;
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: #eef4ff;
+    border-top: 1px solid #d6e4fb;
+    -webkit-mask-image: linear-gradient(
+        90deg,
+        transparent,
+        #000 40px,
+        #000 calc(100% - 40px),
+        transparent
+    );
+    mask-image: linear-gradient(
+        90deg,
+        transparent,
+        #000 40px,
+        #000 calc(100% - 40px),
+        transparent
+    );
+
+    &:hover .ticker-track {
+        animation-play-state: paused;
+    }
+    & .ticker-track {
+        display: flex;
+        align-items: center;
+        width: max-content;
+        line-height: 1;
+        animation: su-ticker 40s linear infinite;
+
+        & ul {
+            display: flex;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+    }
+    & .ticker-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 0 18px;
+        white-space: nowrap;
+        font-size: 15px;
+        font-weight: 600;
+        color: #130b43;
+
+        & .stars {
+            display: inline-flex;
+            gap: 1px;
+        }
+        & .star {
+            fill: #f5b301;
+        }
+    }
+}
+
+/* The language picker that app/javascript/utils/searchable-select.ts builds
+   from the native select. The closed state copies the design's inline select. */
+.c-searchable-select {
+    position: relative;
+    display: inline-block;
+
+    & .trigger {
+        position: relative;
+        display: flex;
+        align-items: center;
+        height: 30px;
+        min-width: 190px;
+        padding: 0 28px 0 4px;
+        border: 0;
+        border-bottom: 2px dashed #604fcd;
+        border-radius: 0;
+        background: transparent;
+        font-family: inherit;
+        font-size: 17px;
+        font-weight: 600;
+        color: #604fcd;
+        cursor: pointer;
+
+        & .chevron {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 12px;
+            height: 12px;
+            pointer-events: none;
+        }
+        &:focus,
+        &:focus-visible {
+            outline: none;
+        }
+    }
+
+    & .panel {
+        position: absolute;
+        z-index: 50;
+        top: calc(100% + 8px);
+        left: 0;
+        width: 280px;
+        border: 2px solid #e3dcfa;
+        border-radius: 12px;
+        background: #ffffff;
+        box-shadow: 0 12px 28px -8px rgba(19, 11, 67, 0.25);
+        overflow: hidden;
+    }
+    & .search {
+        display: block;
+        width: 100%;
+        height: 46px;
+        box-sizing: border-box;
+        padding: 0 14px;
+        border: 0;
+        border-radius: 0;
+        border-bottom: 2px solid #e3dcfa;
+        font-family: "Poppins", sans-serif;
+        font-size: 15px;
+        color: #130b43;
+        background: #ffffff;
+
+        &:focus {
+            outline: none;
+            border-color: #e3dcfa;
+            border-bottom-color: #604fcd;
+            box-shadow: none;
+            background: #faf9ff;
+        }
+    }
+    & .options {
+        max-height: 264px;
+        overflow-y: auto;
+        margin: 0;
+        padding: 6px 0;
+        list-style: none;
+        scrollbar-width: thin;
+        scrollbar-color: #604fcd #eceaf8;
+    }
+    & .option {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-height: 44px;
+        padding: 0 14px;
+        cursor: pointer;
+        font-size: 15px;
+        font-weight: 500;
+        color: #130b43;
+
+        & img {
+            width: 24px;
+            height: 24px;
+        }
+        &.--active {
+            background: #f6f3ff;
+        }
+        &[aria-selected="true"] {
+            font-weight: 600;
+            color: #604fcd;
+        }
+        &[hidden] {
+            display: none;
+        }
+    }
+    & .no-results {
+        margin: 0;
+        padding: 12px 14px;
+        font-size: 15px;
+        color: #5c5589;
+
+        &[hidden] {
+            display: none;
+        }
+    }
+}
+
+/* The full-screen Jiki pop-up. It is a native <dialog>, opened with
+   showModal() so it brings its own focus trap, Esc handling and backdrop. */
+.c-sign-up-jiki-dialog {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100dvh;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: #ffffff;
+    font-family: "Poppins", system-ui, sans-serif;
+    color: #130b43;
+
+    &[open] {
+        display: flex;
+        flex-direction: column;
+    }
+    &::backdrop {
+        background: #ffffff;
+    }
+    &:focus {
+        outline: none;
+    }
+
+    & [hidden] {
+        display: none !important;
+    }
+
+    & .dialog-scroll {
+        flex: 1;
+        min-height: 0;
+        overflow-y: auto;
+        display: flex;
+        padding: 16px 24px 14px;
+        box-sizing: border-box;
+    }
+    & .dialog-body {
+        margin: auto;
+        width: 100%;
+        max-width: 670px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+
+        & .jiki-logo {
+            display: block;
+            width: 230px;
+            height: auto;
+            margin-bottom: 16px;
+        }
+        & h2 {
+            margin: 0 0 6px;
+            font-size: 25px;
+            font-weight: 700;
+            line-height: 1.3;
+            letter-spacing: -0.01em;
+            text-wrap: balance;
+            color: #130b43;
+
+            & strong {
+                font-weight: inherit;
+                color: #3b6fe0;
+            }
+        }
+        & p {
+            margin: 0 0 20px;
+            font-size: 17px;
+            line-height: 1.6;
+            color: #3f3a5a;
+
+            & strong {
+                font-weight: 600;
+                color: #3b6fe0;
+            }
+        }
+    }
+
+    & .cta-wrapper {
+        position: relative;
+        margin-bottom: 12px;
+        display: inline-flex;
+    }
+    & .jiki-cta {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 60px;
+        box-sizing: border-box;
+        padding: 0 28px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #4f86f0 0%, #3b6fe0 100%);
+        color: #ffffff;
+        border: 2px solid #3b6fe0;
+        font-size: 18px;
+        font-weight: 600;
+        text-decoration: none;
+        box-shadow: 0 6px 14px -6px rgba(59, 111, 224, 0.55);
+
+        & .arrow {
+            margin-inline-start: 0.5em;
+        }
+        &:hover {
+            filter: brightness(0.95);
+        }
+        &:focus-visible {
+            outline: 3px solid #3b6fe0;
+            outline-offset: 3px;
+        }
+    }
+
+    /* Only the link closes the pop-up. The rest of the line is plain text. */
+    & .later {
+        margin: 0;
+        padding: 10px 0 0;
+        font-size: 15px;
+        font-weight: 500;
+        line-height: 1.6;
+        color: #5c5589;
+
+        & .later-link {
+            display: inline;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            background: none;
+            cursor: pointer;
+            font: inherit;
+            font-weight: 600;
+            color: #3b82f6;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+
+            &:focus-visible {
+                outline: 3px solid #604fcd;
+                outline-offset: 3px;
+            }
+        }
+        & .later-aside {
+            display: block;
+            margin-top: 8px;
+            font-size: 14px;
+            color: #9a95b8;
+        }
+    }
+}
+
+/* The returning-user modal (app/views/components/_returning_user_modal.html.haml).
+   Each step is its own <dialog>, centred over the page. */
+.c-returning-user-modal {
+    & [hidden] {
+        display: none !important;
+    }
+
+    & .returning-dialog,
+    & .returning-thanks {
+        width: 600px;
+        max-width: calc(100% - 32px);
+        max-height: calc(100% - 32px);
+        overflow: auto;
+        margin: auto;
+        box-sizing: border-box;
+        padding: 36px 48px 40px;
+        border: 0;
+        border-radius: 16px;
+        background: #ffffff;
+        box-shadow: 0 20px 60px -20px rgba(19, 11, 67, 0.35);
+        font-family: "Poppins", system-ui, sans-serif;
+        color: var(--su-ink);
+
+        &::backdrop {
+            background: rgba(248, 247, 254, 0.72);
+        }
+        &:focus {
+            outline: none;
+        }
+    }
+
+    & .returning-dialog[data-returning-step="level"] {
+        & h1 {
+            margin: 0;
+            font-size: 38px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        & p {
+            margin: 10px 0 0;
+            font-size: 18px;
+            line-height: 1.6;
+            color: #3f3a5a;
+
+            & strong {
+                font-weight: 700;
+                color: var(--su-ink);
+            }
+        }
+        & .c-level-choices {
+            margin-top: 24px;
+        }
+        & .save {
+            display: block;
+            margin-top: 18px;
+            width: 100%;
+            height: 56px;
+            border: 0;
+            border-radius: 10px;
+            font: inherit;
+            font-size: 18px;
+            font-weight: 600;
+            color: #ffffff;
+            background: var(--su-purple);
+            cursor: pointer;
+            box-shadow: 0 6px 14px -6px rgba(96, 79, 205, 0.6);
+
+            &:disabled {
+                background: #afa5e6;
+                box-shadow: none;
+                cursor: default;
+            }
+            &:focus-visible {
+                outline: 3px solid #a99ceb;
+                outline-offset: 3px;
+            }
+        }
+    }
+
+    & .returning-dialog[data-returning-step="code"] {
+        &[open] {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        & > * {
+            flex-shrink: 0;
+        }
+        & h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 1.25;
+        }
+    }
+
+    & .returning-thanks {
+        width: 480px;
+        padding: 40px 48px;
+        text-align: center;
+
+        &[open] {
+            animation: su-thanks-fade 3s ease forwards;
+        }
+        & .tick {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #f1eefd;
+            color: var(--su-purple);
+        }
+        & .title {
+            margin: 16px 0 0;
+            font-size: 30px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        & p:not(.title) {
+            margin: 10px 0 0;
+            font-size: 18px;
+            line-height: 1.6;
+            color: #3f3a5a;
+        }
+    }
+}
+
+/* The Jiki pop-up for returning users is centred over the page, in place of
+   the sign-up page's full-screen version. */
+.c-sign-up-jiki-dialog.--centred {
+    inset: 0;
+    width: 720px;
+    height: fit-content;
+    max-width: calc(100% - 32px);
+    max-height: calc(100% - 32px);
+    margin: auto;
+    overflow: hidden;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px -20px rgba(19, 11, 67, 0.35);
+
+    &::backdrop {
+        background: rgba(0, 0, 0, 0.8);
+    }
+    &:focus {
+        outline: none;
+    }
+
+    & .close {
+        position: absolute;
+        top: 16px;
+        right: 20px;
+        z-index: 2;
+        width: 44px;
+        height: 44px;
+        border: 0;
+        border-radius: 50%;
+        background: transparent;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #5c5589;
+
+        &:hover {
+            background: #f2f0fc;
+        }
+        &:focus-visible {
+            outline: 3px solid #604fcd;
+            outline-offset: 3px;
+        }
+    }
+    & .dialog-scroll {
+        flex: 1 1 auto;
+        padding: 32px 40px 20px;
+    }
+    & .dialog-body {
+        max-width: 660px;
+
+        & .jiki-logo {
+            width: 190px;
+            margin-bottom: 12px;
+        }
+    }
+    & .snaps-figure {
+        position: relative;
+        width: 100%;
+        margin: 0 0 22px;
+
+        & .c-jiki-snaps {
+            margin: 0;
+        }
+    }
+    & .jiki-note {
+        position: absolute;
+        top: 18px;
+        left: calc(50% + 193px);
+        width: 150px;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        font-family: "Caveat", cursive;
+        font-size: 24px;
+        font-weight: 600;
+        line-height: 1.15;
+        text-align: left;
+        color: #3e2f9e;
+        transform: rotate(-4deg);
+
+        & svg {
+            margin: 4px 0 0 -14px;
+        }
+    }
+    & .cta-wrapper {
+        margin: 13px 0 0;
+    }
+    & .later {
+        margin: 7px 0 0;
+    }
+    & .c-jiki-ticker {
+        height: 42px;
+    }
+}
+
+@keyframes su-thanks-fade {
+    0% {
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    80% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+/* While one of these pop-ups is open, the page behind it doesn't scroll. */
+html:has(.c-sign-up-jiki-dialog[open]),
+html:has(.c-returning-user-modal dialog[open]) {
+    overflow: hidden;
+
+    & body {
+        overflow: hidden;
+    }
+}
+
+@keyframes su-ticker {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+@keyframes su-hint-bob {
+    0%,
+    100% {
+        transform: rotate(-4deg) translateY(0);
+    }
+    50% {
+        transform: rotate(-4deg) translateY(-5px);
+    }
+}
+@keyframes su-question-pulse {
+    0% {
+        color: #5c5589;
+        transform: scale(1);
+    }
+    25% {
+        color: #3e2f9e;
+        transform: scale(1.04);
+    }
+    55% {
+        transform: scale(1);
+    }
+    100% {
+        color: #5c5589;
+        transform: scale(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .c-code-check .code-check-hint,
+    .c-code-check .code-check-question,
+    .c-jiki-ticker .ticker-track,
+    .c-returning-user-modal .returning-thanks[open] {
+        animation: none;
+    }
+}

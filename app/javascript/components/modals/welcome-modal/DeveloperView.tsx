@@ -57,10 +57,6 @@ export function SeniorView() {
             allowFullScreen
           />
         </div>
-        <h2 className="text-h4 mb-4">{t('welcomeModal.whereCanIJoin')}</h2>
-        <p className="text-p-base mb-8">
-          {t('welcomeModal.discoveredExercism')}
-        </p>
       </div>
     </>
   )

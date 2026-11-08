@@ -1,0 +1,34 @@
+-#
+  The code check: pick a language, read a short snippet, say how it feels.
+  app/javascript/utils/code-check.ts loads each snippet when it's chosen.
+.c-code-check
+  .code-check-sentence
+    %span{ id: "#{id_prefix}-language-label" }= t('.i_mostly_code_in')
+    %select.language-select{ data: { language_select: true, search_placeholder: t('.search_placeholder'),
+                                     no_results: t('.no_results') },
+                             aria: { labelledby: "#{id_prefix}-language-label" } }
+      %option{ value: "" }= t('.choose_language')
+      - tracks.each do |track|
+        %option{ value: track.slug, data: { icon_url: track.icon_url } }= track.title
+    %p.code-check-question{ id: "#{id_prefix}-code-question", hidden: true }
+      %span.bend{ aria: { hidden: "true" } } ↳
+      = t('.question')
+  .code-check-panel
+    .code-check-placeholder{ data: { code_placeholder: true } }
+      .skeleton{ aria: { hidden: "true" } }
+        - [[62, 0], [84, 24], [70, 48], [48, 0], [90, 24], [56, 48], [34, 0], [76, 24], [40, 48], [66, 0]].each do |width, indent|
+          %span.skeleton-line{ style: "width: #{width}%; margin-inline-start: #{indent}px" }
+      %p.code-check-hint
+        = t('.hint')
+        %svg{ width: 44, height: 34, viewBox: "0 0 44 34", aria: { hidden: "true" } }
+          %path{ d: "M4 30 C 20 31, 34 24, 37 6", fill: "none", stroke: "currentColor", "stroke-width": "2.2", "stroke-linecap": "round" }
+          %path{ d: "M31 11 L37 5 L42 12", fill: "none", stroke: "currentColor", "stroke-width": "2.2", "stroke-linecap": "round", "stroke-linejoin": "round" }
+    .code-check-status{ hidden: true, role: :status, data: { code_loading: true } }= t('.loading')
+    .code-check-status{ hidden: true, role: :alert, data: { code_error: true } }= t('.error')
+    %pre.code-check-code{ hidden: true, tabindex: 0, data: { code_sample: true }, aria: { label: t('.sample_label') } }
+      %code
+  .code-check-answers{ hidden: true, role: :radiogroup, aria: { labelledby: "#{id_prefix}-code-question" } }
+    - %w[easy tricky impossible].each do |answer|
+      %label.answer
+        %input{ type: :radio, name: "code_check_answer", value: answer }
+        = t(".answers.#{answer}")

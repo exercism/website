@@ -17,6 +17,7 @@ module Flows
 
       allow_captcha_request do
         visit new_user_registration_path
+        answer_sign_up_questions
         fill_in "Email", with: "user@exercism.org"
         fill_in "Username", with: "user22"
         fill_in "Password", with: "password"
@@ -46,6 +47,7 @@ module Flows
             to_return(body: { success: false }.to_json)
 
           visit new_user_registration_path
+          answer_sign_up_questions
           fill_in "Email", with: "user@exercism.org"
           fill_in "Username", with: "user22!"
           fill_in "Password", with: "password"
@@ -65,6 +67,7 @@ module Flows
       expecting_errors do
         allow_captcha_request do
           visit new_user_registration_path
+          answer_sign_up_questions
           fill_in "Email", with: "user@exercism.org"
           fill_in "Username", with: "user22!"
           fill_in "Password", with: "password"
@@ -93,6 +96,7 @@ module Flows
 
       use_capybara_host do
         visit new_user_registration_path
+        answer_sign_up_questions
         click_on "Sign Up with GitHub"
 
         refute_text "Check your email"
@@ -122,6 +126,7 @@ module Flows
           visit track_path(track)
           click_on "Join the Ruby Track"
           visit new_user_registration_path
+          answer_sign_up_questions
           click_on "Sign Up with GitHub"
           find('label', text: "I accept Exercism's Terms of Service").click
           find('label', text: "I accept Exercism's Privacy Policy").click
@@ -150,6 +155,7 @@ module Flows
         expecting_errors do
           visit '/site.webmanifest'
           visit new_user_registration_path
+          answer_sign_up_questions
           click_on "Sign Up with GitHub"
           find('label', text: "I accept Exercism's Terms of Service").click
           find('label', text: "I accept Exercism's Privacy Policy").click
@@ -176,6 +182,7 @@ module Flows
 
       expecting_errors do
         visit new_user_registration_path
+        answer_sign_up_questions
         click_on "Sign Up with GitHub"
 
         assert_text "Sorry, we could not authenticate you from GitHub."
@@ -194,6 +201,7 @@ module Flows
 
       expecting_errors do
         visit new_user_registration_path
+        answer_sign_up_questions
         click_on "Sign Up with GitHub"
 
         assert_text "Sorry, we could not authenticate you from GitHub."
@@ -202,7 +210,101 @@ module Flows
       OmniAuth.config.test_mode = false
     end
 
+    test "a total beginner is offered Jiki and can still sign up" do
+      Exercism.secrets.turnstile_site_key = "1x00000000000000000000AA"
+
+      allow_captcha_request do
+        visit new_user_registration_path
+        answer_sign_up_questions("I'm a beginner")
+
+        within "#sign-up-jiki-dialog" do
+          assert_text "We've designed a platform for your level!"
+          assert_link "Sign up to Jiki for free",
+            href: "https://jiki.io/auth/signup?utm_source=exercism&utm_medium=sign_up&utm_content=absolute_beginner"
+          click_on "use Exercism"
+        end
+
+        fill_in_sign_up_form
+        click_on "Sign Up", class: "test-sign-up-btn", wait: 5
+
+        assert_text "Check your email"
+      end
+
+      assert_equal :absolute_beginner, User.find_by(email: "user@exercism.org").data.seniority
+    end
+
+    test "an in-between developer takes the code check" do
+      Exercism.secrets.turnstile_site_key = "1x00000000000000000000AA"
+      go = create :track, slug: "go", title: "Go"
+      Rails.cache.write(Track::RetrieveSignUpSnippet.cache_key(go), "package main")
+
+      allow_captcha_request do
+        visit new_user_registration_path
+        find("label", text: "I can code a little").click
+        click_on "Continue"
+
+        find(".c-searchable-select .trigger").click
+        find(".c-searchable-select .search").fill_in(with: "go")
+        find(".c-searchable-select .option", text: "Go").click
+
+        assert_text "package main"
+        find("label", text: "Tricky").click
+        click_on "Continue"
+
+        within "#sign-up-jiki-dialog" do
+          assert_text "Let's firm up your foundations first!"
+          click_on "use Exercism"
+        end
+
+        fill_in_sign_up_form
+        click_on "Sign Up", class: "test-sign-up-btn", wait: 5
+
+        assert_text "Check your email"
+      end
+
+      data = User.find_by(email: "user@exercism.org").data
+      assert_equal :beginner, data.seniority
+      assert_equal go, data.sign_up_track
+    end
+
+    test "GitHub sign-up keeps the answers" do
+      OmniAuth.config.test_mode = true
+      OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(
+        provider: "github",
+        uid: "111",
+        info: {
+          email: "user@exercism.org",
+          name: "Name",
+          nickname: "user22"
+        }
+      )
+
+      use_capybara_host do
+        visit new_user_registration_path
+        answer_sign_up_questions("I'm a developer")
+        click_on "Sign Up with GitHub"
+
+        assert_page :onboarding
+      end
+
+      assert_equal :senior, User.find_by(email: "user@exercism.org").data.seniority
+    ensure
+      OmniAuth.config.test_mode = false
+    end
+
     private
+    def answer_sign_up_questions(level = "I'm a developer")
+      find("label", text: level).click
+      click_on "Continue"
+    end
+
+    def fill_in_sign_up_form
+      fill_in "Email", with: "user@exercism.org"
+      fill_in "Username", with: "user22"
+      fill_in "Password", with: "password"
+      fill_in "Password confirmation", with: "password"
+    end
+
     def allow_captcha_request
       stub_request(:post, "https://challenges.cloudflare.com/turnstile/v0/siteverify").
         to_return(body: { success: true }.to_json)

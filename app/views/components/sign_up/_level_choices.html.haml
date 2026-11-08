@@ -1,0 +1,16 @@
+-#
+  The three answers to "where are you on your coding journey?". The sign-up
+  page and the returning-user modal both use them. The bars fill up with the
+  level.
+.c-level-choices{ role: :radiogroup, aria: { labelledby: labelled_by } }
+  - { total_beginner: 1, in_between: 2, confident_developer: 3 }.each do |level, bars|
+    %label.choice
+      %input{ type: :radio, name: input_name, value: level }
+      %span.choice-icon{ aria: { hidden: "true" } }
+        %svg{ width: 26, height: 26, viewBox: "0 0 26 26" }
+          %rect.--on{ x: 2, y: 16, width: 6, height: 8, rx: 2 }
+          %rect{ x: 10, y: 10, width: 6, height: 14, rx: 2, class: ("--on" if bars >= 2) }
+          %rect{ x: 18, y: 3, width: 6, height: 21, rx: 2, class: ("--on" if bars >= 3) }
+      %span.choice-text
+        %span.choice-title= t(".#{level}.title")
+        %span.choice-description= t(".#{level}.description")

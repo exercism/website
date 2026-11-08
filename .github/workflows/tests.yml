@@ -17,7 +17,7 @@ jobs:
   rubocop:
     if: github.repository == 'exercism/website'
 
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
 
     steps:
@@ -52,7 +52,7 @@ jobs:
   js-tests:
     if: github.repository == 'exercism/website'
 
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
       ###
@@ -90,7 +90,7 @@ jobs:
   i18n-namespaces:
     if: github.repository == 'exercism/website'
 
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
@@ -120,7 +120,7 @@ jobs:
   ruby-test-files:
     if: github.repository == 'exercism/website'
 
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
     outputs:
       matrix: ${{ steps.test-files.outputs.matrix }}
@@ -143,7 +143,7 @@ jobs:
       fail-fast: false
       matrix: ${{ fromJson(needs.ruby-test-files.outputs.matrix) }}
 
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
       - name: Checkout code
@@ -208,7 +208,7 @@ jobs:
           if-no-files-found: ignore
 
   ruby-tests-completed:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: ruby-tests
     steps:
       - run: echo "Ruby tests completed"
@@ -219,7 +219,7 @@ jobs:
   system-test-files:
     if: github.repository == 'exercism/website'
 
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
     outputs:
       matrix: ${{ steps.test-files.outputs.matrix }}
@@ -243,7 +243,7 @@ jobs:
       fail-fast: false
       matrix: ${{ fromJson(needs.system-test-files.outputs.matrix) }}
 
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
       ###
@@ -310,7 +310,7 @@ jobs:
           if-no-files-found: ignore
 
   system-tests-completed:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: system-tests
     steps:
       - run: echo "System tests completed"
@@ -321,7 +321,7 @@ jobs:
   asset-tests:
     if: github.repository == 'exercism/website'
 
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
       ###

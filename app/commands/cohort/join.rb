@@ -6,7 +6,7 @@ class Cohort::Join
   def call
     time = Time.now.utc.to_formatted_s(:db)
 
-    id = CohortMembership.connection.insert(%{
+    CohortMembership.connection.insert(%{
       INSERT INTO cohort_memberships (
         user_id, cohort_id, status, introduction, created_at, updated_at
       )
@@ -21,7 +21,10 @@ class Cohort::Join
       WHERE cohort_id = #{cohort.id}
     })
 
-    CohortMembership.find(id)
+    # The (user, cohort) pair is unique, so look the row up by it. Reading
+    # back the insert id is unreliable when threads share a connection,
+    # which Rails 7.2 does in transactional tests.
+    CohortMembership.find_by!(user:, cohort:)
   rescue ActiveRecord::RecordNotUnique
     CohortMembership.find_by!(user:, cohort:)
   end

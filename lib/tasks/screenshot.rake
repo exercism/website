@@ -8,6 +8,27 @@ namespace :screenshot do
     require_relative '../../test/test_helper'
     require_relative '../../test/application_system_test_case'
 
+    # `bin/rails test` loads this file, so this method is added inside the task,
+    # after ApplicationSystemTestCase has been defined with its real superclass.
+    ApplicationSystemTestCase.class_eval do
+      def run_all_tests
+        methods = self.class.instance_methods(false).select { |m| m.to_s.start_with?('test_') }
+        methods.each do |method|
+          puts "  Running #{method}..."
+
+          setup if respond_to?(:setup)
+
+          begin
+            send(method)
+          rescue StandardError => e
+            puts "    Error: #{e.message}"
+          end
+
+          teardown if respond_to?(:teardown)
+        end
+      end
+    end
+
     visual_test_files = Dir.glob("test/visual/#{test_name}.rb").select { |f| File.file?(f) }
 
     if visual_test_files.empty?
@@ -32,24 +53,5 @@ namespace :screenshot do
 
     puts "\nScreenshots generated in tmp/screenshots/"
     puts "Visual test files are in test/visual/ (not run by regular test suite)"
-  end
-end
-
-class ApplicationSystemTestCase
-  def run_all_tests
-    methods = self.class.instance_methods(false).select { |m| m.to_s.start_with?('test_') }
-    methods.each do |method|
-      puts "  Running #{method}..."
-
-      setup if respond_to?(:setup)
-
-      begin
-        send(method)
-      rescue StandardError => e
-        puts "    Error: #{e.message}"
-      end
-
-      teardown if respond_to?(:teardown)
-    end
   end
 end

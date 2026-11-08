@@ -33,7 +33,11 @@ Rails.application.configure do
   config.cache_store = :memory_store
 
   # Raise exceptions instead of rendering exception templates.
-  config.action_dispatch.show_exceptions = false
+  config.action_dispatch.show_exceptions = :none
+
+  # Since Rails 7.2, ActiveJob::TestHelper uses the configured adapter
+  # (Sidekiq, set in application.rb) unless the test environment sets its own.
+  config.active_job.queue_adapter = :test
 
   # Disable request forgery protection in test environment.
   config.action_controller.allow_forgery_protection = false

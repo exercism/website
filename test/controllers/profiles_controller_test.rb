@@ -23,6 +23,21 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_template "profiles/show"
   end
 
+  test "show: localises the joined month" do
+    user = create :user, created_at: Time.utc(2014, 9, 28)
+    profile = create(:user_profile, user:)
+
+    get profile_url(profile)
+    assert_select ".joined time", text: /Sep 2014/
+
+    # CI has no i18n checkout, so the test publishes the Hungarian string itself.
+    catalog = { profiles: { header: { details: { joined_at: "Csatlakozott: %{date}" } } } } # rubocop:disable Style/FormatStringToken
+    with_published_translations(hu: { backend: catalog }) do
+      get profile_url(profile, locale: :hu)
+    end
+    assert_select ".joined time", text: "Csatlakozott: szept. 2014"
+  end
+
   test "show: links to a valid linkedin url" do
     profile = create :user_profile, linkedin: "https://www.linkedin.com/in/foo"
 

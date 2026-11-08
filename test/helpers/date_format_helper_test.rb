@@ -12,4 +12,12 @@ class DateFormatHelperTest < ActionView::TestCase
       assert_equal "2026年09月28日(月), 14:05 UTC", format_datetime(Time.utc(2026, 9, 28, 14, 5))
     end
   end
+
+  test "month and year use the locale's month abbreviation" do
+    assert_equal "Sep 2014", format_month_year(Time.utc(2014, 9, 28, 14, 5))
+
+    I18n.with_locale(:hu) do
+      assert_equal "szept. 2014", format_month_year(Time.utc(2014, 9, 28, 14, 5))
+    end
+  end
 end

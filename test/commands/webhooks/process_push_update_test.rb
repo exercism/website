@@ -122,4 +122,37 @@ class Webhooks::ProcessPushUpdateTest < ActiveSupport::TestCase
 
     Webhooks::ProcessPushUpdate.('refs/heads/main', 'exercism', 'new-repo', 'user17', [{ added: ['README.md'] }], true)
   end
+
+  test "should dispatch a required checks sync when a commit changes required-checks.yml" do
+    Github::DispatchRequiredChecksSync.expects(:defer).with('ruby-test-runner')
+
+    Webhooks::ProcessPushUpdate.('refs/heads/main', 'exercism', 'ruby-test-runner', 'user17', [
+                                   { added: [], removed: [], modified: ['.github/required-checks.yml'] }
+                                 ], false)
+  end
+
+  test "should dispatch a required checks sync when required-checks.yml is removed" do
+    Github::DispatchRequiredChecksSync.expects(:defer).with('ruby')
+
+    Webhooks::ProcessPushUpdate.('refs/heads/main', 'exercism', 'ruby', 'user17', [
+                                   { added: ['README.md'] },
+                                   { added: [], removed: ['.github/required-checks.yml'], modified: [] }
+                                 ], false)
+  end
+
+  test "should not dispatch a required checks sync when required-checks.yml is unchanged" do
+    Github::DispatchRequiredChecksSync.expects(:defer).never
+
+    Webhooks::ProcessPushUpdate.('refs/heads/main', 'exercism', 'ruby', 'user17', [
+                                   { added: ['.github/workflows/required-checks.yml'], removed: [], modified: [] }
+                                 ], false)
+  end
+
+  test "should not dispatch a required checks sync when pushing to a non-main branch" do
+    Github::DispatchRequiredChecksSync.expects(:defer).never
+
+    Webhooks::ProcessPushUpdate.('refs/heads/develop', 'exercism', 'ruby', 'user17', [
+                                   { added: [], removed: [], modified: ['.github/required-checks.yml'] }
+                                 ], false)
+  end
 end

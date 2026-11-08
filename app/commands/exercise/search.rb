@@ -14,35 +14,32 @@ class Exercise::Search
   def filter_criteria!
     return if criteria.blank?
 
-    if I18n.locale == I18n.default_locale
-      filter_criteria_in_sql!
-    else
-      filter_criteria_with_translations!
+    criteria.strip.split(" ").each do |word|
+      matches = @exercises.where("exercises.slug LIKE ?", "%#{word}%")
+      if I18n.locale == I18n.default_locale
+        matches = matches.or(@exercises.where("exercises.title LIKE ?", "%#{word}%"))
+      else
+        matches = matches.or(@exercises.where(slug: translated_slugs_matching(word)))
+      end
+      @exercises = matches
     end
   end
 
-  def filter_criteria_in_sql!
-    words.each do |word|
-      @exercises = @exercises.where("exercises.title LIKE ?", "%#{word}%").
-        or(@exercises.where("exercises.slug LIKE ?", "%#{word}%"))
+  # Translated names are not in the database. The track's metadata catalog
+  # holds them as "exercise:<slug>:name", so the matching slugs come from it.
+  def translated_slugs_matching(word)
+    word = word.downcase
+    translated_names.filter_map { |slug, name| slug if name.downcase.include?(word) }
+  end
+
+  memoize
+  def translated_names
+    repo_name = user_track.track.translation_metadata_repo_name
+    TranslationRepo.metadata(I18n.locale, repo_name).filter_map do |unit_id, text|
+      match = unit_id.match(/\Aexercise:(.+):name\z/)
+      [match[1], text] if match && text.is_a?(String)
     end
   end
-
-  # Translated titles are not in the database, so in another locale each
-  # exercise is matched in Ruby against its English title, its slug and its
-  # translated title. A track has at most a few hundred exercises.
-  def filter_criteria_with_translations!
-    downcased_words = words.map(&:downcase)
-
-    ids = @exercises.select do |exercise|
-      haystacks = [exercise.read_attribute(:title), exercise.slug, exercise.title].compact.map(&:downcase)
-      downcased_words.all? { |word| haystacks.any? { |haystack| haystack.include?(word) } }
-    end.map(&:id)
-
-    @exercises = @exercises.where(id: ids)
-  end
-
-  def words = criteria.strip.split(" ")
 
   def sort!
     @exercises = @exercises.order(:position).to_a

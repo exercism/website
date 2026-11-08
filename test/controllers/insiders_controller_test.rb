@@ -1,6 +1,29 @@
 require "test_helper"
 
 class InsidersControllerTest < ActionDispatch::IntegrationTest
+  test "show: renders every benefit from the English catalog for a non-insider" do
+    get insiders_path
+
+    assert_response :success
+    InsidersController::FEATURES.each do |feature|
+      assert_select ".features .feature h4", I18n.t("insiders.external.features.#{feature[:key]}.title")
+      assert_select ".features .feature p", I18n.t("insiders.external.features.#{feature[:key]}.description")
+    end
+  end
+
+  test "show: renders the benefits in the visitor's locale for a non-insider" do
+    features = { dark_mode: { title: "Sötét mód", description: "Sötét téma leírása" } }
+    catalog = { insiders: { external: { features: } } }
+
+    with_published_translations(hu: { backend: catalog }) do
+      get "/hu/insiders"
+    end
+
+    assert_response :success
+    assert_select ".features .feature h4", "Sötét mód"
+    assert_select ".features .feature p", "Sötét téma leírása"
+  end
+
   test "join: requires sign in" do
     get join_insiders_path
 

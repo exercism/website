@@ -19,6 +19,69 @@ en:
         run and improve the platform."
       benefits_heading: Insider Benefits
       benefits_tagline: Here are some of the ways we say thank you for supporting us.
+      features:
+        dark_mode:
+          title: Dark Mode
+          description: Our most requested feature is available exclusively for
+            Insiders. Our slick dark theme elevates the Exercism experience and
+            gives your eyes an easier time while coding into the night.
+        favorites:
+          title: Favorites
+          description: See a solution that inspires or intrigues you? Save it to
+            your Favorites and then go back and learn from it later! Insiders
+            unlocks unlimited favorites and filtering options.
+        ad_free:
+          title: Ad-Free Experience
+          description: Don't like adverts? Prefer an even calmer educational
+            environment? Insiders can turn off all adverts across the platform
+            for a totally uninterrupted learning experience!
+        github_sync:
+          title: GitHub Sync Options
+          description: Want to skip pull requests? Want to change commit
+            messages? Want to configure your own file paths? Insiders unlocks
+            advanced customization options for GitHub Sync. Make it right for
+            you!
+        name_tag_flair:
+          title: Name tag flair
+          description: Show off your Insiders status with our Insiders logo next
+            to your name around the site, on Discord and our forums. Let
+            everyone know you're supporting us!
+        behind_the_scenes:
+          title: Behind-the-scenes content
+          description: Keep up to date with what we're planning and building
+            with private Insiders livestreams (rewatchable on demand) and
+            technical deep-dives into Exercism's stack. See below for more!
+        private_discord:
+          title: Private Discord channel
+          description: Hang out with our staff and other Insiders in our private
+            Discord channel. Get the inside scoop on what we're working on and
+            bounce ideas in realtime with us.
+        ai_assistant:
+          title: AI Assistant
+          description: Our AI assistant helps you get unstuck directly in our
+            online editor, with unlimited conversations on every exercise. It
+            guides you towards the answer rather than giving it away.
+        extra_mentoring_slots:
+          title: Extra Mentoring Slots
+          description:
+            Unlock more simultaneous mentoring slots per track without
+            needing to earn reputation, and improve the speed at which you can
+            work through a track with our mentors' support.
+        exclusive_badges:
+          title: Exclusive Badges
+          description: Immediately receive the rare Insiders badge for your
+            profile. Then unlock extra exclusive badges as you use Exercism -
+            only available to Insiders.
+        exclusive_perks:
+          title: Exclusive Perks
+          description: Receive exclusive discounts and offers from our partners
+            as part of Exercism Perks. Get cheaper products, services, books and
+            more, all through Insiders.
+        keep_exercism_alive:
+          title: Keep Exercism alive
+          description: Last but not least, you help keep Exercism alive! Without
+            your support, we can't pay for our servers or our staff. Thank you
+            for giving back and supporting free education 💙
       exclusive_content_heading: Exclusive Insiders Content
       exclusive_content_tagline:
         Join Insiders to get behind-the-scenes content as we

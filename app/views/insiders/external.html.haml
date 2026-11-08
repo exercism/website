@@ -33,8 +33,8 @@
         - @features.each do |feature|
           .feature
             = graphical_icon feature[:icon], css_class: feature[:filter] ? "filter-yellowPrompt" : ""
-            %h4= feature[:title]
-            %p= feature[:desc]
+            %h4= t(".features.#{feature[:key]}.title")
+            %p= t(".features.#{feature[:key]}.description")
 
   .gradient-container.py-56
     .lg-container

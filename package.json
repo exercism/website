@@ -76,7 +76,7 @@
     "currency.js": "^2.0.4",
     "dayjs": "^1.8.35",
     "didyoumean": "^1.2.2",
-    "diff": "^7.0.0",
+    "diff": "^8.0.3",
     "diff2html": "^3.4.5",
     "easymde": "^2.15.0",
     "esbuild": "^0.14.5",
@@ -225,6 +225,10 @@
     "prepare": "husky install"
   },
   "resolutions": {
-    "@codemirror/state": "6.7.5"
+    "@codemirror/state": "6.7.5",
+    "@jackfranklin/test-data-bot/lodash": "^4.18.1",
+    "@sector-labs/postcss-inline-class/postcss": "^8.5.32",
+    "**/http-proxy-agent/@tootallnate/once": "^2.0.1",
+    "msw/cookie": "^0.7.2"
   }
 }

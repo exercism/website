@@ -53,7 +53,7 @@ gem 'sidekiq-scheduler'
 
 # View-level Dependencies
 gem 'hamlit'
-gem 'commonmarker', '0.23.8'
+gem 'commonmarker', '0.23.12'
 gem 'ansi-to-html'
 gem 'public_suffix'
 gem 'humanize'

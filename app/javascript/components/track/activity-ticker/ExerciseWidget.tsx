@@ -12,7 +12,6 @@ export function ExerciseWidget({
       >
         {exercise.title}
       </a>
-      .
     </span>
   )
 }

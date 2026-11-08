@@ -5,12 +5,12 @@ export default {
   'handle.someone': 'Someone',
   'userAvatar.userAvatar': "{{handle}}'s avatar",
   'pullRequestLink.pullRequest': 'Pull Request',
-  // Whole sentences, so translators control word order.
+  // Whole sentences, so translators control word order and punctuation.
   // <0/> handle, <1/> solution link, <2/> pull request link, <3/> exercise.
-  'sentence.publish_solution_metric': '<0/> published a <1/> for <3/>',
+  'sentence.publish_solution_metric': '<0/> published a <1/> for <3/>.',
   'sentence.open_pull_request_metric': '<0/> opened a <2/>',
   'sentence.merge_pull_request_metric': '<0/> merged a <2/>',
-  'sentence.complete_solution_metric': '<0/> completed <3/>',
-  'sentence.start_solution_metric': '<0/> started <3/>',
-  'sentence.submit_submission_metric': '<0/> attempted <3/>',
+  'sentence.complete_solution_metric': '<0/> completed <3/>.',
+  'sentence.start_solution_metric': '<0/> started <3/>.',
+  'sentence.submit_submission_metric': '<0/> attempted <3/>.',
 }

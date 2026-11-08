@@ -1379,3 +1379,15 @@ html:has(.c-returning-user-modal dialog[open]) {
         animation: none;
     }
 }
+
+/* Below the lg breakpoint the two columns no longer fit side by side, so the
+   form takes the full width and the panel is hidden, as on the other auth
+   pages. This comes last so it overrides the panel's display: flex. */
+@media (max-width: 1023px) {
+    #page-sign-up .sign-up-main {
+        flex: 1 1 100%;
+    }
+    #page-sign-up .sign-up-panel {
+        display: none;
+    }
+}

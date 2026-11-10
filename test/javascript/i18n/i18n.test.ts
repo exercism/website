@@ -149,3 +149,18 @@ test('a catalog that fails to load still renders, and says so', async () => {
   expect(Sentry.captureException).toHaveBeenCalledTimes(1)
   expect(i18n.t('hello', { ns: 'test/ns' })).toBe('hello')
 })
+
+test('a missing key is not reported when production pages are served from another host', async () => {
+  const originalEnv = process.env.NODE_ENV
+  process.env.NODE_ENV = 'production'
+  try {
+    setPage(null)
+    const { default: i18n } = loadModule()
+
+    // jsdom serves the page from localhost, as a proxy would serve it from its own host
+    i18n.t('nope', { ns: 'test/ns' })
+    expect(Sentry.captureMessage).not.toHaveBeenCalled()
+  } finally {
+    process.env.NODE_ENV = originalEnv
+  }
+})

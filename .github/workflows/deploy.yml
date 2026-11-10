@@ -73,15 +73,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
 
-      # The Rails image, its build stage and the BuildKit cache together need
-      # more than a hosted runner has spare, so the preinstalled toolchains we
-      # never touch are deleted first. This buys about 20GB in under a minute.
-      - name: Free disk space
-        run: |
-          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc \
-            /usr/local/.ghcup /opt/hostedtoolcache/CodeQL
-          df -h /
-
       # The gha cache backend below is unavailable to the default docker
       # driver, so the builds run on a docker-container builder.
       - name: Set up Docker Buildx

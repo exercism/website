@@ -44,8 +44,8 @@ class AboutController < ApplicationController
     #
     # So (2_594 * 12_941_333) / 60.0 = 559_496_963
     #
-    # There are 4,762.13 iterations per day (averaged over the last 30 days), so
-    # (2_594 * 4_762.13) / 60.0 = 205_883
+    # There are 6,600 iterations per day, so
+    # (2_594 * 6_600) / 60.0 = 285_340
 
     @contributor_avatars = %w[
       https://avatars3.githubusercontent.com/u/135246

@@ -30,6 +30,11 @@ function servedOffSite(): boolean {
 function report(locale: string, key: string): void {
   if (servedOffSite()) return
 
+  // If the locale's catalog failed to load, every key will look missing, and
+  // those reports say nothing about our translations. loadCatalog reports the
+  // failure itself.
+  if (locale !== DEFAULT_LOCALE && !loadedCatalogs.has(locale)) return
+
   const id = `${locale}:${key}`
   if (reported.has(id)) return
   reported.add(id)

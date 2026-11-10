@@ -150,6 +150,17 @@ test('a catalog that fails to load still renders, and says so', async () => {
   expect(i18n.t('hello', { ns: 'test/ns' })).toBe('hello')
 })
 
+test('keys are not reported as missing when the catalog failed to load', async () => {
+  setPage('hu', CATALOG_URL)
+  mockCatalog({}, false)
+  const { default: i18n, ensureLocale } = loadModule()
+  await ensureLocale()
+
+  i18n.t('hello', { ns: 'test/ns' })
+  i18n.t('onlyEnglish', { ns: 'test/ns' })
+  expect(Sentry.captureMessage).not.toHaveBeenCalled()
+})
+
 test('a missing key is not reported when production pages are served from another host', async () => {
   const originalEnv = process.env.NODE_ENV
   process.env.NODE_ENV = 'production'

@@ -312,7 +312,9 @@ class RackAttackTest < Webhooks::BaseTestCase
   end
 
   test "normalised_path treats repeated slashes as one" do
-    request = Rack::Attack::Request.new(Rack::MockRequest.env_for("//api//v2/solutions"))
+    env = Rack::MockRequest.env_for("/")
+    env["PATH_INFO"] = "//api//v2/solutions"
+    request = Rack::Attack::Request.new(env)
 
     assert_equal "/api/v2/solutions", request.normalised_path
   end

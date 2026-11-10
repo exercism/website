@@ -289,3 +289,88 @@
 .theme-light #site-header .nav-element.insiders .nav-element-label:after {
     @apply opacity-[0.75];
 }
+
+/* The Jiki row uses a round photo in place of an SVG icon */
+#site-header .nav-element-dropdown .nav-element-link .c-icon.--image {
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* The Jiki panel in the Learn menu. The prints reuse the sign-up page's
+   .c-jiki-snaps, shrunk to fit the panel. */
+.c-nav-jiki {
+    @apply flex flex-col items-start;
+    @apply pt-20 pb-20 px-24;
+
+    & .jiki-logo {
+        display: block;
+        height: 44px;
+        width: auto;
+        margin-bottom: 10px;
+    }
+    .theme-dark & .jiki-logo {
+        filter: invert(1) hue-rotate(180deg);
+    }
+
+    & .jiki-title {
+        @apply text-textColor1 font-bold;
+        font-size: 22px;
+        line-height: 1.25;
+        margin-bottom: 4px;
+
+        & .highlight {
+            background: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+    }
+
+    & .jiki-description {
+        @apply text-textColor6;
+        font-size: 14px;
+        line-height: 1.5;
+        margin-bottom: 18px;
+    }
+
+    & .jiki-note {
+        @apply relative;
+        font-family: "Caveat", cursive;
+        font-size: 22px;
+        font-weight: 600;
+        line-height: 1;
+        color: #9333ea;
+        transform: rotate(-2deg);
+
+        & .jiki-arrow {
+            @apply absolute pointer-events-none;
+            inset-inline-start: calc(100% + 36px);
+            top: -12px;
+            width: 52px;
+            height: auto;
+            opacity: 0.85;
+            transform: rotate(-20deg);
+        }
+        .theme-dark & .jiki-arrow {
+            filter: invert(1);
+        }
+    }
+
+    & .c-jiki-snaps {
+        margin: 2px 0 12px;
+        padding-top: 4px;
+
+        & .snap {
+            flex-basis: 110px;
+
+            & span {
+                font-size: 17px;
+                padding: 6px 0 8px;
+            }
+        }
+    }
+
+    & .jiki-cta {
+        @apply w-100;
+    }
+}

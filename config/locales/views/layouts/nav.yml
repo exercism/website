@@ -51,12 +51,9 @@ en:
         history_label: History
         and_more_label: And more…
       coding_fundamentals:
-        title: Jiki
-        bubble: Just Launched!
-        subtitle: Learn to Code and Build in the LLM-era.
-        description_p1_html:
-          Coding has changed. How you learn needs to change too. Jiki is a brand new platform, designed to help you learn to code and build in the LLM-era.
-          Designed for <strong>beginners, juniors and vibe coders.</strong>.
-        strong_text_1: Totally new?
-        strong_text_2: Tutorial Hell?
+        logo_alt: Jiki by the team at Exercism
+        title_html: Learn to code by %{highlight}
+        title_highlight: building
+        description: Get comfortable with coding fundamentals. We'll take you from absolute basics to building complex programs.
+        note: Look what you'll make!
         explore_button: Get started - it's free!

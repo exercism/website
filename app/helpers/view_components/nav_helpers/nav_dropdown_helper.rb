@@ -12,7 +12,7 @@ module ViewComponents
               content << tag.li(
                 conditional_link(nav_element_path(element[:path]), external: element[:external]) do
                   nav_dropdown_element(element[:title]&.(), element[:description]&.(), element[:icon], icon_filter,
-                    element[:external], element[:is_new])
+                    element[:external], element[:is_new], image: element[:image])
                 end << view
               )
             end
@@ -22,10 +22,10 @@ module ViewComponents
 
       def nav_element_path(path) = path.respond_to?(:call) ? path.() : path
 
-      def nav_dropdown_element(title, description, icon, icon_filter, external, is_new)
+      def nav_dropdown_element(title, description, icon, icon_filter, external, is_new, image: nil)
         tag.div(class: "nav-dropdown-element", role: 'menuitem') do
           parts = [
-            graphical_icon(icon, css_class: "filter-#{icon_filter}"),
+            (image ? image_tag(image, alt: "", class: "c-icon --image") : graphical_icon(icon, css_class: "filter-#{icon_filter}")),
             tag.div(class: 'overflow-hidden pe-40') do
               content = tag.h6 do
                 safe_join([

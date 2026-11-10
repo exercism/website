@@ -220,6 +220,7 @@ jobs:
 
       # Push the new definition up to ECS and deploy the new service from it
       - name: Deploy Website
+        id: deploy_website
         uses: aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
         with:
           task-definition: ${{ steps.update_definition_for_website_nginx.outputs.task-definition }}
@@ -258,6 +259,7 @@ jobs:
 
       # Push the new definition up to ECS and deploy the new service from it
       - name: Deploy API
+        id: deploy_api
         uses: aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
         with:
           task-definition: ${{ steps.update_definition_for_api_nginx.outputs.task-definition }}
@@ -304,12 +306,102 @@ jobs:
 
       # Push the new definition up to ECS and deploy the new service from it
       - name: Deploy Anycable
+        id: deploy_anycable
         uses: aws-actions/amazon-ecs-deploy-task-definition@df9643053eda01f169e64a0e60233aacca83799a
         with:
           task-definition: ${{ steps.update_definition_for_anycable_nginx.outputs.task-definition }}
           service: ${{ env.anycable_service_name }}
           cluster: ${{ env.webservers_cluster_name }}
           wait-for-service-stability: false
+
+      #######################################
+      #######################################
+      # Wait for the webservers to roll out #
+      #######################################
+      #######################################
+
+      # The three webserver deploys above don't wait for stability, so ECS rolls
+      # website, api and anycable out in parallel and we wait for all of them
+      # here once. Without this check the job went green even when every new
+      # container crashed at boot.
+      #
+      # Each service must reach COMPLETED on the deployment of the revision
+      # registered above. If that deployment fails, or ECS stops treating it as
+      # PRIMARY (for example after a circuit-breaker rollback), the step will
+      # fail at once. The stock services-stable waiter can't tell these apart,
+      # because after a rollback the old revision is stable and it would pass.
+      #
+      # A healthy rollout takes about 7 minutes. Boot runs migrations, an i18n
+      # sync capped at 6 minutes and EFS cache warming, and the health-check
+      # grace period is 10 minutes, so 20 minutes leaves headroom while staying
+      # well inside the 2-hourly schedule.
+      #
+      # Sidekiq and the locale-redirect Worker deploy after this step. If the
+      # web tier doesn't roll out, they won't deploy either. That is intended,
+      # so a broken image doesn't go any further than the webservers.
+      - name: Wait for the webservers to roll out
+        timeout-minutes: 20
+        env:
+          CLUSTER: ${{ env.webservers_cluster_name }}
+          WEBSITE_SERVICE: ${{ env.website_service_name }}
+          API_SERVICE: ${{ env.api_service_name }}
+          ANYCABLE_SERVICE: ${{ env.anycable_service_name }}
+          WEBSITE_TASK_DEFINITION: ${{ steps.deploy_website.outputs.task-definition-arn }}
+          API_TASK_DEFINITION: ${{ steps.deploy_api.outputs.task-definition-arn }}
+          ANYCABLE_TASK_DEFINITION: ${{ steps.deploy_anycable.outputs.task-definition-arn }}
+        run: |
+          set -euo pipefail
+
+          declare -A expected=(
+            ["$WEBSITE_SERVICE"]="$WEBSITE_TASK_DEFINITION"
+            ["$API_SERVICE"]="$API_TASK_DEFINITION"
+            ["$ANYCABLE_SERVICE"]="$ANYCABLE_TASK_DEFINITION"
+          )
+          services=("$WEBSITE_SERVICE" "$API_SERVICE" "$ANYCABLE_SERVICE")
+
+          while true; do
+            described=$(aws ecs describe-services --cluster "$CLUSTER" --services "${services[@]}" --output json)
+            completed=0
+
+            for service in "${services[@]}"; do
+              arn="${expected[$service]}"
+              deployment=$(jq -c --arg service "$service" --arg arn "$arn" \
+                '[.services[] | select(.serviceName == $service) | .deployments[] | select(.taskDefinition == $arn)] | first // empty' \
+                <<< "$described")
+
+              if [ -z "$deployment" ]; then
+                echo "::error::$service no longer has a deployment of $arn. ECS has replaced it or rolled it back."
+                exit 1
+              fi
+
+              IFS=$'\t' read -r status rollout running desired failed < <(
+                jq -r '[.status, (.rolloutState // "UNKNOWN"), .runningCount, .desiredCount, .failedTasks] | @tsv' <<< "$deployment"
+              )
+              echo "$service: $rollout ($status), running $running/$desired, failedTasks $failed"
+
+              if [ "$rollout" = "FAILED" ]; then
+                echo "::error::The $service rollout of $arn failed."
+                exit 1
+              fi
+
+              if [ "$status" != "PRIMARY" ]; then
+                echo "::error::The $service deployment of $arn is $status. ECS has replaced it or rolled it back."
+                exit 1
+              fi
+
+              if [ "$rollout" = "COMPLETED" ]; then
+                completed=$((completed + 1))
+              fi
+            done
+
+            if [ "$completed" -eq "${#services[@]}" ]; then
+              echo "All webservers have rolled out."
+              exit 0
+            fi
+
+            echo "Waiting for $(( ${#services[@]} - completed )) of ${#services[@]} services."
+            sleep 15
+          done
 
       ##################################
       ##################################

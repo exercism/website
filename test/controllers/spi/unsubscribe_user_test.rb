@@ -1,6 +1,10 @@
 require "test_helper"
 
 class SPI::UnsubscribeUserTest < ActionDispatch::IntegrationTest
+  setup do
+    host! URI(Exercism.config.spi_url).host
+  end
+
   test "unsubscribes correctly" do
     user = create :user
 

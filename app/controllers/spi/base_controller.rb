@@ -12,6 +12,16 @@ module SPI
     skip_after_action :set_csp_header
     skip_after_action :set_link_header
 
+    prepend_before_action :ensure_canonical_path!
+
     layout false
+
+    private
+    def ensure_canonical_path!
+      path = request.original_fullpath.split("?", 2).first
+      return if path == "/spi" || path.start_with?("/spi/")
+
+      head :not_found
+    end
   end
 end

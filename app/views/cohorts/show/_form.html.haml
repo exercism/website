@@ -23,7 +23,7 @@
         - else
           %h3.text-h1.text-center.mb-16= t('.you_are_on_waiting_list')
           %p.text-p-xlarge.mb-16.text-center.mx-auto{ style: "max-width:800px;" }
-            = t('.waiting_list_message', cohort_name: cohort.name, position: membership.position_on_waiting_list.ordinalize)
+            = t('.waiting_list_message', cohort_name: cohort.name, position: I18n.locale == :en ? membership.position_on_waiting_list.ordinalize : membership.position_on_waiting_list)
 
       - else
         %h3.text-h1.text-center.mb-16= t('.sign_up_to_cohort', cohort_name: cohort.name)

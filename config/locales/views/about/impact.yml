@@ -3,7 +3,7 @@ en:
     impact:
       meta_title: Exercism's Impact Report
       meta_description:
-        We've provided over 310 million minutes of free learning to
+        We've provided over 550 million minutes of free learning to
         over a million people. Learn more in our impact report!
       header:
         title: Exercism Impact Report
@@ -11,7 +11,7 @@ en:
           We've provided %{highlight_open}%{count}%{highlight_close}
           %{highlight_unit_open}minutes%{highlight_unit_close}
           of free education.
-        daily_minutes_provided: And we provide another ~285,340 minutes every day!
+        daily_minutes_provided: And we provide another ~205,883 minutes every day!
         funding_info: All on a free, open source project funded by people like you.
       stats:
         students: Students

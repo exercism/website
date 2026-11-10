@@ -16,7 +16,25 @@ let queue: Promise<void> = Promise.resolve()
 export { pageLocale }
 const pageCatalogUrl = (): string | null => metaContent(CATALOG_META)
 
+// Proxies such as Google Translate (*.translate.goog) serve copies of our pages
+// from their own hosts, where the catalog often fails to load. Every key on the
+// page then looks missing, so reports from those hosts say nothing about our
+// translations.
+function servedOffSite(): boolean {
+  return (
+    process.env.NODE_ENV === 'production' &&
+    window.location.hostname !== 'exercism.org'
+  )
+}
+
 function report(locale: string, key: string): void {
+  if (servedOffSite()) return
+
+  // If the locale's catalog failed to load, every key will look missing, and
+  // those reports say nothing about our translations. loadCatalog reports the
+  // failure itself.
+  if (locale !== DEFAULT_LOCALE && !loadedCatalogs.has(locale)) return
+
   const id = `${locale}:${key}`
   if (reported.has(id)) return
   reported.add(id)
@@ -29,22 +47,20 @@ function report(locale: string, key: string): void {
 }
 
 if (!i18n.isInitialized) {
-  i18n
-    .use(initReactI18next)
-    .init({
-      fallbackLng: false,
-      lng: pageLocale(),
-      debug: process.env.NODE_ENV === 'development',
-      interpolation: {
-        escapeValue: false,
-      },
-      resources: {
-        en,
-      },
-      saveMissing: true,
-      missingKeyHandler: (_lngs, ns, key) =>
-        report(i18n.language, `${ns}:${key}`),
-    })
+  i18n.use(initReactI18next).init({
+    fallbackLng: false,
+    lng: pageLocale(),
+    debug: process.env.NODE_ENV === 'development',
+    interpolation: {
+      escapeValue: false,
+    },
+    resources: {
+      en,
+    },
+    saveMissing: true,
+    missingKeyHandler: (_lngs, ns, key) =>
+      report(i18n.language, `${ns}:${key}`),
+  })
 }
 
 async function loadCatalog(locale: string, url: string): Promise<void> {

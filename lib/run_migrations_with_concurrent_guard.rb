@@ -6,12 +6,14 @@ begin
   # Put it in this begin so it keeps on happening on each retry.
   sleep(rand * 30)
 
-  migrations = ActiveRecord::Migration.new.migration_context.migrations
+  # Since Rails 7.2 the migration context, schema migration and internal
+  # metadata live on the connection pool rather than on the connection.
+  pool = ActiveRecord::Base.connection_pool
   ActiveRecord::Migrator.new(
     :up,
-    migrations,
-    ActiveRecord::Base.connection.schema_migration,
-    ActiveRecord::Base.connection.internal_metadata
+    pool.migration_context.migrations,
+    pool.schema_migration,
+    pool.internal_metadata
   ).migrate
 
   Rails.logger.info "Migrations ran cleanly"

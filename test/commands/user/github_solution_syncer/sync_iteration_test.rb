@@ -32,6 +32,20 @@ class User::GithubSolutionSyncer
       User::GithubSolutionSyncer::SyncIteration.(iteration)
     end
 
+    test "writes the pull request message in English whatever the locale" do
+      user = create(:user)
+      track = create(:track, slug: "ruby")
+      exercise = create(:practice_exercise, track:, slug: "two-fer")
+      solution = create(:practice_solution, user:, exercise:)
+      submission = create(:submission, solution:)
+      iteration = create(:iteration, user:, solution:, submission:, idx: 2)
+      create(:user_github_solution_syncer, user:)
+
+      CreatePullRequest.expects(:call).with(anything, anything, includes("2nd iteration"))
+
+      I18n.with_locale(:fr) { User::GithubSolutionSyncer::SyncIteration.(iteration) }
+    end
+
     test "requeues on server error" do
       user = create(:user)
       track = create(:track, slug: "ruby")

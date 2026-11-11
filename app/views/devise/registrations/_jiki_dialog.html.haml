@@ -3,27 +3,28 @@
   Each variant matches the seniority they were given, and carries it to Jiki
   so Jiki can attribute the sign-up.
 %dialog#sign-up-jiki-dialog.c-sign-up-jiki-dialog.--centred{ tabindex: -1 }
-  .dialog-scroll
-    .dialog-body
-      = image_tag "jiki/jiki-by-exercism.png", alt: t('.logo_alt'), class: "jiki-logo", width: 230, height: 86
+  .dialog-card
+    .dialog-scroll
+      .dialog-body
+        = image_tag "jiki/jiki-by-exercism.png", alt: t('.logo_alt'), class: "jiki-logo", width: 230, height: 86
 
-      - { absolute_beginner: "your_level", beginner: "foundations" }.each do |variant_seniority, copy|
-        .variant{ hidden: true, data: { jiki_variant: variant_seniority } }
-          %h2{ id: "sign-up-jiki-heading-#{variant_seniority}" }= t(".#{copy}.heading")
-          %p= t(".#{copy}.body_html", language: tag.span(data: { jiki_language: true }))
+        - { absolute_beginner: "your_level", beginner: "foundations" }.each do |variant_seniority, copy|
+          .variant{ hidden: true, data: { jiki_variant: variant_seniority } }
+            %h2{ id: "sign-up-jiki-heading-#{variant_seniority}" }= t(".#{copy}.heading")
+            %p= t(".#{copy}.body_html", language: tag.span(data: { jiki_language: true }))
 
-      = render "components/sign_up/jiki_snaps"
+        = render "components/sign_up/jiki_snaps"
 
-      .cta-wrapper
-        - %w[absolute_beginner beginner].each do |variant_seniority|
-          - jiki_url = Jiki.url(path: "auth/signup", medium: "sign_up", content: variant_seniority)
-          = link_to jiki_url, class: "jiki-cta", hidden: true, data: { jiki_variant: variant_seniority, turbo: false } do
-            = t('.cta')
-            %span.arrow{ aria: { hidden: "true" } } →
+        .cta-wrapper
+          - %w[absolute_beginner beginner].each do |variant_seniority|
+            - jiki_url = Jiki.url(path: "auth/signup", medium: "sign_up", content: variant_seniority)
+            = link_to jiki_url, class: "jiki-cta", hidden: true, data: { jiki_variant: variant_seniority, turbo: false } do
+              = t('.cta')
+              %span.arrow{ aria: { hidden: "true" } } →
 
-      - later_link = tag.button(t('.later_link'), type: :button, class: "later-link", data: { jiki_dismiss: true })
-      %p.later
-        = t('.later_html', link: later_link)
-        %span.later-aside= t('.later_aside')
+        - later_link = tag.button(t('.later_link'), type: :button, class: "later-link", data: { jiki_dismiss: true })
+        %p.later
+          = t('.later_html', link: later_link)
+          %span.later-aside{ data: { jiki_bad_idea: true } }= t('.later_aside_html')
 
-  = render "components/sign_up/jiki_ticker"
+    = render "components/sign_up/jiki_ticker"

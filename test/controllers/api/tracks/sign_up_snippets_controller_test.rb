@@ -14,6 +14,18 @@ module API
           response.parsed_body)
       end
 
+      test "returns the snippet to a signed-in user who is not onboarded" do
+        user = create :user, :not_onboarded, seniority: nil
+        track = create :track, slug: "go"
+        Rails.cache.write(Track::RetrieveSignUpSnippet.cache_key(track), "package main")
+
+        sign_in!(user)
+        get api_track_sign_up_snippet_path(track_slug: "go"), as: :json
+
+        assert_response :ok
+        assert_equal "package main", response.parsed_body["snippet"]
+      end
+
       test "returns 404 for a track without a snippet" do
         create :track, slug: "go"
         Track.any_instance.stubs(:sign_up_snippet).returns("")

@@ -1,0 +1,12 @@
+-#
+  The sign-up questions, for people whose account was created through GitHub
+  without them. Answering submits the hidden form, which records the answers
+  and moves on to the terms.
+- steps = capture do
+  = render "components/sign_up/question_steps", initial_step: "level"
+
+  = form_tag user_onboarding_path, method: :patch, hidden: true, data: { turbo: false, sign_up_answers_form: true } do
+    = hidden_field_tag :seniority, "", id: nil, data: { sign_up_answer: "seniority" }
+    = hidden_field_tag :sign_up_track_slug, "", id: nil, data: { sign_up_answer: "sign_up_track_slug" }
+
+= render "components/sign_up/shell", initial_step: "level", step_3_label: t('.progress_step_3'), steps: steps

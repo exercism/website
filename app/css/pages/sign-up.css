@@ -5,7 +5,7 @@
    The steps are server-rendered, and app/javascript/utils/sign-up-flow.ts
    shows one at a time. */
 
-body.namespace-auth.user-signed_out:has(#page-sign-up) turbo-frame {
+body:has(#page-sign-up) turbo-frame {
     @apply flex grow;
 }
 
@@ -1005,7 +1005,7 @@ body.namespace-auth.user-signed_out:has(#page-sign-up) turbo-frame {
         }
         & p {
             margin: 0 0 20px;
-            font-size: 17px;
+            font-size: 15px;
             line-height: 1.6;
             color: #3f3a5a;
 
@@ -1078,9 +1078,14 @@ body.namespace-auth.user-signed_out:has(#page-sign-up) turbo-frame {
         }
         & .later-aside {
             display: block;
-            margin-top: 8px;
+            margin-top: 2px;
             font-size: 14px;
-            color: #9a95b8;
+            color: #7b75a0;
+
+            & strong {
+                font-weight: 600;
+                color: #5c5589;
+            }
         }
     }
 }
@@ -1216,16 +1221,30 @@ body.namespace-auth.user-signed_out:has(#page-sign-up) turbo-frame {
 
 /* The Jiki pop-up for returning users is centred over the page, in place of
    the sign-up page's full-screen version. */
+/* The dialog covers the viewport and scrolls as a whole, so a card taller
+   than the window scrolls like a page instead of inside itself. */
 .c-sign-up-jiki-dialog.--centred {
     inset: 0;
-    width: 720px;
-    height: fit-content;
-    max-width: calc(100% - 32px);
-    max-height: calc(100% - 32px);
-    margin: auto;
-    overflow: hidden;
-    border-radius: 16px;
-    box-shadow: 0 20px 60px -20px rgba(19, 11, 67, 0.35);
+    width: 100%;
+    height: 100%;
+    padding: 16px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    background: transparent;
+
+    & .dialog-card {
+        position: relative;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        width: 720px;
+        max-width: 100%;
+        margin: auto;
+        overflow: hidden;
+        border-radius: 16px;
+        background: #ffffff;
+        box-shadow: 0 20px 60px -20px rgba(19, 11, 67, 0.35);
+    }
 
     &::backdrop {
         background: rgba(0, 0, 0, 0.8);
@@ -1260,6 +1279,7 @@ body.namespace-auth.user-signed_out:has(#page-sign-up) turbo-frame {
     }
     & .dialog-scroll {
         flex: 1 1 auto;
+        overflow-y: visible;
         padding: 32px 40px 20px;
     }
     & .dialog-body {

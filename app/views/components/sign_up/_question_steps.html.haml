@@ -1,0 +1,26 @@
+-#
+  The two sign-up questions: the level, then the code check for people who
+  can code a little. Both the sign-up page and the onboarding page ask them.
+
+  Locals:
+    initial_step - the step shown first. The server shows it so the page
+                   doesn't flash another step before the JavaScript loads.
+- n = 'devise.registrations.new'
+- arrow = capture do
+  %span.arrow{ aria: { hidden: "true" } } →
+
+%section.flow-step{ hidden: initial_step != "level", data: { step: "level" } }
+  %h1#sign-up-level-question= t("#{n}.level.question")
+  %p.flow-intro= t("#{n}.level.intro")
+  = render "components/sign_up/level_choices", input_name: "sign_up_level", labelled_by: "sign-up-level-question"
+  %button.c-flow-cta{ type: :button, disabled: true, data: { continue: "level" } }
+    = t("#{n}.continue")
+    = arrow
+
+%section.flow-step{ hidden: true, data: { step: "code" } }
+  %h1= t("#{n}.code.heading")
+  %p.flow-intro= t("#{n}.code.intro")
+  = render "components/sign_up/code_check", tracks: Track::RetrieveSignUpCodeCheckTracks.(), id_prefix: "sign-up"
+  %button.c-flow-cta{ type: :button, disabled: true, data: { continue: "code" } }
+    = t("#{n}.continue")
+    = arrow

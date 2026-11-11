@@ -56,6 +56,7 @@ const PAGE = (initialStep = 'level') => `
   </div>
   <dialog id="sign-up-jiki-dialog">
     <button data-jiki-dismiss></button>
+    <span data-jiki-bad-idea>bad idea</span>
     <div data-jiki-variant="absolute_beginner" hidden><h2 id="sign-up-jiki-heading-absolute_beginner"></h2></div>
     <div data-jiki-variant="beginner" hidden><h2 id="sign-up-jiki-heading-beginner"></h2><p>master <span data-jiki-language></span></p></div>
     <a data-jiki-variant="absolute_beginner" hidden></a>
@@ -176,6 +177,9 @@ describe('initSignUpFlow', () => {
     expect(dialog().getAttribute('aria-labelledby')).toBe(
       'sign-up-jiki-heading-absolute_beginner'
     )
+    expect(
+      dialog().querySelector<HTMLElement>('[data-jiki-bad-idea]')!.hidden
+    ).toBe(false)
 
     const variants = Array.from(
       dialog().querySelectorAll<HTMLElement>('[data-jiki-variant]')
@@ -280,9 +284,12 @@ describe('initSignUpFlow', () => {
     expect(dot(2).disabled).toBe(false)
   })
 
-  test.each(['tricky', 'impossible'])(
+  test.each([
+    ['tricky', true],
+    ['impossible', false],
+  ])(
     '%s goes to the form as a beginner, with the pop-up',
-    async (check) => {
+    async (check, badIdeaHidden) => {
       setUpPage()
       pick('sign_up_level', 'in_between')
       clickContinue('level')
@@ -300,6 +307,9 @@ describe('initSignUpFlow', () => {
       expect(dialog().querySelector('[data-jiki-language]')!.textContent).toBe(
         'Go'
       )
+      expect(
+        dialog().querySelector<HTMLElement>('[data-jiki-bad-idea]')!.hidden
+      ).toBe(badIdeaHidden)
     }
   )
 

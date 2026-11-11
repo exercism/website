@@ -1081,6 +1081,11 @@ body:has(#page-sign-up) turbo-frame {
             margin-top: 2px;
             font-size: 14px;
             color: #7b75a0;
+
+            & strong {
+                font-weight: 600;
+                color: #5c5589;
+            }
         }
     }
 }

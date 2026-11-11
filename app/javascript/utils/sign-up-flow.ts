@@ -4,6 +4,7 @@ import {
   openDialog,
   seniorityForCodeCheck,
   showJikiVariant,
+  type CodeCheckAnswer,
   type Seniority,
 } from '@/utils/code-check'
 
@@ -142,7 +143,8 @@ class SignUpFlow {
       this.finish(
         seniorityForCodeCheck(codeCheck.answer!),
         codeCheck.trackSlug,
-        codeCheck.trackTitle
+        codeCheck.trackTitle,
+        codeCheck.answer
       )
     })
   }
@@ -183,7 +185,8 @@ class SignUpFlow {
   private finish(
     seniority: Seniority,
     trackSlug: string | null,
-    language = ''
+    language = '',
+    codeCheckAnswer: CodeCheckAnswer | null = null
   ) {
     this.setAnswer('seniority', seniority)
     this.setAnswer('sign_up_track_slug', trackSlug || '')
@@ -191,6 +194,11 @@ class SignUpFlow {
 
     if (this.dialog && JIKI_SENIORITIES.includes(seniority)) {
       showJikiVariant(this.dialog, seniority, 'sign-up-jiki-heading', language)
+      // Someone who found the code tricky can code a little, so the pop-up
+      // doesn't tell them that using Exercism is a bad idea.
+      this.dialog
+        .querySelectorAll<HTMLElement>('[data-jiki-bad-idea]')
+        .forEach((element) => (element.hidden = codeCheckAnswer === 'tricky'))
       openDialog(this.dialog)
       return
     }

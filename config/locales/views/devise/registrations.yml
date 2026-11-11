@@ -61,4 +61,4 @@ en:
         cta: Sign up to Jiki for free
         later_html: No thanks, I want to %{link} anyway
         later_link: use Exercism
-        later_aside: (even though we think that's a bad idea 🤭)
+        later_aside_html: (even though we think that's a <strong>bad idea</strong> 🤭)

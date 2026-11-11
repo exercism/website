@@ -25,6 +25,6 @@
         - later_link = tag.button(t('.later_link'), type: :button, class: "later-link", data: { jiki_dismiss: true })
         %p.later
           = t('.later_html', link: later_link)
-          %span.later-aside= t('.later_aside')
+          %span.later-aside{ data: { jiki_bad_idea: true } }= t('.later_aside_html')
 
     = render "components/sign_up/jiki_ticker"

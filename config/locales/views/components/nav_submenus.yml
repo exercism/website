@@ -5,7 +5,7 @@ en:
         tracks:
           title: "Language Tracks"
           description: "Upskill in 65+ languages"
-        coding_fundamentals:
+        jiki:
           title: "Learn To Code with Jiki"
           description: "Learn to code and build in the LLM-era."
         journey:

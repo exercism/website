@@ -142,7 +142,6 @@ import componentsModalsRealtimeFeedbackModalFeedbackContentFoundAutomatedFeedbac
 import componentsModalsRealtimeFeedbackModalFeedbackContentNoAutomatedFeedback from './components-modals-realtime-feedback-modal-feedback-content-no-automated-feedback'
 import componentsModalsRequestMentoringModalTsx from './components-modals-RequestMentoringModal.tsx'
 import componentsModalsResetAccountModalTsx from './components-modals-ResetAccountModal.tsx'
-import componentsModalsSenioritySurveyModal from './components-modals-seniority-survey-modal'
 import componentsModalsStudent from './components-modals-student'
 import componentsModalsStudentFinishMentorDiscussionModal from './components-modals-student-finish-mentor-discussion-modal'
 import componentsModalsTaskHintsModalTsx from './components-modals-TaskHintsModal.tsx'
@@ -465,8 +464,6 @@ export default {
     componentsModalsRequestMentoringModalTsx,
   'components/modals/ResetAccountModal.tsx':
     componentsModalsResetAccountModalTsx,
-  'components/modals/seniority-survey-modal':
-    componentsModalsSenioritySurveyModal,
   'components/modals/student': componentsModalsStudent,
   'components/modals/student/finish-mentor-discussion-modal':
     componentsModalsStudentFinishMentorDiscussionModal,

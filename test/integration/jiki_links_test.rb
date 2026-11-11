@@ -51,4 +51,23 @@ class JikiLinksTest < ActionDispatch::IntegrationTest
     get "/courses/coding-fundamentals"
     assert_redirected_to "https://jiki.io?utm_source=exercism&utm_medium=courses_redirect"
   end
+
+  test "the sign-up pop-up links to jiki's sign-up page with its seniority" do
+    get "/users/sign_up"
+
+    assert_response :ok
+    %w[absolute_beginner beginner].each do |seniority|
+      assert_includes response.body,
+        %(href="https://jiki.io/auth/signup?utm_source=exercism&amp;utm_medium=sign_up&amp;utm_content=#{seniority}")
+    end
+  end
+
+  test "the returning user modal links to jiki's sign-up page with its seniority" do
+    html = ApplicationController.render(partial: "components/returning_user_modal", locals: { tracks: [] })
+
+    %w[absolute_beginner beginner].each do |seniority|
+      assert_includes html,
+        %(href="https://jiki.io/auth/signup?utm_source=exercism&amp;utm_medium=returning_user&amp;utm_content=#{seniority}")
+    end
+  end
 end

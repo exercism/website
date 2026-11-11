@@ -13,11 +13,11 @@ module ViewComponents
           view: :tracks
         },
         {
-          title: -> { I18n.t("components.nav_submenus.learn.coding_fundamentals.title") },
-          description: -> { I18n.t("components.nav_submenus.learn.coding_fundamentals.description") },
+          title: -> { I18n.t("components.nav_submenus.learn.jiki.title") },
+          description: -> { I18n.t("components.nav_submenus.learn.jiki.description") },
           path: -> { Jiki.url(medium: "nav") },
           icon: 'nav-coding-fundamentals',
-          view: :coding_fundamentals
+          view: :jiki
         },
         {
           title: -> { I18n.t("components.nav_submenus.learn.journey.title") },

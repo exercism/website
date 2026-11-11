@@ -15,7 +15,7 @@ type BootcampAdvertismentViewProps = {
     error: unknown
   }
   links: {
-    codingFundamentalsCourse: string
+    jiki: string
   }
 }
 
@@ -93,7 +93,7 @@ export function BootcampAdvertismentView({
 
         <div className="flex gap-12 mt-auto flex-grow mb-20">
           <a
-            href={links.codingFundamentalsCourse}
+            href={links.jiki}
             className="btn-primary btn-l cursor-pointer flex-grow"
           >
             {t('bootcampAd.learnMore')}

@@ -22,7 +22,7 @@ export function JuniorView() {
           <p className="mb-8">
             <Trans
               ns="components/modals/welcome-modal"
-              i18nKey="juniorView.codingFundamentalsDesigned"
+              i18nKey="juniorView.jikiDesigned"
               components={{ strong: <strong /> }}
             />
           </p>
@@ -78,7 +78,7 @@ export function JuniorView() {
             type="button"
             onClick={() => {
               patchCloseModal.mutate()
-              redirectTo(links.codingFundamentalsCourse)
+              redirectTo(links.jiki)
             }}
           >
             <Trans
@@ -122,7 +122,7 @@ export function JuniorView() {
               {' '}
               <Trans
                 ns="components/modals/welcome-modal"
-                i18nKey="juniorView.exercismsCodingFundamentals"
+                i18nKey="juniorView.jikiByExercism"
                 components={{
                   strong: (
                     <strong className="text-backgroundColorH font-semibold" />
@@ -187,7 +187,7 @@ export function JuniorView() {
                   {' '}
                   <Trans
                     ns="components/modals/welcome-modal"
-                    i18nKey="juniorView.aCompleteCoding"
+                    i18nKey="juniorView.aCompleteSyllabus"
                     components={{
                       strong: (
                         <strong className="text-backgroundColorH font-semibold" />

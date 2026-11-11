@@ -8,7 +8,7 @@ import { queryClient } from '../../setupTests'
 const links = {
   hideModalEndpoint: '',
   apiUserEndpoint: '',
-  codingFundamentalsCourse: '',
+  jiki: '',
 }
 
 test('asks how experienced the user is by default', async () => {

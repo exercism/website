@@ -23,7 +23,7 @@ type WelcomeModalContextProps = {
   links: {
     hideModalEndpoint: string
     apiUserEndpoint: string
-    codingFundamentalsCourse: string
+    jiki: string
   }
 }
 
@@ -55,7 +55,7 @@ export const WelcomeModalContext =
     links: {
       hideModalEndpoint: '',
       apiUserEndpoint: '',
-      codingFundamentalsCourse: '',
+      jiki: '',
     },
   })
 
@@ -68,7 +68,7 @@ export default function WelcomeModal({
   links: {
     hideModalEndpoint: string
     apiUserEndpoint: string
-    codingFundamentalsCourse: string
+    jiki: string
   }
   numTracks: number
   // People who signed up through the sign-up page that asks for their level

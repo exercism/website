@@ -49,7 +49,7 @@ export function BootcampRecommendationView() {
 
       <div className="flex gap-12 items-center w-full">
         <a
-          href={links.codingFundamentalsCourse}
+          href={links.jiki}
           data-capy-element="go-to-bootcamp-button"
           className="btn-m btn-primary flex-grow"
         >

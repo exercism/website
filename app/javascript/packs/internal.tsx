@@ -279,7 +279,7 @@ initReact({
         links={camelizeKeysAs<{
           hideModalEndpoint: string
           apiUserEndpoint: string
-          codingFundamentalsCourse: string
+          jiki: string
         }>(data.links)}
         numTracks={data.num_tracks}
         askSeniority={data.ask_seniority}
@@ -292,7 +292,7 @@ initReact({
         links={camelizeKeysAs<{
           hideModalEndpoint: string
           apiUserEndpoint: string
-          codingFundamentalsCourse: string
+          jiki: string
         }>(data.links)}
       />
     </Suspense>

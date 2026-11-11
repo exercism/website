@@ -1,5 +1,10 @@
 class SubmissionChannel < ApplicationCable::Channel
   def subscribed
+    unless current_user&.maintainer?
+      reject
+      return
+    end
+
     stream_from CHANNEL_NAME
   end
 

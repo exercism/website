@@ -2,6 +2,11 @@ class SolutionWithLatestIterationChannel < ApplicationCable::Channel
   def subscribed
     solution = Solution.find_by!(uuid: params[:uuid])
 
+    unless solution.viewable_by?(current_user)
+      reject
+      return
+    end
+
     stream_for solution
   end
 

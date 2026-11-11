@@ -30,5 +30,7 @@ class DonationsMailerTest < ActionMailer::TestCase
     assert_includes normalized,
       "Thank you for your donation! Exercism exists to bring the joy of programming to everyone, everywhere. Your donation helps make everything we do possible." # rubocop:disable Layout/LineLength
     assert_includes normalized, "View your donations"
+    refute_includes email.html_part.body.to_s, "key="
+    refute_includes email.text_part.body.to_s, "key="
   end
 end

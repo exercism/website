@@ -64,7 +64,13 @@ module Flows
         end
       end
 
+      include CableDiagnostics
+
       test "does not open newest iteration when there are iterations open" do
+        with_cable_diagnostics("iterations") { does_not_open_body }
+      end
+
+      def does_not_open_body
         user = create :user
         track = create :track
         create(:user_track, user:, track:)
@@ -80,9 +86,13 @@ module Flows
           sign_in!(user)
           visit track_exercise_iterations_url(track, exercise)
           wait_for_websocket_subscriptions(channel: "SolutionChannel")
+          dump_cable_state("after wait")
 
           create(:iteration, idx: 3, solution:)
           SolutionChannel.broadcast!(solution)
+          puts "===== BROADCAST #{Time.current.strftime('%H:%M:%S.%L')}"
+          sleep 1
+          dump_cable_state("after broadcast")
 
           assert_equal "false", find("details", text: "Iteration 3")['open']
         end

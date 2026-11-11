@@ -19,7 +19,7 @@ export type TrackWelcomeModalLinks = Record<
   | 'cliWalkthrough'
   | 'trackTooling'
   | 'learningResources'
-  | 'codingFundamentalsCourse',
+  | 'jiki',
   string
 >
 

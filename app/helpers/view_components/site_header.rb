@@ -1,6 +1,5 @@
 module ViewComponents
   class SiteHeader < ViewComponent
-    extend Mandate::Memoize
     include ViewComponents::NavHelpers::All
     # include ViewComponents::ThemeToggleButton
 
@@ -47,10 +46,8 @@ module ViewComponents
     def announcement_bar
       # return downtime_announcement_bar if user_signed_in?
 
-      return translatathon_announcement_bar if user_signed_in? && translatathon_banner
-
-      return coding_fundamentals_announcement_bar unless user_signed_in?
-      return coding_fundamentals_announcement_bar if current_user.junior?
+      return jiki_announcement_bar unless user_signed_in?
+      return jiki_announcement_bar if current_user.junior?
 
       return tag.span("") if current_user.current_subscription
       return tag.span("") if current_user.donated_in_last_35_days?
@@ -60,25 +57,6 @@ module ViewComponents
           tag.span("👋", class: 'emoji me-6') +
             tag.span(I18n.t("components.site_header.announcement_bar.donation_ask")) +
             tag.strong(I18n.t("components.site_header.announcement_bar.donation_ask_link_text"))
-        end
-      end
-    end
-
-    memoize
-    def translatathon_banner
-      ViewComponents::TranslatathonBanner.(request.headers["Accept-Language"])
-    end
-
-    def translatathon_announcement_bar
-      banner = translatathon_banner
-      link_to(banner.url, class: "announcement-bar md:block hidden", target: "_blank", rel: "noopener", dir: banner.dir) do
-        tag.div(class: "lg-container") do
-          # margin-inline-end (not me-6) so the gap sits between the emoji and the
-          # text in both LTR and RTL banners.
-          tag.span("🌍", class: 'emoji', style: 'margin-inline-end:8px') +
-            tag.span(banner.pre) +
-            tag.strong(banner.link) +
-            tag.span(banner.post)
         end
       end
     end
@@ -93,12 +71,12 @@ module ViewComponents
       end
     end
 
-    def coding_fundamentals_announcement_bar
-      link_to(Courses::CodingFundamentals.url, class: "announcement-bar md:block hidden") do
+    def jiki_announcement_bar
+      link_to(Jiki.url(medium: "announcement_bar"), class: "announcement-bar md:block hidden") do
         tag.div(class: "lg-container") do
           tag.span("👋", class: 'emoji me-6') +
-            tag.span(I18n.t("components.site_header.announcement_bar.coding_fundamentals")) +
-            tag.strong(I18n.t("components.site_header.announcement_bar.coding_fundamentals_link_text"))
+            tag.span(I18n.t("components.site_header.announcement_bar.jiki")) +
+            tag.strong(I18n.t("components.site_header.announcement_bar.jiki_link_text"))
         end
       end
     end

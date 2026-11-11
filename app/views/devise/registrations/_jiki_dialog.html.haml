@@ -17,7 +17,7 @@
 
         .cta-wrapper
           - %w[absolute_beginner beginner].each do |variant_seniority|
-            - jiki_url = Jiki.url(path: "auth/signup", query: "utm_source=exercism&utm_medium=sign_up&utm_content=#{variant_seniority}")
+            - jiki_url = Jiki.url(path: "auth/signup", medium: "sign_up", content: variant_seniority)
             = link_to jiki_url, class: "jiki-cta", hidden: true, data: { jiki_variant: variant_seniority, turbo: false } do
               = t('.cta')
               %span.arrow{ aria: { hidden: "true" } } →

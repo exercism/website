@@ -7,7 +7,7 @@ module ReactComponents
           bootcamp_free_coupon_code: current_user.bootcamp_free_coupon_code,
           links: {
             bootcamp_free_coupon_code: Exercism::Routes.bootcamp_free_coupon_code_api_settings_user_preferences_url,
-            jiki: Jiki.url(query: "utm_source=exercism&utm_medium=free_settings")
+            jiki: Jiki.url(medium: "free_settings")
           }
         })
       end

@@ -3,7 +3,7 @@ require "application_system_test_case"
 module Maintaining
   class SubmissionsSummaryTableTest < ApplicationSystemTestCase
     test "visiting the index" do
-      sign_in!
+      sign_in!(create(:user, :maintainer))
 
       use_capybara_host do
         visit test_components_maintaining_submissions_summary_table_url

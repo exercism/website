@@ -2,6 +2,7 @@ class SolutionChannel < ApplicationCable::Channel
   def subscribed
     solution = Solution.find_by!(uuid: params[:uuid])
 
+    # The student's iterations page uses this channel to update iterations as they are processed.
     unless solution.viewable_by?(current_user)
       reject
       return

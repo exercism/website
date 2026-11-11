@@ -1,0 +1,41 @@
+-#
+  The frame around the sign-up questions: the logo, the progress dots and the
+  panel on the right. The sign-up page and the onboarding page both render
+  their steps inside it, and app/javascript/utils/sign-up-flow.ts drives them.
+
+  Locals:
+    initial_step - the step shown first ("level" or "form")
+    step_3_label - the accessible label of the third progress dot
+    steps        - the HTML of the steps
+- n = 'devise.registrations.new'
+
+#page-sign-up
+  %main.sign-up-main
+    #sign-up-flow.sign-up-inner{ data: { initial_step:,
+                                         snippet_url: Exercism::Routes.api_track_sign_up_snippet_path(track_slug: "TRACK_SLUG") } }
+      .flow-header
+        = link_to root_path, class: 'logo' do
+          = icon "exercism-with-logo-black", t("#{n}.exercism_logo_alt")
+        %nav.progress{ hidden: true, aria: { label: t("#{n}.progress.label") } }
+          - [t("#{n}.progress.step_1"), t("#{n}.progress.step_2"), step_3_label].each.with_index(1) do |label, i|
+            %button.progress-dot{ type: :button, disabled: true, data: { progress_step: i }, aria: { label: } }
+              %span
+
+      = steps
+
+  %aside.sign-up-panel{ aria: { label: t("#{n}.panel.label") } }
+    .panel-content
+      = image_tag "graphics/auth-community.svg", alt: "", class: "illustration"
+      %p.panel-heading= t("#{n}.panel.heading")
+      %p.panel-body
+        = t("#{n}.panel.body_html", stats: tag.strong(t("#{n}.panel.stats", track_count: Track.num_active)),
+                                    free_forever: tag.strong(t("#{n}.panel.free_forever")))
+      .panel-tracks
+        - shown_tracks = Track.active.first(5)
+        - shown_tracks.each do |track|
+          = track_icon(track)
+        - remaining_tracks = Track.num_active - shown_tracks.size
+        - if remaining_tracks.positive?
+          %span.more= t("#{n}.panel.more_tracks", count: remaining_tracks)
+
+= render "devise/registrations/jiki_dialog"

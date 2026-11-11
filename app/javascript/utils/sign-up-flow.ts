@@ -15,6 +15,11 @@ import {
  * This shows one step at a time, records the answers in the hidden fields
  * that both sign-up forms submit, and opens the Jiki pop-up.
  *
+ * The onboarding page (app/views/user_onboarding/questions.html.haml) asks
+ * the same questions of people who signed up through GitHub without them.
+ * It has no form step. Instead, answering submits its hidden answers form,
+ * straight away or once the Jiki pop-up is dismissed.
+ *
  *   I'm a beginner       -> form + Jiki pop-up   (absolute_beginner)
  *   I'm a developer      -> form                 (senior)
  *   I can code a little  -> code check
@@ -65,6 +70,7 @@ function setUp(): void {
 class SignUpFlow {
   private root: HTMLElement
   private dialog: HTMLDialogElement | null
+  private answersForm: HTMLFormElement | null
   private codeCheck: CodeCheck | null = null
 
   private step: Step = 'level'
@@ -75,6 +81,9 @@ class SignUpFlow {
     this.dialog = document.getElementById(
       'sign-up-jiki-dialog'
     ) as HTMLDialogElement | null
+    this.answersForm = root.querySelector<HTMLFormElement>(
+      'form[data-sign-up-answers-form]'
+    )
 
     this.bindLevel()
     this.bindCodeCheck()
@@ -158,7 +167,10 @@ class SignUpFlow {
     dialog
       .querySelectorAll<HTMLButtonElement>('[data-jiki-dismiss]')
       .forEach((button) =>
-        button.addEventListener('click', () => closeDialog(dialog))
+        button.addEventListener('click', () => {
+          closeDialog(dialog)
+          this.answersForm?.submit()
+        })
       )
 
     // The only way out is "No thanks", so Esc doesn't close it.
@@ -175,12 +187,15 @@ class SignUpFlow {
   ) {
     this.setAnswer('seniority', seniority)
     this.setAnswer('sign_up_track_slug', trackSlug || '')
-    this.show('form')
+    if (!this.answersForm) this.show('form')
 
     if (this.dialog && JIKI_SENIORITIES.includes(seniority)) {
       showJikiVariant(this.dialog, seniority, 'sign-up-jiki-heading', language)
       openDialog(this.dialog)
+      return
     }
+
+    this.answersForm?.submit()
   }
 
   private show(step: Step, { focus = true }: { focus?: boolean } = {}) {

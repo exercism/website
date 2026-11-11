@@ -6,6 +6,10 @@ class API::Tracks::SignUpSnippetsController < API::BaseController
   skip_before_action :authenticate_user!
   skip_before_action :store_session_variables
   skip_before_action :rate_limit_for_user!
+
+  # People who signed up through GitHub answer the sign-up questions on the
+  # onboarding page, before they have accepted the terms.
+  skip_before_action :ensure_onboarded!
   skip_after_action :set_user_id_cookie
 
   # The snippet is code, so it is the same in every locale.

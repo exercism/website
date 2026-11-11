@@ -5,7 +5,7 @@
    The steps are server-rendered, and app/javascript/utils/sign-up-flow.ts
    shows one at a time. */
 
-body.namespace-auth.user-signed_out:has(#page-sign-up) turbo-frame {
+body:has(#page-sign-up) turbo-frame {
     @apply flex grow;
 }
 

@@ -360,6 +360,52 @@ describe('initSignUpFlow', () => {
     expect(visibleStep()).toEqual(['level'])
   })
 
+  describe('on the onboarding page', () => {
+    // The onboarding page has no form step. It has a hidden answers form
+    // instead, which is submitted once the questions are answered.
+    function setUpOnboardingPage() {
+      document.body.innerHTML = PAGE().replace(
+        /<section data-step="form">[\s\S]*?<\/section>/,
+        `<form data-sign-up-answers-form hidden>
+          <input type="hidden" name="seniority" data-sign-up-answer="seniority">
+          <input type="hidden" name="sign_up_track_slug" data-sign-up-answer="sign_up_track_slug">
+        </form>`
+      )
+      const form = document.querySelector<HTMLFormElement>(
+        '[data-sign-up-answers-form]'
+      )!
+      form.submit = jest.fn()
+      initSignUpFlow()
+      return form
+    }
+
+    test("I'm a developer submits the answers straight away", () => {
+      const form = setUpOnboardingPage()
+
+      pick('sign_up_level', 'confident_developer')
+      clickContinue('level')
+
+      expect(answers('seniority')).toEqual(['senior'])
+      expect(form.submit).toHaveBeenCalledTimes(1)
+      expect(dialog().hasAttribute('open')).toBe(false)
+    })
+
+    test("I'm a beginner submits the answers once the pop-up is dismissed", () => {
+      const form = setUpOnboardingPage()
+
+      pick('sign_up_level', 'total_beginner')
+      clickContinue('level')
+
+      expect(dialog().hasAttribute('open')).toBe(true)
+      expect(form.submit).not.toHaveBeenCalled()
+
+      dialog().querySelector<HTMLButtonElement>('[data-jiki-dismiss]')!.click()
+
+      expect(answers('seniority')).toEqual(['absolute_beginner'])
+      expect(form.submit).toHaveBeenCalledTimes(1)
+    })
+  })
+
   test('does nothing without the flow on the page', () => {
     document.body.innerHTML = '<form></form>'
 

@@ -14,7 +14,6 @@ export type StripeFormProps = {
   onSuccess: (type: PaymentIntentType, amount: currency) => void
   onProcessing?: () => void
   onSettled?: () => void
-  userSignedIn: boolean
   captchaRequired: boolean
   recaptchaSiteKey?: string
   amount: currency
@@ -29,7 +28,6 @@ export function StripeForm({
   amount,
   onSuccess,
   onProcessing = () => null,
-  userSignedIn,
   recaptchaSiteKey,
   captchaRequired,
   submitButtonDisabled = false,
@@ -41,13 +39,11 @@ export function StripeForm({
   const {
     cardValid,
     error,
-    email,
     processing,
     notARobot,
     succeeded,
     handleCaptchaFailure,
     handleCaptchaSuccess,
-    handleEmailChange,
     handlePaymentElementChange,
     handlePaymentSubmit,
   } = useStripeForm({
@@ -72,19 +68,6 @@ export function StripeForm({
 
   return (
     <form data-turbo="false" onSubmit={handlePaymentSubmit}>
-      {!userSignedIn ? (
-        <div className="email-container">
-          <label htmlFor="email">
-            {t('stripeForm.yourEmailAddressForReceipts')}:
-          </label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={handleEmailChange}
-          />
-        </div>
-      ) : null}
       {captchaRequired && recaptchaSiteKey ? (
         <div className="flex items-center mb-16">
           <ReCAPTCHA
@@ -125,7 +108,6 @@ export function StripeForm({
           processing ||
           !cardValid ||
           succeeded ||
-          (!userSignedIn && email.length === 0) ||
           submitButtonDisabled
         }
       >

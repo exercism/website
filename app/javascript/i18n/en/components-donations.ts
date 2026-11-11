@@ -12,8 +12,6 @@ export default {
     '<0>You already donate {{amount}} per month to Exercism.</0> Thank you! To change or manage this go to <1>Donation settings<1/>.',
   'existingSubscriptionNotice.extra':
     'Extra <0>one-time donations</0> are still gratefully received!',
-  'stripeForm.yourEmailAddressForReceipts':
-    'Your email address (for receipts):',
   'stripeForm.attackInfo':
     'Due to frequent <0>card testing attacks</0>, we need to check you are not a bot before we can accept a donation.',
   'formWithModal.youVeDonatedSuccessfullyThankYou':

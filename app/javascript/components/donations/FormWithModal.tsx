@@ -8,7 +8,6 @@ import { useTrackPaymentPrompt } from '@/hooks/use-track-payment-prompt'
 
 type FormWithModalProps = {
   request: Request
-  userSignedIn: boolean
   links: StripeFormLinks
   captchaRequired: boolean
   recaptchaSiteKey: string
@@ -17,7 +16,6 @@ type FormWithModalProps = {
 
 export default function FormWithModal({
   request,
-  userSignedIn,
   links,
   captchaRequired,
   recaptchaSiteKey,
@@ -42,7 +40,6 @@ export default function FormWithModal({
   return (
     <>
       <Form
-        userSignedIn={userSignedIn}
         onSuccess={handleSuccess}
         request={request}
         links={links}

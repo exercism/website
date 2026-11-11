@@ -12,7 +12,6 @@ type Props = {
   amount: currency
   request: Request
   links: StripeFormLinks
-  userSignedIn: boolean
   captchaRequired: boolean
   recaptchaSiteKey: string
 }
@@ -22,7 +21,6 @@ export const FormModal = ({
   onClose,
   request,
   links,
-  userSignedIn,
   captchaRequired,
   recaptchaSiteKey,
   ...props
@@ -76,7 +74,6 @@ export const FormModal = ({
             links={links}
             onProcessing={handleDonationProcessing}
             onSettled={handleDonationSettled}
-            userSignedIn={userSignedIn}
             captchaRequired={captchaRequired}
             recaptchaSiteKey={recaptchaSiteKey}
             trigger="footer_form"

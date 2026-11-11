@@ -122,7 +122,6 @@ export default function ({
                     payment: currency(16),
                     subscription: currency(16),
                   }}
-                  userSignedIn={true}
                   captchaRequired={false}
                   links={links}
                   onSuccess={handleSuccess}

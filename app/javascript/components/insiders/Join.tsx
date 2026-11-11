@@ -48,7 +48,6 @@ export default function Join({
       <StripeForm
         confirmParamsReturnUrl={links.paymentPending}
         captchaRequired={captchaRequired}
-        userSignedIn={true}
         recaptchaSiteKey={recaptchaSiteKey}
         amount={MONTHLY_AMOUNT}
         onSuccess={handleSuccess}

@@ -40,7 +40,6 @@ export type InsidersStatusData = {
   status: InsidersStatus
   insidersStatusRequest: string
   activateInsiderLink: string
-  userSignedIn: boolean
   captchaRequired: boolean
   recaptchaSiteKey: string
   links: {
@@ -61,7 +60,6 @@ export default function Status({
   links,
   recaptchaSiteKey,
   status,
-  userSignedIn,
 }: InsidersStatusData): JSX.Element {
   const { t } = useAppTranslation('components/insiders')
   const [insidersStatus, setInsidersStatus] = useState(status)
@@ -198,7 +196,6 @@ export default function Status({
               trigger="insiders_page"
               confirmParamsReturnUrl={links.paymentPending}
               captchaRequired={captchaRequired}
-              userSignedIn={userSignedIn}
               recaptchaSiteKey={recaptchaSiteKey}
               amount={isNaN(amount.value) ? currency(0) : amount}
               onSuccess={handleSuccess}

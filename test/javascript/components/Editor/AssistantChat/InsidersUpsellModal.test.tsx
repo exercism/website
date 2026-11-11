@@ -17,7 +17,6 @@ jest.mock('@/hooks/use-track-payment-prompt', () => ({
 }))
 
 const config = {
-  userSignedIn: true,
   captchaRequired: false,
   recaptchaSiteKey: '',
   links: {

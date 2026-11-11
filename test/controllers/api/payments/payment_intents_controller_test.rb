@@ -35,6 +35,21 @@ class API::Payments::PaymentIntentsControllerTest < API::BaseTestCase
     )
   end
 
+  test "create uses the signed-in user and ignores an email param" do
+    user = create :user
+
+    ::Payments::Stripe::PaymentIntent::Create.expects(:call).with(
+      user, 'payment', '1200'
+    ).returns(OpenStruct.new(id: SecureRandom.uuid, client_secret: SecureRandom.uuid))
+
+    setup_user(user)
+    post api_payments_payment_intents_path(
+      type: 'payment', amount_in_cents: '1200', email: 'someone@example.com'
+    ), headers: @headers, as: :json
+
+    assert_response :ok
+  end
+
   test "rejects amount over maximum" do
     setup_user
     post api_payments_payment_intents_path(

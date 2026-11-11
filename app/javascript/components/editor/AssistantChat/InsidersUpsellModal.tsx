@@ -149,7 +149,6 @@ function PaymentContent({
         <StripeForm
           confirmParamsReturnUrl={config.links.paymentPending}
           captchaRequired={config.captchaRequired}
-          userSignedIn={config.userSignedIn}
           recaptchaSiteKey={config.recaptchaSiteKey}
           amount={MONTHLY_AMOUNT}
           onSuccess={onSuccess}

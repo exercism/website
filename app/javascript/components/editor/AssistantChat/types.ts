@@ -46,7 +46,6 @@ export interface AssistantChatLinks {
 }
 
 export interface InsidersUpsellConfig {
-  userSignedIn: boolean
   captchaRequired: boolean
   recaptchaSiteKey: string
   links: {

@@ -94,7 +94,7 @@ module ViewComponents
     end
 
     def coding_fundamentals_announcement_bar
-      link_to(Courses::CodingFundamentals.url, class: "announcement-bar md:block hidden") do
+      link_to(Courses::CodingFundamentals.url(medium: "announcement_bar"), class: "announcement-bar md:block hidden") do
         tag.div(class: "lg-container") do
           tag.span("👋", class: 'emoji me-6') +
             tag.span(I18n.t("components.site_header.announcement_bar.coding_fundamentals")) +

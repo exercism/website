@@ -24,4 +24,30 @@ class JikiTest < ActiveSupport::TestCase
     assert_equal "https://jiki.io/hu/auth/signup?utm_source=exercism",
       Jiki.url(:hu, path: "auth/signup", query: "utm_source=exercism")
   end
+
+  test "a medium adds the utm params" do
+    assert_equal "https://jiki.io?utm_source=exercism&utm_medium=nav", Jiki.url(:en, medium: "nav")
+    assert_equal "https://jiki.io/hu/auth/signup?utm_source=exercism&utm_medium=footer",
+      Jiki.url(:hu, path: "auth/signup", medium: "footer")
+  end
+
+  test "a medium keeps an existing query string" do
+    assert_equal "https://jiki.io?foo=bar&utm_source=exercism&utm_medium=nav",
+      Jiki.url(:en, query: "foo=bar", medium: "nav")
+  end
+
+  test "with_utm keeps the fragment" do
+    assert_equal "https://jiki.io/learn?a=1&utm_source=exercism&utm_medium=nav#top",
+      Jiki.with_utm("https://jiki.io/learn?a=1#top", :nav)
+  end
+
+  test "with_utm leaves existing utm params alone" do
+    assert_equal "https://jiki.io?utm_source=exercism&utm_medium=sign_up",
+      Jiki.with_utm("https://jiki.io?utm_source=exercism&utm_medium=sign_up", "nav")
+  end
+
+  test "with_utm works on subdomains" do
+    assert_equal "https://i18n.jiki.io?utm_source=exercism&utm_medium=banner",
+      Jiki.with_utm("https://i18n.jiki.io", "banner")
+  end
 end

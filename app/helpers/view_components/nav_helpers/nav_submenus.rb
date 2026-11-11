@@ -15,7 +15,7 @@ module ViewComponents
         {
           title: -> { I18n.t("components.nav_submenus.learn.coding_fundamentals.title") },
           description: -> { I18n.t("components.nav_submenus.learn.coding_fundamentals.description") },
-          path: -> { Jiki.url },
+          path: -> { Jiki.url(medium: "nav") },
           icon: 'nav-coding-fundamentals',
           view: :coding_fundamentals
         },

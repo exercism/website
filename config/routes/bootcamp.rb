@@ -1,4 +1,4 @@
-direct(:jiki) { Jiki.url }
+direct(:jiki) { |options = {}| Jiki.url(medium: options[:medium]) }
 
 namespace :bootcamp do
   get "dashboard", to: "dashboard#index", as: :dashboard

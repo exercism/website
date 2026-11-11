@@ -3,7 +3,7 @@ class Courses::CodingFundamentals < Courses::Course
 
   def slug = "coding-fundamentals"
   delegate :url, to: :Jiki
-  def self.url = instance.url
+  def self.url(...) = instance.url(...)
 
   def enable_for_user!(user)
     user.update!(bootcamp_attendee: true)

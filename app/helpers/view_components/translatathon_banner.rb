@@ -24,7 +24,7 @@ module ViewComponents
     Banner = Struct.new(:pre, :link, :post, :url, :dir, keyword_init: true)
 
     # Where the call-to-action goes (opens in a new tab).
-    TRANSLATATHON_URL = "https://i18n.jiki.io".freeze
+    TRANSLATATHON_URL = "https://i18n.jiki.io?utm_source=exercism&utm_medium=translatathon_banner".freeze
 
     # The event weekend is 31 Jul - 2 Aug 2026; keep the banner up through 3 Aug.
     # After this instant it never renders. Delete the whole class once the event

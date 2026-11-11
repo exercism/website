@@ -22,7 +22,7 @@ module ReactComponents
               track_tooling: Exercism::Routes.track_doc_path(track, 'installation'),
               learning_resources: Exercism::Routes.track_doc_path(track, 'learning'),
               download_cmd: Exercise.for(track.slug, 'hello-world').download_cmd,
-              coding_fundamentals_course: Courses::CodingFundamentals.url
+              coding_fundamentals_course: Courses::CodingFundamentals.url(medium: "track_welcome_modal")
             },
             track:,
             user_seniority: current_user.seniority,

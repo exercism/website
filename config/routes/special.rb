@@ -248,5 +248,5 @@ unless Rails.env.production?
   end
 end
 
-get "/courses(/*path)" => redirect("https://jiki.io")
-get "/bootcamp" => redirect("https://jiki.io"), as: :bootcamp
+get "/courses(/*path)" => redirect("https://jiki.io?utm_source=exercism&utm_medium=courses_redirect")
+get "/bootcamp" => redirect("https://jiki.io?utm_source=exercism&utm_medium=bootcamp_redirect"), as: :bootcamp

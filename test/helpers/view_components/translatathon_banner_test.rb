@@ -27,7 +27,7 @@ class ViewComponents::TranslatathonBannerTest < ActiveSupport::TestCase
 
     assert_equal "Vous voulez nous aider à traduire Exercism en français ? ", banner.pre
     assert_equal "Rejoignez la session de traduction", banner.link
-    assert_equal "https://i18n.jiki.io", banner.url
+    assert_equal "https://i18n.jiki.io?utm_source=exercism&utm_medium=translatathon_banner", banner.url
     assert_equal "ltr", banner.dir
   end
 

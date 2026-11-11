@@ -1,4 +1,5 @@
 import consumer from '../utils/action-cable-consumer'
+import { unsubscribeSoon } from '../utils/unsubscribe-soon'
 
 export class DiscussionPostChannel {
   subscription: ActionCable.Channel
@@ -19,6 +20,6 @@ export class DiscussionPostChannel {
   }
 
   disconnect(): void {
-    this.subscription.unsubscribe()
+    unsubscribeSoon(this.subscription)
   }
 }

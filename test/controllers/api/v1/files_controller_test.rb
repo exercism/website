@@ -125,6 +125,50 @@ class API::V1::FilesControllerTest < API::BaseTestCase
     assert_equal correct_content, response.body
   end
 
+  test "show should return published iteration for different user" do
+    setup_user
+    solution = create :practice_solution
+
+    filename = "meh"
+    correct_content = "published-code"
+    published_submission = create(:submission, solution:)
+    create :submission_file, submission: published_submission, filename:, content: correct_content
+    published_iteration = create(:iteration, solution:, submission: published_submission)
+
+    later_submission = create(:submission, solution:)
+    create :submission_file, submission: later_submission, filename:, content: "later-code"
+    create :iteration, solution:, submission: later_submission
+
+    solution.update!(published_at: Time.current, published_iteration:)
+
+    get "/api/v1/solutions/#{solution.uuid}/files/#{filename}", headers: @headers, as: :json
+    assert_response :ok
+    assert_equal correct_content, response.body
+  end
+
+  test "show should return latest iteration for mentor" do
+    setup_user
+    solution = create :practice_solution
+    create :mentor_discussion, solution:, mentor: @current_user
+
+    filename = "meh"
+    first_submission = create(:submission, solution:)
+    create :submission_file, submission: first_submission, filename:, content: "first-code"
+    create :iteration, solution:, submission: first_submission
+
+    correct_content = "latest-code"
+    latest_submission = create(:submission, solution:)
+    create :submission_file, submission: latest_submission, filename:, content: correct_content
+    create :iteration, solution:, submission: latest_submission
+
+    new_submission = create(:submission, solution:)
+    create :submission_file, submission: new_submission, filename:, content: "new-code"
+
+    get "/api/v1/solutions/#{solution.uuid}/files/#{filename}", headers: @headers, as: :json
+    assert_response :ok
+    assert_equal correct_content, response.body
+  end
+
   test "show should return special README.md solution file" do
     setup_user
     solution = create :practice_solution, user: @current_user

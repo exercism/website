@@ -30,35 +30,36 @@
     %p= t('.thanks.body')
 
   %dialog.c-sign-up-jiki-dialog.--centred{ tabindex: -1, data: { returning_step: "jiki" } }
-    %button.close{ type: :button, data: { jiki_dismiss: true }, aria: { label: t('.jiki.close') } }
-      %svg{ width: 20, height: 20, viewBox: "0 0 24 24", aria: { hidden: "true" } }
-        %path{ d: "M6 6l12 12M18 6L6 18", fill: "none", stroke: "currentColor", "stroke-width": "2.2", "stroke-linecap": "round" }
+    .dialog-card
+      %button.close{ type: :button, data: { jiki_dismiss: true }, aria: { label: t('.jiki.close') } }
+        %svg{ width: 20, height: 20, viewBox: "0 0 24 24", aria: { hidden: "true" } }
+          %path{ d: "M6 6l12 12M18 6L6 18", fill: "none", stroke: "currentColor", "stroke-width": "2.2", "stroke-linecap": "round" }
 
-    .dialog-scroll
-      .dialog-body
-        = image_tag "jiki/jiki-by-exercism.png", alt: t('.jiki.logo_alt'), class: "jiki-logo", width: 190, height: 71
+      .dialog-scroll
+        .dialog-body
+          = image_tag "jiki/jiki-by-exercism.png", alt: t('.jiki.logo_alt'), class: "jiki-logo", width: 190, height: 71
 
-        - { absolute_beginner: "your_level", beginner: "code_check" }.each do |variant_seniority, copy|
-          .variant{ hidden: true, data: { jiki_variant: variant_seniority } }
-            %h2{ id: "returning-user-jiki-heading-#{variant_seniority}" }= t(".jiki.#{copy}.heading_html")
-            %p= t(".jiki.#{copy}.body_html", language: tag.span(data: { jiki_language: true }))
+          - { absolute_beginner: "your_level", beginner: "code_check" }.each do |variant_seniority, copy|
+            .variant{ hidden: true, data: { jiki_variant: variant_seniority } }
+              %h2{ id: "returning-user-jiki-heading-#{variant_seniority}" }= t(".jiki.#{copy}.heading_html")
+              %p= t(".jiki.#{copy}.body_html", language: tag.span(data: { jiki_language: true }))
 
-        .snaps-figure
-          = render "components/sign_up/jiki_snaps"
-          %p.jiki-note{ hidden: true, data: { jiki_variant: "beginner" } }
-            = t('.jiki.note')
-            %svg{ width: 56, height: 40, viewBox: "0 0 56 40", aria: { hidden: "true" } }
-              %path{ d: "M50 4 C 46 24, 30 33, 6 30", fill: "none", stroke: "currentColor", "stroke-width": "2.2", "stroke-linecap": "round" }
-              %path{ d: "M13 23 L5 30 L13 36", fill: "none", stroke: "currentColor", "stroke-width": "2.2", "stroke-linecap": "round", "stroke-linejoin": "round" }
+          .snaps-figure
+            = render "components/sign_up/jiki_snaps"
+            %p.jiki-note{ hidden: true, data: { jiki_variant: "beginner" } }
+              = t('.jiki.note')
+              %svg{ width: 56, height: 40, viewBox: "0 0 56 40", aria: { hidden: "true" } }
+                %path{ d: "M50 4 C 46 24, 30 33, 6 30", fill: "none", stroke: "currentColor", "stroke-width": "2.2", "stroke-linecap": "round" }
+                %path{ d: "M13 23 L5 30 L13 36", fill: "none", stroke: "currentColor", "stroke-width": "2.2", "stroke-linecap": "round", "stroke-linejoin": "round" }
 
-        .cta-wrapper
-          - %w[absolute_beginner beginner].each do |variant_seniority|
-            - jiki_url = Jiki.url(path: "auth/signup", query: "utm_source=exercism&utm_medium=returning_user&utm_content=#{variant_seniority}")
-            = link_to jiki_url, class: "jiki-cta", hidden: true, data: { jiki_variant: variant_seniority, turbo: false } do
-              = t('.jiki.cta')
-              %span.arrow{ aria: { hidden: "true" } } →
+          .cta-wrapper
+            - %w[absolute_beginner beginner].each do |variant_seniority|
+              - jiki_url = Jiki.url(path: "auth/signup", query: "utm_source=exercism&utm_medium=returning_user&utm_content=#{variant_seniority}")
+              = link_to jiki_url, class: "jiki-cta", hidden: true, data: { jiki_variant: variant_seniority, turbo: false } do
+                = t('.jiki.cta')
+                %span.arrow{ aria: { hidden: "true" } } →
 
-        - later_link = tag.button(t('.jiki.later_link'), type: :button, class: "later-link", data: { jiki_dismiss: true })
-        %p.later= t('.jiki.later_html', link: later_link)
+          - later_link = tag.button(t('.jiki.later_link'), type: :button, class: "later-link", data: { jiki_dismiss: true })
+          %p.later= t('.jiki.later_html', link: later_link)
 
-    = render "components/sign_up/jiki_ticker"
+      = render "components/sign_up/jiki_ticker"

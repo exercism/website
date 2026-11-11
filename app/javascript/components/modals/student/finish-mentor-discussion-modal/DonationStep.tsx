@@ -33,7 +33,7 @@ export function DonationStep({
         </h1>
 
         <div className="mb-20 pb-20 border-b-1 border-borderColor7">
-          {!donation.previousDonor ? (
+          {donation.previousDonor ? (
             <PreviousDonorContent />
           ) : (
             <NonDonorContent />

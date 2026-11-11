@@ -11,8 +11,8 @@ class ToolingJob::CreateTest < ActiveSupport::TestCase
 
       refute_equal submission.git_sha, git_sha # Sanity
 
-      SecureRandom.expects(:uuid).returns("foo-bar123-asd")
-      job_id = "foobar123asd"
+      job_id = SecureRandom.compact_uuid
+      SecureRandom.expects(:compact_uuid).returns(job_id)
       efs_dir = "#{Exercism.config.efs_tooling_jobs_mount_point}/#{Time.current.utc.strftime('%Y/%m/%d')}/#{job_id}"
 
       job = ToolingJob::Create.(submission, type, git_sha:, run_in_background: false)

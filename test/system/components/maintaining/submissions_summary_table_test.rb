@@ -7,7 +7,7 @@ module Maintaining
 
       use_capybara_host do
         visit test_components_maintaining_submissions_summary_table_url
-        wait_for_websocket_subscriptions
+        wait_for_websocket_subscriptions(channel: "SubmissionChannel")
 
         solution = create :concept_solution
         submission = create(:submission, solution:)

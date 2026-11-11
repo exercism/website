@@ -1,4 +1,5 @@
 import consumer from '../utils/action-cable-consumer'
+import { unsubscribeFromWebsocketsSoon } from '../utils/unsubscribe-soon'
 
 import { camelizeKeys } from 'humps'
 import { Iteration } from '../components/types'
@@ -24,6 +25,6 @@ export class IterationChannel {
   }
 
   disconnect() {
-    this.subscription.unsubscribe()
+    unsubscribeFromWebsocketsSoon(this.subscription)
   }
 }

@@ -73,3 +73,6 @@ graphify-out/
 
 # Impeccable
 .impeccable/
+
+# Claude private rules (never commit)
+CLAUDE.local.md

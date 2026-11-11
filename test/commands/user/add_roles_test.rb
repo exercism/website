@@ -50,4 +50,20 @@ class User::AddRolesTest < ActiveSupport::TestCase
 
     User::AddRoles.(user, [:staff])
   end
+
+  test "updates PostHog when the user becomes staff" do
+    user = create :user, roles: []
+
+    Analytics::IdentifyUser.expects(:defer).with(user)
+
+    User::AddRoles.(user, [:staff])
+  end
+
+  test "doesn't update PostHog when staff status doesn't change" do
+    user = create :user, roles: []
+
+    Analytics::IdentifyUser.expects(:defer).never
+
+    User::AddRoles.(user, [:supermentor])
+  end
 end

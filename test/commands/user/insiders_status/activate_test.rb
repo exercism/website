@@ -190,4 +190,12 @@ class User::InsidersStatus::ActivateTest < ActiveSupport::TestCase
 
     assert_includes user.reload.badges.map(&:class), Badges::InsiderBadge
   end
+
+  test "updates PostHog" do
+    user = create :user, insiders_status: :eligible
+
+    Analytics::IdentifyUser.expects(:defer).with(user)
+
+    User::InsidersStatus::Activate.(user)
+  end
 end

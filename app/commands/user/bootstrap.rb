@@ -2,7 +2,7 @@ class User::Bootstrap
   include Mandate
 
   initialize_with :user, course_access_code: nil, locale: nil, accept_language: nil,
-    seniority: nil, sign_up_track_slug: nil
+    seniority: nil, sign_up_track_slug: nil, attribution: {}
 
   def call
     set_locale!
@@ -12,6 +12,7 @@ class User::Bootstrap
     Metric::Queue.(:sign_up, user.created_at, user:)
 
     link_courses!
+    User::TrackSignUp.(user, attribution: attribution || {})
   end
 
   private

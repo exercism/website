@@ -27,5 +27,6 @@ class User::InsidersStatus::Activate
     User::SetDiscordRoles.defer(user)
     User::SetDiscourseGroups.defer(user)
     User::NotifyJikiOfInsiderChange.defer(user, :activated)
+    Analytics::IdentifyUser.defer(user)
   end
 end

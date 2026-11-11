@@ -27,4 +27,16 @@ class Payments::Stripe::PaymentIntent::CreateForSubscriptionTest < Payments::Tes
     actual = Payments::Stripe::PaymentIntent::CreateForSubscription.(customer_id, amount_in_cents)
     assert_equal payment_intent, actual
   end
+
+  test "stores the trigger in the subscription's metadata" do
+    payment_intent = mock
+    stripe_subscription = mock_stripe_subscription(nil, nil, payment_intent:)
+
+    Stripe::Subscription.expects(:create).with do |options|
+      options[:metadata] == { trigger: "insiders_page" }
+    end.returns(stripe_subscription)
+
+    actual = Payments::Stripe::PaymentIntent::CreateForSubscription.(SecureRandom.uuid, 1500, trigger: "insiders_page")
+    assert_equal payment_intent, actual
+  end
 end

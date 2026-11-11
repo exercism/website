@@ -212,6 +212,19 @@ class User::AuthenticateFromOmniauthTest < ActiveSupport::TestCase
     User::AuthenticateFromOmniauth.(auth, seniority: "beginner", sign_up_track_slug: "go")
   end
 
+  test "passes the signup attribution to a new user's bootstrap" do
+    auth = stub(
+      provider: "github",
+      uid: "111",
+      info: stub(email: "user@exercism.org", name: "Name", nickname: "user22", image: nil)
+    )
+
+    User::Bootstrap.expects(:call).with do |_user, **kwargs|
+      kwargs[:attribution] == { "utm_source" => "newsletter" }
+    end
+    User::AuthenticateFromOmniauth.(auth, attribution: { "utm_source" => "newsletter" })
+  end
+
   test "does not apply the sign-up answers to an existing user" do
     user = create :user, provider: "github", uid: "111", seniority: :senior
     info = Struct.new(:email, :name, :nickname, :image, keyword_init: true).

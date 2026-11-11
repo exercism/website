@@ -269,4 +269,22 @@ class User::InsidersStatus::UpdateTest < ActiveSupport::TestCase
 
     assert_includes user.reload.badges.map(&:class), Badges::LifetimeInsiderBadge
   end
+
+  test "updates PostHog when the membership type changes" do
+    user = create :user, insiders_status: :active
+    User::InsidersStatus::DetermineEligibilityStatus.expects(:call).returns(:ineligible)
+
+    Analytics::IdentifyUser.expects(:defer).with(user)
+
+    User::InsidersStatus::Update.(user)
+  end
+
+  test "doesn't update PostHog when the membership type stays the same" do
+    user = create :user, insiders_status: :unset
+    User::InsidersStatus::DetermineEligibilityStatus.expects(:call).returns(:eligible)
+
+    Analytics::IdentifyUser.expects(:defer).never
+
+    User::InsidersStatus::Update.(user)
+  end
 end

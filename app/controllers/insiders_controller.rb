@@ -14,6 +14,7 @@ class InsidersController < ApplicationController
   # they go afterwards, and only ever a path on this site.
   def join
     @return_to = safe_return_to
+    @trigger = params[:trigger].to_s.presence_in(Analytics::TRIGGERS) || "insiders_join_page"
     redirect_to(@return_to || insiders_path) if current_user.insider?
   end
 

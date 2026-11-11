@@ -96,4 +96,98 @@ class Payments::Stripe::PaymentIntent::HandleSuccessTest < Payments::TestBase
 
     Payments::Stripe::PaymentIntent::HandleSuccess.(payment_intent:)
   end
+
+  test "tracks checkout_succeeded for a new one-off payment" do
+    payment_intent = mock_stripe_payment_intent(SecureRandom.uuid, customer: @customer_id, status: "succeeded")
+    payment_intent.amount = 1600
+    payment_intent.metadata = { trigger: "beg_modal" }
+    Stripe::Checkout::Session.expects(:list).returns(OpenStruct.new(data: []))
+
+    payment = create(:payments_payment, user: @user)
+    Payments::Stripe::Payment::Create.expects(:call).with do |*|
+      @user.data.update!(insiders_status: :active)
+      true
+    end.returns(payment)
+
+    Analytics::TrackEvent.expects(:defer).with(
+      @user,
+      "checkout_succeeded",
+      properties: {
+        trigger: "beg_modal",
+        payment_type: "payment",
+        amount_in_cents: 1600,
+        currency: "usd",
+        became_insider: true
+      }
+    )
+
+    Payments::Stripe::PaymentIntent::HandleSuccess.(payment_intent:)
+  end
+
+  test "tracks checkout_succeeded for a subscription's first invoice" do
+    invoice_id = SecureRandom.uuid
+    subscription_id = SecureRandom.uuid
+    @user.data.update!(insiders_status: :active)
+    payment_intent = mock_stripe_payment_intent(
+      SecureRandom.uuid, invoice_id:, customer: @customer_id, status: "succeeded"
+    )
+    payment_intent.amount = 1000
+    invoice = mock_stripe_invoice(invoice_id, subscription_id, status: "paid")
+    invoice.billing_reason = "subscription_create"
+    subscription_data = mock_stripe_subscription(subscription_id, 1000, status: "active")
+    subscription_data.metadata = { trigger: "assistant_upsell_modal" }
+    Stripe::Invoice.expects(:retrieve).with(invoice_id).returns(invoice)
+    Stripe::Subscription.expects(:retrieve).with(subscription_id).returns(subscription_data)
+
+    subscription = create(:payments_subscription, user: @user)
+    Payments::Stripe::Subscription::Create.expects(:call).returns(subscription)
+    Payments::Stripe::Payment::Create.expects(:call).returns(create(:payments_payment, user: @user))
+
+    Analytics::TrackEvent.expects(:defer).with(
+      @user,
+      "checkout_succeeded",
+      properties: {
+        trigger: "assistant_upsell_modal",
+        payment_type: "subscription",
+        amount_in_cents: 1000,
+        currency: "usd",
+        interval: "month",
+        became_insider: false
+      }
+    )
+
+    Payments::Stripe::PaymentIntent::HandleSuccess.(payment_intent:)
+  end
+
+  test "does not track a subscription renewal" do
+    invoice_id = SecureRandom.uuid
+    subscription_id = SecureRandom.uuid
+    payment_intent = mock_stripe_payment_intent(
+      SecureRandom.uuid, invoice_id:, customer: @customer_id, status: "succeeded"
+    )
+    invoice = mock_stripe_invoice(invoice_id, subscription_id, status: "paid")
+    invoice.billing_reason = "subscription_cycle"
+    subscription_data = mock_stripe_subscription(subscription_id, 1000, status: "active")
+    Stripe::Invoice.expects(:retrieve).with(invoice_id).returns(invoice)
+    Stripe::Subscription.expects(:retrieve).with(subscription_id).returns(subscription_data)
+
+    Payments::Stripe::Subscription::Create.expects(:call).returns(create(:payments_subscription, user: @user))
+    Payments::Stripe::Payment::Create.expects(:call).returns(create(:payments_payment, user: @user))
+
+    Analytics::TrackEvent.expects(:defer).never
+
+    Payments::Stripe::PaymentIntent::HandleSuccess.(payment_intent:)
+  end
+
+  test "does not track a payment that was already recorded" do
+    payment_intent = mock_stripe_payment_intent(SecureRandom.uuid, customer: @customer_id, status: "succeeded")
+    Stripe::Checkout::Session.expects(:list).returns(OpenStruct.new(data: []))
+
+    existing = create(:payments_payment, user: @user)
+    Payments::Stripe::Payment::Create.expects(:call).returns(Payments::Payment.find(existing.id))
+
+    Analytics::TrackEvent.expects(:defer).never
+
+    Payments::Stripe::PaymentIntent::HandleSuccess.(payment_intent:)
+  end
 end

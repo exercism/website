@@ -2,6 +2,7 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { InsidersUpsellModal } from '@/components/editor/AssistantChat/InsidersUpsellModal'
+import { useTrackPaymentPrompt } from '@/hooks/use-track-payment-prompt'
 
 jest.mock('@/components/donations/ExercismStripeElements', () => ({
   ExercismStripeElements: ({ children }: { children: React.ReactNode }) => (
@@ -10,6 +11,9 @@ jest.mock('@/components/donations/ExercismStripeElements', () => ({
 }))
 jest.mock('@/components/donations/StripeForm', () => ({
   StripeForm: () => <div data-testid="stripe-form" />,
+}))
+jest.mock('@/hooks/use-track-payment-prompt', () => ({
+  useTrackPaymentPrompt: jest.fn(),
 }))
 
 const config = {
@@ -49,5 +53,15 @@ test('links out to the Insiders page on a cross-origin isolated page', () => {
   expect(screen.getByText('Become an Insider')).toHaveAttribute(
     'href',
     '/insiders/join?return_to=%2Ftracks%2Fjq%2Fexercises%2Fhello-world%2Fedit'
+  )
+})
+
+test('records the payment prompt while the modal is open', () => {
+  setIsolated(false)
+  render(<InsidersUpsellModal config={config} open={true} onClose={() => {}} />)
+
+  expect(useTrackPaymentPrompt).toHaveBeenCalledWith(
+    'assistant_upsell_modal',
+    true
   )
 })

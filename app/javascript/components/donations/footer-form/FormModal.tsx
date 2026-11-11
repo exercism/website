@@ -4,6 +4,7 @@ import currency from 'currency.js'
 import SuccessModal from '../SuccessModal'
 import { Form, StripeFormLinks } from '../Form'
 import { Request } from '../../../hooks/request-query'
+import { useTrackPaymentPrompt } from '@/hooks/use-track-payment-prompt'
 
 type ModalStep = 'donating' | 'processingDonation' | 'donationSuccess'
 
@@ -27,6 +28,7 @@ export const FormModal = ({
   ...props
 }: Omit<ModalProps, 'className'> & Props): JSX.Element => {
   const [step, setStep] = useState<ModalStep>('donating')
+  useTrackPaymentPrompt('footer_form', props.open && userSignedIn)
   const [paidAmount, setPaidAmount] = useState<currency | null>(null)
 
   const handleClose = useCallback(() => {
@@ -77,6 +79,7 @@ export const FormModal = ({
             userSignedIn={userSignedIn}
             captchaRequired={captchaRequired}
             recaptchaSiteKey={recaptchaSiteKey}
+            trigger="footer_form"
           />
         </Modal>
       )

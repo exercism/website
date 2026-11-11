@@ -1,7 +1,8 @@
 class User::AuthenticateFromOmniauth
   include Mandate
 
-  initialize_with :auth, session: {}, locale: nil, accept_language: nil, seniority: nil, sign_up_track_slug: nil
+  initialize_with :auth, session: {}, locale: nil, accept_language: nil, seniority: nil, sign_up_track_slug: nil,
+    attribution: {}
 
   def call
     find_by_uid || find_by_email || create
@@ -76,7 +77,7 @@ class User::AuthenticateFromOmniauth
       # shouldn't cause the whole model's save to fail
       User::SetGithubUsername.(user, auth.info.nickname)
       User::Bootstrap.(user, course_access_code: session[:course_access_code], locale:, accept_language:,
-        seniority:, sign_up_track_slug:)
+        seniority:, sign_up_track_slug:, attribution:)
     end
 
     user

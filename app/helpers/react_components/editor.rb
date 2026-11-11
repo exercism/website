@@ -171,8 +171,10 @@ module ReactComponents
           # isolated on some tracks): join on its own page, then come back here.
           # Back to the assistant tab, which is where they were: Editor.tsx
           # reads the tab off the hash.
+          # The trigger joins the join page's checkout up with this upsell.
           join: Exercism::Routes.join_insiders_url(
-            return_to: "#{Exercism::Routes.edit_track_exercise_path(track, exercise)}#assistant"
+            return_to: "#{Exercism::Routes.edit_track_exercise_path(track, exercise)}#assistant",
+            trigger: "assistant_upsell_modal"
           ),
           payment_pending: Exercism::Routes.payment_pending_insiders_url
         }

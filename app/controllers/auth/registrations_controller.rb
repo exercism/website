@@ -14,8 +14,10 @@ module Auth
             course_access_code: session[:course_access_code],
             locale: locale_from_path,
             accept_language: request.headers["Accept-Language"],
+            attribution: signup_attribution,
             **sign_up_answers
           )
+          clear_signup_attribution!
         end
       end
     end

@@ -8,9 +8,11 @@ class User::AddRoles
   def call
     return if roles.subset?(user.roles)
 
+    was_staff = user.staff?
     user.update(roles: user.roles + roles)
 
     User::SetDiscordRoles.defer(user)
     User::InsidersStatus::TriggerUpdate.(user)
+    Analytics::IdentifyUser.defer(user) if user.staff? != was_staff
   end
 end

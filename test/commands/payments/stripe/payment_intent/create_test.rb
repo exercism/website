@@ -92,4 +92,44 @@ class Payments::Stripe::PaymentIntent::CreateTest < Payments::TestBase
 
     assert_nil Payments::Stripe::PaymentIntent::Create.(email, type, amount_in_cents)
   end
+
+  test "passes a known trigger on and tracks checkout_started" do
+    customer_id = SecureRandom.uuid
+    user = create :user, stripe_customer_id: customer_id
+    payment_intent = mock
+
+    Stripe::Customer.expects(:retrieve).with(customer_id).once
+    Payments::Stripe::PaymentIntent::CreateForSubscription.expects(:call).
+      with(customer_id, '1200', trigger: "beg_modal").returns(payment_intent)
+    Analytics::TrackEvent.expects(:defer).with(
+      user,
+      "checkout_started",
+      properties: {
+        trigger: "beg_modal",
+        payment_type: "subscription",
+        amount_in_cents: 1200,
+        currency: "usd",
+        interval: "month"
+      }
+    )
+
+    actual = Payments::Stripe::PaymentIntent::Create.(user, 'subscription', '1200', trigger: "beg_modal")
+    assert_equal payment_intent, actual
+  end
+
+  test "drops an unknown trigger" do
+    customer_id = SecureRandom.uuid
+    user = create :user, stripe_customer_id: customer_id
+
+    Stripe::Customer.expects(:retrieve).with(customer_id).once
+    Payments::Stripe::PaymentIntent::CreateForPayment.expects(:call).
+      with(customer_id, '1600', trigger: nil).returns(mock)
+    Analytics::TrackEvent.expects(:defer).with(
+      user,
+      "checkout_started",
+      properties: { payment_type: "payment", amount_in_cents: 1600, currency: "usd" }
+    )
+
+    Payments::Stripe::PaymentIntent::Create.(user, 'payment', '1600', trigger: "somewhere")
+  end
 end

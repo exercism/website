@@ -19,4 +19,14 @@ class Payments::Stripe::PaymentIntent::CreateForPaymentTest < Payments::TestBase
     actual = Payments::Stripe::PaymentIntent::CreateForPayment.(customer_id, amount_in_cents)
     assert_equal payment_intent, actual
   end
+
+  test "stores the trigger in the metadata" do
+    customer_id = SecureRandom.uuid
+
+    Stripe::PaymentIntent.expects(:create).with do |options|
+      options[:metadata] == { trigger: "donations_page" }
+    end.returns(mock)
+
+    Payments::Stripe::PaymentIntent::CreateForPayment.(customer_id, 1500, trigger: "donations_page")
+  end
 end

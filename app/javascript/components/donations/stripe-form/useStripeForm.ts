@@ -9,7 +9,12 @@ import {
   StripeError,
   StripeElements,
 } from '@stripe/stripe-js'
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
+import {
+  checkoutEventProperties,
+  trackEvent,
+  type PaymentTrigger,
+} from '@/utils/analytics'
 import { StripeFormProps } from '../StripeForm'
 
 type UseStripeFormParams = Pick<
@@ -21,6 +26,7 @@ type UseStripeFormParams = Pick<
   | 'onSettled'
   | 'onSuccess'
   | 'confirmParamsReturnUrl'
+  | 'trigger'
 >
 
 type PaymentIntent = {
@@ -58,6 +64,7 @@ export function useStripeForm({
   onSuccess,
   onProcessing = () => null,
   onSettled = () => null,
+  trigger,
 }: UseStripeFormParams): UseStripeFormReturns {
   const [succeeded, setSucceeded] = useState(false)
   const [error, setError] = useState<string | undefined>()
@@ -74,6 +81,49 @@ export function useStripeForm({
 
   const stripe = useStripe()
   const elements = useElements()
+
+  const eventProperties = useCallback(
+    () =>
+      checkoutEventProperties({
+        trigger,
+        paymentType: paymentIntentType,
+        amountInCents: amount.intValue,
+      }),
+    [trigger, paymentIntentType, amount]
+  )
+  const trackFailure = useCallback(
+    (errorCode: string | undefined, declineCode?: string) =>
+      trackEvent('checkout_failed', {
+        ...eventProperties(),
+        ...(errorCode ? { error_code: errorCode } : {}),
+        ...(declineCode ? { decline_code: declineCode } : {}),
+      }),
+    [eventProperties]
+  )
+
+  // A checkout counts as closed if someone leaves after a payment intent
+  // was created and before the payment succeeded. A payment method that
+  // redirects to the bank also hides the page, so leaving while Stripe is
+  // confirming the payment doesn't count.
+  const checkoutOpen = useRef(false)
+  const confirming = useRef(false)
+  const latestEventProperties = useRef(eventProperties)
+  latestEventProperties.current = eventProperties
+
+  useEffect(() => {
+    const trackClosed = () => {
+      if (!checkoutOpen.current || confirming.current) return
+
+      checkoutOpen.current = false
+      trackEvent('checkout_closed', latestEventProperties.current())
+    }
+
+    window.addEventListener('pagehide', trackClosed)
+    return () => {
+      window.removeEventListener('pagehide', trackClosed)
+      trackClosed()
+    }
+  }, [])
 
   const handlePaymentElementChange = async (
     event: StripePaymentElementChangeEvent
@@ -126,9 +176,11 @@ export function useStripeForm({
         type: paymentIntentType,
         amount_in_cents: amount.intValue,
         email,
+        trigger,
       }),
     }).then((data) => {
       if (data.error) {
+        trackFailure('server_error')
         setError(
           i18n.t(
             'components/donations/stripe-form/useStripeForm.ts:paymentFailedWithError',
@@ -139,7 +191,7 @@ export function useStripeForm({
       }
       return data.paymentIntent
     })
-  }, [paymentIntentType, amount.intValue, email])
+  }, [paymentIntentType, amount.intValue, email, trigger, trackFailure])
 
   type ConfirmPaymentFn = (
     stripe: Stripe,
@@ -166,15 +218,21 @@ export function useStripeForm({
       return
     }
 
+    trackEvent('checkout_submitted', eventProperties())
+
     getPaymentRequest().then(async (paymentIntent: PaymentIntent | null) => {
       if (paymentIntent === undefined || paymentIntent === null) {
         setProcessing(false)
         return
       }
 
+      checkoutOpen.current = true
+      confirming.current = true
       const { error } = await confirmPaymentFn(stripe, elements, paymentIntent)
+      confirming.current = false
 
       if (error) {
+        trackFailure(error.code || error.type, error.decline_code)
         setError(
           i18n.t(
             'components/donations/stripe-form/useStripeForm.ts:paymentFailedBankMessage',
@@ -184,6 +242,7 @@ export function useStripeForm({
         setProcessing(false)
         cancelPaymentIntent(paymentIntent)
       } else {
+        checkoutOpen.current = false
         setError(undefined)
         setProcessing(false)
         setSucceeded(true)

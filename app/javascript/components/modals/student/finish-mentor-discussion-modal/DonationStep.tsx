@@ -6,6 +6,7 @@ import { DiscussionActionsLinks } from '@/components/student/mentoring-session/D
 import { PaymentIntentType } from '@/components/donations/stripe-form/useStripeForm'
 import { PreviousDonorContent, NonDonorContent } from '../../BegModal'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { useTrackPaymentPrompt } from '@/hooks/use-track-payment-prompt'
 
 const Form = lazy(() => import('@/components/donations/Form'))
 
@@ -21,6 +22,7 @@ export function DonationStep({
   const { t } = useAppTranslation(
     'components/modals/student/finish-mentor-discussion-modal'
   )
+  useTrackPaymentPrompt('mentoring_donation_step')
 
   return (
     <div id="a11y-finish-mentor-discussion" className="flex flex-row">
@@ -86,6 +88,7 @@ export function DonationStep({
                 settings: links.donationsSettings,
               }}
               onSuccess={onSuccessfulDonation}
+              trigger="mentoring_donation_step"
             />
           </Suspense>
         </div>

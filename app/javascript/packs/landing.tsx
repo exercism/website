@@ -3,6 +3,9 @@ import { initLocaleBanner } from '@/utils/locale-banner'
 initLocalePrefLinks()
 initLocaleBanner()
 
+import { captureSignupAttribution } from '@/utils/signup-attribution'
+captureSignupAttribution()
+
 import { annotateLanding } from '../utils/annotate-landing'
 annotateLanding()
 

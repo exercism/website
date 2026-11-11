@@ -48,4 +48,12 @@ class User::RemoveRolesTest < ActiveSupport::TestCase
 
     User::RemoveRoles.(user, [:staff])
   end
+
+  test "updates PostHog when the user stops being staff" do
+    user = create :user, roles: [:staff]
+
+    Analytics::IdentifyUser.expects(:defer).with(user)
+
+    User::RemoveRoles.(user, [:staff])
+  end
 end

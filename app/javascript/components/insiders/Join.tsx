@@ -3,10 +3,13 @@ import currency from 'currency.js'
 import { redirectTo } from '@/utils'
 import { ExercismStripeElements } from '@/components/donations/ExercismStripeElements'
 import { StripeForm } from '@/components/donations/StripeForm'
+import { isPaymentTrigger } from '@/utils/analytics'
+import { useTrackPaymentPrompt } from '@/hooks/use-track-payment-prompt'
 
 export type JoinProps = {
   captchaRequired: boolean
   recaptchaSiteKey: string
+  trigger?: string
   links: {
     returnTo: string
     paymentPending: string
@@ -24,8 +27,14 @@ const MONTHLY_AMOUNT = currency(10)
 export default function Join({
   captchaRequired,
   recaptchaSiteKey,
+  trigger: rawTrigger,
   links,
 }: JoinProps): JSX.Element {
+  const trigger = isPaymentTrigger(rawTrigger)
+    ? rawTrigger
+    : 'insiders_join_page'
+  useTrackPaymentPrompt(trigger)
+
   const handleSuccess = useCallback(
     () => redirectTo(links.returnTo),
     [links.returnTo]
@@ -44,6 +53,7 @@ export default function Join({
         amount={MONTHLY_AMOUNT}
         onSuccess={handleSuccess}
         paymentIntentType="subscription"
+        trigger={trigger}
       />
     </ExercismStripeElements>
   )

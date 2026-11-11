@@ -62,13 +62,7 @@ module Components
         assert_no_css "section.mentoring-discussion-nudge"
       end
 
-      include CableDiagnostics
-
       test "responds to websockets" do
-        with_cable_diagnostics("solution summary") { responds_to_websockets_body }
-      end
-
-      def responds_to_websockets_body
         user_track = create :user_track
         user = user_track.user
         solution = create(:practice_solution, user:)
@@ -84,14 +78,10 @@ module Components
           assert_text "Processing"
         end
         wait_for_websocket_subscriptions(channel: "IterationChannel")
-        dump_cable_state("after wait")
 
         submission = create :submission, solution:, tests_status: :failed
         iteration.update!(submission:)
         IterationChannel.broadcast!(iteration)
-        puts "===== BROADCAST #{Time.current.strftime('%H:%M:%S.%L')}"
-        sleep 1
-        dump_cable_state("after broadcast")
 
         within ".latest-iteration-link" do
           assert_text "Failed"

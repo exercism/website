@@ -1078,7 +1078,7 @@ body:has(#page-sign-up) turbo-frame {
         }
         & .later-aside {
             display: block;
-            margin-top: 8px;
+            margin-top: 2px;
             font-size: 14px;
             color: #7b75a0;
         }

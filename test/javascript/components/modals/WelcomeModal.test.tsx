@@ -7,11 +7,9 @@ import { queryClient } from '../../setupTests'
 
 const links = {
   hideModalEndpoint: '',
-  apiUserEndpoint: '',
-  jiki: '',
 }
 
-test('asks how experienced the user is by default', async () => {
+test('shows the welcome view', async () => {
   render(
     <TestQueryCache queryClient={queryClient}>
       <WelcomeModal links={links} numTracks={70} ariaHideApp={false} />
@@ -19,26 +17,6 @@ test('asks how experienced the user is by default', async () => {
   )
 
   expect(
-    await screen.findByText('How experienced a developer are you?')
-  ).toBeInTheDocument()
-})
-
-test('skips the seniority question when told not to ask', async () => {
-  render(
-    <TestQueryCache queryClient={queryClient}>
-      <WelcomeModal
-        links={links}
-        numTracks={70}
-        askSeniority={false}
-        ariaHideApp={false}
-      />
-    </TestQueryCache>
-  )
-
-  expect(
     await screen.findByText('Hello fellow developer 👋')
   ).toBeInTheDocument()
-  expect(
-    screen.queryByText('How experienced a developer are you?')
-  ).not.toBeInTheDocument()
 })

@@ -1,29 +1,18 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { sendRequest } from '@/utils/send-request'
 import { Modal, ModalProps } from '../Modal'
-import { InitialView } from './InitialView'
 import { SeniorView } from './DeveloperView'
-import { BootcampAdvertismentView } from '../seniority-survey-modal/BootcampAdvertismentView'
-
-type ViewVariant = 'initial' | 'beginner' | 'developer'
 
 type WelcomeModalContextProps = {
   patchCloseModal: {
     mutate: () => void
   } & Pick<ReturnType<typeof useMutation>, 'status' | 'error'>
-  patchUserSeniority: {
-    mutate: (seniority: SeniorityLevel) => void
-  } & Pick<ReturnType<typeof useMutation>, 'status' | 'error'>
   numTracks: number
   open: boolean
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
-  currentView: ViewVariant
-  setCurrentView: React.Dispatch<React.SetStateAction<ViewVariant>>
   links: {
     hideModalEndpoint: string
-    apiUserEndpoint: string
-    jiki: string
   }
 }
 
@@ -41,44 +30,25 @@ export const WelcomeModalContext =
       status: 'idle',
       error: null,
     },
-    patchUserSeniority: {
-      mutate: () => null,
-      status: 'idle',
-      error: null,
-    },
-
     numTracks: 0,
     open: false,
     setOpen: () => null,
-    currentView: 'initial',
-    setCurrentView: () => null,
     links: {
       hideModalEndpoint: '',
-      apiUserEndpoint: '',
-      jiki: '',
     },
   })
 
 export default function WelcomeModal({
   links,
   numTracks,
-  askSeniority = true,
   ...props
 }: Omit<ModalProps, 'className' | 'open' | 'onClose'> & {
   links: {
     hideModalEndpoint: string
-    apiUserEndpoint: string
-    jiki: string
   }
   numTracks: number
-  // People who signed up through the sign-up page that asks for their level
-  // have already answered, so they skip straight to the welcome view.
-  askSeniority?: boolean
 }): JSX.Element {
   const [open, setOpen] = useState(true)
-  const [currentView, setCurrentView] = useState<ViewVariant>(
-    askSeniority ? 'initial' : 'developer'
-  )
 
   const {
     mutate: hideModalMutation,
@@ -87,7 +57,6 @@ export default function WelcomeModal({
   } = useMutation({
     mutationFn: () => {
       const { fetch } = sendRequest({
-        // close modal endpoint
         endpoint: links.hideModalEndpoint,
         method: 'PATCH',
         body: null,
@@ -100,22 +69,6 @@ export default function WelcomeModal({
     },
   })
 
-  const {
-    mutate: setSeniorityMutation,
-    status: setSeniorityMutationStatus,
-    error: setSeniorityMutationError,
-  } = useMutation({
-    mutationFn: (seniority: SeniorityLevel) => {
-      const { fetch } = sendRequest({
-        endpoint: links.apiUserEndpoint + `?user[seniority]=${seniority}`,
-        method: 'PATCH',
-        body: null,
-      })
-
-      return fetch
-    },
-  })
-
   return (
     <WelcomeModalContext.Provider
       value={{
@@ -124,58 +77,22 @@ export default function WelcomeModal({
           status: hideModalMutationStatus,
           error: hideModalMutationError,
         },
-        patchUserSeniority: {
-          mutate: setSeniorityMutation,
-          status: setSeniorityMutationStatus,
-          error: setSeniorityMutationError,
-        },
         open,
         setOpen,
         numTracks,
-        currentView,
-        setCurrentView,
         links,
       }}
     >
       <Modal
         cover={true}
         open={open}
-        style={{
-          content: {
-            maxWidth:
-              currentView === 'initial'
-                ? '590px'
-                : currentView === 'beginner'
-                ? '620px'
-                : '1180px',
-          },
-        }}
+        style={{ content: { maxWidth: '1180px' } }}
         {...props}
         onClose={() => null}
         className="m-welcome"
       >
-        <Inner />
+        <SeniorView />
       </Modal>
     </WelcomeModalContext.Provider>
   )
-}
-
-function Inner() {
-  const { currentView, patchCloseModal, links } =
-    useContext(WelcomeModalContext)
-  switch (currentView) {
-    case 'initial':
-      return <InitialView />
-    case 'beginner':
-      return (
-        <BootcampAdvertismentView
-          patchCloseModal={patchCloseModal}
-          links={links}
-        />
-      )
-    case 'developer':
-      return <SeniorView />
-    default:
-      return null
-  }
 }

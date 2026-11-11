@@ -52,6 +52,13 @@ Mocha.configure do |c|
   c.stubbing_non_public_method = :prevent
 end
 
+# The app treats the user with User::SYSTEM_USER_ID (1) as the system user,
+# which never receives reputation, notifications and so on. On a fresh test
+# database (as in CI), the first user built by a factory would get id 1 and
+# silently become the system user. We start the ids after it so that only
+# `create :user, :system` creates the system user.
+ActiveRecord::Base.connection.execute("ALTER TABLE users AUTO_INCREMENT = #{User::SYSTEM_USER_ID + 1}")
+
 # Require the support helper files
 Dir.foreach(Rails.root / "test" / "support") do |path|
   next if path.starts_with?('.')

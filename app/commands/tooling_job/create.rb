@@ -49,7 +49,7 @@ class ToolingJob::Create
   delegate :solution, to: :submission
 
   memoize
-  def job_id = SecureRandom.uuid.tr('-', '')
+  def job_id = SecureRandom.compact_uuid
 
   memoize
   def efs_dir

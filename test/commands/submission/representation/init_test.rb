@@ -20,8 +20,8 @@ class Submission::Representation::InitTest < ActiveSupport::TestCase
     create :submission_file, submission:, filename: "special$chars.rb" # Don't allow special chars
     create :submission_file, submission:, filename: ".meta/config.json" # Don't allow meta
 
-    SecureRandom.expects(:uuid).returns("foo-bar123-asd")
-    job_id = "foobar123asd"
+    job_id = SecureRandom.compact_uuid
+    SecureRandom.expects(:compact_uuid).returns(job_id)
     efs_dir = "#{Exercism.config.efs_tooling_jobs_mount_point}/#{Time.current.utc.strftime('%Y/%m/%d')}/#{job_id}"
 
     Exercism::ToolingJob.expects(:create!).with(
@@ -57,8 +57,8 @@ class Submission::Representation::InitTest < ActiveSupport::TestCase
     create :submission_file, submission:, filename: "special$chars.rb" # Don't allow special chars
     create :submission_file, submission:, filename: ".meta/config.json" # Don't allow meta
 
-    SecureRandom.expects(:uuid).returns("foo-bar123-asd")
-    job_id = "foobar123asd"
+    job_id = SecureRandom.compact_uuid
+    SecureRandom.expects(:compact_uuid).returns(job_id)
     efs_dir = "#{Exercism.config.efs_tooling_jobs_mount_point}/#{Time.current.utc.strftime('%Y/%m/%d')}/#{job_id}"
 
     Exercism::ToolingJob.expects(:create!).with(
@@ -93,8 +93,8 @@ class Submission::Representation::InitTest < ActiveSupport::TestCase
     create :submission_file, submission:, filename: "special$chars.rb" # Don't allow special chars
     create :submission_file, submission:, filename: ".meta/config.json" # Don't allow meta
 
-    SecureRandom.expects(:uuid).returns("foo-bar123-asd")
-    job_id = "foobar123asd"
+    job_id = SecureRandom.compact_uuid
+    SecureRandom.expects(:compact_uuid).returns(job_id)
     efs_dir = "#{Exercism.config.efs_tooling_jobs_mount_point}/#{Time.current.utc.strftime('%Y/%m/%d')}/#{job_id}"
     Exercism::ToolingJob.expects(:create!).with(
       job_id,

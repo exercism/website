@@ -1,5 +1,5 @@
 import consumer from '../utils/action-cable-consumer'
-import { unsubscribeSoon } from '../utils/unsubscribe-soon'
+import { unsubscribeFromWebsocketsSoon } from '../utils/unsubscribe-soon'
 import { camelizeKeys } from 'humps'
 import { TestRun } from '../components/editor/types'
 import { typecheck } from '../utils/typecheck'
@@ -24,6 +24,6 @@ export class TestRunChannel {
   }
 
   disconnect() {
-    unsubscribeSoon(this.subscription)
+    unsubscribeFromWebsocketsSoon(this.subscription)
   }
 }

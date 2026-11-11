@@ -1,5 +1,5 @@
 import consumer from '../utils/action-cable-consumer'
-import { unsubscribeSoon } from '../utils/unsubscribe-soon'
+import { unsubscribeFromWebsocketsSoon } from '../utils/unsubscribe-soon'
 import { camelizeKeys } from 'humps'
 import { Metric } from '@/components/types'
 function camelizeKeysAs<T>(object: any): T {
@@ -30,6 +30,6 @@ export class MetricsChannel {
   }
 
   disconnect(): void {
-    unsubscribeSoon(this.subscription)
+    unsubscribeFromWebsocketsSoon(this.subscription)
   }
 }

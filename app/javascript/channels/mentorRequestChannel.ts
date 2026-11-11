@@ -1,5 +1,5 @@
 import consumer from '../utils/action-cable-consumer'
-import { unsubscribeSoon } from '../utils/unsubscribe-soon'
+import { unsubscribeFromWebsocketsSoon } from '../utils/unsubscribe-soon'
 import { MentorSessionRequest } from '../components/types'
 import { camelizeKeysAs } from '@/utils/camelize-keys-as'
 
@@ -30,6 +30,6 @@ export class MentorRequestChannel {
   }
 
   disconnect(): void {
-    unsubscribeSoon(this.subscription)
+    unsubscribeFromWebsocketsSoon(this.subscription)
   }
 }

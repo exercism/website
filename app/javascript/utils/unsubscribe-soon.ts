@@ -12,6 +12,8 @@
 // Waiting a tick lets the new subscription register on the client first. The
 // client then sends no unsubscribe at all, because another subscription still
 // uses the identifier, and the server keeps a single subscription.
-export function unsubscribeSoon(subscription: ActionCable.Channel): void {
+export function unsubscribeFromWebsocketsSoon(
+  subscription: ActionCable.Channel
+): void {
   setTimeout(() => subscription.unsubscribe(), 0)
 }

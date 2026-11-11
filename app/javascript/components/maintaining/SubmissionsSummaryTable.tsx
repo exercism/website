@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import 'actioncable'
 
 import consumer from '../../utils/action-cable-consumer'
-import { unsubscribeSoon } from '../../utils/unsubscribe-soon'
+import { unsubscribeFromWebsocketsSoon } from '../../utils/unsubscribe-soon'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 
 type Submission = {
@@ -66,7 +66,7 @@ export function SubmissionsSummaryTable({
       { channel: 'SubmissionChannel' },
       { received }
     )
-    return () => unsubscribeSoon(subscription)
+    return () => unsubscribeFromWebsocketsSoon(subscription)
   })
 
   return (

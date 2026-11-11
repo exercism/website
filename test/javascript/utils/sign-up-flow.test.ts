@@ -8,7 +8,7 @@ jest.mock('@/utils/highlight', () => ({ highlightAll: jest.fn() }))
 
 const PAGE = (initialStep = 'level') => `
   <div id="sign-up-flow" data-initial-step="${initialStep}" data-snippet-url="/api/v2/tracks/TRACK_SLUG/sign_up_snippet">
-    <nav class="progress" hidden>
+    <nav class="progress">
       <button data-progress-step="1" disabled></button>
       <button data-progress-step="2" disabled></button>
       <button data-progress-step="3" disabled></button>
@@ -146,7 +146,6 @@ describe('initSignUpFlow', () => {
 
     expect(visibleStep()).toEqual(['level'])
     expect(root().dataset.currentStep).toBe('level')
-    expect(document.querySelector<HTMLElement>('.progress')!.hidden).toBe(false)
     expect(
       document.querySelector<HTMLButtonElement>('[data-continue="level"]')!
         .disabled

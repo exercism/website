@@ -7,10 +7,20 @@
 - answers = params[:user].is_a?(ActionController::Parameters) ? params[:user] : {}
 - seniority = answers[:seniority].to_s
 - sign_up_track_slug = answers[:sign_up_track_slug].to_s
+- initial_step = params[:user].present? ? "form" : "level"
+
+-#
+  Without JavaScript nobody can answer the questions, so the page is the
+  plain form.
+%noscript
+  :css
+    #page-sign-up .flow-step[data-step="level"],
+    #page-sign-up .progress { display: none !important; }
+    #page-sign-up .flow-step[data-step="form"] { display: block !important; }
 
 - steps = capture do
-  = render "components/sign_up/question_steps"
-  %section.flow-step.--form{ data: { step: "form" } }
+  = render "components/sign_up/question_steps", initial_step: initial_step
+  %section.flow-step.--form{ hidden: initial_step != "form", data: { step: "form" } }
     %h1= t('.create_account')
 
     = form_tag omniauth_authorize_path(:user, :github), method: :post, class: "github-form", data: { turbo: false } do
@@ -51,5 +61,5 @@
 
     = render "devise/shared/links"
 
-= render "components/sign_up/shell", initial_step: params[:user].present? ? "form" : "level",
+= render "components/sign_up/shell", initial_step: initial_step,
                                      step_3_label: t('.progress.step_3'), steps: steps

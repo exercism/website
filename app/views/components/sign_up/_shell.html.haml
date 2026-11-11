@@ -16,7 +16,7 @@
       .flow-header
         = link_to root_path, class: 'logo' do
           = icon "exercism-with-logo-black", t("#{n}.exercism_logo_alt")
-        %nav.progress{ hidden: true, aria: { label: t("#{n}.progress.label") } }
+        %nav.progress{ aria: { label: t("#{n}.progress.label") } }
           - [t("#{n}.progress.step_1"), t("#{n}.progress.step_2"), step_3_label].each.with_index(1) do |label, i|
             %button.progress-dot{ type: :button, disabled: true, data: { progress_step: i }, aria: { label: } }
               %span

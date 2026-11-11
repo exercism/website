@@ -11,7 +11,7 @@ import {
  * The questions before the sign-up form, which send beginners to Jiki.
  *
  * Every step is rendered by the server in
- * app/views/devise/registrations/new.html.haml, with only the form showing.
+ * app/views/devise/registrations/new.html.haml, with the first step showing.
  * This shows one step at a time, records the answers in the hidden fields
  * that both sign-up forms submit, and opens the Jiki pop-up.
  *
@@ -26,7 +26,8 @@ import {
  *     Easy               -> form                 (junior)
  *     Tricky/Impossible  -> form + Jiki pop-up   (beginner)
  *
- * Without JavaScript the page is the plain form, so nobody gets stuck.
+ * Without JavaScript a <noscript> style shows the plain form, so nobody
+ * gets stuck.
  */
 
 export { seniorityForCodeCheck }
@@ -90,7 +91,6 @@ class SignUpFlow {
     this.bindProgress()
     this.bindDialog()
 
-    root.querySelector<HTMLElement>('.progress')?.removeAttribute('hidden')
     this.show(root.dataset.initialStep === 'form' ? 'form' : 'level', {
       focus: false,
     })

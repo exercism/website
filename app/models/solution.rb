@@ -122,14 +122,21 @@ class Solution < ApplicationRecord
     # A user can always see their own stuff
     return true if self.user_id == viewer&.id
 
-    # Current mentors can see submissions
-    return true if viewer && self.mentors.include?(viewer)
-
-    # All mentors can see files on pending requests
-    return true if viewer && self.mentor_requests.pending.any? && viewer.mentor?
+    # Mentors can see the latest iteration
+    return true if viewable_as_mentor_by?(viewer)
 
     # Everyone can see published iterations
     published?
+  end
+
+  def viewable_as_mentor_by?(viewer)
+    return false unless viewer
+
+    # Current mentors can see submissions
+    return true if self.mentors.include?(viewer)
+
+    # All mentors can see files on pending requests
+    viewer.mentor? && self.mentor_requests.pending.any?
   end
 
   def starred_by?(user)

@@ -3,7 +3,8 @@ class DonationsMailer < ApplicationMailer
     payment = params[:payment]
     @user = payment.user
 
-    @unsubscribe_key = :email_on_donations_payment
+    # Donation receipts have no communication preference, so they offer no
+    # per-email unsubscribe link.
     subject = t(".subject")
     @title = t(".title")
     transactional_mail(@user, subject)

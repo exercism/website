@@ -23,6 +23,7 @@ module Flows
             visit track_exercise_iterations_url(track, exercise)
 
             assert_text "Processing"
+            wait_for_websocket_subscriptions(channel: "SolutionChannel")
 
             submission_analysis_finished!(submission)
 

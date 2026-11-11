@@ -311,6 +311,43 @@ class RackAttackTest < Webhooks::BaseTestCase
     end
   end
 
+  test "normalised_path treats repeated slashes as one" do
+    env = Rack::MockRequest.env_for("/")
+    env["PATH_INFO"] = "//api//v2/solutions"
+    request = Rack::Attack::Request.new(env)
+
+    assert_equal "/api/v2/solutions", request.normalised_path
+  end
+
+  test "exercise page requests with repeated slashes count towards the crawl throttle" do
+    create :practice_exercise
+    ip = "1.2.3.13"
+
+    freeze_time do
+      fill_crawl_throttle(ip, 500)
+
+      get "/tracks/ruby/exercises/bob",
+        headers: crawler_headers(ip),
+        env: { "PATH_INFO" => "//tracks/ruby/exercises/bob" }
+      assert_response :too_many_requests
+    end
+  end
+
+  test "API requests with repeated slashes are rate limited" do
+    freeze_time do
+      setup_user(create(:user, reputation: 5))
+      path = "/#{api_user_path}"
+
+      5.times do
+        put api_user_path, params: { user: User.find(@current_user.id) }, headers: @headers, as: :json, env: { "PATH_INFO" => path }
+        assert_response :success
+      end
+
+      put api_user_path, params: { user: User.find(@current_user.id) }, headers: @headers, as: :json, env: { "PATH_INFO" => path }
+      assert_response :too_many_requests
+    end
+  end
+
   def crawler_headers(ip)
     { 'HTTP_CF_CONNECTING_IP' => ip }
   end

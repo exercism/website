@@ -168,4 +168,23 @@ class SerializeSolutionForCLITest < ActiveSupport::TestCase
 
     assert_nil output[:solution][:url]
   end
+
+  test "files for different user come from the published iteration" do
+    solution = create :practice_solution
+    create :user_track, user: solution.user, track: solution.track
+
+    published_submission = create(:submission, solution:)
+    create :submission_file, submission: published_submission, filename: "published.rb"
+    published_iteration = create(:iteration, solution:, submission: published_submission)
+
+    later_submission = create(:submission, solution:)
+    create :submission_file, submission: later_submission, filename: "later.rb"
+    create :iteration, solution:, submission: later_submission
+
+    solution.update!(published_at: Time.current, published_iteration:)
+
+    output = SerializeSolutionForCLI.(solution, create(:user))
+    assert_includes output[:solution][:files], "published.rb"
+    refute_includes output[:solution][:files], "later.rb"
+  end
 end

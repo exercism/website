@@ -73,7 +73,13 @@ class SerializeSolutionForCLI
 
   memoize
   def submission
-    solution.submissions.last
+    if solution.user == requester
+      solution.submissions.last
+    elsif solution.viewable_as_mentor_by?(requester)
+      solution.latest_iteration_submission
+    else
+      solution.latest_published_iteration_submission
+    end
   end
 
   memoize

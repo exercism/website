@@ -10,9 +10,13 @@ class API::V1::FilesController < API::BaseController
 
     return render_403(:solution_not_accessible) unless solution.viewable_by?(current_user)
 
-    submission = solution.user == current_user ?
-      solution.submissions.last :
-      solution.latest_iteration&.submission
+    if solution.user == current_user
+      submission = solution.submissions.last
+    elsif solution.viewable_as_mentor_by?(current_user)
+      submission = solution.latest_iteration_submission
+    else
+      submission = solution.latest_published_iteration_submission
+    end
 
     content = submission.files.find_by(filename: params[:filepath])&.content if submission
 

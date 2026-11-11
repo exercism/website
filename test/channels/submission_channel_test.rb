@@ -1,6 +1,33 @@
 require "test_helper"
 
 class SubmissionChannelTest < ActionCable::Channel::TestCase
+  test "subscribes a maintainer" do
+    stub_connection(current_user: create(:user, :maintainer))
+
+    subscribe
+
+    assert subscription.confirmed?
+    assert_has_stream "submission"
+  end
+
+  test "rejects a user who is not a maintainer" do
+    stub_connection(current_user: create(:user))
+
+    subscribe
+
+    assert subscription.rejected?
+    assert_no_streams
+  end
+
+  test "rejects an anonymous connection" do
+    stub_connection(current_user: nil)
+
+    subscribe
+
+    assert subscription.rejected?
+    assert_no_streams
+  end
+
   test ".broadcast! broadcasts submission" do
     solution = create :practice_solution
     submission = create(:submission, solution:)

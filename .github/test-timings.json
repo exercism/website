@@ -575,7 +575,6 @@
   "test/jobs/process_iteration_for_discussions_job_test.rb": 0.26,
   "test/jobs/process_pull_request_update_job_test.rb": 0.27,
   "test/jobs/recheck_insiders_job_test.rb": 0.12,
-  "test/jobs/send_user_mailshot_job_test.rb": 0.08,
   "test/jobs/sweep_metrics_job_test.rb": 0.0,
   "test/jobs/sweep_reputation_periods_job_test.rb": 0.0,
   "test/jobs/update_automator_roles_job_test.rb": 0.07,

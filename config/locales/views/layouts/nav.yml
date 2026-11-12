@@ -52,9 +52,9 @@ en:
         and_more_label: And more…
       jiki:
         logo_alt: Jiki by the team at Exercism
-        title_html: Learn the %{highlight} first
-        title_highlight: foundations
-        description: We'll take you from absolute basics to building programs.
+        title_html: Master the %{highlight} first
+        title_highlight: fundamentals
+        description: "Jiki is our platform for new coders. We'll take you from the basics to complex programs, and get you thinking like a developer."
         note_html: A few things<br>you'll make
         prints:
           space_invaders: Space Invaders

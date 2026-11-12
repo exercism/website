@@ -1,5 +1,5 @@
 .c-nav-jiki
-  = image_tag "jiki/jiki-by-exercism.png", alt: t('.logo_alt'), class: "jiki-logo", width: 194, height: 72
+  = image_tag "jiki/jiki-by-exercism-menu.png", alt: t(".logo_alt"), class: "jiki-logo", width: 144, height: 62
   %h2.jiki-title= t('.title_html', highlight: tag.span(t('.title_highlight'), class: "jiki-highlight"))
   %p.jiki-description= t('.description')
   .jiki-prints
@@ -12,4 +12,4 @@
       .jiki-print
         = video_tag "jiki/#{file}", autoplay: true, loop: true, muted: true, playsinline: true, aria: { label: t(".prints.#{key}") }
         %span{ aria: { hidden: "true" } }= t(".prints.#{key}")
-  = link_to t('.explore_button'), Jiki.url(medium: "nav_panel"), class: 'btn-primary btn-m jiki-cta'
+  = link_to t('.explore_button'), Jiki.url(medium: "nav_panel"), class: 'jiki-cta'

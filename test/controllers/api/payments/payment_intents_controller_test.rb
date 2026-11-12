@@ -39,7 +39,7 @@ class API::Payments::PaymentIntentsControllerTest < API::BaseTestCase
     user = create :user
 
     ::Payments::Stripe::PaymentIntent::Create.expects(:call).with(
-      user, 'payment', '1200'
+      user, 'payment', '1200', trigger: nil
     ).returns(OpenStruct.new(id: SecureRandom.uuid, client_secret: SecureRandom.uuid))
 
     setup_user(user)

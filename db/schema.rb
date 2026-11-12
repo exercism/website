@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_11_12_180824) do
+ActiveRecord::Schema[7.1].define(version: 2026_11_12_184236) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -1512,7 +1512,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_12_180824) do
     t.bigint "user_id", null: false
     t.text "bio"
     t.json "roles"
-    t.json "usages"
     t.integer "insiders_status", limit: 1, default: 0, null: false
     t.string "github_username"
     t.string "stripe_customer_id"
@@ -1532,7 +1531,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_12_180824) do
     t.datetime "updated_at", null: false
     t.json "cache"
     t.integer "email_status", limit: 1, default: 0, null: false
-    t.datetime "premium_until"
     t.integer "seniority", limit: 1
     t.string "bootcamp_affiliate_coupon_code"
     t.string "bootcamp_free_coupon_code"
@@ -1550,7 +1548,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_12_180824) do
     t.index ["insiders_status"], name: "index_user_data_on_insiders_status"
     t.index ["last_visited_on"], name: "index_user_data_on_last_visited_on"
     t.index ["paypal_payer_id"], name: "index_user_data_on_paypal_payer_id", unique: true
-    t.index ["premium_until"], name: "index_user_data_on_premium_until"
     t.index ["seniority"], name: "index_user_data_on_seniority"
     t.index ["show_on_supporters_page", "first_donated_at", "user_id"], name: "index_user_data_supporters-page"
     t.index ["sign_up_track_id"], name: "index_user_data_on_sign_up_track_id"

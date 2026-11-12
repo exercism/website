@@ -60,7 +60,7 @@ class Payments::Stripe::Subscription::SyncAllTest < Payments::TestBase
                       "id": "p_2",
                       "object": "price",
                       "unit_amount": 777,
-                      "product": Exercism.secrets.stripe_premium_product_id,
+                      "product": Exercism.secrets.stripe_recurring_product_id,
                       "recurring": {
                         "interval": "year"
                       }
@@ -160,7 +160,7 @@ class Payments::Stripe::Subscription::SyncAllTest < Payments::TestBase
                       "id": "p_2",
                       "object": "price",
                       "unit_amount": 777,
-                      "product": Exercism.secrets.stripe_premium_product_id,
+                      "product": Exercism.secrets.stripe_recurring_product_id,
                       "recurring": {
                         "interval": "month"
                       }
@@ -316,7 +316,7 @@ class Payments::Stripe::Subscription::SyncAllTest < Payments::TestBase
                       "id": "p_2",
                       "object": "price",
                       "unit_amount": 777,
-                      "product": Exercism.secrets.stripe_premium_product_id,
+                      "product": Exercism.secrets.stripe_recurring_product_id,
                       "recurring": {
                         "interval": "month"
                       }
@@ -409,7 +409,7 @@ class Payments::Stripe::Subscription::SyncAllTest < Payments::TestBase
                       "id": "p_2",
                       "object": "price",
                       "unit_amount": 777,
-                      "product": Exercism.secrets.stripe_premium_product_id,
+                      "product": Exercism.secrets.stripe_recurring_product_id,
                       "recurring": {
                         "interval": "month"
                       }
@@ -500,7 +500,7 @@ class Payments::Stripe::Subscription::SyncAllTest < Payments::TestBase
                       "id": "p_2",
                       "object": "price",
                       "unit_amount": 999,
-                      "product": Exercism.secrets.stripe_premium_product_id,
+                      "product": Exercism.secrets.stripe_recurring_product_id,
                       "recurring": {
                         "interval": "month"
                       }

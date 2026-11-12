@@ -1,9 +1,0 @@
-en:
-  components:
-    user_activities:
-      completed_exercise:
-        time_ago: "%{time_ago} ago"
-      started_exercise:
-        time_ago: "%{time_ago} ago"
-      submitted_iteration:
-        time_ago: "%{time_ago} ago"

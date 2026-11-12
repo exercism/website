@@ -1,9 +1,3 @@
-# Send with:
-# users = User.where('reputation > 2').count
-# users = User.where('reputation > 2').count
-# users.each do |user|
-#   User::Mailshot::Send.(user, :functional_february)
-# end
 class User::Mailshot::Send
   include Mandate
 

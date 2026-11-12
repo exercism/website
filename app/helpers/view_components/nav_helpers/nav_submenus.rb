@@ -176,23 +176,6 @@ module ViewComponents
         }
 
       ].freeze
-
-      def nav_dropdown_tracks_view
-        tag.div class: 'nav-dropdown-view-content' do
-        end
-      end
-
-      def nav_dropdown_mentoring_view
-        tag.div class: 'nav-dropdown-view-content' do
-          I18n.t("components.nav_submenus.views.mentoring_details")
-        end
-      end
-
-      def nav_dropdown_challenge_48in24_view
-        tag.div class: 'nav-dropdown-view-content' do
-          render(template: "layouts/nav/48in24")
-        end
-      end
     end
   end
 end

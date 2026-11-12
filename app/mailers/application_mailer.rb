@@ -3,7 +3,6 @@ class ApplicationMailer < ActionMailer::Base
   default reply_to: "jeremy@exercism.org"
 
   layout "mailer"
-  helper :email
 
   rescue_from(Mail::Field::IncompleteParseError) {}
   rescue_from(Net::SMTPSyntaxError) {}

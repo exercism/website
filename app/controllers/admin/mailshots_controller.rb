@@ -12,7 +12,7 @@ class Admin::MailshotsController < Admin::BaseController
   def show
     @send_count = User::Mailshot.where(mailshot: @mailshot).count
     @audiences = %w[
-      admins donors insiders jiki_waiting_list translators
+      admins donors insiders translators
       absolute_beginners beginners juniors mids seniors
       challenge#12in23 challenge#48in24
     ]

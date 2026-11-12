@@ -31,7 +31,6 @@ class User < ApplicationRecord
   has_one :profile, dependent: :destroy
   has_one :preferences, dependent: :destroy
   has_one :communication_preferences, dependent: :destroy
-  has_one :jiki_signup, dependent: :destroy
 
   has_many :course_enrollments, dependent: :nullify
 
@@ -375,8 +374,6 @@ class User < ApplicationRecord
       video_provider:, video_id:
     ).exists?
   end
-
-  def on_jiki_waiting_list? = jiki_signup.exists?
 
   private
   # Only check a newly attached avatar, so that existing users with an avatar

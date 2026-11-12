@@ -26,7 +26,7 @@ export const FormModal = ({
   ...props
 }: Omit<ModalProps, 'className'> & Props): JSX.Element => {
   const [step, setStep] = useState<ModalStep>('donating')
-  useTrackPaymentPrompt('footer_form', props.open && userSignedIn)
+  useTrackPaymentPrompt('footer_form', props.open)
   const [paidAmount, setPaidAmount] = useState<currency | null>(null)
 
   const handleClose = useCallback(() => {

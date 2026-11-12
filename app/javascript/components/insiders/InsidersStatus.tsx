@@ -64,7 +64,7 @@ export default function Status({
   const { t } = useAppTranslation('components/insiders')
   const [insidersStatus, setInsidersStatus] = useState(status)
   const [stripeModalOpen, setStripeModalOpen] = useState(false)
-  useTrackPaymentPrompt('insiders_page', stripeModalOpen && userSignedIn)
+  useTrackPaymentPrompt('insiders_page', stripeModalOpen)
 
   const handleSuccess = useCallback(() => {
     redirectTo(links.insiders)

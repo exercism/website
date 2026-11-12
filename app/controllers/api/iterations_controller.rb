@@ -1,6 +1,7 @@
 class API::IterationsController < API::BaseController
   before_action :use_solution
   before_action :guard_solution!, except: [:automated_feedback]
+  before_action :guard_solution_viewable!, only: [:automated_feedback]
   before_action :use_iteration, only: %i[destroy automated_feedback]
 
   def latest
@@ -70,5 +71,9 @@ class API::IterationsController < API::BaseController
 
   def guard_solution!
     render_solution_not_accessible unless @solution.user_id == current_user.id
+  end
+
+  def guard_solution_viewable!
+    render_solution_not_accessible unless @solution.viewable_by?(current_user)
   end
 end

@@ -201,7 +201,7 @@ end
 
 resources :favorites, only: [:index]
 
-resource :user_onboarding, only: %i[show create], controller: "user_onboarding"
+resource :user_onboarding, only: %i[show create update], controller: "user_onboarding"
 resource :journey, only: [:show], controller: "journey" do
   member do
     get :solutions

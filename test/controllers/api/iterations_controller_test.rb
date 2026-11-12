@@ -330,7 +330,8 @@ class API::IterationsControllerTest < API::BaseTestCase
 
   test "automated_feedback should 404 if the iteration doesn't exist" do
     setup_user
-    get automated_feedback_api_solution_iteration_path(create(:concept_solution).uuid, 999), headers: @headers, as: :json
+    solution = create :concept_solution, user: @current_user
+    get automated_feedback_api_solution_iteration_path(solution.uuid, 999), headers: @headers, as: :json
     assert_response :not_found
     expected = { error: {
       type: "iteration_not_found",
@@ -371,5 +372,43 @@ class API::IterationsControllerTest < API::BaseTestCase
     }
     assert_response :ok
     assert_equal expected.to_json, response.body
+  end
+
+  test "automated_feedback should return feedback to a mentor on the discussion" do
+    setup_user
+    solution = create :practice_solution
+    iteration = create(:iteration, solution:)
+    create(:mentor_discussion, solution:, mentor: @current_user)
+
+    get automated_feedback_api_solution_iteration_path(solution.uuid, iteration.uuid), headers: @headers, as: :json
+
+    expected = {
+      automated_feedback: {
+        representer_feedback: iteration.representer_feedback,
+        analyzer_feedback: iteration.analyzer_feedback,
+        track: SerializeMentorSessionTrack.(solution.track),
+        links: {
+          info: Exercism::Routes.doc_path('using', 'feedback/automated')
+        }
+      }
+    }
+    assert_response :ok
+    assert_equal expected.to_json, response.body
+  end
+
+  test "automated_feedback should 403 for a user who cannot view the solution" do
+    setup_user
+    solution = create :practice_solution
+    iteration = create(:iteration, solution:)
+
+    get automated_feedback_api_solution_iteration_path(solution.uuid, iteration.uuid), headers: @headers, as: :json
+
+    assert_response :forbidden
+    expected = { error: {
+      type: "solution_not_accessible",
+      message: I18n.t('api.errors.solution_not_accessible')
+    } }
+    actual = JSON.parse(response.body, symbolize_names: true)
+    assert_equal expected, actual
   end
 end

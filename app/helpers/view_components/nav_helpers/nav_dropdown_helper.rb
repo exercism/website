@@ -13,7 +13,8 @@ module ViewComponents
                 conditional_link(nav_element_path(element[:path]), external: element[:external]) do
                   nav_dropdown_element(element[:title]&.(), element[:description]&.(), element[:icon], icon_filter,
                     element[:external], element[:is_new], image: element[:image])
-                end << view
+                end << view,
+                class: element[:css_class]
               )
             end
           end

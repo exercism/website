@@ -50,10 +50,14 @@ en:
         badges_label: Badges
         history_label: History
         and_more_label: And more…
-      coding_fundamentals:
+      jiki:
         logo_alt: Jiki by the team at Exercism
-        title_html: Learn to code by %{highlight}
-        title_highlight: building
-        description: Get comfortable with coding fundamentals. We'll take you from absolute basics to building complex programs.
-        note: Look what you'll make!
+        title_html: Learn the %{highlight} first
+        title_highlight: foundations
+        description: We'll take you from absolute basics to building programs.
+        note_html: A few things<br>you'll make
+        prints:
+          space_invaders: Space Invaders
+          breakout: Breakout
+          maze: Maze
         explore_button: Get started - it's free!

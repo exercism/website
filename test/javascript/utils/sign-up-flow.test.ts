@@ -8,7 +8,7 @@ jest.mock('@/utils/highlight', () => ({ highlightAll: jest.fn() }))
 
 const PAGE = (initialStep = 'level') => `
   <div id="sign-up-flow" data-initial-step="${initialStep}" data-snippet-url="/api/v2/tracks/TRACK_SLUG/sign_up_snippet">
-    <nav class="progress" hidden>
+    <nav class="progress">
       <button data-progress-step="1" disabled></button>
       <button data-progress-step="2" disabled></button>
       <button data-progress-step="3" disabled></button>
@@ -56,6 +56,7 @@ const PAGE = (initialStep = 'level') => `
   </div>
   <dialog id="sign-up-jiki-dialog">
     <button data-jiki-dismiss></button>
+    <span data-jiki-bad-idea>bad idea</span>
     <div data-jiki-variant="absolute_beginner" hidden><h2 id="sign-up-jiki-heading-absolute_beginner"></h2></div>
     <div data-jiki-variant="beginner" hidden><h2 id="sign-up-jiki-heading-beginner"></h2><p>master <span data-jiki-language></span></p></div>
     <a data-jiki-variant="absolute_beginner" hidden></a>
@@ -146,7 +147,6 @@ describe('initSignUpFlow', () => {
 
     expect(visibleStep()).toEqual(['level'])
     expect(root().dataset.currentStep).toBe('level')
-    expect(document.querySelector<HTMLElement>('.progress')!.hidden).toBe(false)
     expect(
       document.querySelector<HTMLButtonElement>('[data-continue="level"]')!
         .disabled
@@ -177,6 +177,9 @@ describe('initSignUpFlow', () => {
     expect(dialog().getAttribute('aria-labelledby')).toBe(
       'sign-up-jiki-heading-absolute_beginner'
     )
+    expect(
+      dialog().querySelector<HTMLElement>('[data-jiki-bad-idea]')!.hidden
+    ).toBe(false)
 
     const variants = Array.from(
       dialog().querySelectorAll<HTMLElement>('[data-jiki-variant]')
@@ -281,9 +284,12 @@ describe('initSignUpFlow', () => {
     expect(dot(2).disabled).toBe(false)
   })
 
-  test.each(['tricky', 'impossible'])(
+  test.each([
+    ['tricky', true],
+    ['impossible', false],
+  ])(
     '%s goes to the form as a beginner, with the pop-up',
-    async (check) => {
+    async (check, badIdeaHidden) => {
       setUpPage()
       pick('sign_up_level', 'in_between')
       clickContinue('level')
@@ -301,6 +307,9 @@ describe('initSignUpFlow', () => {
       expect(dialog().querySelector('[data-jiki-language]')!.textContent).toBe(
         'Go'
       )
+      expect(
+        dialog().querySelector<HTMLElement>('[data-jiki-bad-idea]')!.hidden
+      ).toBe(badIdeaHidden)
     }
   )
 
@@ -358,6 +367,52 @@ describe('initSignUpFlow', () => {
     dot(1).click()
 
     expect(visibleStep()).toEqual(['level'])
+  })
+
+  describe('on the onboarding page', () => {
+    // The onboarding page has no form step. It has a hidden answers form
+    // instead, which is submitted once the questions are answered.
+    function setUpOnboardingPage() {
+      document.body.innerHTML = PAGE().replace(
+        /<section data-step="form">[\s\S]*?<\/section>/,
+        `<form data-sign-up-answers-form hidden>
+          <input type="hidden" name="seniority" data-sign-up-answer="seniority">
+          <input type="hidden" name="sign_up_track_slug" data-sign-up-answer="sign_up_track_slug">
+        </form>`
+      )
+      const form = document.querySelector<HTMLFormElement>(
+        '[data-sign-up-answers-form]'
+      )!
+      form.submit = jest.fn()
+      initSignUpFlow()
+      return form
+    }
+
+    test("I'm a developer submits the answers straight away", () => {
+      const form = setUpOnboardingPage()
+
+      pick('sign_up_level', 'confident_developer')
+      clickContinue('level')
+
+      expect(answers('seniority')).toEqual(['senior'])
+      expect(form.submit).toHaveBeenCalledTimes(1)
+      expect(dialog().hasAttribute('open')).toBe(false)
+    })
+
+    test("I'm a beginner submits the answers once the pop-up is dismissed", () => {
+      const form = setUpOnboardingPage()
+
+      pick('sign_up_level', 'total_beginner')
+      clickContinue('level')
+
+      expect(dialog().hasAttribute('open')).toBe(true)
+      expect(form.submit).not.toHaveBeenCalled()
+
+      dialog().querySelector<HTMLButtonElement>('[data-jiki-dismiss]')!.click()
+
+      expect(answers('seniority')).toEqual(['absolute_beginner'])
+      expect(form.submit).toHaveBeenCalledTimes(1)
+    })
   })
 
   test('does nothing without the flow on the page', () => {

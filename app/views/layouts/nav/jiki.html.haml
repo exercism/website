@@ -1,0 +1,15 @@
+.c-nav-jiki
+  = image_tag "jiki/jiki-by-exercism.png", alt: t('.logo_alt'), class: "jiki-logo", width: 194, height: 72
+  %h2.jiki-title= t('.title_html', highlight: tag.span(t('.title_highlight'), class: "jiki-highlight"))
+  %p.jiki-description= t('.description')
+  .jiki-prints
+    %p.jiki-note
+      %svg{ viewBox: "0 0 52 36", aria: { hidden: "true" } }
+        %path{ d: "M50 5 C 40 0, 27 3, 26 11 C 25 19, 37 20, 37 12 C 37 5, 24 5, 16 13 C 11 18, 9 24, 9 30", fill: "none", stroke: "currentColor", "stroke-width": "2.2", "stroke-linecap": "round", "stroke-dasharray": "0.1 4" }
+        %path{ d: "M4.5 25.5 Q 7 29, 9 33 Q 11.5 29, 14.5 26.5", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round" }
+      = t('.note_html')
+    - [%w[space_invaders space-invaders.mp4], %w[breakout breakout.mp4], %w[maze maze.mp4]].each do |key, file|
+      .jiki-print
+        = video_tag "jiki/#{file}", autoplay: true, loop: true, muted: true, playsinline: true, aria: { label: t(".prints.#{key}") }
+        %span{ aria: { hidden: "true" } }= t(".prints.#{key}")
+  = link_to t('.explore_button'), Jiki.url(medium: "nav_panel"), class: 'btn-primary btn-m jiki-cta'

@@ -37,12 +37,12 @@ class AboutController < ApplicationController
     # ) as dd
     # WHERE dd.row_number IN ( FLOOR((@total_rows+1)/2), FLOOR((@total_rows+2)/2) );
     #
-    # There are 4,312,556 iteratiions at the time of writing.
+    # There are 12,941,333 iterations at the time of writing (November 2026).
     # I am presuming each iteration has roughly the same amount of time
     # go into it based on learning/mentoring but this bit is the most
     # sketchy, but we have no other way to measure it currently.
     #
-    # So (2_594 * 7_183_572) / 60.0 = 310_569_762
+    # So (2_594 * 12_941_333) / 60.0 = 559_496_963
     #
     # There are 6,600 iterations per day, so
     # (2_594 * 6_600) / 60.0 = 285_340

@@ -1,6 +1,10 @@
 require "test_helper"
 
 class SPI::SolutionImageDataControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    host! URI(Exercism.config.spi_url).host
+  end
+
   test "returns the data needed to draw the image" do
     track = create :track, slug: 'ruby', title: 'Ruby'
     exercise = create :practice_exercise, track:, slug: 'bob', title: 'Bob'

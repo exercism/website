@@ -4,8 +4,8 @@ en:
       announcement_bar:
         downtime: "Server Upgrades: We'll be making infrastructure updates for the next 24 hours."
         downtime_link_text: "Read more..."
-        coding_fundamentals: "Learning to code? Check out our new dedicated beginners platform -"
-        coding_fundamentals_link_text: "Jiki!"
+        jiki: "Learning to code? Check out our new dedicated beginners platform -"
+        jiki_link_text: "Jiki!"
         donation_ask: "Enjoying Exercism? We need your help to survive…"
         donation_ask_link_text: "Please donate if you can!"
       nav:

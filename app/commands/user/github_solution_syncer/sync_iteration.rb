@@ -32,8 +32,11 @@ class User::GithubSolutionSyncer
     memoize
     def syncer = user.github_solution_syncer
 
+    # The PR is written in English, and the job runs in the user's locale, where
+    # ordinalize has no translation.
     def pr_message
-      desc = "This is a sync of %<handle>s's #{iteration.idx.ordinalize} iteration to the [#{exercise.title}](https://exercism.org/tracks/#{track.slug}/exercises/#{exercise.slug}) exercise on [Exercism's](https://exercism.org) [#{track.title} Track](https://exercism.org/tracks/#{track.slug})." # rubocop:disable Layout/LineLength
+      ordinal = I18n.with_locale(:en) { iteration.idx.ordinalize }
+      desc = "This is a sync of %<handle>s's #{ordinal} iteration to the [#{exercise.title}](https://exercism.org/tracks/#{track.slug}/exercises/#{exercise.slug}) exercise on [Exercism's](https://exercism.org) [#{track.title} Track](https://exercism.org/tracks/#{track.slug})." # rubocop:disable Layout/LineLength
       GeneratePullRequestMessage.(user, desc)
     end
   end

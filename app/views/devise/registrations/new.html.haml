@@ -7,93 +7,59 @@
 - answers = params[:user].is_a?(ActionController::Parameters) ? params[:user] : {}
 - seniority = answers[:seniority].to_s
 - sign_up_track_slug = answers[:sign_up_track_slug].to_s
-- code_check_tracks = Track::RetrieveSignUpCodeCheckTracks.()
-- arrow = capture do
-  %span.arrow{ aria: { hidden: "true" } } →
+- initial_step = params[:user].present? ? "form" : "level"
 
-#page-sign-up
-  %main.sign-up-main
-    #sign-up-flow.sign-up-inner{ data: { initial_step: params[:user].present? ? "form" : "level",
-                                         snippet_url: Exercism::Routes.api_track_sign_up_snippet_path(track_slug: "TRACK_SLUG") } }
-      .flow-header
-        = link_to root_path, class: 'logo' do
-          = icon "exercism-with-logo-black", t('.exercism_logo_alt')
-        %nav.progress{ hidden: true, aria: { label: t('.progress.label') } }
-          - 3.times do |i|
-            %button.progress-dot{ type: :button, disabled: true, data: { progress_step: i + 1 },
-                                  aria: { label: t(".progress.step_#{i + 1}") } }
-              %span
+-#
+  Without JavaScript nobody can answer the questions, so the page is the
+  plain form.
+%noscript
+  :css
+    #page-sign-up .flow-step[data-step="level"],
+    #page-sign-up .progress { display: none !important; }
+    #page-sign-up .flow-step[data-step="form"] { display: block !important; }
 
-      %section.flow-step{ hidden: true, data: { step: "level" } }
-        %h1#sign-up-level-question= t('.level.question')
-        %p.flow-intro= t('.level.intro')
-        = render "components/sign_up/level_choices", input_name: "sign_up_level", labelled_by: "sign-up-level-question"
-        %button.c-flow-cta{ type: :button, disabled: true, data: { continue: "level" } }
-          = t('.continue')
-          = arrow
+- steps = capture do
+  = render "components/sign_up/question_steps", initial_step: initial_step
+  %section.flow-step.--form{ hidden: initial_step != "form", data: { step: "form" } }
+    %h1= t('.create_account')
 
-      %section.flow-step{ hidden: true, data: { step: "code" } }
-        %h1= t('.code.heading')
-        %p.flow-intro= t('.code.intro')
-        = render "components/sign_up/code_check", tracks: code_check_tracks, id_prefix: "sign-up"
-        %button.c-flow-cta{ type: :button, disabled: true, data: { continue: "code" } }
-          = t('.continue')
-          = arrow
+    = form_tag omniauth_authorize_path(:user, :github), method: :post, class: "github-form", data: { turbo: false } do
+      = hidden_field_tag :seniority, seniority, id: nil, data: { sign_up_answer: "seniority" }
+      = hidden_field_tag :sign_up_track_slug, sign_up_track_slug, id: nil, data: { sign_up_answer: "sign_up_track_slug" }
+      %button.github-btn{ type: :submit }
+        = graphical_icon 'external-site-github'
+        = t('.sign_up_with_github')
 
-      %section.flow-step.--form{ data: { step: "form" } }
-        %h1= t('.create_account')
+    .divider{ role: :separator, aria: { label: t('.or_divider') } }
+      %span.line
+      = t('.or_divider')
+      %span.line
 
-        = form_tag omniauth_authorize_path(:user, :github), method: :post, class: "github-form", data: { turbo: false } do
-          = hidden_field_tag :seniority, seniority, id: nil, data: { sign_up_answer: "seniority" }
-          = hidden_field_tag :sign_up_track_slug, sign_up_track_slug, id: nil, data: { sign_up_answer: "sign_up_track_slug" }
-          %button.github-btn{ type: :submit }
-            = graphical_icon 'external-site-github'
-            = t('.sign_up_with_github')
+    = flash_messages
 
-        .divider{ role: :separator, aria: { label: t('.or_divider') } }
-          %span.line
-          = t('.or_divider')
-          %span.line
+    = form_for(resource, as: resource_name, url: registration_path(resource_name), 'data-turbo': false, html: { 'data-turbo': false, class: "sign-up-form" }) do |f|
+      = hidden_field_tag "user[seniority]", seniority, id: nil, data: { sign_up_answer: "seniority" }
+      = hidden_field_tag "user[sign_up_track_slug]", sign_up_track_slug, id: nil, data: { sign_up_answer: "sign_up_track_slug" }
+      .field
+        = f.label :handle, t('.username_label')
+        = f.text_field :handle, placeholder: t('.username_placeholder')
+      .field
+        = f.label :email, t('.email_label')
+        = f.email_field :email, autocomplete: "email", placeholder: t('.email_placeholder')
+      .field
+        = f.label :password, t('.password_label')
+        = f.password_field :password, autocomplete: "new-password", placeholder: t('.password_placeholder', minimum_password_length: @minimum_password_length)
+      .field
+        = f.label :password_confirmation, t('.password_confirmation_label')
+        = f.password_field :password_confirmation, autocomplete: "new-password", placeholder: t('.password_confirmation_placeholder')
 
-        = flash_messages
+      .field
+        .label= t('.confirm_not_bot_label')
+        = render ViewComponents::Captcha.new
 
-        = form_for(resource, as: resource_name, url: registration_path(resource_name), 'data-turbo': false, html: { 'data-turbo': false, class: "sign-up-form" }) do |f|
-          = hidden_field_tag "user[seniority]", seniority, id: nil, data: { sign_up_answer: "seniority" }
-          = hidden_field_tag "user[sign_up_track_slug]", sign_up_track_slug, id: nil, data: { sign_up_answer: "sign_up_track_slug" }
-          .field
-            = f.label :handle, t('.username_label')
-            = f.text_field :handle, placeholder: t('.username_placeholder')
-          .field
-            = f.label :email, t('.email_label')
-            = f.email_field :email, autocomplete: "email", placeholder: t('.email_placeholder')
-          .field
-            = f.label :password, t('.password_label')
-            = f.password_field :password, autocomplete: "new-password", placeholder: t('.password_placeholder', minimum_password_length: @minimum_password_length)
-          .field
-            = f.label :password_confirmation, t('.password_confirmation_label')
-            = f.password_field :password_confirmation, autocomplete: "new-password", placeholder: t('.password_confirmation_placeholder')
+      = f.button t('.sign_up_button'), class: "c-flow-cta test-sign-up-btn", disabled: true
 
-          .field
-            .label= t('.confirm_not_bot_label')
-            = render ViewComponents::Captcha.new
+    = render "devise/shared/links"
 
-          = f.button t('.sign_up_button'), class: "c-flow-cta test-sign-up-btn", disabled: true
-
-        = render "devise/shared/links"
-
-  %aside.sign-up-panel{ aria: { label: t('.panel.label') } }
-    .panel-content
-      = image_tag "graphics/auth-community.svg", alt: "", class: "illustration"
-      %p.panel-heading= t('.panel.heading')
-      %p.panel-body
-        = t('.panel.body_html', stats: tag.strong(t('.panel.stats', track_count: Track.num_active)),
-                                free_forever: tag.strong(t('.panel.free_forever')))
-      .panel-tracks
-        - shown_tracks = Track.active.first(5)
-        - shown_tracks.each do |track|
-          = track_icon(track)
-        - remaining_tracks = Track.num_active - shown_tracks.size
-        - if remaining_tracks.positive?
-          %span.more= t('.panel.more_tracks', count: remaining_tracks)
-
-= render "devise/registrations/jiki_dialog"
+= render "components/sign_up/shell", initial_step: initial_step,
+                                     step_3_label: t('.progress.step_3'), steps: steps

@@ -290,35 +290,62 @@
     @apply opacity-[0.75];
 }
 
-/* The Jiki row uses a round photo in place of an SVG icon */
-#site-header .nav-element-dropdown .nav-element-link .c-icon.--image {
-    border-radius: 50%;
-    object-fit: cover;
+/* The Jiki row uses a round photo in place of an SVG icon, a purple
+   "New" badge, and a description that may wrap. */
+#site-header .nav-element-dropdown {
+    & .nav-element-link .c-icon.--image {
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    & ul li.jiki .nav-dropdown-element {
+        & h6 .new {
+            @apply rounded-100 font-bold;
+            background: #f3e8ff;
+            color: #7e22ce;
+            letter-spacing: 0.04em;
+        }
+        /* The row has no external-link icon, so its text can use the
+           space reserved for one. Longer translations wrap. */
+        & .pe-40 {
+            padding-inline-end: 0;
+        }
+        & p {
+            white-space: normal;
+        }
+    }
 }
 
-/* The Jiki panel in the Learn menu. The prints reuse the sign-up page's
-   .c-jiki-snaps, shrunk to fit the panel. */
-.c-nav-jiki {
-    @apply flex flex-col items-start;
-    @apply pt-20 pb-20 px-24;
+/* The Jiki panel in the Learn menu. The measurements come from Idea B in
+   the Jiki strategy repo's exercism-menu-jiki-ideas.html, scaled from its
+   358px panel to this 420px one. The rules sit under #site-header
+   .nav-element so they beat the menu's own span styles, which would
+   otherwise pad every span. */
+#site-header .nav-element .c-nav-jiki {
+    @apply flex flex-col justify-center;
+    height: 100%;
+    padding: 11px 28px 14px;
+
+    & span {
+        padding: 0;
+    }
 
     & .jiki-logo {
         display: block;
-        height: 44px;
+        align-self: flex-start;
+        height: 72px;
         width: auto;
-        margin-bottom: 10px;
-    }
-    .theme-dark & .jiki-logo {
-        filter: invert(1) hue-rotate(180deg);
+        margin-bottom: 7px;
     }
 
     & .jiki-title {
         @apply text-textColor1 font-bold;
-        font-size: 22px;
+        font-size: 24px;
         line-height: 1.25;
-        margin-bottom: 4px;
+        white-space: nowrap;
+        margin-bottom: 5px;
 
-        & .highlight {
+        & .jiki-highlight {
             background: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%);
             -webkit-background-clip: text;
             background-clip: text;
@@ -328,49 +355,102 @@
 
     & .jiki-description {
         @apply text-textColor6;
-        font-size: 14px;
-        line-height: 1.5;
-        margin-bottom: 18px;
+        font-size: 16px;
+        line-height: 1.6;
+        text-wrap: balance;
+        margin-bottom: 9px;
     }
 
+    /* Polaroid prints, as on the Jiki landing page */
+    & .jiki-prints {
+        @apply relative flex justify-center items-center;
+        margin: 30px 0 7px;
+    }
+
+    /* Handwritten note at the top right of the prints, with a dotted arrow down to them */
     & .jiki-note {
-        @apply relative;
+        @apply absolute text-center;
+        z-index: 3;
+        right: 0;
+        top: -61px;
         font-family: "Caveat", cursive;
-        font-size: 22px;
+        font-size: 23px;
         font-weight: 600;
         line-height: 1;
         color: #9333ea;
-        transform: rotate(-2deg);
 
-        & .jiki-arrow {
-            @apply absolute pointer-events-none;
-            inset-inline-start: calc(100% + 36px);
-            top: -12px;
-            width: 52px;
-            height: auto;
-            opacity: 0.85;
-            transform: rotate(-20deg);
-        }
-        .theme-dark & .jiki-arrow {
-            filter: invert(1);
+        & svg {
+            position: absolute;
+            left: -63px;
+            top: 7px;
+            width: 58px;
+            height: 41px;
         }
     }
 
-    & .c-jiki-snaps {
-        margin: 2px 0 12px;
-        padding-top: 4px;
+    & .jiki-print {
+        @apply relative;
+        width: 89px;
+        padding: 6px 6px 26px;
+        border-radius: 2px;
+        background: radial-gradient(
+            120% 100% at 50% 0%,
+            #faf8f3 40%,
+            #ece5d9 100%
+        );
+        box-shadow: 0 1px 2px rgba(30, 20, 10, 0.28),
+            0 12px 24px -8px rgba(30, 20, 10, 0.22);
 
-        & .snap {
-            flex-basis: 110px;
+        &:nth-of-type(1) {
+            transform: rotate(-4deg);
+            margin-right: -9px;
+            padding-right: 9px;
+        }
+        &:nth-of-type(2) {
+            z-index: 1;
+            width: 105px;
+            transform: translateY(-7px);
+        }
+        &:nth-of-type(3) {
+            transform: rotate(4deg);
+            margin-left: -9px;
+        }
 
-            & span {
-                font-size: 17px;
-                padding: 6px 0 8px;
-            }
+        & video {
+            display: block;
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            background: #f1f5f9;
+        }
+
+        & span {
+            @apply absolute flex items-center justify-center;
+            left: 0;
+            right: 0;
+            bottom: 1px;
+            height: 25px;
+            font-family: "Caveat", cursive;
+            font-size: 15px;
+            font-weight: 600;
+            white-space: nowrap;
+            color: #475569;
+        }
+        &:nth-of-type(1) span {
+            left: -12px;
+            right: 7px;
+            font-size: 14px;
         }
     }
 
     & .jiki-cta {
         @apply w-100;
+        margin-top: auto;
+        padding-top: 12px;
+        padding-bottom: 12px;
     }
+}
+
+.theme-dark #site-header .nav-element .c-nav-jiki .jiki-logo {
+    filter: invert(1) hue-rotate(180deg);
 }

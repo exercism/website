@@ -1,8 +1,8 @@
 # The sign-up page asks people their level before they create an account.
 # People who signed up before that page went live were never asked there,
-# so onboarding (the welcome modal and the seniority survey) still asks them.
-# Everyone who signs up afterwards has already been asked, so onboarding
-# leaves the question out, even if they skipped it and have no seniority.
+# so the returning user modal asks them.
+# Everyone who signs up afterwards has already been asked, so that modal
+# leaves them alone, even if they skipped the question and have no seniority.
 class User::DetermineIfOnboardingAsksSeniority
   include Mandate
 

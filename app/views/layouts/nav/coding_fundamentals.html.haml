@@ -1,9 +1,0 @@
-.c-nav-jiki
-  = image_tag "jiki/jiki-by-exercism.png", alt: t('.logo_alt'), class: "jiki-logo", width: 118, height: 44
-  %h2.jiki-title= t('.title_html', highlight: tag.span(t('.title_highlight'), class: "highlight"))
-  %p.jiki-description= t('.description')
-  .jiki-note
-    %span= t('.note')
-    = image_tag "jiki/arrow-loop.png", alt: "", class: "jiki-arrow"
-  = render "components/sign_up/jiki_snaps"
-  = link_to t('.explore_button'), Jiki.url, class: 'btn-primary btn-m jiki-cta'

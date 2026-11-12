@@ -77,6 +77,7 @@ module Components
         within ".latest-iteration-link" do
           assert_text "Processing"
         end
+        wait_for_websocket_subscriptions(channel: "IterationChannel")
 
         submission = create :submission, solution:, tests_status: :failed
         iteration.update!(submission:)

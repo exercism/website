@@ -1,5 +1,3 @@
-direct(:jiki) { Jiki.url }
-
 namespace :bootcamp do
   get "dashboard", to: "dashboard#index", as: :dashboard
   get "images/:filename", to: "dashboard#image_proxy", as: :image_proxy

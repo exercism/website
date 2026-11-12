@@ -34,14 +34,25 @@ module WebsocketsHelpers
   end
 
   private
-  # Mirrors ActionCable's own notion of "confirmed": the connection is open, the
-  # subscription is registered, and the guarantor is no longer retrying it
-  # (SubscriptionGuarantor#forget runs on confirm_subscription).
+  # Mirrors ActionCable's own notion of "confirmed": the connection is open and
+  # welcomed, the subscription is registered, and the guarantor is no longer
+  # retrying it (SubscriptionGuarantor#forget runs on confirm_subscription).
+  #
+  # The welcome check matters. A subscription created while the socket is still
+  # connecting can't send its subscribe command, so the guarantor never tracks
+  # it. The command only goes out when the server's welcome arrives, which
+  # happens after the socket opens and the server has run Connection#connect.
+  # Until then the subscription is open, registered and not pending, but the
+  # server knows nothing about it. The monitor records the welcome by setting
+  # pingedAt and clearing disconnectedAt (ConnectionMonitor#recordConnect).
   def confirmed_subscription_count(channel)
     page.evaluate_script(<<~JS, channel)
       (function(channel) {
         var consumer = window.$$actionCableConsumer
         if (!consumer || !consumer.connection.isOpen()) return 0
+
+        var monitor = consumer.connection.monitor
+        if (!monitor.pingedAt || monitor.disconnectedAt) return 0
 
         var subscriptions = consumer.subscriptions
         var pending = (subscriptions.guarantor || {}).pendingSubscriptions || []

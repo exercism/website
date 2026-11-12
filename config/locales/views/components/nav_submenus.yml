@@ -5,9 +5,9 @@ en:
         tracks:
           title: "Language Tracks"
           description: "Upskill in 65+ languages"
-        coding_fundamentals:
-          title: "Master the fundamentals"
-          description: "Get comfortable with the basics"
+        jiki:
+          title: "Learn the fundamentals"
+          description: "Get comfortable with coding foundations"
         journey:
           title: "Your Journey"
           description: "Explore your Exercism journey"

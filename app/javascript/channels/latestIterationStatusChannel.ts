@@ -1,4 +1,5 @@
 import consumer from '../utils/action-cable-consumer'
+import { unsubscribeFromWebsocketsSoon } from '../utils/unsubscribe-soon'
 import { IterationStatus } from '../components/types'
 
 export type ChannelResponse = {
@@ -23,6 +24,6 @@ export class LatestIterationStatusChannel {
   }
 
   disconnect(): void {
-    this.subscription.unsubscribe()
+    unsubscribeFromWebsocketsSoon(this.subscription)
   }
 }

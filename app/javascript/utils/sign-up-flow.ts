@@ -4,6 +4,7 @@ import {
   openDialog,
   seniorityForCodeCheck,
   showJikiVariant,
+  type CodeCheckAnswer,
   type Seniority,
 } from '@/utils/code-check'
 
@@ -11,9 +12,14 @@ import {
  * The questions before the sign-up form, which send beginners to Jiki.
  *
  * Every step is rendered by the server in
- * app/views/devise/registrations/new.html.haml, with only the form showing.
+ * app/views/devise/registrations/new.html.haml, with the first step showing.
  * This shows one step at a time, records the answers in the hidden fields
  * that both sign-up forms submit, and opens the Jiki pop-up.
+ *
+ * The onboarding page (app/views/user_onboarding/questions.html.haml) asks
+ * the same questions of people who signed up through GitHub without them.
+ * It has no form step. Instead, answering submits its hidden answers form,
+ * straight away or once the Jiki pop-up is dismissed.
  *
  *   I'm a beginner       -> form + Jiki pop-up   (absolute_beginner)
  *   I'm a developer      -> form                 (senior)
@@ -21,7 +27,8 @@ import {
  *     Easy               -> form                 (junior)
  *     Tricky/Impossible  -> form + Jiki pop-up   (beginner)
  *
- * Without JavaScript the page is the plain form, so nobody gets stuck.
+ * Without JavaScript a <noscript> style shows the plain form, so nobody
+ * gets stuck.
  */
 
 export { seniorityForCodeCheck }
@@ -65,6 +72,7 @@ function setUp(): void {
 class SignUpFlow {
   private root: HTMLElement
   private dialog: HTMLDialogElement | null
+  private answersForm: HTMLFormElement | null
   private codeCheck: CodeCheck | null = null
 
   private step: Step = 'level'
@@ -75,13 +83,15 @@ class SignUpFlow {
     this.dialog = document.getElementById(
       'sign-up-jiki-dialog'
     ) as HTMLDialogElement | null
+    this.answersForm = root.querySelector<HTMLFormElement>(
+      'form[data-sign-up-answers-form]'
+    )
 
     this.bindLevel()
     this.bindCodeCheck()
     this.bindProgress()
     this.bindDialog()
 
-    root.querySelector<HTMLElement>('.progress')?.removeAttribute('hidden')
     this.show(root.dataset.initialStep === 'form' ? 'form' : 'level', {
       focus: false,
     })
@@ -133,7 +143,8 @@ class SignUpFlow {
       this.finish(
         seniorityForCodeCheck(codeCheck.answer!),
         codeCheck.trackSlug,
-        codeCheck.trackTitle
+        codeCheck.trackTitle,
+        codeCheck.answer
       )
     })
   }
@@ -158,7 +169,10 @@ class SignUpFlow {
     dialog
       .querySelectorAll<HTMLButtonElement>('[data-jiki-dismiss]')
       .forEach((button) =>
-        button.addEventListener('click', () => closeDialog(dialog))
+        button.addEventListener('click', () => {
+          closeDialog(dialog)
+          this.answersForm?.submit()
+        })
       )
 
     // The only way out is "No thanks", so Esc doesn't close it.
@@ -171,16 +185,25 @@ class SignUpFlow {
   private finish(
     seniority: Seniority,
     trackSlug: string | null,
-    language = ''
+    language = '',
+    codeCheckAnswer: CodeCheckAnswer | null = null
   ) {
     this.setAnswer('seniority', seniority)
     this.setAnswer('sign_up_track_slug', trackSlug || '')
-    this.show('form')
+    if (!this.answersForm) this.show('form')
 
     if (this.dialog && JIKI_SENIORITIES.includes(seniority)) {
       showJikiVariant(this.dialog, seniority, 'sign-up-jiki-heading', language)
+      // Someone who found the code tricky can code a little, so the pop-up
+      // doesn't tell them that using Exercism is a bad idea.
+      this.dialog
+        .querySelectorAll<HTMLElement>('[data-jiki-bad-idea]')
+        .forEach((element) => (element.hidden = codeCheckAnswer === 'tricky'))
       openDialog(this.dialog)
+      return
     }
+
+    this.answersForm?.submit()
   }
 
   private show(step: Step, { focus = true }: { focus?: boolean } = {}) {

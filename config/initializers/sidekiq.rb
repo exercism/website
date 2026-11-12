@@ -10,6 +10,16 @@ Sidekiq.configure_server do |config|
   end
 
   config.logger.level = Logger::WARN
+
+  # The analytics jobs call PostHog. They run in their own capsule with a
+  # couple of threads, so if PostHog is slow or down, those jobs will only
+  # hold up each other and every other queue keeps its threads. The queue is
+  # deliberately left out of config/sidekiq.yml, so the default capsule
+  # never picks these jobs up.
+  config.capsule("analytics") do |capsule|
+    capsule.concurrency = 2
+    capsule.queues = %w[analytics]
+  end
 end
 
 Sidekiq.configure_client do |config|

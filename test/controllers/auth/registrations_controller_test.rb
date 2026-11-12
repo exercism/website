@@ -71,6 +71,20 @@ module Auth
       assert_equal track, data.sign_up_track
     end
 
+    test "tracks the signup with the attribution cookie and then clears it" do
+      stub_turnstile!
+      cookies[:_exercism_attribution] = { utm_source: "newsletter", landing_path: "/tracks/go" }.to_json
+
+      User::TrackSignUp.expects(:call).with do |user, attribution:|
+        user.email == "user@exercism.org" &&
+          attribution == { "utm_source" => "newsletter", "landing_path" => "/tracks/go" }
+      end
+
+      post user_registration_path, params: signup_params
+
+      assert_empty cookies[:_exercism_attribution].to_s
+    end
+
     test "a failed sign-up keeps the answers for the form" do
       stub_turnstile!
 

@@ -107,6 +107,9 @@ api_non_get_limit_proc = proc do |req|
   next 8 if req.patch? && req.routed_to == 'api/settings/communication_preferences#update'
   next 8 if req.patch? && req.routed_to == 'api/settings#sudo_update'
   next 10 if req.patch? && req.routed_to == 'api/mentoring/representations#update'
+  # Browser analytics events are keyed by IP, so people on a shared network
+  # share this limit, and one checkout can send several events.
+  next 30 if req.post? && req.routed_to == 'api/events#create'
 
   5
 end

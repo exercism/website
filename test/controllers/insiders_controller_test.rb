@@ -59,6 +59,22 @@ class InsidersControllerTest < ActionDispatch::IntegrationTest
     assert_select ".c-react-wrapper-insiders-join[data-react-data*=?]", "\"return_to\":\"/insiders\""
   end
 
+  test "join: passes a known trigger on to the form" do
+    sign_in!(create(:user))
+
+    get join_insiders_path(trigger: "assistant_upsell_modal")
+
+    assert_select ".c-react-wrapper-insiders-join[data-react-data*=?]", "\"trigger\":\"assistant_upsell_modal\""
+  end
+
+  test "join: falls back to its own trigger" do
+    sign_in!(create(:user))
+
+    get join_insiders_path(trigger: "somewhere")
+
+    assert_select ".c-react-wrapper-insiders-join[data-react-data*=?]", "\"trigger\":\"insiders_join_page\""
+  end
+
   test "join: an insider is sent straight back" do
     sign_in!(create(:user, :insider))
 

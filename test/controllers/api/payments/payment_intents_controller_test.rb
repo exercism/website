@@ -15,12 +15,12 @@ class API::Payments::PaymentIntentsControllerTest < API::BaseTestCase
     pi_client_secret = SecureRandom.uuid
 
     ::Payments::Stripe::PaymentIntent::Create.expects(:call).with(
-      user, type, amount_in_cents
+      user, type, amount_in_cents, trigger: "beg_modal"
     ).returns(OpenStruct.new(id: pi_id, client_secret: pi_client_secret))
 
     setup_user(user)
     post api_payments_payment_intents_path(
-      type:, amount_in_cents:
+      type:, amount_in_cents:, trigger: "beg_modal"
     ), headers: @headers, as: :json
 
     assert_response :ok

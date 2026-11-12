@@ -11,6 +11,7 @@ import { StripeForm } from '../donations/StripeForm'
 import { Modal } from '../modals'
 import { CustomAmountInput } from '../donations/donation-form/CustomAmountInput'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
+import { useTrackPaymentPrompt } from '@/hooks/use-track-payment-prompt'
 
 const STATUS_DATA = {
   eligible: {
@@ -65,6 +66,7 @@ export default function Status({
   const { t } = useAppTranslation('components/insiders')
   const [insidersStatus, setInsidersStatus] = useState(status)
   const [stripeModalOpen, setStripeModalOpen] = useState(false)
+  useTrackPaymentPrompt('insiders_page', stripeModalOpen && userSignedIn)
 
   const handleSuccess = useCallback(() => {
     redirectTo(links.insiders)
@@ -193,6 +195,7 @@ export default function Status({
             }
           >
             <StripeForm
+              trigger="insiders_page"
               confirmParamsReturnUrl={links.paymentPending}
               captchaRequired={captchaRequired}
               userSignedIn={userSignedIn}

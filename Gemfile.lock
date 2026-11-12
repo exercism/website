@@ -426,6 +426,8 @@ GEM
       ast (~> 2.4.1)
       racc
     parslet (2.0.0)
+    posthog-ruby (3.32.1)
+      concurrent-ruby (~> 1)
     pp (0.6.4)
       prettyprint
     prettyprint (0.2.1)
@@ -751,6 +753,7 @@ DEPENDENCIES
   omniauth-github
   omniauth-rails_csrf_protection
   opensearch-ruby
+  posthog-ruby
   propshaft (= 0.4.0)
   public_suffix
   puma

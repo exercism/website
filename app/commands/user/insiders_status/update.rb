@@ -15,6 +15,7 @@ class User::InsidersStatus::Update
     return if user.insiders_status_eligible_lifetime?
 
     old_status = user.insiders_status
+    old_membership_type = Analytics.membership_type(user)
     new_status = User::InsidersStatus::DetermineEligibilityStatus.(user)
     return if new_status == old_status
 
@@ -33,6 +34,8 @@ class User::InsidersStatus::Update
     # Note: This code is not called when they GAIN Insiders.
     # Look at Activate.() for that instead.
     # ##
+
+    Analytics::IdentifyUser.defer(user) if Analytics.membership_type(user) != old_membership_type
 
     # Create whatever notification we've generated
     User::Notification::CreateEmailOnly.defer(user, @notification_key) if @notification_key

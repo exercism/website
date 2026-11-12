@@ -18,6 +18,7 @@ import {
 } from './chatUsage'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 import { Trans } from 'react-i18next'
+import { trackEvent } from '@/utils/analytics'
 
 export function AssistantChatPanel(props: {
   config: AssistantChatConfig
@@ -45,6 +46,15 @@ function AssistantChatContent({
 }): JSX.Element {
   const chat = useChat(config, solutionUuid, getFiles)
   const allowed = config.allowed && !chat.accessDenied
+
+  // The panel is always in the DOM, so this only counts the limit once the
+  // assistant tab is actually open.
+  const { current: currentTab } = useContext(TabsContext)
+  useEffect(() => {
+    if (!allowed && currentTab === 'assistant') {
+      trackEvent('assistant_limit_reached')
+    }
+  }, [allowed, currentTab])
 
   if (!allowed) {
     return (

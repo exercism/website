@@ -1,7 +1,7 @@
 class Payments::Stripe::PaymentIntent::CreateForPayment
   include Mandate
 
-  initialize_with :customer_id, :amount_in_cents
+  initialize_with :customer_id, :amount_in_cents, trigger: nil
 
   def call
     options = {
@@ -12,6 +12,7 @@ class Payments::Stripe::PaymentIntent::CreateForPayment
         enabled: true
       }
     }
+    options[:metadata] = { trigger: } if trigger
 
     Stripe::PaymentIntent.create(**options)
   end

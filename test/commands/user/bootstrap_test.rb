@@ -194,4 +194,13 @@ class User::BootstrapTest < ActiveSupport::TestCase
     assert_nil user.data.reload.seniority
     assert_nil user.data.sign_up_track
   end
+
+  test "tracks the signup with its attribution" do
+    user = create :user
+    attribution = { "utm_source" => "newsletter" }
+
+    User::TrackSignUp.expects(:call).with(user, attribution:)
+
+    User::Bootstrap.(user, attribution:)
+  end
 end

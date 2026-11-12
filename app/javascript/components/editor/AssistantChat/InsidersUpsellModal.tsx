@@ -9,6 +9,7 @@ import { StripeForm } from '@/components/donations/StripeForm'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 import { Trans } from 'react-i18next'
 import type { InsidersUpsellConfig } from './types'
+import { useTrackPaymentPrompt } from '@/hooks/use-track-payment-prompt'
 
 // Insiders is a donation-funded tier, so joining from the editor runs exactly
 // the same Stripe subscription flow as the /insiders page. The only difference
@@ -25,6 +26,7 @@ export function InsidersUpsellModal({
   onClose: () => void
 }): JSX.Element {
   const [succeeded, setSucceeded] = useState(false)
+  useTrackPaymentPrompt('assistant_upsell_modal', open)
 
   const handleSuccess = useCallback(() => setSucceeded(true), [])
 
@@ -152,6 +154,7 @@ function PaymentContent({
           amount={MONTHLY_AMOUNT}
           onSuccess={onSuccess}
           paymentIntentType="subscription"
+          trigger="assistant_upsell_modal"
         />
       </ExercismStripeElements>
 

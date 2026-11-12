@@ -10,6 +10,9 @@ import { initLocaleBanner } from '@/utils/locale-banner'
 initLocalePrefLinks()
 initLocaleBanner()
 
+import { captureSignupAttribution } from '@/utils/signup-attribution'
+captureSignupAttribution()
+
 import { initSignUpFlow } from '@/utils/sign-up-flow'
 initSignUpFlow()
 

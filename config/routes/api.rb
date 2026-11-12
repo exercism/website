@@ -35,6 +35,9 @@ namespace :api do
     # Public, anonymous, CDN-cacheable code sample for the sign-up code check.
     get "tracks/:track_slug/sign_up_snippet" => "tracks/sign_up_snippets#show", as: :track_sign_up_snippet
 
+    # Analytics events reported by the browser.
+    resources :events, only: [:create]
+
     namespace :payments do
       # resources :payments, only: [:create]
       resources :payment_intents, only: [:create] do

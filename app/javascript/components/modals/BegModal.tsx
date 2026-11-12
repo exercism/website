@@ -13,6 +13,7 @@ import { sendRequest } from '@/utils/send-request'
 import { ErrorBoundary, ErrorMessage } from '@/components/ErrorBoundary'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 import { Trans } from 'react-i18next'
+import { useTrackPaymentPrompt } from '@/hooks/use-track-payment-prompt'
 const Form = lazy(() => import('@/components/donations/Form'))
 
 export default function ({
@@ -25,6 +26,7 @@ export default function ({
   request: Request
 }): JSX.Element {
   const [isModalOpen, setIsModalOpen] = useState(true)
+  useTrackPaymentPrompt('beg_modal', isModalOpen)
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false)
   const [paymentAmount, setPaymentAmount] = useState<currency | null>(null)
   const { t } = useAppTranslation('components/modals/BegModal.tsx')
@@ -124,6 +126,7 @@ export default function ({
                   captchaRequired={false}
                   links={links}
                   onSuccess={handleSuccess}
+                  trigger="beg_modal"
                 />
               </Suspense>
             </div>

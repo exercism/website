@@ -188,6 +188,10 @@ class ApplicationController < ActionController::Base
   end
 
   def set_request_context
+    # Analytics events copy these into their background jobs.
+    Current.ip_address = request.headers['CF-Connecting-IP'].presence || request.remote_ip
+    Current.user_agent = request.user_agent
+
     Exercism.request_context = {
       country_code: visitor_country_code,
       coordinates: visitor_coordinates
@@ -352,14 +356,19 @@ class ApplicationController < ActionController::Base
     stored ? Locale::SwapInPath.(stored, I18n.default_locale) : super
   end
 
+  # The first-touch attribution cookie is written by
+  # app/javascript/utils/signup-attribution.ts.
+  SIGNUP_ATTRIBUTION_COOKIE = :_exercism_attribution
+  private_constant :SIGNUP_ATTRIBUTION_COOKIE
+
+  def signup_attribution = User::ParseSignupAttribution.(cookies[SIGNUP_ATTRIBUTION_COOKIE])
+  def clear_signup_attribution! = cookies.delete(SIGNUP_ATTRIBUTION_COOKIE)
+
   def updated_last_visited_on!
     return unless user_signed_in?
     return unless request.format == :html
-    return if current_user.last_visited_on == Time.zone.today
 
-    User::Data::SafeUpdate.(current_user) do |data|
-      data.last_visited_on = Time.zone.today
-    end
+    User::TrackSiteVisit.(current_user)
   end
 
   def render_template_as_json

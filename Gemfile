@@ -78,6 +78,9 @@ gem 'coinbase_commerce', github: 'exercism/coinbase-commerce-ruby'
 # Discourse
 gem 'discourse_api'
 
+# Product analytics
+gem 'posthog-ruby'
+
 # Performance issue Reporting
 gem 'skylight'
 gem 'bullet'

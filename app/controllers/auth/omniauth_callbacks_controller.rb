@@ -17,9 +17,11 @@ module Auth
       @user = User::AuthenticateFromOmniauth.(request.env["omniauth.auth"], session:, locale: locale_from_path,
         accept_language: request.headers["Accept-Language"],
         seniority: omniauth_params["seniority"].presence,
-        sign_up_track_slug: omniauth_params["sign_up_track_slug"].presence)
+        sign_up_track_slug: omniauth_params["sign_up_track_slug"].presence,
+        attribution: signup_attribution)
 
       if @user.persisted?
+        clear_signup_attribution!
         remember_me(@user)
         sign_in_and_redirect @user, event: :authentication
       else

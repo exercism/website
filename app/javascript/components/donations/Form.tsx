@@ -11,6 +11,7 @@ import currency from 'currency.js'
 import { Request, useRequestQuery } from '../../hooks/request-query'
 import { FetchingBoundary } from '../FetchingBoundary'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
+import type { PaymentTrigger } from '@/utils/analytics'
 
 export type StripeFormLinks = {
   success: string
@@ -47,6 +48,7 @@ type Props = {
   onSettled?: () => void
   links: StripeFormLinks
   id?: string
+  trigger?: PaymentTrigger
 }
 
 export const Form = ({
@@ -58,6 +60,7 @@ export const Form = ({
   userSignedIn,
   captchaRequired,
   recaptchaSiteKey,
+  trigger,
   onProcessing = () => null,
   onSettled = () => null,
   id,
@@ -200,6 +203,7 @@ export const Form = ({
                 onProcessing={onProcessing}
                 onSettled={onSettled}
                 submitButtonDisabled={status === 'loading'}
+                trigger={trigger}
               />
             </ExercismStripeElements>
           </Tab.Panel>
@@ -231,6 +235,7 @@ export const Form = ({
                 onProcessing={onProcessing}
                 onSettled={onSettled}
                 submitButtonDisabled={status === 'loading'}
+                trigger={trigger}
               />
             </ExercismStripeElements>
           </Tab.Panel>

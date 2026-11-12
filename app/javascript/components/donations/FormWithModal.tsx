@@ -4,6 +4,7 @@ import { Request } from '@/hooks/request-query'
 import { Form, FormAmount, StripeFormLinks } from './Form'
 import SuccessModal from './SuccessModal'
 import { PaymentIntentType } from './stripe-form/useStripeForm'
+import { useTrackPaymentPrompt } from '@/hooks/use-track-payment-prompt'
 
 type FormWithModalProps = {
   request: Request
@@ -23,6 +24,7 @@ export default function FormWithModal({
   defaultAmount,
 }: FormWithModalProps): JSX.Element {
   const [paymentMade, setPaymentMade] = useState(false)
+  useTrackPaymentPrompt('donations_page', userSignedIn)
 
   // TODO: Remove this as this seems to be unused
   const [, setPaymentType] = useState<PaymentIntentType | undefined>()
@@ -47,6 +49,7 @@ export default function FormWithModal({
         recaptchaSiteKey={recaptchaSiteKey}
         captchaRequired={captchaRequired}
         defaultAmount={defaultAmount}
+        trigger="donations_page"
       />
       <SuccessModal
         open={paymentMade}

@@ -7,6 +7,7 @@ import { PaymentIntentType, useStripeForm } from './stripe-form/useStripeForm'
 import { generateStripeButtonText } from './stripe-form/utils'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
 import { Trans } from 'react-i18next'
+import type { PaymentTrigger } from '@/utils/analytics'
 
 export type StripeFormProps = {
   paymentIntentType: PaymentIntentType
@@ -19,6 +20,8 @@ export type StripeFormProps = {
   amount: currency
   submitButtonDisabled?: boolean
   confirmParamsReturnUrl: string
+  // Where in the UI this checkout was opened, for analytics.
+  trigger?: PaymentTrigger
 }
 
 export function StripeForm({
@@ -32,6 +35,7 @@ export function StripeForm({
   submitButtonDisabled = false,
   confirmParamsReturnUrl,
   onSettled = () => null,
+  trigger,
 }: StripeFormProps): JSX.Element {
   const { t } = useAppTranslation('components/donations')
   const {
@@ -54,6 +58,7 @@ export function StripeForm({
     paymentIntentType,
     onProcessing,
     onSettled,
+    trigger,
   })
 
   const paymentElementOptions = {

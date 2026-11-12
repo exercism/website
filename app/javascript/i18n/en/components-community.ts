@@ -1,8 +1,5 @@
 // namespace: components/community
 export default {
-  'storiesGrid.index.moreStories': 'More Stories from our community',
-  'storiesGrid.index.listenLearn':
-    'Listen, learn and be inspired by our community members.',
   'videoGrid.index.searchCommunity': 'Search community content',
   'videoGrid.index.learnWithCommunity': 'Learn with our community',
   'videoGrid.index.walkthroughsTutorials':

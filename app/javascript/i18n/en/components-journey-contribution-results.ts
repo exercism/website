@@ -1,7 +1,5 @@
 // namespace: components/journey/contribution-results
 export default {
-  'orderSwitcher.sortByOldestFirst': 'Sort by Oldest First',
-  'orderSwitcher.sortByNewestFirst': 'Sort by Newest First',
   'markAllAsSeenButton.markAllAsSeen': 'Mark all as seen',
   'markAllAsSeenModal.markAllAsSeenQuestion': 'Mark all as seen?',
   'markAllAsSeenModal.confirmationMessage':

@@ -5,16 +5,6 @@ export default {
   'conceptsLearntSummary.conceptLearnt': 'Concept learnt',
   'conceptsLearntSummary.conceptsLearnt': 'Concepts learnt',
   'headerSummary.youVeProgressed': "You've progressed the furthest in ",
-  'learningStats.didYouKnow': 'Did you know?',
-  'learningStats.linesOfCodeStat':
-    "You've written <strong>{{lines}}</strong> of code across <link>{{solutions}}</link>.",
-  'learningStats.lineCount_one': '{{formattedCount}} line',
-  'learningStats.lineCount_other': '{{formattedCount}} lines',
-  'learningStats.solutionCount_one': '{{count}} solution',
-  'learningStats.solutionCount_other': '{{count}} solutions',
-  'learningStats.aesopFact':
-    "That's approximately equivalent to the length of an <fableLink>Aesop's Fable!</fableLink>",
-
   'tracksEnrolledSummary.tracksEnrolled_one': 'Track enrolled',
   'tracksEnrolledSummary.tracksEnrolled_other': 'Tracks enrolled',
   'trackSummary.exercisesCompleted':

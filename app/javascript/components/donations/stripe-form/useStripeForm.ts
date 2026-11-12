@@ -40,14 +40,12 @@ type UseStripeFormReturns = {
   error: string | undefined
   cardValid: boolean
   notARobot: boolean
-  email: string
   processing: boolean
   handlePaymentElementChange: (
     event: StripePaymentElementChangeEvent
   ) => Promise<void>
   handleCardChange: (event: StripeCardElementChangeEvent) => Promise<void>
   handleCardReady: (element: StripeCardElement) => Promise<void>
-  handleEmailChange: React.ChangeEventHandler<HTMLInputElement>
   handleCaptchaSuccess: () => void
   handleCaptchaFailure: () => void
   handleSubmit: (event: React.ChangeEvent<HTMLFormElement>) => Promise<void>
@@ -71,7 +69,6 @@ export function useStripeForm({
   const [processing, setProcessing] = useState(false)
   const [cardValid, setCardValid] = useState(false)
   const [notARobot, setNotARobot] = useState(!captchaRequired)
-  const [email, setEmail] = useState('')
 
   const createPaymentIntentEndpoint = '/api/v2/payments/payment_intents'
   const paymentIntentFailedEndpoint =
@@ -175,7 +172,6 @@ export function useStripeForm({
       body: JSON.stringify({
         type: paymentIntentType,
         amount_in_cents: amount.intValue,
-        email,
         trigger,
       }),
     }).then((data) => {
@@ -191,7 +187,7 @@ export function useStripeForm({
       }
       return data.paymentIntent
     })
-  }, [paymentIntentType, amount.intValue, email, trigger, trackFailure])
+  }, [paymentIntentType, amount.intValue, trigger, trackFailure])
 
   type ConfirmPaymentFn = (
     stripe: Stripe,
@@ -307,10 +303,6 @@ export function useStripeForm({
     processing ? onProcessing() : onSettled()
   }, [onProcessing, onSettled, processing])
 
-  const handleEmailChange = useCallback((e) => {
-    setEmail(e.target.value)
-  }, [])
-
   const handleCaptchaSuccess = useCallback(() => {
     setNotARobot(true)
   }, [])
@@ -328,11 +320,9 @@ export function useStripeForm({
     handleCaptchaSuccess,
     handleCardChange,
     handleCardReady,
-    handleEmailChange,
     handlePaymentElementChange,
     notARobot,
     succeeded,
-    email,
     processing,
   }
 }

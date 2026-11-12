@@ -109,7 +109,6 @@ export const buildEditor = build<Props>({
       allowed: true,
       messages: [],
       insidersUpsell: {
-        userSignedIn: true,
         captchaRequired: false,
         recaptchaSiteKey: 'test-recaptcha-key',
         links: {

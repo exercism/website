@@ -162,7 +162,6 @@ module ReactComponents
       {
         # The editor is only reachable by the solution's owner, so we can read
         # the user off the solution rather than the (absent) view context.
-        user_signed_in: true,
         captcha_required: solution.user.captcha_required?,
         recaptcha_site_key: ENV.fetch('RECAPTCHA_SITE_KEY', Exercism.secrets.recaptcha_site_key),
         links: {

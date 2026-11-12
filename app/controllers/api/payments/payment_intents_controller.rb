@@ -10,7 +10,7 @@ class API::Payments::PaymentIntentsController < API::BaseController
     end
 
     payment_intent = ::Payments::Stripe::PaymentIntent::Create.(
-      current_user || params[:email],
+      current_user,
       params[:type],
       params[:amount_in_cents],
       trigger: params[:trigger]

@@ -41,7 +41,6 @@ type Props = {
   defaultAmount?: Partial<FormAmount>
   defaultTransactionType?: PaymentIntentType
   onSuccess: (type: PaymentIntentType, amount: currency) => void
-  userSignedIn: boolean
   captchaRequired: boolean
   recaptchaSiteKey?: string
   onProcessing?: () => void
@@ -57,7 +56,6 @@ export const Form = ({
   defaultTransactionType,
   onSuccess,
   links,
-  userSignedIn,
   captchaRequired,
   recaptchaSiteKey,
   trigger,
@@ -195,7 +193,6 @@ export const Form = ({
               <StripeForm
                 confirmParamsReturnUrl={links.success}
                 paymentIntentType={transactionType}
-                userSignedIn={userSignedIn}
                 captchaRequired={captchaRequired}
                 recaptchaSiteKey={recaptchaSiteKey}
                 amount={currentAmount || currency(0)}
@@ -227,7 +224,6 @@ export const Form = ({
               <StripeForm
                 confirmParamsReturnUrl={links.success}
                 paymentIntentType={transactionType}
-                userSignedIn={userSignedIn}
                 captchaRequired={captchaRequired}
                 recaptchaSiteKey={recaptchaSiteKey}
                 amount={currentAmount || currency(0)}

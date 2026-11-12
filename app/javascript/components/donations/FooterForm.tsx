@@ -14,7 +14,6 @@ const DEFAULT_AMOUNT = currency(16)
 export type FooterFormProps = {
   request: Request
   links: StripeFormLinks
-  userSignedIn: boolean
   captchaRequired: boolean
   recaptchaSiteKey: string
 }
@@ -22,7 +21,6 @@ export type FooterFormProps = {
 const FooterForm = ({
   request,
   links,
-  userSignedIn,
   captchaRequired,
   recaptchaSiteKey,
 }: FooterFormProps): JSX.Element => {
@@ -97,7 +95,6 @@ const FooterForm = ({
         onClose={handleModalClose}
         amount={currentAmount}
         request={request}
-        userSignedIn={userSignedIn}
         captchaRequired={captchaRequired}
         recaptchaSiteKey={recaptchaSiteKey}
         links={links}

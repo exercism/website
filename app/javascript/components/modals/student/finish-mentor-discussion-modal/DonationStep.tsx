@@ -81,7 +81,6 @@ export function DonationStep({
                 payment: currency(16),
                 subscription: currency(16),
               }}
-              userSignedIn={true}
               captchaRequired={false}
               links={{
                 success: links.exerciseMentorDiscussionUrl,

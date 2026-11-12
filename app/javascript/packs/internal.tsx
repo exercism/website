@@ -699,7 +699,6 @@ initReact({
       <DonationsFormWithModal
         request={camelizeKeysAs<Request>(data.request)}
         links={camelizeKeysAs<StripeFormLinks>(data.links)}
-        userSignedIn={data.user_signed_in}
         captchaRequired={data.captcha_required}
         recaptchaSiteKey={data.recaptcha_site_key}
       />

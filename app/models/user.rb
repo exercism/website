@@ -133,8 +133,6 @@ class User < ApplicationRecord
 
   has_many :problem_reports, dependent: :destroy
 
-  has_many :cohort_memberships, dependent: :destroy
-
   has_many :github_team_memberships, class_name: "Github::TeamMember", dependent: :destroy
 
   has_many :challenges, dependent: :destroy

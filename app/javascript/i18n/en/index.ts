@@ -236,8 +236,6 @@ import componentsTrackIterationSummary from './components-track-iteration-summar
 import componentsTrackIterationSummaryTsx from './components-track-IterationSummary.tsx'
 import componentsTrackTrophiesTsx from './components-track-Trophies.tsx'
 import componentsTrackUnlockHelpButtonTsx from './components-track-UnlockHelpButton.tsx'
-import componentsTrainingDataCodeTagger from './components-training-data-code-tagger'
-import componentsTrainingDataDashboard from './components-training-data-dashboard'
 import discussionBatch from './discussion-batch'
 import sessionBatch1 from './session-batch-1'
 import sessionBatch2 from './session-batch-2'
@@ -610,8 +608,6 @@ export default {
   'components/track/IterationSummary.tsx': componentsTrackIterationSummaryTsx,
   'components/track/Trophies.tsx': componentsTrackTrophiesTsx,
   'components/track/UnlockHelpButton.tsx': componentsTrackUnlockHelpButtonTsx,
-  'components/training-data/code-tagger': componentsTrainingDataCodeTagger,
-  'components/training-data/dashboard': componentsTrainingDataDashboard,
   'discussion-batch': discussionBatch,
   'session-batch-1': sessionBatch1,
   'session-batch-2': sessionBatch2,

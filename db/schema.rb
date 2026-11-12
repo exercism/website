@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_11_06_135710) do
+ActiveRecord::Schema[7.1].define(version: 2026_11_12_124449) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -1421,25 +1421,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_06_135710) do
     t.index ["slug"], name: "index_tracks_on_slug", unique: true
   end
 
-  create_table "training_data_code_tags_samples", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
-    t.bigint "track_id", null: false
-    t.bigint "exercise_id"
-    t.bigint "solution_id"
-    t.integer "status", default: 0, null: false
-    t.integer "dataset", default: 0, null: false
-    t.text "tags"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "uuid", null: false
-    t.text "files", null: false
-    t.datetime "locked_until"
-    t.bigint "locked_by_id"
-    t.text "llm_tags"
-    t.index ["exercise_id"], name: "index_training_data_code_tags_samples_on_exercise_id"
-    t.index ["solution_id"], name: "index_training_data_code_tags_samples_on_solution_id"
-    t.index ["track_id"], name: "index_training_data_code_tags_samples_on_track_id"
-  end
-
   create_table "user_acquired_badges", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "uuid", null: false
     t.bigint "user_id", null: false
@@ -1586,7 +1567,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_06_135710) do
     t.json "cache"
     t.integer "email_status", limit: 1, default: 0, null: false
     t.datetime "premium_until"
-    t.boolean "trainer", default: false, null: false
     t.integer "seniority", limit: 1
     t.string "bootcamp_affiliate_coupon_code"
     t.string "bootcamp_free_coupon_code"

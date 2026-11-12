@@ -4,7 +4,6 @@ en:
       not_onboarded: "You have not yet onboarded on the website"
       not_supermentor: "You do not have supermentor permissions"
       not_automator: "You do not have automator permissions for this track"
-      not_trainer: "You do not have trainer permissions for this track"
       not_maintainer: "You do not have maintainer permissions"
       duplicate_submission: "No files you submitted have changed since your last submission"
       invalid_filename: "One or more of the filenames you submitted are not valid"
@@ -64,5 +63,4 @@ en:
       profile_criteria_not_fulfilled: "You need at least 5 reputation to create a profile"
       invalid_community_video_url: "We could not find a YouTube or Vimeo video matching this URL"
       invalid_discussion_status: "The discussion status is invalid"
-      training_data_code_tags_sample_locked: "This training data code tags sample is locked by someone else."
       could_not_generate_coupon_code: "Could not generate a coupon code"

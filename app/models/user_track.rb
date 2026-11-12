@@ -2,8 +2,6 @@ class UserTrack < ApplicationRecord
   extend Mandate::Memoize
   include UserTrack::MentoringSlots
 
-  MIN_REP_TO_TRAIN_ML = 50
-
   # The summary cache key includes a digest of the generator, so that a change
   # to how summaries are built invalidates every cached summary. The file can't
   # change within the lifetime of a process, so we only read it once rather than
@@ -40,8 +38,6 @@ class UserTrack < ApplicationRecord
     foreign_key: :user_id,
     primary_key: :user_id,
     inverse_of: :user_track
-
-  scope :trainer, -> { where('reputation >= ?', MIN_REP_TO_TRAIN_ML) }
 
   delegate :num_concepts, to: :track
   delegate :title, to: :track, prefix: true

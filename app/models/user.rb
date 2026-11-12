@@ -372,20 +372,6 @@ class User < ApplicationRecord
     tms.exists?
   end
 
-  def trainer?(track = nil)
-    return true if staff?
-    return false unless super()
-    return eligible_for_trainer?(track) if track.present?
-
-    true
-  end
-
-  def eligible_for_trainer?(track = nil)
-    uts = user_tracks.trainer
-    uts = uts.where(track:) if track
-    uts.exists?
-  end
-
   def watched_video?(video_provider, video_id)
     watched_videos.where(
       video_provider:, video_id:

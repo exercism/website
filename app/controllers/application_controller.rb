@@ -95,12 +95,6 @@ class ApplicationController < ActionController::Base
     redirect_to root_path
   end
 
-  def ensure_trainer!
-    return if current_user&.trainer?(@track)
-
-    redirect_to training_data_external_path
-  end
-
   def store_session_variables
     session[:course_access_code] = params[:course_access_code] if params[:course_access_code].present?
   end

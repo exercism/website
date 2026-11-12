@@ -247,13 +247,6 @@ resource :about, controller: 'about', only: [:show] do
 end
 
 #########
-# Cohorts #
-#########
-resources :cohorts, only: [:show] do
-  post :join, on: :member
-end
-
-#########
 # Pages #
 #########
 get "cli-walkthrough" => "pages#cli_walkthrough", as: :cli_walkthrough

@@ -55,7 +55,7 @@ class User::DestroyAccountTest < ActiveSupport::TestCase
       Solution::Publish.(solution, ut, 1)
     end
     sleep(1) # It takes a second for cloudsearch to actually update its index
-    assert_equal 1, Solution::SearchCommunitySolutions.(solution.exercise).length
+    refute_nil get_opensearch_doc(Solution::OPENSEARCH_INDEX, solution.id)
 
     # Don't wrap perform_enqueued_jobs around this, do it afterwards
     # and sleep for 0.1 to ensure that user is actually deleted etc
@@ -64,6 +64,6 @@ class User::DestroyAccountTest < ActiveSupport::TestCase
     sleep(0.1)
 
     perform_enqueued_jobs
-    assert_empty Solution::SearchCommunitySolutions.(solution.exercise)
+    assert_nil get_opensearch_doc(Solution::OPENSEARCH_INDEX, solution.id)
   end
 end

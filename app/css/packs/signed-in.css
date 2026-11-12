@@ -33,7 +33,6 @@
 @import "../pages/exercise-mentoring";
 
 /* Mentoring */
-@import "../components/mentor-discussion-post-editor";
 @import "../modals/mentoring-sessions";
 @import "../modals/confirm-finish-student-mentor-discussion";
 @import "../modals/finish-student-mentor-discussion";

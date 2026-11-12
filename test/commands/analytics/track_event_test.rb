@@ -79,7 +79,7 @@ class Analytics::TrackEventTest < ActiveSupport::TestCase
     assert_enqueued_with(
       job: MandateJob,
       args: ["Analytics::TrackEvent", user, "site_visited", { user_ip: "86.41.10.20", user_agent: "Mozilla/5.0" }],
-      queue: "background"
+      queue: "analytics"
     ) do
       Analytics::TrackEvent.defer(user, "site_visited")
     end

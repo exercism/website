@@ -4,7 +4,7 @@
 class Analytics::IdentifyUser
   include Mandate
 
-  queue_as :background
+  queue_as :analytics
 
   initialize_with :user
 

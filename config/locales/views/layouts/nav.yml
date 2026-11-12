@@ -51,12 +51,13 @@ en:
         history_label: History
         and_more_label: And more…
       jiki:
-        title: Jiki
-        bubble: Just Launched!
-        subtitle: Learn to Code and Build in the LLM-era.
-        description_p1_html:
-          Coding has changed. How you learn needs to change too. Jiki is a brand new platform, designed to help you learn to code and build in the LLM-era.
-          Designed for <strong>beginners, juniors and vibe coders.</strong>.
-        strong_text_1: Totally new?
-        strong_text_2: Tutorial Hell?
+        logo_alt: Jiki by the team at Exercism
+        title_html: Master the %{highlight} first
+        title_highlight: fundamentals
+        description: "Jiki is our platform for new coders. We'll take you from the basics to complex programs, and get you thinking like a developer."
+        note_html: A few things<br>you'll make
+        prints:
+          space_invaders: Space Invaders
+          breakout: Breakout
+          maze: Maze
         explore_button: Get started - it's free!

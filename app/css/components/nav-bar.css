@@ -289,3 +289,176 @@
 .theme-light #site-header .nav-element.insiders .nav-element-label:after {
     @apply opacity-[0.75];
 }
+
+/* The Jiki row uses a round photo in place of an SVG icon, a purple
+   "New" badge, and a description that may wrap. */
+#site-header .nav-element-dropdown {
+    & .nav-element-link .c-icon.--image {
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    & ul li.jiki .nav-dropdown-element {
+        & h6 .new {
+            @apply rounded-100 font-bold;
+            background: #f3e8ff;
+            color: #7e22ce;
+            letter-spacing: 0.04em;
+        }
+        /* The row has no external-link icon, so its text can use the
+           space reserved for one. Longer translations wrap. */
+        & .pe-40 {
+            padding-inline-end: 0;
+        }
+        & p {
+            white-space: normal;
+        }
+    }
+}
+
+/* The Jiki panel in the Learn menu. The measurements are the ones from
+   Idea B in the Jiki strategy repo's exercism-menu-jiki-ideas.html. The
+   rules sit under #site-header .nav-element so they beat the menu's own
+   span styles, which would otherwise pad every span. */
+#site-header .nav-element .c-nav-jiki {
+    @apply flex flex-col justify-center;
+    padding: 9px 24px 12px;
+
+    & span {
+        padding: 0;
+    }
+
+    & .jiki-logo {
+        display: block;
+        align-self: flex-start;
+        height: 62px;
+        width: auto;
+        margin-bottom: 8px;
+    }
+
+    & .jiki-title {
+        @apply text-textColor1 font-bold;
+        font-size: 21px;
+        line-height: 1.25;
+        white-space: nowrap;
+        margin-bottom: 4px;
+
+        & .jiki-highlight {
+            background: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+    }
+
+    & .jiki-description {
+        @apply text-textColor6;
+        font-size: 14px;
+        line-height: 1.6;
+        margin-bottom: 8px;
+    }
+
+    /* Polaroid prints, as on the Jiki landing page */
+    & .jiki-prints {
+        @apply relative flex justify-center items-center;
+        margin: 26px 0 16px;
+    }
+
+    /* Handwritten note at the top right of the prints, with a dotted arrow down to them */
+    & .jiki-note {
+        @apply absolute text-center;
+        z-index: 3;
+        right: 0;
+        top: -52px;
+        font-family: "Caveat", cursive;
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 1;
+        color: #9333ea;
+
+        & svg {
+            position: absolute;
+            left: -54px;
+            top: 6px;
+            width: 50px;
+            height: 35px;
+        }
+    }
+
+    & .jiki-print {
+        @apply relative;
+        padding: 5px 5px 22px;
+        border-radius: 2px;
+        background: radial-gradient(
+            120% 100% at 50% 0%,
+            #faf8f3 40%,
+            #ece5d9 100%
+        );
+        box-shadow: 0 1px 2px rgba(30, 20, 10, 0.28),
+            0 12px 24px -8px rgba(30, 20, 10, 0.22);
+
+        &:nth-of-type(1) {
+            transform: rotate(-4deg);
+            margin-right: -8px;
+            padding-right: 8px;
+        }
+        &:nth-of-type(2) {
+            z-index: 1;
+            transform: translateY(-6px);
+        }
+        &:nth-of-type(3) {
+            transform: rotate(4deg);
+            margin-left: -8px;
+        }
+
+        & video {
+            display: block;
+            width: 100px;
+            aspect-ratio: 1;
+            object-fit: cover;
+            background: #f1f5f9;
+        }
+
+        & span {
+            @apply absolute flex items-center justify-center;
+            left: 0;
+            right: 0;
+            bottom: 1px;
+            height: 21px;
+            font-family: "Caveat", cursive;
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+            color: #475569;
+        }
+        &:nth-of-type(1) span {
+            left: -10px;
+            right: 6px;
+            font-size: 12px;
+        }
+    }
+
+    /* Exercism's button, as in the design */
+    & .jiki-cta {
+        @apply flex items-center justify-center w-100;
+        margin-top: auto;
+        padding: 10px 18px;
+        border: 1px solid #130b43;
+        border-radius: 8px;
+        background: #604fcd;
+        box-shadow: 0 4px 12px rgba(96, 79, 205, 0.3);
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 1.5;
+        color: white;
+        transition: filter 0.2s ease;
+
+        &:hover {
+            filter: brightness(1.08);
+        }
+    }
+}
+
+.theme-dark #site-header .nav-element .c-nav-jiki .jiki-logo {
+    filter: invert(1) hue-rotate(180deg);
+}

@@ -16,8 +16,10 @@ module ViewComponents
           title: -> { I18n.t("components.nav_submenus.learn.jiki.title") },
           description: -> { I18n.t("components.nav_submenus.learn.jiki.description") },
           path: -> { Jiki.url(medium: "nav") },
-          icon: 'nav-coding-fundamentals',
-          view: :jiki
+          image: 'jiki/jiki-icon.jpg',
+          view: :jiki,
+          css_class: 'jiki',
+          is_new: true
         },
         {
           title: -> { I18n.t("components.nav_submenus.learn.journey.title") },

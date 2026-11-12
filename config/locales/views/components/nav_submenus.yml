@@ -6,8 +6,8 @@ en:
           title: "Language Tracks"
           description: "Upskill in 65+ languages"
         jiki:
-          title: "Learn To Code with Jiki"
-          description: "Learn to code and build in the LLM-era."
+          title: "Learn the fundamentals"
+          description: "Get comfortable with the fundamentals"
         journey:
           title: "Your Journey"
           description: "Explore your Exercism journey"

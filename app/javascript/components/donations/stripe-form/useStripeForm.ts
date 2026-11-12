@@ -162,7 +162,8 @@ export function useStripeForm({
 
     const { error: submitError } = await elements.submit()
     if (submitError) {
-      setError(submitError ? submitError.message : undefined)
+      setError(submitError.message)
+      setProcessing(false)
       return
     }
 

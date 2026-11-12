@@ -55,10 +55,8 @@ import componentsEditorTestComponents from './components-editor-testComponents'
 import componentsErrorBoundaryTsx from './components-ErrorBoundary.tsx'
 import componentsFavoritesList from './components-favorites-list'
 import componentsGithubSyncerWidget from './components-github-syncer-widget'
-import componentsImpactChartElements from './components-impact-chart-elements'
 import componentsImpactImpactTestimonialTsx from './components-impact-ImpactTestimonial.tsx'
 import componentsImpactMapTsx from './components-impact-map.tsx'
-import componentsImpactTopLearningCountriesTsx from './components-impact-TopLearningCountries.tsx'
 import componentsInsiders from './components-insiders'
 import componentsJourney from './components-journey'
 import componentsJourneyBadgesList from './components-journey-badges-list'
@@ -167,7 +165,6 @@ import componentsProfileContributionsSummary from './components-profile-contribu
 import componentsProfileTestimonialsList from './components-profile-testimonials-list'
 import componentsResultsZoneTsx from './components-ResultsZone.tsx'
 import componentsSettingsBootcampAffiliateCouponFormTsx from './components-settings-BootcampAffiliateCouponForm.tsx'
-import componentsSettingsBootcampFreeCouponFormTsx from './components-settings-BootcampFreeCouponForm.tsx'
 import componentsSettingsCommentsPreferenceForm from './components-settings-comments-preference-form'
 import componentsSettingsCommunicationPreferencesFormTsx from './components-settings-CommunicationPreferencesForm.tsx'
 import componentsSettingsDeleteProfileForm from './components-settings-delete-profile-form'
@@ -194,17 +191,14 @@ import componentsSettingsThemePreferenceFormTsx from './components-settings-Them
 import componentsSettingsTokenFormTsx from './components-settings-TokenForm.tsx'
 import componentsSettingsUseInvalidFieldTsx from './components-settings-useInvalidField.tsx'
 import componentsSettingsUserPreferencesFormTsx from './components-settings-UserPreferencesForm.tsx'
-import componentsSettingsUseSettingsMutationTsx from './components-settings-useSettingsMutation.tsx'
 import componentsStudentCompleteExerciseButtonTsx from './components-student-CompleteExerciseButton.tsx'
 import componentsStudentExerciseListTsx from './components-student-ExerciseList.tsx'
 import componentsStudentExerciseStatusChartTsx from './components-student-ExerciseStatusChart.tsx'
-import componentsStudentExerciseStatusDotTsx from './components-student-ExerciseStatusDot.tsx'
 import componentsStudentIterationsList from './components-student-iterations-list'
 import componentsStudentMentoringSession from './components-student-mentoring-session'
 import componentsStudentMentoringSessionIterationView from './components-student-mentoring-session-iteration-view'
 import componentsStudentMentoringSessionMentoringRequest from './components-student-mentoring-session-mentoring-request'
 import componentsStudentMentoringSessionMentoringRequestMentoringRequestFormComponents from './components-student-mentoring-session-mentoring-request-MentoringRequestFormComponents'
-import componentsStudentMentoringSessionTsx from './components-student-MentoringSession.tsx'
 import componentsStudentOpenEditorButton from './components-student-open-editor-button'
 import componentsStudentOpenEditorButtonTsx from './components-student-OpenEditorButton.tsx'
 import componentsStudentPublishedSolution from './components-student-published-solution'
@@ -307,12 +301,9 @@ export default {
   'components/ErrorBoundary.tsx': componentsErrorBoundaryTsx,
   'components/favorites-list': componentsFavoritesList,
   'components/github-syncer-widget': componentsGithubSyncerWidget,
-  'components/impact/chart-elements': componentsImpactChartElements,
   'components/impact/ImpactTestimonial.tsx':
     componentsImpactImpactTestimonialTsx,
   'components/impact/map.tsx': componentsImpactMapTsx,
-  'components/impact/TopLearningCountries.tsx':
-    componentsImpactTopLearningCountriesTsx,
   'components/insiders': componentsInsiders,
   'components/journey': componentsJourney,
   'components/journey/badges-list': componentsJourneyBadgesList,
@@ -496,8 +487,6 @@ export default {
   'components/ResultsZone.tsx': componentsResultsZoneTsx,
   'components/settings/BootcampAffiliateCouponForm.tsx':
     componentsSettingsBootcampAffiliateCouponFormTsx,
-  'components/settings/BootcampFreeCouponForm.tsx':
-    componentsSettingsBootcampFreeCouponFormTsx,
   'components/settings/comments-preference-form':
     componentsSettingsCommentsPreferenceForm,
   'components/settings/CommunicationPreferencesForm.tsx':
@@ -542,15 +531,11 @@ export default {
     componentsSettingsUseInvalidFieldTsx,
   'components/settings/UserPreferencesForm.tsx':
     componentsSettingsUserPreferencesFormTsx,
-  'components/settings/useSettingsMutation.tsx':
-    componentsSettingsUseSettingsMutationTsx,
   'components/student/CompleteExerciseButton.tsx':
     componentsStudentCompleteExerciseButtonTsx,
   'components/student/ExerciseList.tsx': componentsStudentExerciseListTsx,
   'components/student/ExerciseStatusChart.tsx':
     componentsStudentExerciseStatusChartTsx,
-  'components/student/ExerciseStatusDot.tsx':
-    componentsStudentExerciseStatusDotTsx,
   'components/student/iterations-list': componentsStudentIterationsList,
   'components/student/mentoring-session': componentsStudentMentoringSession,
   'components/student/mentoring-session/iteration-view':
@@ -559,8 +544,6 @@ export default {
     componentsStudentMentoringSessionMentoringRequest,
   'components/student/mentoring-session/mentoring-request/MentoringRequestFormComponents':
     componentsStudentMentoringSessionMentoringRequestMentoringRequestFormComponents,
-  'components/student/MentoringSession.tsx':
-    componentsStudentMentoringSessionTsx,
   'components/student/open-editor-button': componentsStudentOpenEditorButton,
   'components/student/OpenEditorButton.tsx':
     componentsStudentOpenEditorButtonTsx,

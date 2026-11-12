@@ -23,16 +23,6 @@ class API::Settings::UserPreferencesController < API::BaseController
     end
   end
 
-  def bootcamp_free_coupon_code
-    code = User::GenerateBootcampFreeCouponCode.(current_user)
-
-    if code
-      render json: { coupon_code: code }
-    else
-      render_403(:could_not_generate_coupon_code)
-    end
-  end
-
   private
   def user_preferences_params
     params.

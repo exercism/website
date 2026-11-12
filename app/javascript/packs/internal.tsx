@@ -133,9 +133,6 @@ const GitHubSyncerForm = lazy(
 const BootcampAffiliateCouponForm = lazy(
   () => import('@/components/settings/BootcampAffiliateCouponForm')
 )
-const BootcampFreeCouponForm = lazy(
-  () => import('@/components/settings/BootcampFreeCouponForm')
-)
 const TokenForm = lazy(() => import('@/components/settings/TokenForm'))
 const LanguagePreferenceForm = lazy(
   () => import('@/components/settings/LanguagePreferenceForm')
@@ -232,7 +229,6 @@ import {
   GithubSyncerWidget,
   GithubSyncerWidgetProps,
 } from '@/components/github-syncer-widget/GithubSyncerWidget'
-import { BootcampFreeCouponFormProps } from '@/components/settings/BootcampFreeCouponForm'
 import { FavoritesListProps } from '@/components/favorites-list'
 
 // Add all react components here.
@@ -452,13 +448,6 @@ initReact({
     </Suspense>
   ),
 
-  'settings-bootcamp-free-coupon-form': (data: any) => (
-    <Suspense fallback={RenderLoader()}>
-      <BootcampFreeCouponForm
-        {...camelizeKeysAs<BootcampFreeCouponFormProps>(data)}
-      />
-    </Suspense>
-  ),
   'settings-photo-form': (data: any) => (
     <Suspense fallback={RenderLoader()}>
       <PhotoForm

@@ -111,7 +111,6 @@ const CompleteExerciseButton = lazy(
   () => import('@/components/student/CompleteExerciseButton')
 )
 const VideoGrid = lazy(() => import('@/components/community/video-grid'))
-const StoriesGrid = lazy(() => import('@/components/community/stories-grid'))
 
 const ExerciseCommunitySolutionsList = lazy(
   () => import('@/components/track/ExerciseCommunitySolutionsList')
@@ -186,7 +185,6 @@ const ContributionsList = lazy(
 const ContributionsSummary = lazy(
   () => import('@/components/profile/ContributionsSummary')
 )
-const AvatarSelector = lazy(() => import('@/components/profile/AvatarSelector'))
 const NewProfileForm = lazy(() => import('@/components/profile/NewProfileForm'))
 const FirstTimeModal = lazy(
   () => import('@/components/modals/profile/FirstTimeModal')
@@ -369,11 +367,6 @@ export const mappings = {
   'community-video-grid': (data: any): JSX.Element => (
     <Suspense fallback={RenderLoader()}>
       <VideoGrid {...camelizeKeysAs<VideoGridProps>(data)} />
-    </Suspense>
-  ),
-  'community-stories-grid': (data: any): JSX.Element => (
-    <Suspense fallback={RenderLoader()}>
-      <StoriesGrid data={camelizeKeys(data)} />
     </Suspense>
   ),
 
@@ -795,14 +788,6 @@ export const mappings = {
         defaultAllowComments={data.allow_comments}
         request={camelizeKeysAs<Request>(data.request)}
         links={camelizeKeysAs<CommentsListLinks>(data.links)}
-      />
-    </Suspense>
-  ),
-  'profile-avatar-selector': (data: any): JSX.Element => (
-    <Suspense fallback={RenderLoader()}>
-      <AvatarSelector
-        defaultUser={camelizeKeysAs<User>(data.user)}
-        links={data.links}
       />
     </Suspense>
   ),

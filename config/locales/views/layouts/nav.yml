@@ -16,20 +16,6 @@ en:
         non_profit_info:
           Exercism is a registered not-for-profit. All donations are
           spent on running and improving the platform.
-      challenge_48in24:
-        title: "The #48in24 Challenge"
-        subtitle:
-          A different programming challenge each week during 2024, curated and
-          guided by us!
-        description_p1: Advance your programming skills one week at a time.
-        description_p2:
-          Join our community as we explore a different exercise each week,
-          digging into how it can be solved with different languages and
-          paradigms.
-        explore_button: "Explore #48in24"
-        feature_info:
-          For each week we've chosen a different exercise to feature, with
-          approaches, walkthroughs, videos, and more.
       tracks:
         your_recent_tracks: Your recent tracks
         see_all_button: See all

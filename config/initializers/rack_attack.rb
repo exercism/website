@@ -1,5 +1,3 @@
-require 'http_authentication_token'
-
 class Rack::Attack::Request
   extend Mandate::Memoize
 

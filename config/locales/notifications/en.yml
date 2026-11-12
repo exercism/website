@@ -88,13 +88,6 @@ en:
       1: >
         You've been awarded the %{trophy_name} trophy on the %{track_title} track
 
-    #########################################
-    # Legacy but possibly still in the wild #
-    #########################################
-    expired_premium:
-      1: >
-        Your Exercism Premium membership has expired.
-
     ######################################
     # Not actually used below this point #
     ######################################

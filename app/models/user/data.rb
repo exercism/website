@@ -41,8 +41,6 @@ class User::Data < ApplicationRecord
   def seniority = super&.to_sym
   def junior? = seniority == :absolute_beginner || seniority == :beginner
 
-  def usages = super || (self.usages = {})
-
   %w[
     has_unrevealed_testimonials?
     has_unrevealed_badges?

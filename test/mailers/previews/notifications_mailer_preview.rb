@@ -121,8 +121,8 @@ class NotificationsMailerPreview < ActionMailer::Preview
 
   def expired_insiders_notification
     NotificationsMailer.with(
-      notification: User::Notifications::JoinedInsidersNotification.first
-    ).expired_premium
+      notification: User::Notifications::ExpiredInsidersNotification.first
+    ).expired_insiders
   end
 
   def nudge_student_to_reply_in_discussion

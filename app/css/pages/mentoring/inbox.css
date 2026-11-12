@@ -1,7 +1,5 @@
-#mentor-inbox-page,
-#training-data-dashboard {
-    & .c-mentor-inbox,
-    .c-training-data {
+#mentor-inbox-page {
+    & .c-mentor-inbox {
         & .tabs {
             @apply mb-20;
 

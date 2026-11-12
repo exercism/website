@@ -551,15 +551,3 @@ unless Doorkeeper::Application.exists?(name: "Jiki")
     confidential: true
   )
 end
-
-Solution.published.each do |solution|
-  next if solution.iterations.last.files.map(&:content).all?(&:empty?)
-
-  TrainingData::CodeTagsSample.create!(
-    solution: solution,
-    files: solution.iterations.last.files.map { |file|
-      { filename: file.filename, code: file.content }
-    }
-  )
-end
-

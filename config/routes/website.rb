@@ -123,16 +123,6 @@ namespace :contributing do
     get :tooltip, on: :member
   end
 end
-namespace :training_data do
-  root to: "dashboard#index"
-
-  get "external" => "external#index"
-  patch "become_trainer" => "external#become_trainer"
-
-  resources :code_tags_samples, only: %i[index show] do
-    get :next, on: :collection
-  end
-end
 
 resource :community, only: %i[show], controller: "community"
 

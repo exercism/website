@@ -46,6 +46,9 @@ module Analytics
       api_key: Exercism.secrets.posthog_api_key,
       host: HOST,
       sync_mode: true,
+      # One retry covers a network blip. More would let a hanging PostHog hold
+      # each analytics thread for longer (each attempt can take 12 seconds).
+      max_retries: 1,
       on_error: proc { |status, error| Rails.logger.error("[PostHog] #{status}: #{error}") }
     )
   end

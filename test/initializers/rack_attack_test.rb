@@ -41,6 +41,21 @@ class RackAttackTest < Webhooks::BaseTestCase
     end
   end
 
+  test "analytics events allow 30 requests a minute" do
+    freeze_time do
+      setup_user
+      Analytics::TrackBrowserEvent.stubs(:call).returns(true)
+
+      30.times do
+        post api_events_path, params: { event: "checkout_submitted" }, headers: @headers, as: :json
+        assert_response :no_content
+      end
+
+      post api_events_path, params: { event: "checkout_submitted" }, headers: @headers, as: :json
+      assert_response :too_many_requests
+    end
+  end
+
   test "rate limit uses route, not path for throttling" do
     freeze_time do
       user = create :user

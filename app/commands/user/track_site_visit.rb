@@ -10,7 +10,7 @@ class User::TrackSiteVisit
     return if user.last_visited_on == today
     return unless claim_today!
 
-    Analytics::TrackEvent.defer(user, "site_visited")
+    Analytics::TrackEvent.defer(user, "site_visited", set_person_properties: true)
   end
 
   private

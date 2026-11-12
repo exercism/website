@@ -6,7 +6,14 @@ class Analytics::TrackEvent
 
   queue_as :analytics
 
-  initialize_with :user, :event, properties: {}, user_ip: nil, user_agent: nil
+  # set_person_properties refreshes the user's person properties (including
+  # their activity) in $set on this event, at no extra cost.
+  # snapshot_activity adds the user's activity to the event itself, so the
+  # event keeps a fixed record of what they had done at that moment.
+  # Both are worked out here in the job, so they add no queries to the
+  # request.
+  initialize_with :user, :event, properties: {}, user_ip: nil, user_agent: nil,
+    set_person_properties: false, snapshot_activity: false
 
   # Current is request-scoped and empty in the background job, so this copies
   # the user's IP and user agent into the job arguments when it is deferred.
@@ -24,11 +31,30 @@ class Analytics::TrackEvent
     Analytics.client.capture(
       distinct_id: user.id.to_s,
       event:,
-      properties: properties.to_h.symbolize_keys.merge(default_properties).merge(derived_properties)
+      properties: properties.to_h.symbolize_keys.
+        merge(default_properties).
+        merge(derived_properties).
+        merge(activity_snapshot).
+        merge(person_properties)
     )
   end
 
   private
+  def person_properties
+    return {} unless set_person_properties
+
+    { "$set": Analytics::IdentifyUser.person_properties(user).merge(activity) }
+  end
+
+  def activity_snapshot
+    return {} unless snapshot_activity
+
+    activity.merge(days_since_signup: (Time.current.utc.to_date - user.created_at.utc.to_date).to_i)
+  end
+
+  memoize
+  def activity = Analytics::DetermineActivityProperties.(user)
+
   def default_properties
     {
       membership_type: Analytics.membership_type(user),

@@ -96,4 +96,38 @@ class Analytics::TrackEventTest < ActiveSupport::TestCase
       Analytics::TrackEvent.defer(user, "site_visited", user_ip: nil)
     end
   end
+
+  test "sets the person properties with the user's activity" do
+    user = create :user
+    Analytics::DetermineActivityProperties.expects(:call).with(user).returns({ exercises_completed: 3 })
+
+    client.expects(:capture).with do |args|
+      args[:properties][:"$set"] == Analytics::IdentifyUser.person_properties(user).merge(exercises_completed: 3) &&
+        !args[:properties].key?(:exercises_completed)
+    end
+
+    Analytics::TrackEvent.(user, "site_visited", set_person_properties: true)
+  end
+
+  test "snapshots the user's activity on the event" do
+    user = create :user, created_at: Time.utc(2026, 11, 1)
+    Analytics::DetermineActivityProperties.expects(:call).with(user).returns({ exercises_completed: 3 })
+
+    client.expects(:capture).with do |args|
+      args[:properties][:exercises_completed] == 3 &&
+        args[:properties][:days_since_signup] == 10 &&
+        !args[:properties].key?(:"$set")
+    end
+
+    travel_to(Time.utc(2026, 11, 11, 12)) do
+      Analytics::TrackEvent.(user, "checkout_succeeded", snapshot_activity: true)
+    end
+  end
+
+  test "doesn't look up activity unless asked" do
+    Analytics::DetermineActivityProperties.expects(:call).never
+    client.expects(:capture)
+
+    Analytics::TrackEvent.(create(:user), "site_visited")
+  end
 end

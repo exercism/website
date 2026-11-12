@@ -19,6 +19,18 @@ class Mentor::Discussion::FinishByStudentTest < ActiveSupport::TestCase
     end
   end
 
+  test "tracks the rating" do
+    discussion = create :mentor_discussion
+
+    Analytics::TrackEvent.expects(:defer).with(
+      discussion.student,
+      "mentoring_rated",
+      properties: { rating: "great", track: discussion.track.slug, exercise: discussion.exercise.slug }
+    )
+
+    Mentor::Discussion::FinishByStudent.(discussion, 5)
+  end
+
   test "proxies out to ProcessFinished" do
     discussion = create :mentor_discussion
 

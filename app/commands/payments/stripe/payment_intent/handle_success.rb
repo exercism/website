@@ -39,7 +39,8 @@ class Payments::Stripe::PaymentIntent::HandleSuccess
         trigger:,
         payment_type: subscription_data ? "subscription" : "payment",
         amount_in_cents: payment_intent.amount
-      ).merge(became_insider: !was_insider && user.reload.insider?)
+      ).merge(became_insider: !was_insider && user.reload.insider?),
+      snapshot_activity: true
     )
   end
 

@@ -118,7 +118,8 @@ class Payments::Stripe::PaymentIntent::HandleSuccessTest < Payments::TestBase
         amount_in_cents: 1600,
         currency: "usd",
         became_insider: true
-      }
+      },
+      snapshot_activity: true
     )
 
     Payments::Stripe::PaymentIntent::HandleSuccess.(payment_intent:)
@@ -153,7 +154,8 @@ class Payments::Stripe::PaymentIntent::HandleSuccessTest < Payments::TestBase
         currency: "usd",
         interval: "month",
         became_insider: false
-      }
+      },
+      snapshot_activity: true
     )
 
     Payments::Stripe::PaymentIntent::HandleSuccess.(payment_intent:)

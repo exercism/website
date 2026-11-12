@@ -29,6 +29,7 @@ class Mentor::Discussion::FinishByStudent
     create_testimonial!
     Mentor::Discussion::ProcessFinished.(discussion)
     notify!
+    track_rating!
 
     # The discussion appears on the published solution page from this point
     Solution::InvalidateCloudflareCache.defer(discussion.solution)
@@ -82,6 +83,20 @@ class Mentor::Discussion::FinishByStudent
     return if testimonial.blank?
 
     Mentor::Testimonial::Create.(discussion, testimonial)
+  end
+
+  def track_rating!
+    return if discussion.rating.blank?
+
+    Analytics::TrackEvent.defer(
+      student,
+      "mentoring_rated",
+      properties: {
+        rating: discussion.rating.to_s,
+        track: track.slug,
+        exercise: discussion.exercise.slug
+      }
+    )
   end
 
   delegate :track, to: :discussion

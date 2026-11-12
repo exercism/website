@@ -34,7 +34,6 @@ class Mailshot < ApplicationRecord
 
   def audience_for_donors(_) = [User::Data.donors, ->(user_data) { user_data.user }]
   def audience_for_insiders(_) = [User.insiders, ->(user) { user }]
-  def audience_for_jiki_waiting_list(_) = [JikiSignup.includes(:user), ->(jiki_signup) { jiki_signup.user }]
   def audience_for_translators(_) = [User::Data.translators, ->(user_data) { user_data.user }]
   def audience_for_absolute_beginners(_) = [User::Data.absolute_beginner_seniority, ->(user_data) { user_data.user }]
   def audience_for_beginners(_) = [User::Data.beginner_seniority, ->(user_data) { user_data.user }]

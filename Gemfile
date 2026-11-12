@@ -79,7 +79,7 @@ gem 'coinbase_commerce', github: 'exercism/coinbase-commerce-ruby'
 gem 'discourse_api'
 
 # Product analytics
-gem 'posthog-ruby'
+gem 'posthog-ruby', require: 'posthog'
 
 # Performance issue Reporting
 gem 'skylight'

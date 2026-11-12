@@ -26,7 +26,6 @@
 @import "../modals/unpublish-solution";
 @import "../modals/change-published-iteration";
 @import "../modals/update-exercise";
-@import "../dropdowns/request-mentoring";
 @import "../dropdowns/open-editor-button";
 @import "../components/mentoring-request-form";
 @import "../components/completed-exercise-progress";

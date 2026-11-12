@@ -13,7 +13,6 @@ import componentsCommonMarkdownEditorForm from './components-common-markdown-edi
 import componentsCommonMarkdownEditorTsx from './components-common-MarkdownEditor.tsx'
 import componentsCommonMarkdownEditorFormTsx from './components-common-MarkdownEditorForm.tsx'
 import componentsCommonMedianWaitTimeTsx from './components-common-MedianWaitTime.tsx'
-import componentsCommonMentorDiscussionSummaryTsx from './components-common-MentorDiscussionSummary.tsx'
 import componentsCommonMultipleSelectTsx from './components-common-MultipleSelect.tsx'
 import componentsCommonPaginationTsx from './components-common-Pagination.tsx'
 import componentsCommonProcessingStatusSummaryTsx from './components-common-ProcessingStatusSummary.tsx'
@@ -201,19 +200,16 @@ import componentsStudentExerciseListTsx from './components-student-ExerciseList.
 import componentsStudentExerciseStatusChartTsx from './components-student-ExerciseStatusChart.tsx'
 import componentsStudentExerciseStatusDotTsx from './components-student-ExerciseStatusDot.tsx'
 import componentsStudentIterationsList from './components-student-iterations-list'
-import componentsStudentMentoringDropdown from './components-student-mentoring-dropdown'
 import componentsStudentMentoringSession from './components-student-mentoring-session'
 import componentsStudentMentoringSessionIterationView from './components-student-mentoring-session-iteration-view'
 import componentsStudentMentoringSessionMentoringRequest from './components-student-mentoring-session-mentoring-request'
 import componentsStudentMentoringSessionMentoringRequestMentoringRequestFormComponents from './components-student-mentoring-session-mentoring-request-MentoringRequestFormComponents'
-import componentsStudentMentoringComboButtonTsx from './components-student-MentoringComboButton.tsx'
 import componentsStudentMentoringSessionTsx from './components-student-MentoringSession.tsx'
 import componentsStudentOpenEditorButton from './components-student-open-editor-button'
 import componentsStudentOpenEditorButtonTsx from './components-student-OpenEditorButton.tsx'
 import componentsStudentPublishedSolution from './components-student-published-solution'
 import componentsStudentPublishSolutionButtonTsx from './components-student-PublishSolutionButton.tsx'
 import componentsStudentRequestMentoringButtonTsx from './components-student-RequestMentoringButton.tsx'
-import componentsStudentSolutionSummary from './components-student-solution-summary'
 import componentsStudentTracksList from './components-student-tracks-list'
 import componentsStudentTracksListTsx from './components-student-TracksList.tsx'
 import componentsStudentUpdateExerciseNoticeTsx from './components-student-UpdateExerciseNotice.tsx'
@@ -264,8 +260,6 @@ export default {
   'components/common/MarkdownEditorForm.tsx':
     componentsCommonMarkdownEditorFormTsx,
   'components/common/MedianWaitTime.tsx': componentsCommonMedianWaitTimeTsx,
-  'components/common/MentorDiscussionSummary.tsx':
-    componentsCommonMentorDiscussionSummaryTsx,
   'components/common/MultipleSelect.tsx': componentsCommonMultipleSelectTsx,
   'components/common/Pagination.tsx': componentsCommonPaginationTsx,
   'components/common/ProcessingStatusSummary.tsx':
@@ -560,7 +554,6 @@ export default {
   'components/student/ExerciseStatusDot.tsx':
     componentsStudentExerciseStatusDotTsx,
   'components/student/iterations-list': componentsStudentIterationsList,
-  'components/student/mentoring-dropdown': componentsStudentMentoringDropdown,
   'components/student/mentoring-session': componentsStudentMentoringSession,
   'components/student/mentoring-session/iteration-view':
     componentsStudentMentoringSessionIterationView,
@@ -568,8 +561,6 @@ export default {
     componentsStudentMentoringSessionMentoringRequest,
   'components/student/mentoring-session/mentoring-request/MentoringRequestFormComponents':
     componentsStudentMentoringSessionMentoringRequestMentoringRequestFormComponents,
-  'components/student/MentoringComboButton.tsx':
-    componentsStudentMentoringComboButtonTsx,
   'components/student/MentoringSession.tsx':
     componentsStudentMentoringSessionTsx,
   'components/student/open-editor-button': componentsStudentOpenEditorButton,
@@ -580,7 +571,6 @@ export default {
     componentsStudentPublishSolutionButtonTsx,
   'components/student/RequestMentoringButton.tsx':
     componentsStudentRequestMentoringButtonTsx,
-  'components/student/solution-summary': componentsStudentSolutionSummary,
   'components/student/tracks-list': componentsStudentTracksList,
   'components/student/TracksList.tsx': componentsStudentTracksListTsx,
   'components/student/UpdateExerciseNotice.tsx':

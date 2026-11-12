@@ -200,7 +200,6 @@ unless Rails.env.production?
         get :completed_mentoring_1
         get :welcome_to_v3 # rubocop:disable Naming/VariableNumber
         get :reputation
-        get :mentoring_dropdown
         get :exercise_tooltip
         get :select_exercise_for_mentoring
         get :badge

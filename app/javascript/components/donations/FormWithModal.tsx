@@ -22,7 +22,7 @@ export default function FormWithModal({
   defaultAmount,
 }: FormWithModalProps): JSX.Element {
   const [paymentMade, setPaymentMade] = useState(false)
-  useTrackPaymentPrompt('donations_page', userSignedIn)
+  useTrackPaymentPrompt('donations_page')
 
   // TODO: Remove this as this seems to be unused
   const [, setPaymentType] = useState<PaymentIntentType | undefined>()

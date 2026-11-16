@@ -16,6 +16,7 @@ import type { PaymentTrigger } from '@/utils/analytics'
 export type StripeFormLinks = {
   success: string
   settings: string
+  updateCard: string
 }
 const TabsContext = createContext<TabContext>({
   current: 'subscription',
@@ -28,6 +29,7 @@ export type FormAmount = {
 }
 
 type Subscription = {
+  provider: string
   amountInCents: number
 }
 
@@ -179,7 +181,13 @@ export const Form = ({
                       fromCents: true,
                     })}
                     onExtraDonation={() => setTransactionType('payment')}
-                    links={links}
+                    links={{
+                      settings: links.settings,
+                      updateCard:
+                        data.subscription.provider === 'stripe'
+                          ? links.updateCard
+                          : undefined,
+                    }}
                   />
                 ) : null}
               </TransactionForm>

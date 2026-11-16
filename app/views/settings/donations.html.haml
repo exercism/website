@@ -10,6 +10,9 @@
           .flex.flex-col.items-start
             - if current_user.current_subscription?
               = render ReactComponents::Donations::SubscriptionForm.new
+              - if current_user.current_subscription.stripe?
+                %p.text-p-base.mt-12
+                  = t('.update_card_html', link: link_to(t('.update_card_link_text'), settings_stripe_billing_portal_path, class: "text-a-subtle")).html_safe
             - else
               %h2= t('.monthly_supporter.heading')
               %p.text-p-base

@@ -10,6 +10,8 @@ en:
           at programming.
         mission_link_text: our mission
         find_out_more_button: Find out more
+      update_card_html: To update your card, please %{link}.
+      update_card_link_text: use this Stripe-hosted page
       summary:
         total_donated: total donated
         from_recurring: from recurring

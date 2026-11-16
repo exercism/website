@@ -30,6 +30,8 @@ resource :settings, only: %i[show] do
   delete :destroy_account
   delete :disconnect_discord
 
+  resource :stripe_billing_portal, only: %i[show], controller: "settings/stripe_billing_portal"
+
   resource :github_syncer, only: %i[show update destroy], controller: "settings/github_syncer" do
     get :callback # For GitHub installation callback
     patch :sync_everything

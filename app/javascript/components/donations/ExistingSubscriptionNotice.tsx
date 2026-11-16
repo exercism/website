@@ -5,6 +5,7 @@ import { Trans } from 'react-i18next'
 
 type Links = {
   settings: string
+  updateCard?: string
 }
 
 export const ExistingSubscriptionNotice = ({
@@ -26,6 +27,15 @@ export const ExistingSubscriptionNotice = ({
           values={{ amount: amount.format() }}
           components={[<strong />, <a href={links.settings} />]}
         />
+        {links.updateCard ? (
+          <div className="mt-8">
+            <Trans
+              i18nKey="existingSubscriptionNotice.updateCard"
+              ns="components/donations"
+              components={[<a href={links.updateCard} />]}
+            />
+          </div>
+        ) : null}
       </div>
       <div className="extra-cta">
         <Trans

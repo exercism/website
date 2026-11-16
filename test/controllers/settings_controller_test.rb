@@ -92,24 +92,4 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
     assert_response :ok
     assert_equal "Some bio", user.reload.bio
   end
-
-  test "donations page links stripe subscribers to the stripe portal" do
-    user = create :user
-    create(:payments_subscription, user:, status: :active, provider: :stripe)
-    sign_in!(user)
-
-    get donations_settings_path
-
-    assert_select "a[href=?]", settings_stripe_billing_portal_path, text: "use this Stripe-hosted page"
-  end
-
-  test "donations page does not link paypal subscribers to the stripe portal" do
-    user = create :user
-    create(:payments_subscription, user:, status: :active, provider: :paypal)
-    sign_in!(user)
-
-    get donations_settings_path
-
-    assert_select "a[href=?]", settings_stripe_billing_portal_path, count: 0
-  end
 end

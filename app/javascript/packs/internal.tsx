@@ -58,6 +58,7 @@ import type {
   UserPreferences,
 } from '@/components/settings'
 import type { FooterFormProps } from '@/components/donations/FooterForm'
+import type { SubscriptionFormProps } from '@/components/donations/SubscriptionForm'
 import type { StripeFormLinks } from '@/components/donations/Form'
 import type { ChangePublishedIterationModalButtonProps } from '@/components/student/published-solution/ChangePublishedIterationModalButton'
 import type { UnpublishSolutionModalButtonProps } from '@/components/student/published-solution/UnpublishSolutionModalButton'
@@ -707,7 +708,7 @@ initReact({
   'donations-subscription-form': (data: any): JSX.Element => (
     <Suspense fallback={RenderLoader()}>
       <DonationsSubscriptionForm
-        {...data}
+        {...camelizeKeysAs<SubscriptionFormProps>(data)}
         amount={currency(data.amount_in_cents, { fromCents: true })}
       />
     </Suspense>

@@ -1,9 +1,9 @@
 // namespace: components/donations/subscription-form
 export default {
   'formOptions.initializedOption.changeAmount': 'Change amount',
+  'formOptions.initializedOption.updateCard': 'update your card',
   'formOptions.initializedOption.or': 'or',
-  'formOptions.initializedOption.cancelRecurringDonation':
-    'Cancel your recurring donation',
+  'formOptions.initializedOption.cancelDonation': 'cancel your donation',
   'formOptions.updatingOption.changeDonationAmount': 'Change donation amount',
   'formOptions.updatingOption.dollarSign': '$',
   'formOptions.updatingOption.chargedPerMonth':

@@ -9,6 +9,7 @@ type FormStatus = 'initialized' | 'cancelling' | 'updating'
 type Links = {
   cancel?: string
   update?: string
+  updateCard: string
 }
 
 export const FormOptions = ({
@@ -36,6 +37,7 @@ export const FormOptions = ({
     case 'initialized':
       return links.cancel || links.update ? (
         <InitializedOption
+          updateCardLink={links.updateCard}
           onCancelling={handleCancelling}
           onUpdating={handleUpdating}
         />

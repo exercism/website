@@ -7,8 +7,7 @@ class Submission::Representation::Generate
 
   MAX_RETRIES = 3
 
-  # The representer refuses solutions larger than this. A solution this
-  # large will never match another one, so we don't represent it at all.
+  # The representer refuses solutions larger than this.
   MAX_SOLUTION_SIZE = 200.kilobytes
 
   RepresenterTemporarilyUnavailable = Class.new(StandardError)
@@ -35,7 +34,11 @@ class Submission::Representation::Generate
   end
 
   private
+  # We only represent submissions that pass their tests, and a
+  # solution this large will never match another one.
   def representable?
+    return false if submission.tests_failed? || submission.tests_errored?
+
     solution_files.present? && solution_files.values.sum(&:bytesize) <= MAX_SOLUTION_SIZE
   end
 

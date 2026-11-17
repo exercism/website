@@ -274,6 +274,29 @@ class Submission::Representation::GenerateTest < ActiveSupport::TestCase
     assert_nil submission.submission_representation
   end
 
+  %i[failed errored].each do |tests_status|
+    test "cancels submissions with #{tests_status} tests without calling the representer" do
+      submission = create :submission, tests_status:, representation_status: :queued
+      create(:submission_file, submission:)
+
+      Submission::Representation::Generate.(submission, submission.git_sha)
+
+      assert_not_requested :post, Exercism.config.representer_url
+      assert submission.reload.representation_cancelled?
+      assert_nil submission.submission_representation
+    end
+  end
+
+  test "skips reruns of submissions with failed tests" do
+    submission = create :submission, tests_status: :failed, representation_status: :generated
+    create(:submission_file, submission:)
+
+    Submission::Representation::Generate.(submission, submission.git_sha, reason: :update)
+
+    assert_not_requested :post, Exercism.config.representer_url
+    assert submission.reload.representation_generated?
+  end
+
   test "cancels solutions without valid files" do
     submission = create :submission
 

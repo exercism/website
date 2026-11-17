@@ -6,18 +6,14 @@ class Iteration::CountLinesOfCodeTest < ActiveJob::TestCase
     create :submission_file, submission:, content: "Some source code"
     iteration = create(:iteration, submission:)
 
-    uuid = "foo-bar-123"
-    SecureRandom.stubs(uuid: uuid)
-    create(:submission_file, submission:)
-    job_dir = "#{Time.current.utc.strftime('%Y/%m/%d')}/#{uuid.tr('-', '')}"
+    create(:submission_file, submission:, filename: "other.rb", content: "More code")
 
     num_loc = 24
     stub_request(:post, Exercism.config.lines_of_code_counter_url).
       with(
         body: {
           track_slug: iteration.track.slug,
-          job_dir:,
-          submission_filepaths: iteration.submission.valid_filepaths
+          files: iteration.submission.valid_files.to_h { |f| [f.filename, f.content] }
         }.to_json
       ).
       to_return(status: 200, body: "{\"counts\":{\"code\":#{num_loc},\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {}) # rubocop:disable Layout/LineLength
@@ -96,6 +92,58 @@ class Iteration::CountLinesOfCodeTest < ActiveJob::TestCase
 
     assert_equal num_loc, iteration.reload.num_loc
     assert_equal iteration.num_loc, solution.reload.num_loc
+  end
+
+  test "sends file contents as a hash of filename to content" do
+    submission = create :submission
+    create :submission_file, submission:, filename: "lib/bob.rb", content: "puts 'héllo'"
+    iteration = create(:iteration, submission:)
+
+    stub = stub_request(:post, Exercism.config.lines_of_code_counter_url).
+      with(body: { track_slug: iteration.track.slug, files: { "lib/bob.rb" => "puts 'héllo'" } }.to_json).
+      to_return(status: 200, body: '{"counts":{"code":1}}')
+
+    Iteration::CountLinesOfCode.(iteration)
+
+    assert_requested stub
+    assert_equal 1, iteration.reload.num_loc
+  end
+
+  test "skips files that are not valid UTF-8" do
+    submission = create :submission
+    create :submission_file, submission:, filename: "good.rb", content: "puts 1"
+    create :submission_file, submission:, filename: "bad.rb", content: "puts \xFF".b
+    iteration = create(:iteration, submission:)
+
+    stub = stub_request(:post, Exercism.config.lines_of_code_counter_url).
+      with(body: { track_slug: iteration.track.slug, files: { "good.rb" => "puts 1" } }.to_json).
+      to_return(status: 200, body: '{"counts":{"code":1}}')
+
+    Iteration::CountLinesOfCode.(iteration)
+
+    assert_requested stub
+  end
+
+  test "does not post if no files are valid UTF-8" do
+    submission = create :submission
+    create :submission_file, submission:, filename: "bad.rb", content: "puts \xFF".b
+    iteration = create(:iteration, submission:)
+
+    Iteration::CountLinesOfCode.(iteration)
+
+    assert_nil iteration.reload.num_loc
+  end
+
+  test "requeues on service unavailable and gateway timeout" do
+    [RestClient::ServiceUnavailable, RestClient::GatewayTimeout].each do |error|
+      submission = create :submission
+      create :submission_file, submission:, content: "Some source code"
+      iteration = create(:iteration, submission:)
+
+      RestClient.stubs(:post).raises(error)
+      Iteration::CountLinesOfCode.expects(:defer).with { |iter, **kw| iter == iteration && kw[:retries_count] == 1 }
+      Iteration::CountLinesOfCode.(iteration)
+    end
   end
 
   test "requeues on bad gateway" do

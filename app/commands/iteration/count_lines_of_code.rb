@@ -6,6 +6,10 @@ class Iteration::CountLinesOfCode
   initialize_with :iteration, retries_count: 0
 
   MAX_RETRIES = 3
+
+  # The counter runs as a Lambda behind an ALB, which rejects
+  # request bodies over 1 MB with a 413.
+  MAX_BODY_BYTES = 1_000_000
   LocCounterTemporarilyUnavailable = Class.new(StandardError)
 
   def call
@@ -18,9 +22,12 @@ class Iteration::CountLinesOfCode
 
     return if files.empty?
 
+    request_body = { track_slug: iteration.track.slug, files: }.to_json
+    return if request_body.bytesize > MAX_BODY_BYTES
+
     body = RestClient.post(
       Exercism.config.lines_of_code_counter_url,
-      { track_slug: iteration.track.slug, files: }.to_json,
+      request_body,
       { content_type: :json, accept: :json }
     ).body
 

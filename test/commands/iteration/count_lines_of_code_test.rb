@@ -134,6 +134,17 @@ class Iteration::CountLinesOfCodeTest < ActiveJob::TestCase
     assert_nil iteration.reload.num_loc
   end
 
+  test "does not post if the request body is over the size limit" do
+    submission = create :submission
+    create :submission_file, submission:, filename: "big.rb", content: "a" * Iteration::CountLinesOfCode::MAX_BODY_BYTES
+    iteration = create(:iteration, submission:)
+
+    RestClient.expects(:post).never
+    Iteration::CountLinesOfCode.(iteration)
+
+    assert_nil iteration.reload.num_loc
+  end
+
   test "requeues on service unavailable and gateway timeout" do
     [RestClient::ServiceUnavailable, RestClient::GatewayTimeout].each do |error|
       submission = create :submission

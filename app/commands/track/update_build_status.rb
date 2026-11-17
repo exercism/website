@@ -151,7 +151,6 @@ class Track::UpdateBuildStatus
   memoize
   def representer_health
     # TODO: use error status to determine health (unhealthy if everything fails)
-    return :missing unless track.has_representer?
     return :needs_attention if representer_display_rate_percentage.zero?
 
     :exemplar

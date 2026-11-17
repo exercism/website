@@ -18,8 +18,6 @@ class ToolingJob::Cancel
     case type
     when :test_runner
       submission.tests_cancelled!
-    when :representer
-      submission.representation_cancelled!
     when :analyzer
       submission.analysis_cancelled!
     end

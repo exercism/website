@@ -606,11 +606,10 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
   end
 
   test "representer: health" do
-    track = create :track, has_representer: false
+    track = create :track
     Track::UpdateBuildStatus.(track)
-    assert_equal "missing", track.reload.build_status.representer.health
+    assert_equal "needs_attention", track.reload.build_status.representer.health
 
-    track.update(has_representer: true)
     submission = create(:submission, track:)
     submission_representation = create(:submission_representation, submission:)
     Track::UpdateBuildStatus.(track)
@@ -677,12 +676,10 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     create(:submission_analysis, :with_comments, submission:)
 
     # representer_health: :exemplar
-    track.update(has_representer: true)
     submission_representation = create(:submission_representation, submission:)
     create :exercise_representation, :with_feedback, source_submission: submission, ast_digest: submission_representation.ast_digest
 
     # test_runner_health: :exemplar
-    track.update(has_representer: true)
     create :submission_test_run, submission:, raw_results: { version: 3, status: 'pass' }
 
     # practice_exercises_health: :exemplar

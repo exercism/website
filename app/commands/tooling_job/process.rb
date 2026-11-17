@@ -18,10 +18,6 @@ class ToolingJob::Process
     Submission::TestRun::Process.(job)
   end
 
-  def process_representer_job!
-    Submission::Representation::Process.(job)
-  end
-
   def process_analyzer_job!
     Submission::Analysis::Process.(job)
   end

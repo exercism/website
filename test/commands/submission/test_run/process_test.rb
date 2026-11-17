@@ -116,9 +116,8 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
     results = { 'status' => 'fail', 'message' => "", 'tests' => [] }
     job = create_test_runner_job!(submission, execution_status: 200, results:)
 
-    # Cancel representation and analysis
+    # Cancel analysis
     ToolingJob::Cancel.expects(:call).with(submission.uuid, :analyzer)
-    ToolingJob::Cancel.expects(:call).with(submission.uuid, :representer)
 
     Submission::TestRun::Process.(job)
 
@@ -130,9 +129,8 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
     results = { 'status' => 'error', 'message' => "", 'tests' => [] }
     job = create_test_runner_job!(submission, execution_status: 200, results:)
 
-    # Cancel representation and analysis
+    # Cancel analysis
     ToolingJob::Cancel.expects(:call).with(submission.uuid, :analyzer)
-    ToolingJob::Cancel.expects(:call).with(submission.uuid, :representer)
 
     Submission::TestRun::Process.(job)
 

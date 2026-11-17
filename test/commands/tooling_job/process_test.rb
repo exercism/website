@@ -16,21 +16,6 @@ class ToolingJob::ProcessTest < ActiveSupport::TestCase
     ToolingJob::Process.(job.id)
   end
 
-  test "proxies to representer" do
-    submission = create :submission
-    execution_status = "job-status"
-    job = create_representer_job!(
-      submission,
-      execution_status:,
-      ast: nil,
-      mapping: nil
-    )
-
-    Submission::Representation::Process.expects(:call).with(job)
-
-    ToolingJob::Process.(job.id)
-  end
-
   test "proxies to analyzer" do
     submission = create :submission
     execution_status = "job-status"

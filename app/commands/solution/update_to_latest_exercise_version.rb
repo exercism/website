@@ -54,8 +54,6 @@ class Solution::UpdateToLatestExerciseVersion
   end
 
   def rerun_submission_representation!
-    return unless solution.exercise.has_representer?
-
     # We might have already run this when running the head test run
     # If we do, then sync the status to it
     # (reload as submission's test run will be cached to nil)

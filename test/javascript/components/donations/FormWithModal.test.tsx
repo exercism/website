@@ -15,7 +15,11 @@ test('renders and records the payment prompt', () => {
   const { getByTestId } = render(
     <FormWithModal
       request={{ endpoint: '/api/v2/payments/subscriptions/current' }}
-      links={{ success: '/donated', settings: '/settings/donations' }}
+      links={{
+        success: '/donated',
+        settings: '/settings/donations',
+        updateCard: '/settings/stripe_billing_portal',
+      }}
       captchaRequired={false}
       recaptchaSiteKey=""
     />

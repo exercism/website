@@ -7,6 +7,7 @@ import { Trans } from 'react-i18next'
 type Links = {
   cancel: string
   update: string
+  updateCard: string
 }
 
 export type Provider = 'github' | 'paypal' | 'stripe'

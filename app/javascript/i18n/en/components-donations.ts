@@ -10,6 +10,8 @@ export default {
     'Your regular donation is managed by {{displayName}}. To modify or cancel your recurring donation, please use <0>{{displayName}} Dashboard<0/>.',
   'existingSubscriptionNotice.youAlreadyDonate':
     '<0>You already donate {{amount}} per month to Exercism.</0> Thank you! To change or manage this go to <1>Donation settings<1/>.',
+  'existingSubscriptionNotice.updateCard':
+    'To update your card, please <0>use this Stripe-hosted page</0>.',
   'existingSubscriptionNotice.extra':
     'Extra <0>one-time donations</0> are still gratefully received!',
   'stripeForm.attackInfo':

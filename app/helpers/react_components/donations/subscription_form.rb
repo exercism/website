@@ -3,7 +3,7 @@ class ReactComponents::Donations::SubscriptionForm < ReactComponents::ReactCompo
     super(
       "donations-subscription-form",
       {
-        links: { cancel:, update: }
+        links: { cancel:, update:, update_card: Exercism::Routes.settings_stripe_billing_portal_url }
       }.merge(donation_attributes)
     )
   end

@@ -1,5 +1,4 @@
 export { default as CompleteExerciseButton } from './CompleteExerciseButton'
-export { MentoringDropdown } from './MentoringDropdown'
 export { ExerciseStatusChart } from './ExerciseStatusChart'
 export { default as OpenEditorButton } from './OpenEditorButton'
 export { default as RequestMentoringButton } from './RequestMentoringButton'

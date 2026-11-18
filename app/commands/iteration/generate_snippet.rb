@@ -6,6 +6,9 @@ class Iteration::GenerateSnippet
   initialize_with :iteration, retries_count: 0
 
   MAX_RETRIES = 3
+  # The extractor Lambda times out after 3 seconds, which very large files can
+  # hit. The snippet only uses the first lines, so we send just the start.
+  MAX_SOURCE_CODE_CHARACTERS = 20_000
   SnippetGeneratorTemporarilyUnavailable = Class.new(StandardError)
 
   def call
@@ -23,7 +26,7 @@ class Iteration::GenerateSnippet
       Exercism.config.snippet_generator_url,
       {
         language: iteration.track.slug,
-        source_code: file.content
+        source_code: file.content[0, MAX_SOURCE_CODE_CHARACTERS]
       }.to_json,
       { content_type: :json, accept: :json }
     ).body

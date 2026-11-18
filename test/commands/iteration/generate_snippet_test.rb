@@ -167,4 +167,20 @@ class Iteration::GenerateSnippetTest < ActiveJob::TestCase
 
     assert_equal "lib snippet", iteration.reload.snippet
   end
+
+  test "sends only the first 20,000 characters of a long file" do
+    long_code = "é" * 25_000
+    submission = create :submission
+    create :submission_file, submission: submission, content: long_code
+    iteration = create :iteration, submission: submission
+
+    stub = stub_request(:post, Exercism.config.snippet_generator_url).
+      with { |request| JSON.parse(request.body)["source_code"] == "é" * 20_000 }.
+      to_return(status: 200, body: "truncated snippet", headers: {})
+
+    Iteration::GenerateSnippet.(iteration)
+
+    assert_requested stub
+    assert_equal "truncated snippet", iteration.reload.snippet
+  end
 end

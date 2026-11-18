@@ -66,6 +66,9 @@ gem 'devise', '~> 5.0'
 gem 'rails-i18n', '~> 7.0'
 gem 'doorkeeper', '~> 5.8'
 
+# Model Context Protocol server, for AI agents
+gem 'mcp', '~> 1.6'
+
 # Omniauth
 gem 'omniauth-github'
 gem 'omniauth-discord'

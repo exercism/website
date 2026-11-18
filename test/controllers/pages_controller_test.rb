@@ -103,9 +103,51 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "frontend catalog 404s for a stale hash" do
+  test "frontend catalog serves an earlier version from S3" do
+    setup_s3_cache_bucket!
+    old_json = { ns: { a: "old" } }.to_json
+    old_hash = TranslationRepo.catalog_hash(old_json)
+    upload_to_s3(Exercism.config.aws_cache_bucket, "i18n/frontend/hu/#{old_hash}.json", old_json)
+
+    with_published_translations(hu: { frontend: { ns: { a: "new" } } }) do
+      get "/i18n/hu/frontend-#{old_hash}.json"
+
+      assert_response :ok
+      assert_equal old_json, response.body
+      assert_equal "application/json", response.media_type
+      assert_equal %w[immutable max-age=31536000 public], response.headers["Cache-Control"].split(", ").sort
+    end
+  end
+
+  test "frontend catalog serves the current version from the checkout without asking S3" do
     with_published_translations(hu: { frontend: { ns: { a: "b" } } }) do
-      get "/i18n/hu/frontend-0123456789ab.json"
+      TranslationRepo::RetrieveStoredFrontendCatalog.expects(:call).never
+
+      get TranslationRepo.frontend_catalog_url(:hu)
+
+      assert_response :ok
+      assert_equal({ ns: { a: "b" } }.to_json, response.body)
+    end
+  end
+
+  test "frontend catalog redirects to the current version when no copy is stored" do
+    setup_s3_cache_bucket!
+
+    with_published_translations(hu: { frontend: { ns: { a: "b" } } }) do
+      get "/i18n/hu/frontend-aaaaaaaaaaaa.json"
+
+      assert_response :found
+      assert_redirected_to TranslationRepo.frontend_catalog_url(:hu)
+      assert_equal "no-store", response.headers["Cache-Control"]
+    end
+  end
+
+  test "frontend catalog 404s when the locale has no catalog at all" do
+    setup_s3_cache_bucket!
+
+    with_published_translations(hu: { backend: { greeting: "Szia" } }) do
+      get "/i18n/hu/frontend-dddddddddddd.json"
+
       assert_response :not_found
     end
   end

@@ -162,4 +162,8 @@ class TranslationRepoTest < ActiveSupport::TestCase
       assert_equal "/i18n/uk/frontend-#{hash}.json", TranslationRepo.frontend_catalog_url(:uk)
     end
   end
+
+  test "the S3 key is built from the locale and the hash" do
+    assert_equal "i18n/frontend/hu/0123456789ab.json", TranslationRepo.frontend_catalog_s3_key(:hu, "0123456789ab")
+  end
 end

@@ -41,7 +41,8 @@ module TranslationRepo
       hashes = frontend_catalog_hashes
       return hashes[locale.to_sym] if hashes.key?(locale.to_sym)
 
-      hashes[locale.to_sym] = catalog_hash(File.binread(frontend_catalog_path(locale)))
+      bytes = File.binread(frontend_catalog_path(locale))
+      hashes[locale.to_sym] = catalog_hash(bytes).tap { |hash| TranslationRepo::SaveFrontendCatalog.defer(locale.to_s, hash) }
     rescue Errno::ENOENT
       # A missing catalog is not remembered, so one that appears later is served
       # without waiting for the checkout's head to move.
@@ -49,6 +50,13 @@ module TranslationRepo
     end
 
     def catalog_hash(bytes) = Digest::SHA256.hexdigest(bytes)[0, 12]
+
+    # Every version of a locale's frontend catalog is kept in the S3 cache bucket,
+    # because pages rendered against an old version keep asking for it. The route
+    # restricts the locale and the hash.
+    def frontend_catalog_s3_key(locale, hash)
+      "i18n/frontend/#{locale}/#{hash}.json"
+    end
 
     def content_path(locale, blob_id, extension)
       raise ArgumentError, "Not a git blob id: #{blob_id}" unless OID_FORMAT.match?(blob_id)

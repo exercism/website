@@ -71,18 +71,20 @@ class PagesController < ApplicationController
     render json: { "Hello": "iHiD" } if stale
   end
 
+  # A page keeps asking for the catalog version it was rendered with, and old pages
+  # are still around (restored tabs, Cloudflare's cached copies), so the current
+  # version is served from the checkout and earlier ones from S3.
   def frontend_catalog
     locale = params[:catalog_locale]
     return head :not_found unless I18n.available_locales.include?(locale&.to_sym)
 
-    json = File.binread(TranslationRepo.frontend_catalog_path(locale))
-    return head :not_found unless TranslationRepo.catalog_hash(json) == params[:hash]
+    current = current_frontend_catalog(locale)
+    json = requested_frontend_catalog(locale, current)
+    return redirect_to_current_frontend_catalog(locale, current) unless json
 
     scope = user_signed_in? || cookies.signed[:_exercism_user_id].present? ? "private" : "public"
     response.set_header("Cache-Control", "#{scope}, max-age=31536000, immutable")
     send_data json, type: "application/json", disposition: :inline
-  rescue Errno::ENOENT
-    head :not_found
   end
 
   # Client-side test runner artifacts: the wasm kernel, and the per-language
@@ -155,6 +157,26 @@ class PagesController < ApplicationController
   end
 
   private
+  def requested_frontend_catalog(locale, current)
+    return current if current && TranslationRepo.catalog_hash(current) == params[:hash]
+
+    TranslationRepo::RetrieveStoredFrontendCatalog.(locale, params[:hash])
+  end
+
+  def current_frontend_catalog(locale)
+    File.binread(TranslationRepo.frontend_catalog_path(locale))
+  rescue Errno::ENOENT
+    nil
+  end
+
+  # With no copy of the requested version, the current catalog is the best we have,
+  # as catalogs only grow. The target comes from the file itself, so it can't loop.
+  def redirect_to_current_frontend_catalog(locale, current)
+    return head :not_found unless current
+
+    redirect_to "/i18n/#{locale}/frontend-#{TranslationRepo.catalog_hash(current)}.json", status: :found
+  end
+
   def artifact_content_type(key) = ARTIFACT_CONTENT_TYPES.fetch(File.extname(key), "application/octet-stream")
 
   # Absent until the bucket is configured for the environment, which is how dev

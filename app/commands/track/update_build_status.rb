@@ -129,8 +129,16 @@ class Track::UpdateBuildStatus
       num_runs: representer_num_submissions,
       num_comments: representer_num_submissions_with_feedback,
       display_rate_percentage: representer_display_rate_percentage,
+      num_recent_unrepresentable: representer_num_recent_unrepresentable,
       health: representer_health
     }
+  end
+
+  # If this rises, the track's grammar probably can't parse some new syntax.
+  def representer_num_recent_unrepresentable
+    track.submissions.representation_unrepresentable.
+      where('submissions.created_at >= ?', Time.current - NUM_DAYS_FOR_AVERAGE.days).
+      count
   end
 
   memoize

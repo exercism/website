@@ -116,43 +116,12 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
     results = { 'status' => 'fail', 'message' => "", 'tests' => [] }
     job = create_test_runner_job!(submission, execution_status: 200, results:)
 
-    # Cancel representation and analysis
+    # Cancel analysis
     ToolingJob::Cancel.expects(:call).with(submission.uuid, :analyzer)
 
     Submission::TestRun::Process.(job)
 
     assert submission.reload.tests_failed?
-    assert submission.representation_cancelled?
-  end
-
-  test "failing tests cancel a queued representation" do
-    submission = create :submission, representation_status: :queued
-    results = { 'status' => 'fail', 'message' => "", 'tests' => [] }
-    job = create_test_runner_job!(submission, execution_status: 200, results:)
-
-    Submission::TestRun::Process.(job)
-
-    assert submission.reload.representation_cancelled?
-  end
-
-  test "failing tests leave a generated representation alone" do
-    submission = create :submission, representation_status: :generated
-    results = { 'status' => 'fail', 'message' => "", 'tests' => [] }
-    job = create_test_runner_job!(submission, execution_status: 200, results:)
-
-    Submission::TestRun::Process.(job)
-
-    assert submission.reload.representation_generated?
-  end
-
-  test "passing tests leave the representation alone" do
-    submission = create :submission, representation_status: :queued
-    results = { 'status' => 'pass', 'message' => "", 'tests' => [] }
-    job = create_test_runner_job!(submission, execution_status: 200, results:)
-
-    Submission::TestRun::Process.(job)
-
-    assert submission.reload.representation_queued?
   end
 
   test "handle tests error" do
@@ -160,13 +129,12 @@ class Submission::TestRun::ProcessTest < ActiveSupport::TestCase
     results = { 'status' => 'error', 'message' => "", 'tests' => [] }
     job = create_test_runner_job!(submission, execution_status: 200, results:)
 
-    # Cancel representation and analysis
+    # Cancel analysis
     ToolingJob::Cancel.expects(:call).with(submission.uuid, :analyzer)
 
     Submission::TestRun::Process.(job)
 
     assert submission.reload.tests_errored?
-    assert submission.representation_cancelled?
   end
 
   test "handle bad status" do

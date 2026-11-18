@@ -62,14 +62,6 @@ class Submission::TestRun::Process
     return unless submission_test_run?
 
     ToolingJob::Cancel.(submission.uuid, :analyzer)
-    cancel_representation!
-  end
-
-  # We only represent submissions that pass their tests.
-  def cancel_representation!
-    return unless submission.representation_not_queued? || submission.representation_queued?
-
-    submission.representation_cancelled!
   end
 
   def update_status!(status)

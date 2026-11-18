@@ -605,6 +605,18 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     assert_equal 21.7, track.build_status.representer.display_rate_percentage
   end
 
+  test "representer: num_recent_unrepresentable" do
+    track = create :track
+    create_list :submission, 2, track:, representation_status: :unrepresentable
+    create :submission, track:, representation_status: :unrepresentable, created_at: Time.current - 31.days
+    create :submission, track:, representation_status: :generated
+    create :submission, track: create(:track, :random_slug), representation_status: :unrepresentable
+
+    Track::UpdateBuildStatus.(track)
+
+    assert_equal 2, track.reload.build_status.representer.num_recent_unrepresentable
+  end
+
   test "representer: health" do
     track = create :track
     Track::UpdateBuildStatus.(track)

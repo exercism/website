@@ -262,7 +262,37 @@ class Submission::Representation::GenerateTest < ActiveSupport::TestCase
     assert_equal 2, representation.exercise_version
   end
 
-  test "cancels solutions that are too large without calling the representer" do
+  %w[parse_error too_deep too_large].each do |reason|
+    test "marks as unrepresentable when the representer gives #{reason}" do
+      submission = create :submission, representation_status: :queued
+      create(:submission_file, submission:)
+
+      stub_request(:post, Exercism.config.representer_url).
+        to_return(status: 200, body: { representation: nil, mapping: {}, version: 2, reason: }.to_json)
+
+      SubmissionChannel.expects(:broadcast!).with(submission)
+      Submission::Representation::Generate.(submission, submission.git_sha)
+
+      assert submission.reload.representation_unrepresentable?
+      assert_nil submission.submission_representation
+      assert_equal 0, Exercise::Representation.count
+    end
+  end
+
+  test "an unrepresentable rerun for an update leaves the submission alone" do
+    submission = create :submission, representation_status: :generated
+    create(:submission_file, submission:)
+
+    stub_request(:post, Exercism.config.representer_url).
+      to_return(status: 200, body: { representation: nil, mapping: {}, version: 2, reason: "parse_error" }.to_json)
+
+    Submission::Representation::Generate.(submission, submission.git_sha, reason: :update)
+
+    assert submission.reload.representation_generated?
+    assert_equal 0, Exercise::Representation.count
+  end
+
+  test "marks solutions that are too large as unrepresentable without calling the representer" do
     submission = create :submission
     create :submission_file, submission:, filename: "one.rb", content: "a" * 150.kilobytes
     create :submission_file, submission:, filename: "two.rb", content: "a" * 51.kilobytes
@@ -270,40 +300,17 @@ class Submission::Representation::GenerateTest < ActiveSupport::TestCase
     Submission::Representation::Generate.(submission, submission.git_sha)
 
     assert_not_requested :post, Exercism.config.representer_url
-    assert submission.reload.representation_cancelled?
+    assert submission.reload.representation_unrepresentable?
     assert_nil submission.submission_representation
   end
 
-  %i[failed errored].each do |tests_status|
-    test "cancels submissions with #{tests_status} tests without calling the representer" do
-      submission = create :submission, tests_status:, representation_status: :queued
-      create(:submission_file, submission:)
-
-      Submission::Representation::Generate.(submission, submission.git_sha)
-
-      assert_not_requested :post, Exercism.config.representer_url
-      assert submission.reload.representation_cancelled?
-      assert_nil submission.submission_representation
-    end
-  end
-
-  test "skips reruns of submissions with failed tests" do
-    submission = create :submission, tests_status: :failed, representation_status: :generated
-    create(:submission_file, submission:)
-
-    Submission::Representation::Generate.(submission, submission.git_sha, reason: :update)
-
-    assert_not_requested :post, Exercism.config.representer_url
-    assert submission.reload.representation_generated?
-  end
-
-  test "cancels solutions without valid files" do
+  test "marks solutions without valid files as unrepresentable" do
     submission = create :submission
 
     Submission::Representation::Generate.(submission, submission.git_sha)
 
     assert_not_requested :post, Exercism.config.representer_url
-    assert submission.reload.representation_cancelled?
+    assert submission.reload.representation_unrepresentable?
   end
 
   test "requeues on bad gateway" do

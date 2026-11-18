@@ -7,13 +7,17 @@ class Submission::Representation::Generate
 
   MAX_RETRIES = 3
 
-  # The representer refuses solutions larger than this.
+  # The representer refuses solutions larger than this, so we don't call it for them.
   MAX_SOLUTION_SIZE = 200.kilobytes
 
   RepresenterTemporarilyUnavailable = Class.new(StandardError)
 
   def call
     return handle_unrepresentable! unless representable?
+
+    # The representer returns no representation, along with a reason,
+    # if it can't parse the solution or the solution is too deep or large.
+    return handle_unrepresentable! if representation.nil?
 
     process_results!(200, representation, mapping, response.fetch("version"))
   rescue RestClient::BadGateway, RestClient::ServiceUnavailable, RestClient::GatewayTimeout,
@@ -34,18 +38,14 @@ class Submission::Representation::Generate
   end
 
   private
-  # We only represent submissions that pass their tests, and a
-  # solution this large will never match another one.
   def representable?
-    return false if submission.tests_failed? || submission.tests_errored?
-
     solution_files.present? && solution_files.values.sum(&:bytesize) <= MAX_SOLUTION_SIZE
   end
 
   def handle_unrepresentable!
     return if reason == :update
 
-    submission.representation_cancelled!
+    submission.representation_unrepresentable!
     submission.broadcast!
     submission.iteration&.broadcast!
   end

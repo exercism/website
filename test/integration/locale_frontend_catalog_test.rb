@@ -28,19 +28,29 @@ class LocaleFrontendCatalogTest < ActionDispatch::IntegrationTest
       assert_equal({ "components/tracks" => { "title" => "Nyelvek" } }, response.parsed_body)
 
       get "/i18n/hu/frontend-0123456789ab.json"
-      assert_response :not_found
+      assert_redirected_to url
 
       assert_raises(ActionController::RoutingError) { get "/i18n/nl/frontend-0123456789ab.json" }
     end
   end
 
-  test "a catalog is never served under a stale hash" do
-    with_published_translations(hu: { frontend: { ns: { a: "b" } } }) do
-      url = TranslationRepo.frontend_catalog_url(:hu)
+  test "an old catalog version is served from its stored copy, or redirects to the current one" do
+    setup_s3_cache_bucket!
+
+    with_published_translations(hu: { frontend: { ns: { a: "b-#{SecureRandom.hex}" } } }) do
+      old_url = TranslationRepo.frontend_catalog_url(:hu)
+      old_hash = TranslationRepo.frontend_catalog_hash(:hu)
+      old_json = File.binread(TranslationRepo.frontend_catalog_path(:hu))
       File.write(TranslationRepo.frontend_catalog_path(:hu), { ns: { a: "c" } }.to_json)
 
-      get url
-      assert_response :not_found
+      get old_url
+      assert_response :found
+      assert_redirected_to "/i18n/hu/frontend-#{TranslationRepo.catalog_hash({ ns: { a: "c" } }.to_json)}.json"
+
+      upload_to_s3(Exercism.config.aws_cache_bucket, "i18n/frontend/hu/#{old_hash}.json", old_json)
+      get old_url
+      assert_response :ok
+      assert_equal old_json, response.body
 
       commit_translations!
       get TranslationRepo.frontend_catalog_url(:hu)

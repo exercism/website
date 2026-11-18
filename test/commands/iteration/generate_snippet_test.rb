@@ -137,4 +137,19 @@ class Iteration::GenerateSnippetTest < ActiveJob::TestCase
     assert snippet.ends_with?("\n\n...")
     assert_equal 1405, snippet.length
   end
+
+  test "sends the exercise's main solution file when there are several files" do
+    Git::Exercise.any_instance.stubs(solution_filepaths: ["foobar.cpp", "foobar.h"])
+    create :submission_file, submission: @submission, filename: "foobar.h", content: "header"
+    create :submission_file, submission: @submission, filename: "foobar.cpp", content: "implementation"
+    iteration = create :iteration, submission: @submission
+
+    stub_request(:post, Exercism.config.snippet_generator_url).
+      with(body: "{\"language\":\"ruby\",\"source_code\":\"implementation\"}").
+      to_return(status: 200, body: "main snippet", headers: {})
+
+    Iteration::GenerateSnippet.(iteration)
+
+    assert_equal "main snippet", iteration.reload.snippet
+  end
 end

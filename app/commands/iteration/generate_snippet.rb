@@ -16,7 +16,7 @@ class Iteration::GenerateSnippet
     # that's probably worth investigating
     return unless iteration
 
-    file = iteration.submission.files.first
+    file = main_file
     return unless file
 
     snippet = RestClient.post(
@@ -43,5 +43,21 @@ class Iteration::GenerateSnippet
     raise SnippetGeneratorTemporarilyUnavailable if retries_count >= MAX_RETRIES
 
     self.class.defer(iteration, retries_count: retries_count + 1, wait: rand(30..90))
+  end
+
+  private
+  # The first submitted file named in the exercise's solution files, in the
+  # order of that list (tracks list the implementation before any header).
+  # Falls back to the first file saved.
+  def main_file
+    files = iteration.submission.files.to_a
+    solution_filepaths = iteration.submission.exercise_repo.solution_filepaths
+
+    solution_filepaths.each do |path|
+      file = files.find { |f| f.filename.delete_prefix("./") == path }
+      return file if file
+    end
+
+    files.first
   end
 end

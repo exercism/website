@@ -11,7 +11,6 @@
 
 @import "../components/advert";
 @import "../components/textblock";
-@import "../components/spinner";
 @import "../components/tooltip-spinner";
 @import "../components/financial-amount";
 @import "../components/automated-feedback";
@@ -74,7 +73,6 @@
 
 @import "../components/iteration-pane";
 @import "../components/test-tabs";
-@import "../components/explainer";
 @import "../components/tag";
 @import "../components/divider";
 @import "../components/faces";
@@ -121,7 +119,5 @@
 @import "../pages/challenges/12in23";
 @import "../pages/challenges/48in24";
 
-/* @import "../highlighters/highlightjs-light";
-@import "../highlighters/highlightjs-dark"; */
 @import "../highlighters/highlightjs-colors";
 @import "../highlighters/highlight-links";

@@ -220,7 +220,6 @@ export default ({
           <MetricPoint key={metric.id} metric={metric} />
         ))}
       </div>
-      {/*<TopLearningCountries data={TOP_LEARNING_DATA} />*/}
     </div>
   )
 }

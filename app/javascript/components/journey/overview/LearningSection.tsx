@@ -59,7 +59,6 @@ export const LearningSection = ({ tracks, links }: Props): JSX.Element => {
           />
         ))}
       </div>
-      {/*<LearningStats tracks={tracks} links={links} />*/}
     </section>
   )
 }

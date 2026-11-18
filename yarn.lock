@@ -1083,6 +1083,16 @@
     "@codemirror/view" "^6.17.0"
     "@lezer/common" "^1.0.0"
 
+"@codemirror/autocomplete@^6.18.0":
+  version "6.20.4"
+  resolved "https://registry.yarnpkg.com/@codemirror/autocomplete/-/autocomplete-6.20.4.tgz#57230a6bca565f3643729f7f9bad6ca0322e6dd7"
+  integrity sha512-yF8RhOf2SXlg00+qtupzLhrglcas61boqaONiNcbPIebHCpJocpqTBA6dyrtUrQO47hqyTdeob/3XnYilT7TaQ==
+  dependencies:
+    "@codemirror/language" "^6.0.0"
+    "@codemirror/state" "^6.0.0"
+    "@codemirror/view" "^6.17.0"
+    "@lezer/common" "^1.0.0"
+
 "@codemirror/commands@^6.0.0", "@codemirror/commands@^6.7.1":
   version "6.11.1"
   resolved "https://registry.yarnpkg.com/@codemirror/commands/-/commands-6.11.1.tgz#1ec31ffb4d87babd096b5857e68cdba3bb989abd"
@@ -1230,6 +1240,15 @@
     "@codemirror/view" "^6.42.0"
     crelt "^1.0.5"
 
+"@codemirror/lint@^6.8.0":
+  version "6.9.8"
+  resolved "https://registry.yarnpkg.com/@codemirror/lint/-/lint-6.9.8.tgz#f9e76e3860b91ef2b50f9b1c6a8d268dcba1ecac"
+  integrity sha512-qNvtcE73xUto/D1RvtgSRI4A1Hg8ekxlvtZpjHpdpisLBnhyu82EUEJMEgaxkjuQCA8vqnrylENWKOsEDCOHcw==
+  dependencies:
+    "@codemirror/state" "^6.0.0"
+    "@codemirror/view" "^6.42.0"
+    crelt "^1.0.5"
+
 "@codemirror/search@^6.0.0":
   version "6.7.2"
   resolved "https://registry.yarnpkg.com/@codemirror/search/-/search-6.7.2.tgz#93a49eb21c026de473c4fc3a047b8fd67784b0f0"
@@ -1239,7 +1258,7 @@
     "@codemirror/view" "^6.37.0"
     crelt "^1.0.5"
 
-"@codemirror/state@6.7.5", "@codemirror/state@^6.0.0", "@codemirror/state@^6.2.1", "@codemirror/state@^6.5.0", "@codemirror/state@^6.7.0":
+"@codemirror/state@6.7.5", "@codemirror/state@^6.0.0", "@codemirror/state@^6.2.1", "@codemirror/state@^6.4.0", "@codemirror/state@^6.5.0", "@codemirror/state@^6.7.0":
   version "6.7.5"
   resolved "https://registry.yarnpkg.com/@codemirror/state/-/state-6.7.5.tgz#d281e51a498ad03903ba06776cf289fc741ced90"
   integrity sha512-QjLbZmY1Au3JiRrDVYFLRD0BZ3SOKS9pR3yjIkd7u27YY8TFD9/Q9fhPnLV5l1mHFSo3hHU/N31vpwEJOx4owQ==
@@ -1260,6 +1279,16 @@
   version "6.43.12"
   resolved "https://registry.yarnpkg.com/@codemirror/view/-/view-6.43.12.tgz#18475e80d199f4645d09671b2c8101f49572eebb"
   integrity sha512-Nv0vxQ19NAqvB/c2pFzjIzFlzzJl7jmdtNkwOwGbn0Ks9mFAzibvumz7cQem5cRsFA2cEw2fg+uHZGbcHupLQQ==
+  dependencies:
+    "@codemirror/state" "^6.7.0"
+    crelt "^1.0.6"
+    style-mod "^4.1.0"
+    w3c-keyname "^2.2.4"
+
+"@codemirror/view@^6.33.0":
+  version "6.43.15"
+  resolved "https://registry.yarnpkg.com/@codemirror/view/-/view-6.43.15.tgz#3da2515b3919e199b68520a5b6e559c2a4cfbe9e"
+  integrity sha512-HHsfpqFeHyXLs983pSRe38Xajs0vFWZQ2BuX0m7Ki8w3jZ5iD8cuR3lBz2/5/X53Dhf32SBHKh6rtSTB6tKeGw==
   dependencies:
     "@codemirror/state" "^6.7.0"
     crelt "^1.0.6"
@@ -1412,6 +1441,20 @@
     "@lezer/highlight" "^1.2.0"
     "@lezer/lr" "^1.4.0"
     tslib "^2.8.1"
+
+"@exercism/codemirror-lang-moonscript@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@exercism/codemirror-lang-moonscript/-/codemirror-lang-moonscript-1.0.0.tgz#baa3b38e9f256d8d965c876e164b0494d2b6a680"
+  integrity sha512-PIH5X9klwa+eQgL2tnt8LP1aX0pMJ/dYpNJmM5C2NDjyGeB3/UP/Zu9LFTqA/MJ3+/IkSLC6mW5VyHPWMlHW3g==
+  dependencies:
+    "@codemirror/autocomplete" "^6.18.0"
+    "@codemirror/language" "^6.10.1"
+    "@codemirror/lint" "^6.8.0"
+    "@codemirror/state" "^6.4.0"
+    "@codemirror/view" "^6.33.0"
+    "@lezer/highlight" "^1.2.0"
+    "@lezer/lr" "^1.4.0"
+    codemirror "^6.0.1"
 
 "@exercism/codemirror-lang-uiua@^0.0.4":
   version "0.0.4"

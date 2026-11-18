@@ -69,7 +69,7 @@ class Solution < ApplicationRecord
   end
 
   after_save_commit do
-    Solution::SyncToSearchIndex.defer(self)
+    Solution::SyncToSearchIndex.defer(self) if search_index_document_changed?
   end
 
   after_update_commit do
@@ -258,6 +258,13 @@ class Solution < ApplicationRecord
   end
 
   private
+  # Rebuilding the document reads every file of the published and latest
+  # iterations from S3, so we only do it when a column it uses has changed.
+  # See Solution::CreateSearchIndexDocument::SOLUTION_COLUMNS.
+  def search_index_document_changed?
+    saved_change_to_id? || (saved_changes.keys & Solution::CreateSearchIndexDocument::SOLUTION_COLUMNS).any?
+  end
+
   def determine_status
     return :published if published?
     return :completed if completed?

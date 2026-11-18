@@ -742,6 +742,60 @@ class SolutionTest < ActiveSupport::TestCase
     end
   end
 
+  test "saving solution without changing an indexed column does not sync to search index" do
+    solution = create :practice_solution
+
+    clear_enqueued_jobs
+    solution.update!(snippet: "New snippet")
+    solution.update!(updated_at: Time.current + 1.minute)
+    solution.save!
+
+    sync_jobs = enqueued_jobs.select { |job| job["arguments"].first == Solution::SyncToSearchIndex.name }
+    assert_empty sync_jobs
+  end
+
+  test "changing each indexed column enqueues job to sync solution to search index" do
+    solution = create :practice_solution
+    other_exercise = create :practice_exercise
+    other_user = create :user
+    iteration = create(:iteration, solution:)
+
+    {
+      last_iterated_at: Time.current + 1.minute,
+      published_at: Time.current,
+      num_stars: 5,
+      num_loc: 12,
+      num_comments: 3,
+      num_views: 9,
+      git_important_files_hash: "new-hash",
+      mentoring_status: :requested,
+      exercise_id: other_exercise.id,
+      user_id: other_user.id,
+      published_iteration_id: iteration.id,
+      published_iteration_head_tests_status: :passed,
+      latest_iteration_head_tests_status: :failed
+    }.each do |column, value|
+      clear_enqueued_jobs
+      solution.update!(column => value)
+
+      sync_jobs = enqueued_jobs.select { |job| job["arguments"].first == Solution::SyncToSearchIndex.name }
+      assert_equal 1, sync_jobs.size, "#{column} should sync the solution to the search index"
+    end
+  end
+
+  test "changing status enqueues job to sync solution to search index" do
+    solution = create :practice_solution
+
+    assert_enqueued_with(job: MandateJob, args: [Solution::SyncToSearchIndex.name, solution]) do
+      solution.update!(completed_at: Time.current)
+    end
+    assert_equal :completed, solution.status
+  end
+
+  test "indexed columns are all real solution columns" do
+    assert_empty Solution::CreateSearchIndexDocument::SOLUTION_COLUMNS - Solution.column_names
+  end
+
   test "updating solution enqueues job to queue head test run" do
     solution = create :practice_solution
 

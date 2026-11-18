@@ -1,6 +1,28 @@
 class Solution::CreateSearchIndexDocument
   include Mandate
 
+  # The solution's own columns that go into the document, directly or through
+  # a method (out_of_date? reads git_important_files_hash, published_iteration
+  # reads published_iteration_id, exercise, track and user come from
+  # exercise_id and user_id). Solution re-syncs the document after a save only
+  # if one of these changed, so add any new column that call reads to this list.
+  SOLUTION_COLUMNS = %w[
+    last_iterated_at
+    published_at
+    num_stars
+    num_loc
+    num_comments
+    num_views
+    git_important_files_hash
+    status
+    mentoring_status
+    exercise_id
+    user_id
+    published_iteration_id
+    published_iteration_head_tests_status
+    latest_iteration_head_tests_status
+  ].freeze
+
   initialize_with :solution
 
   def call

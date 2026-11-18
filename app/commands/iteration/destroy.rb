@@ -11,6 +11,10 @@ class Iteration::Destroy
 
     Solution::UpdateNumLoc.(solution)
 
+    # The deleted iteration may have been the latest or published one, which
+    # changes the files in the search document without changing a solution column.
+    Solution::SyncToSearchIndex.defer(solution)
+
     # Deleting a non-pinned iteration changes what renders on the
     # published solution page without going via Unpublish
     Solution::InvalidateCloudflareCache.defer(solution)

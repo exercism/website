@@ -159,4 +159,12 @@ class Iteration::DestroyTest < ActiveSupport::TestCase
     Solution::InvalidateCloudflareCache.expects(:defer).with(solution).at_least_once
     Iteration::Destroy.(iteration)
   end
+
+  test "syncs the solution to the search index" do
+    solution = create :concept_solution
+    iteration = create(:iteration, solution:)
+
+    Solution::SyncToSearchIndex.expects(:defer).with(solution).at_least_once
+    Iteration::Destroy.(iteration)
+  end
 end

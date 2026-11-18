@@ -6,6 +6,10 @@ class Iteration::CountLinesOfCode
   initialize_with :iteration, retries_count: 0
 
   MAX_RETRIES = 3
+
+  # The counter runs as a Lambda behind an ALB, which rejects
+  # request bodies over 1 MB with a 413.
+  MAX_BODY_BYTES = 1_000_000
   LocCounterTemporarilyUnavailable = Class.new(StandardError)
 
   def call
@@ -16,19 +20,14 @@ class Iteration::CountLinesOfCode
     # that's probably worth investigating
     return unless iteration
 
-    files = submission.valid_files
-    return unless files.any?
+    return if files.empty?
 
-    # Upload the files to EFS so that the counter can access them
-    ToolingJob::UploadToEFS.(efs_dir, files)
+    request_body = { track_slug: iteration.track.slug, files: }.to_json
+    return if request_body.bytesize > MAX_BODY_BYTES
 
     body = RestClient.post(
       Exercism.config.lines_of_code_counter_url,
-      {
-        track_slug: iteration.track.slug,
-        job_dir:,
-        submission_filepaths: filepaths
-      }.to_json,
+      request_body,
       { content_type: :json, accept: :json }
     ).body
 
@@ -42,25 +41,18 @@ class Iteration::CountLinesOfCode
     raise LocCounterTemporarilyUnavailable if retries_count >= MAX_RETRIES
 
     self.class.defer(iteration, retries_count: retries_count + 1, wait: rand(30..90))
-  ensure
-    ToolingJob::DeleteFromEFS.(efs_dir)
   end
 
   private
   delegate :submission, to: :iteration
 
+  # A hash of filename => content for each valid file. Files whose content
+  # isn't valid UTF-8 are left out, as they can't be sent as JSON strings
+  # and would otherwise be counted as a placeholder line.
   memoize
-  def job_id = SecureRandom.uuid.tr('-', '')
-
-  memoize
-  def job_dir = "#{Time.current.utc.strftime('%Y/%m/%d')}/#{job_id}"
-
-  memoize
-  def efs_dir = "#{Exercism.config.efs_tooling_jobs_mount_point}/#{job_dir}"
-
-  memoize
-  def files = submission.valid_files
-
-  memoize
-  def filepaths = files.map(&:filename)
+  def files
+    submission.valid_files.
+      select { |file| file.utf8_content.valid_encoding? }.
+      to_h { |file| [file.filename, file.content] }
+  end
 end

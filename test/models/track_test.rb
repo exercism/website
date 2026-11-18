@@ -210,6 +210,7 @@ class TrackTest < ActiveSupport::TestCase
     ["exercism/dotnet-tests", "csharp"],
     ["exercism/nim-docker-base", "nim"],
     ["exercism/codemirror-lang-arturo", "arturo"],
+    ["exercism/codemirror-lang-moonscript", "moonscript"],
     ["exercism/codemirror-lang-phix", "phix"],
     ["exercism/codemirror-lang-gleam", "gleam"],
     ["exercism/codemirror-lang-wren", "wren"],

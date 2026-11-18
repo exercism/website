@@ -152,4 +152,19 @@ class Iteration::GenerateSnippetTest < ActiveJob::TestCase
 
     assert_equal "main snippet", iteration.reload.snippet
   end
+
+  test "matches the main solution file when its filename starts with ./" do
+    Git::Exercise.any_instance.stubs(solution_filepaths: ["src/lib.rs"])
+    create :submission_file, submission: @submission, filename: "src/helper.rs", content: "helper"
+    create :submission_file, submission: @submission, filename: "./src/lib.rs", content: "library"
+    iteration = create :iteration, submission: @submission
+
+    stub_request(:post, Exercism.config.snippet_generator_url).
+      with(body: "{\"language\":\"ruby\",\"source_code\":\"library\"}").
+      to_return(status: 200, body: "lib snippet", headers: {})
+
+    Iteration::GenerateSnippet.(iteration)
+
+    assert_equal "lib snippet", iteration.reload.snippet
+  end
 end

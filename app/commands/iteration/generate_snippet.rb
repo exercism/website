@@ -51,7 +51,13 @@ class Iteration::GenerateSnippet
   # Falls back to the first file saved.
   def main_file
     files = iteration.submission.files.to_a
-    main_filename = iteration.exercise.git.solution_filepaths.find { |path| files.any? { |f| f.filename == path } }
-    files.find { |f| f.filename == main_filename } || files.first
+    solution_filepaths = iteration.submission.exercise_repo.solution_filepaths
+
+    solution_filepaths.each do |path|
+      file = files.find { |f| f.filename.delete_prefix("./") == path }
+      return file if file
+    end
+
+    files.first
   end
 end

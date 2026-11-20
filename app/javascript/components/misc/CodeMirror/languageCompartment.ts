@@ -40,6 +40,10 @@ export const loadLanguageCompartment = async (
       const { jq } = await import('codemirror-lang-jq')
       return compartment.of(jq())
     }
+    case 'moonscript': {
+      const { moonscript } = await import('@exercism/codemirror-lang-moonscript')
+      return compartment.of(moonscript())
+    }
     case 'php': {
       const { php } = await import('@codemirror/lang-php')
       return compartment.of(php())

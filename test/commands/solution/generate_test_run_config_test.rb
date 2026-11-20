@@ -14,6 +14,13 @@ class Solution::GenerateTestRunConfigTest < ActiveSupport::TestCase
     assert_equal({ files: { "test.bats" => "..." } }, Solution::GenerateTestRunConfig.(solution))
   end
 
+  test "files for javascript, which runs its tests in the browser with its own runner" do
+    solution = create :practice_solution, exercise: create(:practice_exercise, track: create(:track, slug: "javascript"))
+    Git::Exercise.any_instance.stubs(:tooling_files).returns({ "hello.spec.js" => "..." })
+
+    assert_equal({ files: { "hello.spec.js" => "..." } }, Solution::GenerateTestRunConfig.(solution))
+  end
+
   test "files when experimental, whatever the track" do
     solution = create :practice_solution, exercise: create(:practice_exercise, track: create(:track, slug: "ruby"))
     Git::Exercise.any_instance.stubs(:tooling_files).returns({ "test.rb" => "..." })

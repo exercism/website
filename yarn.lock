@@ -1422,6 +1422,19 @@
     "@lezer/highlight" "^1.2.0"
     "@lezer/lr" "^1.4.0"
 
+"@exercism/codemirror-lang-awk@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@exercism/codemirror-lang-awk/-/codemirror-lang-awk-1.0.0.tgz#6a6e4722ed3079479e31889ae3288127931b4489"
+  integrity sha512-Tj5ae8sAljYm40KzLAff2z9R7e7M1o9587ONDZOu089I0tqMdMi+md3Yj9VRVZGUN5ZGcFMsD+kY/ec/Rvn8zw==
+  dependencies:
+    "@codemirror/autocomplete" "^6.18.0"
+    "@codemirror/language" "^6.10.1"
+    "@codemirror/lint" "^6.8.0"
+    "@codemirror/state" "^6.4.0"
+    "@codemirror/view" "^6.33.0"
+    "@lezer/highlight" "^1.2.0"
+    codemirror "^6.0.1"
+
 "@exercism/codemirror-lang-gleam@^2.0.1":
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@exercism/codemirror-lang-gleam/-/codemirror-lang-gleam-2.0.1.tgz#8c77f7e6206163670de06f4fe58bc219c599b99d"

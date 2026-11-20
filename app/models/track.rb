@@ -40,6 +40,12 @@ class Track < ApplicationRecord
   CLIENT_SIDE_TEST_RUNNER_SLUGS = %w[jq cpp].freeze
   def client_side_test_runner? = CLIENT_SIDE_TEST_RUNNER_SLUGS.include?(slug)
 
+  # JavaScript also runs its tests in the student's browser, with its own
+  # runner (@exercism/javascript-browser-test-runner) in a plain web worker.
+  # That runner doesn't need cross-origin isolation, so JavaScript isn't on the
+  # list above.
+  def runs_tests_in_browser? = client_side_test_runner? || slug == "javascript"
+
   delegate :about, :snippet, :sign_up_snippet,
     :indent_style, :indent_size, :foregone_exercises,
     to: :git

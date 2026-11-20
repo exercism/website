@@ -34,6 +34,16 @@ class TrackTest < ActiveSupport::TestCase
     refute create(:track, slug: "ruby").client_side_test_runner?
   end
 
+  test "runs_tests_in_browser?" do
+    assert create(:track, slug: "javascript").runs_tests_in_browser?
+    assert create(:track, slug: "jq").runs_tests_in_browser?
+    refute create(:track, slug: "ruby").runs_tests_in_browser?
+  end
+
+  test "javascript runs its tests in the browser without being on the kernel list" do
+    refute create(:track, slug: "javascript").client_side_test_runner?
+  end
+
   test "highlightjs_language uses slug if nil" do
     track = create :track, highlightjs_language: nil
     assert_equal 'ruby', track.highlightjs_language

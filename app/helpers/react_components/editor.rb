@@ -15,7 +15,7 @@ module ReactComponents
         default_files: SerializeEditorFiles.(solution.files_for_editor),
         insider: solution.user.insider?,
         experimental:,
-        client_side_tests: track.client_side_test_runner?,
+        client_side_tests: track.runs_tests_in_browser?,
         assistant_chat:,
         default_settings: {
           tab_size: track.indent_size,

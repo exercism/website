@@ -1,5 +1,6 @@
 import { lookup } from './manifest'
 import { prepare, discard } from './kernel/pool'
+import { AbortedRunError } from './kernel/errors'
 import { OutputInterface } from './types'
 
 /**
@@ -28,7 +29,15 @@ export async function runTests(
     const { runTests: runJs } = await import(
       '@exercism/javascript-browser-test-runner'
     )
-    return (await runJs(slug, files, userPaths)) as OutputInterface
+    try {
+      return (await runJs(slug, files, userPaths, signal)) as OutputInterface
+    } catch (error) {
+      // The package throws its own abort error. Turn it into ours, so the
+      // caller treats a cancelled run as cancelled and doesn't fall back to
+      // the server.
+      if (signal?.aborted) throw new AbortedRunError()
+      throw error
+    }
   }
 
   const entry = await lookup(language)

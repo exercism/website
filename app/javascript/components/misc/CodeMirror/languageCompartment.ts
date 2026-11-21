@@ -11,6 +11,10 @@ export const loadLanguageCompartment = async (
       const { arturo } = await import('@exercism/codemirror-lang-arturo')
       return compartment.of(arturo())
     }
+    case 'awk': {
+      const { awk } = await import('@exercism/codemirror-lang-awk')
+      return compartment.of(awk())
+    }
     case 'cpp': {
       const { cpp } = await import('@codemirror/lang-cpp')
       return compartment.of(cpp())
@@ -41,7 +45,9 @@ export const loadLanguageCompartment = async (
       return compartment.of(jq())
     }
     case 'moonscript': {
-      const { moonscript } = await import('@exercism/codemirror-lang-moonscript')
+      const { moonscript } = await import(
+        '@exercism/codemirror-lang-moonscript'
+      )
       return compartment.of(moonscript())
     }
     case 'php': {

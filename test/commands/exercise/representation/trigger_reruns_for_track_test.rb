@@ -19,4 +19,16 @@ class Exercise::Representation::TriggerRerunsForTrackTest < ActiveSupport::TestC
     Submission::Representation::Init.expects(:call).with(submission_1, type: :exercise, git_sha: "HEAD", run_in_background: true)
     Exercise::Representation::TriggerRerunsForTrack.(track)
   end
+
+  test "reruns unrepresentable submissions" do
+    track = create :track
+    unrepresentable = create :submission, representation_status: :unrepresentable,
+      solution: create(:practice_solution, track:)
+    create :submission, representation_status: :generated, solution: create(:practice_solution, track:)
+    create :submission, representation_status: :unrepresentable,
+      solution: create(:practice_solution, track: create(:track, :random_slug))
+
+    Submission::Representation::Init.expects(:call).with(unrepresentable, run_in_background: true).once
+    Exercise::Representation::TriggerRerunsForTrack.(track)
+  end
 end

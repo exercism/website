@@ -11,27 +11,18 @@ class Submission::Representation::Init
   end
 
   def call
-    queue_job!.tap do
-      update_status!
-    end
+    # Set the status before queueing the job, so that the
+    # job's result can't be overwritten if it runs quickly.
+    update_status!
+    job_class.defer(submission, git_sha, reason:)
   end
 
   private
   attr_reader :submission, :type, :git_sha, :run_in_background
 
-  def queue_job!
-    return Submission::Representation::GenerateBasic.defer(submission) unless track.has_representer?
-
-    ToolingJob::Create.(
-      submission,
-      :representer,
-      git_sha:,
-      run_in_background:,
-      context:
-    )
+  def job_class
+    run_in_background ? Submission::Representation::Generate::InBackground : Submission::Representation::Generate
   end
-
-  delegate :track, to: :submission
 
   def update_status!
     return if type == :exercise
@@ -39,7 +30,5 @@ class Submission::Representation::Init
     submission.representation_queued!
   end
 
-  def context
-    type == :exercise ? { reason: :update } : {}
-  end
+  def reason = type == :exercise ? :update : nil
 end

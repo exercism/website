@@ -605,12 +605,23 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     assert_equal 21.7, track.build_status.representer.display_rate_percentage
   end
 
-  test "representer: health" do
-    track = create :track, has_representer: false
-    Track::UpdateBuildStatus.(track)
-    assert_equal "missing", track.reload.build_status.representer.health
+  test "representer: num_recent_unrepresentable" do
+    track = create :track
+    create_list :submission, 2, track:, representation_status: :unrepresentable
+    create :submission, track:, representation_status: :unrepresentable, created_at: Time.current - 31.days
+    create :submission, track:, representation_status: :generated
+    create :submission, track: create(:track, :random_slug), representation_status: :unrepresentable
 
-    track.update(has_representer: true)
+    Track::UpdateBuildStatus.(track)
+
+    assert_equal 2, track.reload.build_status.representer.num_recent_unrepresentable
+  end
+
+  test "representer: health" do
+    track = create :track
+    Track::UpdateBuildStatus.(track)
+    assert_equal "needs_attention", track.reload.build_status.representer.health
+
     submission = create(:submission, track:)
     submission_representation = create(:submission_representation, submission:)
     Track::UpdateBuildStatus.(track)
@@ -677,12 +688,10 @@ class Track::UpdateBuildStatusTest < ActiveSupport::TestCase
     create(:submission_analysis, :with_comments, submission:)
 
     # representer_health: :exemplar
-    track.update(has_representer: true)
     submission_representation = create(:submission_representation, submission:)
     create :exercise_representation, :with_feedback, source_submission: submission, ast_digest: submission_representation.ast_digest
 
     # test_runner_health: :exemplar
-    track.update(has_representer: true)
     create :submission_test_run, submission:, raw_results: { version: 3, status: 'pass' }
 
     # practice_exercises_health: :exemplar

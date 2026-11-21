@@ -28,3 +28,6 @@
       .record-row
         .record-name= t('.feedback_given_frequency_label')
         .record-value #{status.representer.display_rate_percentage}%
+      .record-row
+        .record-name= t('.recent_unrepresentable_label')
+        .record-value= number_with_delimiter(status.representer.num_recent_unrepresentable.to_i)

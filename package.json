@@ -20,7 +20,7 @@
     "@codemirror/view": "^6.24.0",
     "@exercism/active-background": "^0.6.2",
     "@exercism/codemirror-lang-arturo": "^0.1.6",
-    "@exercism/codemirror-lang-awk": "^1.0.0",
+    "@exercism/codemirror-lang-awk": "^2.0.0",
     "@exercism/codemirror-lang-gleam": "^2.0.1",
     "@exercism/codemirror-lang-jikiscript": "0.0.22",
     "@exercism/codemirror-lang-moonscript": "^1.0.0",

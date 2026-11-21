@@ -81,7 +81,7 @@ GEM
       minitest (>= 5.1, < 6)
       securerandom (>= 0.3)
       tzinfo (~> 2.0, >= 2.0.5)
-    addressable (2.9.0)
+    addressable (2.9.1)
       public_suffix (>= 2.0.2, < 8.0)
     anonymous_loader (0.1.5)
       version_gem (~> 1.1, >= 1.1.17)
@@ -534,12 +534,6 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
-    rest-client (2.1.0-x64-mingw32)
-      ffi (~> 1.9)
-      http-accept (>= 1.7.0, < 2.0)
-      http-cookie (>= 1.0.2, < 2.0)
-      mime-types (>= 1.16, < 4.0)
-      netrc (~> 0.8)
     reverse_markdown (3.0.2)
       nokogiri
     rexml (3.4.4)
@@ -705,11 +699,11 @@ GEM
 PLATFORMS
   arm64-darwin-23
   arm64-darwin-24
-  x64-mingw32
+  x64-mingw-ucrt
   x86_64-linux
 
 DEPENDENCIES
-  addressable (~> 2.7)
+  addressable (~> 2.9)
   ansi-to-html
   anycable-rails
   aws-sdk-cloudfront

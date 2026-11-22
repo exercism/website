@@ -1,10 +1,6 @@
 require "test_helper"
 
 class Git::SyncProblemSpecificationsTest < ActiveSupport::TestCase
-  setup do
-    TestHelpers.use_problem_specifications_test_repo!
-  end
-
   test "creates new exercises" do
     Git::SyncProblemSpecifications.()
 

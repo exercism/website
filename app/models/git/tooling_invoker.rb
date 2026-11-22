@@ -1,7 +1,7 @@
 class Git::ToolingInvoker
   extend Mandate::Memoize
 
-  DEFAULT_REPO_URL = "https://github.com/exercism/tooling-invoker".freeze
+  DEFAULT_REPO_URL = Git::Repository.default_url_for("tooling-invoker").freeze
 
   attr_reader :repo
 

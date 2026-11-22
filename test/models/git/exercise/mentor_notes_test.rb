@@ -4,8 +4,7 @@ class Git::Exercise::MentorNotesTest < ActiveSupport::TestCase
   test "#edit_url returns edit url if mentoring notes is present" do
     track = create :track
     exercise = create(:concept_exercise, track:)
-    repo = TestHelpers.use_website_copy_test_repo!
-    repo.expects(:mentor_notes_for_exercise).with(track.slug, exercise.slug).returns("mentor notes")
+    Git::WebsiteCopy.any_instance.expects(:mentor_notes_for_exercise).with(track.slug, exercise.slug).returns("mentor notes")
 
     notes = Git::Exercise::MentorNotes.new(track.slug, exercise.slug)
 
@@ -18,8 +17,7 @@ class Git::Exercise::MentorNotesTest < ActiveSupport::TestCase
   test "#edit_url returns new url if mentoring notes is blank" do
     track = create :track
     exercise = create(:concept_exercise, track:)
-    repo = TestHelpers.use_website_copy_test_repo!
-    repo.expects(:mentor_notes_for_exercise).with(track.slug, exercise.slug).returns("")
+    Git::WebsiteCopy.any_instance.expects(:mentor_notes_for_exercise).with(track.slug, exercise.slug).returns("")
 
     notes = Git::Exercise::MentorNotes.new(track.slug, exercise.slug)
 

@@ -2,8 +2,6 @@ require "test_helper"
 
 class Git::SyncMainDocsTest < ActiveSupport::TestCase
   test "creates missing docs" do
-    TestHelpers.use_docs_test_repo!
-
     Git::SyncMainDocs.()
 
     assert_equal 2, Document.count
@@ -30,8 +28,6 @@ class Git::SyncMainDocsTest < ActiveSupport::TestCase
   end
 
   test "updates existing docs" do
-    TestHelpers.use_docs_test_repo!
-
     create :document, uuid: "7c7139b9-a228-4691-a4e4-a0c39a6dd615",
       slug: "rlly",
       git_path: "incorrect/old.md",
@@ -53,8 +49,6 @@ class Git::SyncMainDocsTest < ActiveSupport::TestCase
   end
 
   test "removes a main doc that is no longer in its section's config" do
-    TestHelpers.use_docs_test_repo!
-
     removed = create :document, uuid: SecureRandom.uuid, section: "building", slug: "gone"
     track_doc = create :document, uuid: SecureRandom.uuid, section: "building", slug: "track-doc", track: create(:track)
 
@@ -66,8 +60,6 @@ class Git::SyncMainDocsTest < ActiveSupport::TestCase
   end
 
   test "a section with no docs in its config removes nothing" do
-    TestHelpers.use_docs_test_repo!
-
     # The test repo has no mentoring/config.json, which reads as empty
     kept = create :document, uuid: SecureRandom.uuid, section: "mentoring", slug: "kept"
 
@@ -77,8 +69,6 @@ class Git::SyncMainDocsTest < ActiveSupport::TestCase
   end
 
   test "open issue for sync failure when not synced successfully" do
-    TestHelpers.use_docs_test_repo!
-
     repo_url = TestHelpers.git_repo_url("docs")
     repo = Git::Repository.new(repo_url:)
 

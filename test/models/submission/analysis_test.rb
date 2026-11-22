@@ -36,7 +36,6 @@ class Submission::AnalysisTest < ActiveSupport::TestCase
   end
 
   test "comments doesn't raise" do
-    TestHelpers.use_website_copy_test_repo!
     Github::Issue::Open.expects(:call)
 
     comments = ["ruby.two-fer.incorrect_default_param"]
@@ -48,8 +47,6 @@ class Submission::AnalysisTest < ActiveSupport::TestCase
   end
 
   test "comments for single simple comments" do
-    TestHelpers.use_website_copy_test_repo!
-
     comments = ["ruby.two-fer.incorrect_default_param"]
     analysis = create :submission_analysis, data: { comments: }
 
@@ -61,8 +58,6 @@ class Submission::AnalysisTest < ActiveSupport::TestCase
   end
 
   test "comments for single comment hash" do
-    TestHelpers.use_website_copy_test_repo!
-
     comments = [{
       "comment" => "ruby.two-fer.string_interpolation",
       "params" => {
@@ -81,8 +76,6 @@ class Submission::AnalysisTest < ActiveSupport::TestCase
   end
 
   test "comments for comment hash with missing params does not raise" do
-    TestHelpers.use_website_copy_test_repo!
-
     comments = [{
       "comment" => "ruby.two-fer.string_interpolation",
       "params" => {}
@@ -95,8 +88,6 @@ class Submission::AnalysisTest < ActiveSupport::TestCase
   end
 
   test "comments orders correctly for mixed comments" do
-    TestHelpers.use_website_copy_test_repo!
-
     comments = [
       "ruby.two-fer.incorrect_default_param",
       {

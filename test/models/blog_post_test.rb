@@ -27,7 +27,6 @@ class BlogPostTest < ActiveSupport::TestCase
   end
 
   test "content_html" do
-    TestHelpers.use_blog_test_repo!
     expected = "<p>This is some great blog content\nFTW!!</p>\n"
     assert_equal expected, create(:blog_post).content_html
   end

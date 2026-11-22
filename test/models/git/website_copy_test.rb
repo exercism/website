@@ -2,10 +2,6 @@ require 'test_helper'
 
 module Git
   class WebsiteCopyTest < ActiveSupport::TestCase
-    setup do
-      TestHelpers.use_website_copy_test_repo!
-    end
-
     test "analysis_comment_for" do
       expected = "What could the default value of the parameter be set to in order to avoid having to use a conditional?\n"
       actual = Git::WebsiteCopy.new.analysis_comment_for('ruby.two-fer.incorrect_default_param')

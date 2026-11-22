@@ -1,10 +1,6 @@
 require 'test_helper'
 
 class Git::ProblemSpecificationsCopyTest < ActiveSupport::TestCase
-  setup do
-    TestHelpers.use_problem_specifications_test_repo!
-  end
-
   test "exercises" do
     git = Git::ProblemSpecifications.new
 

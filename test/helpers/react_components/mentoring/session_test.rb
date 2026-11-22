@@ -2,8 +2,6 @@ require_relative "../react_component_test_case"
 
 class ReactComponents::Mentoring::SessionTest < ReactComponentTestCase
   test "mentoring request renders correctly" do
-    TestHelpers.use_website_copy_test_repo!
-
     mentor = create :user
     student = create :user
     track = create :track, slug: "ruby"
@@ -72,8 +70,6 @@ class ReactComponents::Mentoring::SessionTest < ReactComponentTestCase
   end
 
   test "mentoring discussion renders correctly" do
-    TestHelpers.use_website_copy_test_repo!
-
     mentor = create :user
     student = create :user
     track = create :track, slug: "ruby"
@@ -152,8 +148,6 @@ class ReactComponents::Mentoring::SessionTest < ReactComponentTestCase
   end
 
   test "hidden scratchpad introducer" do
-    TestHelpers.use_website_copy_test_repo!
-
     mentor = create :user
     student = create :user
     track = create :track, slug: "ruby"

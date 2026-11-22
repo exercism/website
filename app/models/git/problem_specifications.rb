@@ -1,7 +1,7 @@
 class Git::ProblemSpecifications
   extend Mandate::Memoize
 
-  DEFAULT_REPO_URL = "https://github.com/exercism/problem-specifications".freeze
+  DEFAULT_REPO_URL = Git::Repository.url_for("problem-specifications").freeze
 
   attr_reader :repo
 

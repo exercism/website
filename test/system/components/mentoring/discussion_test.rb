@@ -545,8 +545,6 @@ module Components
       end
 
       test "mentor sees exercise guidance" do
-        TestHelpers.use_website_copy_test_repo!
-
         mentor = create :user, :external_avatar_url, handle: "author"
         exercise = create :concept_exercise, slug: "lasagna"
         solution = create(:concept_solution, exercise:, user: create(:user, :external_avatar_url))
@@ -568,8 +566,6 @@ module Components
       end
 
       test "mentor notes show by default on practice exercise" do
-        TestHelpers.use_website_copy_test_repo!
-
         mentor = create :user, :external_avatar_url, handle: "author"
         exercise = create :practice_exercise
         solution = create(:practice_solution, exercise:, user: create(:user, :external_avatar_url))

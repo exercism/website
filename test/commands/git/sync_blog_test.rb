@@ -1,10 +1,6 @@
 require "test_helper"
 
 class Git::SyncBlogTest < ActiveSupport::TestCase
-  setup do
-    TestHelpers.use_blog_test_repo!
-  end
-
   test "creates missing posts" do
     create :user, handle: "iHiD"
     create :user, handle: "jonathandmiddleton"

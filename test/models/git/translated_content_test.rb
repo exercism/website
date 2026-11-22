@@ -109,7 +109,6 @@ class Git::TranslatedOtherContentTest < ActiveSupport::TestCase
   end
 
   test "blog posts" do
-    TestHelpers.use_blog_test_repo!
     repo = Git::Repository.new(repo_url: TestHelpers.git_repo_url("blog"))
     post = create :blog_post, slug: "sorry-for-the-wait"
 
@@ -122,7 +121,6 @@ class Git::TranslatedOtherContentTest < ActiveSupport::TestCase
   end
 
   test "analyzer comments keep their placeholders for interpolation" do
-    TestHelpers.use_website_copy_test_repo!
     repo = Git::Repository.new(repo_url: TestHelpers.git_repo_url("website-copy"))
     path = "analyzer-comments/ruby/two-fer/string_interpolation.md"
 

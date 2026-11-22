@@ -6,8 +6,6 @@ module Flows
     include CapybaraHelpers
 
     test "mentor views previous session" do
-      TestHelpers.use_website_copy_test_repo!
-
       mentor = create :user, handle: "author"
       student = create :user, handle: "student-123"
 
@@ -37,8 +35,6 @@ module Flows
     end
 
     test "mentor favorites a student" do
-      TestHelpers.use_website_copy_test_repo!
-
       mentor = create :user, handle: "author"
       student = create :user, handle: "student-123"
       create :mentor_student_relationship, mentor:, student:, num_discussions: 2

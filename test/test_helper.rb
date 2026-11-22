@@ -86,35 +86,7 @@ end
 module TestHelpers
   extend ActionView::Helpers::AssetUrlHelper
 
-  def self.git_repo_url(slug)
-    "file://#{Rails.root / 'test' / 'repos' / slug.to_s}"
-  end
-
-  def self.use_website_copy_test_repo!
-    repo_url = TestHelpers.git_repo_url("website-copy")
-    Git::WebsiteCopy.new(repo_url:).tap do |repo|
-      Git::WebsiteCopy.expects(:new).at_least_once.returns(repo)
-    end
-  end
-
-  def self.use_blog_test_repo!
-    repo_url = TestHelpers.git_repo_url("blog")
-    repo = Git::Blog.new(repo_url:)
-    Git::Blog.expects(:new).at_least_once.returns(repo)
-  end
-
-  def self.use_docs_test_repo!
-    repo_url = TestHelpers.git_repo_url("docs")
-    repo = Git::Repository.new(repo_url:)
-    Git::Repository.expects(:new).at_least_once.returns(repo)
-  end
-
-  def self.use_problem_specifications_test_repo!
-    repo_url = TestHelpers.git_repo_url("problem-specifications")
-    Git::ProblemSpecifications.new(repo_url:).tap do |repo|
-      Git::ProblemSpecifications.expects(:new).at_least_once.returns(repo)
-    end
-  end
+  def self.git_repo_url(slug) = Git::Repository.url_for(slug.to_s)
 
   def self.download_dir = Rails.root / 'tmp' / 'downloads'
   def self.download_filepath(filename) = File.join(download_dir, filename)

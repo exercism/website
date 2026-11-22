@@ -35,7 +35,6 @@ class CommunityStoryTest < ActiveSupport::TestCase
   end
 
   test "content_html" do
-    TestHelpers.use_blog_test_repo!
     story = create :community_story, slug: 'why-i-love-tech'
 
     expected = "<p>Because it's great!</p>\n"

@@ -392,8 +392,6 @@ class SubmissionTest < ActiveSupport::TestCase
   end
 
   test "analyzer_feedback is populated correctly" do
-    TestHelpers.use_website_copy_test_repo!
-
     reputation = 50
     author = create(:user, reputation:)
     markdown = "foobar"

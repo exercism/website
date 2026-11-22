@@ -2,7 +2,7 @@ module Git
   class WebsiteCopy
     extend Mandate::Memoize
 
-    DEFAULT_REPO_URL = "https://github.com/exercism/website-copy".freeze
+    DEFAULT_REPO_URL = Repository.url_for("website-copy").freeze
 
     def self.update!
       new.update!

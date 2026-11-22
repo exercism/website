@@ -3,7 +3,7 @@ module Git
     extend Mandate::Memoize
 
     REPO_NAME = "exercism/blog".freeze
-    DEFAULT_REPO_URL = "https://github.com/#{REPO_NAME}".freeze
+    DEFAULT_REPO_URL = Repository.url_for("blog").freeze
 
     def self.post_content_for(slug) = new.post_content_for(slug)
     def self.story_content_for(slug) = new.story_content_for(slug)

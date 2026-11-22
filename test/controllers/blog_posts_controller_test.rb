@@ -2,7 +2,6 @@ require "test_helper"
 
 class BlogPostsControllerTest < ActionDispatch::IntegrationTest
   test "rss feed is in english by default" do
-    TestHelpers.use_blog_test_repo!
     create :blog_post
 
     get blog_posts_path(format: :rss)
@@ -13,7 +12,6 @@ class BlogPostsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "rss feed is in the page's locale" do
-    TestHelpers.use_blog_test_repo!
     create :blog_post, slug: "sorry-for-the-wait", title: "Sorry for the wait"
     rss = { title: "Az Exercism blogja", description: "Leírás" }
 

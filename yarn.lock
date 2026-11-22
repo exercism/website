@@ -1422,10 +1422,10 @@
     "@lezer/highlight" "^1.2.0"
     "@lezer/lr" "^1.4.0"
 
-"@exercism/codemirror-lang-awk@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@exercism/codemirror-lang-awk/-/codemirror-lang-awk-2.0.0.tgz#ab8c9ab38dea34b23b8e34e5ba9399beff93dc11"
-  integrity sha512-UO8sess4oRieX8bX21HSMyAF2T0hFAQg1qCRc8HBbGtcZb6cVHtvyZaRRsz5PFXBWD5lfgstZIhx7OkXmaMPLQ==
+"@exercism/codemirror-lang-awk@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@exercism/codemirror-lang-awk/-/codemirror-lang-awk-2.0.1.tgz#8d7cce6562313fe4f868bbf9dc578a55e5d998de"
+  integrity sha512-7WNvxRCBoepVGFzjzilSqoQwDvXWBpGH1lkvzgQHAmpIjUmin9jFJQ/gESRa1F8JFbBJdpAoO159rmoD+9645w==
   dependencies:
     "@codemirror/autocomplete" "^6.18.0"
     "@codemirror/language" "^6.10.1"

@@ -9,7 +9,7 @@ module Git
 
     # Tests use the copies of Exercism's repos in test/repos, so that
     # they never need to clone anything from GitHub.
-    def self.default_url_for(repo_name)
+    def self.url_for(repo_name)
       return "file://#{Rails.root / 'test' / 'repos' / repo_name}" if Rails.env.test?
 
       "https://github.com/exercism/#{repo_name}"

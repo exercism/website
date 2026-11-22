@@ -4,7 +4,7 @@ module Git
 
     delegate :head_sha, :fetch!, to: :repo
 
-    DEFAULT_REPO_URL = Repository.default_url_for("docs").freeze
+    DEFAULT_REPO_URL = Repository.url_for("docs").freeze
 
     def initialize(repo_url: DEFAULT_REPO_URL, branch_ref: nil)
       @repo = Repository.new(repo_url:, branch_ref:)

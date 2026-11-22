@@ -1,7 +1,7 @@
 class Git::ToolingManager
   extend Mandate::Memoize
 
-  DEFAULT_REPO_URL = Git::Repository.default_url_for("tooling-manager").freeze
+  DEFAULT_REPO_URL = Git::Repository.url_for("tooling-manager").freeze
 
   attr_reader :repo
 

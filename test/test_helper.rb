@@ -86,7 +86,7 @@ end
 module TestHelpers
   extend ActionView::Helpers::AssetUrlHelper
 
-  def self.git_repo_url(slug) = Git::Repository.default_url_for(slug.to_s)
+  def self.git_repo_url(slug) = Git::Repository.url_for(slug.to_s)
 
   def self.download_dir = Rails.root / 'tmp' / 'downloads'
   def self.download_filepath(filename) = File.join(download_dir, filename)

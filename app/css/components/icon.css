@@ -240,4 +240,28 @@
     &.--gnu-apl {
         --track-icon-color: var(--track-color-gnu-apl);
     }
+    &.--risc-v {
+        --track-icon-color: var(--track-color-risc-v);
+    }
+    &.--sather {
+        --track-icon-color: var(--track-color-sather);
+    }
+    &.--rescript {
+        --track-icon-color: var(--track-color-rescript);
+    }
+    &.--lean {
+        --track-icon-color: var(--track-color-lean);
+    }
+    &.--moonscript {
+        --track-icon-color: var(--track-color-moonscript);
+    }
+    &.--odin {
+        --track-icon-color: var(--track-color-odin);
+    }
+    &.--dyalog-apl {
+        --track-icon-color: var(--track-color-dyalog-apl);
+    }
+    &.--bqn {
+        --track-icon-color: var(--track-color-bqn);
+    }
 }

@@ -107,6 +107,14 @@
     --track-color-vbnet: 0, 78, 140;
     --track-color-x86-64-assembly: 98, 65, 192;
     --track-color-gnu-apl: 0, 0, 0;
+    --track-color-risc-v: 40, 50, 114;
+    --track-color-sather: 0, 50, 98;
+    --track-color-rescript: 230, 72, 79;
+    --track-color-lean: 7, 0, 0;
+    --track-color-moonscript: 0, 0, 0;
+    --track-color-odin: 56, 130, 210;
+    --track-color-dyalog-apl: 255, 102, 0;
+    --track-color-bqn: 43, 112, 103;
 
     --filter-twitter: invert(51%) sepia(82%) saturate(2086%) hue-rotate(175deg)
         brightness(98%) contrast(93%);

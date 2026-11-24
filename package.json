@@ -30,6 +30,7 @@
     "@exercism/highlightjs-futhark": "^0.0.4",
     "@exercism/highlightjs-gdscript": "^0.0.1",
     "@exercism/highlightjs-jikiscript": "^0.0.2",
+    "@exercism/highlightjs-pyret": "^0.0.2",
     "@exercism/highlightjs-uiua": "^0.0.4",
     "@exercism/html-to-image": "^1.11.17",
     "@exercism/javascript-browser-test-runner": "^3.0.0",

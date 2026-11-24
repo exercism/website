@@ -33,6 +33,9 @@ if (isLookbehindSupported()) {
   // These packages contain lookbehind regex patterns that cause parse-time
   // SyntaxErrors on browsers without lookbehind support. Dynamic imports
   // ensure they are loaded in separate chunks, only after confirming support.
+  import('@exercism/highlightjs-pyret').then((m) => {
+    highlighter.default.registerLanguage('pyret', m.default)
+  })
   import('highlightjs-redbol').then((m) => {
     highlighter.default.registerLanguage('red', m.default)
   })

@@ -1507,6 +1507,11 @@
   resolved "https://registry.yarnpkg.com/@exercism/highlightjs-jikiscript/-/highlightjs-jikiscript-0.0.2.tgz#4d3a9a0c56ecc86d534cfad5a7a2de30e481f500"
   integrity sha512-p/xoAeD60IGPz/Wv0sY3I9yLebLWdkPrvb+VzL43bdTSjKOZsX9xkYboD7MUpqgyqQOb/yMnilbBLLkRZtiM/Q==
 
+"@exercism/highlightjs-pyret@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@exercism/highlightjs-pyret/-/highlightjs-pyret-0.0.2.tgz#fdf0770fbc046e748b9fe3573b9c0489ad4078cc"
+  integrity sha512-5yJLXbYxo3Eh7MIYq9H7t6usCSe+t7aoxzlu/0hRUbO+c3lIPsU8kb/Ma2GIMbrzdAVqLMLlHldX20oEJIHV8w==
+
 "@exercism/highlightjs-uiua@^0.0.4":
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/@exercism/highlightjs-uiua/-/highlightjs-uiua-0.0.4.tgz#82799b3a47345596d85fc1ebbb193308db068202"

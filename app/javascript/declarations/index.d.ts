@@ -90,6 +90,13 @@ declare module 'highlightjs-zig' {
   export default setup
 }
 
+declare module 'highlightjs-lean' {
+  import { LanguageFn } from 'highlight.js'
+  const setup: LanguageFn
+
+  export default setup
+}
+
 declare module '@gleam-lang/highlight.js-gleam' {
   import { LanguageFn } from 'highlight.js'
   const setup: LanguageFn

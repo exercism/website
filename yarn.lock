@@ -6213,6 +6213,11 @@ highlightjs-jq@^0.1.0:
   resolved "https://registry.yarnpkg.com/highlightjs-jq/-/highlightjs-jq-0.1.0.tgz#27440623b1a89a2f078c669e0c56faa9d6a2320b"
   integrity sha512-XgaRaETm28jC7gD3pn8A3b7/hHoYdSeXT2XOqByutegzpevl1lVS4kqiYRS6/IIzAdMOIrgj00cl0AiC4AtFmg==
 
+highlightjs-lean@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/highlightjs-lean/-/highlightjs-lean-1.2.0.tgz#52e138f83471bdecfab2e273ad4170875125aae9"
+  integrity sha512-GH4tsvbzzZVZiHfrZ7FyaSecnY1ba54XSZB19Iz7VG0N+YYeOPLf2vi0v7Sds+/shaTtRqqxK5Oss9f4wro+uQ==
+
 highlightjs-redbol@^2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/highlightjs-redbol/-/highlightjs-redbol-2.1.2.tgz#5f4eb1fdcf9c7259d9cc1337b231272b2fe7621e"

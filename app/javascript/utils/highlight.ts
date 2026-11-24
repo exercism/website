@@ -5,6 +5,7 @@ import setupABAP from 'highlightjs-sap-abap'
 import setupCobol from 'highlightjs-cobol'
 import setupBqn from 'highlightjs-bqn'
 import setupZig from 'highlightjs-zig'
+import setupLean from 'highlightjs-lean'
 import setupGleam from '@gleam-lang/highlight.js-gleam'
 import setupChapel from 'highlightjs-chapel'
 import setupGDScript from '@exercism/highlightjs-gdscript'
@@ -20,6 +21,7 @@ if (isLookbehindSupported()) {
   highlighter.default.registerLanguage('cobol', setupCobol)
   highlighter.default.registerLanguage('bqn', setupBqn)
   highlighter.default.registerLanguage('zig', setupZig)
+  highlighter.default.registerLanguage('lean', setupLean)
   highlighter.default.registerLanguage('gleam', setupGleam)
   highlighter.default.registerLanguage('chapel', setupChapel)
   highlighter.default.registerLanguage('gdscript', setupGDScript)

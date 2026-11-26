@@ -94,6 +94,63 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     end
   end
 
+  test "sends exercise_completed" do
+    exercise = create :practice_exercise, slug: "bob"
+
+    user = create :user
+    user_track = create :user_track, user:, track: exercise.track
+    solution = create(:practice_solution, user:, exercise:)
+    create(:iteration, solution:)
+
+    Analytics::TrackEvent.expects(:defer).with(
+      user,
+      "exercise_completed",
+      properties: { track: exercise.track.slug, exercise: "bob" },
+      set_person_properties: true,
+      snapshot_activity: true
+    )
+
+    Solution::Complete.(solution, user_track)
+  end
+
+  test "doesn't send exercise_completed when solution has already been completed" do
+    exercise = create :practice_exercise
+
+    user = create :user
+    user_track = create :user_track, user:, track: exercise.track
+    solution = create(:practice_solution, :completed, user:, exercise:)
+    create(:iteration, solution:)
+
+    Analytics::TrackEvent.expects(:defer).never
+
+    Solution::Complete.(solution, user_track)
+  end
+
+  test "exercise_completed counts this completion and flips completed_non_hello_world" do
+    user = create :user
+    track = create :track
+    user_track = create(:user_track, user:, track:)
+    create(:hello_world_solution, :completed, user:, track:)
+    exercise = create(:practice_exercise, track:, slug: "bob")
+    solution = create(:practice_solution, user:, track:, exercise:)
+    create(:iteration, solution:)
+
+    client = mock
+    Analytics.stubs(:client).returns(client)
+    client.expects(:capture).with do |args|
+      properties = args[:properties]
+      args[:event] == "exercise_completed" &&
+        properties[:exercise] == "bob" &&
+        properties[:exercises_completed] == 2 &&
+        properties[:"$set"][:exercises_completed] == 2 &&
+        properties[:"$set"][:completed_non_hello_world] == true
+    end
+
+    Solution::Complete.(solution, user_track)
+
+    perform_enqueued_jobs
+  end
+
   test "awards anybody there badge when hello-world exercise is completed in five tracks" do
     user = create :user
     user_track = create(:user_track, user:)

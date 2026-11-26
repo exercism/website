@@ -101,19 +101,6 @@ namespace :mentoring do
   end
 end
 
-namespace :maintaining do
-  root to: "dashboard#show"
-  resources :submissions, only: [:index]
-  resources :exercise_representations
-  resources :site_updates, except: [:destroy]
-  resources :track_maintainers, only: %i[index create]
-  resources :track_categories, only: %i[index create]
-
-  # The editor, with experimental features turned on. Exists so they can be
-  # exercised against a real exercise without being exposed to students.
-  resources :experimental_editors, only: %i[index show], param: :exercise_slug
-end
-
 namespace :localization do
   resource :translator, only: %i[new create]
 end

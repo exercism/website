@@ -3,5 +3,8 @@
 @import "../rtl";
 
 @import "../pages/admin/page";
+@import "../pages/admin/layout";
+@import "../pages/admin/dashboard";
 @import "../pages/admin/table";
+@import "../pages/admin/form";
 @import "../components/admin";

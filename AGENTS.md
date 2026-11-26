@@ -110,6 +110,7 @@ rm -rf .built-assets/              # Clear asset cache if needed
 - `User::Roles` defines three access levels, highest first: `admin?` (anything with personal data or that acts on users), `maintainer_admin?` (running the site and the org) and `maintainer?` (track maintainers). Each level implies the ones below it.
 - Guard controllers with `ensure_admin!`, `ensure_maintainer_admin!` or `ensure_maintainer!`. Pick the lowest level that is safe. If a page shows people's details or changes their accounts, it needs `admin`.
 - `staff?`, `founder?` and `supermentor?` are labels. They change how someone is shown (profile tags, flair, Insiders eligibility, analytics) and must never be used to grant access.
+- Every page for these levels lives under `/admin` (`Admin::` controllers, `layout "admin"`). `Admin::BaseController` requires `maintainer`, and each controller that needs more adds `ensure_maintainer_admin!` or `ensure_admin!`. To add a page to the sidebar and the `/admin` front page, add it to the right group in `ViewComponents::Admin::Nav::GROUPS`.
 - Access comes from roles alone. The one check on a person is `ensure_iHiD!` on mailshots, and no new ones should be added.
 
 **Track maintenance status:**

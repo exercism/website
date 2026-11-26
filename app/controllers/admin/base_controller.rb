@@ -1,5 +1,5 @@
 class Admin::BaseController < ApplicationController
-  before_action :ensure_maintainer_admin!
+  before_action :ensure_maintainer!
 
   layout "admin"
 end

@@ -1,0 +1,30 @@
+= form_for(update, url:, as: :site_update, html: { class: "c-admin-form" }) do |form|
+  - if update.errors.any?
+    .c-flash.mb-24
+      .--errors
+        #{pluralize(update.errors.count, "error")} prohibited this site update from being saved:
+        %ul
+          - update.errors.each do |error|
+            %li= error.full_message
+  .field
+    = form.label :title, "Title"
+    = form.text_field :title
+
+  .field
+    = form.label :description_markdown, "Description"
+    = form.text_area :description_markdown, maxlength: 600
+    .hint Markdown, up to 600 characters. Don't use headings.
+
+  - if update.new_record?
+    .field
+      = form.label :track_id, "Track"
+      .c-select= form.collection_select :track_id, tracks, :id, :title
+
+  .field
+    = form.label :pull_request_number, "Pull request number"
+    = form.number_field :pull_request_number
+    .hint The number from https://github.com/exercism/<repo>/pull/<number>
+
+  .actions
+    = form.button button_label, class: "btn-primary btn-m"
+    = link_to "Back to site updates", admin_site_updates_path, class: "btn-default btn-m"

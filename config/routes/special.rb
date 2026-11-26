@@ -60,7 +60,25 @@ namespace :admin do
       get :search
     end
   end
+
+  # Pages for track maintainers
+  resources :submissions, only: [:index]
+  resources :exercise_representations, only: %i[index edit update]
+  resources :site_updates, except: [:destroy]
+  resources :track_maintainers, only: %i[index create]
+  resources :track_categories, only: %i[index create]
+
+  # The editor, with experimental features turned on. Exists so they can be
+  # exercised against a real exercise without being exposed to students.
+  resources :experimental_editors, only: %i[index show], param: :exercise_slug
 end
+
+# The maintaining pages moved into /admin, keeping their paths within it.
+get "(:locale)/maintaining(/*path)", format: false,
+  constraints: { locale: LOCALE_ROUTE_CONSTRAINT },
+  to: redirect(status: 301) { |params, req|
+    [["/admin", params[:path]].compact.join("/"), req.query_string.presence].compact.join("?")
+  }
 
 # #### #
 # SEO #

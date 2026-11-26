@@ -67,7 +67,7 @@ class ApplicationController < ActionController::Base
   def ensure_admin!
     return if current_user&.admin?
 
-    redirect_to maintaining_root_path
+    redirect_to admin_root_path
   end
 
   def ensure_maintainer!
@@ -79,7 +79,7 @@ class ApplicationController < ActionController::Base
   def ensure_maintainer_admin!
     return if current_user&.maintainer_admin?
 
-    redirect_to maintaining_root_path
+    redirect_to admin_root_path
   end
 
   def ensure_moderator!

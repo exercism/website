@@ -1,33 +1,46 @@
-table.c-admin-table {
-    @apply shadow-lg;
-    @apply rounded-8;
-    width: 100%;
-    border-collapse: collapse;
-    tr:last-child {
-        td {
-            border-bottom: none;
-        }
+table.c-admin-table,
+.c-admin-submissions table {
+    @apply w-100 mb-16;
+    @apply bg-backgroundColorA shadow-sm rounded-8;
+    border-collapse: separate;
+    border-spacing: 0;
+    @apply border-1 border-borderColor6;
+    overflow: hidden;
+
+    & th {
+        @apply py-10 px-16 text-start;
+        @apply font-mono font-bold text-13 leading-150 uppercase text-textColor6;
+        @apply bg-backgroundColorD;
+        @apply border-b-1 border-borderColor6;
     }
-    th {
-        padding: 10px;
-        text-align: left;
-        font-weight: 600px;
-    }
-    td {
-        border: 1px solid #d5d8e4;
-        padding: 10px;
-        vertical-align: top;
+
+    & td {
+        @apply py-10 px-16 align-top;
+        @apply border-b-1 border-borderColor6;
         max-width: 300px;
+    }
 
-        &:first-child {
-            border-left: none;
-        }
-        &:last-child {
-            border-right: none;
-        }
+    & tr:last-child td {
+        @apply border-b-0;
+    }
 
-        a:not(".btn-primary") {
-            @apply btn-link;
-        }
+    & ul {
+        @apply flex flex-col gap-4;
+    }
+}
+
+/* Shown in place of a table that has no rows. */
+.c-admin-empty {
+    @apply mb-16 py-24 px-24 rounded-8 text-center;
+    @apply border-2 border-dashed border-borderColor6;
+    @apply text-16 text-textColor6;
+}
+
+/* The live submissions table, rendered by React. */
+.c-admin-submissions td {
+    @apply whitespace-pre-wrap;
+
+    &:nth-child(n + 4) {
+        @apply font-mono text-14;
     }
 }

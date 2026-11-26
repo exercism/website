@@ -1,0 +1,18 @@
+%h1 Experimental editor
+
+%p.mb-8
+  The normal editor, with experimental features turned on. Right now that
+  means running the tests in the browser on a wasm kernel, rather than
+  sending them to the tooling fleet.
+%p.mb-24
+  Students never see this: the editor they use passes the flag as false and
+  is unchanged.
+
+%h2 #{@track.title} exercises
+- if @exercises.empty?
+  .c-admin-empty This track has no exercises yet.
+- else
+  %ul.list-disc.ms-24
+    - @exercises.each do |exercise|
+      %li.mb-4
+        = link_to exercise.title, admin_experimental_editor_path(exercise.slug), data: { turbo: false }

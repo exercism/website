@@ -1,28 +1,27 @@
-.lg-container
-  %h1.text-h1= @community_video.title
+%h1.text-h1= @community_video.title
 
-  .text-h6.mb-8 Title: #{@community_video.title}
-  .text-h6.mb-8 Status: #{@community_video.status.to_s.titleize}
-  .text-h6.mb-8 Track: #{@community_video.track&.title}
-  .text-h6.mb-8 Exercise: #{@community_video.exercise&.title}
-  - submitted_by = @community_video.submitted_by
-  .text-h6.mb-8 Submitted By: #{submitted_by.name} | @#{submitted_by.handle} | ##{submitted_by.id}
+.text-h6.mb-8 Title: #{@community_video.title}
+.text-h6.mb-8 Status: #{@community_video.status.to_s.titleize}
+.text-h6.mb-8 Track: #{@community_video.track&.title}
+.text-h6.mb-8 Exercise: #{@community_video.exercise&.title}
+- submitted_by = @community_video.submitted_by
+.text-h6.mb-8 Submitted By: #{submitted_by.name} | @#{submitted_by.handle} | ##{submitted_by.id}
 
-  - author = @community_video.author
-  - if author.present?
-    .text-h6.mb-8 Author: #{author.name} | @#{author.handle} | ##{author.id}
+- author = @community_video.author
+- if author.present?
+  .text-h6.mb-8 Author: #{author.name} | @#{author.handle} | ##{author.id}
 
-  = video_embed(@community_video.platform, @community_video.watch_id)
-  .text-h4.mb-8.mt-16 COMMUNITY VIDEO Attributes:
-  - if @community_video
-    - @community_video.attributes.each do |key, value|
-      .text-h6.mb-8 #{key}: #{value}
-  - else
-    %li.text-sm.text-red-500 COMMUNITY VIDEO is nil
+= video_embed(@community_video.platform, @community_video.watch_id)
+.text-h4.mb-8.mt-16 COMMUNITY VIDEO Attributes:
+- if @community_video
+  - @community_video.attributes.each do |key, value|
+    .text-h6.mb-8 #{key}: #{value}
+- else
+  %li.text-sm.text-red-500 COMMUNITY VIDEO is nil
 
-  .flex.mt-16
-    = link_to "Edit this community video", edit_admin_community_video_path(@community_video), class: 'btn btn-standard btn-base'
-    |
-    = link_to "Back to community videos", admin_community_videos_path, class: 'btn btn-standard btn-base'
+.flex.mt-16
+  = link_to "Edit this community video", edit_admin_community_video_path(@community_video), class: 'btn btn-standard btn-base'
+  |
+  = link_to "Back to community videos", admin_community_videos_path, class: 'btn btn-standard btn-base'
 
-    -# \#{button_to "Destroy this community video", [:admin, @community_video, method: :delete}
+  -# \#{button_to "Destroy this community video", [:admin, @community_video, method: :delete}

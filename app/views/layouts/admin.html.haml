@@ -1,3 +1,11 @@
 - require_stylesheet "admin"
 
+- content_for :content do
+  .c-admin-layout
+    .lg-container
+      = render ViewComponents::Admin::Nav.new(controller_path)
+      %main.c-admin-content
+        = flash_messages
+        = yield
+
 = render template: "layouts/application"

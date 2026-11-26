@@ -9,7 +9,6 @@ class Admin::AccessTest < ActionDispatch::IntegrationTest
   ].freeze
 
   MAINTAINER_ADMIN_ROUTES = %i[
-    admin_root_url
     admin_community_videos_url
     admin_streaming_events_url
   ].freeze
@@ -53,6 +52,32 @@ class Admin::AccessTest < ActionDispatch::IntegrationTest
 
         assert_response :redirect
       end
+    end
+  end
+
+  MAINTAINER_ROUTES = %i[
+    admin_root_url
+    admin_site_updates_url
+    admin_track_categories_url
+    admin_track_maintainers_url
+    admin_submissions_url
+  ].freeze
+
+  MAINTAINER_ROUTES.each do |route|
+    test "#{route}: maintainers can see it" do
+      sign_in!(create(:user, :maintainer))
+
+      get send(route)
+
+      assert_response :success
+    end
+
+    test "#{route}: redirects staff" do
+      sign_in!(create(:user, :staff))
+
+      get send(route)
+
+      assert_redirected_to root_url
     end
   end
 

@@ -1,0 +1,30 @@
+/* Forms in the admin section: one labelled field under another. */
+.c-admin-form {
+    max-width: 640px;
+
+    & .field {
+        @apply flex flex-col mb-20;
+    }
+
+    & label {
+        @apply block mb-8 font-semibold text-textColor2;
+    }
+
+    & input:not([type="submit"]):not([type="checkbox"]),
+    & textarea,
+    & .c-select {
+        @apply w-100;
+    }
+
+    & textarea {
+        height: 160px;
+    }
+
+    & .hint {
+        @apply text-14 leading-150 text-textColor6 mt-8;
+    }
+
+    & .actions {
+        @apply flex items-center gap-12 mt-8;
+    }
+}

@@ -42,7 +42,7 @@ module ViewComponents
         { html: link_to(I18n.t("components.user_menu.items.your_journey"), Exercism::Routes.journey_path), className: "opt" },
         { html: link_to(I18n.t("components.user_menu.items.settings"), Exercism::Routes.settings_path), className: "opt" },
         (if current_user.maintainer?
-           { html: link_to(I18n.t("components.user_menu.items.maintaining"), Exercism::Routes.maintaining_root_path),
+           { html: link_to(I18n.t("components.user_menu.items.maintaining"), Exercism::Routes.admin_root_path),
              className: "opt" }
          end),
         { html: button_to(I18n.t("components.user_menu.items.sign_out"), Exercism::Routes.destroy_user_session_path,

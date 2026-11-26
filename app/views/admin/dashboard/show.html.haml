@@ -1,15 +1,14 @@
-.c-admin-page
-  .lg-container
-    %h1.text-h1.mb-8 Admin
+%h1 Admin
+%p.mb-32 These are the pages you can use to run Exercism. Each group needs a different level of access.
 
-    %ul.links
-      %li
-        = link_to "Community Videos", admin_community_videos_path
-      %li
-        = link_to "Donors", admin_donors_path
-      %li
-        = link_to "Mailshots", admin_mailshots_path
-      %li
-        = link_to "Streaming Events", admin_streaming_events_path
-      %li
-        = link_to "Users", admin_users_path
+- groups = ViewComponents::Admin::Nav.groups_for(current_user)
+- groups.each do |group, items|
+  %section.c-admin-dashboard-group
+    %h2= group.title
+    .cards
+      - items.each do |item|
+        = link_to item.url, class: "card", data: (item.external ? { turbo: false } : {}) do
+          = graphical_icon(item.icon)
+          .details
+            .title= item.title
+            .description= item.description

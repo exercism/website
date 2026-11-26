@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_11_12_184236) do
+ActiveRecord::Schema[7.1].define(version: 2026_11_26_090500) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -1539,12 +1539,14 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_12_184236) do
     t.string "locale"
     t.text "translator_locales"
     t.bigint "sign_up_track_id"
+    t.virtual "has_roles", type: :boolean, as: "(coalesce(json_length(`roles`),0) > 0)"
     t.index ["bootcamp_attendee", "user_id"], name: "index_user_data__bootcamp_attendees"
     t.index ["bootcamp_mentor", "user_id"], name: "index_user_data__bootcamp_mentors"
     t.index ["discord_uid"], name: "index_user_data_on_discord_uid", unique: true
     t.index ["first_donated_at", "show_on_supporters_page", "user_id"], name: "index_user_data__supporters-page"
     t.index ["first_donated_at"], name: "index_user_data_on_first_donated_at"
     t.index ["github_username"], name: "index_user_data_on_github_username", unique: true
+    t.index ["has_roles"], name: "index_user_data_on_has_roles"
     t.index ["insiders_status"], name: "index_user_data_on_insiders_status"
     t.index ["last_visited_on"], name: "index_user_data_on_last_visited_on"
     t.index ["paypal_payer_id"], name: "index_user_data_on_paypal_payer_id", unique: true

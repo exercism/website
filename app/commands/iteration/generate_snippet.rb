@@ -9,6 +9,8 @@ class Iteration::GenerateSnippet
   # The extractor Lambda times out after 3 seconds, which very large files can
   # hit. The snippet only uses the first lines, so we send just the start.
   MAX_SOURCE_CODE_CHARACTERS = 20_000
+  # The extractor returns up to 15 lines, each cut at 200 characters.
+  MAX_SNIPPET_CHARACTERS = 3_000
   SnippetGeneratorTemporarilyUnavailable = Class.new(StandardError)
 
   def call
@@ -31,7 +33,7 @@ class Iteration::GenerateSnippet
       { content_type: :json, accept: :json }
     ).body
 
-    snippet = "#{snippet[0, 1400]}\n\n..." if snippet.length > 1400
+    snippet = "#{snippet[0, MAX_SNIPPET_CHARACTERS]}\n\n..." if snippet.length > MAX_SNIPPET_CHARACTERS
 
     iteration.update_column(:snippet, snippet)
     Solution::UpdateSnippet.(iteration.solution)

@@ -122,7 +122,7 @@ class Iteration::GenerateSnippetTest < ActiveJob::TestCase
 
   test "handle long snippets" do
     code = "Some source code"
-    snippet = "Some generated snippet#{"x" * 1500}"
+    snippet = "Some generated snippet#{"x" * 3500}"
 
     stub_request(:post, Exercism.config.snippet_generator_url).
       with(
@@ -135,7 +135,20 @@ class Iteration::GenerateSnippetTest < ActiveJob::TestCase
     Iteration::GenerateSnippet.(iteration)
     snippet = iteration.reload.snippet
     assert snippet.ends_with?("\n\n...")
-    assert_equal 1405, snippet.length
+    assert_equal Iteration::GenerateSnippet::MAX_SNIPPET_CHARACTERS + 5, snippet.length
+  end
+
+  test "keeps a snippet of exactly the maximum length intact" do
+    snippet = "x" * Iteration::GenerateSnippet::MAX_SNIPPET_CHARACTERS
+
+    stub_request(:post, Exercism.config.snippet_generator_url).
+      to_return(status: 200, body: snippet, headers: {})
+
+    iteration = create :iteration, submission: @submission
+
+    Iteration::GenerateSnippet.(iteration)
+
+    assert_equal snippet, iteration.reload.snippet
   end
 
   test "sends the exercise's main solution file when there are several files" do

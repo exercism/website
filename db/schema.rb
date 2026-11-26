@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_11_12_184236) do
+ActiveRecord::Schema[7.1].define(version: 2026_11_26_143208) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -681,7 +681,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_12_184236) do
     t.string "uuid", null: false
     t.datetime "deleted_at", precision: nil
     t.integer "idx", limit: 1, null: false
-    t.string "snippet", limit: 1500
+    t.string "snippet", limit: 3100
     t.integer "num_loc"
     t.index ["created_at", "solution_id"], name: "index_iterations_on_created_at_and_solution_id"
     t.index ["solution_id"], name: "fk_rails_5d9f1bf4bd"
@@ -1099,7 +1099,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_12_184236) do
     t.integer "status", limit: 1, default: 0, null: false
     t.string "iteration_status"
     t.integer "mentoring_status", limit: 1, default: 0, null: false
-    t.string "snippet", limit: 1500
+    t.string "snippet", limit: 3100
     t.integer "num_iterations", limit: 1, default: 0, null: false
     t.string "type", null: false
     t.string "public_uuid", null: false

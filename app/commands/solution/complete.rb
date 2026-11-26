@@ -16,6 +16,7 @@ class Solution::Complete
     award_trophies!
     record_activity!
     log_metric!
+    track_exercise_completed!
   end
 
   private
@@ -50,6 +51,25 @@ class Solution::Complete
 
   def log_metric!
     Metric::Queue.(:complete_solution, solution.completed_at, solution:, track:, user:)
+  end
+
+  # This is only reached when this call completed the solution, so the
+  # event isn't sent again for a solution that was already completed. The
+  # job works out the user's activity, which refreshes their person
+  # properties and adds exercises_completed (including this one) to the
+  # event.
+  def track_exercise_completed!
+    Analytics::TrackEvent.defer(
+      user,
+      "exercise_completed",
+      properties: {
+        track: track.slug,
+        exercise: exercise.slug,
+        is_hello_world: exercise.slug == Analytics::DetermineActivityProperties::HELLO_WORLD_SLUG
+      },
+      set_person_properties: true,
+      snapshot_activity: true
+    )
   end
 
   memoize

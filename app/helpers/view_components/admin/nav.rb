@@ -109,7 +109,7 @@ module ViewComponents
 
       def to_s
         groups = self.class.groups_for(current_user)
-        return if groups.empty?
+        return "" if groups.empty?
 
         tag.nav(class: "c-admin-nav", "aria-label": "Admin") do
           safe_join([overview_link, *groups.map { |group, items| group_html(group, items) }])

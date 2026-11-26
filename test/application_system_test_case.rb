@@ -1,6 +1,7 @@
 require "test_helper"
 require_relative "./support/websockets_helpers"
 require_relative "./support/capybara_helpers"
+require_relative "./support/chrome_storage_reset"
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   include WebsocketsHelpers

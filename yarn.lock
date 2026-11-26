@@ -1408,11 +1408,6 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@exercism/active-background@^0.6.2":
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/@exercism/active-background/-/active-background-0.6.2.tgz#8f7333adcc37401dac0c2af0e94a9d2a87311666"
-  integrity sha512-oRSlD9o2twN+AwoL8XSYgbxggt8+rgH+n6y84mjXpuC/MsJoQQGG0Y6gkzuJcloLgB1SuBUt87qJunm4lYQzCA==
-
 "@exercism/codemirror-lang-arturo@^0.1.6":
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/@exercism/codemirror-lang-arturo/-/codemirror-lang-arturo-0.1.7.tgz#f4b876feacea7f4a185dc34838c876fa16a89204"
@@ -1730,7 +1725,7 @@
     "@types/node" "*"
     jest-regex-util "30.5.0"
 
-"@jest/react-is-18@npm:react-is@^18.3.1":
+"@jest/react-is-18@npm:react-is@^18.3.1", react-is@^18.0.0:
   version "18.3.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.3.1.tgz#e83557dc12eae63a99e003a46388b1dcbb44db7e"
   integrity sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==
@@ -9888,11 +9883,6 @@ react-is@^17.0.1:
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
-
-react-is@^18.0.0:
-  version "18.3.1"
-  resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.3.1.tgz#e83557dc12eae63a99e003a46388b1dcbb44db7e"
-  integrity sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==
 
 react-lifecycles-compat@^3.0.0:
   version "3.0.4"

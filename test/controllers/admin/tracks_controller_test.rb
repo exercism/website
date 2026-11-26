@@ -30,9 +30,9 @@ class Admin::TracksControllerTest < ActionDispatch::IntegrationTest
   test "create: queues the track to be added" do
     sign_in!(create(:user, :maintainer_admin))
 
-    assert_enqueued_with(job: MandateJob) do
-      post admin_tracks_path, params: { slug: " Common-Lisp " }
-    end
+    Track::Create.expects(:defer).with("common-lisp")
+
+    post admin_tracks_path, params: { slug: " Common-Lisp " }
 
     assert_redirected_to new_admin_track_path
     assert_equal 'The "common-lisp" track has been queued to be added. ' \
@@ -42,9 +42,9 @@ class Admin::TracksControllerTest < ActionDispatch::IntegrationTest
   test "create: redirects maintainers without queueing anything" do
     sign_in!(create(:user, :maintainer))
 
-    assert_no_enqueued_jobs do
-      post admin_tracks_path, params: { slug: "common-lisp" }
-    end
+    Track::Create.expects(:defer).never
+
+    post admin_tracks_path, params: { slug: "common-lisp" }
 
     assert_redirected_to admin_root_path
   end
@@ -53,9 +53,9 @@ class Admin::TracksControllerTest < ActionDispatch::IntegrationTest
     test "create: rejects the slug #{slug.inspect}" do
       sign_in!(create(:user, :maintainer_admin))
 
-      assert_no_enqueued_jobs do
-        post admin_tracks_path, params: { slug: }
-      end
+      Track::Create.expects(:defer).never
+
+      post admin_tracks_path, params: { slug: }
 
       assert_response :unprocessable_entity
       assert_select ".c-flash .--errors"
@@ -66,9 +66,9 @@ class Admin::TracksControllerTest < ActionDispatch::IntegrationTest
     create :track, slug: "ruby"
     sign_in!(create(:user, :maintainer_admin))
 
-    assert_no_enqueued_jobs do
-      post admin_tracks_path, params: { slug: "ruby" }
-    end
+    Track::Create.expects(:defer).never
+
+    post admin_tracks_path, params: { slug: "ruby" }
 
     assert_response :unprocessable_entity
     assert_select ".c-flash .--errors", text: /already a track with the slug "ruby"/

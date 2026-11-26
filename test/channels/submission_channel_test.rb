@@ -1,8 +1,8 @@
 require "test_helper"
 
 class SubmissionChannelTest < ActionCable::Channel::TestCase
-  test "subscribes a maintainer" do
-    stub_connection(current_user: create(:user, :maintainer))
+  test "subscribes a maintainer admin" do
+    stub_connection(current_user: create(:user, :maintainer_admin))
 
     subscribe
 
@@ -10,7 +10,16 @@ class SubmissionChannelTest < ActionCable::Channel::TestCase
     assert_has_stream "submission"
   end
 
-  test "rejects a user who is not a maintainer" do
+  test "rejects a maintainer" do
+    stub_connection(current_user: create(:user, :maintainer))
+
+    subscribe
+
+    assert subscription.rejected?
+    assert_no_streams
+  end
+
+  test "rejects a user without a role" do
     stub_connection(current_user: create(:user))
 
     subscribe

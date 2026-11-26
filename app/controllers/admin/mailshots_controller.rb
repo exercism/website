@@ -1,4 +1,5 @@
 class Admin::MailshotsController < Admin::BaseController
+  before_action :ensure_admin!
   before_action :ensure_iHiD!
   before_action :set_mailshot, only: %i[show edit update destroy send_test send_to_audience]
 

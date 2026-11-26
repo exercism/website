@@ -1,0 +1,55 @@
+- columns = { active: "Active", inactive: "Inactive", candidates: "Candidates", contributors: "Contributors", unlinked: "Unlinked" }
+
+.c-admin-track-maintainers
+  .header
+    %h1 Track maintainers
+    = button_to "Clear cache", admin_track_maintainers_path, method: :post, form: { data: { turbo_confirm: "Are you sure? This is an expensive operation" } }, class: 'btn-secondary btn-s'
+
+  %table.c-admin-table
+    %thead
+      %tr
+        %th Track
+        - columns.each_value do |title|
+          %th= title
+
+    %tbody
+      - @track_maintainers_status.each do |track, maintainers|
+        %tr
+          %td.track= track.title
+          - columns.each_key do |status|
+            %td
+              .people
+                - maintainers[status].each do |maintainer|
+                  .person{ class: status }
+                    - if status == :unlinked
+                      = link_to maintainer[:github_username], "https://github.com/#{maintainer[:github_username]}", class: "name"
+                    - else
+                      %span.name= maintainer[:handle]
+                      %span.rep #{maintainer[:reputation]} rep
+                    - if maintainer[:github_username]
+                      = link_to "commits", "#{track.repo_url}/commits?author=#{maintainer[:github_username]}", class: "commits"
+
+  .legend
+    %section
+      %h2 Legend
+      %dl
+        %dt Active
+        %dd On the track team, with building reputation at or above the member threshold. Shows their Exercism handle.
+        %dt Inactive
+        %dd On the track team, with building reputation below the member threshold. Shows their Exercism handle.
+        %dt Candidates
+        %dd Not on the track team, with building reputation at or above the candidate threshold. Shows their Exercism handle.
+        %dt Contributors
+        %dd Not on the track team, with building reputation below the candidate threshold. Shows their Exercism handle.
+        %dt Unlinked
+        %dd On the track team, but no Exercism user is linked to their GitHub account. Shows their GitHub username.
+
+    %section
+      %h2 Thresholds
+      %dl
+        %dt Member
+        %dd #{Track::RetrieveMaintainersStatus::MIN_REP_FOR_MEMBER} reputation
+        %dt Candidate
+        %dd #{Track::RetrieveMaintainersStatus::MIN_REP_FOR_CANDIDATE} reputation
+        %dt Period
+        %dd The last #{Track::RetrieveMaintainersStatus::LAST_NUMBER_OF_MONTHS_FOR_REP} months

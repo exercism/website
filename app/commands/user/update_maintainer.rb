@@ -13,7 +13,7 @@ class User::UpdateMaintainer
 
   private
   def member_of_track_team?
-    return true if user.admin?
+    return true if user.maintainer_admin?
 
     user.github_team_memberships.where.not(track: nil).exists?
   end

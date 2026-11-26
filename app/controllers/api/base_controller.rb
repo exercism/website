@@ -55,7 +55,7 @@ module API
     end
 
     def ensure_automator!
-      return if current_user&.staff?
+      return if current_user&.maintainer_admin?
       return if current_user&.track_mentorships&.automator&.exists?
 
       render_403(:not_automator)
@@ -63,7 +63,6 @@ module API
 
     def ensure_maintainer!
       return if current_user&.maintainer?
-      return if current_user&.admin? # Admins have maintainer permissions
 
       render_403(:not_maintainer)
     end

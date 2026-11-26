@@ -1,0 +1,37 @@
+/* The front page of /admin: one row of cards for each group of pages. */
+.c-admin-dashboard-group {
+    @apply mb-40;
+
+    & h2 {
+        @apply text-h4 mb-16;
+    }
+
+    & .cards {
+        @apply grid gap-16;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    }
+
+    & .card {
+        @apply flex items-start gap-16;
+        @apply bg-backgroundColorA shadow-sm rounded-8;
+        @apply border-1 border-borderColor6;
+        @apply py-16 px-20;
+        @apply transition-shadow;
+
+        &:hover {
+            @apply shadow-lg;
+        }
+
+        & > .c-icon {
+            @apply w-[32px] h-[32px] flex-shrink-0 mt-2;
+            filter: var(--textColor2-filter);
+        }
+
+        & .title {
+            @apply text-16 leading-150 font-semibold text-textColor1 mb-4;
+        }
+        & .description {
+            @apply text-15 leading-150 text-textColor6;
+        }
+    }
+}

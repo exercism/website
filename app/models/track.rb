@@ -184,7 +184,7 @@ class Track < ApplicationRecord
   end
 
   def accessible_by?(user)
-    active || user&.maintainer? || user&.admin?
+    active || user&.maintainer?
   end
 
   memoize

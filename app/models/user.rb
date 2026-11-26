@@ -362,7 +362,7 @@ class User < ApplicationRecord
   def flair = super&.to_sym
 
   def automator?(track = nil)
-    return true if staff?
+    return true if maintainer_admin?
 
     tms = track_mentorships.automator
     tms = tms.where(track:) if track

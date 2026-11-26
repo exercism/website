@@ -1,7 +1,7 @@
 require "test_helper"
 
 class Mentoring::AutomationControllerTest < ActionDispatch::IntegrationTest
-  %i[admin staff].each do |role|
+  %i[admin maintainer_admin].each do |role|
     test "index: renders correctly for #{role}" do
       track = create :track
       user = create :user, role

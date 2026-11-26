@@ -1,7 +1,7 @@
 class SubmissionChannel < ApplicationCable::Channel
   def subscribed
-    # Only the maintainers' submissions table at /maintaining/submissions uses this channel.
-    unless current_user&.maintainer?
+    # Only the submissions table at /admin/submissions uses this channel.
+    unless current_user&.maintainer_admin?
       reject
       return
     end

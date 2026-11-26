@@ -203,7 +203,7 @@ class UserTrack < ApplicationRecord
 
   memoize
   def maintainer?
-    return true if user.staff? || user.admin?
+    return true if user.maintainer_admin?
 
     user.maintainer? && user.github_team_memberships.where(team_name: track.github_team_name).exists?
   end

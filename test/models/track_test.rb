@@ -158,12 +158,16 @@ class TrackTest < ActiveSupport::TestCase
   test "accessible_by? on inactive track" do
     track = create :track, active: false
     user = create :user, roles: []
+    staff = create :user, roles: [:staff]
     maintainer = create :user, roles: [:maintainer]
+    maintainer_admin = create :user, roles: [:maintainer_admin]
     admin = create :user, roles: [:admin]
 
     refute track.accessible_by?(nil)
     refute track.accessible_by?(user)
+    refute track.accessible_by?(staff)
     assert track.accessible_by?(maintainer)
+    assert track.accessible_by?(maintainer_admin)
     assert track.accessible_by?(admin)
   end
 

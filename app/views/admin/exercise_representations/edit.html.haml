@@ -1,0 +1,24 @@
+%h1 Edit representation
+
+.flex.gap-32.items-start
+  .flex-1.min-w-0
+    %h2 Submission
+    %pre.overflow-scroll.p-20.mb-32.rounded-8.border-1.border-borderColor6.bg-backgroundColorA
+      = @representation.source_submission.files.first.content
+
+    %h2 AST
+    %pre.overflow-scroll.p-20.rounded-8.border-1.border-borderColor6.bg-backgroundColorA
+      = @representation.ast
+
+  = form_for @representation, url: admin_exercise_representation_path(@representation), html: { class: "c-admin-form flex-1" } do |f|
+    .field
+      = f.label :feedback_markdown, "Feedback"
+      = f.text_area :feedback_markdown, class: "!h-[400px]"
+
+    .field
+      = f.label :feedback_type, "Type of feedback"
+      .c-select
+        = f.select :feedback_type, %i[essential actionable non_actionable]
+
+    .actions
+      = f.button "Save feedback", class: "btn-primary btn-m"

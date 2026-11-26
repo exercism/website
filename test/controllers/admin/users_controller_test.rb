@@ -8,7 +8,7 @@ class Admin::UsersControllerTest < ActionDispatch::IntegrationTest
       assert_response :redirect
     end
 
-    test "get #{route}: should 302 if not staff" do
+    test "get #{route}: should 302 if not admin" do
       sign_in!
 
       get send(route)
@@ -16,8 +16,8 @@ class Admin::UsersControllerTest < ActionDispatch::IntegrationTest
       assert_response :redirect
     end
 
-    test "get #{route}: should 200 if staff" do
-      sign_in!(create(:user, :staff))
+    test "get #{route}: should 200 if admin" do
+      sign_in!(create(:user, :admin))
 
       get send(route)
 

@@ -9,7 +9,7 @@ class ExerciseDocsLocaleTest < ActionDispatch::IntegrationTest
     @exercise = create :practice_exercise, slug: "bob"
     @track = @exercise.track
     @repo = Git::Repository.new(repo_url: @track.repo_url)
-    @user = create :user, :staff
+    @user = create :user, :maintainer_admin
     @user.update!(locale: "hu")
     create(:user_track, user: @user, track: @track)
     @solution = create :practice_solution,

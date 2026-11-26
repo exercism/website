@@ -49,6 +49,14 @@ class User::UpdateMaintainerTest < ActiveSupport::TestCase
     assert user.maintainer?
   end
 
+  test "maintainer admins are always maintainers" do
+    user = create(:user, :maintainer_admin)
+
+    User::UpdateMaintainer.(user)
+
+    assert user.reload.maintainer?
+  end
+
   test "admins are always maintainers" do
     user = create(:user, :admin)
 

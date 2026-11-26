@@ -1,0 +1,44 @@
+%h1 Add a track
+
+%p.mb-8
+  This adds a track from its repo in the exercism GitHub organisation, such as
+  #{link_to 'exercism/common-lisp', 'https://github.com/exercism/common-lisp'}.
+  The website reads the track's config.json, syncs its exercises and creates its forum category.
+%p.mb-24
+  The track will be live only if its config.json sets it as active.
+  Until then, only its maintainers and maintainer admins can see it.
+
+= form_with(url: admin_tracks_path, method: :post, class: "c-admin-form mb-40") do |form|
+  - if @error
+    .c-flash.mb-24
+      .--errors
+        = @error
+        - if @existing_track
+          = link_to "View the track", Exercism::Routes.track_path(@existing_track)
+
+  .field
+    = form.label :slug, "Track slug"
+    = form.text_field :slug, value: @slug, placeholder: "common-lisp", autocomplete: "off", spellcheck: false
+    .hint The name of the track's repo, in lowercase.
+
+  .actions
+    = form.submit "Add track", class: "btn-primary btn-m"
+
+%h2 Recently added tracks
+- if @recent_tracks.empty?
+  .c-admin-empty No tracks have been added yet.
+- else
+  %table.c-admin-table
+    %thead
+      %tr
+        %th Track
+        %th Slug
+        %th Status
+        %th Added
+    %tbody
+      - @recent_tracks.each do |track|
+        %tr
+          %td= link_to track.title, Exercism::Routes.track_path(track)
+          %td= track.slug
+          %td= track.active? ? "Active" : "Inactive"
+          %td #{time_ago_in_words(track.created_at)} ago

@@ -67,6 +67,9 @@ import type { UnpublishSolutionModalButtonProps } from '@/components/student/pub
 const BegModal = lazy(() => import('@/components/modals/BegModal'))
 const Editor = lazy(() => import('@/components/Editor'))
 const SubmissionsSummaryTable = lazy(() => import('@/components/maintaining'))
+const ExperimentalEditorPicker = lazy(
+  () => import('@/components/maintaining/ExperimentalEditorPicker')
+)
 const Inbox = lazy(() => import('@/components/mentoring/Inbox'))
 const Queue = lazy(() => import('@/components/mentoring/Queue'))
 const Session = lazy(() => import('@/components/mentoring/Session'))
@@ -294,6 +297,11 @@ initReact({
           return camelizeKeys(s)
         })}
       />
+    </Suspense>
+  ),
+  'maintaining-experimental-editor-picker': (data: any) => (
+    <Suspense fallback={RenderLoader()}>
+      <ExperimentalEditorPicker tracks={camelizeKeys(data.tracks) as any} />
     </Suspense>
   ),
   'mentoring-inbox': (data: any) => (

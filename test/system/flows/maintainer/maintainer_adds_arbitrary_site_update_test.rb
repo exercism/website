@@ -17,14 +17,14 @@ module Flows
         use_capybara_host do
           sign_in!(maintainer)
 
-          visit maintaining_site_updates_path
+          visit admin_site_updates_path
           click_on 'New site update'
 
           fill_in 'Title', with: 'F# track now supports .NET 7'
           fill_in 'Description', with: 'The F# has added support for the _lovely_ .NET 7'
           select 'F#', from: 'site_update_track_id'
-          fill_in 'Pull Request number (https://github.com/exercism/<repo>/pull/<number>)', with: pr.number
-          click_on 'Create Site Update'
+          fill_in 'Pull request number', with: pr.number
+          click_on 'Create site update'
 
           assert_text 'F# track now supports .NET 7'
         end

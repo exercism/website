@@ -41,8 +41,8 @@ end
 # ##### #
 namespace :admin do
   root to: "dashboard#show"
-  resources :insiders, controller: 'insiders'
   resources :community_videos
+  resources :tracks, only: %i[new create]
   resources :partners do
     resources :adverts
     resources :perks
@@ -54,13 +54,32 @@ namespace :admin do
     end
   end
   resources :streaming_events
-  resources :donors, only: %i[index new create]
+  resources :roles, only: %i[index create destroy], param: :handle
   resources :users, only: %i[index] do
     collection do
       get :search
     end
   end
+
+  # Pages for track maintainers
+  resources :submissions, only: [:index]
+  resources :exercise_representations, only: %i[index edit update]
+  resources :site_updates, except: [:destroy]
+  resources :track_maintainers, only: %i[index create]
+  resources :track_categories, only: %i[index create]
+
+  # The editor, with experimental features turned on. Exists so they can be
+  # exercised against a real exercise without being exposed to students.
+  resources :experimental_editors, only: %i[index]
+  get "experimental_editors/:track_slug/:exercise_slug", to: "experimental_editors#show", as: :experimental_editor
 end
+
+# The maintaining pages moved into /admin, keeping their paths within it.
+get "(:locale)/maintaining(/*path)", format: false,
+  constraints: { locale: LOCALE_ROUTE_CONSTRAINT },
+  to: redirect(status: 301) { |params, req|
+    [["/admin", params[:path]].compact.join("/"), req.query_string.presence].compact.join("?")
+  }
 
 # #### #
 # SEO #

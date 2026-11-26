@@ -1,0 +1,94 @@
+/* The admin section: a sidebar of pages, with the current page beside it. */
+.c-admin-layout {
+    @apply pt-32 pb-80;
+
+    & > .lg-container {
+        @apply flex items-start gap-40;
+    }
+
+    & .c-admin-content {
+        @apply flex-grow min-w-0;
+        @apply text-16 leading-150 text-textColor2;
+
+        /* Pages inside the layout already sit in a container. */
+        & .lg-container {
+            max-width: none;
+            @apply p-0;
+        }
+        & .c-admin-page {
+            @apply p-0;
+        }
+
+        & h1 {
+            @apply text-h2 text-textColor1 mt-0 mb-24;
+        }
+        & h2 {
+            @apply text-h4 text-textColor1 mb-12;
+        }
+
+        & > .c-flash {
+            @apply mb-24;
+        }
+
+        & a:not(.btn):not([class*="btn-"]):not(.card) {
+            @apply text-prominentLinkColor font-medium;
+        }
+    }
+
+    @media (max-width: 1023px) {
+        & > .lg-container {
+            @apply flex-col gap-24;
+        }
+        & .c-admin-nav {
+            @apply w-100;
+        }
+    }
+}
+
+.c-admin-nav {
+    @apply flex-shrink-0 sticky top-24;
+    @apply bg-backgroundColorA shadow-lg rounded-8;
+    @apply py-16 px-12;
+    width: 260px;
+
+    & .group {
+        @apply mt-16 pt-16;
+        @apply border-t-1 border-borderColor6;
+    }
+
+    & h2 {
+        @apply font-mono font-bold text-13 leading-150 uppercase text-textColor6;
+        @apply px-12 mb-8;
+    }
+
+    & ul {
+        @apply flex flex-col gap-2;
+    }
+
+    & a {
+        @apply flex items-center gap-12;
+        @apply py-8 px-12 rounded-8;
+        @apply text-15 leading-150 font-medium text-textColor2;
+
+        & .c-icon {
+            @apply w-[18px] h-[18px] flex-shrink-0;
+            filter: var(--textColor6-filter);
+        }
+
+        &:hover {
+            @apply bg-backgroundColorD;
+        }
+
+        &.selected {
+            @apply bg-backgroundColorD text-prominentLinkColor font-semibold;
+            box-shadow: inset 3px 0 0 var(--c-prominent-link-color);
+            /* Square on the accent side, so the accent is a straight line. */
+            border-start-start-radius: 0;
+            border-end-start-radius: 0;
+
+            & .c-icon {
+                filter: var(--c-prominent-link-icon-filter);
+            }
+        }
+    }
+}

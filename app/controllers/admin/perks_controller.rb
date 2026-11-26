@@ -1,4 +1,5 @@
 class Admin::PerksController < Admin::BaseController
+  before_action :ensure_admin!
   before_action :use_partner
   before_action :use_perk, only: %i[show edit update destroy]
 

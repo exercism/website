@@ -1,0 +1,99 @@
+/* Forms in the admin section: one labelled field under another. */
+.c-admin-form {
+    max-width: 640px;
+
+    & .field {
+        @apply flex flex-col mb-20;
+    }
+
+    & label {
+        @apply block mb-8 font-semibold text-textColor2;
+    }
+
+    & input:not([type="submit"]):not([type="checkbox"]),
+    & textarea,
+    & .c-select {
+        @apply w-100;
+    }
+
+    & textarea {
+        height: 160px;
+    }
+
+    & .hint {
+        @apply text-14 leading-150 text-textColor6 mt-8;
+    }
+
+    & .actions {
+        @apply flex items-center gap-12 mt-8;
+    }
+}
+
+/* The experimental editor picker: a language, a searchable exercise and an Open button. */
+.c-admin-experimental-editor-picker {
+    @apply flex flex-wrap items-end gap-12;
+    @apply bg-backgroundColorA shadow-sm rounded-8;
+    @apply border-1 border-borderColor6 py-20 px-20;
+
+    & .field {
+        @apply flex flex-col;
+
+        & label {
+            @apply mb-8 font-semibold text-textColor2;
+        }
+    }
+
+    & .c-track-select {
+        width: 240px;
+    }
+
+    & .exercise {
+        @apply flex-1;
+        min-width: 280px;
+    }
+
+    & .combobox {
+        @apply relative;
+
+        & input {
+            @apply w-100;
+            height: 48px;
+        }
+
+        & ul {
+            @apply absolute z-dropdown w-100 mt-4 py-4;
+            @apply bg-backgroundColorA shadow-lg rounded-8 border-1 border-borderColor6;
+            max-height: 320px;
+            overflow-y: auto;
+        }
+
+        & li {
+            @apply flex items-center gap-12 py-6 px-12 cursor-pointer;
+            @apply text-15 text-textColor2;
+
+            & .c-icon {
+                @apply w-[24px] h-[24px];
+            }
+
+            & .title {
+                @apply font-medium;
+            }
+
+            & .slug {
+                @apply ms-auto font-mono text-13 text-textColor6;
+            }
+
+            &.highlighted {
+                @apply bg-backgroundColorD;
+            }
+
+            &.empty {
+                @apply cursor-default text-textColor6;
+            }
+        }
+    }
+
+    & button.btn-primary {
+        height: 48px;
+    }
+}

@@ -1,0 +1,4 @@
+%h1 Submissions
+%p.mb-24 The latest #{Admin::SubmissionsController::NUMBER_OF_SUBMISSIONS} submissions. New ones appear as they come in.
+.c-admin-submissions
+  = ReactComponents::Maintaining::SubmissionsSummaryTable.new(@submissions)

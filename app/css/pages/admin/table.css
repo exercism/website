@@ -1,33 +1,244 @@
-table.c-admin-table {
-    @apply shadow-lg;
-    @apply rounded-8;
-    width: 100%;
-    border-collapse: collapse;
-    tr:last-child {
-        td {
-            border-bottom: none;
-        }
+table.c-admin-table,
+.c-admin-submissions table {
+    @apply w-100 mb-16;
+    @apply bg-backgroundColorA shadow-sm rounded-8;
+    border-collapse: separate;
+    border-spacing: 0;
+    @apply border-1 border-borderColor6;
+    overflow: hidden;
+
+    & th {
+        @apply py-10 px-16 text-start;
+        @apply font-mono font-bold text-13 leading-150 uppercase text-textColor6;
+        @apply bg-backgroundColorD;
+        @apply border-b-1 border-borderColor6;
     }
-    th {
-        padding: 10px;
-        text-align: left;
-        font-weight: 600px;
-    }
-    td {
-        border: 1px solid #d5d8e4;
-        padding: 10px;
-        vertical-align: top;
+
+    & td {
+        @apply py-10 px-16 align-top;
+        @apply border-b-1 border-borderColor6;
         max-width: 300px;
+    }
 
-        &:first-child {
-            border-left: none;
+    & tr:last-child td {
+        @apply border-b-0;
+    }
+
+    & ul {
+        @apply flex flex-col gap-4;
+    }
+}
+
+/* Shown in place of a table that has no rows. */
+.c-admin-empty {
+    @apply mb-16 py-24 px-24 rounded-8 text-center;
+    @apply border-2 border-dashed border-borderColor6;
+    @apply text-16 text-textColor6;
+}
+
+/* The live submissions table, rendered by React. */
+.c-admin-submissions td {
+    @apply whitespace-pre-wrap;
+
+    &:nth-child(n + 4) {
+        @apply font-mono text-14;
+    }
+}
+
+/* The track maintainers page: each person is a bubble, coloured by status. */
+.c-admin-track-maintainers {
+    & .header {
+        @apply flex items-center justify-between gap-16 mb-16;
+
+        & h1 {
+            @apply mb-0;
         }
-        &:last-child {
-            border-right: none;
+    }
+
+    & table.c-admin-table td {
+        max-width: none;
+    }
+
+    & td.track {
+        @apply font-semibold text-textColor2 whitespace-nowrap;
+    }
+
+    & .people {
+        @apply flex flex-col items-start gap-6;
+    }
+
+    & .person {
+        @apply inline-flex items-center gap-8;
+        @apply py-2 px-10 rounded-100;
+        @apply bg-backgroundColorD border-1 border-borderColor6;
+        @apply text-14 leading-150 whitespace-nowrap;
+
+        & .name {
+            @apply font-semibold text-textColor2;
         }
 
-        a:not(".btn-primary") {
-            @apply btn-link;
+        & a.name {
+            @apply text-prominentLinkColor;
         }
+
+        & .rep {
+            @apply text-13 text-textColor6;
+        }
+
+        & .commits {
+            @apply text-13 text-prominentLinkColor;
+        }
+
+        &.active {
+            @apply bg-veryLightGreen border-lightGreen;
+        }
+
+        &.candidates {
+            @apply border-prominentLinkColor;
+        }
+
+        &.inactive,
+        &.contributors {
+            @apply bg-transparent;
+        }
+    }
+
+    & .legend {
+        @apply grid items-start gap-24 mt-24;
+        grid-template-columns: 2fr 1fr;
+
+        & section {
+            @apply bg-backgroundColorA shadow-sm rounded-8;
+            @apply border-1 border-borderColor6 py-16 px-20;
+        }
+
+        & h2 {
+            @apply text-h5 mb-12;
+        }
+
+        & dl {
+            @apply grid gap-x-16 gap-y-8 text-14 leading-150;
+            grid-template-columns: max-content 1fr;
+        }
+
+        & dt {
+            @apply font-semibold text-textColor2;
+        }
+
+        & dd {
+            @apply text-textColor6;
+        }
+    }
+}
+
+/* The roles page: a filter, and each role as a tag that removes it. */
+.c-admin-roles-filter {
+    @apply flex flex-wrap items-center gap-8;
+
+    & .label {
+        @apply font-mono font-bold text-13 uppercase text-textColor6 me-4;
+    }
+
+    & a {
+        @apply py-4 px-12 rounded-100 border-1 border-borderColor6;
+        @apply text-14 font-medium text-textColor2 !important;
+
+        &.selected {
+            @apply bg-backgroundColorD border-prominentLinkColor text-prominentLinkColor !important;
+        }
+    }
+}
+
+table.c-admin-roles {
+    & td {
+        @apply align-middle;
+    }
+
+    & .roles {
+        @apply flex flex-wrap gap-6;
+    }
+
+    & .role {
+        @apply inline-flex items-center gap-6;
+        @apply py-2 ps-10 pe-8 rounded-100;
+        @apply bg-backgroundColorD border-1 border-borderColor6;
+        @apply text-14 font-medium text-textColor2 whitespace-nowrap;
+
+        & .c-icon {
+            @apply w-[10px] h-[10px];
+            filter: var(--textColor6-filter);
+        }
+
+        &:hover {
+            @apply border-alert;
+
+            & .c-icon {
+                filter: var(--alert-filter, var(--textColor6-filter));
+            }
+        }
+    }
+
+    /* A fixed width, so the select is the same size on every row
+       and the button stays inside the table. */
+    & .add-role-column {
+        width: 340px;
+        min-width: 340px;
+        max-width: 340px;
+    }
+
+    & .add-role {
+        @apply flex items-center gap-8;
+
+        & .c-select {
+            @apply flex-1 min-w-0;
+
+            & select {
+                @apply w-100 py-4 text-14;
+            }
+        }
+
+        & input[type="submit"] {
+            @apply flex-shrink-0;
+        }
+    }
+}
+
+/* The form above the roles table, for someone who has no role yet. */
+.c-admin-give-role {
+    @apply bg-backgroundColorA shadow-sm rounded-8;
+    @apply border-1 border-borderColor6;
+    @apply py-16 px-20;
+
+    & form {
+        @apply flex flex-wrap items-end gap-12;
+    }
+
+    & .field {
+        @apply flex flex-col;
+
+        & label {
+            @apply mb-8 font-semibold text-textColor2;
+        }
+    }
+
+    /* The handle, role and button share one height, so they line up. */
+    & input[type="text"] {
+        width: 280px;
+        height: 48px;
+        @apply py-0;
+    }
+
+    & .c-select {
+        width: 240px;
+        height: 48px;
+        @apply rounded-8 shadow-sm;
+
+        & select {
+            @apply w-100 h-100 py-0 ps-16 pe-48;
+        }
+    }
+
+    & input[type="submit"] {
+        height: 48px;
     }
 }

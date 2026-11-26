@@ -1,4 +1,5 @@
 class Admin::CommunityVideosController < Admin::BaseController
+  before_action :ensure_maintainer_admin!
   before_action :set_community_video, only: %i[show edit update destroy]
 
   # GET /admin/community_videos

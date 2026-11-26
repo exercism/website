@@ -15,8 +15,24 @@ class Moderation::ShadowBannedUsersControllerTest < ActionDispatch::IntegrationT
     assert_response :redirect
   end
 
+  test "index redirects for staff" do
+    sign_in!(create(:user, :staff))
+
+    get moderation_shadow_banned_users_url
+
+    assert_response :redirect
+  end
+
+  test "index succeeds for admin" do
+    sign_in!(create(:user, :admin))
+
+    get moderation_shadow_banned_users_url
+
+    assert_response :success
+  end
+
   test "index succeeds for moderator" do
-    user = create(:user, :staff)
+    user = create(:user, roles: [:moderator])
 
     sign_in!(user)
 
@@ -26,7 +42,7 @@ class Moderation::ShadowBannedUsersControllerTest < ActionDispatch::IntegrationT
   end
 
   test "create shadow bans a user" do
-    moderator = create(:user, :staff)
+    moderator = create(:user, roles: [:moderator])
     student = create :user
 
     sign_in!(moderator)
@@ -40,7 +56,7 @@ class Moderation::ShadowBannedUsersControllerTest < ActionDispatch::IntegrationT
   end
 
   test "create handles unknown handle" do
-    moderator = create(:user, :staff)
+    moderator = create(:user, roles: [:moderator])
     sign_in!(moderator)
 
     post moderation_shadow_banned_users_url, params: { handle: "nonexistent" }
@@ -49,7 +65,7 @@ class Moderation::ShadowBannedUsersControllerTest < ActionDispatch::IntegrationT
   end
 
   test "destroy removes shadow ban" do
-    moderator = create(:user, :staff)
+    moderator = create(:user, roles: [:moderator])
     student = create :user, shadow_banned_at: Time.current, shadow_banned_by_id: moderator.id
 
     sign_in!(moderator)

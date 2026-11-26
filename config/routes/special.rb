@@ -42,6 +42,7 @@ end
 namespace :admin do
   root to: "dashboard#show"
   resources :community_videos
+  resources :tracks, only: %i[new create]
   resources :partners do
     resources :adverts
     resources :perks

@@ -50,6 +50,10 @@ module ViewComponents
           level: :maintainer_admin,
           items: [
             Item.new(
+              title: "Add a track", icon: "plus-circle", path: :new_admin_track_path, controllers: %w[admin/tracks],
+              description: "Add a new track to the website from its GitHub repo."
+            ),
+            Item.new(
               title: "Community videos", icon: "community-video", path: :admin_community_videos_path,
               controllers: %w[admin/community_videos],
               description: "Review videos submitted by the community."

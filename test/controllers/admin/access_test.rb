@@ -2,9 +2,7 @@ require "test_helper"
 
 class Admin::AccessTest < ActionDispatch::IntegrationTest
   ADMIN_ROUTES = %i[
-    admin_donors_url new_admin_donor_url
     admin_users_url search_admin_users_url
-    admin_insiders_url
     admin_partners_url
   ].freeze
 

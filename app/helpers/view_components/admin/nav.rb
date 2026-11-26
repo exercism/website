@@ -24,14 +24,6 @@ module ViewComponents
               description: "Look up a user by their email address."
             ),
             Item.new(
-              title: "Donors", icon: "donate", path: :admin_donors_path, controllers: %w[admin/donors],
-              description: "See everyone who has donated, and record a donation made outside the site."
-            ),
-            Item.new(
-              title: "Insiders", icon: "star", path: :admin_insiders_path, controllers: %w[admin/insiders],
-              description: "See how many people subscribe, and how much they give each month."
-            ),
-            Item.new(
               title: "Partners", icon: "supporters", path: :admin_partners_path,
               controllers: %w[admin/partners admin/adverts admin/perks],
               description: "Manage partners, and their adverts and perks."

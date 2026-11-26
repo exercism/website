@@ -8,7 +8,7 @@ class ViewComponents::Admin::NavTest < ActionView::TestCase
 
     assert_includes html, "Site updates"
     refute_includes html, "Community videos"
-    refute_includes html, "Donors"
+    refute_includes html, "Partners"
   end
 
   test "maintainer admins see the maintainer admin and maintainer groups" do
@@ -18,7 +18,7 @@ class ViewComponents::Admin::NavTest < ActionView::TestCase
 
     assert_includes html, "Site updates"
     assert_includes html, "Community videos"
-    refute_includes html, "Donors"
+    refute_includes html, "Partners"
   end
 
   test "admins see every group" do
@@ -28,7 +28,7 @@ class ViewComponents::Admin::NavTest < ActionView::TestCase
 
     assert_includes html, "Site updates"
     assert_includes html, "Community videos"
-    assert_includes html, "Donors"
+    assert_includes html, "Partners"
   end
 
   test "marks the current page" do

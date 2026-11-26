@@ -41,7 +41,6 @@ end
 # ##### #
 namespace :admin do
   root to: "dashboard#show"
-  resources :insiders, controller: 'insiders'
   resources :community_videos
   resources :partners do
     resources :adverts
@@ -54,7 +53,6 @@ namespace :admin do
     end
   end
   resources :streaming_events
-  resources :donors, only: %i[index new create]
   resources :users, only: %i[index] do
     collection do
       get :search

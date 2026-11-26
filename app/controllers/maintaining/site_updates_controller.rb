@@ -43,7 +43,7 @@ class Maintaining::SiteUpdatesController < Maintaining::BaseController
 
   private
   def setup_new_form
-    @tracks = current_user.admin? ? Track.all :
+    @tracks = current_user.maintainer_admin? ? Track.all :
       Track.where(slug: Github::TeamMember.where(user: current_user).pluck(:team_name)).order(:title)
   end
 

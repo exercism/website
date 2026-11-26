@@ -1,4 +1,5 @@
 class Admin::InsidersController < Admin::BaseController
+  before_action :ensure_admin!
   def index
     @num_subscribers = Payments::Subscription.active.joins(user: :data).
       where("user_data.roles IS NULL OR NOT JSON_CONTAINS(user_data.roles, ?, '$')", %("admin")).

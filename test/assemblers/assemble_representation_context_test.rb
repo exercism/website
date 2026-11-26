@@ -142,14 +142,14 @@ class AssembleRepresentationContextTest < ActiveSupport::TestCase
 
   test "only considers tracks where user is an automator" do
     mentor = create :user
-    staff = create :user, :staff
+    maintainer_admin = create :user, :maintainer_admin
     other_user = create :user
     csharp = create :track, slug: :csharp, title: 'C#'
     ruby = create :track, slug: :ruby, title: 'Ruby'
     javascript = create :track, slug: :javascript, title: 'JavaScript'
     clojure = create :track, slug: :clojure, title: 'Clojure'
 
-    [mentor, staff].each do |user|
+    [mentor, maintainer_admin].each do |user|
       create :exercise_representation, exercise: create(:practice_exercise, :random_slug, track: csharp), feedback_type: :actionable,
         feedback_author: user, num_submissions: 3
       create :exercise_representation, exercise: create(:practice_exercise, :random_slug, track: ruby), feedback_type: :actionable,
@@ -193,6 +193,6 @@ class AssembleRepresentationContextTest < ActiveSupport::TestCase
       ],
       representation_count: 7
     }
-    assert_equal expected, AssembleRepresentationContext.(staff)[:with_feedback]
+    assert_equal expected, AssembleRepresentationContext.(maintainer_admin)[:with_feedback]
   end
 end

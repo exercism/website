@@ -1,4 +1,5 @@
 class Admin::PartnersController < Admin::BaseController
+  before_action :ensure_admin!
   before_action :set_partner, only: %i[show edit update destroy]
 
   # GET /admin/partners

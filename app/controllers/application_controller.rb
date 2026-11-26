@@ -76,8 +76,8 @@ class ApplicationController < ActionController::Base
     redirect_to root_path
   end
 
-  def ensure_staff!
-    return if current_user&.staff?
+  def ensure_maintainer_admin!
+    return if current_user&.maintainer_admin?
 
     redirect_to maintaining_root_path
   end
@@ -132,7 +132,7 @@ class ApplicationController < ActionController::Base
   end
 
   def ensure_automator!
-    return if current_user&.staff?
+    return if current_user&.maintainer_admin?
     return if current_user&.track_mentorships&.automator&.exists?
 
     redirect_to mentoring_path
@@ -288,7 +288,7 @@ class ApplicationController < ActionController::Base
     begin
       return yield if devise_controller?
       return yield unless user_signed_in?
-      return yield unless current_user.admin? || current_user.handle == "bobahop"
+      return yield unless current_user.admin?
 
       ActiveRecord.verbose_query_logs = true
       Rails.logger.level = :debug

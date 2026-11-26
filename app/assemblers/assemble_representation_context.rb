@@ -20,7 +20,7 @@ class AssembleRepresentationContext
 
     private
     def tracks
-      ts = mentor.staff? ? Track.all :
+      ts = mentor.maintainer_admin? ? Track.all :
         Track.where(id: mentor.track_mentorships.automator.select(:track_id))
 
       ts.order(title: :asc).filter_map do |track|
@@ -60,7 +60,7 @@ class AssembleRepresentationContext
 
     memoize
     def search_tracks
-      mentor.staff? ? :all :
+      mentor.maintainer_admin? ? :all :
         mentor.track_mentorships.automator.includes(:track).select(:track_id).map(&:track_id)
     end
   end

@@ -105,6 +105,13 @@ rm -rf .built-assets/              # Clear asset cache if needed
 - Always use Bearer token authentication for API
 - Delegate business logic to commands, keep controllers thin
 
+**Access levels:**
+
+- `User::Roles` defines three access levels, highest first: `admin?` (anything with personal data or that acts on users), `maintainer_admin?` (running the site and the org) and `maintainer?` (track maintainers). Each level implies the ones below it.
+- Guard controllers with `ensure_admin!`, `ensure_maintainer_admin!` or `ensure_maintainer!`. Pick the lowest level that is safe. If a page shows people's details or changes their accounts, it needs `admin`.
+- `staff?`, `founder?` and `supermentor?` are labels. They change how someone is shown (profile tags, flair, Insiders eligibility, analytics) and must never be used to grant access.
+- Access comes from roles alone. The one check on a person is `ensure_iHiD!` on mailshots, and no new ones should be added.
+
 **Track maintenance status:**
 
 - A track's maintained or unmaintained status lives in the GitHub repo topics on `exercism/<slug>`. Neither the website database nor team membership holds it. The category topics are `wip-track`, `unmaintained`, `maintained`, `maintained-autonomous` and `maintained-solitary`. `community-contributions-paused` is a separate topic with its own throttle.

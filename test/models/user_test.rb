@@ -512,13 +512,20 @@ class UserTest < ActiveSupport::TestCase
     assert user.automator?(track)
   end
 
-  %i[admin staff].each do |role|
+  %i[admin maintainer_admin].each do |role|
     test "automator? enabled for #{role}" do
       track = create :track
       user = create :user, role
 
       assert user.automator?(track)
     end
+  end
+
+  test "automator? not enabled for staff" do
+    track = create :track
+    user = create :user, :staff
+
+    refute user.automator?(track)
   end
 
   test "validates" do

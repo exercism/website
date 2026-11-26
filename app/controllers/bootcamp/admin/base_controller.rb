@@ -3,7 +3,7 @@ class Bootcamp::Admin::BaseController < Bootcamp::BaseController
 
   private
   def authenticate_admin!
-    return if current_user.admin?
+    return if current_user.maintainer_admin?
 
     redirect_to root_path, alert: "You are not authorized to access this page."
   end

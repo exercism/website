@@ -39,7 +39,7 @@ class AssembleExerciseRepresentationsWithoutFeedback
     t = Track.find_by(slug: params[:track_slug])
     return t if t
 
-    return Track.first if mentor.staff?
+    return Track.first if mentor.maintainer_admin?
 
     mentor.track_mentorships.automator.first.track
   end

@@ -41,6 +41,7 @@ class API::TracksControllerTest < API::BaseTestCase
     user = create :user, roles: [:maintainer]
     setup_user(user)
     track = create :track, active: false
+    create(:github_team_member, user:, team_name: track.github_team_name)
     get api_track_path(track.slug), headers: @headers, as: :json
 
     assert_response :ok

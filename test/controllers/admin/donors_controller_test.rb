@@ -8,7 +8,7 @@ class Admin::DonorsControllerTest < ActionDispatch::IntegrationTest
       assert_response :redirect
     end
 
-    test "get #{route} should 302 if not staff" do
+    test "get #{route} should 302 if not admin" do
       sign_in!
 
       get send(route)
@@ -16,8 +16,8 @@ class Admin::DonorsControllerTest < ActionDispatch::IntegrationTest
       assert_response :redirect
     end
 
-    test "get #{route} should 200 if staff" do
-      sign_in!(create(:user, :staff))
+    test "get #{route} should 200 if admin" do
+      sign_in!(create(:user, :admin))
 
       get send(route)
 
@@ -28,7 +28,7 @@ class Admin::DonorsControllerTest < ActionDispatch::IntegrationTest
   test "create registers user as donor" do
     email = "jane@test.org"
     first_donated_at = Time.utc(2022, 4, 14)
-    user = create(:user, :staff, email:)
+    user = create(:user, :admin, email:)
 
     sign_in!(user)
 
@@ -42,7 +42,7 @@ class Admin::DonorsControllerTest < ActionDispatch::IntegrationTest
   test "create ignore leading and trailing whitespace in email" do
     email = "jane@test.org"
     first_donated_at = Time.utc(2022, 4, 14)
-    user = create(:user, :staff, email:)
+    user = create(:user, :admin, email:)
 
     sign_in!(user)
 

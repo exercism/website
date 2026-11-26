@@ -35,6 +35,7 @@ class TracksControllerTest < ActionDispatch::IntegrationTest
     user = create :user, roles: [:maintainer]
     sign_in!(user)
     track = create :track, active: false
+    create(:github_team_member, user:, team_name: track.github_team_name)
     create(:hello_world_exercise, track:)
     create(:user_track, user:, track:)
 

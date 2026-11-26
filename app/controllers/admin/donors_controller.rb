@@ -1,4 +1,5 @@
 class Admin::DonorsController < Admin::BaseController
+  before_action :ensure_admin!
   # GET /admin/donors
   def index
     user_ids = User::Data.public_supporter.

@@ -183,8 +183,14 @@ class Track < ApplicationRecord
     git.average_test_duration.round + INFRASTRUCTURE_DURATION_S
   end
 
+  # Maintainer admins can see every inactive track. Maintainers can see
+  # the inactive tracks they maintain, so they can test them before launch.
   def accessible_by?(user)
-    active || user&.maintainer? || user&.admin?
+    return true if active
+    return false unless user
+    return true if user.maintainer_admin?
+
+    user.maintainer? && user.github_team_memberships.where(team_name: github_team_name).exists?
   end
 
   memoize

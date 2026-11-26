@@ -1,5 +1,4 @@
 class Admin::StreamingEventsController < Admin::BaseController
-  before_action :ensure_admin!
   before_action :set_streaming_event, only: %i[show edit update destroy]
 
   # GET /admin/streaming_events

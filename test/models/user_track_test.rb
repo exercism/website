@@ -219,7 +219,7 @@ class UserTrackTest < ActiveSupport::TestCase
     ], user_track.unlocked_practice_exercises
   end
 
-  test "all exercises are unlocked for admins" do
+  test "all exercises are unlocked for maintainer admins" do
     track = create :track
     concept_exercise_1 = create(:concept_exercise, :random_slug, track:)
     concept_exercise_2 = create(:concept_exercise, :random_slug, track:)
@@ -247,7 +247,7 @@ class UserTrackTest < ActiveSupport::TestCase
     create(:exercise_prerequisite, exercise: practice_exercise_4, concept: prereq_2)
     hello_world = create(:hello_world_exercise, track:)
 
-    user = create :user, roles: [:admin]
+    user = create :user, roles: [:maintainer_admin]
     user_track = create(:user_track, track:, user:)
 
     assert_equal [
@@ -980,6 +980,22 @@ class UserTrackTest < ActiveSupport::TestCase
 
     create :github_team_member, user:, team_name: track.github_team_name
     assert user_track.reload.maintainer?
+  end
+
+  %i[maintainer_admin admin].each do |role|
+    test "maintainer? for #{role} on every track" do
+      user = create :user, role
+      user_track = create(:user_track, user:)
+
+      assert user_track.maintainer?
+    end
+  end
+
+  test "maintainer? not for staff" do
+    user = create :user, :staff
+    user_track = create(:user_track, user:)
+
+    refute user_track.maintainer?
   end
 
   test "course?" do

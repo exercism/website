@@ -9,6 +9,7 @@ class Admin::AccessTest < ActionDispatch::IntegrationTest
   MAINTAINER_ADMIN_ROUTES = %i[
     admin_community_videos_url
     admin_streaming_events_url
+    admin_submissions_url
   ].freeze
 
   ADMIN_ROUTES.each do |route|
@@ -58,7 +59,6 @@ class Admin::AccessTest < ActionDispatch::IntegrationTest
     admin_site_updates_url
     admin_track_categories_url
     admin_track_maintainers_url
-    admin_submissions_url
   ].freeze
 
   MAINTAINER_ROUTES.each do |route|

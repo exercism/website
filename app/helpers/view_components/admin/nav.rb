@@ -58,6 +58,10 @@ module ViewComponents
               title: "Streaming events", icon: "video", path: :admin_streaming_events_path,
               controllers: %w[admin/streaming_events],
               description: "Schedule and feature live streams."
+            ),
+            Item.new(
+              title: "Submissions", icon: "test-runner", path: :admin_submissions_path, controllers: %w[admin/submissions],
+              description: "Watch the latest submissions and their tooling runs."
             )
           ]
         ),
@@ -78,10 +82,6 @@ module ViewComponents
               title: "Track categories", icon: "tracks", path: :admin_track_categories_path,
               controllers: %w[admin/track_categories],
               description: "See whether each track is maintained."
-            ),
-            Item.new(
-              title: "Submissions", icon: "test-runner", path: :admin_submissions_path, controllers: %w[admin/submissions],
-              description: "Watch the latest submissions and their tooling runs."
             ),
             Item.new(
               title: "Experimental editor", icon: "editor", path: :admin_experimental_editors_path,

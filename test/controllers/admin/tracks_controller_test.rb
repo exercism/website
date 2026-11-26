@@ -58,7 +58,7 @@ class Admin::TracksControllerTest < ActionDispatch::IntegrationTest
       post admin_tracks_path, params: { slug: }
 
       assert_response :unprocessable_entity
-      assert_select ".c-flash .--errors"
+      assert_select ".c-flash [class~='--errors']"
     end
   end
 
@@ -71,6 +71,6 @@ class Admin::TracksControllerTest < ActionDispatch::IntegrationTest
     post admin_tracks_path, params: { slug: "ruby" }
 
     assert_response :unprocessable_entity
-    assert_select ".c-flash .--errors", text: /already a track with the slug "ruby"/
+    assert_select ".c-flash [class~='--errors']", text: /already a track with the slug "ruby"/
   end
 end

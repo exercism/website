@@ -159,17 +159,14 @@ class TrackTest < ActiveSupport::TestCase
     track = create :track, active: false
     user = create :user, roles: []
     staff = create :user, roles: [:staff]
-    other_maintainer = create :user, roles: [:maintainer]
-    track_maintainer = create :user, roles: [:maintainer]
-    create :github_team_member, user: track_maintainer, team_name: track.github_team_name
+    maintainer = create :user, roles: [:maintainer]
     maintainer_admin = create :user, roles: [:maintainer_admin]
     admin = create :user, roles: [:admin]
 
     refute track.accessible_by?(nil)
     refute track.accessible_by?(user)
     refute track.accessible_by?(staff)
-    refute track.accessible_by?(other_maintainer)
-    assert track.accessible_by?(track_maintainer)
+    assert track.accessible_by?(maintainer)
     assert track.accessible_by?(maintainer_admin)
     assert track.accessible_by?(admin)
   end

@@ -64,8 +64,7 @@ class Solution::Complete
       "exercise_completed",
       properties: {
         track: track.slug,
-        exercise: exercise.slug,
-        is_hello_world: exercise.slug == Analytics::DetermineActivityProperties::HELLO_WORLD_SLUG
+        exercise: exercise.slug
       },
       set_person_properties: true,
       snapshot_activity: true

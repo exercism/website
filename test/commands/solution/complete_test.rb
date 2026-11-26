@@ -105,24 +105,7 @@ class Solution::CompleteTest < ActiveSupport::TestCase
     Analytics::TrackEvent.expects(:defer).with(
       user,
       "exercise_completed",
-      properties: { track: exercise.track.slug, exercise: "bob", is_hello_world: false },
-      set_person_properties: true,
-      snapshot_activity: true
-    )
-
-    Solution::Complete.(solution, user_track)
-  end
-
-  test "marks hello-world on exercise_completed" do
-    user = create :user
-    solution = create(:hello_world_solution, user:)
-    user_track = create(:user_track, user:, track: solution.track)
-    create(:iteration, solution:)
-
-    Analytics::TrackEvent.expects(:defer).with(
-      user,
-      "exercise_completed",
-      properties: { track: solution.track.slug, exercise: "hello-world", is_hello_world: true },
+      properties: { track: exercise.track.slug, exercise: "bob" },
       set_person_properties: true,
       snapshot_activity: true
     )

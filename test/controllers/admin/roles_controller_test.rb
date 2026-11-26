@@ -47,6 +47,28 @@ class Admin::RolesControllerTest < ActionDispatch::IntegrationTest
     assert_equal "someone now has the Staff role.", flash[:notice]
   end
 
+  test "index: has a form to give a role to someone without one" do
+    sign_in!(create(:user, :admin))
+
+    get admin_roles_path
+
+    assert_select ".c-admin-give-role form[action='#{admin_roles_path}'][method=post]" do
+      assert_select "input[name=handle]"
+      assert_select "select[name=role] option[value=maintainer_admin]", text: "Maintainer admin"
+    end
+  end
+
+  test "create: gives a role to someone who had none" do
+    sign_in!(create(:user, :admin))
+    user = create :user, roles: [], handle: "newcomer"
+
+    post admin_roles_path, params: { handle: " newcomer ", role: "maintainer_admin" }
+
+    assert_redirected_to admin_roles_path
+    assert_equal [:maintainer_admin], user.reload.roles.to_a
+    assert_equal "newcomer now has the Maintainer admin role.", flash[:notice]
+  end
+
   test "create: keeps the list's filter" do
     sign_in!(create(:user, :admin))
     create :user, roles: [], handle: "someone"

@@ -7,6 +7,19 @@
   The website keeps the maintainer and supermentor roles in step with GitHub teams and mentoring stats,
   so a change to either of those will be undone at the next sync.
 
+%section.c-admin-give-role.mb-32
+  %h2 Give someone a role
+  = form_with url: admin_roles_path, method: :post do |form|
+    = hidden_field_tag :filter_role, @role
+    .field
+      = label_tag :new_role_handle, "Handle"
+      = text_field_tag :handle, nil, id: "new_role_handle", placeholder: "Their Exercism handle", required: true, autocomplete: "off", spellcheck: false
+    .field
+      = label_tag :new_role_role, "Role"
+      .c-select
+        = select_tag :role, options_for_select(User::Roles::ASSIGNABLE.map { |r| [User::Roles.label(r), r] }), prompt: "Choose a role", id: "new_role_role", required: true
+    = form.submit "Add", class: "btn-primary btn-m"
+
 .c-admin-roles-filter.mb-16
   %span.label Show
   = link_to "Everyone", admin_roles_path, class: ("selected" if @role.nil?)

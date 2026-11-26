@@ -202,3 +202,43 @@ table.c-admin-roles {
         }
     }
 }
+
+/* The form above the roles table, for someone who has no role yet. */
+.c-admin-give-role {
+    @apply bg-backgroundColorA shadow-sm rounded-8;
+    @apply border-1 border-borderColor6;
+    @apply py-16 px-20;
+
+    & form {
+        @apply flex flex-wrap items-end gap-12;
+    }
+
+    & .field {
+        @apply flex flex-col;
+
+        & label {
+            @apply mb-8 font-semibold text-textColor2;
+        }
+    }
+
+    /* The handle, role and button share one height, so they line up. */
+    & input[type="text"] {
+        width: 280px;
+        height: 48px;
+        @apply py-0;
+    }
+
+    & .c-select {
+        width: 240px;
+        height: 48px;
+        @apply rounded-8 shadow-sm;
+
+        & select {
+            @apply w-100 h-100 py-0 ps-16 pe-48;
+        }
+    }
+
+    & input[type="submit"] {
+        height: 48px;
+    }
+}

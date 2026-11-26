@@ -24,6 +24,10 @@ module ViewComponents
               description: "Look up a user by their email address."
             ),
             Item.new(
+              title: "Roles", icon: "staff-team", path: :admin_roles_path, controllers: %w[admin/roles],
+              description: "See who has each role, and give or take away roles."
+            ),
+            Item.new(
               title: "Partners", icon: "supporters", path: :admin_partners_path,
               controllers: %w[admin/partners admin/adverts admin/perks],
               description: "Manage partners, and their adverts and perks."

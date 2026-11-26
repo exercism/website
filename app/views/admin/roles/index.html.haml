@@ -1,0 +1,54 @@
+%h1 Roles
+
+%p.mb-8
+  Everyone with at least one role. #{link_to "Admin", admin_roles_path(role: :admin)}, #{link_to "maintainer admin", admin_roles_path(role: :maintainer_admin)}
+  and #{link_to "maintainer", admin_roles_path(role: :maintainer)} give access to the pages in this section. The other roles are labels.
+%p.mb-24
+  The website keeps the maintainer and supermentor roles in step with GitHub teams and mentoring stats,
+  so a change to either of those will be undone at the next sync.
+
+.c-admin-roles-filter.mb-16
+  %span.label Show
+  = link_to "Everyone", admin_roles_path, class: ("selected" if @role.nil?)
+  - User::Roles::ASSIGNABLE.each do |role|
+    = link_to role.to_s.humanize, admin_roles_path(role:), class: ("selected" if @role == role)
+
+- if @users.empty?
+  .c-admin-empty
+    - if @role
+      Nobody has the #{@role.to_s.humanize.downcase} role.
+    - else
+      Nobody has a role yet.
+- else
+  %table.c-admin-table.c-admin-roles
+    %thead
+      %tr
+        %th Handle
+        %th Name
+        %th Roles
+        %th Add a role
+    %tbody
+      - @users.each do |user|
+        - missing_roles = User::Roles::ASSIGNABLE - user.roles.to_a
+        %tr
+          %td= link_to user.handle, Exercism::Routes.profile_path(user.handle)
+          %td= user.name
+          %td
+            .roles
+              - user.roles.sort.each do |role|
+                = button_to admin_role_path(user.handle), method: :delete, params: { role:, filter_role: @role, page: params[:page] },
+                  class: "role", title: "Remove the #{role} role from #{user.handle}",
+                  form: { data: { turbo_confirm: "Remove the #{role} role from #{user.handle}?" } } do
+                  %span= role
+                  = graphical_icon "cross"
+          %td
+            - if missing_roles.any?
+              = form_with url: admin_roles_path, method: :post, class: "add-role" do |form|
+                = hidden_field_tag :handle, user.handle
+                = hidden_field_tag :filter_role, @role
+                = hidden_field_tag :page, params[:page]
+                .c-select
+                  = select_tag :role, options_for_select(missing_roles.map { |r| [r.to_s.humanize, r] }), prompt: "Choose a role", "aria-label": "Role to add to #{user.handle}"
+                = form.submit "Add", class: "btn-default btn-xs"
+
+  = paginate @users, params: { role: @role }

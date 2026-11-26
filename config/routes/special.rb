@@ -54,6 +54,7 @@ namespace :admin do
     end
   end
   resources :streaming_events
+  resources :roles, only: %i[index create destroy], param: :handle
   resources :users, only: %i[index] do
     collection do
       get :search

@@ -1,4 +1,7 @@
 module User::Roles
+  # The roles an admin can give or take away on /admin/roles.
+  ASSIGNABLE = %i[admin maintainer_admin maintainer staff founder moderator supermentor].freeze
+
   # Access comes in three levels. Each level can do everything the levels below it can.
   # - admin: anything with personal data, or that acts on users.
   # - maintainer_admin: running the site and the org.

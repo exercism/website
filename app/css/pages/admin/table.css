@@ -130,3 +130,59 @@ table.c-admin-table,
         }
     }
 }
+
+/* The roles page: a filter, and each role as a tag that removes it. */
+.c-admin-roles-filter {
+    @apply flex flex-wrap items-center gap-8;
+
+    & .label {
+        @apply font-mono font-bold text-13 uppercase text-textColor6 me-4;
+    }
+
+    & a {
+        @apply py-4 px-12 rounded-100 border-1 border-borderColor6;
+        @apply text-14 font-medium text-textColor2 !important;
+
+        &.selected {
+            @apply bg-backgroundColorD border-prominentLinkColor text-prominentLinkColor !important;
+        }
+    }
+}
+
+table.c-admin-roles {
+    & td {
+        @apply align-middle;
+    }
+
+    & .roles {
+        @apply flex flex-wrap gap-6;
+    }
+
+    & .role {
+        @apply inline-flex items-center gap-6;
+        @apply py-2 ps-10 pe-8 rounded-100;
+        @apply bg-backgroundColorD border-1 border-borderColor6;
+        @apply font-mono text-13 text-textColor2;
+
+        & .c-icon {
+            @apply w-[10px] h-[10px];
+            filter: var(--textColor6-filter);
+        }
+
+        &:hover {
+            @apply border-alert;
+
+            & .c-icon {
+                filter: var(--alert-filter, var(--textColor6-filter));
+            }
+        }
+    }
+
+    & .add-role {
+        @apply flex items-center gap-8;
+
+        & .c-select select {
+            @apply py-4 text-14;
+        }
+    }
+}

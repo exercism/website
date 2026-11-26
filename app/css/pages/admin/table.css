@@ -44,3 +44,89 @@ table.c-admin-table,
         @apply font-mono text-14;
     }
 }
+
+/* The track maintainers page: each person is a bubble, coloured by status. */
+.c-admin-track-maintainers {
+    & .header {
+        @apply flex items-center justify-between gap-16 mb-16;
+
+        & h1 {
+            @apply mb-0;
+        }
+    }
+
+    & table.c-admin-table td {
+        max-width: none;
+    }
+
+    & td.track {
+        @apply font-semibold text-textColor2 whitespace-nowrap;
+    }
+
+    & .people {
+        @apply flex flex-col items-start gap-6;
+    }
+
+    & .person {
+        @apply inline-flex items-center gap-8;
+        @apply py-2 px-10 rounded-100;
+        @apply bg-backgroundColorD border-1 border-borderColor6;
+        @apply text-14 leading-150 whitespace-nowrap;
+
+        & .name {
+            @apply font-semibold text-textColor2;
+        }
+
+        & a.name {
+            @apply text-prominentLinkColor;
+        }
+
+        & .rep {
+            @apply text-13 text-textColor6;
+        }
+
+        & .commits {
+            @apply text-13 text-prominentLinkColor;
+        }
+
+        &.active {
+            @apply bg-veryLightGreen border-lightGreen;
+        }
+
+        &.candidates {
+            @apply border-prominentLinkColor;
+        }
+
+        &.inactive,
+        &.contributors {
+            @apply bg-transparent;
+        }
+    }
+
+    & .legend {
+        @apply grid items-start gap-24 mt-24;
+        grid-template-columns: 2fr 1fr;
+
+        & section {
+            @apply bg-backgroundColorA shadow-sm rounded-8;
+            @apply border-1 border-borderColor6 py-16 px-20;
+        }
+
+        & h2 {
+            @apply text-h5 mb-12;
+        }
+
+        & dl {
+            @apply grid gap-x-16 gap-y-8 text-14 leading-150;
+            grid-template-columns: max-content 1fr;
+        }
+
+        & dt {
+            @apply font-semibold text-textColor2;
+        }
+
+        & dd {
+            @apply text-textColor6;
+        }
+    }
+}

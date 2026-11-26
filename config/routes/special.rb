@@ -68,7 +68,8 @@ namespace :admin do
 
   # The editor, with experimental features turned on. Exists so they can be
   # exercised against a real exercise without being exposed to students.
-  resources :experimental_editors, only: %i[index show], param: :exercise_slug
+  resources :experimental_editors, only: %i[index]
+  get "experimental_editors/:track_slug/:exercise_slug", to: "experimental_editors#show", as: :experimental_editor
 end
 
 # The maintaining pages moved into /admin, keeping their paths within it.

@@ -8,11 +8,7 @@
   Students never see this: the editor they use passes the flag as false and
   is unchanged.
 
-%h2 #{@track.title} exercises
-- if @exercises.empty?
-  .c-admin-empty This track has no exercises yet.
+- if @tracks.empty?
+  .c-admin-empty No track has a client-side test runner yet.
 - else
-  %ul.list-disc.ms-24
-    - @exercises.each do |exercise|
-      %li.mb-4
-        = link_to exercise.title, admin_experimental_editor_path(exercise.slug), data: { turbo: false }
+  = ReactComponents::Maintaining::ExperimentalEditorPicker.new(@tracks)

@@ -22,12 +22,22 @@ class Admin::ExperimentalEditorsControllerTest < ActionDispatch::IntegrationTest
     create(:practice_exercise, track:, slug: "hello-world")
     sign_in!(create(:user, :maintainer))
 
-    get admin_experimental_editor_path("hello-world")
+    get admin_experimental_editor_path("jq", "hello-world")
 
     # The kernel needs SharedArrayBuffer, which needs both of these headers.
     # See CrossOriginIsolation.
     assert_equal "same-origin", response.headers["Cross-Origin-Opener-Policy"]
     assert_equal "require-corp", response.headers["Cross-Origin-Embedder-Policy"]
+  end
+
+  test "show - refuses a track without a client-side test runner" do
+    track = create :track, slug: "ruby"
+    create(:practice_exercise, track:, slug: "hello-world")
+    sign_in!(create(:user, :maintainer))
+
+    assert_raises ActiveRecord::RecordNotFound do
+      get admin_experimental_editor_path("ruby", "hello-world")
+    end
   end
 
   test "show - joins the track so a solution can be created" do
@@ -36,7 +46,7 @@ class Admin::ExperimentalEditorsControllerTest < ActionDispatch::IntegrationTest
     user = create :user, :maintainer
     sign_in!(user)
 
-    get admin_experimental_editor_path("hello-world")
+    get admin_experimental_editor_path("jq", "hello-world")
 
     assert_response :ok
     assert UserTrack.exists?(user:, track:)

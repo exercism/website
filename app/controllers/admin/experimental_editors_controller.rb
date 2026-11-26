@@ -17,21 +17,18 @@ module Admin
     # The editor fills the page, so it has no admin sidebar.
     layout -> { action_name == "show" ? "application" : "admin" }
 
-    TRACK_SLUG = 'jq'.freeze
-
     def index
-      @track = track
-      @exercises = track.exercises.order(:position)
+      @tracks = Track.where(slug: Track::CLIENT_SIDE_TEST_RUNNER_SLUGS).order(:title).includes(:exercises)
     end
 
     def show
-      @track = track
-      @exercise = track.exercises.find_by!(slug: params[:exercise_slug])
+      @track = Track.where(slug: Track::CLIENT_SIDE_TEST_RUNNER_SLUGS).find_by!(slug: params[:track_slug])
+      @exercise = @track.exercises.find_by!(slug: params[:exercise_slug])
 
       # Solution::Create refuses to create a solution on a track the user has
       # not joined, so joining is part of opening this page. That is a visible
       # side effect - joined tracks show on a profile - but the alternative is
-      # making every maintainer join jq by hand before the page works at all.
+      # making every maintainer join the track by hand before the page works at all.
       #
       # Asked directly rather than through UserTrack.for, which memoises into
       # Current for the request: a miss there would cache the external track and
@@ -41,10 +38,5 @@ module Admin
       @solution = Solution.find_by(user: current_user, exercise: @exercise) ||
                   Solution::Create.(current_user, @exercise)
     end
-
-    private
-    # jq is the only track with a client-side runner published. When there is a
-    # second, this becomes a param rather than a constant.
-    def track = Track.find_by!(slug: TRACK_SLUG)
   end
 end

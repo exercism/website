@@ -162,7 +162,7 @@ table.c-admin-roles {
         @apply inline-flex items-center gap-6;
         @apply py-2 ps-10 pe-8 rounded-100;
         @apply bg-backgroundColorD border-1 border-borderColor6;
-        @apply font-mono text-13 text-textColor2;
+        @apply text-14 font-medium text-textColor2 whitespace-nowrap;
 
         & .c-icon {
             @apply w-[10px] h-[10px];
@@ -178,11 +178,27 @@ table.c-admin-roles {
         }
     }
 
+    /* A fixed width, so the select is the same size on every row
+       and the button stays inside the table. */
+    & .add-role-column {
+        width: 340px;
+        min-width: 340px;
+        max-width: 340px;
+    }
+
     & .add-role {
         @apply flex items-center gap-8;
 
-        & .c-select select {
-            @apply py-4 text-14;
+        & .c-select {
+            @apply flex-1 min-w-0;
+
+            & select {
+                @apply w-100 py-4 text-14;
+            }
+        }
+
+        & input[type="submit"] {
+            @apply flex-shrink-0;
         }
     }
 }

@@ -2,6 +2,9 @@ module User::Roles
   # The roles an admin can give or take away on /admin/roles.
   ASSIGNABLE = %i[admin maintainer_admin maintainer staff founder moderator supermentor].freeze
 
+  # How a role is named to people, such as "Maintainer admin".
+  def self.label(role) = role.to_s.humanize
+
   # Access comes in three levels. Each level can do everything the levels below it can.
   # - admin: anything with personal data, or that acts on users.
   # - maintainer_admin: running the site and the org.

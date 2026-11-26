@@ -11,12 +11,12 @@
   %span.label Show
   = link_to "Everyone", admin_roles_path, class: ("selected" if @role.nil?)
   - User::Roles::ASSIGNABLE.each do |role|
-    = link_to role.to_s.humanize, admin_roles_path(role:), class: ("selected" if @role == role)
+    = link_to User::Roles.label(role), admin_roles_path(role:), class: ("selected" if @role == role)
 
 - if @users.empty?
   .c-admin-empty
     - if @role
-      Nobody has the #{@role.to_s.humanize.downcase} role.
+      Nobody has the #{User::Roles.label(@role).downcase} role.
     - else
       Nobody has a role yet.
 - else
@@ -26,7 +26,7 @@
         %th Handle
         %th Name
         %th Roles
-        %th Add a role
+        %th.add-role-column Add a role
     %tbody
       - @users.each do |user|
         - missing_roles = User::Roles::ASSIGNABLE - user.roles.to_a
@@ -37,18 +37,18 @@
             .roles
               - user.roles.sort.each do |role|
                 = button_to admin_role_path(user.handle), method: :delete, params: { role:, filter_role: @role, page: params[:page] },
-                  class: "role", title: "Remove the #{role} role from #{user.handle}",
-                  form: { data: { turbo_confirm: "Remove the #{role} role from #{user.handle}?" } } do
-                  %span= role
+                  class: "role", title: "Remove the #{User::Roles.label(role)} role from #{user.handle}",
+                  form: { data: { turbo_confirm: "Remove the #{User::Roles.label(role)} role from #{user.handle}?" } } do
+                  %span= User::Roles.label(role)
                   = graphical_icon "cross"
-          %td
+          %td.add-role-column
             - if missing_roles.any?
               = form_with url: admin_roles_path, method: :post, class: "add-role" do |form|
                 = hidden_field_tag :handle, user.handle
                 = hidden_field_tag :filter_role, @role
                 = hidden_field_tag :page, params[:page]
                 .c-select
-                  = select_tag :role, options_for_select(missing_roles.map { |r| [r.to_s.humanize, r] }), prompt: "Choose a role", "aria-label": "Role to add to #{user.handle}"
+                  = select_tag :role, options_for_select(missing_roles.map { |r| [User::Roles.label(r), r] }), prompt: "Choose a role", "aria-label": "Role to add to #{user.handle}"
                 = form.submit "Add", class: "btn-default btn-xs"
 
   = paginate @users, params: { role: @role }

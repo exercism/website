@@ -10,7 +10,7 @@ class Admin::RolesController < Admin::BaseController
 
   def create
     User::AddRoles.(@user, [@role])
-    redirect_back_to_roles notice: "#{@user.handle} now has the #{@role} role."
+    redirect_back_to_roles notice: "#{@user.handle} now has the #{User::Roles.label(@role)} role."
   end
 
   def destroy
@@ -19,7 +19,7 @@ class Admin::RolesController < Admin::BaseController
     end
 
     User::RemoveRoles.(@user, [@role])
-    redirect_back_to_roles notice: "#{@user.handle} no longer has the #{@role} role."
+    redirect_back_to_roles notice: "#{@user.handle} no longer has the #{User::Roles.label(@role)} role."
   end
 
   private

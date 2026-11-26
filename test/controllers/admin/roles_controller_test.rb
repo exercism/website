@@ -44,7 +44,7 @@ class Admin::RolesControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to admin_roles_path
     assert_includes user.reload.roles, :staff
-    assert_equal "someone now has the staff role.", flash[:notice]
+    assert_equal "someone now has the Staff role.", flash[:notice]
   end
 
   test "create: keeps the list's filter" do

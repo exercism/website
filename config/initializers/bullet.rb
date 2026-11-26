@@ -18,5 +18,9 @@ Rails.application.configure do
     Bullet.add_safelist type: :n_plus_one_query, class_name: "User", association: :data
     Bullet.add_safelist type: :n_plus_one_query, class_name: "User", association: :preferences
     Bullet.add_safelist type: :n_plus_one_query, class_name: "User::Data", association: :user
+
+    # The Roles page lists the signed-in admin among the other users, so Bullet
+    # counts the nav's own read of their starred solutions as an N+1.
+    Bullet.add_safelist type: :n_plus_one_query, class_name: "User", association: :starred_solutions
   end
 end

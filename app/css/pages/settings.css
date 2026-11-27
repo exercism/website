@@ -430,6 +430,10 @@
 }
 
 #page-settings-github-syncer {
+    & .c-flash {
+        @apply mb-16;
+    }
+
     section.danger-zone {
         @apply border-2 border-danger;
         background: var(--backgroundColorDangerSection);

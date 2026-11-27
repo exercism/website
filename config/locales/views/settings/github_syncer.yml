@@ -8,5 +8,5 @@ en:
         invalid_main_branch_name: "The main branch name must be a valid Git branch name of up to %{max_length} characters, using only letters, numbers, dots, dashes, underscores and slashes."
         failed: "We couldn't save your GitHub Syncer settings."
       callback:
-        missing_installation_id: Missing installation ID
+        missing_installation_id: "GitHub didn't send us the details of your installation. Please click Setup Backup and try again."
         connected: GitHub connected successfully

@@ -73,7 +73,7 @@ class Settings::GithubSyncerController < ApplicationController
 
     begin
       User::GithubSolutionSyncer::Create.(current_user, installation_id)
-      redirect_to settings_github_syncer_path, notice: t(".connected")
+      redirect_to settings_github_syncer_path(connected: true), notice: t(".connected")
     rescue GithubSolutionSyncerCreationError => e
       redirect_to settings_github_syncer_path, alert: e.message
     end

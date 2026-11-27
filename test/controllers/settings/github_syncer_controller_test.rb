@@ -78,6 +78,16 @@ class Settings::GithubSyncerControllerTest < ActionDispatch::IntegrationTest
     assert_select ".c-flash [class~=\"--alert\"]", text: "We could not find that GitHub installation."
   end
 
+  test "callback redirects with connected=true when connecting succeeds" do
+    user = create :user
+    sign_in!(user)
+
+    User::GithubSolutionSyncer::Create.expects(:call).with(user, "123")
+
+    get callback_settings_github_syncer_path(installation_id: "123")
+    assert_redirected_to settings_github_syncer_path(connected: true)
+  end
+
   test "callback shows an error on the settings page when the installation id is missing" do
     user = create :user
     sign_in!(user)

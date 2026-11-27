@@ -17,12 +17,15 @@ export type GithubSyncerSettings = {
 export type GitHubSyncerFormProps = {
   links: {
     connectToGithub: string
+    linkGithub: string
     settings: string
     syncTrack: string
     syncEverything: string
   }
   isUserConnected: boolean
   isUserInsider: boolean
+  isGithubLinked: boolean
+  githubUsername: string | null
   syncer: GithubSyncerSettings | null
   tracks: readonly { slug: string; title: string; iconUrl: string }[]
   defaultPathTemplate: string
@@ -55,6 +58,8 @@ export default function GitHubSyncerForm(
       value={{
         links: data.links,
         isUserInsider: data.isUserInsider,
+        isGithubLinked: data.isGithubLinked,
+        githubUsername: data.githubUsername,
         syncer: data.syncer,
         tracks: data.tracks,
         defaultCommitMessageTemplate: data.defaultCommitMessageTemplate,

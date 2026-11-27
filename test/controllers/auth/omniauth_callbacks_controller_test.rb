@@ -34,6 +34,62 @@ class Auth::OmniauthCallbacksControllerTest < ActionDispatch::IntegrationTest
     assert_nil user.data.sign_up_track
   end
 
+  test "linking GitHub from the GitHub Syncer page returns to that page" do
+    user = create :user
+    sign_in!(user)
+
+    post user_github_omniauth_authorize_path, params: { origin: settings_github_syncer_path }
+    state = Rack::Utils.parse_query(URI.parse(response.location).query)["state"]
+    stub_github_oauth!
+
+    get user_github_omniauth_callback_path, params: { code: "the-code", state: }
+
+    assert_redirected_to settings_github_syncer_path
+    user.reload
+    assert_equal "github", user.provider
+    assert_equal "12345", user.uid
+    assert_equal "gh-user", user.github_username
+  end
+
+  test "linking GitHub from the Integrations page returns to that page" do
+    user = create :user
+    sign_in!(user)
+
+    post user_github_omniauth_authorize_path, params: { origin: integrations_settings_path }
+    state = Rack::Utils.parse_query(URI.parse(response.location).query)["state"]
+    stub_github_oauth!
+
+    get user_github_omniauth_callback_path, params: { code: "the-code", state: }
+
+    assert_redirected_to integrations_settings_path
+  end
+
+  test "linking GitHub with no origin returns to the Integrations page" do
+    user = create :user
+    sign_in!(user)
+
+    post user_github_omniauth_authorize_path
+    state = Rack::Utils.parse_query(URI.parse(response.location).query)["state"]
+    stub_github_oauth!
+
+    get user_github_omniauth_callback_path, params: { code: "the-code", state: }
+
+    assert_redirected_to integrations_settings_path
+  end
+
+  test "linking GitHub ignores an origin outside the site" do
+    user = create :user
+    sign_in!(user)
+
+    post user_github_omniauth_authorize_path, params: { origin: "https://evil.example.com/settings/github-syncer" }
+    state = Rack::Utils.parse_query(URI.parse(response.location).query)["state"]
+    stub_github_oauth!
+
+    get user_github_omniauth_callback_path, params: { code: "the-code", state: }
+
+    assert_redirected_to integrations_settings_path
+  end
+
   private
   def stub_github_oauth!
     stub_request(:post, "https://github.com/login/oauth/access_token").

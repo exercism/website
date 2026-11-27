@@ -5,12 +5,15 @@ module ReactComponents
         super("settings-github-syncer-form", {
           is_user_connected: syncer.present?,
           is_user_insider: current_user.insider?,
+          is_github_linked: current_user.provider == "github" && current_user.uid.present?,
+          github_username: current_user.github_username,
           syncer: syncer_settings,
           default_commit_message_template: User::GithubSolutionSyncer::DEFAULT_COMMIT_MESSAGE_TEMPLATE,
           default_path_template: User::GithubSolutionSyncer::DEFAULT_PATH_TEMPLATE,
           tracks:,
           links: {
             connect_to_github: "https://github.com/apps/exercism-solutions-syncer/installations/new",
+            link_github: Exercism::Routes.user_github_omniauth_authorize_path(origin: Exercism::Routes.settings_github_syncer_path),
             settings: Exercism::Routes.settings_github_syncer_path,
             sync_track: Exercism::Routes.sync_track_settings_github_syncer_path,
             sync_everything: Exercism::Routes.sync_everything_settings_github_syncer_path

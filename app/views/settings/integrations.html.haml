@@ -3,6 +3,8 @@
     = render ViewComponents::SettingsNav.new(:integrations)
 
     %article
+      = flash_messages
+
       %h1= t('.heading')
 
       %section.github-section.flex.flex-col.items-start

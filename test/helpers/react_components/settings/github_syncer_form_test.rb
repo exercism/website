@@ -25,6 +25,15 @@ class ReactComponents::Settings::GithubSyncerFormTest < ReactComponentTestCase
     assert_equal "gh-user", props[:github_username]
   end
 
+  test "the syncer settings include commit_as_user" do
+    user = create :user
+    create(:user_github_solution_syncer, user:, commit_as_user: false)
+    component = ReactComponents::Settings::GithubSyncerForm.new
+    component.stubs(current_user: user)
+
+    refute props_for(component)[:syncer][:commit_as_user]
+  end
+
   private
   def props_for(component)
     node = Nokogiri::HTML.fragment(component.to_s).at_css("[data-react-data]")

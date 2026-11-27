@@ -8,6 +8,7 @@ export type GithubSyncerSettings = {
   repoFullName: string
   syncOnIterationCreation: boolean
   syncExerciseFiles: boolean
+  commitAsUser: boolean
   processingMethod: 'commit' | 'pull_request'
   mainBranchName: string
   commitMessageTemplate: string

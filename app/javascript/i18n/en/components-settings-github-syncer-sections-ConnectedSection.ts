@@ -1,5 +1,15 @@
 // namespace: components/settings/github-syncer/sections/ConnectedSection
 export default {
+  'commitAuthorSection.commitAuthor': 'Commit author',
+  'commitAuthorSection.description':
+    "Choose who is named as the author of your synced commits. If you choose yourself, the commits show your GitHub account and count towards your GitHub contribution graph. We use your GitHub noreply email address, so your real email address stays private. If you choose the syncer bot, the commits show Exercism's Solution Syncer Bot.",
+  'commitAuthorSection.me': 'Me',
+  'commitAuthorSection.theSyncerBot': 'The syncer bot',
+  'commitAuthorSection.saveChanges': 'Save changes',
+  'commitAuthorSection.savedChangesSuccessfully': 'Saved changes successfully!',
+  'commitAuthorSection.failedToSaveChanges': 'Failed to save changes.',
+  'commitAuthorSection.somethingWentWrongWhileSaving':
+    'Something went wrong while saving changes. Please try again.',
   'index.syncerConnected': 'Syncer connected',
   'dangerZoneSection.pauseSyncer': 'Pause Syncer',
   'dangerZoneSection.wantToPause': 'Want to pause your syncer for a while?',

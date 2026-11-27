@@ -23,7 +23,7 @@ class User::GithubSolutionSyncer
       # The bot stays the committer.
       new_commit = client.create_commit(
         repo_full_name, commit_message, new_tree.sha, base_commit_sha,
-        author: DetermineCommitAuthor.(syncer.user),
+        author: DetermineCommitAuthor.(syncer),
         committer: { name: User::GithubSolutionSyncer::BOT_NAME, email: User::GithubSolutionSyncer::BOT_EMAIL }
       )
       client.update_ref(repo_full_name, "heads/#{branch_name}", new_commit.sha)

@@ -64,6 +64,38 @@ class Auth::OmniauthCallbacksControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to integrations_settings_path
   end
 
+  test "linking a GitHub account that another user has linked returns to the syncer page with a message" do
+    create :user, provider: "github", uid: "12345"
+    user = create :user
+    sign_in!(user)
+
+    post user_github_omniauth_authorize_path, params: { origin: settings_github_syncer_path }
+    state = Rack::Utils.parse_query(URI.parse(response.location).query)["state"]
+    stub_github_oauth!
+
+    get user_github_omniauth_callback_path, params: { code: "the-code", state: }
+
+    assert_redirected_to settings_github_syncer_path
+    assert_equal "This GitHub account is already linked to another Exercism account.", flash[:alert]
+    assert_nil user.reload.provider
+  end
+
+  test "linking a GitHub account that another user has linked returns to the Integrations page with a message" do
+    create :user, provider: "github", uid: "12345"
+    user = create :user
+    sign_in!(user)
+
+    post user_github_omniauth_authorize_path, params: { origin: integrations_settings_path }
+    state = Rack::Utils.parse_query(URI.parse(response.location).query)["state"]
+    stub_github_oauth!
+
+    get user_github_omniauth_callback_path, params: { code: "the-code", state: }
+
+    assert_redirected_to integrations_settings_path
+    follow_redirect!
+    assert_select ".c-flash div[class=\"--alert\"]", text: "This GitHub account is already linked to another Exercism account."
+  end
+
   test "linking GitHub with no origin returns to the Integrations page" do
     user = create :user
     sign_in!(user)

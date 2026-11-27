@@ -39,7 +39,7 @@ class User::GithubSolutionSyncer
 
       # The bot stays the committer (set in the repo's git config).
       # The user is the author, so GitHub credits them for the commit.
-      author = DetermineCommitAuthor.(syncer.user)
+      author = DetermineCommitAuthor.(syncer)
       git("commit", "--author", "#{author[:name]} <#{author[:email]}>", "-m", message)
     end
 

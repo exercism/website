@@ -6,10 +6,7 @@ module Auth
     include Devise::Controllers::Rememberable
 
     def github
-      if user_signed_in?
-        User::LinkWithGithub.(current_user, request.env["omniauth.auth"])
-        return redirect_to link_return_path
-      end
+      return link_github if user_signed_in?
 
       # The sign-up page posts its answers along with the GitHub button, and
       # OmniAuth hands them back here. They only apply to a new account.
@@ -43,6 +40,15 @@ module Auth
     end
 
     private
+    # If another Exercism account already has this GitHub account linked,
+    # the user returns to the page they started from with a message.
+    def link_github
+      User::LinkWithGithub.(current_user, request.env["omniauth.auth"])
+      redirect_to link_return_path
+    rescue ActiveRecord::RecordNotUnique
+      redirect_to link_return_path, alert: t("devise.omniauth_callbacks.github_already_linked")
+    end
+
     # Linking GitHub from the GitHub Syncer page passes that page's path as
     # the OmniAuth origin, so the user returns there. Every other start
     # returns to the Integrations page.

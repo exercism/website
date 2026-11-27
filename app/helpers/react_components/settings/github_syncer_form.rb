@@ -30,6 +30,7 @@ module ReactComponents
           repo_full_name: syncer.repo_full_name,
           sync_on_iteration_creation: syncer.sync_on_iteration_creation?,
           sync_exercise_files: syncer.sync_exercise_files?,
+          commit_as_user: syncer.commit_as_user?,
           processing_method: syncer.processing_method,
           main_branch_name: syncer.main_branch_name,
           commit_message_template: syncer.commit_message_template,

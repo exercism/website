@@ -11,9 +11,11 @@ class Settings::GithubSyncerController < ApplicationController
         enabled
         sync_exercise_files
         sync_on_iteration_creation
+        commit_as_user
       ] :
       %w[
         enabled
+        commit_as_user
       ]
     syncer = current_user.github_solution_syncer
     updated = Exercism.without_bullet do

@@ -8,7 +8,7 @@ class User::GithubSolutionSyncer
 
       assert_equal(
         { name: "Jane Doe", email: "12345+janedoe@users.noreply.github.com" },
-        DetermineCommitAuthor.(user)
+        DetermineCommitAuthor.(create(:user_github_solution_syncer, user:))
       )
     end
 
@@ -17,7 +17,7 @@ class User::GithubSolutionSyncer
       user.update_column(:name, "")
       user.data.update!(github_username: "janedoe")
 
-      assert_equal "janedoe", DetermineCommitAuthor.(user)[:name]
+      assert_equal "janedoe", DetermineCommitAuthor.(create(:user_github_solution_syncer, user:))[:name]
     end
 
     test "falls back to the bot without a linked GitHub account" do
@@ -25,21 +25,32 @@ class User::GithubSolutionSyncer
 
       assert_equal(
         { name: User::GithubSolutionSyncer::BOT_NAME, email: User::GithubSolutionSyncer::BOT_EMAIL },
-        DetermineCommitAuthor.(user)
+        DetermineCommitAuthor.(create(:user_github_solution_syncer, user:))
       )
     end
 
     test "falls back to the bot when the GitHub username is missing" do
       user = create(:user, provider: "github", uid: "12345")
 
-      assert_equal User::GithubSolutionSyncer::BOT_EMAIL, DetermineCommitAuthor.(user)[:email]
+      assert_equal User::GithubSolutionSyncer::BOT_EMAIL, DetermineCommitAuthor.(create(:user_github_solution_syncer, user:))[:email]
     end
 
     test "falls back to the bot when the account is linked through another provider" do
       user = create(:user, provider: "discord", uid: "12345")
       user.data.update!(github_username: "janedoe")
 
-      assert_equal User::GithubSolutionSyncer::BOT_EMAIL, DetermineCommitAuthor.(user)[:email]
+      assert_equal User::GithubSolutionSyncer::BOT_EMAIL, DetermineCommitAuthor.(create(:user_github_solution_syncer, user:))[:email]
+    end
+
+    test "uses the bot when the user has turned off commit_as_user" do
+      user = create(:user, name: "Jane Doe", provider: "github", uid: "12345")
+      user.data.update!(github_username: "janedoe")
+      syncer = create(:user_github_solution_syncer, user:, commit_as_user: false)
+
+      assert_equal(
+        { name: User::GithubSolutionSyncer::BOT_NAME, email: User::GithubSolutionSyncer::BOT_EMAIL },
+        DetermineCommitAuthor.(syncer)
+      )
     end
   end
 end

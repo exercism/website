@@ -66,6 +66,18 @@ class User::GithubSolutionSyncer
       end
     end
 
+    test "commit_all authors the commit as the bot when the user has turned off commit_as_user" do
+      user = create(:user, name: "Jane Doe", provider: "github", uid: "12345")
+      user.data.update!(github_username: "janedoe")
+
+      with_local_repo("new-branch", syncer: build(:user_github_solution_syncer, user:, commit_as_user: false)) do |repo, dir|
+        File.write(File.join(dir, "a.txt"), "hi")
+        repo.commit_all("Sync")
+
+        assert_equal User::GithubSolutionSyncer::BOT_EMAIL, run_git(dir, "log", "-1", "--format=%ae").strip
+      end
+    end
+
     test "commit_all does nothing when there are no changes" do
       with_local_repo("main") do |repo, dir|
         repo.commit_all("Nothing to sync")

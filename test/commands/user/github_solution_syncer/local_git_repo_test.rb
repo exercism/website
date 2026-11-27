@@ -42,6 +42,30 @@ class User::GithubSolutionSyncer
       end
     end
 
+    test "commit_all authors the commit as the user and keeps the bot as committer" do
+      user = create(:user, name: "Jane Doe", provider: "github", uid: "12345")
+      user.data.update!(github_username: "janedoe")
+
+      with_local_repo("new-branch", syncer: build(:user_github_solution_syncer, user:)) do |repo, dir|
+        run_git(dir, "config", "user.name", User::GithubSolutionSyncer::BOT_NAME)
+        run_git(dir, "config", "user.email", User::GithubSolutionSyncer::BOT_EMAIL)
+        File.write(File.join(dir, "a.txt"), "hi")
+        repo.commit_all("Sync")
+
+        assert_equal "Jane Doe <12345+janedoe@users.noreply.github.com>", run_git(dir, "log", "-1", "--format=%an <%ae>").strip
+        assert_equal User::GithubSolutionSyncer::BOT_EMAIL, run_git(dir, "log", "-1", "--format=%ce").strip
+      end
+    end
+
+    test "commit_all authors the commit as the bot without a linked GitHub account" do
+      with_local_repo("new-branch") do |repo, dir|
+        File.write(File.join(dir, "a.txt"), "hi")
+        repo.commit_all("Sync")
+
+        assert_equal User::GithubSolutionSyncer::BOT_EMAIL, run_git(dir, "log", "-1", "--format=%ae").strip
+      end
+    end
+
     test "commit_all does nothing when there are no changes" do
       with_local_repo("main") do |repo, dir|
         repo.commit_all("Nothing to sync")
@@ -84,8 +108,7 @@ class User::GithubSolutionSyncer
     end
 
     private
-    def with_local_repo(new_branch_name)
-      syncer = build(:user_github_solution_syncer)
+    def with_local_repo(new_branch_name, syncer: build(:user_github_solution_syncer))
       repo = LocalGitRepo.new(syncer, "main", new_branch_name, token: "token")
 
       Dir.mktmpdir do |dir|

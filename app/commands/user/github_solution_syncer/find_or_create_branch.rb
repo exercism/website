@@ -14,8 +14,8 @@ class User::GithubSolutionSyncer
         git.("init", "-b", branch_name)
 
         # Make sure we have the right user set
-        git.("config", "user.name", "Exercism's Solution Syncer Bot")
-        git.("config", "user.email", "211797793+exercism-solutions-syncer[bot]@users.noreply.github.com")
+        git.("config", "user.name", User::GithubSolutionSyncer::BOT_NAME)
+        git.("config", "user.email", User::GithubSolutionSyncer::BOT_EMAIL)
 
         # Make an empty commit and push it
         git.("commit", "--allow-empty", "-m", "Initial empty commit")

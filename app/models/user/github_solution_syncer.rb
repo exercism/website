@@ -33,6 +33,8 @@ class User::GithubSolutionSyncer < ApplicationRecord
 
   DEFAULT_COMMIT_MESSAGE_TEMPLATE = "[Sync $sync_object] $track_slug/$exercise_slug/$iteration_idx".freeze
   DEFAULT_PATH_TEMPLATE = "solutions/$track_slug/$exercise_slug/$iteration_idx".freeze
+  BOT_NAME = "Exercism's Solution Syncer Bot".freeze
+  BOT_EMAIL = "211797793+exercism-solutions-syncer[bot]@users.noreply.github.com".freeze
   MAX_BRANCH_NAME_LENGTH = 100
   BRANCH_NAME_CHARACTERS = %r{\A[A-Za-z0-9._/-]+\z}
 

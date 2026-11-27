@@ -139,7 +139,7 @@ class User::GithubSolutionSyncer
         User::GithubSolutionSyncer::Create.(user, 123_456)
       end
 
-      assert_includes error.message, "connect your GitHub account"
+      assert_includes error.message, "link your GitHub account"
       assert_nil user.reload.github_solution_syncer
     end
 
@@ -152,7 +152,7 @@ class User::GithubSolutionSyncer
         User::GithubSolutionSyncer::Create.(user, 123_456)
       end
 
-      assert_includes error.message, "different GitHub account"
+      assert_includes error.message, "different GitHub account from the one linked to Exercism"
       assert_nil user.reload.github_solution_syncer
     end
 
@@ -165,8 +165,55 @@ class User::GithubSolutionSyncer
         User::GithubSolutionSyncer::Create.(user, 123_456)
       end
 
-      assert_includes error.message, "personal GitHub accounts"
+      assert_includes error.message, "personal GitHub account"
       assert_nil user.reload.github_solution_syncer
+    end
+
+    test "names the linked GitHub account when the installation is on a different one" do
+      user = create(:user, provider: "github", uid: "5624255", github_username: "linked-user")
+      stub_installation(account_id: 999_999)
+
+      error = assert_raises GithubSolutionSyncerCreationError do
+        User::GithubSolutionSyncer::Create.(user, 123_456)
+      end
+
+      assert_includes error.message, "linked to Exercism (linked-user)"
+      assert_includes error.message, "install it on linked-user"
+    end
+
+    test "keeps the existing syncer if the repository check fails" do
+      user = create(:user, provider: "github", uid: "5624255")
+      old_syncer = create(:user_github_solution_syncer, user:, repo_full_name: "old/repo", installation_id: 1)
+      stub_installation(account_id: 5_624_255)
+      GithubApp.stubs(generate_installation_token!: "token")
+
+      stub_request(:get, "https://api.github.com/installation/repositories").
+        to_return(
+          status: 200,
+          body: { repositories: [{ full_name: "a/b" }, { full_name: "c/d" }] }.to_json,
+          headers: { "Content-Type" => "application/json" }
+        )
+
+      error = assert_raises GithubSolutionSyncerCreationError do
+        User::GithubSolutionSyncer::Create.(user, 123_456)
+      end
+
+      assert_includes error.message, "access to 2"
+      assert_equal old_syncer.id, user.reload.github_solution_syncer.id
+    end
+
+    test "keeps the existing syncer if GitHub returns an error" do
+      user = create(:user, provider: "github", uid: "5624255")
+      old_syncer = create(:user_github_solution_syncer, user:, repo_full_name: "old/repo", installation_id: 1)
+      stub_installation(account_id: 5_624_255)
+      GithubApp.stubs(generate_installation_token!: "token")
+      stub_request(:get, "https://api.github.com/installation/repositories").to_return(status: 500, body: "{}")
+
+      assert_raises GithubSolutionSyncerCreationError do
+        User::GithubSolutionSyncer::Create.(user, 123_456)
+      end
+
+      assert_equal old_syncer.id, user.reload.github_solution_syncer.id
     end
 
     test "keeps the existing syncer if the installation is on a different GitHub account" do

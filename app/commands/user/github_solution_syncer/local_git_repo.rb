@@ -36,7 +36,11 @@ class User::GithubSolutionSyncer
       return if git_output("status", "--porcelain").strip.empty?
 
       git("add", ".")
-      git("commit", "-m", message)
+
+      # The bot stays the committer (set in the repo's git config).
+      # The user is the author, so GitHub credits them for the commit.
+      author = DetermineCommitAuthor.(syncer)
+      git("commit", "--author", "#{author[:name]} <#{author[:email]}>", "-m", message)
     end
 
     def branch_name = @new_branch_name
@@ -58,8 +62,8 @@ class User::GithubSolutionSyncer
       system("git", "clone", "--depth=1", repo_url, @path, exception: true)
 
       # Make sure we have the right user set
-      git "config", "user.name", "Exercism's Solution Syncer Bot"
-      git "config", "user.email", "211797793+exercism-solutions-syncer[bot]@users.noreply.github.com"
+      git "config", "user.name", User::GithubSolutionSyncer::BOT_NAME
+      git "config", "user.email", User::GithubSolutionSyncer::BOT_EMAIL
 
       begin
         git("checkout", base_branch_name)

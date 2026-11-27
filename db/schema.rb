@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_11_26_090500) do
+ActiveRecord::Schema[7.1].define(version: 2026_11_27_160003) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -1579,6 +1579,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_26_090500) do
     t.string "path_template", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "commit_as_user", default: true, null: false
     t.index ["user_id"], name: "index_user_github_solution_syncers_on_user_id", unique: true
   end
 

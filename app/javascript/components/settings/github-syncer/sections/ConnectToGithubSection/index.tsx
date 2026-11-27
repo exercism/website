@@ -1,12 +1,16 @@
 // i18n-key-prefix: index
 // i18n-namespace: components/settings/github-syncer/sections/ConnectToGithubSection
-import React from 'react'
+import React, { useContext } from 'react'
 import { GraphicalIcon, Icon } from '@/components/common'
 import { ConnectModal } from './ConnectModal'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
-import { Trans } from 'react-i18next'
+import { GitHubSyncerContext } from '../../GitHubSyncerForm'
+import { csrfToken } from '@/utils/csrf-token'
+import { assembleClassNames } from '@/utils/assemble-classnames'
 
 export function ConnectToGithubSection() {
+  const { links, isGithubLinked, githubUsername } =
+    useContext(GitHubSyncerContext)
   const [isModalOpen, setIsModalOpen] = React.useState(false)
   const { t } = useAppTranslation(
     'components/settings/github-syncer/sections/ConnectToGithubSection'
@@ -57,45 +61,83 @@ export function ConnectToGithubSection() {
         </div>
         <GraphicalIcon icon="arrow-down-duo" className="h-[32px] my-32" />
 
-        <ol className="text-[18px] leading-140 mb-16 ms-[45px]">
-          <li className="mb-16 relative">
+        <ol className="w-full text-[18px] leading-140 mb-16">
+          <li className="relative mb-16 border-1 border-borderColor6 rounded-8 py-16 ps-[72px] pe-20">
             <GraphicalIcon
               icon="1-duo.svg"
-              className="h-[32px] !absolute start-[-45px]"
+              className="h-[32px] !absolute start-[20px] top-[16px]"
             />
-            {t('index.createGithubRepository')}
+            <h3 className="text-h5 mb-4">{t('index.connectYourAccount')}</h3>
+            {isGithubLinked ? (
+              <p
+                className="flex items-center gap-8 text-16 leading-140 font-semibold"
+                data-testid="github-account-linked"
+              >
+                <GraphicalIcon icon="green-check" className="h-[20px]" />
+                {githubUsername
+                  ? t('index.accountLinkedAs', { username: githubUsername })
+                  : t('index.accountLinked')}
+              </p>
+            ) : (
+              <>
+                <p className="text-16 leading-140 mb-12">
+                  {t('index.accountMustBeLinked')}
+                </p>
+                <form method="post" action={links.linkGithub}>
+                  <input
+                    type="hidden"
+                    name="authenticity_token"
+                    value={csrfToken()}
+                  />
+                  <button type="submit" className="btn btn-m btn-primary">
+                    {t('index.linkGithubAccount')}
+                  </button>
+                </form>
+              </>
+            )}
           </li>
 
-          <li className="mb-16 relative">
+          <li
+            className={assembleClassNames(
+              'relative border-1 border-borderColor6 rounded-8 py-16 ps-[72px] pe-20',
+              isGithubLinked ? '' : 'opacity-60'
+            )}
+          >
             <GraphicalIcon
               icon="2-duo.svg"
-              className="h-[32px] !absolute start-[-45px]"
+              className="h-[32px] !absolute start-[20px] top-[16px]"
             />
-            {t('index.clickButtonToConnect')}
-          </li>
-
-          <li className="mb-16 relative">
-            <GraphicalIcon
-              icon="3-duo.svg"
-              className="h-[32px] !absolute start-[-45px]"
-            />
-            {t('index.backupEverythingOption')}
-          </li>
-
-          <li className="mb-16 relative">
-            <GraphicalIcon
-              icon="4-duo.svg"
-              className="h-[32px] !absolute start-[-45px]"
-            />
-            {t('index.futureSolutionsAutoBackup')}
+            <h3 className="text-h5 mb-4">{t('index.setUpTheBackup')}</h3>
+            {isGithubLinked ? (
+              <>
+                <p className="text-16 leading-140 mb-8">
+                  {t('index.createGithubRepository')}
+                </p>
+                <p className="text-16 leading-140 mb-8">
+                  {t('index.backupEverythingOption')}
+                </p>
+                <p className="text-16 leading-140 mb-12">
+                  {t('index.futureSolutionsAutoBackup')}
+                </p>
+                <button
+                  className="btn btn-m btn-primary w-fit"
+                  onClick={() => setIsModalOpen(true)}
+                >
+                  {t('index.setupBackup')}
+                </button>
+              </>
+            ) : (
+              <>
+                <p className="text-16 leading-140 mb-12">
+                  {t('index.completeStepOneFirst')}
+                </p>
+                <button className="btn btn-m btn-primary w-fit" disabled>
+                  {t('index.setupBackup')}
+                </button>
+              </>
+            )}
           </li>
         </ol>
-        <button
-          className="btn btn-l btn-primary w-fit"
-          onClick={() => setIsModalOpen(true)}
-        >
-          {t('index.setupBackup')}
-        </button>
       </div>
       <ConnectModal onClose={() => setIsModalOpen(false)} open={isModalOpen} />
     </section>

@@ -5,13 +5,14 @@ en:
         # The callback shows these errors to the user as a flash alert.
         # api_error interpolates GitHub's own error text as %{message}.
         errors:
-          missing_installation_id: Missing installation ID
-          invalid_installation_id: Invalid installation ID
-          github_account_not_connected: Please connect your GitHub account to Exercism before setting up the GitHub Syncer
-          organization_account: The GitHub Syncer only supports personal GitHub accounts. Please install it on your own GitHub account
-          different_github_account: This GitHub App was installed on a different GitHub account to the one connected to your Exercism account
-          installation_not_found: GitHub App installation not found or no longer accessible
-          authorization_failed: GitHub authorization failed
-          api_error: "GitHub API error: %{message}"
-          not_exactly_one_repository: Please grant access to exactly one repository
-          installation_token_missing: Failed to retrieve GitHub installation token
+          missing_installation_id: "GitHub didn't send us the details of your installation. Please click Setup Backup and try again."
+          invalid_installation_id: "GitHub didn't send us the details of your installation. Please click Setup Backup and try again."
+          github_account_not_connected: "Please link your GitHub account to Exercism first (step 1 below), then set up the backup again."
+          organization_account: "The GitHub Syncer backs up to a repository on your personal GitHub account. Please install the app on your own account, then try again."
+          different_github_account: "You installed the app on a different GitHub account from the one linked to Exercism (%{github_username}). Please install it on %{github_username}, or link the other account in Settings > Integrations."
+          different_github_account_without_username: "You installed the app on a different GitHub account from the one linked to Exercism. Please install it on your linked account, or link the other account in Settings > Integrations."
+          not_exactly_one_repository: "The GitHub Syncer needs access to exactly one repository, and you gave it access to %{count}. Please change the app's repository access on GitHub to one repository, then try again."
+          installation_not_found: "We couldn't find the app's installation on GitHub. Please click Setup Backup and try again."
+          authorization_failed: "GitHub didn't give us access to your repository. Please click Setup Backup and try again."
+          installation_token_missing: "GitHub didn't give us access to your repository. Please click Setup Backup and try again."
+          api_error: "GitHub returned an error (%{message}). Please try again in a few minutes."

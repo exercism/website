@@ -1,7 +1,5 @@
 class Settings::GithubSyncerController < ApplicationController
-  def show
-    @just_connected = !!params[:connected]
-  end
+  def show; end
 
   def update
     permitted = current_user.insider? ?
@@ -13,9 +11,11 @@ class Settings::GithubSyncerController < ApplicationController
         enabled
         sync_exercise_files
         sync_on_iteration_creation
+        commit_as_user
       ] :
       %w[
         enabled
+        commit_as_user
       ]
     syncer = current_user.github_solution_syncer
     updated = Exercism.without_bullet do
@@ -73,9 +73,9 @@ class Settings::GithubSyncerController < ApplicationController
 
     begin
       User::GithubSolutionSyncer::Create.(current_user, installation_id)
-      redirect_to settings_github_syncer_path, notice: t(".connected")
+      redirect_to settings_github_syncer_path(connected: true), notice: t(".connected")
     rescue GithubSolutionSyncerCreationError => e
-      redirect_to settings_github_syncer_path(connected: true), alert: e.message
+      redirect_to settings_github_syncer_path, alert: e.message
     end
   end
 

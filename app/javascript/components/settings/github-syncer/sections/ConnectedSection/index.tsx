@@ -7,6 +7,7 @@ import { IterationFilesSection } from './IterationFilesSection'
 import { StatusSection } from './StatusSection'
 import { ManualSyncSection } from './ManualSyncSection'
 import { SyncBehaviourSection } from './SyncBehaviourSection'
+import { CommitAuthorSection } from './CommitAuthorSection'
 import { JustConnectedModal } from './JustConnectedModal'
 
 export function ConnectedSection() {
@@ -18,6 +19,7 @@ export function ConnectedSection() {
       <IterationFilesSection />
       <FileStructureSection />
       <CommitMessageTemplateSection />
+      <CommitAuthorSection />
       <ManualSyncSection />
       <DangerZoneSection />
       <JustConnectedModal />

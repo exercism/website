@@ -11,12 +11,13 @@ class User::GithubSolutionSyncer::Create
   def call
     verify_installation_account!
 
+    # Fetch and check the repo before replacing anything, so that a failure
+    # leaves the user's existing syncer in place.
+    repo_full_name = repo.full_name
+
     user.github_solution_syncer&.destroy
 
-    user.create_github_solution_syncer!(
-      installation_id:,
-      repo_full_name: repo.full_name
-    )
+    user.create_github_solution_syncer!(installation_id:, repo_full_name:)
   rescue User::GithubSolutionSyncer::GithubApp::InstallationNotFoundError
     raise GithubSolutionSyncerCreationError, error_message(:installation_not_found)
   rescue Octokit::Unauthorized
@@ -39,7 +40,15 @@ class User::GithubSolutionSyncer::Create
 
     return if account["id"].to_s == github_uid
 
-    raise GithubSolutionSyncerCreationError, error_message(:different_github_account)
+    raise GithubSolutionSyncerCreationError, different_github_account_message
+  end
+
+  def different_github_account_message
+    if user.github_username.present?
+      error_message(:different_github_account, github_username: user.github_username)
+    else
+      error_message(:different_github_account_without_username)
+    end
   end
 
   def github_uid
@@ -59,7 +68,7 @@ class User::GithubSolutionSyncer::Create
   memoize
   def repo
     repos = client.list_app_installation_repositories.repositories
-    raise GithubSolutionSyncerCreationError, error_message(:not_exactly_one_repository) unless repos.size == 1
+    raise GithubSolutionSyncerCreationError, error_message(:not_exactly_one_repository, count: repos.size) unless repos.size == 1
 
     repos.first
   end

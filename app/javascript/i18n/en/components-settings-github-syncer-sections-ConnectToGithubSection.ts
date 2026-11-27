@@ -8,8 +8,14 @@ export default {
   'index.itsFree': 'Its Free!',
   'index.createGithubRepository':
     'Create a new GitHub repository for your solutions (or reuse an existing one if you were backing up manually)',
-  'index.clickButtonToConnect':
-    'Click the button below to connect your GitHub account.',
+  'index.connectYourAccount': 'Connect your GitHub account',
+  'index.accountMustBeLinked':
+    'Your backup repository must be on the GitHub account linked to your Exercism account. Click the button to link your accounts.',
+  'index.linkGithubAccount': 'Link your GitHub account',
+  'index.accountLinkedAs': 'GitHub account linked: {{username}}',
+  'index.accountLinked': 'GitHub account linked',
+  'index.setUpTheBackup': 'Set up the backup',
+  'index.completeStepOneFirst': 'Link your GitHub account to continue.',
   'index.backupEverythingOption':
     'Use the "Backup Everything" option to backup all your existing solutions.',
   'index.futureSolutionsAutoBackup':

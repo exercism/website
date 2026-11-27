@@ -16,6 +16,32 @@ class Settings::GithubSyncerControllerTest < ActionDispatch::IntegrationTest
     assert_equal :commit, syncer.processing_method
   end
 
+  test "update lets a user who is not an Insider change commit_as_user" do
+    user = create :user
+    syncer = create(:user_github_solution_syncer, user:)
+    sign_in!(user)
+
+    patch settings_github_syncer_path,
+      params: { github_solution_syncer: { commit_as_user: false } },
+      as: :json
+
+    assert_response :success
+    refute syncer.reload.commit_as_user?
+  end
+
+  test "update lets an Insider change commit_as_user" do
+    user = create :user, :insider
+    syncer = create(:user_github_solution_syncer, user:, commit_as_user: false)
+    sign_in!(user)
+
+    patch settings_github_syncer_path,
+      params: { github_solution_syncer: { commit_as_user: true } },
+      as: :json
+
+    assert_response :success
+    assert syncer.reload.commit_as_user?
+  end
+
   test "update returns an error for an invalid branch name" do
     user = create :user, :insider
     syncer = create(:user_github_solution_syncer, user:)
@@ -35,5 +61,41 @@ class Settings::GithubSyncerControllerTest < ActionDispatch::IntegrationTest
     syncer.reload
     assert_equal "main", syncer.main_branch_name
     assert_equal :pull_request, syncer.processing_method
+  end
+
+  test "callback shows the error on the settings page when connecting fails" do
+    user = create :user
+    sign_in!(user)
+
+    User::GithubSolutionSyncer::Create.expects(:call).with(user, "123").
+      raises(GithubSolutionSyncerCreationError, "We could not find that GitHub installation.")
+
+    get callback_settings_github_syncer_path(installation_id: "123")
+    assert_redirected_to settings_github_syncer_path
+
+    follow_redirect!
+    assert_response :success
+    assert_select ".c-flash [class~=\"--alert\"]", text: "We could not find that GitHub installation."
+  end
+
+  test "callback redirects with connected=true when connecting succeeds" do
+    user = create :user
+    sign_in!(user)
+
+    User::GithubSolutionSyncer::Create.expects(:call).with(user, "123")
+
+    get callback_settings_github_syncer_path(installation_id: "123")
+    assert_redirected_to settings_github_syncer_path(connected: true)
+  end
+
+  test "callback shows an error on the settings page when the installation id is missing" do
+    user = create :user
+    sign_in!(user)
+
+    get callback_settings_github_syncer_path
+    assert_redirected_to settings_github_syncer_path
+
+    follow_redirect!
+    assert_select ".c-flash [class~=\"--alert\"]", text: I18n.t("settings.github_syncer.callback.missing_installation_id")
   end
 end

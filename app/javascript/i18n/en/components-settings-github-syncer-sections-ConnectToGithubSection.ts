@@ -10,7 +10,7 @@ export default {
     'Create a new GitHub repository for your solutions (or reuse an existing one if you were backing up manually)',
   'index.connectYourAccount': 'Connect your GitHub account',
   'index.accountMustBeLinked':
-    'Your backup repository must be on the GitHub account linked to your Exercism account. Link that account first.',
+    'Your backup repository must be on the GitHub account linked to your Exercism account. Click the button to link your accounts.',
   'index.linkGithubAccount': 'Link your GitHub account',
   'index.accountLinkedAs': 'GitHub account linked: {{username}}',
   'index.accountLinked': 'GitHub account linked',

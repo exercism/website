@@ -36,4 +36,30 @@ class Settings::GithubSyncerControllerTest < ActionDispatch::IntegrationTest
     assert_equal "main", syncer.main_branch_name
     assert_equal :pull_request, syncer.processing_method
   end
+
+  test "callback shows the error on the settings page when connecting fails" do
+    user = create :user
+    sign_in!(user)
+
+    User::GithubSolutionSyncer::Create.expects(:call).with(user, "123").
+      raises(GithubSolutionSyncerCreationError, "We could not find that GitHub installation.")
+
+    get callback_settings_github_syncer_path(installation_id: "123")
+    assert_redirected_to settings_github_syncer_path
+
+    follow_redirect!
+    assert_response :success
+    assert_select ".c-flash [class~=\"--alert\"]", text: "We could not find that GitHub installation."
+  end
+
+  test "callback shows an error on the settings page when the installation id is missing" do
+    user = create :user
+    sign_in!(user)
+
+    get callback_settings_github_syncer_path
+    assert_redirected_to settings_github_syncer_path
+
+    follow_redirect!
+    assert_select ".c-flash [class~=\"--alert\"]", text: I18n.t("settings.github_syncer.callback.missing_installation_id")
+  end
 end

@@ -1,7 +1,5 @@
 class Settings::GithubSyncerController < ApplicationController
-  def show
-    @just_connected = !!params[:connected]
-  end
+  def show; end
 
   def update
     permitted = current_user.insider? ?
@@ -75,7 +73,7 @@ class Settings::GithubSyncerController < ApplicationController
       User::GithubSolutionSyncer::Create.(current_user, installation_id)
       redirect_to settings_github_syncer_path, notice: t(".connected")
     rescue GithubSolutionSyncerCreationError => e
-      redirect_to settings_github_syncer_path(connected: true), alert: e.message
+      redirect_to settings_github_syncer_path, alert: e.message
     end
   end
 

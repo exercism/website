@@ -1,9 +1,8 @@
 import React from 'react'
 import { Aria, default as ReactModal, Props } from 'react-modal'
 import { Icon } from '../common/Icon'
-import { Wrapper } from '../common/Wrapper'
 import { useAppTranslation } from '@/i18n/useAppTranslation'
-import { ActiveBackground, Confetti } from '@exercism/active-background'
+import { ConfettiBackground } from './confetti/ConfettiBackground'
 
 type Theme = 'light' | 'dark' | 'unset'
 export type ModalProps = Omit<Props, 'isOpen' | 'onRequestClose'> & {
@@ -52,32 +51,11 @@ export function Modal({
       overlayClassName={overlayClassNames.join(' ')}
       overlayElement={(props, contentElement) => (
         <div {...props}>
-          <Wrapper
-            condition={celebratory}
-            wrapper={(children) => (
-              <ActiveBackground
-                Pattern={Confetti}
-                patternOptions={{
-                  colorPairs: [
-                    ['#df0049', '#660671'],
-                    ['#00e857', '#005291'],
-                    ['#2bebbc', '#05798a'],
-                    ['#ffd200', '#b06c00'],
-                  ],
-                  confettiPaperCount: 100,
-                  confettiRibbonCount: 40,
-                  speed: 30,
-                }}
-              >
-                {children}
-              </ActiveBackground>
-            )}
-          >
-            <div className={`--modal-container ${containerClassName}`}>
-              {closeButton ? <CloseButton onClose={onClose} /> : null}
-              {contentElement}
-            </div>
-          </Wrapper>
+          {celebratory ? <ConfettiBackground /> : null}
+          <div className={`--modal-container ${containerClassName}`}>
+            {closeButton ? <CloseButton onClose={onClose} /> : null}
+            {contentElement}
+          </div>
         </div>
       )}
       {...props}

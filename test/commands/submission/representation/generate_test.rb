@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class Submission::Representation::GenerateTest < ActiveSupport::TestCase
-  test "posts the solution and exercise files to the representer" do
+  test "posts the solution and exercise files to Inspector" do
     solution = create :concept_solution
     submission = create(:submission, solution:)
     create :submission_file, submission:, filename: "log_line_parser.rb", content: "class LogLineParser\nend"
@@ -9,12 +9,13 @@ class Submission::Representation::GenerateTest < ActiveSupport::TestCase
     create :submission_file, submission:, filename: "log_line_parser_test.rb", content: "Don't override tests"
     create :submission_file, submission:, filename: ".meta/config.json", content: "Don't allow meta"
 
-    stub_request(:post, Exercism.config.representer_url).
+    stub_request(:post, Exercism.config.inspector_url).
       with do |request|
         body = JSON.parse(request.body)
 
         body["track_slug"] == solution.track.slug &&
           body["exercise_slug"] == solution.exercise.slug &&
+          body["outputs"] == ["representation"] &&
           body["solution_files"] == {
             "log_line_parser.rb" => "class LogLineParser\nend",
             "subdir/new_file.rb" => "new file"
@@ -22,7 +23,7 @@ class Submission::Representation::GenerateTest < ActiveSupport::TestCase
           body["exercise_files"].keys.sort == [".meta/config.json", "log_line_parser.rb", "log_line_parser_test.rb"] &&
           body["exercise_files"]["log_line_parser_test.rb"].present?
       end.
-      to_return(status: 200, body: { representation: "ast", mapping: {}, version: 1 }.to_json)
+      to_return(status: 200, body: { representation: { representation: "ast", mapping: {}, version: 1 } }.to_json)
 
     Submission::Representation::Generate.(submission, submission.git_sha)
 
@@ -35,7 +36,7 @@ class Submission::Representation::GenerateTest < ActiveSupport::TestCase
     ast = "here(lives(an(ast)))"
     ast_digest = Submission::Representation.digest_ast(ast)
 
-    stub_representer!(representation: ast)
+    stub_inspector!(representation: ast)
     Submission::Representation::Generate.(submission, submission.git_sha)
 
     representation = submission.reload.submission_representation
@@ -54,7 +55,7 @@ class Submission::Representation::GenerateTest < ActiveSupport::TestCase
     create(:submission_file, submission:)
     mapping = { 'foo' => 'bar' }
 
-    stub_representer!(representation: ast, mapping:)
+    stub_inspector!(representation: ast, mapping:)
     Submission::Representation::Generate.(submission, submission.git_sha)
 
     perform_enqueued_jobs
@@ -74,7 +75,7 @@ class Submission::Representation::GenerateTest < ActiveSupport::TestCase
     submission = create :submission
     create(:submission_file, submission:)
 
-    stub_representer!(version: 3)
+    stub_inspector!(version: 3)
     Submission::Representation::Generate.(submission, submission.git_sha)
 
     representation = Exercise::Representation.first
@@ -90,14 +91,14 @@ class Submission::Representation::GenerateTest < ActiveSupport::TestCase
     submission_3 = create(:submission, solution:)
     create :submission_file, submission: submission_3
 
-    stub_representer!(representation: "ast 1")
+    stub_inspector!(representation: "ast 1")
     Submission::Representation::Generate.(submission_1, submission_1.git_sha)
     Submission::Representation::Generate.(submission_2, submission_2.git_sha)
 
     assert_equal 2, Submission::Representation.count
     assert_equal 1, Exercise::Representation.count
 
-    stub_representer!(representation: "ast 2")
+    stub_inspector!(representation: "ast 2")
     Submission::Representation::Generate.(submission_3, submission_3.git_sha)
     assert_equal 3, Submission::Representation.count
     assert_equal 2, Exercise::Representation.count
@@ -112,7 +113,7 @@ class Submission::Representation::GenerateTest < ActiveSupport::TestCase
 
     Sentry.expects(:capture_exception).once
 
-    stub_representer!(status: 400)
+    stub_inspector!(status: 400)
     Submission::Representation::Generate.(submission, submission.git_sha)
 
     assert submission.reload.representation_exceptioned?
@@ -125,7 +126,7 @@ class Submission::Representation::GenerateTest < ActiveSupport::TestCase
 
     Sentry.expects(:capture_exception).once
 
-    stub_representer!(status: 400)
+    stub_inspector!(status: 400)
     Submission::Representation::Generate.(submission, submission.git_sha, reason: :update)
 
     assert submission.reload.representation_generated?
@@ -137,7 +138,7 @@ class Submission::Representation::GenerateTest < ActiveSupport::TestCase
     submission = create(:submission, exercise:)
     create(:submission_file, submission:)
 
-    stub_representer!(representation: "")
+    stub_inspector!(representation: "")
     Submission::Representation::Generate.(submission, submission.git_sha)
 
     assert submission.reload.representation_exceptioned?
@@ -153,7 +154,7 @@ class Submission::Representation::GenerateTest < ActiveSupport::TestCase
     submission = create(:submission, exercise:)
     create(:submission_file, submission:)
 
-    stub_representer!(representation: ast)
+    stub_inspector!(representation: ast)
     Submission::Representation::Generate.(submission, submission.git_sha)
 
     assert submission.reload.representation_generated?
@@ -179,7 +180,7 @@ class Submission::Representation::GenerateTest < ActiveSupport::TestCase
     # stimulate production for this step
     Rails.env.expects(:production?).returns(true)
 
-    stub_representer!(representation: ast)
+    stub_inspector!(representation: ast)
     Submission::Representation::Generate.(submission, submission.git_sha)
 
     assert submission.reload.representation_exceptioned?
@@ -191,7 +192,7 @@ class Submission::Representation::GenerateTest < ActiveSupport::TestCase
 
     SubmissionChannel.expects(:broadcast!).with(submission)
 
-    stub_representer!
+    stub_inspector!
     Submission::Representation::Generate.(submission, submission.git_sha)
   end
 
@@ -203,7 +204,7 @@ class Submission::Representation::GenerateTest < ActiveSupport::TestCase
     IterationChannel.expects(:broadcast!).with(iteration)
     SubmissionChannel.expects(:broadcast!).with(submission)
 
-    stub_representer!
+    stub_inspector!
     Submission::Representation::Generate.(submission, submission.git_sha)
   end
 
@@ -221,7 +222,7 @@ class Submission::Representation::GenerateTest < ActiveSupport::TestCase
       4, 1, submission.created_at, submission.git_sha
     )
 
-    stub_representer!(representation: ast, mapping:, version: 4)
+    stub_inspector!(representation: ast, mapping:, version: 4)
     Submission::Representation::Generate.(submission, submission.git_sha, reason: :update)
   end
 
@@ -232,7 +233,7 @@ class Submission::Representation::GenerateTest < ActiveSupport::TestCase
     submission = create(:submission, solution:)
     create(:submission_file, submission:)
 
-    stub_representer!
+    stub_inspector!
     Submission::Representation::Generate.(submission, submission.git_sha)
 
     representation = Exercise::Representation.last
@@ -249,7 +250,7 @@ class Submission::Representation::GenerateTest < ActiveSupport::TestCase
     submission = create(:submission, solution:)
     create(:submission_file, submission:)
 
-    stub_representer!
+    stub_inspector!
 
     # First test with the v1_sha
     Submission::Representation::Generate.(submission, v1_sha)
@@ -262,13 +263,13 @@ class Submission::Representation::GenerateTest < ActiveSupport::TestCase
     assert_equal 2, representation.exercise_version
   end
 
-  %w[parse_error too_deep too_large].each do |reason|
-    test "marks as unrepresentable when the representer gives #{reason}" do
+  %w[too_deep too_large no_source_files internal_error].each do |error|
+    test "marks as unrepresentable when Inspector gives #{error}" do
       submission = create :submission, representation_status: :queued
       create(:submission_file, submission:)
 
-      stub_request(:post, Exercism.config.representer_url).
-        to_return(status: 200, body: { representation: nil, mapping: {}, version: 2, reason: }.to_json)
+      stub_request(:post, Exercism.config.inspector_url).
+        to_return(status: 200, body: { representation: { error:, message: "Some message", version: 2 } }.to_json)
 
       SubmissionChannel.expects(:broadcast!).with(submission)
       Submission::Representation::Generate.(submission, submission.git_sha)
@@ -283,8 +284,8 @@ class Submission::Representation::GenerateTest < ActiveSupport::TestCase
     submission = create :submission, representation_status: :generated
     create(:submission_file, submission:)
 
-    stub_request(:post, Exercism.config.representer_url).
-      to_return(status: 200, body: { representation: nil, mapping: {}, version: 2, reason: "parse_error" }.to_json)
+    stub_request(:post, Exercism.config.inspector_url).
+      to_return(status: 200, body: { representation: { error: "too_deep", message: "Some message", version: 2 } }.to_json)
 
     Submission::Representation::Generate.(submission, submission.git_sha, reason: :update)
 
@@ -292,14 +293,14 @@ class Submission::Representation::GenerateTest < ActiveSupport::TestCase
     assert_equal 0, Exercise::Representation.count
   end
 
-  test "marks solutions that are too large as unrepresentable without calling the representer" do
+  test "marks solutions that are too large as unrepresentable without calling Inspector" do
     submission = create :submission
     create :submission_file, submission:, filename: "one.rb", content: "a" * 150.kilobytes
     create :submission_file, submission:, filename: "two.rb", content: "a" * 51.kilobytes
 
     Submission::Representation::Generate.(submission, submission.git_sha)
 
-    assert_not_requested :post, Exercism.config.representer_url
+    assert_not_requested :post, Exercism.config.inspector_url
     assert submission.reload.representation_unrepresentable?
     assert_nil submission.submission_representation
   end
@@ -309,7 +310,7 @@ class Submission::Representation::GenerateTest < ActiveSupport::TestCase
 
     Submission::Representation::Generate.(submission, submission.git_sha)
 
-    assert_not_requested :post, Exercism.config.representer_url
+    assert_not_requested :post, Exercism.config.inspector_url
     assert submission.reload.representation_unrepresentable?
   end
 
@@ -317,7 +318,7 @@ class Submission::Representation::GenerateTest < ActiveSupport::TestCase
     submission = create :submission
     create(:submission_file, submission:)
 
-    stub_representer!(status: 502)
+    stub_inspector!(status: 502)
 
     Submission::Representation::Generate.expects(:defer).with do |sub, git_sha, **kwargs|
       sub == submission && git_sha == submission.git_sha && kwargs[:reason].nil? &&
@@ -332,7 +333,7 @@ class Submission::Representation::GenerateTest < ActiveSupport::TestCase
     submission = create :submission
     create(:submission_file, submission:)
 
-    stub_representer!(status: 503)
+    stub_inspector!(status: 503)
 
     Submission::Representation::Generate::InBackground.expects(:defer).with do |sub, _git_sha, **kwargs|
       sub == submission && kwargs[:retries_count] == 1
@@ -344,7 +345,7 @@ class Submission::Representation::GenerateTest < ActiveSupport::TestCase
     submission = create :submission
     create(:submission_file, submission:)
 
-    stub_request(:post, Exercism.config.representer_url).to_timeout
+    stub_request(:post, Exercism.config.inspector_url).to_timeout
 
     Submission::Representation::Generate.expects(:defer).with do |sub, _git_sha, **kwargs|
       sub == submission && kwargs[:retries_count] == 1
@@ -356,9 +357,9 @@ class Submission::Representation::GenerateTest < ActiveSupport::TestCase
     submission = create :submission
     create(:submission_file, submission:)
 
-    stub_representer!(status: 504)
+    stub_inspector!(status: 504)
 
-    assert_raises Submission::Representation::Generate::RepresenterTemporarilyUnavailable do
+    assert_raises Submission::Representation::Generate::InspectorTemporarilyUnavailable do
       Submission::Representation::Generate.(submission, submission.git_sha, retries_count: 3)
     end
 

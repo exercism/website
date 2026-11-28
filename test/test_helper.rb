@@ -407,9 +407,9 @@ class ActiveSupport::TestCase
     )
   end
 
-  def stub_representer!(representation: "some representation", mapping: {}, version: 1, status: 200)
-    stub_request(:post, Exercism.config.representer_url).
-      to_return(status:, body: { representation:, mapping:, version: }.to_json)
+  def stub_inspector!(representation: "some representation", mapping: {}, version: 1, status: 200)
+    stub_request(:post, Exercism.config.inspector_url).
+      to_return(status:, body: { representation: { representation:, mapping:, version: } }.to_json)
   end
 
   def create_analyzer_job!(submission, execution_status: nil, data: nil, tags_data: nil)

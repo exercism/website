@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class Submission::Representation::InitTest < ActiveSupport::TestCase
-  test "queues the representer for the submission" do
+  test "queues Generate for the submission" do
     submission = create :submission
 
     Submission::Representation::Generate.expects(:defer).with(submission, submission.git_sha, reason: nil)
@@ -31,7 +31,7 @@ class Submission::Representation::InitTest < ActiveSupport::TestCase
   test "status is set before the job runs" do
     submission = create :submission
     create(:submission_file, submission:)
-    stub_representer!
+    stub_inspector!
 
     perform_enqueued_jobs do
       Submission::Representation::Init.(submission)

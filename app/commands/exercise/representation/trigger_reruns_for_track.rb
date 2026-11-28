@@ -22,7 +22,7 @@ class Exercise::Representation::TriggerRerunsForTrack
     end
   end
 
-  # A new version of the representer might be able to represent these now,
+  # A new version of Inspector might be able to represent these now,
   # so we run them again as if they had just been submitted.
   def rerun_unrepresentable_submissions!
     track.submissions.representation_unrepresentable.find_each do |submission|

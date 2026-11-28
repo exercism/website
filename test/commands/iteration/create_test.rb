@@ -308,7 +308,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     stub_request(:post, Exercism.config.snippet_generator_url)
     stub_request(:post, Exercism.config.lines_of_code_counter_url).
       to_return(status: 200, body: "{\"counts\":{\"code\":77,\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {})
-    stub_representer!
+    stub_inspector!
 
     iteration = Iteration::Create.(solution, submission)
     perform_enqueued_jobs
@@ -325,7 +325,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     stub_request(:post, Exercism.config.snippet_generator_url)
     stub_request(:post, Exercism.config.lines_of_code_counter_url).
       to_return(status: 200, body: "{\"counts\":{\"code\":77,\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {})
-    stub_representer!
+    stub_inspector!
 
     perform_enqueued_jobs do
       Iteration::Create.(solution, submission)
@@ -343,7 +343,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     stub_request(:post, Exercism.config.snippet_generator_url)
     stub_request(:post, Exercism.config.lines_of_code_counter_url).
       to_return(status: 200, body: "{\"counts\":{\"code\":77,\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {})
-    stub_representer!
+    stub_inspector!
 
     perform_enqueued_jobs do
       Iteration::Create.(solution, submission)
@@ -363,7 +363,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     stub_request(:post, Exercism.config.snippet_generator_url)
     stub_request(:post, Exercism.config.lines_of_code_counter_url).
       to_return(status: 200, body: "{\"counts\":{\"code\":13,\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {})
-    stub_representer!
+    stub_inspector!
 
     perform_enqueued_jobs do
       Iteration::Create.(solution, submission)

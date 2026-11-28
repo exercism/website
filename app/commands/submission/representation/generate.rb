@@ -7,25 +7,25 @@ class Submission::Representation::Generate
 
   MAX_RETRIES = 3
 
-  # The representer refuses solutions larger than this, so we don't call it for them.
+  # Inspector refuses solutions larger than this, so we don't call it for them.
   MAX_SOLUTION_SIZE = 200.kilobytes
 
-  RepresenterTemporarilyUnavailable = Class.new(StandardError)
+  InspectorTemporarilyUnavailable = Class.new(StandardError)
 
   def call
     return handle_unrepresentable! unless representable?
 
-    # The representer returns no representation, along with a reason,
-    # if it can't parse the solution or the solution is too deep or large.
-    return handle_unrepresentable! if representation.nil?
+    # If Inspector can't represent the solution (for example because it
+    # nests too deeply), it returns an error in place of the representation.
+    return handle_unrepresentable! if representation_output.key?("error")
 
-    process_results!(200, representation, mapping, response.fetch("version"))
+    process_results!(200, representation, mapping, representation_output.fetch("version"))
   rescue RestClient::BadGateway, RestClient::ServiceUnavailable, RestClient::GatewayTimeout,
          RestClient::Exceptions::Timeout => e
     retry_later!(e.http_code)
   rescue RestClient::ExceptionWithResponse => e
-    # Any other error status means that we sent a request that the
-    # representer can't handle, so retrying won't help.
+    # Any other error status means that we sent a request that
+    # Inspector can't handle, so retrying won't help.
     Sentry.capture_exception(e)
     handle_ops_error!(e.http_code)
   end
@@ -55,7 +55,7 @@ class Submission::Representation::Generate
       handle_ops_error!(ops_status)
 
       # This error is manually ignored on Sentry unless it escalates
-      raise RepresenterTemporarilyUnavailable
+      raise InspectorTemporarilyUnavailable
     end
 
     self.class.defer(submission, git_sha, reason:, retries_count: retries_count + 1, wait: rand(30..90))
@@ -81,10 +81,11 @@ class Submission::Representation::Generate
   memoize
   def response
     body = RestClient.post(
-      Exercism.config.representer_url,
+      Exercism.config.inspector_url,
       {
         track_slug: submission.track.slug,
         exercise_slug: submission.exercise.slug,
+        outputs: ["representation"],
         solution_files:,
         exercise_files:
       }.to_json,
@@ -94,10 +95,11 @@ class Submission::Representation::Generate
     JSON.parse(body)
   end
 
-  def representation = response["representation"]
+  def representation_output = response.fetch("representation")
+  def representation = representation_output["representation"]
 
   def mapping
-    res = response["mapping"]
+    res = representation_output["mapping"]
     res.is_a?(Hash) ? res.symbolize_keys : {}
   end
 
@@ -106,7 +108,6 @@ class Submission::Representation::Generate
     submission.valid_files(exercise_repo).to_h { |file| [file.filename, file.content] }
   end
 
-  # The representer uses these to find the names that the tests rely on.
   memoize
   def exercise_files
     filepaths = [

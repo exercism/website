@@ -63,13 +63,8 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
       feedback_author: mentor,
       feedback_type: :actionable
 
-    job = create_representer_job!(
-      basics_submission_1,
-      execution_status: 200,
-      ast: 'some ast',
-      mapping: { 'some' => 'mapping' }
-    )
-    Submission::Representation::Process.(job)
+    stub_rosetta!(representation: 'some ast', mapping: { 'some' => 'mapping' })
+    Submission::Representation::Generate.(basics_submission_1, basics_submission_1.git_sha)
     assert basics_submission_1.reload.representation_generated?
     assert basics_submission_1.representer_feedback
     assert_equal mentor.name, basics_submission_1.representer_feedback[:author][:name]

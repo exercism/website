@@ -33,45 +33,20 @@ class Exercise::Representation::StuffTest < ActiveSupport::TestCase
     assert_equal new_representation, newer_submission.exercise_representation
   end
 
-  # This test is a duplicate of one that already exists, but it's useful
-  # here for me as a base. (source: test/commands/submission/representation/process_test.rb)
-  test "test exercise representations are reused" do
-    solution = create :concept_solution
-    submission_1 = create(:submission, solution:)
-    submission_2 = create(:submission, solution:)
-    submission_3 = create(:submission, solution:)
-
-    job_1 = create_representer_job!(submission_1, execution_status: 200, ast: "ast 1")
-    job_2 = create_representer_job!(submission_2, execution_status: 200, ast: "ast 1")
-
-    Submission::Representation::Process.(job_1)
-    Submission::Representation::Process.(job_2)
-
-    assert_equal 2, Submission::Representation.count
-    assert_equal 1, Exercise::Representation.count
-
-    job_3 = create_representer_job!(submission_3, execution_status: 200, ast: "ast 2")
-    Submission::Representation::Process.(job_3)
-    assert_equal 3, Submission::Representation.count
-    assert_equal 2, Exercise::Representation.count
-
-    assert_equal submission_1.exercise_representation, submission_2.exercise_representation
-    refute_equal submission_2.exercise_representation, submission_3.exercise_representation
-  end
-
   test "if a new representation replaces an existing one, copy the comments" do
     # Create a submission  and generate a representation for it
     submission = create :submission
-    job_1 = create_representer_job!(submission, execution_status: 200, ast: "ast 1")
-    Submission::Representation::Process.(job_1)
+    create(:submission_file, submission:)
+    stub_rosetta!(representation: "ast 1")
+    Submission::Representation::Generate.(submission, submission.git_sha)
 
     # Add feedback to that representation
     old_representation = Exercise::Representation.first
     Exercise::Representation::SubmitFeedback.(create(:user), old_representation, "fooobar", :essential)
 
     # Now generate a new reprentation
-    job_2 = create_representer_job!(submission, execution_status: 200, ast: "ast 2")
-    Submission::Representation::Process.(job_2)
+    stub_rosetta!(representation: "ast 2")
+    Submission::Representation::Generate.(submission, submission.git_sha)
     new_representation = Exercise::Representation.last
 
     refute_equal old_representation, new_representation # Sanity

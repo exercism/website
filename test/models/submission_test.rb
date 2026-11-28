@@ -191,6 +191,10 @@ class SubmissionTest < ActiveSupport::TestCase
     submission = create :submission, representation_status: :cancelled, analysis_status: :cancelled
     refute submission.automated_feedback_pending?
     refute submission.has_automated_feedback?
+
+    # Check unrepresentable state
+    submission = create :submission, representation_status: :unrepresentable, analysis_status: :completed
+    refute submission.automated_feedback_pending?
   end
 
   test "automated_feedback_pending for track without analyzer" do

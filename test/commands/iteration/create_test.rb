@@ -105,8 +105,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
   end
 
   test "does not create representation if representation was already queued" do
-    track = create :track, has_representer: false
-    exercise = create(:concept_exercise, track:)
+    exercise = create :concept_exercise
     solution = create(:concept_solution, exercise:)
     submission = create(:submission, solution:, representation_status: :queued)
 
@@ -114,9 +113,8 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     Iteration::Create.(solution, submission)
   end
 
-  test "creates representation if there's no representer" do
-    track = create :track, has_representer: false
-    exercise = create(:concept_exercise, track:)
+  test "creates representation" do
+    exercise = create :concept_exercise
     solution = create(:concept_solution, exercise:)
     submission = create(:submission, solution:)
 
@@ -124,19 +122,8 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     Iteration::Create.(solution, submission)
   end
 
-  test "creates representation if there's a representer" do
-    track = create :track, has_representer: true
-    exercise = create(:concept_exercise, track:)
-    solution = create(:concept_solution, exercise:)
-    submission = create(:submission, solution:)
-
-    Submission::Representation::Init.expects(:call).once
-    Iteration::Create.(solution, submission)
-  end
-
-  test "creates representation if there's a representer but no test runner" do
-    track = create :track, has_representer: true
-    exercise = create(:concept_exercise, track:, has_test_runner: false)
+  test "creates representation if there's no test runner" do
+    exercise = create :concept_exercise, has_test_runner: false
     solution = create(:concept_solution, exercise:)
     submission = create(:submission, solution:)
 
@@ -321,6 +308,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     stub_request(:post, Exercism.config.snippet_generator_url)
     stub_request(:post, Exercism.config.lines_of_code_counter_url).
       to_return(status: 200, body: "{\"counts\":{\"code\":77,\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {})
+    stub_rosetta!
 
     iteration = Iteration::Create.(solution, submission)
     perform_enqueued_jobs
@@ -337,6 +325,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     stub_request(:post, Exercism.config.snippet_generator_url)
     stub_request(:post, Exercism.config.lines_of_code_counter_url).
       to_return(status: 200, body: "{\"counts\":{\"code\":77,\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {})
+    stub_rosetta!
 
     perform_enqueued_jobs do
       Iteration::Create.(solution, submission)
@@ -354,6 +343,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     stub_request(:post, Exercism.config.snippet_generator_url)
     stub_request(:post, Exercism.config.lines_of_code_counter_url).
       to_return(status: 200, body: "{\"counts\":{\"code\":77,\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {})
+    stub_rosetta!
 
     perform_enqueued_jobs do
       Iteration::Create.(solution, submission)
@@ -373,6 +363,7 @@ class Iteration::CreateTest < ActiveSupport::TestCase
     stub_request(:post, Exercism.config.snippet_generator_url)
     stub_request(:post, Exercism.config.lines_of_code_counter_url).
       to_return(status: 200, body: "{\"counts\":{\"code\":13,\"blanks\":9,\"comments\":0},\"files\":[\"Anagram.fs\"]}", headers: {})
+    stub_rosetta!
 
     perform_enqueued_jobs do
       Iteration::Create.(solution, submission)

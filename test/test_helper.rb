@@ -379,22 +379,9 @@ class ActiveSupport::TestCase
     )
   end
 
-  def create_representer_job!(submission, execution_status: nil, ast: nil, mapping: nil, metadata: nil, reason: nil, git_sha: nil)
-    execution_output = {
-      "representation.txt" => ast,
-      "representation.json" => metadata&.to_json,
-      "mapping.json" => mapping&.to_json
-    }
-    create_tooling_job!(
-      submission,
-      :representer,
-      execution_status:,
-      execution_output:,
-      context: { reason: },
-      source: {
-        'exercise_git_sha' => git_sha || submission.git_sha
-      }
-    )
+  def stub_rosetta!(representation: "some representation", mapping: {}, version: 1, status: 200)
+    stub_request(:post, Exercism.config.rosetta_url).
+      to_return(status:, body: { representation: { representation:, mapping:, version: } }.to_json)
   end
 
   def create_analyzer_job!(submission, execution_status: nil, data: nil, tags_data: nil)

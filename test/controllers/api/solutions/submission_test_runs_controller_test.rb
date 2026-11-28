@@ -35,7 +35,6 @@ class API::Solutions::SubmissionTestRunsControllerTest < API::BaseTestCase
     submission = create(:submission, solution:)
 
     ToolingJob::Cancel.expects(:call).with(submission.uuid, :test_runner)
-    ToolingJob::Cancel.expects(:call).with(submission.uuid, :representer)
     ToolingJob::Cancel.expects(:call).with(submission.uuid, :analyzer)
 
     patch cancel_api_solution_submission_test_run_path(solution.uuid, submission.uuid), headers: @headers, as: :json

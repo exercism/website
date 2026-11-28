@@ -25,7 +25,6 @@ class API::Solutions::SubmissionTestRunsController < API::BaseController
     return render_403(:submission_not_accessible) unless submission.viewable_by?(current_user)
 
     ToolingJob::Cancel.(submission.uuid, :test_runner)
-    ToolingJob::Cancel.(submission.uuid, :representer)
     ToolingJob::Cancel.(submission.uuid, :analyzer)
 
     render json: {}

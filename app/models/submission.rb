@@ -42,7 +42,9 @@ class Submission < ApplicationRecord
   # going from the success states (passed/failed/errored/generated/completed)
   # backwards to the pending states.
   enum tests_status: { not_queued: 0, queued: 1, passed: 2, failed: 3, errored: 4, exceptioned: 5, cancelled: 6 }, _prefix: "tests"
-  enum representation_status: { not_queued: 0, queued: 1, generated: 2, exceptioned: 3, cancelled: 5 }, _prefix: "representation"
+  enum representation_status: {
+    not_queued: 0, queued: 1, generated: 2, exceptioned: 3, cancelled: 5, unrepresentable: 6
+  }, _prefix: "representation"
   enum analysis_status: { not_queued: 0, queued: 1, completed: 3, exceptioned: 4, cancelled: 5 }, _prefix: "analysis"
 
   scope :tagged, -> { where.not(tags: nil) }
@@ -77,7 +79,7 @@ class Submission < ApplicationRecord
   end
 
   def automated_feedback_pending?
-    return false if (representation_exceptioned? || representation_cancelled?) &&
+    return false if (representation_exceptioned? || representation_cancelled? || representation_unrepresentable?) &&
                     (analysis_exceptioned? || analysis_cancelled?)
     return false if representation_not_queued? && analysis_not_queued?
 

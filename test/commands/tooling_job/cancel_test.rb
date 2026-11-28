@@ -42,25 +42,6 @@ class ToolingJob::CancelTest < ActiveSupport::TestCase
     assert submission.reload.analysis_cancelled?
   end
 
-  test "cancels representation job" do
-    submission = create :submission
-    job = create_tooling_job!(submission, :representer)
-
-    ToolingJob::Cancel.(submission.uuid, :representer)
-
-    redis = Exercism.redis_tooling_client
-    assert_equal job.id, redis.lindex(Exercism::ToolingJob.key_for_cancelled, 0)
-  end
-
-  test "set representation status to cancelled" do
-    submission = create :submission
-    create_tooling_job!(submission, :representer)
-
-    ToolingJob::Cancel.(submission.uuid, :representer)
-
-    assert submission.reload.representation_cancelled?
-  end
-
   test "gracefully handles missing job" do
     submission = create :submission
 

@@ -62,7 +62,6 @@ class Submission::TestRun::Process
     return unless submission_test_run?
 
     ToolingJob::Cancel.(submission.uuid, :analyzer)
-    ToolingJob::Cancel.(submission.uuid, :representer)
   end
 
   def update_status!(status)

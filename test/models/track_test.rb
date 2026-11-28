@@ -270,12 +270,6 @@ class TrackTest < ActiveSupport::TestCase
     assert_equal submissions, track.submissions
   end
 
-  test "representer" do
-    track = create :track
-
-    assert_equal 2, track.representer.version
-  end
-
   test "updated_at doesn't get affected by num_students counter cache" do
     original_time = Time.current - 6.months
     track = create :track, updated_at: original_time

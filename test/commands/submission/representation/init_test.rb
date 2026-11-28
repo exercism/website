@@ -1,120 +1,42 @@
 require 'test_helper'
 
 class Submission::Representation::InitTest < ActiveSupport::TestCase
-  test "uses generic representer if the track doesn't have one" do
+  test "queues Generate for the submission" do
     submission = create :submission
-    submission.track.stubs(has_representer?: false)
 
-    Submission::Representation::GenerateBasic.expects(:defer).with(submission)
+    Submission::Representation::Generate.expects(:defer).with(submission, submission.git_sha, reason: nil)
 
     Submission::Representation::Init.(submission)
     assert_equal 'queued', submission.representation_status
   end
 
-  test "calls to publish_message" do
-    solution = create :concept_solution
-    submission = create(:submission, solution:)
-    create :submission_file, submission:, filename: "log_line_parser.rb" # Override old file
-    create :submission_file, submission:, filename: "subdir/new_file.rb" # Add new file
-    create :submission_file, submission:, filename: "log_line_parser_test.rb" # Don't override tests
-    create :submission_file, submission:, filename: "special$chars.rb" # Don't allow special chars
-    create :submission_file, submission:, filename: ".meta/config.json" # Don't allow meta
+  test "honours arguments for exercise reruns" do
+    submission = create :submission
 
-    job_id = SecureRandom.compact_uuid
-    SecureRandom.expects(:compact_uuid).returns(job_id)
-    efs_dir = "#{Exercism.config.efs_tooling_jobs_mount_point}/#{Time.current.utc.strftime('%Y/%m/%d')}/#{job_id}"
+    Submission::Representation::Generate::InBackground.expects(:defer).with(submission, "foobar", reason: :update)
 
-    Exercism::ToolingJob.expects(:create!).with(
-      job_id,
-      :representer,
-      submission.uuid,
-      efs_dir,
-      solution.track.slug,
-      solution.exercise.slug,
-      run_in_background: false,
-      source: {
-        submission_efs_root: efs_dir,
-        submission_filepaths: ["log_line_parser.rb", "subdir/new_file.rb"],
-        exercise_git_repo: solution.track.slug,
-        exercise_git_sha: solution.git_sha,
-        exercise_git_dir: "exercises/concept/strings",
-        exercise_filepaths: [".meta/config.json", ".meta/design.md", ".meta/exemplar.rb", "log_line_parser_test.rb"]
-      },
-      context: {}
-    )
-    Submission::Representation::Init.(submission)
-    assert_equal 'queued', submission.representation_status
-  end
-
-  test "calls to publish_message honours arguments" do
-    skip # TODO: Fix issue with fake git sha
-
-    solution = create :concept_solution
-    submission = create(:submission, solution:)
-    create :submission_file, submission:, filename: "log_line_parser.rb" # Override old file
-    create :submission_file, submission:, filename: "subdir/new_file.rb" # Add new file
-    create :submission_file, submission:, filename: "log_line_parser_test.rb" # Don't override tests
-    create :submission_file, submission:, filename: "special$chars.rb" # Don't allow special chars
-    create :submission_file, submission:, filename: ".meta/config.json" # Don't allow meta
-
-    job_id = SecureRandom.compact_uuid
-    SecureRandom.expects(:compact_uuid).returns(job_id)
-    efs_dir = "#{Exercism.config.efs_tooling_jobs_mount_point}/#{Time.current.utc.strftime('%Y/%m/%d')}/#{job_id}"
-
-    Exercism::ToolingJob.expects(:create!).with(
-      job_id,
-      :representer,
-      submission.uuid,
-      efs_dir,
-      solution.track.slug,
-      solution.exercise.slug,
-      run_in_background: true,
-      source: {
-        submission_efs_root: efs_dir,
-        submission_filepaths: ["log_line_parser.rb", "subdir/new_file.rb"],
-        exercise_git_repo: solution.track.slug,
-        exercise_git_sha: "foobar",
-        exercise_git_dir: "exercises/concept/strings",
-        exercise_filepaths: [".meta/config.json", ".meta/design.md", ".meta/exemplar.rb", "log_line_parser_test.rb"]
-      },
-      context: {}
-    )
     Submission::Representation::Init.(submission, type: :exercise, git_sha: "foobar", run_in_background: true)
     assert_equal 'not_queued', submission.representation_status
   end
 
-  test "calls to publish_message for exercise with editor files" do
-    exercise = create :practice_exercise, slug: 'isogram'
-    solution = create(:practice_solution, exercise:)
-    submission = create(:submission, solution:)
-    create :submission_file, submission:, filename: "isogram.rb" # Override old file
-    create :submission_file, submission:, filename: "subdir/new_file.rb" # Add new file
-    create :submission_file, submission:, filename: "isogram_test.rb" # Don't override tests
-    create :submission_file, submission:, filename: "special$chars.rb" # Don't allow special chars
-    create :submission_file, submission:, filename: ".meta/config.json" # Don't allow meta
+  test "runs submission reruns in the background" do
+    submission = create :submission
 
-    job_id = SecureRandom.compact_uuid
-    SecureRandom.expects(:compact_uuid).returns(job_id)
-    efs_dir = "#{Exercism.config.efs_tooling_jobs_mount_point}/#{Time.current.utc.strftime('%Y/%m/%d')}/#{job_id}"
-    Exercism::ToolingJob.expects(:create!).with(
-      job_id,
-      :representer,
-      submission.uuid,
-      efs_dir,
-      solution.track.slug,
-      solution.exercise.slug,
-      run_in_background: false,
-      source: {
-        submission_efs_root: efs_dir,
-        submission_filepaths: ["isogram.rb", "subdir/new_file.rb"],
-        exercise_git_repo: solution.track.slug,
-        exercise_git_sha: solution.git_sha,
-        exercise_git_dir: "exercises/practice/isogram",
-        exercise_filepaths: [".meta/config.json", ".meta/example.rb", "helper.rb", "isogram_test.rb"]
-      },
-      context: {}
-    )
-    Submission::Representation::Init.(submission)
+    Submission::Representation::Generate::InBackground.expects(:defer).with(submission, submission.git_sha, reason: nil)
+
+    Submission::Representation::Init.(submission, run_in_background: true)
     assert_equal 'queued', submission.representation_status
+  end
+
+  test "status is set before the job runs" do
+    submission = create :submission
+    create(:submission_file, submission:)
+    stub_rosetta!
+
+    perform_enqueued_jobs do
+      Submission::Representation::Init.(submission)
+    end
+
+    assert submission.reload.representation_generated?
   end
 end

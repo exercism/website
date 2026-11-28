@@ -37,7 +37,7 @@ class Exercise::Representation::StuffTest < ActiveSupport::TestCase
     # Create a submission  and generate a representation for it
     submission = create :submission
     create(:submission_file, submission:)
-    stub_inspector!(representation: "ast 1")
+    stub_rosetta!(representation: "ast 1")
     Submission::Representation::Generate.(submission, submission.git_sha)
 
     # Add feedback to that representation
@@ -45,7 +45,7 @@ class Exercise::Representation::StuffTest < ActiveSupport::TestCase
     Exercise::Representation::SubmitFeedback.(create(:user), old_representation, "fooobar", :essential)
 
     # Now generate a new reprentation
-    stub_inspector!(representation: "ast 2")
+    stub_rosetta!(representation: "ast 2")
     Submission::Representation::Generate.(submission, submission.git_sha)
     new_representation = Exercise::Representation.last
 

@@ -7,15 +7,15 @@ class Submission::Representation::Generate
 
   MAX_RETRIES = 3
 
-  # Inspector refuses solutions larger than this, so we don't call it for them.
+  # Rosetta refuses solutions larger than this, so we don't call it for them.
   MAX_SOLUTION_SIZE = 200.kilobytes
 
-  InspectorTemporarilyUnavailable = Class.new(StandardError)
+  RosettaTemporarilyUnavailable = Class.new(StandardError)
 
   def call
     return handle_unrepresentable! unless representable?
 
-    # If Inspector can't represent the solution (for example because it
+    # If Rosetta can't represent the solution (for example because it
     # nests too deeply), it returns an error in place of the representation.
     return handle_unrepresentable! if representation_output.key?("error")
 
@@ -25,7 +25,7 @@ class Submission::Representation::Generate
     retry_later!(e.http_code)
   rescue RestClient::ExceptionWithResponse => e
     # Any other error status means that we sent a request that
-    # Inspector can't handle, so retrying won't help.
+    # Rosetta can't handle, so retrying won't help.
     Sentry.capture_exception(e)
     handle_ops_error!(e.http_code)
   end
@@ -55,7 +55,7 @@ class Submission::Representation::Generate
       handle_ops_error!(ops_status)
 
       # This error is manually ignored on Sentry unless it escalates
-      raise InspectorTemporarilyUnavailable
+      raise RosettaTemporarilyUnavailable
     end
 
     self.class.defer(submission, git_sha, reason:, retries_count: retries_count + 1, wait: rand(30..90))
@@ -81,7 +81,7 @@ class Submission::Representation::Generate
   memoize
   def response
     body = RestClient.post(
-      Exercism.config.inspector_url,
+      Exercism.config.rosetta_url,
       {
         track_slug: submission.track.slug,
         exercise_slug: submission.exercise.slug,

@@ -31,7 +31,7 @@ class Submission::Representation::InitTest < ActiveSupport::TestCase
   test "status is set before the job runs" do
     submission = create :submission
     create(:submission_file, submission:)
-    stub_inspector!
+    stub_rosetta!
 
     perform_enqueued_jobs do
       Submission::Representation::Init.(submission)

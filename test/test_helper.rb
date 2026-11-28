@@ -407,8 +407,8 @@ class ActiveSupport::TestCase
     )
   end
 
-  def stub_inspector!(representation: "some representation", mapping: {}, version: 1, status: 200)
-    stub_request(:post, Exercism.config.inspector_url).
+  def stub_rosetta!(representation: "some representation", mapping: {}, version: 1, status: 200)
+    stub_request(:post, Exercism.config.rosetta_url).
       to_return(status:, body: { representation: { representation:, mapping:, version: } }.to_json)
   end
 

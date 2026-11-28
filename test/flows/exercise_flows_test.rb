@@ -63,7 +63,7 @@ class ExerciseFlowsTest < ActiveSupport::TestCase
       feedback_author: mentor,
       feedback_type: :actionable
 
-    stub_inspector!(representation: 'some ast', mapping: { 'some' => 'mapping' })
+    stub_rosetta!(representation: 'some ast', mapping: { 'some' => 'mapping' })
     Submission::Representation::Generate.(basics_submission_1, basics_submission_1.git_sha)
     assert basics_submission_1.reload.representation_generated?
     assert basics_submission_1.representer_feedback

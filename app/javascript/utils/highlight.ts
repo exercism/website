@@ -1,86 +1,83 @@
-import * as highlighter from 'highlight.js'
+import hljs from 'highlight.js/lib/core'
 import { useLayoutEffect, useRef } from 'react'
 import { isLookbehindSupported } from './regex-check'
-import setupABAP from 'highlightjs-sap-abap'
-import setupCobol from 'highlightjs-cobol'
-import setupBqn from 'highlightjs-bqn'
-import setupZig from 'highlightjs-zig'
-import setupLean from 'highlightjs-lean'
-import setupGleam from '@gleam-lang/highlight.js-gleam'
-import setupChapel from 'highlightjs-chapel'
-import setupGDScript from '@exercism/highlightjs-gdscript'
-import setupJq from 'highlightjs-jq'
-import setupArturo from '@exercism/highlightjs-arturo'
-import setupUiua from '@exercism/highlightjs-uiua'
-import setupJikiscript from '@exercism/highlightjs-jikiscript'
-import setupFuthark from '@exercism/highlightjs-futhark'
-import setupOdin from '@exercism/highlightjs-odin'
-import setupSqlite from '@exercism/highlightjs-sqlite'
-import setupEuphoria from '@exercism/highlightjs-euphoria'
-import setupFactor from '@exercism/highlightjs-factor'
-import setup8th from '@exercism/highlightjs-8th'
-import setupRoc from '@exercism/highlightjs-roc'
-import setupYAMLScript from '@exercism/highlightjs-yamlscript'
-import setupRaku from '@exercism/highlightjs-raku'
-import setupCairo from '@exercism/highlightjs-cairo'
-import setupV from '@exercism/highlightjs-v'
-import setupPureScript from '@exercism/highlightjs-purescript'
-import setupUnison from '@exercism/highlightjs-unison'
-import setupIdris from '@exercism/highlightjs-idris'
-import setupCFML from '@exercism/highlightjs-cfml'
-import setupRacket from '@exercism/highlightjs-racket'
-import setupLFE from '@exercism/highlightjs-lfe'
-import setupReScript from 'highlightjs-rescript'
+import { aliases, grammars } from './highlight-grammars'
 
-if (isLookbehindSupported()) {
-  highlighter.default.registerLanguage('abap', setupABAP)
-  highlighter.default.registerLanguage('arturo', setupArturo)
-  highlighter.default.registerLanguage('cobol', setupCobol)
-  highlighter.default.registerLanguage('bqn', setupBqn)
-  highlighter.default.registerLanguage('zig', setupZig)
-  highlighter.default.registerLanguage('lean', setupLean)
-  highlighter.default.registerLanguage('gleam', setupGleam)
-  highlighter.default.registerLanguage('chapel', setupChapel)
-  highlighter.default.registerLanguage('gdscript', setupGDScript)
-  highlighter.default.registerLanguage('jq', setupJq)
-  highlighter.default.registerLanguage('uiua', setupUiua)
-  highlighter.default.registerLanguage('jikiscript', setupJikiscript)
-  highlighter.default.registerLanguage('futhark', setupFuthark)
-  highlighter.default.registerLanguage('odin', setupOdin)
-  highlighter.default.registerLanguage('sqlite', setupSqlite)
-  highlighter.default.registerLanguage('euphoria', setupEuphoria)
-  highlighter.default.registerLanguage('factor', setupFactor)
-  highlighter.default.registerLanguage('8th', setup8th)
-  highlighter.default.registerLanguage('roc', setupRoc)
-  highlighter.default.registerLanguage('yamlscript', setupYAMLScript)
-  highlighter.default.registerLanguage('raku', setupRaku)
-  highlighter.default.registerLanguage('cairo', setupCairo)
-  highlighter.default.registerLanguage('vlang', setupV)
-  highlighter.default.registerLanguage('purescript', setupPureScript)
-  highlighter.default.registerLanguage('unison', setupUnison)
-  highlighter.default.registerLanguage('idris', setupIdris)
-  highlighter.default.registerLanguage('cfml', setupCFML)
-  highlighter.default.registerLanguage('racket', setupRacket)
-  highlighter.default.registerLanguage('lfe', setupLFE)
-  highlighter.default.registerLanguage('rescript', setupReScript)
-
-  // These packages contain lookbehind regex patterns that cause parse-time
-  // SyntaxErrors on browsers without lookbehind support. Dynamic imports
-  // ensure they are loaded in separate chunks, only after confirming support.
-  import('@exercism/highlightjs-pyret').then((m) => {
-    highlighter.default.registerLanguage('pyret', m.default)
-  })
-  import('highlightjs-redbol').then((m) => {
-    highlighter.default.registerLanguage('red', m.default)
-  })
-  import('@ballerina/highlightjs-ballerina').then((m) => {
-    highlighter.default.registerLanguage('ballerina', m.default)
-  })
-}
-
-highlighter.default.configure({
+hljs.configure({
   throwUnescapedHTML: false,
 })
+
+// highlight.js reads a block's language from its class or its parent's class,
+// e.g. "language-ruby", "lang-ruby" or just "ruby". This mirrors its rules.
+const LANGUAGE_CLASS = /\blang(?:uage)?-([\w-]+)\b/i
+
+const registrations = new Map<string, Promise<void>>()
+const registered = new Set<string>()
+
+function grammarName(language: string): string | undefined {
+  const name = language.toLowerCase()
+  if (Object.prototype.hasOwnProperty.call(grammars, name)) return name
+  if (Object.prototype.hasOwnProperty.call(aliases, name)) return aliases[name]
+  return undefined
+}
+
+// A grammar can embed others (e.g. HTML embeds CSS and JavaScript), and those
+// can embed it back, so this collects the whole set before loading any of it.
+function grammarsNeededFor(language: string): string[] {
+  const needed = new Set<string>()
+  const visit = (name: string | undefined) => {
+    if (name === undefined || needed.has(name)) return
+    needed.add(name)
+    grammars[name].requires?.forEach((dependency) =>
+      visit(grammarName(dependency))
+    )
+  }
+  visit(grammarName(language))
+  return [...needed]
+}
+
+// Each grammar is fetched once per page. Blocks that ask for it while it is
+// still loading wait on the same request. If the request fails (for example
+// after a deploy), the next block to ask will try again.
+function registerGrammar(name: string): Promise<void> {
+  let registration = registrations.get(name)
+  if (registration) return registration
+
+  registration = grammars[name]
+    .load()
+    .then((module) => {
+      hljs.registerLanguage(name, module.default)
+      registered.add(name)
+    })
+    .catch((error) => {
+      registrations.delete(name)
+      throw error
+    })
+  registrations.set(name, registration)
+  return registration
+}
+
+function loadLanguage(language: string): Promise<void> {
+  if (!isLookbehindSupported()) return Promise.resolve()
+
+  return Promise.all(grammarsNeededFor(language).map(registerGrammar)).then(
+    () => undefined
+  )
+}
+
+function blockLanguage(block: HTMLElement): string | undefined {
+  const parent = block.parentElement
+  const classes = `${block.className} ${parent ? parent.className : ''}`
+
+  const match = LANGUAGE_CLASS.exec(classes)
+  if (match) return match[1]
+
+  return classes.split(/\s+/).find((name) => grammarName(name) !== undefined)
+}
+
+function isLoaded(language: string): boolean {
+  return grammarsNeededFor(language).every((name) => registered.has(name))
+}
 
 function duplicateMultilineNodes(element: HTMLElement) {
   element.childNodes.forEach((child) => {
@@ -152,7 +149,7 @@ function wrapLineNumbers(code: string, start = 1) {
   return `<ul>${rows}</ul>`
 }
 
-const highlightBlock = (block: HTMLElement): void => {
+function highlightBlock(block: HTMLElement): void {
   const hasLineNumbers =
     block.dataset.highlightLineNumbers === '' ||
     block.dataset.highlightLineNumbers === 'true'
@@ -162,7 +159,7 @@ const highlightBlock = (block: HTMLElement): void => {
     lineNumberStart = parseInt(block.dataset.highlightLineNumberStart)
   }
 
-  highlighter.default.highlightElement(block)
+  hljs.highlightElement(block)
 
   if (hasLineNumbers) {
     block.innerHTML = wrapLineNumbers(block.innerHTML, lineNumberStart)
@@ -171,23 +168,66 @@ const highlightBlock = (block: HTMLElement): void => {
   block.dataset.highlighted = 'true'
 }
 
-export const highlightAll = (parent: ParentNode = document): void => {
-  if (!isLookbehindSupported()) return
-  parent.querySelectorAll<HTMLElement>('pre code').forEach((block) => {
-    if (block.dataset.highlighted === 'true') {
+// The latest request for each block. If a block is asked to re-highlight while
+// its grammar is loading, only the last request runs once the grammar arrives.
+const pendingRequests = new WeakMap<HTMLElement, symbol>()
+
+// Highlights the block straight away if its grammar is already loaded.
+// Otherwise it loads the grammar first. If the grammar fails to load, the
+// block stays as plain text.
+function highlightWhenReady(block: HTMLElement, force: boolean): Promise<void> {
+  const request = Symbol()
+  pendingRequests.set(block, request)
+
+  const run = () => {
+    if (pendingRequests.get(block) !== request) return
+    pendingRequests.delete(block)
+
+    if (force) {
+      block.removeAttribute('data-highlighted')
+    } else if (block.dataset.highlighted === 'true') {
       return
     }
-
     highlightBlock(block)
+  }
+
+  const language = blockLanguage(block)
+  if (language === undefined || isLoaded(language)) {
+    run()
+    return Promise.resolve()
+  }
+
+  return loadLanguage(language).then(run, () => {
+    if (pendingRequests.get(block) === request) pendingRequests.delete(block)
   })
 }
 
-export const highlightAllAlways = (parent: ParentNode = document): void => {
-  if (!isLookbehindSupported()) return
-  parent.querySelectorAll<HTMLElement>('pre code').forEach((block) => {
-    block.removeAttribute('data-highlighted')
-    highlightBlock(block)
-  })
+// Both functions highlight synchronously when every grammar they need is
+// already loaded. The first time a page needs a language, they highlight once
+// its grammar has loaded. The returned promise resolves when every block is
+// done, for callers (and tests) that need to wait.
+export const highlightAll = (parent: ParentNode = document): Promise<void> => {
+  if (!isLookbehindSupported()) return Promise.resolve()
+
+  const blocks = Array.from(
+    parent.querySelectorAll<HTMLElement>('pre code')
+  ).filter((block) => block.dataset.highlighted !== 'true')
+
+  return Promise.all(
+    blocks.map((block) => highlightWhenReady(block, false))
+  ).then(() => undefined)
+}
+
+export const highlightAllAlways = (
+  parent: ParentNode = document
+): Promise<void> => {
+  if (!isLookbehindSupported()) return Promise.resolve()
+
+  const blocks = Array.from(parent.querySelectorAll<HTMLElement>('pre code'))
+
+  return Promise.all(
+    blocks.map((block) => highlightWhenReady(block, true))
+  ).then(() => undefined)
 }
 
 // this will be replaced by the one in @/hooks. after all conflicts are resolved

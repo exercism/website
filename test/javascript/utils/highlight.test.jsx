@@ -1,13 +1,17 @@
+import fs from 'fs'
+import path from 'path'
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import hljs from 'highlight.js'
+import hljs from 'highlight.js/lib/core'
 import {
   highlightAll,
+  highlightAllAlways,
   useHighlighting,
 } from '../../../app/javascript/utils/highlight'
+import { grammars } from '../../../app/javascript/utils/highlight-grammars'
 
-test('highlightAll() highlights code snippets', () => {
+test('highlightAll() highlights code snippets', async () => {
   const expected = document.createElement('div')
   expected.innerHTML = `
     <pre>
@@ -28,14 +32,14 @@ test('highlightAll() highlights code snippets', () => {
       </code>
     </pre>
   `
-  highlightAll(actual)
+  await highlightAll(actual)
 
   expect(removeFormatting(actual.innerHTML)).toEqual(
     removeFormatting(expected.innerHTML)
   )
 })
 
-test('highlightAll() highlights code snippets with line numbers', () => {
+test('highlightAll() highlights code snippets with line numbers', async () => {
   const expected = document.createElement('div')
   expected.innerHTML = `
     <pre>
@@ -67,14 +71,14 @@ test('highlightAll() highlights code snippets with line numbers', () => {
     </pre>
   `
 
-  highlightAll(actual)
+  await highlightAll(actual)
 
   expect(removeFormatting(actual.innerHTML)).toEqual(
     removeFormatting(expected.innerHTML)
   )
 })
 
-test('highlightAll() highlights multiline blocks correctly', () => {
+test('highlightAll() highlights multiline blocks correctly', async () => {
   const expected = document.createElement('div')
   expected.innerHTML = `
     <pre>
@@ -120,14 +124,14 @@ test('highlightAll() highlights multiline blocks correctly', () => {
         */</code>
     </pre>
   `
-  highlightAll(actual)
+  await highlightAll(actual)
 
   expect(removeFormatting(actual.innerHTML)).toEqual(
     removeFormatting(expected.innerHTML)
   )
 })
 
-test('useHighlighting() adds highlighting to components', () => {
+test('useHighlighting() adds highlighting to components', async () => {
   const Component = () => {
     const parentRef = useHighlighting()
 
@@ -141,7 +145,10 @@ test('useHighlighting() adds highlighting to components', () => {
   }
   render(<Component />)
 
-  expect(screen.getByText('class')).toHaveAttribute('class', 'hljs-keyword')
+  expect(await screen.findByText('class')).toHaveAttribute(
+    'class',
+    'hljs-keyword'
+  )
 })
 
 test.each([
@@ -162,16 +169,110 @@ test.each([
   ['racket', '(define (square x) (* x x))'],
   ['lfe', '(defun square (x) (* x x))'],
   ['rescript', 'let x = 1'],
-])('registers and highlights %s', (language, code) => {
+])('loads and highlights %s', async (language, code) => {
+  const actual = codeBlock(language, code)
+  await highlightAll(actual)
+
   expect(hljs.getLanguage(language)).toBeDefined()
-
-  const actual = document.createElement('div')
-  actual.innerHTML = `<pre><code class="language-${language}"></code></pre>`
-  actual.querySelector('code').textContent = code
-  highlightAll(actual)
-
   expect(actual.querySelector('code').innerHTML).toContain('hljs-')
 })
+
+test('highlightAll() resolves aliases to their grammar', async () => {
+  const actual = codeBlock('golang', 'func main() {}')
+  await highlightAll(actual)
+
+  expect(hljs.getLanguage('go')).toBeDefined()
+  expect(actual.querySelector('code').innerHTML).toContain('hljs-keyword')
+})
+
+test('highlightAll() reads a bare class name as the language', async () => {
+  const actual = document.createElement('div')
+  actual.innerHTML =
+    '<pre><code class="elixir">defmodule Foo do end</code></pre>'
+  await highlightAll(actual)
+
+  expect(actual.querySelector('code').innerHTML).toContain('hljs-keyword')
+})
+
+test('highlightAll() imports each grammar only once', async () => {
+  const load = jest.spyOn(grammars.haskell, 'load')
+
+  const first = codeBlock('haskell', 'main = putStrLn "Hi"')
+  const second = codeBlock('hs', 'main = putStrLn "Hi"')
+  await Promise.all([highlightAll(first), highlightAll(second)])
+  await highlightAll(codeBlock('haskell', 'x = 1'))
+
+  expect(load).toHaveBeenCalledTimes(1)
+  expect(first.querySelector('code').innerHTML).toContain('hljs-')
+  expect(second.querySelector('code').innerHTML).toContain('hljs-')
+})
+
+test('highlightAll() highlights synchronously once a grammar is loaded', async () => {
+  await highlightAll(codeBlock('python', 'def f(): pass'))
+
+  const actual = codeBlock('python', 'def g(): pass')
+  highlightAll(actual)
+
+  expect(actual.querySelector('code').innerHTML).toContain('hljs-keyword')
+})
+
+test('highlightAll() loads the grammars a grammar embeds', async () => {
+  expect(hljs.getLanguage('julia')).toBeUndefined()
+
+  const actual = codeBlock('julia-repl', 'julia> function f() end')
+  await highlightAll(actual)
+
+  expect(hljs.getLanguage('julia')).toBeDefined()
+  expect(actual.querySelector('code').innerHTML).toContain(
+    '<span class="hljs-keyword">function</span>'
+  )
+})
+
+test.each(['plaintext', 'not-a-language'])(
+  'highlightAll() leaves %s as plain text',
+  async (language) => {
+    const log = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const actual = codeBlock(language, 'def f(): pass')
+    await highlightAll(actual)
+
+    const code = actual.querySelector('code')
+    expect(code.textContent).toEqual('def f(): pass')
+    expect(code.innerHTML).not.toContain('hljs-')
+    expect(code.dataset.highlighted).toEqual('true')
+    log.mockRestore()
+  }
+)
+
+test('highlightAllAlways() highlights a block again', async () => {
+  const actual = codeBlock('ruby', 'class Dog end')
+  await highlightAll(actual)
+  actual.querySelector('code').textContent = 'module Cat end'
+
+  await highlightAllAlways(actual)
+
+  expect(actual.querySelector('code').innerHTML).toContain(
+    '<span class="hljs-keyword">module</span>'
+  )
+})
+
+test('every grammar shipped with highlight.js can be loaded', () => {
+  const builtIn = fs
+    .readdirSync(
+      path.dirname(require.resolve('highlight.js/lib/languages/ruby'))
+    )
+    .filter((file) => file.endsWith('.js') && !file.endsWith('.js.js'))
+    .map((file) => file.replace(/\.js$/, ''))
+
+  // If this fails after upgrading highlight.js, run `yarn highlight-grammars`.
+  expect(builtIn.filter((name) => !(name in grammars))).toEqual([])
+})
+
+function codeBlock(language, code) {
+  const element = document.createElement('div')
+  element.innerHTML = `<pre><code class="language-${language}"></code></pre>`
+  element.querySelector('code').textContent = code
+  return element
+}
 
 function removeFormatting(html) {
   return html.replace(/\n| /g, '')

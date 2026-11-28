@@ -239,6 +239,7 @@
     "test": "jest",
     "i18n-check": "node app/javascript/i18n/check-namespaces",
     "i18n-generate": "node app/javascript/i18n/generate-index",
+    "highlight-grammars": "node app/javascript/utils/highlight-grammars/generate.mjs",
     "test-watch": "jest --watchAll",
     "build:css": "postcss ./app/css/packs/**/*.css --dir .built-assets",
     "build": "./app/javascript/esbuild.js",

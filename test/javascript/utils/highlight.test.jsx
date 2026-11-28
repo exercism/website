@@ -1,6 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
+import hljs from 'highlight.js'
 import {
   highlightAll,
   useHighlighting,
@@ -141,6 +142,35 @@ test('useHighlighting() adds highlighting to components', () => {
   render(<Component />)
 
   expect(screen.getByText('class')).toHaveAttribute('class', 'hljs-keyword')
+})
+
+test.each([
+  ['odin', 'main :: proc() {}'],
+  ['sqlite', 'SELECT * FROM users;'],
+  ['euphoria', 'integer x = 1'],
+  ['factor', ': square ( x -- y ) dup * ;'],
+  ['8th', ': square dup n:* ;'],
+  ['roc', 'main = Stdout.line! "Hi"'],
+  ['yamlscript', '!YS-v0\ndefn main(): say("Hi")'],
+  ['raku', 'my $x = 1; say $x;'],
+  ['cairo', 'fn main() -> felt252 { 1 }'],
+  ['vlang', 'fn main() { println("Hi") }'],
+  ['purescript', 'main = log "Hi"'],
+  ['unison', 'square x = x * x'],
+  ['idris', 'square : Int -> Int'],
+  ['cfml', 'component { function f() { return 1; } }'],
+  ['racket', '(define (square x) (* x x))'],
+  ['lfe', '(defun square (x) (* x x))'],
+  ['rescript', 'let x = 1'],
+])('registers and highlights %s', (language, code) => {
+  expect(hljs.getLanguage(language)).toBeDefined()
+
+  const actual = document.createElement('div')
+  actual.innerHTML = `<pre><code class="language-${language}"></code></pre>`
+  actual.querySelector('code').textContent = code
+  highlightAll(actual)
+
+  expect(actual.querySelector('code').innerHTML).toContain('hljs-')
 })
 
 function removeFormatting(html) {

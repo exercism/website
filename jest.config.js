@@ -6,7 +6,7 @@ const config = {
     '^.+\\.[t|j]sx?$': 'babel-jest',
   },
   transformIgnorePatterns: [
-    'node_modules/(?!(highlightjs-(bqn|zig|chapel|jq|roc|cobol)|@ballerina/highlightjs-ballerina|@exercism/highlightjs-(arturo|futhark|uiua|jikiscript|pyret))|@exercism/javascript-browser-test-runner|@marijn/find-cluster-break|uuid/)',
+    'node_modules/(?!(highlightjs-(bqn|zig|chapel|jq|cobol|rescript)|@ballerina/highlightjs-ballerina|@exercism/highlightjs-(arturo|futhark|uiua|jikiscript|pyret|odin|sqlite|euphoria|factor|8th|roc|yamlscript|raku|cairo|v|purescript|unison|idris|cfml|racket|lfe))|@exercism/javascript-browser-test-runner|@marijn/find-cluster-break|uuid/)',
   ],
   moduleNameMapper: {
     '^[./a-zA-Z0-9$_-]+\\.svg$':

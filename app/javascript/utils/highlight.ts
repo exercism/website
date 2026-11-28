@@ -14,6 +14,23 @@ import setupArturo from '@exercism/highlightjs-arturo'
 import setupUiua from '@exercism/highlightjs-uiua'
 import setupJikiscript from '@exercism/highlightjs-jikiscript'
 import setupFuthark from '@exercism/highlightjs-futhark'
+import setupOdin from '@exercism/highlightjs-odin'
+import setupSqlite from '@exercism/highlightjs-sqlite'
+import setupEuphoria from '@exercism/highlightjs-euphoria'
+import setupFactor from '@exercism/highlightjs-factor'
+import setup8th from '@exercism/highlightjs-8th'
+import setupRoc from '@exercism/highlightjs-roc'
+import setupYAMLScript from '@exercism/highlightjs-yamlscript'
+import setupRaku from '@exercism/highlightjs-raku'
+import setupCairo from '@exercism/highlightjs-cairo'
+import setupV from '@exercism/highlightjs-v'
+import setupPureScript from '@exercism/highlightjs-purescript'
+import setupUnison from '@exercism/highlightjs-unison'
+import setupIdris from '@exercism/highlightjs-idris'
+import setupCFML from '@exercism/highlightjs-cfml'
+import setupRacket from '@exercism/highlightjs-racket'
+import setupLFE from '@exercism/highlightjs-lfe'
+import setupReScript from 'highlightjs-rescript'
 
 if (isLookbehindSupported()) {
   highlighter.default.registerLanguage('abap', setupABAP)
@@ -29,6 +46,23 @@ if (isLookbehindSupported()) {
   highlighter.default.registerLanguage('uiua', setupUiua)
   highlighter.default.registerLanguage('jikiscript', setupJikiscript)
   highlighter.default.registerLanguage('futhark', setupFuthark)
+  highlighter.default.registerLanguage('odin', setupOdin)
+  highlighter.default.registerLanguage('sqlite', setupSqlite)
+  highlighter.default.registerLanguage('euphoria', setupEuphoria)
+  highlighter.default.registerLanguage('factor', setupFactor)
+  highlighter.default.registerLanguage('8th', setup8th)
+  highlighter.default.registerLanguage('roc', setupRoc)
+  highlighter.default.registerLanguage('yamlscript', setupYAMLScript)
+  highlighter.default.registerLanguage('raku', setupRaku)
+  highlighter.default.registerLanguage('cairo', setupCairo)
+  highlighter.default.registerLanguage('vlang', setupV)
+  highlighter.default.registerLanguage('purescript', setupPureScript)
+  highlighter.default.registerLanguage('unison', setupUnison)
+  highlighter.default.registerLanguage('idris', setupIdris)
+  highlighter.default.registerLanguage('cfml', setupCFML)
+  highlighter.default.registerLanguage('racket', setupRacket)
+  highlighter.default.registerLanguage('lfe', setupLFE)
+  highlighter.default.registerLanguage('rescript', setupReScript)
 
   // These packages contain lookbehind regex patterns that cause parse-time
   // SyntaxErrors on browsers without lookbehind support. Dynamic imports
@@ -38,9 +72,6 @@ if (isLookbehindSupported()) {
   })
   import('highlightjs-redbol').then((m) => {
     highlighter.default.registerLanguage('red', m.default)
-  })
-  import('highlightjs-roc').then((m) => {
-    highlighter.default.registerLanguage('roc', m.default)
   })
   import('@ballerina/highlightjs-ballerina').then((m) => {
     highlighter.default.registerLanguage('ballerina', m.default)
